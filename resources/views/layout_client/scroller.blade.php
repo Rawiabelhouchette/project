@@ -1,0 +1,1 @@
+<a id="back2Top" style="background-color: #EA4F0C" class="theme-bg" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>

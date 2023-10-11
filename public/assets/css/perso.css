@@ -1,0 +1,23 @@
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+/* Margin right 5px */
+.m-h-5 {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.single-line-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+.btn-align {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* height: 100vh; */
+}
+  
