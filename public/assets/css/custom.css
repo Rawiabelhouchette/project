@@ -128,10 +128,8 @@ border-radius: 50%;
 color:#91b1c3;
 }
 .navbar-inverse {
-    background-color:#1d293e;
-    /* background-color:#ffffff; */
-    /* border-color:#ffffff; */
-    border-color:#1d293e;
+    background-color:#ffffff;
+    border-color:#ffffff;
     box-shadow:0px 1px 0px 0 rgba(19, 24, 33,0.05);
 }
     .navbar a:hover{
@@ -201,28 +199,23 @@ color:#91b1c3;
 }
 .sidebar-collapse .nav > li.active > a{
 	background:#24324a;
-    /* color: #e61b55; */
-    color: #EA4F0C;
+    color: #e61b55;
 	outline:0;
 }
 .sidebar-collapse #main-menu > li.active > a > i.fa{
- /* color:#e61b55; */
-    color: #EA4F0C;
+ color:#e61b55;
 }
 .sidebar-collapse .nav > li > a:hover,
 .sidebar-collapse .nav > li > a:focus {
 	background:#24324a;
-    /* color: #e61b55; */
-    color: #EA4F0C;
+    color: #e61b55;
 	outline:0;
 }
 .sidebar-collapse .nav > li > ul > li > a > .arrow {
     line-height: 19px;
 }
 .sidebar-collapse .nav > li > a:hover i.fa , .sidebar-collapse .nav > li > a:focus i.fa{
-/* color:#e61b55 !important; */
-color: #EA4F0C !important;
-
+color:#e61b55 !important;
 }
 .sidebar-collapse .nav > li.log-off > a:hover i.fa , .sidebar-collapse .nav > li.log-off > a:focus i.fa{
 color:#ffffff !important;
@@ -285,8 +278,7 @@ ul.nav.navbar-top-links.navbar-right {
     background-color:#f6fcff;
 }
 .text-muted {
-    /* color: #e61b55; */
-    color: #EA4F0C;
+    color: #e61b55;
 }
 .dropdown-menu {
     border-color: #e8eef1;
@@ -365,8 +357,7 @@ Page Title STYLES
     text-align: right;
 }
 .row.bg-title .breadcrumb a {
-    color: #EA4F0C;
-    /* color: #e61b55; */
+    color: #e61b55;
 }
 .row.bg-title .breadcrumb > .active {
     color:#62748F;

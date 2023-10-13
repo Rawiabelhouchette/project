@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PaysController;
+use App\Http\Controllers\QuartierController;
+use App\Http\Controllers\ReferenceController;
+use App\Http\Controllers\VilleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +19,36 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');//->name('login');
 });
+
+Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
+
+// Auth middleware
+// Route::group([
+//     'middleware' => 'App\Http\Middleware\Auth',
+// ], function () {
+
+    // Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+
+    Route::prefix('staff')->group(function () {
+        // Route::prefix('staff')->middleware('App\Http\Middleware\Admin')->group(function () {
+
+        Route::get('dashboard', [AdminController::class, 'home'])->name('home');
+
+        // Une route de ressource pour les références
+        Route::resource('references', ReferenceController::class);
+        Route::get('references/nom/add', [ReferenceController::class, 'create_name'])->name('references.nom.add');
+        Route::post('references/nom/post', [ReferenceController::class, 'store_name'])->name('references.nom.post');
+        Route::get('references/nom/{type}', [ReferenceController::class, 'get_name'])->name('references.nom.get');
+
+        
+        Route::resource('pays', PaysController::class);
+
+        Route::resource('villes', VilleController::class);
+        
+        Route::resource('quartiers', QuartierController::class);
+    });
+// });
+
+

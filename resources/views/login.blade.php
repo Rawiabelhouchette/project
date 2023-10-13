@@ -168,15 +168,8 @@
                                         </span>
                                     @enderror
                                 </div>
-                                
         
-                                   
-                                
-        
-                               
-                                
-        
-                                <div class="row mb-3">
+                                {{-- <div class="row mb-3">
                                     <div class="col-md-6 offset-md-4">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
@@ -186,11 +179,16 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
 
 
-                                <div class="text-center">
+								<div class="text-center">
+									<button type="button" class="btn theme-btn width-200 btn-radius">
+										{{ __('Connexion') }}
+									</button>
+								</div>
+                                {{-- <div class="text-center">
                                     <div class="col-md-8 offset-md-4">
                                         <button type="submit" class="btn btn-primary">
                                             {{ __('Connexion') }}
@@ -198,7 +196,7 @@
         
                                     
                                     </div>								
-                                </div>
+                                </div> --}}
                               {{--   <div class="text-right">
                                     @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
@@ -210,10 +208,10 @@
         
                                
                             </form>
-                            <div class="center mrg-top-5">
+                            {{-- <div class="center mrg-top-5">
 								
 								<a href="{{ url('register') }}" class="theme-cl">Créé un compte</a>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 				</div>

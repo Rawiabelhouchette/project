@@ -8,7 +8,7 @@
 		<meta name="keywords" content="job, nob board, job portal, job listing">
 		<meta name="robots" content="index,follow">
 
-		<title>Numdoc</title>
+		<title>ANNONCE</title>
 		
 		<!-- BOOTSTRAP STYLES-->
 		<link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet" />
