@@ -7,22 +7,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Wildside\Userstamps\Userstamps;
+use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
+    use HasApiTokens, HasFactory, Notifiable, Userstamps, softDeletes, HasRoles;
+    
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
+        'nom',
+        'prenom',
+        'telephone',
         'email',
         'password',
+        'is_active',
     ];
-
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -32,7 +41,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    
     /**
      * The attributes that should be cast.
      *
@@ -41,5 +50,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+
+        'username' => PurifyHtmlOnGet::class,
+        'email' => PurifyHtmlOnGet::class,
     ];
+    
+    
 }
