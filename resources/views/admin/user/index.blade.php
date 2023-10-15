@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('reference', 'active')
+@section('compte', 'active')
 
 @section('content')
     <div class="row bg-title" style="padding-top: 20px;">
@@ -16,10 +16,6 @@
     <div id="page-inner">
         <div class="row bott-wid">
             <div class="col-md-12 col-sm-12">
-                <livewire:Admin.Reference.add />
-            </div>
-
-            {{-- <div class="col-md-12 col-sm-12"> --}}
                 <div class="card">
 
                     <div class="card-header">
@@ -30,19 +26,23 @@
                         <table id="dataTable" class="table table-striped table-2 table-hover">
                             <thead>
                                 <tr>
-                                    <th><span class="custom-checkbox"></span></th>
-                                    <th>Type </th>
-                                    <th>Nom de référence</th>
-                                    <th>Valeur</th>
-                                    <th>Date de création </th>
-                                    <th>Action</th>
+                                    <th>Id</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Téléphone</th>
+                                    <th>Email</th>
+                                    <th>Actif</th>
+                                    <th>Profil</th>
+                                    <th>Identifiant</th>
+                                    <th>Ajouté le</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                         </table>
                     </div>
 
                 </div>
-            {{-- </div> --}}
+            </div>
         </div>
     </div>
 @endsection
@@ -92,7 +92,7 @@
                 Processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('references.datatable') }}",
+                    url: "{{ route('users.datatable') }}",
                     type: 'GET',
                     dataType: 'json',
                     data: function(d) {
@@ -106,13 +106,52 @@
                         data: 'id',
                     },
                     {
-                        data: 'reference.type',
+                        data: 'nom',
                     },
                     {
-                        data: 'reference.nom',
+                        className: 'text-center',
+                        render: function(data, type, row) {
+                            if (row.prenom == '') {
+                                return '-';
+                            }
+                            return row.prenom;
+                        },
                     },
                     {
-                        data: 'valeur'
+                        className: 'text-center',
+                        render: function(data, type, row) {
+                            if (row.telephone == '') {
+                                return '-';
+                            }
+                            return row.telephone;
+                        },
+                    },
+                    {
+                        className: 'text-center',
+                        render: function(data, type, row) {
+                            if (row.email == '') {
+                                return '-';
+                            }
+                            return row.email;
+                        },
+                    },
+                    {
+                        className: 'text-center',
+                        render: function(data, type, row) {
+                            if (row.is_active == 1) {
+                                return '<span class="label label-success">OUI</span>';
+                            }
+                            return '<span class="label label-danger">NON</span>';
+                        },
+                    },
+                    {
+                        className: 'text-center',
+                        render: function(data, type, row) {
+                            return row.roles[0].name;
+                        },
+                    },
+                    {
+                        data: 'username',
                     },
                     {
                         render: function(data, type, row) {
@@ -123,22 +162,20 @@
                     {
                         className: "text-center",
                         render: function(data, type, row) {
-                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></buttonf=>';
+                            return '<a href="javascript:void(0)" class="edit" data-id="' + row.id + '"><i class="fa fa-pencil"></i></a>';
                         }
                     }
                 ],
             });
 
-            window.addEventListener('relaod:dataTable', event => {
-                datatable.ajax.reload();
-            });
+            // window.addEventListener('relaod:dataTable', event => {
+            //     datatable.ajax.reload();
+            // });
 
             $(document).on('click', '.edit', function(e) {
-                // scroll to top with animation
-                $('html, body').animate({
-                    scrollTop: 0
-                }, 'slow');
-                Livewire.dispatch('editReference', [$(this).data('id')]);
+                e.preventDefault();
+                var id = $(this).data('id');
+                window.location.href = "{{ route('users.index') }}/" + id;
             });
         });
     </script>

@@ -10,7 +10,7 @@ class AuthenticationController extends Controller
     public static function login(Request $request)
     {
         $request->validate([
-            'username' => 'required',
+            'email' => 'required',
             'password' => 'required'
         ]);
 
@@ -18,14 +18,14 @@ class AuthenticationController extends Controller
         $request->session()->put('url.intended', $request->url());
 
         $remember = $request->has('remember');
-        if (filter_var($request->username, FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             $request->merge([
-                'email' => $request->username
+                'email' => $request->email
             ]);
             $credentials = $request->only('email', 'password');
         } else {
             $request->merge([
-                'username' => $request->username
+                'username' => $request->email
             ]);
             $credentials = $request->only('username', 'password');
         }
@@ -34,7 +34,7 @@ class AuthenticationController extends Controller
             if (auth()->user()->is_active == 0) {
                 AuthenticationController::logout($request);
                 return back()->withErrors([
-                    'username' => 'Votre compte est désactivé. Veuillez contacter l\'administrateur.',
+                    'email' => 'Votre compte est désactivé. Veuillez contacter l\'administrateur.',
                 ]);
             }
 
@@ -47,11 +47,12 @@ class AuthenticationController extends Controller
             $request->session()->regenerate();
 
             // return redirect()->intended('/');
-            return back();
+            // return back();
+            return redirect()->route('home');
         }
 
         return back()->withErrors([
-            'username' => 'Identifiant ou mot de passe incorrect.',
+            'email' => 'Identifiant ou mot de passe incorrect.',
         ]);
     }
 
@@ -63,6 +64,6 @@ class AuthenticationController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('connexion');
     }
 }

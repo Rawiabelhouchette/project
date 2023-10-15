@@ -14,11 +14,6 @@
 </div>              
     <!-- /. ROW  -->
 <div id="page-inner">
-
-    <div class="row bott-wid">
-        @include('admin.reference.menu')
-    </div>
-    
     <div class="row bott-wid">
         <div class="col-md-12 col-sm-12">
             <div class="card">

@@ -6,11 +6,25 @@
             <li class="@yield('dashboard')">
                 <a href="{{ route('home') }}" style="padding-top: 25px;"><i class="fa fa-dashboard" aria-hidden="true"></i>Dashboard</a>
             </li>
-
             <li class="@yield('reference')">
-                <a href="{{ route('references.index') }}" ><i class="fa fa-cog" aria-hidden="true"></i>
-                    Réference
-                </a>
+                <a href="javascript:void(0)"><i class="fa fa-cog" aria-hidden="true"></i>Référence <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="{{ route('references.nom.add') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                            Nom
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('references.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                            Valeur
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('references.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                            Recherche
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <li class="@yield('localisation')">
@@ -43,12 +57,12 @@
                 <a href="javascript:void(0)"><i class="fa fa-briefcase" aria-hidden="true"></i>Compte <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                        <a href="{{ route('users.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                             Créer un compte
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                        <a href="{{ route('users.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                             Recherche
                         </a>
                     </li>

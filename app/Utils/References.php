@@ -3,8 +3,14 @@
 namespace App\Utils;
 
 class References {
-    static $list = [
-        'Ref1',
-        'Ref2'
-    ];
+
+    public static function getList() {
+        return [
+            'Location de véhicule',
+            'Hébergement',
+            'Entreprise',
+            'Restauration',
+            'Vie nocturne'
+        ];
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\ReferenceValeur;
 use App\Utils\Reference as UtilsReference;
 use App\Utils\References;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class ReferenceController extends Controller
 {
@@ -39,8 +40,7 @@ class ReferenceController extends Controller
      */
     public function create_name()
     {
-        $references = References::$list;
-        return view('admin.reference.add-nom', compact('references'));
+        return view('admin.reference.add-nom');
     }
 
     /**
@@ -198,4 +198,96 @@ class ReferenceController extends Controller
         $references = Reference::where('type', $type)->get();
         return $references;
     }
+
+    public function getNameDataTable() {
+        $perPage = request()->input('length') ?? 30;
+        $references = Reference::latest();
+        $columns = Schema::getColumnListing('references');
+
+
+        if(request()->input('search')) {
+            $search = request()->input('search');
+            $references = $references->where(function ($query) use ($search, $columns) {
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'like', '%' . $search . '%');
+                }
+            })
+            ->orderBy('id', 'asc');
+        }
+
+        // if (request()->input('order.0.column')) {
+        //     $orderColumn = request()->input('order.0.column');
+        //     $orderDirection = request()->input('order.0.dir');
+        //     $references = $references->orderBy($columns[$orderColumn], $orderDirection);
+        // }
+        $references = $references->paginate($perPage);
+
+        return response()->json(
+            [
+                'draw' => request()->get('draw'),
+                'recordsTotal' => $references->total(),
+                'recordsFiltered' => $references->total(),
+                'metaData' => [
+                    'total' => $references->total(),
+                    'per_page' => $references->perPage(),
+                    'current_page' => $references->currentPage(),
+                    'last_page' => $references->lastPage(),
+                    'from' => $references->firstItem(),
+                    'to' => $references->lastItem(),
+                ],
+                'data' => $references->items(),
+            ],
+            200
+        );
+    }
+
+    public function getDataTable() {
+        $perPage = request()->input('length') ?? 30;
+        $references = ReferenceValeur::latest();
+        $columns = Schema::getColumnListing('references');
+
+
+        if(request()->input('search')) {
+            $search = request()->input('search');
+            $references = $references->where(function ($query) use ($search, $columns) {
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'like', '%' . $search . '%');
+                }
+            })
+            ->orWhereHas('reference', function ($query) use ($search) {
+                $query->where('type', 'like', '%' . $search . '%');
+                $query->orWhere('nom', 'like', '%' . $search . '%');
+            })
+            ->orderBy('id', 'asc');
+        }
+
+        // if (request()->input('order.0.column')) {
+        //     $orderColumn = request()->input('order.0.column');
+        //     $orderDirection = request()->input('order.0.dir');
+        //     $references = $references->orderBy($columns[$orderColumn], $orderDirection);
+        // }
+        $references = $references->with('reference');
+        $references = $references->paginate($perPage);
+
+        return response()->json(
+            [
+                'draw' => request()->get('draw'),
+                'recordsTotal' => $references->total(),
+                'recordsFiltered' => $references->total(),
+                'metaData' => [
+                    'total' => $references->total(),
+                    'per_page' => $references->perPage(),
+                    'current_page' => $references->currentPage(),
+                    'last_page' => $references->lastPage(),
+                    'from' => $references->firstItem(),
+                    'to' => $references->lastItem(),
+                ],
+                'data' => $references->items(),
+            ],
+            200
+        );
+    }
+
 }
+
+

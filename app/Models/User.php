@@ -10,10 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Wildside\Userstamps\Userstamps;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Userstamps, softDeletes;
+    use HasApiTokens, HasFactory, Notifiable, Userstamps, softDeletes, HasRoles;
     
     
     /**
@@ -23,8 +24,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'username',
+        'nom',
+        'prenom',
+        'telephone',
         'email',
         'password',
+        'is_active',
     ];
     
     /**
@@ -51,7 +56,4 @@ class User extends Authenticatable
     ];
     
     
-    const CREATED_BY = 'alt_created_by';
-    const UPDATED_BY = 'alt_updated_by';
-    const DELETED_BY = 'alt_deleted_by';
 }

@@ -22,8 +22,5 @@ class Reference extends Model
         'nom' => PurifyHtmlOnGet::class,
     ];
 
-    const CREATED_BY = 'alt_created_by';
-    const UPDATED_BY = 'alt_updated_by';
-    const DELETED_BY = 'alt_deleted_by';
 
 }

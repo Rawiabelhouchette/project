@@ -56,7 +56,7 @@
         @include('layout.connexion_modal')
         <!-- ===================== End Login & Sign Up Window =========================== -->
 
-        @include('layout_client.scroller')
+        {{-- @include('layout_client.scroller') --}}
 
         <!-- START JAVASCRIPT -->
 

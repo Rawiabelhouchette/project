@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\PaysController;
 use App\Http\Controllers\QuartierController;
 use App\Http\Controllers\ReferenceController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,25 +22,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('login');//->name('login');
-});
+})->name('connexion');
 
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
 
 // Auth middleware
-// Route::group([
-//     'middleware' => 'App\Http\Middleware\Auth',
-// ], function () {
+Route::group([
+    'middleware' => 'App\Http\Middleware\Auth',
+], function () {
 
-    // Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+    Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-    Route::prefix('staff')->group(function () {
-        // Route::prefix('staff')->middleware('App\Http\Middleware\Admin')->group(function () {
+    Route::prefix('staff')->middleware('App\Http\Middleware\Admin')->group(function () {
 
         Route::get('dashboard', [AdminController::class, 'home'])->name('home');
 
         // Une route de ressource pour les références
         Route::resource('references', ReferenceController::class);
         Route::get('references/nom/add', [ReferenceController::class, 'create_name'])->name('references.nom.add');
+        Route::get('references/nom/datatable', [ReferenceController::class, 'getNameDataTable'])->name('references.nom.datatable');
+        Route::get('references/ref/datatable', [ReferenceController::class, 'getDataTable'])->name('references.datatable');
         Route::post('references/nom/post', [ReferenceController::class, 'store_name'])->name('references.nom.post');
         Route::get('references/nom/{type}', [ReferenceController::class, 'get_name'])->name('references.nom.get');
 
@@ -48,7 +51,12 @@ Route::post('/login', [AuthenticationController::class, 'login'])->name('login')
         Route::resource('villes', VilleController::class);
         
         Route::resource('quartiers', QuartierController::class);
+
+        // User resource
+        Route::resource('users', UserController::class);
+        Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
     });
-// });
+
+});
 
 
