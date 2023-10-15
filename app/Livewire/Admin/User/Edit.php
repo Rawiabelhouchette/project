@@ -73,7 +73,7 @@ class Edit extends Component
             ]);
         }
 
-        session()->flash('message', 'Utilisateur modifié avec succès.');
+        session()->flash('success', 'Utilisateur modifié avec succès.');
 
         return redirect()->route('users.index');
         

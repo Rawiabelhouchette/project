@@ -34,6 +34,8 @@ class AddNom extends Component
         $this->libelle = 'Modifier le nom de référence';
         $this->buttonLibelle = 'Modifier';
 
+        $this->typeList = References::getList();
+        
         $this->id = $ref->id;
         $this->type = $ref->type;
         $this->nom = $ref->nom;
