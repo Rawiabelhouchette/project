@@ -244,7 +244,7 @@ class ReferenceController extends Controller
     public function getDataTable() {
         $perPage = request()->input('length') ?? 30;
         $references = ReferenceValeur::latest();
-        $columns = Schema::getColumnListing('references');
+        $columns = Schema::getColumnListing('reference_valeurs');
 
 
         if(request()->input('search')) {

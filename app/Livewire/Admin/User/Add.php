@@ -38,6 +38,12 @@ class Add extends Component
         'role' => 'required|string|exists:roles,name',
     ];
 
+    protected $messages = [
+        'username.unique' => 'Identifiant déjà pris.',
+        'email.unique' => 'Adresse email déjà prise.',
+        'telephone.unique' => 'Numéro de téléphone déjà pris.',
+    ];
+
     public function store()
     {
         $validated = $this->validate();
