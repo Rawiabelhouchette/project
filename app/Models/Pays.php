@@ -30,7 +30,6 @@ class Pays extends Model
         'langue' => PurifyHtmlOnGet::class,
     ];
 
-
     public function villes()
     {
         return $this->hasMany(Ville::class);

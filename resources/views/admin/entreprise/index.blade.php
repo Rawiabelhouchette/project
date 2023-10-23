@@ -1,13 +1,13 @@
 @extends('layout.app')
 
-@section('reference', 'active')
+@section('entreprise', 'active')
 
 @section('content')
     <div class="row bg-title" style="padding-top: 20px;">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
-                <li><a href="#">Référence</a></li>
-                <li class="active">Gestion du nom de référence</li>
+                <li><a href="#">Entreprise</a></li>
+                <li class="active">Recherche</li>
             </ol>
         </div>
         <!-- /.col-lg-12 -->
@@ -16,28 +16,33 @@
     <div id="page-inner">
         <div class="row bott-wid">
             <div class="col-md-12 col-sm-12">
-                <livewire:Admin.Reference.addNom />
-            </div>
-
-            <div class="col-md-12 col-sm-12">
                 <div class="card">
 
                     <div class="card-header">
-                        <h4>Liste des référence</h4>
+                        <h4>Liste des pays</h4>
                     </div>
 
                     <div class="card-body">
                         <table id="dataTable" class="table table-striped table-2 table-hover">
                             <thead>
                                 <tr>
-                                    <th><span class="custom-checkbox"></span></th>
-                                    <th>Type </th>
-                                    <th>Nom de référence</th>
+                                    <th>Id</th>
+                                    <th>Pays</th>
+                                    <th>Ville</th>
+                                    <th>Quartier</th>
                                     <th>Créer par</th>
-                                    <th>Date de création </th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                @foreach ($quartiers as $quartier)
+                                    <tr>
+                                        <td>{{ $quartier->id }}</td>
+                                        <td>{{ $quartier->ville->pays->nom }}</td>
+                                        <td>{{ $quartier->ville->nom }}</td>
+                                        <td>{{ $quartier->nom }}</td>
+                                        <td>{{ $quartier->creator->nom }} {{ $quartier->creator->prenom }}</td>
+                                    </tr>
+                                @endforeach
                         </table>
                     </div>
 
@@ -89,58 +94,10 @@
                         "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
                     }
                 },
-                Processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('references.nom.datatable') }}",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: function(d) {
-                        d.page = d.start / d.length + 1;
-                        d.search = d.search.value;
-                        d.length = d.length;
-                        return d;
-                    },
-                },
-                columns: [{
-                        data: 'id',
-                    },
-                    {
-                        data: 'type',
-                    },
-                    {
-                        data: 'nom',
-                    },
-                    {
-                        render: function(data, type, row) {
-                            return row.user.nom + ' ' + row.user.prenom;
-                        },
-                    },
-                    {
-                        render: function(data, type, row) {
-                            var date = new Date(row.created_at);
-                            return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
-                        },
-                    },
-                    {
-                        className: "text-center",
-                        render: function(data, type, row) {
-                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
-                        }
-                    }
-                ],
             });
 
             window.addEventListener('relaod:dataTable', event => {
                 datatable.ajax.reload();
-            });
-
-            $(document).on('click', '.edit', function(e) {
-                // scroll to top with animation
-                $('html, body').animate({
-                    scrollTop: 0
-                }, 'slow');
-                Livewire.dispatch('editNomReference', [$(this).data('id')]);
             });
         });
     </script>

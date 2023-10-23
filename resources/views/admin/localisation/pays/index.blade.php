@@ -1,13 +1,13 @@
 @extends('layout.app')
 
-@section('reference', 'active')
+@section('localisation', 'active')
 
 @section('content')
     <div class="row bg-title" style="padding-top: 20px;">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
-                <li><a href="#">Référence</a></li>
-                <li class="active">Gestion du nom de référence</li>
+                <li><a href="#">Localisation</a></li>
+                <li class="active">Liste des pays</li>
             </ol>
         </div>
         <!-- /.col-lg-12 -->
@@ -16,28 +16,49 @@
     <div id="page-inner">
         <div class="row bott-wid">
             <div class="col-md-12 col-sm-12">
-                <livewire:Admin.Reference.addNom />
-            </div>
-
-            <div class="col-md-12 col-sm-12">
                 <div class="card">
 
-                    <div class="card-header">
-                        <h4>Liste des référence</h4>
+                    <div class="card-header" style="text-align: left !important;">
+                        <div class="col-6"><h4>Liste des référence</h4></div>
+                        <div class="col-6">
+                            <a href="{{ route('pays.create') }}" class="btn btn-primary" style="padding-top: 5px;padding-bottom: 5px;height: auto;">Ajouter</a>
+                        </div>
                     </div>
+                    {{-- <div class="card-header ">
+                        <h3 class="">Liste des pays</h3> --}}
+                    {{-- <div class="col-6">
+                            <h3 class="">Liste des pays</h3>
+                        </div>
+                        <div class="col-6">
+                            <a href="{{ route('pays.create') }}" class="btn btn-primary">Ajouter</a>
+                        </div> --}}
+                    {{-- </div> --}}
 
                     <div class="card-body">
                         <table id="dataTable" class="table table-striped table-2 table-hover">
                             <thead>
                                 <tr>
-                                    <th><span class="custom-checkbox"></span></th>
-                                    <th>Type </th>
-                                    <th>Nom de référence</th>
+                                    <th>Id</th>
+                                    <th>Indicatif</th>
+                                    <th>Nom</th>
+                                    <th>Langue</th>
                                     <th>Créer par</th>
-                                    <th>Date de création </th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                @foreach ($pays as $item)
+                                    <tr>
+                                        <td>{{ $item->id }}</td>
+                                        <td>{{ $item->indicatif }}</td>
+                                        <td>{{ $item->nom }}</td>
+                                        <td>{{ $item->langue }}</td>
+                                        <td>{{ $item->creator->nom }} {{ $item->creator->prenom }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('pays.edit', $item->id) }}" class="edit"><i class="fa fa-pencil"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                         </table>
                     </div>
 
@@ -89,46 +110,6 @@
                         "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
                     }
                 },
-                Processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('references.nom.datatable') }}",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: function(d) {
-                        d.page = d.start / d.length + 1;
-                        d.search = d.search.value;
-                        d.length = d.length;
-                        return d;
-                    },
-                },
-                columns: [{
-                        data: 'id',
-                    },
-                    {
-                        data: 'type',
-                    },
-                    {
-                        data: 'nom',
-                    },
-                    {
-                        render: function(data, type, row) {
-                            return row.user.nom + ' ' + row.user.prenom;
-                        },
-                    },
-                    {
-                        render: function(data, type, row) {
-                            var date = new Date(row.created_at);
-                            return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
-                        },
-                    },
-                    {
-                        className: "text-center",
-                        render: function(data, type, row) {
-                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
-                        }
-                    }
-                ],
             });
 
             window.addEventListener('relaod:dataTable', event => {
@@ -140,7 +121,7 @@
                 $('html, body').animate({
                     scrollTop: 0
                 }, 'slow');
-                Livewire.dispatch('editNomReference', [$(this).data('id')]);
+                Livewire.dispatch('editReference', [$(this).data('id')]);
             });
         });
     </script>

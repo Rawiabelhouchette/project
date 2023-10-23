@@ -36,17 +36,17 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                        <a href="{{ route('villes.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                             Ville
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                        <a href="{{ route('quartiers.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                             Quartier
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                        <a href="{{ route('localisations') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                             Recherche
                         </a>
                     </li>
@@ -73,12 +73,12 @@
                 <a href="javascript:void(0)"><i class="fa fa-city" aria-hidden="true"></i>Entreprise <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                        <a href="{{ route('entreprises.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                             Ajouter une entreprise
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                        <a href="{{ route('entreprises.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                             Recherche
                         </a>
                     </li>

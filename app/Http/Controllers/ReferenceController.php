@@ -220,7 +220,8 @@ class ReferenceController extends Controller
         //     $orderDirection = request()->input('order.0.dir');
         //     $references = $references->orderBy($columns[$orderColumn], $orderDirection);
         // }
-        $references = $references->paginate($perPage);
+        
+        $references = $references->with('user')->paginate($perPage);
 
         return response()->json(
             [
@@ -266,7 +267,7 @@ class ReferenceController extends Controller
         //     $orderDirection = request()->input('order.0.dir');
         //     $references = $references->orderBy($columns[$orderColumn], $orderDirection);
         // }
-        $references = $references->with('reference');
+        $references = $references->with('reference', 'user');
         $references = $references->paginate($perPage);
 
         return response()->json(

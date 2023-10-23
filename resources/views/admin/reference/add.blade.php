@@ -34,6 +34,7 @@
                                     <th>Type </th>
                                     <th>Nom de référence</th>
                                     <th>Valeur</th>
+                                    <th>Créer par</th>
                                     <th>Date de création </th>
                                     <th>Action</th>
                                 </tr>
@@ -116,6 +117,11 @@
                     },
                     {
                         render: function(data, type, row) {
+                            return row.user.nom + ' ' + row.user.prenom;
+                        }
+                    },
+                    {
+                        render: function(data, type, row) {
                             var date = new Date(row.created_at);
                             return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
                         },
@@ -123,7 +129,7 @@
                     {
                         className: "text-center",
                         render: function(data, type, row) {
-                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></buttonf=>';
+                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
                         }
                     }
                 ],

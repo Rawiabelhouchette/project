@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('quartiers', function (Blueprint $table) {
             $table->id();
-            $table->string('nom')->unique();
-            $table->string('slug')->unique();
+            $table->string('nom');
+            $table->string('slug');
             $table->foreignId('ville_id')->constrained('villes');
+            $table->unique(['nom', 'ville_id']);            
             $table->timestamps();
             $table->softDeletes();
 

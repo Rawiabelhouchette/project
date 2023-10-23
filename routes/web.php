@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\PaysController;
 use App\Http\Controllers\QuartierController;
 use App\Http\Controllers\ReferenceController;
@@ -45,16 +46,17 @@ Route::group([
         Route::post('references/nom/post', [ReferenceController::class, 'store_name'])->name('references.nom.post');
         Route::get('references/nom/{type}', [ReferenceController::class, 'get_name'])->name('references.nom.get');
 
-        
         Route::resource('pays', PaysController::class);
 
         Route::resource('villes', VilleController::class);
         
         Route::resource('quartiers', QuartierController::class);
+        Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
 
-        // User resource
         Route::resource('users', UserController::class);
         Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
+
+        Route::resource('entreprises', EntrepriseController::class);
     });
 
 });
