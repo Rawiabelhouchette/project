@@ -6,8 +6,8 @@
     <div class="row bg-title" style="padding-top: 20px;">
         <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
-                <li><a href="#">Référence</a></li>
-                <li class="active">Gestion de Référence</li>
+                <li><a href="#">Compte</a></li>
+                <li class="active">Liste des comptes</li>
             </ol>
         </div>
         <!-- /.col-lg-12 -->
@@ -19,7 +19,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h4>Liste des noms de référence</h4>
+                        <h4>Liste des comptes</h4>
                     </div>
 
                     <div class="card-body">

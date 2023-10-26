@@ -146,7 +146,7 @@
 
             <!-- /. PAGE WRAPPER  -->
 
-            <footer class="main-footer">
+            <footer class="main-footer" style="z-index: 1;">
                 <div class="row">
                     <div class="col-md-6" style="text-align: left !important;">
                         <strong>©Copyright 2023 Numrod.</strong>Tous droits réservés.
