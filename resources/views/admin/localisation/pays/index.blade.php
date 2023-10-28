@@ -19,7 +19,9 @@
                 <div class="card">
 
                     <div class="card-header" style="text-align: left !important;">
-                        <div class="col-6"><h4>Liste des référence</h4></div>
+                        <div class="col-6">
+                            <h4>Liste des référence</h4>
+                        </div>
                         <div class="col-6">
                             <a href="{{ route('pays.create') }}" class="btn btn-primary" style="padding-top: 5px;padding-bottom: 5px;height: auto;">Ajouter</a>
                         </div>
@@ -35,31 +37,33 @@
                     {{-- </div> --}}
 
                     <div class="card-body">
-                        <table id="dataTable" class="table table-striped table-2 table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Indicatif</th>
-                                    <th>Nom</th>
-                                    <th>Langue</th>
-                                    <th>Créer par</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($pays as $item)
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-striped table-2 table-hover">
+                                <thead>
                                     <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td>{{ $item->indicatif }}</td>
-                                        <td>{{ $item->nom }}</td>
-                                        <td>{{ $item->langue }}</td>
-                                        <td>{{ $item->creator->nom }} {{ $item->creator->prenom }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('pays.edit', $item->id) }}" class="edit"><i class="fa fa-pencil"></i></a>
-                                        </td>
+                                        <th>Id</th>
+                                        <th>Indicatif</th>
+                                        <th>Nom</th>
+                                        <th>Langue</th>
+                                        <th>Créer par</th>
+                                        <th>Actions</th>
                                     </tr>
-                                @endforeach
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pays as $item)
+                                        <tr>
+                                            <td>{{ $item->id }}</td>
+                                            <td>{{ $item->indicatif }}</td>
+                                            <td>{{ $item->nom }}</td>
+                                            <td>{{ $item->langue }}</td>
+                                            <td>{{ $item->creator->nom }} {{ $item->creator->prenom }}</td>
+                                            <td class="text-center">
+                                                <a href="{{ route('pays.edit', $item->id) }}" class="edit"><i class="fa fa-pencil"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                            </table>
+                        </div>
                     </div>
 
                 </div>
@@ -79,6 +83,7 @@
 
 
             var datatable = $('#dataTable').DataTable({
+               
                 order: [
                     [0, "desc"]
                 ],

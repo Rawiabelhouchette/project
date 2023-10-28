@@ -51,4 +51,9 @@ class Entreprise extends Model
     {
         return $this->belongsTo(Quartier::class, 'quartier_id');
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

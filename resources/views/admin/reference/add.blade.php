@@ -20,13 +20,14 @@
             </div>
 
             {{-- <div class="col-md-12 col-sm-12"> --}}
-                <div class="card">
+            <div class="card">
 
-                    <div class="card-header">
-                        <h4>Liste des noms de référence</h4>
-                    </div>
+                <div class="card-header">
+                    <h4>Liste des noms de référence</h4>
+                </div>
 
-                    <div class="card-body">
+                <div class="card-body">
+                    <div class="table-responsive">
                         <table id="dataTable" class="table table-striped table-2 table-hover">
                             <thead>
                                 <tr>
@@ -41,8 +42,9 @@
                             </thead>
                         </table>
                     </div>
-
                 </div>
+
+            </div>
             {{-- </div> --}}
         </div>
     </div>
@@ -59,6 +61,7 @@
 
 
             var datatable = $('#dataTable').DataTable({
+               
                 order: [
                     [0, "desc"]
                 ],

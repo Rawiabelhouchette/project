@@ -23,27 +23,30 @@
                     </div>
 
                     <div class="card-body">
-                        <table id="dataTable" class="table table-striped table-2 table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Pays</th>
-                                    <th>Ville</th>
-                                    <th>Quartier</th>
-                                    <th>Créer par</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($quartiers as $quartier)
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-striped table-2 table-hover">
+                                <thead>
                                     <tr>
-                                        <td>{{ $quartier->id }}</td>
-                                        <td>{{ $quartier->ville->pays->nom }}</td>
-                                        <td>{{ $quartier->ville->nom }}</td>
-                                        <td>{{ $quartier->nom }}</td>
-                                        <td>{{ $quartier->creator->nom }} {{ $quartier->creator->prenom }}</td>
+                                        <th>Id</th>
+                                        <th>Pays</th>
+                                        <th>Ville</th>
+                                        <th>Quartier</th>
+                                        <th>Créer par</th>
                                     </tr>
-                                @endforeach
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($quartiers as $quartier)
+                                        <tr>
+                                            <td>{{ $quartier->id }}</td>
+                                            <td>{{ $quartier->ville->pays->nom }}</td>
+                                            <td>{{ $quartier->ville->nom }}</td>
+                                            <td>{{ $quartier->nom }}</td>
+                                            <td>{{ $quartier->creator->nom }} {{ $quartier->creator->prenom }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                 </div>
@@ -63,6 +66,7 @@
 
 
             var datatable = $('#dataTable').DataTable({
+               
                 order: [
                     [0, "desc"]
                 ],

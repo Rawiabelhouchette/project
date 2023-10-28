@@ -19,39 +19,42 @@
                 <div class="card">
 
                     <div class="card-header" style="text-align: left !important;">
-                        <div class="col-6"><h4>Liste des quartiers</h4></div>
+                        <div class="col-6">
+                            <h4>Liste des quartiers</h4>
+                        </div>
                         <div class="col-6">
                             <a href="{{ route('quartiers.create') }}" class="btn btn-primary" style="padding-top: 5px;padding-bottom: 5px;height: auto;">Ajouter</a>
                         </div>
                     </div>
-                    
 
                     <div class="card-body">
-                        <table id="dataTable" class="table table-striped table-2 table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Pays</th>
-                                    <th>Ville</th>
-                                    <th>Quartier</th>
-                                    <th>Créer par</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($quartiers as $quartier)
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-striped table-2 table-hover">
+                                <thead>
                                     <tr>
-                                        <td>{{ $quartier->id }}</td>
-                                        <td>{{ $quartier->ville->pays->nom }}</td>
-                                        <td>{{ $quartier->ville->nom }}</td>
-                                        <td>{{ $quartier->nom }}</td>
-                                        <td>{{ $quartier->creator->nom }} {{ $quartier->creator->prenom }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('quartiers.edit', $quartier->id) }}" class="edit"><i class="fa fa-pencil"></i></a>
-                                        </td>
+                                        <th>Id</th>
+                                        <th>Pays</th>
+                                        <th>Ville</th>
+                                        <th>Quartier</th>
+                                        <th>Créer par</th>
+                                        <th>Action</th>
                                     </tr>
-                                @endforeach
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($quartiers as $quartier)
+                                        <tr>
+                                            <td>{{ $quartier->id }}</td>
+                                            <td>{{ $quartier->ville->pays->nom }}</td>
+                                            <td>{{ $quartier->ville->nom }}</td>
+                                            <td>{{ $quartier->nom }}</td>
+                                            <td>{{ $quartier->creator->nom }} {{ $quartier->creator->prenom }}</td>
+                                            <td class="text-center">
+                                                <a href="{{ route('quartiers.edit', $quartier->id) }}" class="edit"><i class="fa fa-pencil"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                            </table>
+                        </div>
                     </div>
 
                 </div>
@@ -71,6 +74,7 @@
 
 
             var datatable = $('#dataTable').DataTable({
+               
                 order: [
                     [0, "desc"]
                 ],

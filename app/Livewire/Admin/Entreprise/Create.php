@@ -33,6 +33,7 @@ class Create extends Component
     public $pays;
     public $villes = [];
     public $quartiers = [];
+    public $autreJour = true;
     
     public $plannings = [
         [
@@ -50,6 +51,8 @@ class Create extends Component
     // rules
     public function rules()
     {
+        // $this->longitude = (string) $this->longitude;
+        // $this->latitude = (string) $this->latitude;
         return [
             'nom' => 'required|string|min:3|max:255|unique:entreprises,nom,id,quartier_id',
             'description' => 'nullable|string|min:3|max:255',
@@ -79,6 +82,14 @@ class Create extends Component
         $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
     }
 
+    // public function updatedPlannings0Jour($plannings)
+    // {
+    //     dd($plannings);
+    //     if($plannings[0]['jour'] == 'Tous') {
+    //         $this->autreJour = false;
+    //     }
+    // }
+
 
     public function addPlanning()
     {
@@ -97,13 +108,18 @@ class Create extends Component
         unset($this->plannings[$key]);
     }
 
+    
+    #[On('setLocation')] 
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+
     public function store()
     {
-        // dump($this->plannings);
-        // dd($this->validate());
+        // dd(request()->all()['components'][0]['snapshot']);
         $validated = $this->validate();
-
-        DB::beginTransaction(); 
 
         try {
             $entreprise = Entreprise::create($validated);
@@ -132,16 +148,8 @@ class Create extends Component
         $this->reset();
         $this->pays = Pays::all();
 
-
     }
 
-
-    // #[On('setLocation')] 
-    // public function setLocation($location)
-    // {
-    //     $this->longitude = $location['lon'];
-    //     $this->latitude = $location['lat'];
-    // }
     public function render()
     {
         return view('livewire.admin.entreprise.create');

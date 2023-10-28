@@ -49,10 +49,10 @@
 
 
 
-            // Livewire.dispatch('setLocation', [{lon, lat}]);
+            Livewire.dispatch('setLocation', [{lon, lat}]);
             // find id longitude and latitude
-            document.getElementById('longitude').value = lon;
-            document.getElementById('latitude').value = lat;
+            // document.getElementById('longitude').value = lon;
+            // document.getElementById('latitude').value = lat;
 
             // window.addEventListener('maker:reset', event => {
             //     pointer.remove();

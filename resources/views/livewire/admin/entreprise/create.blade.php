@@ -229,9 +229,11 @@
                                 <div class="col-md-1">
                                     @if ($key == 0)
                                         <br>
-                                        <a href="javascrip:void(0)" style="color: blue;" wire:click='addPlanning'>
-                                            <i class="fa fa-plus"></i>
-                                        </a>
+                                        @if($autreJour)
+                                            <a href="javascrip:void(0)" style="color: blue;" wire:click='addPlanning'>
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                        @endif
                                     @else
                                         <br>
                                         <a href="javascrip:void(0)" style="color: red;" wire:click="removePlanning({{ $key }})">
@@ -252,6 +254,9 @@
                                         <option value="Vendredi">Vendredi</option>
                                         <option value="Samedi">Samedi</option>
                                         <option value="Dimanche">Dimanche</option>
+                                        @if ($key == 0)
+                                            <option value="Tous" disabled>Tous les jours</option>
+                                        @endif
                                     </select>
                                 </div>
                                 <div class="col-md-1"></div>

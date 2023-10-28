@@ -19,7 +19,9 @@
                 <div class="card">
 
                     <div class="card-header" style="text-align: left !important;">
-                        <div class="col-6"><h4>Liste des villes</h4></div>
+                        <div class="col-6">
+                            <h4>Liste des villes</h4>
+                        </div>
                         <div class="col-6">
                             <a href="{{ route('villes.create') }}" class="btn btn-primary" style="padding-top: 5px;padding-bottom: 5px;height: auto;">Ajouter</a>
                         </div>
@@ -35,29 +37,31 @@
                     {{-- </div> --}}
 
                     <div class="card-body">
-                        <table id="dataTable" class="table table-striped table-2 table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Pays</th>
-                                    <th>Ville</th>
-                                    <th>Créer par</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($villes as $ville)
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-striped table-2 table-hover">
+                                <thead>
                                     <tr>
-                                        <td>{{ $ville->id }}</td>
-                                        <td>{{ $ville->pays->nom }}</td>
-                                        <td>{{ $ville->nom }}</td>
-                                        <td>{{ $ville->creator->nom }} {{ $ville->creator->prenom }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('villes.edit', $ville->id) }}" class="edit"><i class="fa fa-pencil"></i></a>
-                                        </td>
+                                        <th>Id</th>
+                                        <th>Pays</th>
+                                        <th>Ville</th>
+                                        <th>Créer par</th>
+                                        <th>Action</th>
                                     </tr>
-                                @endforeach
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($villes as $ville)
+                                        <tr>
+                                            <td>{{ $ville->id }}</td>
+                                            <td>{{ $ville->pays->nom }}</td>
+                                            <td>{{ $ville->nom }}</td>
+                                            <td>{{ $ville->creator->nom }} {{ $ville->creator->prenom }}</td>
+                                            <td class="text-center">
+                                                <a href="{{ route('villes.edit', $ville->id) }}" class="edit"><i class="fa fa-pencil"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                            </table>
+                        </div>
                     </div>
 
                 </div>
@@ -77,6 +81,7 @@
 
 
             var datatable = $('#dataTable').DataTable({
+               
                 order: [
                     [0, "desc"]
                 ],

@@ -23,49 +23,51 @@
                     </div>
 
                     <div class="card-body">
-                        <table id="dataTable" class="table table-striped table-2 table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nom</th>
-                                    <th>Description</th>
-                                    <th>Telephone</th>
-                                    <th>Email</th>
-                                    <th>WhatsApp</th>
-                                    <th>Pays</th>
-                                    <th>Ville</th>
-                                    <th>Quartier</th>
-                                    <th>Créer par</th>
-                                    <th>Cree le</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($entreprises as $entreprise)
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-striped table-2 table-hover">
+                                <thead>
                                     <tr>
-                                        <td>{{ $entreprise->id }}</td>
-                                        <td>{{ $entreprise->nom }}</td>
-                                        <td>{{ $entreprise->description }}</td>
-                                        <td>{{ $entreprise->telephone }}</td>
-                                        <td>{{ $entreprise->email }}</td>
-                                        <td>{{ $entreprise->whatsapp }}</td>
-                                        <td>{{ $entreprise->quartier->ville->pays->nom }}</td>
-                                        <td>{{ $entreprise->quartier->ville->nom }}</td>
-                                        <td>{{ $entreprise->quartier->nom }}</td>
-                                        <td>{{ $entreprise->creator->nom }} {{ $entreprise->creator->prenom }}</td>
-                                        <td>{{ $entreprise->created_at }}</td>
-                                        <td>
-                                            <a href="{{ route('entreprises.edit', $entreprise->id) }}"class="edit">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            <a href="{{ route('entreprises.show', $entreprise->id) }}"class="show">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                        </td>
+                                        <th>Id</th>
+                                        <th>Nom</th>
+                                        <th>Description</th>
+                                        <th>Telephone</th>
+                                        <th>Email</th>
+                                        <th>WhatsApp</th>
+                                        <th>Pays</th>
+                                        <th>Ville</th>
+                                        <th>Quartier</th>
+                                        <th>Créer par</th>
+                                        <th>Cree le</th>
+                                        <th>Actions</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($entreprises as $entreprise)
+                                        <tr>
+                                            <td>{{ $entreprise->id }}</td>
+                                            <td>{{ $entreprise->nom }}</td>
+                                            <td>{{ $entreprise->description }}</td>
+                                            <td>{{ $entreprise->telephone }}</td>
+                                            <td>{{ $entreprise->email }}</td>
+                                            <td>{{ $entreprise->whatsapp }}</td>
+                                            <td>{{ $entreprise->quartier->ville->pays->nom }}</td>
+                                            <td>{{ $entreprise->quartier->ville->nom }}</td>
+                                            <td>{{ $entreprise->quartier->nom }}</td>
+                                            <td>{{ $entreprise->creator->nom }} {{ $entreprise->creator->prenom }}</td>
+                                            <td>{{ $entreprise->created_at }}</td>
+                                            <td>
+                                                {{-- <a href="{{ route('entreprises.edit', $entreprise->id) }}"class="edit">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a href="{{ route('entreprises.show', $entreprise->id) }}"class="show">
+                                                    <i class="fa fa-eye"></i>
+                                                </a> --}}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
