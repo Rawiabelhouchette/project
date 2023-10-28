@@ -13,7 +13,8 @@ class QuartierController extends Controller
      */
     public function index()
     {
-        //
+        $quartiers = Quartier::with('ville')->get();
+        return view("admin.localisation.quartier.index", compact("quartiers"));
     }
 
     /**
@@ -21,7 +22,7 @@ class QuartierController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.localisation.quartier.create");
     }
 
     /**
@@ -45,7 +46,7 @@ class QuartierController extends Controller
      */
     public function edit(Quartier $quartier)
     {
-        //
+        return view("admin.localisation.quartier.edit", compact("quartier"));
     }
 
     /**
@@ -62,5 +63,11 @@ class QuartierController extends Controller
     public function destroy(Quartier $quartier)
     {
         //
+    }
+
+    public function localisation()
+    {
+        $quartiers = Quartier::with("ville")->get();
+        return view("admin.localisation.index", compact("quartiers"));
     }
 }

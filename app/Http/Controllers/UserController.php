@@ -14,7 +14,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('admin.user.index');
+        $users = User::with('roles', 'entreprise')->get();
+        // dd($users);
+        return view('admin.user.index', compact('users'));
     }
 
     /**
@@ -92,7 +94,7 @@ class UserController extends Controller
         //     $users = $users->orderBy($columns[$orderColumn], $orderDirection);
         // }
 
-        $users = $users->with('roles');
+        $users = $users->with('roles', 'entreprise');
         $users = $users->paginate($perPage);
 
         return response()->json(

@@ -13,7 +13,8 @@ class VilleController extends Controller
      */
     public function index()
     {
-        //
+        $villes = Ville::with('pays')->get();
+        return view('admin.localisation.ville.index', compact('villes'));
     }
 
     /**
@@ -21,7 +22,7 @@ class VilleController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.localisation.ville.create');
     }
 
     /**
@@ -45,7 +46,7 @@ class VilleController extends Controller
      */
     public function edit(Ville $ville)
     {
-        //
+        return view('admin.localisation.ville.edit', compact('ville'));
     }
 
     /**

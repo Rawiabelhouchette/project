@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quartiers', function (Blueprint $table) {
+        Schema::create('villes', function (Blueprint $table) {
             $table->id();
-            $table->string('nom')->unique();
-            $table->string('slug')->unique();
-            $table->foreignId('ville_id')->constrained('villes');
+            $table->string('nom');
+            $table->string('slug');
+            $table->foreignId('pays_id')->constrained('pays');
+            $table->unique(['nom', 'pays_id']);            
             $table->timestamps();
             $table->softDeletes();
+
 
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quartiers');
+        Schema::dropIfExists('villes');
     }
 };

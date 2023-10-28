@@ -11,23 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('heure_ouvertures', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('prenom')->nullable();
-            $table->string('username')->unique();
-            $table->string('email')->unique()->nullable();
-            $table->string('telephone')->unique()->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('is_active')->default(true);
-            $table->rememberToken();
+            $table->string('jour');
+            $table->time('heure_debut');
+            $table->time('heure_fin');
+            $table->foreignId('entreprise_id')->constrained('entreprises');
             $table->timestamps();
             $table->softDeletes();
 
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
+
         });
     }
 
@@ -36,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('heure_ouvertures');
     }
 };

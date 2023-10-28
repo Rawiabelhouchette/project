@@ -32,4 +32,6 @@ class Ville extends Model
     {
         return $this->hasMany(Quartier::class);
     }
+
+    // public
 }

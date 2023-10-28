@@ -20,13 +20,14 @@
             </div>
 
             {{-- <div class="col-md-12 col-sm-12"> --}}
-                <div class="card">
+            <div class="card">
 
-                    <div class="card-header">
-                        <h4>Liste des noms de référence</h4>
-                    </div>
+                <div class="card-header">
+                    <h4>Liste des noms de référence</h4>
+                </div>
 
-                    <div class="card-body">
+                <div class="card-body">
+                    <div class="table-responsive">
                         <table id="dataTable" class="table table-striped table-2 table-hover">
                             <thead>
                                 <tr>
@@ -34,14 +35,16 @@
                                     <th>Type </th>
                                     <th>Nom de référence</th>
                                     <th>Valeur</th>
+                                    <th>Créer par</th>
                                     <th>Date de création </th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                         </table>
                     </div>
-
                 </div>
+
+            </div>
             {{-- </div> --}}
         </div>
     </div>
@@ -58,6 +61,7 @@
 
 
             var datatable = $('#dataTable').DataTable({
+               
                 order: [
                     [0, "desc"]
                 ],
@@ -116,6 +120,11 @@
                     },
                     {
                         render: function(data, type, row) {
+                            return row.user.nom + ' ' + row.user.prenom;
+                        }
+                    },
+                    {
+                        render: function(data, type, row) {
                             var date = new Date(row.created_at);
                             return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
                         },
@@ -123,7 +132,7 @@
                     {
                         className: "text-center",
                         render: function(data, type, row) {
-                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></buttonf=>';
+                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
                         }
                     }
                 ],

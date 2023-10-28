@@ -27,17 +27,20 @@
                     </div>
 
                     <div class="card-body">
-                        <table id="dataTable" class="table table-striped table-2 table-hover">
-                            <thead>
-                                <tr>
-                                    <th><span class="custom-checkbox"></span></th>
-                                    <th>Type </th>
-                                    <th>Nom de référence</th>
-                                    <th>Date de création </th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                        </table>
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-striped table-2 table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><span class="custom-checkbox"></span></th>
+                                        <th>Type </th>
+                                        <th>Nom de référence</th>
+                                        <th>Créer par</th>
+                                        <th>Date de création </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
 
                 </div>
@@ -57,6 +60,7 @@
 
 
             var datatable = $('#dataTable').DataTable({
+               
                 order: [
                     [0, "desc"]
                 ],
@@ -112,6 +116,11 @@
                     },
                     {
                         render: function(data, type, row) {
+                            return row.user.nom + ' ' + row.user.prenom;
+                        },
+                    },
+                    {
+                        render: function(data, type, row) {
                             var date = new Date(row.created_at);
                             return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
                         },
@@ -119,7 +128,7 @@
                     {
                         className: "text-center",
                         render: function(data, type, row) {
-                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></buttonf=>';
+                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
                         }
                     }
                 ],

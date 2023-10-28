@@ -13,7 +13,8 @@ class PaysController extends Controller
      */
     public function index()
     {
-        //
+        $pays = Pays::all();
+        return view('admin.localisation.pays.index', compact('pays'));
     }
 
     /**
@@ -21,7 +22,7 @@ class PaysController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.localisation.pays.create');
     }
 
     /**
@@ -29,7 +30,7 @@ class PaysController extends Controller
      */
     public function store(StorePaysRequest $request)
     {
-        //
+        
     }
 
     /**
@@ -37,15 +38,17 @@ class PaysController extends Controller
      */
     public function show(Pays $pays)
     {
-        //
+        dd('show');
+        dd($pays->id);
+        return view('admin.localisation.pays.edit', compact('pays'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pays $pays)
+    public function edit(Pays $pay)
     {
-        //
+        return view('admin.localisation.pays.edit', compact('pay'));
     }
 
     /**

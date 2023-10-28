@@ -30,6 +30,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_active',
+        'entreprise_id',
     ];
     
     /**
@@ -55,5 +56,13 @@ class User extends Authenticatable
         'email' => PurifyHtmlOnGet::class,
     ];
     
+
+    /**
+     * Get the entreprise that owns the user.
+     */
+    public function entreprise()
+    {
+        return $this->belongsTo(Entreprise::class);
+    }
     
 }
