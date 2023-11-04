@@ -89,12 +89,12 @@
                 <a href="javascript:void(0)"><i class="fa fa-clone" aria-hidden="true"></i>Gestion annonce<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                        <a href="{{ route('annonces.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                             Ajouter une annonce
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                        <a href="{{ route('annonces.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                             Recherche
                         </a>
                     </li>
