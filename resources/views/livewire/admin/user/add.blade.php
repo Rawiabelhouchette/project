@@ -44,7 +44,9 @@
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
                                 <input type="text" class="form-control" placeholder="Idenitifiant" required wire:model.defer='username'>
-                                @error('username') <span class="text-danger">{{ $message }}</span> @enderror
+                                @error('username')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -60,7 +62,9 @@
                             <div class="col-md-10">
                                 <label class="">Téléphone </label> <br>
                                 <input type="text" class="form-control" placeholder="Téléphone" wire:model.defer='telephone'>
-                                @error('telephone') <span class="text-danger">{{ $message }}</span> @enderror
+                                @error('telephone')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -73,7 +77,9 @@
                             <div class="col-md-10">
                                 <label class="">Email </label> <br>
                                 <input type="email" class="form-control" placeholder="Email" wire:model.defer='email'>
-                                @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                                @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -148,6 +154,28 @@
                         </div>
                     </div>
                 </div>
+
+                @if ($isProfessionnel)
+                    <div class="row" wire:transition wire:ignore>
+                        <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Entreprise
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </label> <br>
+                                    <select class="form-control" required wire:model.lazy='entreprise_id'>
+                                        <option value="" selected>Choisir ...</option>
+                                        @foreach ($entreprises as $entreprise)
+                                            <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
                 <div class="row">
                     <div class="form-group" style="margin-top: 15px;">

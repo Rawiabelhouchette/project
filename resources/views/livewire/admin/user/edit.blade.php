@@ -128,7 +128,7 @@
                     </div>
 
                     @if ($isProfessionnel)
-                        <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                        <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;" wire:transition wire:ignore>
                             <div class="row">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">

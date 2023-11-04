@@ -55,13 +55,16 @@
                                             <td>{{ $entreprise->quartier->nom }}</td>
                                             <td>{{ $entreprise->creator->nom }} {{ $entreprise->creator->prenom }}</td>
                                             <td>{{ $entreprise->created_at }}</td>
-                                            <td>
-                                                {{-- <a href="{{ route('entreprises.edit', $entreprise->id) }}"class="edit">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a href="{{ route('entreprises.show', $entreprise->id) }}"class="show">
-                                                    <i class="fa fa-eye"></i>
-                                                </a> --}}
+                                            <td class="text-center">
+                                                <span style="display: inline-flex;">
+                                                    <a href="{{ route('entreprises.show', $entreprise->id) }}" class="show">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    &nbsp;&nbsp;
+                                                    <a href="{{ route('entreprises.edit', $entreprise->id) }}" class="edit">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </span>
                                             </td>
                                         </tr>
                                     @endforeach
