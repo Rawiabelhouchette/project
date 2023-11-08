@@ -55,7 +55,7 @@
                 <div class="col-md-12 col-sm-12  col-xl-2 text-right">
                     <div class="form-group" style="">
                         <button wire:target='update' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 15px;">
-                            <i class="fa fa-edit fa-lg" style="margin-right: 10px;"></i>
+                            <i class="fa fa-pencil fa-lg" style="margin-right: 10px;"></i>
                             Modifier
                         </button>
                     </div>

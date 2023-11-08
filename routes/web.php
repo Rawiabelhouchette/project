@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\PaysController;
@@ -57,6 +58,9 @@ Route::group([
         Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
 
         Route::resource('entreprises', EntrepriseController::class);
+
+        Route::resource('annonces', AnnonceController::class);
+        Route::get('annonces/list/datatable', [AnnonceController::class, 'getDataTable'])->name('annonces.datatable');
     });
 
 });

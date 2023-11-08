@@ -38,7 +38,7 @@ class EntrepriseController extends Controller
      */
     public function show(Entreprise $entreprise)
     {
-        //
+        return view('admin.entreprise.show', compact('entreprise'));
     }
 
     /**
@@ -46,7 +46,7 @@ class EntrepriseController extends Controller
      */
     public function edit(Entreprise $entreprise)
     {
-        //
+        return view('admin.entreprise.edit', compact('entreprise'));
     }
 
     /**

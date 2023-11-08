@@ -11,7 +11,7 @@
         <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
                 <li><a href="#">Entreprise</a></li>
-                <li class="active">Ajouter un entreprise</li>
+                <li class="active">Modifier un entreprise</li>
             </ol>
         </div>
         <!-- /.col-lg-12 -->
@@ -20,7 +20,7 @@
     <div id="page-inner">
         <div class="row bott-wid">
             <div class="col-md-12 col-sm-12">
-                @livewire('admin.entreprise.create')
+                @livewire('admin.entreprise.edit', ['entreprise' => $entreprise])
             </div>
         </div>
     </div>
@@ -53,19 +53,18 @@
                 lon,
                 lat
             }]);
+        });
 
-            //  onchange jour
-            $
+        window.addEventListener('showLocation', event => {
+            var lon = event.detail[0].lon;
+            var lat = event.detail[0].lat;
 
+            if (marker) {
+                mymap.removeLayer(marker); 
+            }
 
-
-            // find id longitude and latitude
-            // document.getElementById('longitude').value = lon;
-            // document.getElementById('latitude').value = lat;
-
-            // window.addEventListener('maker:reset', event => {
-            //     pointer.remove();
-            // });
+            marker = L.marker([lat, lon]).addTo(mymap);
+            mymap.setView([lat, lon], 12);
         });
     </script>
 

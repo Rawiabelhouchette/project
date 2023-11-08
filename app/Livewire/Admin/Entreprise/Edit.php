@@ -2,10 +2,170 @@
 
 namespace App\Livewire\Admin\Entreprise;
 
+use App\Models\Entreprise;
+use App\Models\Pays;
+use App\Models\Quartier;
+use App\Models\Ville;
+use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Edit extends Component
 {
+    
+    public $nom = '';
+    public $description = '';
+    public $site_web = '';
+    public $email = '';
+    public $telephone = '';
+    public $instagram = '';
+    public $facebook = '';
+    public $whatsapp = '';
+    public $logo = '';
+    public $longitude = '';
+    public $latitude = '';
+    
+    public $pays_id = '';
+    public $ville_id = '';
+    public $quartier_id = '';
+
+    public $nbr_planning = 1;
+
+    public $pays;
+    public $villes = [];
+    public $quartiers = [];
+    public $autreJour = true;
+    public $entreprise;
+    
+    public $plannings = [
+        [
+            'jour' => '',
+            'heure_debut' => '',
+            'heure_fin' => '',
+        ]
+    ];
+
+    public function mount($entreprise)
+    {
+        $this->entreprise = $entreprise;
+        $this->pays = Pays::all();
+        $this->villes = Ville::where('pays_id', $entreprise->quartier->ville->pays_id)->get();
+        $this->quartiers = Quartier::where('ville_id', $entreprise->quartier->ville_id)->get();
+        $this->nom = $entreprise->nom;
+        $this->description = $entreprise->description;
+        $this->site_web = $entreprise->site_web;
+        $this->email = $entreprise->email;
+        $this->telephone = $entreprise->telephone;
+        $this->instagram = $entreprise->instagram;
+        $this->facebook = $entreprise->facebook;
+        $this->whatsapp = $entreprise->whatsapp;
+        $this->logo = $entreprise->logo;
+        $this->longitude = $entreprise->longitude;
+        $this->latitude = $entreprise->latitude;
+        $this->pays_id = $entreprise->quartier->ville->pays_id;
+        $this->ville_id = $entreprise->quartier->ville_id;
+        $this->quartier_id = $entreprise->quartier_id;
+        $this->plannings = $entreprise->heure_ouvertures->toArray();
+        $this->nbr_planning = count($this->plannings);
+
+        $this->dispatch('showLocation', [
+            'lon' => $this->longitude,
+            'lat' => $this->latitude,
+        ]);
+    }
+
+    // rules
+    public function rules()
+    {
+        return [
+            'nom' => 'required|string|min:3|max:255|unique:entreprises,nom,'.$this->entreprise->id.',id,quartier_id,'.$this->quartier_id,
+            'description' => 'nullable|string|min:3|max:255',
+            'site_web' => 'nullable|string|min:3|max:255',
+            'email' => 'required|string|min:3|max:255',
+            'telephone' => 'nullable|string|min:3|max:255',
+            'instagram' => 'nullable|string|min:3|max:255',
+            'facebook' => 'nullable|string|min:3|max:255',
+            'whatsapp' => 'required|string|min:3|max:255',
+            'logo' => 'nullable|string|min:3|max:255',
+            'quartier_id' => 'required|integer|exists:quartiers,id',
+            'longitude' => 'nullable|string|min:3|max:255',
+            'latitude' => 'nullable|string|min:3|max:255',
+        ];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = '';
+        $this->quartier_id = '';
+        $this->villes = Ville::where('pays_id', $pays_id)->get();
+    }
+    
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = '';
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
+    }
+
+    public function addPlanning()
+    {
+        if ($this->nbr_planning <= 7) {
+            $this->nbr_planning++;
+            $this->plannings[] = [
+                'jour' => '',
+                'heure_debut' => '',
+                'heure_fin' => '',
+            ];
+        }
+    }
+
+    public function removePlanning($key)
+    {
+        unset($this->plannings[$key]);
+    }
+
+    
+    #[On('setLocation')] 
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+
+    public function update()
+    {
+        // dd(request()->all()['components'][0]['snapshot']);
+        $validated = $this->validate();
+
+        try {
+            DB::beginTransaction();
+            $this->entreprise->update($validated);
+            $this->entreprise->heure_ouvertures()->delete();
+            // dd($this->plannings);
+            $this->entreprise->heure_ouvertures()->createMany($this->plannings);
+
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title'   => __('Opération réussie'),
+                'message' => __('Une erreur est survenue lors de l\'ajout de l\'entreprise'),
+            ]);
+            return;
+        }
+
+        session()->flash('success', 'Entreprise modifiée avec succès.');
+        
+        return redirect()->route('entreprises.index');
+
+    }
+
+    // end data to blade file using livewire dispatcher
+    
+
+
+
     public function render()
     {
         return view('livewire.admin.entreprise.edit');

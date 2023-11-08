@@ -93,6 +93,10 @@ class Create extends Component
 
     public function addPlanning()
     {
+        // if ($this->plannings[0]['jour'] == 'Tous') {
+        //     $this->autreJour = false;
+        //     return;
+        // }
         if ($this->nbr_planning <= 7) {
             $this->nbr_planning++;
             $this->plannings[] = [

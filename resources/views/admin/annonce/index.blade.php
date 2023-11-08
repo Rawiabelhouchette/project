@@ -1,12 +1,12 @@
 @extends('layout.app')
 
-@section('entreprise', 'active')
+@section('annonce', 'active')
 
 @section('content')
     <div class="row bg-title" style="padding-top: 20px;">
         <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
-                <li><a href="#">Entreprise</a></li>
+                <li><a href="#">Annonce</a></li>
                 <li class="active">Recherche</li>
             </ol>
         </div>
@@ -19,7 +19,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h4>Liste des entreprises</h4>
+                        <h4>Liste des annonces</h4>
                     </div>
 
                     <div class="card-body">
@@ -28,46 +28,17 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Nom</th>
-                                        <th>Description</th>
-                                        <th>Telephone</th>
-                                        <th>Email</th>
-                                        <th>WhatsApp</th>
-                                        <th>Pays</th>
-                                        <th>Ville</th>
-                                        <th>Quartier</th>
-                                        <th>Créer par</th>
+                                        <th>Type</th>
+                                        <th>Entreprise</th>
+                                        <th>Titre</th>
+                                        <th>Etat</th>
+                                        <th>Date validité</th>
+                                        {{-- <th>Créer par</th> --}}
                                         <th>Cree le</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($entreprises as $entreprise)
-                                        <tr>
-                                            <td>{{ $entreprise->id }}</td>
-                                            <td>{{ $entreprise->nom }}</td>
-                                            <td>{{ $entreprise->description }}</td>
-                                            <td>{{ $entreprise->telephone }}</td>
-                                            <td>{{ $entreprise->email }}</td>
-                                            <td>{{ $entreprise->whatsapp }}</td>
-                                            <td>{{ $entreprise->quartier->ville->pays->nom }}</td>
-                                            <td>{{ $entreprise->quartier->ville->nom }}</td>
-                                            <td>{{ $entreprise->quartier->nom }}</td>
-                                            <td>{{ $entreprise->creator->nom }} {{ $entreprise->creator->prenom }}</td>
-                                            <td>{{ $entreprise->created_at }}</td>
-                                            <td class="text-center">
-                                                <span style="display: inline-flex;">
-                                                    <a href="{{ route('entreprises.show', $entreprise->id) }}" class="show">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
-                                                    &nbsp;&nbsp;
-                                                    <a href="{{ route('entreprises.edit', $entreprise->id) }}" class="edit">
-                                                        <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -97,6 +68,62 @@
                     [10, 25, 50, "All"]
                 ],
                 pageLength: 50,
+                processing: true,
+                serverSide: true,
+                columns: [{
+                        data: 'id',
+                    },
+                    {
+                        data: 'type',
+                    },
+                    {
+                        data: 'entreprise.nom',
+                    },
+                    {
+                        data: 'titre',
+                    },
+                    {
+                       render : function(data, type, row){
+                           if(row.is_active == 1){
+                               return '<span class="label label-success">Actif</span>';
+                           }else{
+                               return '<span class="label label-danger">Inactif</span>';
+                           }
+                       }
+                    },
+                    {
+                        data: 'date_validite',
+                    },
+                    // {
+                    //     render: function(data, type, row) {
+                    //         return row.creator.nom + ' ' + row.creator.prenom;
+                    //     }
+                    // },
+                    {
+                        render: function(data, type, row) {
+                            var date = new Date(row.created_at);
+                            return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
+                        },
+                    },
+                    {
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
+                        }
+                    },
+                ],
+                ajax: {
+                    url: "{{ route('annonces.datatable') }}",
+                    type: 'GET',
+                    dataType: 'json',
+                    data: function(d) {
+                        d.page = d.start / d.length + 1;
+                        d.search = d.search.value;
+                        d.length = d.length;
+                        return d;
+                    },
+                },
+
                 oLanguage: {
                     "sProcessing": "Traitement en cours...",
                     "sSearch": "Rechercher&nbsp;:",
@@ -120,10 +147,6 @@
                         "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
                     }
                 },
-            });
-
-            window.addEventListener('relaod:dataTable', event => {
-                datatable.ajax.reload();
             });
         });
     </script>

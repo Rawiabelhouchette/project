@@ -245,7 +245,7 @@
                                     <label class="">Jour
                                         <b style="color: red; font-size: 100%;">*</b>
                                     </label> <br>
-                                    <select class="form-control" required wire:model.defer='plannings.{{ $key }}.jour'>
+                                    <select class="form-control jour" required wire:model.defer='plannings.{{ $key }}.jour'>
                                         <option value="">-- Jour --</option>
                                         <option value="Lundi">Lundi</option>
                                         <option value="Mardi">Mardi</option>
@@ -308,4 +308,14 @@
 
         </div>
     </div>
+
+    <script>
+        (document).ready(function() {
+                $('.class').change(function() {
+                    // select the first option
+                    var option = $(this).find('option:selected').val();
+                    console.log(option);
+                });
+            });
+    </script>
 </div>
