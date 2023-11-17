@@ -48,13 +48,11 @@ class Create extends Component
         $this->pays = Pays::all();
     }
 
-    // rules
     public function rules()
     {
-        // $this->longitude = (string) $this->longitude;
-        // $this->latitude = (string) $this->latitude;
         return [
             'nom' => 'required|string|min:3|max:255|unique:entreprises,nom,id,quartier_id',
+            // FIXME: Description does not work
             'description' => 'nullable|string|min:3|max:255',
             'site_web' => 'nullable|string|min:3|max:255',
             'email' => 'required|string|min:3|max:255',

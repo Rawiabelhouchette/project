@@ -45,7 +45,7 @@
                                         <td>{{ $entreprise->description }}</td>
                                     </tr>
 
-                                    {{-- Telephone --}}
+                                    {{-- Téléphone --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">TELEPHONE</td>
                                         <td>{{ $entreprise->telephone }}</td>

@@ -5,4 +5,6 @@ github_pat_11AN53YQA0HWvh9Y0yWuPt_MzIfvgu7bdxVmf1jMcrXduCP45Kg8KMQx6VuQjZs2KbEKW
 
 
 Prochainement:
-- creer une tbale qui va garder les horaires
+-[ok]  creer une tbale qui va garder les horaires
+
+La description d'entreprise ne marche pas

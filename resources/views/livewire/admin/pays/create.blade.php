@@ -1,6 +1,9 @@
 <div>
     <div class="card">
 
+        {{-- 
+            // TODO : Ajouter les etoiles du required
+        --}}
         <div class="card-header">
             <h4>Enregistrer un pays</h4>
         </div>

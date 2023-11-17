@@ -34,4 +34,19 @@ class Annonce extends Model
     {
         return $this->belongsTo(Entreprise::class, 'entreprise_id');
     }
+
+    public function galerie()
+    {
+        return $this->belongsToMany(Fichier::class, 'annonce_fichier', 'annonce_id', 'fichier_id');
+    }
+
+    public function auberge()
+    {
+        return $this->hasOne(Auberge::class);
+    }
+
+    public function references()
+    {
+        return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id');
+    }
 }

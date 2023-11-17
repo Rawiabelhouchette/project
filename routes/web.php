@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
+use App\Http\Controllers\AubergeController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\PaysController;
@@ -61,6 +62,9 @@ Route::group([
 
         Route::resource('annonces', AnnonceController::class);
         Route::get('annonces/list/datatable', [AnnonceController::class, 'getDataTable'])->name('annonces.datatable');
+
+        Route::resource('auberges', AubergeController::class);
+        Route::get('auberges/list/datatable', [AubergeController::class, 'getDataTable'])->name('auberges.datatable');
     });
 
 });

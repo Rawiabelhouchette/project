@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('references', function (Blueprint $table) {
+        Schema::create('fichiers', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->string('slug_type');
             $table->string('nom');
-            $table->string('slug_nom');
-            $table->unique(['type', 'nom']);
+            $table->string('chemin');
+            $table->string('extension');
             $table->timestamps();
             $table->softDeletes();
 
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('references');
+        Schema::dropIfExists('fichiers');
     }
 };

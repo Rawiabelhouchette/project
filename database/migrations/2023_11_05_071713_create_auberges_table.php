@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('references', function (Blueprint $table) {
+        Schema::create('auberges', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->string('slug_type');
-            $table->string('nom');
-            $table->string('slug_nom');
-            $table->unique(['type', 'nom']);
+            $table->integer('nombre_chambre');
+            $table->integer('nombre_personne')->nullable();
+            $table->integer('superficie')->nullable();
+            $table->integer('prix_min')->nullable();
+            $table->integer('prix_max')->nullable();
+            $table->foreignId('annonce_id')->constrained('annonces');
             $table->timestamps();
             $table->softDeletes();
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('references');
+        Schema::dropIfExists('auberges');
     }
 };

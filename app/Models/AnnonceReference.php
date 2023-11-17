@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
 use Illuminate\Support\Str;
-
-class Reference extends Model
+class AnnonceReference extends Model
 {
-    use HasFactory, softDeletes, Userstamps;
+    use HasFactory, SoftDeletes, Userstamps;
 
     protected $fillable = [
-        'type',
-        'nom',
-        'slug_type',
-        'slug_nom',
+        'titre',
+        'slug',
+        'description',
+        'annonce_id',
+        'reference_valeur_id',
     ];
 
     protected static function boot()
@@ -25,20 +25,16 @@ class Reference extends Model
         parent::boot();
 
         static::saving(function ($model) {
-            $model->slug_type = Str::slug($model->type);
-            $model->slug_nom = Str::slug($model->nom);
+            $model->slug = Str::slug($model->titre);
         });
     }
 
     protected $casts = [
-        'type' => PurifyHtmlOnGet::class,
-        'nom' => PurifyHtmlOnGet::class,
+        'titre' => PurifyHtmlOnGet::class,
+        'slug' => PurifyHtmlOnGet::class,
+        'description' => PurifyHtmlOnGet::class,
+        'annonce_id' => PurifyHtmlOnGet::class,
+        'reference_valeur_id' => PurifyHtmlOnGet::class,
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
 
 }
