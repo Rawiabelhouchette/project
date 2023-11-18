@@ -37,7 +37,8 @@ class AubergeController extends Controller
      */
     public function show(Auberge $auberge)
     {
-        //
+        
+        return view('admin.auberge.show', compact('auberge'));
     }
 
     /**
@@ -45,7 +46,8 @@ class AubergeController extends Controller
      */
     public function edit(Auberge $auberge)
     {
-        //
+        // $auberge->load('annonce');/
+        return view('admin.auberge.edit', compact('auberge'));
     }
 
     /**

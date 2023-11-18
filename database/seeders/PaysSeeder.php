@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pays;
+use App\Models\Quartier;
+use App\Models\Ville;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +15,21 @@ class PaysSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Pays::updateOrCreate([
+            'nom' => 'Togo',
+            'code' => 'togo',
+            'indicatif' => '+228',
+            'langue' => 'Français',
+        ]);
+
+        Ville::updateOrCreate([
+            'nom' => 'Lomé',
+            'pays_id' => 1,
+        ]);
+
+        Quartier::updateOrCreate([
+            'nom' => 'Avedji',
+            'ville_id' => 1,
+        ]);
     }
 }

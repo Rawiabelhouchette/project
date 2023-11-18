@@ -33,13 +33,11 @@
                                         <th>Titre</th>
                                         <th>Etat</th>
                                         <th>Date validité</th>
-                                        {{-- <th>Créer par</th> --}}
-                                        <th>Cree le</th>
+                                        <th>Crée le</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
@@ -83,22 +81,26 @@
                         data: 'titre',
                     },
                     {
-                       render : function(data, type, row){
-                           if(row.is_active == 1){
-                               return '<span class="label label-success">Actif</span>';
-                           }else{
-                               return '<span class="label label-danger">Inactif</span>';
-                           }
-                       }
+                        render: function(data, type, row) {
+                            if (row.is_active == 1) {
+                                return '<span class="label label-success">Actif</span>';
+                            } else {
+                                return '<span class="label label-danger">Inactif</span>';
+                            }
+                        }
                     },
                     {
-                        data: 'date_validite',
+                        render: function(data, type, row) {
+                            var date = new Date(row.date_validite);
+                            return `
+                                <span style="display: inline-flex;">
+                                    ${date.toLocaleDateString('fr-FR')}
+                                    <br>
+                                    ${row.jour_restant} jour(s) restant(s)
+                                </span>
+                            `;
+                        }
                     },
-                    // {
-                    //     render: function(data, type, row) {
-                    //         return row.creator.nom + ' ' + row.creator.prenom;
-                    //     }
-                    // },
                     {
                         render: function(data, type, row) {
                             var date = new Date(row.created_at);
@@ -108,7 +110,11 @@
                     {
                         className: "text-center",
                         render: function(data, type, row) {
-                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
+                            return `
+                                <span style="display: inline-flex;">
+                                    <a href="${row.annonceable.show_url}" class="show"><i class="fa fa-eye"></i></a>
+                                </span>
+                            `;
                         }
                     },
                 ],

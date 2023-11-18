@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Reference;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ReferenceSeeder extends Seeder
@@ -66,8 +65,5 @@ class ReferenceSeeder extends Seeder
             'slug_nom' => 'equipements-cuisine',
         ]);
 
-
-
-        
     }
 }

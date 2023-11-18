@@ -3,11 +3,13 @@
 namespace App\Livewire\Admin\Auberge;
 
 use App\Models\Annonce;
+use App\Models\Auberge;
 use App\Models\Entreprise;
 use App\Models\Fichier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -103,7 +105,7 @@ class Create extends Component
             'galerie.*' => 'image|max:5120',
             'galerie' => 'max:10',
             'date_validite' => 'required|date|after:today',
-            'heure_validite' => 'required|date_format:H:i',
+            // 'heure_validite' => 'required|date_format:H:i',
         ];
     }
 
@@ -113,7 +115,7 @@ class Create extends Component
             'nom.required' => 'Le nom est obligatoire',
             'galerie.*.image' => 'Le fichier doit être une image',
             'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
-            'galerie.max' => 'Vous ne pouvez pas télécharger plus de 10 images',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de 10 images',
             'date_validite.required' => 'La date de validité est obligatoire',
             'date_validite.date' => 'La date de validité doit être une date',
             'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
@@ -138,16 +140,7 @@ class Create extends Component
 
             $date_validite = $this->date_validite . ' ' . $this->heure_validite;
 
-            $annonce = Annonce::create([
-                'titre' => $this->nom,
-                'type' => 'Auberge',
-                'description' => $this->description,
-                'date_validite' => $date_validite,
-                'entreprise_id' => $this->entreprise_id,
-            ]);
-
-            
-            $annonce->auberge()->create([
+            $auberge = Auberge::create([
                 'nombre_chambre' => $this->nombre_chambre,
                 'nombre_personne' => $this->nombre_personne,
                 'superficie' => $this->superficie,
@@ -155,8 +148,18 @@ class Create extends Component
                 'prix_max' => $this->prix_max,
             ]);
 
+            $annonce = new Annonce([
+                'titre' => $this->nom,
+                'type' => 'Auberge',
+                'description' => $this->description,
+                'date_validite' => $this->date_validite,
+                'entreprise_id' => $this->entreprise_id,
+            ]);
+
+            $auberge->annonce()->save($annonce);
+
             if ($this->types_lit) {
-                foreach ($this->types_lit as $key => $value) {
+                foreach ($this->types_lit as $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Types de lit',
@@ -166,7 +169,7 @@ class Create extends Component
             }
 
             if ($this->commodites) {
-                foreach ($this->commodites as $key => $value) {
+                foreach ($this->commodites as $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Commodités',
@@ -176,7 +179,7 @@ class Create extends Component
             }
 
             if ($this->services) {
-                foreach ($this->services as $key => $value) {
+                foreach ($this->services as $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Services',
@@ -186,7 +189,7 @@ class Create extends Component
             }
 
             if ($this->equipements_herbegement) {
-                foreach ($this->equipements_herbegement as $key => $value) {
+                foreach ($this->equipements_herbegement as $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Equipements hébergement',
@@ -196,7 +199,7 @@ class Create extends Component
             }
 
             if ($this->equipements_salle_bain) {
-                foreach ($this->equipements_salle_bain as $key => $value) {
+                foreach ($this->equipements_salle_bain as $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Equipements salle de bain',
@@ -206,7 +209,7 @@ class Create extends Component
             }
 
             if ($this->equipements_cuisine) {
-                foreach ($this->equipements_cuisine as $key => $value) {
+                foreach ($this->equipements_cuisine as $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Equipements cuisine',
@@ -231,17 +234,19 @@ class Create extends Component
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th);
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title'   => __('Opération réussie'),
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'auberge'),
             ]);
+            Log::error($th->getMessage());
             return;
         }
 
         $this->reset();
         $this->initialization();
+
+        // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',

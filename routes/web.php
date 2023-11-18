@@ -67,6 +67,8 @@ Route::group([
         Route::get('auberges/list/datatable', [AubergeController::class, 'getDataTable'])->name('auberges.datatable');
     });
 
+    // TODO: Route for 404, 403, 500, 503, etc
+
 });
 
 

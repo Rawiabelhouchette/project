@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\Annonce;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,6 +14,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        // check every hour is date_expiration of annonce is passed
+        $schedule->call(function () {
+            Annonce::where('date_expiration', '<', now())->update(['is_active' => false]);
+        })->hourly();
     }
 
     /**

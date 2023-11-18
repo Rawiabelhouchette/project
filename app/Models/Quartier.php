@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Illuminate\Support\Str;
 
 class Quartier extends Model
 {
@@ -17,6 +18,16 @@ class Quartier extends Model
         'slug',
         'ville_id',
     ];
+
+    // mount
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($quartier) {
+            $quartier->slug = Str::slug($quartier->nom);
+        });
+    }
 
     protected $casts = [
         'nom' => PurifyHtmlOnGet::class,

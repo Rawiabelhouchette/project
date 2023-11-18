@@ -36,7 +36,7 @@
                                 </label> <br>
                                 <input type="text" class="form-control" placeholder="" required wire:model.defer='nom' required>
                                 @error('nom')
-                                    <span class="error">{{ $message }}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 @enderror   
                             </div>
                             <div class="col-md-1"></div>
@@ -143,14 +143,14 @@
                                 </label> <br>
                                 <input type="date" class="form-control" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
                                 @error('date_validite')
-                                    <span class="error">{{ $message }}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="col-md-1"></div>
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                    {{-- <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
@@ -159,12 +159,12 @@
                                 </label> <br>
                                 <input type="time" class="form-control" placeholder="" wire:model.defer='heure_validite' required>
                                 @error('heure_validite')
-                                    <span class="error">{{ $message }}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="col-md-1"></div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="row">
@@ -272,12 +272,12 @@
                         <input id="upload" type="file" wire:model="galerie" accept="image/*" multiple style="display: none;"> <br>
                         <div class="text-center">
                             @foreach ($galerie as $index => $image)
-                                <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-fluid rounded" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
+                                <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
                             @endforeach
                         </div>
 
-                        @error('galerie.*')
-                            <span class="error">{{ $message }}</span>
+                        @error('galerie')
+                            <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
 

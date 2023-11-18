@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('superficie')->nullable();
             $table->integer('prix_min')->nullable();
             $table->integer('prix_max')->nullable();
-            $table->foreignId('annonce_id')->constrained('annonces');
             $table->timestamps();
             $table->softDeletes();
 
