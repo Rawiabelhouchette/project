@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->string('type');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->datetime('date_validite');
             $table->boolean('is_active')->default(false);
             $table->foreignId('entreprise_id')->constrained('entreprises');
