@@ -112,6 +112,8 @@ class Create extends Component
     public function messages()
     {
         return [
+            'entreprise_id.required' => 'L\'entreprise est obligatoire',
+            'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
             'nom.required' => 'Le nom est obligatoire',
             'galerie.*.image' => 'Le fichier doit être une image',
             'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
@@ -134,7 +136,7 @@ class Create extends Component
     public function store()
     {
         $this->validate();
-        
+
         try {
             DB::beginTransaction();
 
