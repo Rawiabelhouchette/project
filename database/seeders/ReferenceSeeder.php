@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Reference;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ReferenceSeeder extends Seeder
@@ -17,6 +18,8 @@ class ReferenceSeeder extends Seeder
             'nom' => 'Commodités hébergement',
             'slug_type' => 'hebergement',
             'slug_nom' => 'commodites-hebergement',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
         ]);
 
         Reference::updateOrCreate([
@@ -24,6 +27,8 @@ class ReferenceSeeder extends Seeder
             'nom' => 'Services',
             'slug_type' => 'hebergement',
             'slug_nom' => 'services',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
         ]);
 
         Reference::updateOrCreate([
@@ -31,6 +36,8 @@ class ReferenceSeeder extends Seeder
             'nom' => 'Types de lit',
             'slug_type' => 'hebergement',
             'slug_nom' => 'types-de-lit',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
         ]);
 
         // Equipement hébergement
@@ -39,6 +46,8 @@ class ReferenceSeeder extends Seeder
             'nom' => 'Equipements hébergement',
             'slug_type' => 'hebergement',
             'slug_nom' => 'equipements-hebergement',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
         ]);
 
         // Service
@@ -47,6 +56,8 @@ class ReferenceSeeder extends Seeder
             'nom' => 'Services',
             'slug_type' => 'hebergement',
             'slug_nom' => 'services',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
         ]);
 
         // Equipement Salle de bain
@@ -55,6 +66,8 @@ class ReferenceSeeder extends Seeder
             'nom' => 'Equipements salle de bain',
             'slug_type' => 'hebergement',
             'slug_nom' => 'equipements-salle-de-bain',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
         ]);
 
         // Equipement cuisine
@@ -63,7 +76,8 @@ class ReferenceSeeder extends Seeder
             'nom' => 'Equipements cuisine',
             'slug_type' => 'hebergement',
             'slug_nom' => 'equipements-cuisine',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
         ]);
-
     }
 }

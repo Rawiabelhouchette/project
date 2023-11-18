@@ -18,6 +18,9 @@ class Reference extends Model
         'nom',
         'slug_type',
         'slug_nom',
+
+        'created_by',
+        'updated_by',
     ];
 
     protected static function boot()
