@@ -15,9 +15,9 @@
     <!-- /. ROW  -->
     <div id="page-inner">
         <div class="row bott-wid">
-            <div class="col-md-12 col-sm-12">
+            {{-- <div class="col-md-12 col-sm-12">
                 <livewire:Admin.Reference.addNom />
-            </div>
+            </div> --}}
 
             <div class="col-md-12 col-sm-12">
                 <div class="card">
@@ -36,7 +36,7 @@
                                         <th>Nom de référence</th>
                                         <th>Créer par</th>
                                         <th>Date de création </th>
-                                        <th>Action</th>
+                                        {{-- <th>Action</th> --}}
                                     </tr>
                                 </thead>
                             </table>
@@ -125,12 +125,12 @@
                             return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
                         },
                     },
-                    {
-                        className: "text-center",
-                        render: function(data, type, row) {
-                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
-                        }
-                    }
+                    // {
+                    //     className: "text-center",
+                    //     render: function(data, type, row) {
+                    //         return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
+                    //     }
+                    // }
                 ],
             });
 

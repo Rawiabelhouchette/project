@@ -11,15 +11,15 @@ class Annonces
             (object) [
                 'nom' => 'Auberge', 
                 'icon' => 'fas fa-hotel', 
-                'route' => 'admin.annonce.create',
+                'route' => 'auberges.create',
                 'color' => 'info'
             ],
-            (object) [
-                'nom' => 'Hôtel', 
-                'icon' => 'fas fa-hotel', 
-                'route' => 'admin.annonce.create',
-                'color' => 'sucess'
-            ],
+            // (object) [
+            //     'nom' => 'Hôtel', 
+            //     'icon' => 'fas fa-hotel', 
+            //     'route' => 'admin.annonce.create',
+            //     'color' => 'sucess'
+            // ],
         ]);
     }
 }

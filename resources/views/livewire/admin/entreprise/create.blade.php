@@ -28,10 +28,10 @@
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <label class="">Telephone
+                                <label class="">Téléphone
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="Telephone de l'entreprise"  wire:model.defer='telephone'>
+                                <input type="text" class="form-control" placeholder="Téléphone de l'entreprise"  wire:model.defer='telephone'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -58,7 +58,7 @@
                         <label class="">Description
                             {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                         </label> <br>
-                        <textarea class="form-control textarea height-100" placeholder="Description de l'entreprise" wire:model.defer='description'></textarea>
+                        <textarea class="form-control height-100" placeholder="Description de l'entreprise" wire:model.defer='description'></textarea>
                     </div>
                 </div>
 

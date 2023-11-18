@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('references', function (Blueprint $table) {
             $table->id();
             $table->string('type');
+            $table->string('slug_type');
             $table->string('nom');
+            $table->string('slug_nom');
             $table->unique(['type', 'nom']);
             $table->timestamps();
             $table->softDeletes();

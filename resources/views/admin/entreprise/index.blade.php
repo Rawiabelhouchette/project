@@ -30,7 +30,7 @@
                                         <th>Id</th>
                                         <th>Nom</th>
                                         <th>Description</th>
-                                        <th>Telephone</th>
+                                        <th>Téléphone</th>
                                         <th>Email</th>
                                         <th>WhatsApp</th>
                                         <th>Pays</th>

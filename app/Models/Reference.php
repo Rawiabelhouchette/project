@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
+use Illuminate\Support\Str;
 
 class Reference extends Model
 {
@@ -15,7 +16,19 @@ class Reference extends Model
     protected $fillable = [
         'type',
         'nom',
+        'slug_type',
+        'slug_nom',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            $model->slug_type = Str::slug($model->type);
+            $model->slug_nom = Str::slug($model->nom);
+        });
+    }
 
     protected $casts = [
         'type' => PurifyHtmlOnGet::class,

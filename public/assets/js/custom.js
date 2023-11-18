@@ -15,7 +15,7 @@ All custom js files contents are below
 	 
 	
 	/*---Bootstrap wysihtml5 editor --*/	
-	$('.textarea').wysihtml5();
+	// $('.textarea').wysihtml5();
 	
 	/*------------Tooltip-----------*/
 	$('[data-toggle="tooltip"]').tooltip({

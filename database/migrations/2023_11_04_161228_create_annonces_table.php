@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('type');
             $table->text('description');
             $table->datetime('date_validite');
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(false);
             $table->foreignId('entreprise_id')->constrained('entreprises');
+            $table->unsignedBigInteger('annonceable_id');
+            $table->string('annonceable_type');
             $table->timestamps();
             $table->softDeletes();
 

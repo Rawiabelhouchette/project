@@ -83,7 +83,7 @@ class AnnonceController extends Controller
                 })
                 ->orderBy('id', 'asc');
         }
-        $annonces = $annonces->with('entreprise');
+        $annonces = $annonces->with('entreprise', 'annonceable');
         $annonces = $annonces->paginate($perPage);
 
         return response()->json(
