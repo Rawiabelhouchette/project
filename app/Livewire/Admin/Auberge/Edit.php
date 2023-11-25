@@ -275,6 +275,6 @@ class Edit extends Component
 
     public function render()
     {
-        return view('livewire.admin.auberge.create');
+        return view('livewire.admin.auberge.edit');
     }
 }

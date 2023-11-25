@@ -113,6 +113,7 @@
                             return `
                                 <span style="display: inline-flex;">
                                     <a href="${row.annonceable.show_url}" class="show"><i class="fa fa-eye"></i></a>
+                                    <a href="${row.annonceable.edit_url}" class="edit"><i class="fa fa-pencil"></i></a>
                                 </span>
                             `;
                         }

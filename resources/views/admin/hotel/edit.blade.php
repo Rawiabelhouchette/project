@@ -6,8 +6,8 @@
     <div class="row bg-title" style="padding-top: 20px;">
         <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
-                <li><a href="#">Auberge</a></li>
-                <li class="active">Ajouter une auberge</li>
+                <li><a href="#">Hotel</a></li>
+                <li class="active">Modifier une hotel</li>
             </ol>
         </div>
         <!-- /.col-lg-12 -->
@@ -16,7 +16,7 @@
     <div id="page-inner">
         <div class="row bott-wid">
             <div class="col-md-12 col-sm-12">
-                @livewire('admin.auberge.create')
+                @livewire('admin.hotel.edit', ['hotel' => $hotel])
             </div>
         </div>
     </div>

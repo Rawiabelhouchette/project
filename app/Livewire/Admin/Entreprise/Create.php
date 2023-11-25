@@ -7,6 +7,7 @@ use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Ville;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\Attributes\On; 
 
@@ -23,13 +24,10 @@ class Create extends Component
     public $logo = '';
     public $longitude = '';
     public $latitude = '';
-    
     public $pays_id = '';
     public $ville_id = '';
     public $quartier_id = '';
-
     public $nbr_planning = 1;
-
     public $pays;
     public $villes = [];
     public $quartiers = [];
@@ -64,6 +62,7 @@ class Create extends Component
             'quartier_id' => 'required|integer|exists:quartiers,id',
             'longitude' => 'nullable|string|min:3|max:255',
             'latitude' => 'nullable|string|min:3|max:255',
+
         ];
     }
 
@@ -80,21 +79,16 @@ class Create extends Component
         $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
     }
 
-    // public function updatedPlannings0Jour($plannings)
-    // {
-    //     dd($plannings);
-    //     if($plannings[0]['jour'] == 'Tous') {
-    //         $this->autreJour = false;
-    //     }
-    // }
-
+    #[On('changerJour')] 
+    public function changerJour($valeur)
+    {
+        $this->autreJour = $valeur;
+    }
 
     public function addPlanning()
     {
-        // if ($this->plannings[0]['jour'] == 'Tous') {
-        //     $this->autreJour = false;
-        //     return;
-        // }
+        if (!$this->autreJour) return;
+
         if ($this->nbr_planning <= 7) {
             $this->nbr_planning++;
             $this->plannings[] = [
@@ -120,8 +114,34 @@ class Create extends Component
 
     public function store()
     {
-        // dd(request()->all()['components'][0]['snapshot']);
         $validated = $this->validate();
+
+        // check if date is not repeated 
+        $jours = [];
+        $jour_tmp = '';
+        foreach ($this->plannings as $planning) {
+            if (in_array($planning['jour'], $jours)) {
+                $index = array_search($planning, $this->plannings) + 1;
+                $jour_tmp = $planning['jour'];
+                $this->dispatch('alert:modal', [
+                    'message' => __('Jour ['. $jour_tmp .'] est déjà sélectionné'),
+                ]);
+                return;
+            }
+            $jours[] = $planning['jour'];
+        }
+
+
+        // Verifier si l'heure de debut est inferieur à l'heure de fin
+        foreach ($this->plannings as $planning) {
+            if ($planning['heure_debut'] > $planning['heure_fin']) {
+                $index = array_search($planning, $this->plannings) + 1;
+                $this->dispatch('alert:modal', [
+                    'message' => __('Heure de fin ['. $index .'] doit être supérieur à heure de début'),
+                ]);
+                return;
+            }
+        }
 
         try {
             $entreprise = Entreprise::create($validated);
@@ -131,6 +151,7 @@ class Create extends Component
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
+            Log::error($th->getMessage());
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title'   => __('Opération réussie'),

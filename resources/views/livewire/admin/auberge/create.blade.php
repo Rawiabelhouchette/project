@@ -43,7 +43,7 @@
                                 <input type="text" class="form-control" placeholder="" required wire:model.defer='nom' required>
                                 @error('nom')
                                     <span class="text-danger">{{ $message }}</span>
-                                @enderror   
+                                @enderror
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -313,7 +313,6 @@
             $('.select2').on('change', function(e) {
                 var data = $(this).val();
                 var nom = $(this).data('nom');
-                console.log(data, nom);
                 @this.set(nom, data);
             });
         });

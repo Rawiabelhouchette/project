@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Livewire\Admin\Auberge;
+namespace App\Livewire\Admin\Hotel;
 
-use App\Models\Annonce;
-use App\Models\Auberge;
+use Livewire\Component;
 use App\Models\Entreprise;
+use App\Models\Annonce;
 use App\Models\Fichier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Create extends Component
+class Edit extends Component
 {
     use WithFileUploads;
 
@@ -44,9 +43,25 @@ class Create extends Component
     public $date_validite;
     public $heure_validite;
 
-    public function mount()
+    public function mount($hotel)
     {
         $this->initialization();
+        $this->entreprise_id = $hotel->annonce->entreprise_id;
+        $this->nom = $hotel->annonce->titre;
+        $this->description = $hotel->annonce->description;
+        $this->nombre_chambre = $hotel->nombre_chambre;
+        $this->nombre_personne = $hotel->nombre_personne;
+        $this->superficie = $hotel->superficie;
+        $this->prix_min = $hotel->prix_min;
+        $this->prix_max = $hotel->prix_max;
+        $this->date_validite = $hotel->annonce->date_validite;
+
+        $this->types_lit = $hotel->annonce->references->where('slug', 'types-de-lit')->pluck('id')->toArray();
+        $this->commodites = $hotel->annonce->references->where('slug', 'commodites-hebergement')->pluck('id')->toArray();
+        $this->services = $hotel->annonce->references->where('slug', 'services')->pluck('id')->toArray();
+        $this->equipements_herbegement = $hotel->annonce->references->where('slug', 'equipements-hebergement')->pluck('id')->toArray();
+        $this->equipements_salle_bain = $hotel->annonce->references->where('slug', 'equipements-salle-de-bain')->pluck('id')->toArray();
+        $this->equipements_cuisine = $hotel->annonce->references->where('slug', 'equipements-cuisine')->pluck('id')->toArray();
     }
 
     private function initialization()
@@ -88,7 +103,8 @@ class Create extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
+            // 'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id', update
+            'nom' => 'required|string|min:3|max:255|unique:annonces,titre'. $this->annonce->id .',id,entreprise_id'. $this->entreprise_id,
             'type' => 'nullable',
             'description' => 'nullable|min:3|max:255',
             'nombre_chambre' => 'nullable|numeric',
@@ -102,8 +118,8 @@ class Create extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'nullable',
-            'galerie.*' => 'image',//|max:5120',
-            // 'galerie' => 'max:10',
+            'galerie.*' => 'image|max:5120',
+            'galerie' => 'max:10',
             'date_validite' => 'required|date|after:today',
             // 'heure_validite' => 'required|date_format:H:i',
         ];
@@ -112,8 +128,6 @@ class Create extends Component
     public function messages()
     {
         return [
-            'entreprise_id.required' => 'L\'entreprise est obligatoire',
-            'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
             'nom.required' => 'Le nom est obligatoire',
             'galerie.*.image' => 'Le fichier doit être une image',
             'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
@@ -133,16 +147,27 @@ class Create extends Component
 
     // public function updated
 
-    public function store()
+    public function update()
     {
         $this->validate();
 
+        return;
+        
         try {
             DB::beginTransaction();
 
             $date_validite = $this->date_validite . ' ' . $this->heure_validite;
 
-            $auberge = Auberge::create([
+            $annonce = Annonce::create([
+                'titre' => $this->nom,
+                'type' => 'Hotel',
+                'description' => $this->description,
+                'date_validite' => $this->date_validite,
+                'entreprise_id' => $this->entreprise_id,
+            ]);
+
+            
+            $annonce->hotel()->create([
                 'nombre_chambre' => $this->nombre_chambre,
                 'nombre_personne' => $this->nombre_personne,
                 'superficie' => $this->superficie,
@@ -150,18 +175,8 @@ class Create extends Component
                 'prix_max' => $this->prix_max,
             ]);
 
-            $annonce = new Annonce([
-                'titre' => $this->nom,
-                'type' => 'Auberge',
-                'description' => $this->description,
-                'date_validite' => $this->date_validite,
-                'entreprise_id' => $this->entreprise_id,
-            ]);
-
-            $auberge->annonce()->save($annonce);
-
             if ($this->types_lit) {
-                foreach ($this->types_lit as $value) {
+                foreach ($this->types_lit as $key => $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Types de lit',
@@ -171,7 +186,7 @@ class Create extends Component
             }
 
             if ($this->commodites) {
-                foreach ($this->commodites as $value) {
+                foreach ($this->commodites as $key => $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Commodités',
@@ -181,7 +196,7 @@ class Create extends Component
             }
 
             if ($this->services) {
-                foreach ($this->services as $value) {
+                foreach ($this->services as $key => $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Services',
@@ -191,7 +206,7 @@ class Create extends Component
             }
 
             if ($this->equipements_herbegement) {
-                foreach ($this->equipements_herbegement as $value) {
+                foreach ($this->equipements_herbegement as $key => $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Equipements hébergement',
@@ -201,7 +216,7 @@ class Create extends Component
             }
 
             if ($this->equipements_salle_bain) {
-                foreach ($this->equipements_salle_bain as $value) {
+                foreach ($this->equipements_salle_bain as $key => $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Equipements salle de bain',
@@ -211,7 +226,7 @@ class Create extends Component
             }
 
             if ($this->equipements_cuisine) {
-                foreach ($this->equipements_cuisine as $value) {
+                foreach ($this->equipements_cuisine as $key => $value) {
                     $annonce->references()->attach($value, 
                     [
                         'titre' => 'Equipements cuisine',
@@ -239,7 +254,7 @@ class Create extends Component
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title'   => __('Opération réussie'),
-                'message' => __('Une erreur est survenue lors de l\'ajout de l\'auberge'),
+                'message' => __('Une erreur est survenue lors de l\'ajout de l\'hotel'),
             ]);
             Log::error($th->getMessage());
             return;
@@ -253,13 +268,13 @@ class Create extends Component
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title'   => __('Opération réussie'),
-            'message' => __('L\'auberge a bien été ajoutée'),
+            'message' => __('L\'hotel a bien été ajoutée'),
         ]);
     }
 
 
     public function render()
     {
-        return view('livewire.admin.auberge.create');
+        return view('livewire.admin.hotel.create');
     }
 }
