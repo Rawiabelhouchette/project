@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Livewire\Admin\Auberge;
+namespace App\Livewire\Admin\Hotel;
 
 use App\Models\Annonce;
-use App\Models\Auberge;
+use App\Models\Hotel;
 use App\Models\Entreprise;
 use App\Models\Fichier;
 use App\Models\Reference;
@@ -142,7 +142,7 @@ class Create extends Component
 
             $date_validite = $this->date_validite . ' ' . $this->heure_validite;
 
-            $auberge = Auberge::create([
+            $hotel = Hotel::create([
                 'nombre_chambre' => $this->nombre_chambre,
                 'nombre_personne' => $this->nombre_personne,
                 'superficie' => $this->superficie,
@@ -152,13 +152,13 @@ class Create extends Component
 
             $annonce = new Annonce([
                 'titre' => $this->nom,
-                'type' => 'Auberge',
+                'type' => 'Hotel',
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
             ]);
 
-            $auberge->annonce()->save($annonce);
+            $hotel->annonce()->save($annonce);
 
             if ($this->types_lit) {
                 foreach ($this->types_lit as $value) {
@@ -239,7 +239,7 @@ class Create extends Component
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title'   => __('Opération réussie'),
-                'message' => __('Une erreur est survenue lors de l\'ajout de l\'auberge'),
+                'message' => __('Une erreur est survenue lors de l\'ajout de l\'hotel'),
             ]);
             Log::error($th->getMessage());
             return;
@@ -253,13 +253,13 @@ class Create extends Component
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title'   => __('Opération réussie'),
-            'message' => __('L\'auberge a bien été ajoutée'),
+            'message' => __('L\'hotel a bien été ajoutée'),
         ]);
     }
 
 
     public function render()
     {
-        return view('livewire.admin.auberge.create');
+        return view('livewire.admin.hotel.create');
     }
 }

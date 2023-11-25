@@ -5,6 +5,7 @@ use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\AubergeController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\EntrepriseController;
+use App\Http\Controllers\HotelController;
 use App\Http\Controllers\PaysController;
 use App\Http\Controllers\QuartierController;
 use App\Http\Controllers\ReferenceController;
@@ -64,7 +65,8 @@ Route::group([
         Route::get('annonces/list/datatable', [AnnonceController::class, 'getDataTable'])->name('annonces.datatable');
 
         Route::resource('auberges', AubergeController::class);
-        Route::get('auberges/list/datatable', [AubergeController::class, 'getDataTable'])->name('auberges.datatable');
+
+        Route::resource('hotels', HotelController::class);
     });
 
     // TODO: Route for 404, 403, 500, 503, etc

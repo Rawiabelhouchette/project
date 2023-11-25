@@ -17,7 +17,7 @@
                                 <label class="">Nom
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="Nom de l'entreprise" required wire:model.defer='nom'>
+                                <input type="text" class="form-control" required wire:model.defer='nom'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -31,7 +31,7 @@
                                 <label class="">Téléphone
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="Téléphone de l'entreprise"  wire:model.defer='telephone'>
+                                <input type="text" class="form-control telephone" wire:model.defer='telephone'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -45,7 +45,7 @@
                                 <label class="">Email
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input type="email" class="form-control" placeholder="Email de l'entreprise" required wire:model.defer='email'>
+                                <input type="email" class="form-control" required wire:model.defer='email'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -58,7 +58,7 @@
                         <label class="">Description
                             {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                         </label> <br>
-                        <textarea class="form-control height-100" placeholder="Description de l'entreprise" wire:model.defer='description'></textarea>
+                        <textarea class="form-control height-100" wire:model.defer='description'></textarea>
                     </div>
                 </div>
 
@@ -130,7 +130,7 @@
                                 <label class="">Whatsapp
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="Whatsapp de l'entreprise" required wire:model.defer='whatsapp'>
+                                <input type="text" class="form-control telephone" required wire:model.defer='whatsapp'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -144,7 +144,7 @@
                                 <label class="">Facebook
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="Facebook de l'entreprise"  wire:model.defer='facebook'>
+                                <input type="text" class="form-control" wire:model.defer='facebook'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -158,7 +158,7 @@
                                 <label class="">Instagram
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="Instagram de l'entreprise" wire:model.defer='instagram'>
+                                <input type="text" class="form-control" wire:model.defer='instagram'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -174,7 +174,7 @@
                                 <label class="">Site web
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="Site web de l'entreprise" wire:model.defer='site_web'>
+                                <input type="text" class="form-control" wire:model.defer='site_web'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -188,7 +188,7 @@
                                 <label class="">Longitude
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input id="longitude" type="text" class="form-control" placeholder="Longitude de l'entreprise" required wire:model.defer='longitude'>
+                                <input id="longitude" type="text" class="form-control" required wire:model.defer='longitude'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -202,7 +202,7 @@
                                 <label class="">Latitude
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input id="latitude" type="text" class="form-control" placeholder="Latitude de l'entreprise" required wire:model.defer='latitude'>
+                                <input id="latitude" type="text" class="form-control" required wire:model.defer='latitude'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -229,7 +229,7 @@
                                 <div class="col-md-1">
                                     @if ($key == 0)
                                         <br>
-                                        @if($autreJour)
+                                        @if ($autreJour)
                                             <a href="javascrip:void(0)" style="color: blue;" wire:click='addPlanning'>
                                                 <i class="fa fa-plus"></i>
                                             </a>
@@ -255,7 +255,7 @@
                                         <option value="Samedi">Samedi</option>
                                         <option value="Dimanche">Dimanche</option>
                                         @if ($key == 0)
-                                            <option value="Tous" disabled>Tous les jours</option>
+                                            <option value="Tous les jours">Tous les jours</option>
                                         @endif
                                     </select>
                                 </div>
@@ -308,14 +308,19 @@
 
         </div>
     </div>
-
-    <script>
-        (document).ready(function() {
-                $('.class').change(function() {
-                    // select the first option
-                    var option = $(this).find('option:selected').val();
-                    console.log(option);
-                });
-            });
-    </script>
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.jour').on('change', function() {
+                var jour = $(this).val();
+                if (jour == 'Tous les jours') {
+                    Livewire.dispatch('changerJour', [false]);
+                } else {
+                    Livewire.dispatch('changerJour', [true]);
+                }
+            });
+        });
+    </script>
+@endpush

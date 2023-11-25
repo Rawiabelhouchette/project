@@ -106,8 +106,16 @@ class Edit extends Component
         $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
     }
 
+    #[On('changerJour')] 
+    public function changerJour($valeur)
+    {
+        $this->autreJour = $valeur;
+    }
+    
     public function addPlanning()
     {
+        if (!$this->autreJour) return;
+
         if ($this->nbr_planning <= 7) {
             $this->nbr_planning++;
             $this->plannings[] = [
