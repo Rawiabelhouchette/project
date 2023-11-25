@@ -7,12 +7,12 @@ use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Ville;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Edit extends Component
 {
-    
     public $nom = '';
     public $description = '';
     public $site_web = '';
@@ -24,7 +24,7 @@ class Edit extends Component
     public $logo = '';
     public $longitude = '';
     public $latitude = '';
-    
+
     public $pays_id = '';
     public $ville_id = '';
     public $quartier_id = '';
@@ -36,13 +36,13 @@ class Edit extends Component
     public $quartiers = [];
     public $autreJour = true;
     public $entreprise;
-    
+
     public $plannings = [
         [
             'jour' => '',
             'heure_debut' => '',
             'heure_fin' => '',
-        ]
+        ],
     ];
 
     public function mount($entreprise)
@@ -78,7 +78,7 @@ class Edit extends Component
     public function rules()
     {
         return [
-            'nom' => 'required|string|min:3|max:255|unique:entreprises,nom,'.$this->entreprise->id.',id,quartier_id,'.$this->quartier_id,
+            'nom' => 'required|string|min:3|max:255|unique:entreprises,nom,' . $this->entreprise->id . ',id,quartier_id,' . $this->quartier_id,
             'description' => 'nullable|string|min:3|max:255',
             'site_web' => 'nullable|string|min:3|max:255',
             'email' => 'required|string|min:3|max:255',
@@ -99,22 +99,24 @@ class Edit extends Component
         $this->quartier_id = '';
         $this->villes = Ville::where('pays_id', $pays_id)->get();
     }
-    
+
     public function updatedVilleId($ville_id)
     {
         $this->quartier_id = '';
         $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
     }
 
-    #[On('changerJour')] 
+    #[On('changerJour')]
     public function changerJour($valeur)
     {
         $this->autreJour = $valeur;
     }
-    
+
     public function addPlanning()
     {
-        if (!$this->autreJour) return;
+        if (!$this->autreJour) {
+            return;
+        }
 
         if ($this->nbr_planning <= 7) {
             $this->nbr_planning++;
@@ -131,47 +133,65 @@ class Edit extends Component
         unset($this->plannings[$key]);
     }
 
-    
-    #[On('setLocation')] 
+    #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function update()
     {
-        // dd(request()->all()['components'][0]['snapshot']);
         $validated = $this->validate();
+
+        // check if date is not repeated
+        $jours = [];
+        $jour_tmp = '';
+        foreach ($this->plannings as $planning) {
+            if (in_array($planning['jour'], $jours)) {
+                $index = array_search($planning, $this->plannings) + 1;
+                $jour_tmp = $planning['jour'];
+                $this->dispatch('alert:modal', [
+                    'message' => __('Jour [' . $jour_tmp . '] est déjà sélectionné'),
+                ]);
+                return;
+            }
+            $jours[] = $planning['jour'];
+        }
+
+        // Verifier si l'heure de debut est inferieur à l'heure de fin
+        foreach ($this->plannings as $planning) {
+            if ($planning['heure_debut'] > $planning['heure_fin']) {
+                $index = array_search($planning, $this->plannings) + 1;
+                $this->dispatch('alert:modal', [
+                    'message' => __('Heure de fin [' . $index . '] doit être supérieur à heure de début'),
+                ]);
+                return;
+            }
+        }
 
         try {
             DB::beginTransaction();
             $this->entreprise->update($validated);
             $this->entreprise->heure_ouvertures()->delete();
-            // dd($this->plannings);
             $this->entreprise->heure_ouvertures()->createMany($this->plannings);
-
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
+            Log::error($th->getMessage());
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération réussie'),
+                'title' => __('Opération réussie'),
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'entreprise'),
             ]);
             return;
         }
 
         session()->flash('success', 'Entreprise modifiée avec succès.');
-        
+
         return redirect()->route('entreprises.index');
-
     }
-
-    // end data to blade file using livewire dispatcher
-    
-
 
 
     public function render()

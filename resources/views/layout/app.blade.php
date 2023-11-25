@@ -197,6 +197,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        window.addEventListener('alert:modal', event => {
+            alert(event.detail[0].message);
+        });
+
         window.addEventListener('swal:modal', event => {
             Swal.fire({
                 icon: event.detail[0].icon,
