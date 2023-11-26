@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->integer('nombre_chambre');
             $table->integer('nombre_personne')->nullable();
+            $table->integer('nombre_salles_bain')->nullable();
             $table->integer('superficie')->nullable();
             $table->integer('prix_min')->nullable();
             $table->integer('prix_max')->nullable();
+            $table->string('type')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

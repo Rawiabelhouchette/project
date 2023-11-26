@@ -19,9 +19,11 @@ class Create extends Component
 
     public $nom ;
     public $type ;
+    public $type_hebergement ;
     public $description ;
     public $nombre_chambre ;
     public $nombre_personne ;
+    public $nombre_salles_bain ;
     public $superficie ;
     public $prix_min ;
     public $prix_max ;
@@ -148,11 +150,13 @@ class Create extends Component
                 'superficie' => $this->superficie,
                 'prix_min' => $this->prix_min,
                 'prix_max' => $this->prix_max,
+                'type' => $this->type_hebergement,
+                'nombre_salles_bain' => $this->nombre_salles_bain,
             ]);
 
             $annonce = new Annonce([
                 'titre' => $this->nom,
-                'type' => 'Hotel',
+                'type' => 'Hôtel',
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
@@ -253,7 +257,7 @@ class Create extends Component
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title'   => __('Opération réussie'),
-            'message' => __('L\'hotel a bien été ajoutée'),
+            'message' => __('L\'hôtel a bien été ajoutée'),
         ]);
     }
 
