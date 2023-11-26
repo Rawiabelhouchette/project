@@ -56,7 +56,7 @@
                                 <label class="">Type d'hébergement
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="" wire:model.defer='type'>
+                                <input type="text" class="form-control" placeholder="" wire:model.defer='type_hebergement'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -135,7 +135,7 @@
                                 <label class="">Nombre de salle de bain
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="number" class="form-control" placeholder="" wire:model.defer='nombre_personne'>
+                                <input type="number" class="form-control" placeholder="" wire:model.defer='nombre_salles_bain'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>

@@ -21,6 +21,8 @@ class Auberge extends Model implements AnnonceInterface
         'superficie',
         'prix_min',
         'prix_max',
+        'type',
+        'nombre_salles_bain',
     ];
 
     protected $casts = [

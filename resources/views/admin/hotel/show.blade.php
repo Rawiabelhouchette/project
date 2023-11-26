@@ -7,7 +7,7 @@
         <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
                 <li><a href="{{ route('annonces.index') }}">Annonce</a></li>
-                <li>Hotel</li>
+                <li>Hôtel</li>
                 <li class="active">Détails</li>
             </ol>
         </div>
@@ -20,7 +20,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h4>Détails de l'hotel</h4>
+                        <h4>Détails de l'hôtel</h4>
                         <a href="{{ route('hotels.edit', $hotel->id) }}" type="button" class="btn theme-btn text-right">
                             <i class="fa fa-edit fa-lg" style=""></i>
                         </a>

@@ -69,4 +69,14 @@ class Annonce extends Model
         return round($diff / 86400);
     }
 
+    public function removeGalerie()
+    {
+        $this->galerie()->detach();
+    }
+
+    public function removeReferences($slug)
+    {
+        $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->wherePivot('slug', $slug)->detach();
+    }
+
 }

@@ -46,6 +46,12 @@
                                         <td>{{ $auberge->annonce->titre }}</td>
                                     </tr>
 
+                                    {{-- Type --}}
+                                    <tr>
+                                        <td style="font-weight: bold;" width="30%">Type d'hébergement</td>
+                                        <td>{{ $auberge->annonce->type }}</td>
+                                    </tr>
+
                                     {{-- Description --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Description</td>
@@ -57,9 +63,9 @@
                                         <td style="font-weight: bold;" width="30%">Statut</td>
                                         <td>
                                             @if ($auberge->annonce->is_active)
-                                                <span class="badge badge-success">Activé</span>
+                                                <span class="label label-success">Activé</span>
                                             @else
-                                                <span class="badge badge-danger">Désactivé</span>
+                                                <span class="label label-danger">Désactivé</span>
                                             @endif
                                         </td>
                                     </tr>
@@ -86,7 +92,7 @@
 
                                     {{-- Superficie --}}
                                     <tr>
-                                        <td style="font-weight: bold;" width="30%">Superficie</td>
+                                        <td style="font-weight: bold;" width="30%">Superficie (m²)</td>
                                         <td>{{ $auberge->superficie }}</td>
                                     </tr>
 

@@ -2,11 +2,11 @@
     <div class="card">
 
         <div class="card-header">
-            <h4>Ajouter une auberge</h4>
+            <h4>Modifier une auberge</h4>
         </div>
 
         <div class="card-body">
-            <form wire:submit="store()">
+            <form wire:submit="update()">
                 @csrf
                 <div class="row">
                     <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
@@ -43,7 +43,7 @@
                                 <input type="text" class="form-control" placeholder="" required wire:model.defer='nom' required>
                                 @error('nom')
                                     <span class="text-danger">{{ $message }}</span>
-                                @enderror   
+                                @enderror
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -56,7 +56,7 @@
                                 <label class="">Type d'hébergement
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="" wire:model.defer='type'>
+                                <input type="text" class="form-control" placeholder="" wire:model.defer='type_hebergement'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -135,7 +135,7 @@
                                 <label class="">Nombre de salle de bain
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="number" class="form-control" placeholder="" wire:model.defer='nombre_personne'>
+                                <input type="number" class="form-control" placeholder="" wire:model.defer='nombre_salles_bain'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -149,6 +149,26 @@
                                 </label> <br>
                                 <input type="date" class="form-control" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
                                 @error('date_validite')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+
+                    {{-- is_active boolean : dropdownlist --}}
+                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;" wire:ignore>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label class="">Statut
+                                    <b style="color: red; font-size: 100%;">*</b>
+                                </label> <br>
+                                <select class="form-control" wire:model.defer='is_active' data-nom="is_active">
+                                    <option value="1">Activé</option>
+                                    <option value="0">Désactivé</option>
+                                </select>
+                                @error('is_active')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -280,6 +300,11 @@
                             @foreach ($galerie as $index => $image)
                                 <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
                             @endforeach
+                            @if (empty($galerie))
+                                @foreach ($old_galerie as $image)
+                                    <img src="{{ asset('storage/' . $image->chemin) }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
+                                @endforeach
+                            @endif
                         </div>
 
                         @error('galerie')
@@ -290,9 +315,9 @@
                     <div class="row">
                         <div class="form-group" style="margin-top: 15px;">
                             <div class="col-md-12 col-sm-12 text-right">
-                                <button wire:target='store' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 30px;">
-                                    <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
-                                    Enregistrer
+                                <button wire:target='update' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 30px;">
+                                    <i class="fa fa-pencil fa-lg" style="margin-right: 10px;"></i>
+                                    Modifier
                                 </button>
                             </div>
                         </div>

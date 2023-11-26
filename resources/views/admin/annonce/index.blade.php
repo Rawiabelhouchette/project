@@ -81,6 +81,7 @@
                         data: 'titre',
                     },
                     {
+                        className: "text-center",
                         render: function(data, type, row) {
                             if (row.is_active == 1) {
                                 return '<span class="label label-success">Actif</span>';
@@ -90,13 +91,23 @@
                         }
                     },
                     {
+                        className: "text-center",
                         render: function(data, type, row) {
                             var date = new Date(row.date_validite);
+                            if (row.jour_restant <= 0) {
+                                return `
+                                    <span>
+                                        ${date.toLocaleDateString('fr-FR')}
+                                        <br>
+                                        <span class="label label-danger">Expiré</span>
+                                    </span>
+                                `;
+                            }
                             return `
-                                <span style="display: inline-flex;">
+                                <span>
                                     ${date.toLocaleDateString('fr-FR')}
                                     <br>
-                                    ${row.jour_restant} jour(s) restant(s)
+                                    <span class="label label-success">${row.jour_restant} jour(s) restant(s)</span>
                                 </span>
                             `;
                         }
@@ -113,6 +124,7 @@
                             return `
                                 <span style="display: inline-flex;">
                                     <a href="${row.annonceable.show_url}" class="show"><i class="fa fa-eye"></i></a>
+                                    &nbsp;
                                     <a href="${row.annonceable.edit_url}" class="edit"><i class="fa fa-pencil"></i></a>
                                 </span>
                             `;
