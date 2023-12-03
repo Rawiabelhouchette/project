@@ -79,5 +79,15 @@ class ReferenceSeeder extends Seeder
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);
+
+        // Type hebergement
+        Reference::updateOrCreate([
+            'type' => 'hebergement',
+            'nom' => 'Types hebergement',
+            'slug_type' => 'hebergement',
+            'slug_nom' => 'types-hebergement',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
     }
 }

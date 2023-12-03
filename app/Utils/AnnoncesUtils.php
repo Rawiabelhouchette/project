@@ -1,0 +1,117 @@
+<?php
+
+namespace App\Utils;
+
+use App\Models\Fichier;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+
+
+class AnnoncesUtils
+{
+    public static function getAnnonceList(): object
+    {
+        return collect([
+            (object) [
+                'nom' => 'Auberge',
+                'icon' => 'fas fa-hotel',
+                'route' => 'auberges.create',
+                'color' => 'info'
+            ],
+            (object) [
+                'nom' => 'Hôtel',
+                'icon' => 'fas fa-hotel',
+                'route' => 'hotels.create',
+                'color' => 'sucess'
+            ],
+        ]);
+    }
+
+    public static function createReference($model, $variable, $title, $slug): void
+    {
+        if ($variable) {
+            foreach ($variable as $value) {
+                $model->references()->attach(
+                    $value,
+                    [
+                        'titre' => $title,
+                        'slug' => $slug,
+                    ]
+                );
+            }
+        }
+    }
+
+    public static function updateReference($model, $variable, $title, $slug): void
+    {
+        $model->removeReferences($slug);
+        foreach ($variable as $value) {
+            $model->references()->attach(
+                $value,
+                [
+                    'titre' => $title,
+                    'slug' => $slug,
+                ]
+            );
+        }
+    }
+
+    public static function createManyReference($model, $references)
+    {
+        if (!$references) return;
+
+        try {
+            for ($i = 0; $i < count($references); $i++) {
+                AnnoncesUtils::createReference($model, $references[$i][1], $references[$i][0], Str::slug($references[$i][0]));
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
+    public static function updateManyReference($model, $references)
+    {
+        if (!$references) return;
+
+        try {
+            for ($i = 0; $i < count($references); $i++) {
+                AnnoncesUtils::updateReference($model, $references[$i][1], $references[$i][0], Str::slug($references[$i][0]));
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
+    public static function createGalerie($model, $variable, $folder_name): void
+    {
+        if ($variable) {
+            foreach ($variable as $image) {
+                $image->store('public/' . $folder_name);
+                $fichier = Fichier::create([
+                    'nom' => $image->hashName(),
+                    'chemin' => $folder_name . '/' . $image->hashName(),
+                    'extension' => $image->extension(),
+                ]);
+
+                $model->galerie()->attach($fichier->id);
+            }
+        }
+    }
+
+    public static function updateGalerie($model, $variable, $folder_name): void
+    {
+        if ($variable) {
+            $model->removeGalerie();
+            foreach ($variable as $image) {
+                $image->store('public/' . $folder_name);
+                $fichier = Fichier::create([
+                    'nom' => $image->hashName(),
+                    'chemin' => $folder_name . '/' . $image->hashName(),
+                    'extension' => $image->extension(),
+                ]);
+
+                $model->galerie()->attach($fichier->id);
+            }
+        }
+    }
+}

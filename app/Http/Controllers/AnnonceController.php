@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Annonce;
 use App\Http\Requests\StoreAnnonceRequest;
 use App\Http\Requests\UpdateAnnonceRequest;
+use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\Schema;
-use App\Utils\Annonces;
 
 class AnnonceController extends Controller
 {
@@ -23,7 +23,7 @@ class AnnonceController extends Controller
      */
     public function create()
     {
-        $typeAnnonces = Annonces::getAnnonceList();
+        $typeAnnonces = AnnoncesUtils::getAnnonceList();
         return view('admin.annonce.create', compact('typeAnnonces'));
     }
 

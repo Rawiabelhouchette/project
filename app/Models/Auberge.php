@@ -21,7 +21,7 @@ class Auberge extends Model implements AnnonceInterface
         'superficie',
         'prix_min',
         'prix_max',
-        'type',
+        // 'type',
         'nombre_salles_bain',
     ];
 
@@ -45,6 +45,7 @@ class Auberge extends Model implements AnnonceInterface
         'equipements_salle_bain',
         'equipements_cuisine',
         'commodites',
+        'types_hebergement'
     ];
 
     
@@ -91,6 +92,11 @@ class Auberge extends Model implements AnnonceInterface
     public function getEquipementsCuisineAttribute()
     {
         return $this->annonce->references('equipements-cuisine');
+    }
+
+    public function getTypesHebergementAttribute()
+    {
+        return $this->annonce->references('types-hebergement');
     }
 
 }

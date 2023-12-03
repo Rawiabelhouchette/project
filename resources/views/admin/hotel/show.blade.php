@@ -57,9 +57,9 @@
                                         <td style="font-weight: bold;" width="30%">Statut</td>
                                         <td>
                                             @if ($hotel->annonce->is_active)
-                                                <span class="badge badge-success">Activé</span>
+                                                <span class="label label-success">Activé</span>
                                             @else
-                                                <span class="badge badge-danger">Désactivé</span>
+                                                <span class="label label-danger">Désactivé</span>
                                             @endif
                                         </td>
                                     </tr>
@@ -100,6 +100,18 @@
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Prix maximum</td>
                                         <td>{{ $hotel->prix_max }}</td>
+                                    </tr>
+
+                                    {{-- Type hebergement --}}
+                                    <tr>
+                                        <td style="font-weight: bold;" width="30%">Type d'hébergement</td>
+                                        <td>
+                                            <ul>
+                                                @foreach ($hotel->types_hebergement as $type)
+                                                    <li>{{ $type->valeur }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
                                     </tr>
 
                                     {{-- Type lit --}}

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('superficie')->nullable();
             $table->integer('prix_min')->nullable();
             $table->integer('prix_max')->nullable();
-            $table->string('type')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

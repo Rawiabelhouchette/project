@@ -46,12 +46,6 @@
                                         <td>{{ $auberge->annonce->titre }}</td>
                                     </tr>
 
-                                    {{-- Type --}}
-                                    <tr>
-                                        <td style="font-weight: bold;" width="30%">Type d'hébergement</td>
-                                        <td>{{ $auberge->annonce->type }}</td>
-                                    </tr>
-
                                     {{-- Description --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Description</td>
@@ -106,6 +100,18 @@
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Prix maximum</td>
                                         <td>{{ $auberge->prix_max }}</td>
+                                    </tr>
+
+                                    {{-- Type hebergement --}}
+                                    <tr>
+                                        <td style="font-weight: bold;" width="30%">Type d'hébergement</td>
+                                        <td>
+                                            <ul>
+                                                @foreach ($auberge->types_hebergement as $type)
+                                                    <li>{{ $type->valeur }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
                                     </tr>
 
                                     {{-- Type lit --}}

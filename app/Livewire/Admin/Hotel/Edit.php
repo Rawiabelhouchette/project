@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Hotel;
 
+use App\Utils\AnnoncesUtils;
 use Livewire\Component;
 use App\Models\Entreprise;
 use App\Models\Fichier;
@@ -17,7 +18,7 @@ class Edit extends Component
 
     public $nom;
     public $type;
-    public $type_hebergement;
+    public $types_hebergement;
     public $is_active;
     public $description;
     public $nombre_chambre;
@@ -40,6 +41,7 @@ class Edit extends Component
     public $list_equipements_salle_bain = [];
     public $equipements_cuisine = [];
     public $list_equipements_cuisine = [];
+    public $list_types_hebergement = [];
     public $galerie = [];
     public $old_galerie = [];
     public $is_old_galerie = true;
@@ -57,7 +59,6 @@ class Edit extends Component
         $this->description = $hotel->annonce->description;
         $this->nombre_chambre = $hotel->nombre_chambre;
         $this->nombre_personne = $hotel->nombre_personne;
-        $this->type_hebergement = $hotel->type;
         $this->nombre_salles_bain = $hotel->nombre_salles_bain;
         $this->superficie = $hotel->superficie;
         $this->prix_min = $hotel->prix_min;
@@ -69,6 +70,7 @@ class Edit extends Component
         $this->equipements_herbegement = $hotel->annonce->references('equipements-hebergement')->pluck('id')->toArray();
         $this->equipements_salle_bain = $hotel->annonce->references('equipements-salle-de-bain')->pluck('id')->toArray();
         $this->equipements_cuisine = $hotel->annonce->references('equipements-cuisine')->pluck('id')->toArray();
+        $this->types_hebergement = $hotel->annonce->references('types-hebergement')->pluck('id')->toArray();
         $this->old_galerie = $hotel->annonce->galerie()->get();
     }
 
@@ -105,6 +107,11 @@ class Edit extends Component
         $tmp_equipements_cuisine ?
             $this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)->select('valeur', 'id')->get() :
             $this->list_equipements_cuisine = [];
+
+        $tmp_types_hebergement = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'types-hebergement')->first();
+        $tmp_types_hebergement ?
+            $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
+            $this->list_types_hebergement = [];
     }
 
     public function rules()
@@ -194,102 +201,23 @@ class Edit extends Component
                 'superficie' => $this->superficie,
                 'prix_min' => $this->prix_min,
                 'prix_max' => $this->prix_max,
-                'type' => $this->type_hebergement,
                 'nombre_salles_bain' => $this->nombre_salles_bain,
             ]);
 
-            if ($this->types_lit) {
-                $this->hotel->annonce->removeReferences('types-de-lit');
-                foreach ($this->types_lit as $value) {
-                    $this->hotel->annonce->references()->attach(
-                        $value,
-                        [
-                            'titre' => 'Types de lit',
-                            'slug' => 'types-de-lit',
-                        ]
-                    );
-                }
-            }
+            $references = [
+                ['Types de lit', $this->types_lit],
+                ['Commodités hébergement', $this->commodites],
+                ['Services', $this->services],
+                ['Equipements hébergement', $this->equipements_herbegement],
+                ['Equipements salle de bain', $this->equipements_salle_bain],
+                ['Equipements cuisine', $this->equipements_cuisine],
+                ['Types hébergement', $this->types_hebergement],
+            ];
 
-            if ($this->commodites) {
-                $this->hotel->annonce->removeReferences('commodites-hebergement');
-                foreach ($this->commodites as $value) {
-                    $this->hotel->annonce->references()->attach(
-                        $value,
-                        [
-                            'titre' => 'Commodités',
-                            'slug' => 'commodites-hebergement',
-                        ]
-                    );
-                }
-            }
+            AnnoncesUtils::updateManyReference($this->hotel->annonce, $references);
 
-            if ($this->services) {
-                $this->hotel->annonce->removeReferences('services');
-                foreach ($this->services as $value) {
-                    $this->hotel->annonce->references()->attach(
-                        $value,
-                        [
-                            'titre' => 'Services',
-                            'slug' => 'services',
-                        ]
-                    );
-                }
-            }
-
-            if ($this->equipements_herbegement) {
-                $this->hotel->annonce->removeReferences('equipements-hebergement');
-                foreach ($this->equipements_herbegement as $value) {
-                    $this->hotel->annonce->references()->attach(
-                        $value,
-                        [
-                            'titre' => 'Equipements hébergement',
-                            'slug' => 'equipements-hebergement',
-                        ]
-                    );
-                }
-            }
-
-            if ($this->equipements_salle_bain) {
-                $this->hotel->annonce->removeReferences('equipements-salle-de-bain');
-                foreach ($this->equipements_salle_bain as $value) {
-                    $this->hotel->annonce->references()->attach(
-                        $value,
-                        [
-                            'titre' => 'Equipements salle de bain',
-                            'slug' => 'equipements-salle-de-bain',
-                        ]
-                    );
-                }
-            }
-
-            if ($this->equipements_cuisine) {
-                $this->hotel->annonce->removeReferences('equipements-cuisine');
-                foreach ($this->equipements_cuisine as $value) {
-                    $this->hotel->annonce->references()->attach(
-                        $value,
-                        [
-                            'titre' => 'Equipements cuisine',
-                            'slug' => 'equipements-cuisine',
-                        ]
-                    );
-                }
-            }
-
-            if ($this->galerie) {
-                $this->hotel->annonce->removeGalerie();
-                foreach ($this->galerie as $image) {
-                    $image->store('public/annonces');
-                    $fichier = Fichier::create([
-                        'nom' => $image->hashName(),
-                        'chemin' => 'annonces/' . $image->hashName(),
-                        'extension' => $image->extension(),
-                    ]);
-
-                    $this->hotel->annonce->galerie()->attach($fichier->id);
-                }
-            }
-
+            AnnoncesUtils::updateGalerie($this->hotel->annonce, $this->galerie, 'hotels');
+            
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();

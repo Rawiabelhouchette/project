@@ -164,7 +164,7 @@ class Edit extends Component
             if ($planning['heure_debut'] > $planning['heure_fin']) {
                 $index = array_search($planning, $this->plannings) + 1;
                 $this->dispatch('alert:modal', [
-                    'message' => __('Heure de fin [' . $index . '] doit être supérieur à heure de début'),
+                    'message' => __('Heure de fermeture ['. $index .'] doit être supérieur à heure de d\'ouverture'),
                 ]);
                 return;
             }
