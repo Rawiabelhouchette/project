@@ -16,7 +16,7 @@
     <div id="page-inner">
         <div class="row bott-wid">
             @foreach ($typeAnnonces as $type)
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-4 col-sm-6">
                     <div class="widget unique-widget">
                         <div class="row">
                             <div class="widget-caption {{ $type->color }}">

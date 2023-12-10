@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html class="no-js') }}" lang="zxx">
+<html lang="fr">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Best Responsive job portal template build on Latest Bootstrap.">
     <meta name="keywords" content="job, nob board, job portal, job listing">
-    <meta name="robots" content="index,follow">
+    <meta name="robots" content="index,follow">' --}}
 
-    <title>ANNONCE</title>
+    <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
+
+    <title>Vamiyi</title>
 
     @livewireStyles
 
@@ -152,7 +155,12 @@
             <footer class="main-footer" style="z-index: 1;">
                 <div class="row">
                     <div class="col-md-6" style="text-align: left !important;">
-                        <strong>©Copyright 2023 Numrod.</strong>Tous droits réservés.
+                        <strong>
+                            @php
+                                $date = date('Y');
+                                echo '©Copyright ' . $date . ' Numrod';
+                            @endphp
+                        </strong>Tous droits réservés.
                     </div>
                     <div class="col-md-6" style="text-align: right !important;">
                         <strong>Version Janvier 2023</strong>

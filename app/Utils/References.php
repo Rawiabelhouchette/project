@@ -9,8 +9,9 @@ class References {
             'Location de véhicule',
             'Hébergement',
             'Entreprise',
-            'Restauration',
-            'Vie nocturne'
+            'Marque'
+            // 'Restauration',
+            // 'Vie nocturne'
         ];
     }
 }

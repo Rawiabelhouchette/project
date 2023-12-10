@@ -24,6 +24,12 @@ class AnnoncesUtils
                 'route' => 'hotels.create',
                 'color' => 'sucess'
             ],
+            (object) [
+                'nom' => 'Location de véhicule',
+                'icon' => 'fas fa-car',
+                'route' => 'location-vehicules.create',
+                'color' => 'warning'
+            ],
         ]);
     }
 
