@@ -21,7 +21,7 @@ class AddNom extends Component
     public $typeList = [];
 
     public function mount() {
-        $this->typeList = References::getList();
+        $this->typeList = Reference::select('type')->distinct()->get()->pluck('type')->toArray();
     }
 
     protected $listeners = [
@@ -34,7 +34,7 @@ class AddNom extends Component
         $this->libelle = 'Modifier le nom de référence';
         $this->buttonLibelle = 'Modifier';
 
-        $this->typeList = References::getList();
+        $this->typeList = Reference::select('type')->distinct()->get()->pluck('type')->toArray();
         
         $this->id = $ref->id;
         $this->type = $ref->type;

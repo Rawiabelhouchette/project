@@ -8,6 +8,7 @@ use App\Models\Entreprise;
 use App\Models\Fichier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
+use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -17,16 +18,16 @@ class Create extends Component
 {
     use WithFileUploads;
 
-    public $nom ;
-    public $type ;
-    public $type_hebergement ;
-    public $description ;
-    public $nombre_chambre ;
-    public $nombre_personne ;
-    public $nombre_salles_bain ;
-    public $superficie ;
-    public $prix_min ;
-    public $prix_max ;
+    public $nom;
+    public $type;
+    public $types_hebergement;
+    public $description;
+    public $nombre_chambre;
+    public $nombre_personne;
+    public $nombre_salles_bain;
+    public $superficie;
+    public $prix_min;
+    public $prix_max;
     public $entreprise_id;
     public $entreprises = [];
     public $types_lit = [];
@@ -42,7 +43,7 @@ class Create extends Component
     public $equipements_cuisine = [];
     public $list_equipements_cuisine = [];
     public $galerie = [];
-
+    public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
 
@@ -84,6 +85,12 @@ class Create extends Component
         $tmp_equipements_cuisine ?
         $this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)->select('valeur', 'id')->get() :
         $this->list_equipements_cuisine = [];
+        
+        $tmp_types_hebergement = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'types-hebergement')->first();
+        $tmp_types_hebergement ?
+        $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
+        $this->list_types_hebergement = [];
+
     }
 
     public function rules()
@@ -150,7 +157,6 @@ class Create extends Component
                 'superficie' => $this->superficie,
                 'prix_min' => $this->prix_min,
                 'prix_max' => $this->prix_max,
-                'type' => $this->type_hebergement,
                 'nombre_salles_bain' => $this->nombre_salles_bain,
             ]);
 
@@ -164,78 +170,20 @@ class Create extends Component
 
             $hotel->annonce()->save($annonce);
 
-            if ($this->types_lit) {
-                foreach ($this->types_lit as $value) {
-                    $annonce->references()->attach($value, 
-                    [
-                        'titre' => 'Types de lit',
-                        'slug' => 'types-de-lit',
-                    ]);
-                }
-            }
+            $references = [
+                ['Types de lit', $this->types_lit],
+                ['Commodités hébergement', $this->commodites],
+                ['Services', $this->services],
+                ['Equipements hébergement', $this->equipements_herbegement],
+                ['Equipements salle de bain', $this->equipements_salle_bain],
+                ['Equipements cuisine', $this->equipements_cuisine],
+                ['Types hébergement', $this->types_hebergement],
+            ];
 
-            if ($this->commodites) {
-                foreach ($this->commodites as $value) {
-                    $annonce->references()->attach($value, 
-                    [
-                        'titre' => 'Commodités',
-                        'slug' => 'commodites-hebergement',
-                    ]);
-                }
-            }
+            AnnoncesUtils::createManyReference($annonce, $references);
 
-            if ($this->services) {
-                foreach ($this->services as $value) {
-                    $annonce->references()->attach($value, 
-                    [
-                        'titre' => 'Services',
-                        'slug' => 'services',
-                    ]);
-                }
-            }
+            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'hotels');
 
-            if ($this->equipements_herbegement) {
-                foreach ($this->equipements_herbegement as $value) {
-                    $annonce->references()->attach($value, 
-                    [
-                        'titre' => 'Equipements hébergement',
-                        'slug' => 'equipements-hebergement',
-                    ]);
-                }
-            }
-
-            if ($this->equipements_salle_bain) {
-                foreach ($this->equipements_salle_bain as $value) {
-                    $annonce->references()->attach($value, 
-                    [
-                        'titre' => 'Equipements salle de bain',
-                        'slug' => 'equipements-salle-de-bain',
-                    ]);
-                }
-            }
-
-            if ($this->equipements_cuisine) {
-                foreach ($this->equipements_cuisine as $value) {
-                    $annonce->references()->attach($value, 
-                    [
-                        'titre' => 'Equipements cuisine',
-                        'slug' => 'equipements-cuisine',
-                    ]);
-                }
-            }
-
-            if ($this->galerie) {
-                foreach ($this->galerie as $image) {
-                    $image->store('public/annonces');
-                    $fichier = Fichier::create([
-                        'nom' => $image->hashName(),
-                        'chemin' => 'annonces/' . $image->hashName(),
-                        'extension' => $image->extension(),
-                    ]);
-
-                    $annonce->galerie()->attach($fichier->id);
-                }
-            }
 
             DB::commit();
         } catch (\Throwable $th) {
@@ -249,16 +197,19 @@ class Create extends Component
             return;
         }
 
-        $this->reset();
-        $this->initialization();
+        // $this->reset();
+        // $this->initialization();
 
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
-        $this->dispatch('swal:modal', [
-            'icon' => 'success',
-            'title'   => __('Opération réussie'),
-            'message' => __('L\'hôtel a bien été ajoutée'),
-        ]);
+        // $this->dispatch('swal:modal', [
+        //     'icon' => 'success',
+        //     'title'   => __('Opération réussie'),
+        //     'message' => __('L\'hôtel a bien été ajoutée'),
+        // ]);
+
+        session()->flash('success', 'L\'hôtel a bien été ajoutée');
+        return redirect()->route('hotels.create');
     }
 
 

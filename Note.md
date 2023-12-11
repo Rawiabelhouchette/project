@@ -8,3 +8,23 @@ Prochainement:
 -[ok]  creer une tbale qui va garder les horaires
 
 La description d'entreprise ne marche pas
+
+
+# 03/12/2023
+
+
+
+
+
+
+# Annonce implementation procedure
+- Create files
+- Edit migration
+- Edit model
+- Create views
+- Create livewire
+
+- Add route
+- Edit controller file
+- Edit create view
+- Edit livewire create 

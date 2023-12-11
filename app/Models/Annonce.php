@@ -21,6 +21,8 @@ class Annonce extends Model
         'entreprise_id',
         'is_active',
         'date_validite',
+        'annonceable_type',
+        'annonceable_id',
         'type',
     ];
 
@@ -56,9 +58,24 @@ class Annonce extends Model
     {
         if (is_null($slug)) {
             // For save reference through pivot table
-            return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id');
+            return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->withPivot('slug', 'titre');
         }
         return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->where('slug', $slug)->get();
+    }
+
+    // Retrieve all reference value as array
+    public function referenceDisplay() : Array
+    {
+        $references = $this->references()->get();
+        $display = [];
+        foreach ($references as $reference) {
+            if (!array_key_exists($reference->pivot->titre, $display)) {
+                $display[$reference->pivot->titre] = [];
+            }
+            $display[$reference->pivot->titre][] = $reference->valeur;
+            
+        }
+        return $display;
     }
 
     public function getJourRestantAttribute() : int

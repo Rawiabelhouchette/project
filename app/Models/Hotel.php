@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Arr;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
 
@@ -21,7 +20,6 @@ class Hotel extends Model implements AnnonceInterface
         'superficie',
         'prix_min',
         'prix_max',
-        'type',
         'nombre_salles_bain',
     ];
 
@@ -31,7 +29,6 @@ class Hotel extends Model implements AnnonceInterface
         'superficie' => PurifyHtmlOnGet::class,
         'prix_min' => PurifyHtmlOnGet::class,
         'prix_max' => PurifyHtmlOnGet::class,
-        'annonce_id' => PurifyHtmlOnGet::class,
     ];
 
     protected $appends = [
@@ -45,6 +42,7 @@ class Hotel extends Model implements AnnonceInterface
         'equipements_salle_bain',
         'equipements_cuisine',
         'commodites',
+        'types_hebergement'
     ];
 
     
@@ -91,6 +89,11 @@ class Hotel extends Model implements AnnonceInterface
     public function getEquipementsCuisineAttribute()
     {
         return $this->annonce->references('equipements-cuisine');
+    }
+
+    public function getTypesHebergementAttribute()
+    {
+        return $this->annonce->references('types-hebergement');
     }
 
 }

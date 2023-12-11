@@ -49,18 +49,17 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                    {{-- <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
                                 <label class="">Type d'hébergement
-                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="" wire:model.defer='type_hebergement'>
+                                <input type="text" class="form-control" placeholder="" wire:model.defer='types_hebergement'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
                         <div class="row">
@@ -75,9 +74,9 @@
                         </div>
                     </div>
 
-                </div>
+                    {{-- </div>
 
-                <div class="row">
+                <div class="row"> --}}
                     <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
                         <div class="row">
                             <div class="col-md-1"></div>
@@ -199,6 +198,18 @@
                             {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                         </label> <br>
                         <textarea id="description" class="form-control height-100" placeholder="" wire:model.defer='description'></textarea>
+                    </div>
+                </div>
+
+                <div class="row" wire:ignore>
+                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
+                        <label class="">Type d'hébergement
+                        </label> <br>
+                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='types_hebergement' data-nom="types_hebergement">
+                            @foreach ($list_types_hebergement as $type)
+                                <option value="{{ $type->id }}">{{ $type->valeur }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 

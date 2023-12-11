@@ -33,7 +33,6 @@ class AnnonceReference extends Model
         'titre' => PurifyHtmlOnGet::class,
         'slug' => PurifyHtmlOnGet::class,
         'description' => PurifyHtmlOnGet::class,
-        'annonce_id' => PurifyHtmlOnGet::class,
         'reference_valeur_id' => PurifyHtmlOnGet::class,
     ];
 
