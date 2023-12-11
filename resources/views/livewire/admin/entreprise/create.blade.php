@@ -313,62 +313,15 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // $('.jour').on('change', function() {
-            //     var jour = $(this).val();
-            //     console.log(jour);
-            //     if (jour == 'Tous les jours') {
-            //         Livewire.dispatch('changerJour', [false]);
-            //     } else {
-            //         Livewire.dispatch('changerJour', [true]);
-            //     }
-            // });
-
-            // verifier si heure-debut-0 est inferieur a heure-fin-0
-            // 0 peut etre remplacer par n'importe quel nombre
-            // for (let i = 0; i < 7; i++) {
-            //     // $('#heure-debut-' + i).on('change', function() {
-            //     //     var heureDebut = $(this).val();
-            //     //     var heureFin = $('#heure-fin-' + i).val();
-            //     //     if (heureDebut > heureFin) {
-            //     //         alert('L\'heure de debut doit etre inferieur a l\'heure de fin');
-            //     //         $(this).val('');
-            //     //     }
-            //     // });
-
-            //     $('#heure-fin-' + i).on('change', function() {
-            //         var heureDebut = $('#heure-debut-' + i).val();
-            //         var heureFin = $(this).val();
-            //         if (heureDebut > heureFin) {
-            //             alert('L\'heure de debut doit etre inferieur a l\'heure de fin');
-            //             $(this).val('');
-            //         }
-            //     });
-            // }
-
-            // for (let i = 0; i < 7; i++) {
-                // // Attacher un écouteur d'événements à chaque champ de début
-                // document.getElementById('heure-debut-' + i).addEventListener('change', function() {
-                //     var heureDebut = this.value;
-                //     var heureFin = document.getElementById('heure-fin-' + i).value;
-
-                //     if (heureDebut > heureFin) {
-                //         alert('L\'heure de début doit être inférieure à l\'heure de fin');
-                //         this.value = '';
-                //     }
-                // });
-
-                // Attacher un écouteur d'événements à chaque champ de fin
-            //     document.getElementById('heure-fin-' + i).addEventListener('change', function() {
-            //         var heureDebut = document.getElementById('heure-debut-' + i).value;
-            //         var heureFin = this.value;
-
-            //         if (heureDebut > heureFin) {
-            //             alert('L\'heure de début doit être inférieure à l\'heure de fin');
-            //             this.value = '';
-            //         }
-            //     });
-            // }
-
+            $('.jour').on('change', function() {
+                var jour = $(this).val();
+                console.log(jour);
+                if (jour == 'Tous les jours') {
+                    Livewire.dispatch('changerJour', [false]);
+                } else {
+                    Livewire.dispatch('changerJour', [true]);
+                }
+            });
         });
     </script>
 @endpush

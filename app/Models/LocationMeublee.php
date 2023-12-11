@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
 
-class Hotel extends Model implements AnnonceInterface
+class LocationMeublee extends Model implements AnnonceInterface
 {
     use HasFactory, SoftDeletes, Userstamps;
 
@@ -20,6 +21,7 @@ class Hotel extends Model implements AnnonceInterface
         'superficie',
         'prix_min',
         'prix_max',
+        // 'type',
         'nombre_salles_bain',
     ];
 
@@ -48,12 +50,12 @@ class Hotel extends Model implements AnnonceInterface
     
     public function getShowUrlAttribute() : String
     {
-        return route('hotels.show', $this);
+        return route('location-meublees.show', $this);
     }
 
     public function getEditUrlAttribute() : String
     {
-        return route('hotels.edit', $this);
+        return route('location-meublees.edit', $this);
     }
     
     public function annonce() : MorphOne

@@ -31,7 +31,6 @@ class Auberge extends Model implements AnnonceInterface
         'superficie' => PurifyHtmlOnGet::class,
         'prix_min' => PurifyHtmlOnGet::class,
         'prix_max' => PurifyHtmlOnGet::class,
-        'annonce_id' => PurifyHtmlOnGet::class,
     ];
 
     protected $appends = [

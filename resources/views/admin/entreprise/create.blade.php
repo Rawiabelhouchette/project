@@ -53,19 +53,6 @@
                 lon,
                 lat
             }]);
-
-            //  onchange jour
-            $
-
-
-
-            // find id longitude and latitude
-            // document.getElementById('longitude').value = lon;
-            // document.getElementById('latitude').value = lat;
-
-            // window.addEventListener('maker:reset', event => {
-            //     pointer.remove();
-            // });
         });
     </script>
 

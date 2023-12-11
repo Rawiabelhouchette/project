@@ -30,6 +30,12 @@ class AnnoncesUtils
                 'route' => 'location-vehicules.create',
                 'color' => 'warning'
             ],
+            (object) [
+                'nom' => 'Location meublée',
+                'icon' => 'fas fa-home',
+                'route' => 'location-meublees.create',
+                'color' => 'info'
+            ],
         ]);
     }
 
