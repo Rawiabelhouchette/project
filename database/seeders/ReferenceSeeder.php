@@ -15,7 +15,7 @@ class ReferenceSeeder extends Seeder
     public function run(): void
     {
         Reference::updateOrCreate([
-            'type' => 'hebergement',
+            'type' => 'Hébergement',
             'nom' => 'Commodités hébergement',
             'slug_type' => 'hebergement',
             'slug_nom' => 'commodites-hebergement',
@@ -24,7 +24,7 @@ class ReferenceSeeder extends Seeder
         ]);
 
         Reference::updateOrCreate([
-            'type' => 'hebergement',
+            'type' => 'Hébergement',
             'nom' => 'Services',
             'slug_type' => 'hebergement',
             'slug_nom' => 'services',
@@ -33,7 +33,7 @@ class ReferenceSeeder extends Seeder
         ]);
 
         Reference::updateOrCreate([
-            'type' => 'hebergement',
+            'type' => 'Hébergement',
             'nom' => 'Types de lit',
             'slug_type' => 'hebergement',
             'slug_nom' => 'types-de-lit',
@@ -43,7 +43,7 @@ class ReferenceSeeder extends Seeder
 
         // Equipement hébergement
         Reference::updateOrCreate([
-            'type' => 'hebergement',
+            'type' => 'Hébergement',
             'nom' => 'Equipements hébergement',
             'slug_type' => 'hebergement',
             'slug_nom' => 'equipements-hebergement',
@@ -53,7 +53,7 @@ class ReferenceSeeder extends Seeder
 
         // Service
         Reference::updateOrCreate([
-            'type' => 'hebergement',
+            'type' => 'Hébergement',
             'nom' => 'Services',
             'slug_type' => 'hebergement',
             'slug_nom' => 'services',
@@ -63,7 +63,7 @@ class ReferenceSeeder extends Seeder
 
         // Equipement Salle de bain
         Reference::updateOrCreate([
-            'type' => 'hebergement',
+            'type' => 'Hébergement',
             'nom' => 'Equipements salle de bain',
             'slug_type' => 'hebergement',
             'slug_nom' => 'equipements-salle-de-bain',
@@ -73,7 +73,7 @@ class ReferenceSeeder extends Seeder
 
         // Equipement cuisine
         Reference::updateOrCreate([
-            'type' => 'hebergement',
+            'type' => 'Hébergement',
             'nom' => 'Equipements cuisine',
             'slug_type' => 'hebergement',
             'slug_nom' => 'equipements-cuisine',
@@ -83,7 +83,7 @@ class ReferenceSeeder extends Seeder
 
         // Type hebergement
         Reference::updateOrCreate([
-            'type' => 'hebergement',
+            'type' => 'Hébergement',
             'nom' => 'Types hebergement',
             'slug_type' => 'hebergement',
             'slug_nom' => 'types-hebergement',
@@ -113,7 +113,7 @@ class ReferenceSeeder extends Seeder
 
         // // Carte de consommation
         // Reference::updateOrCreate([
-        //     'type' => 'hebergement',
+        //     'type' => 'Hébergement',
         //     'nom' => 'Carte de consommation',
         //     'slug_type' => 'hebergement',
         //     'slug_nom' => 'carte-de-consommation',
@@ -153,7 +153,7 @@ class ReferenceSeeder extends Seeder
 
         // // Commodités entreprise
         // Reference::updateOrCreate([
-        //     'type' => 'hebergement',
+        //     'type' => 'Hébergement',
         //     'nom' => 'Commodités entreprise',
         //     'slug_type' => 'hebergement',
         //     'slug_nom' => 'commodites-entreprise',
@@ -163,7 +163,7 @@ class ReferenceSeeder extends Seeder
 
         // // Equipement restauration
         // Reference::updateOrCreate([
-        //     'type' => 'hebergement',
+        //     'type' => 'Hébergement',
         //     'nom' => 'Equipements restauration',
         //     'slug_type' => 'hebergement',
         //     'slug_nom' => 'equipements-restauration',
@@ -173,7 +173,7 @@ class ReferenceSeeder extends Seeder
 
         // // Equipement vie nocturne
         // Reference::updateOrCreate([
-        //     'type' => 'hebergement',
+        //     'type' => 'Hébergement',
         //     'nom' => 'Equipements vie nocturne',
         //     'slug_type' => 'hebergement',
         //     'slug_nom' => 'equipements-vie-nocturne',
@@ -183,7 +183,7 @@ class ReferenceSeeder extends Seeder
 
         // // Marque
         // Reference::updateOrCreate([
-        //     'type' => 'hebergement',
+        //     'type' => 'Hébergement',
         //     'nom' => 'Marques',
         //     'slug_type' => 'hebergement',
         //     'slug_nom' => 'marques',
@@ -193,7 +193,7 @@ class ReferenceSeeder extends Seeder
 
         // // Spécialité
         // Reference::updateOrCreate([
-        //     'type' => 'hebergement',
+        //     'type' => 'Hébergement',
         //     'nom' => 'Spécialités',
         //     'slug_type' => 'hebergement',
         //     'slug_nom' => 'specialites',
@@ -213,7 +213,7 @@ class ReferenceSeeder extends Seeder
 
         // // Type de gâteau
         // Reference::updateOrCreate([
-        //     'type' => 'hebergement',
+        //     'type' => 'Hébergement',
         //     'nom' => 'Types de gâteau',
         //     'slug_type' => 'hebergement',
         //     'slug_nom' => 'types-de-gateau',
@@ -221,15 +221,27 @@ class ReferenceSeeder extends Seeder
         //     'updated_by' => User::first()->id,
         // ]);
 
-        // // Type de véhicule
-        // Reference::updateOrCreate([
-        //     'type' => 'hebergement',
-        //     'nom' => 'Types de véhicule',
-        //     'slug_type' => 'hebergement',
-        //     'slug_nom' => 'types-de-vehicule',
-        //     'created_by' => User::first()->id,
-        //     'updated_by' => User::first()->id,
-        // ]);
+        // Musique
+        Reference::updateOrCreate([
+            'type' => 'Vie nocturne',
+            'nom' => 'Types de musique',
+            'slug_type' => 'vie-nocturne',
+            'slug_nom' => 'types-de-musique',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
+
+        // Equipement vie nocturne
+        Reference::updateOrCreate([
+            'type' => 'Vie nocturne',
+            'nom' => 'Equipements vie nocturne',
+            'slug_type' => 'vie-nocturne',
+            'slug_nom' => 'equipements-vie-nocturne',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
+
+
     }
 
     public function addData() 

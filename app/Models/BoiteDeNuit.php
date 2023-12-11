@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Models;
+
+use App\Utils\AnnonceInterface;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Wildside\Userstamps\Userstamps;
+
+class BoiteDeNuit extends Model implements AnnonceInterface
+{
+    use HasFactory, SoftDeletes, Userstamps;
+
+    protected $fillable = [];
+
+    protected $casts = [];
+
+    protected $appends = [
+        'show_url',
+        'edit_url',
+
+        'commodites',
+        'services',
+        'types_musique',
+        'equipements_vie_nocturne',
+    ];
+
+    public function getShowUrlAttribute() : String
+    {
+        return route('boite-de-nuits.show', $this);
+    }
+
+    public function getEditUrlAttribute() : String
+    {
+        return route('boite-de-nuits.edit', $this);
+    }
+
+    public function annonce() : MorphOne
+    {
+        return $this->morphOne(Annonce::class, 'annonceable');
+    }
+
+    public function getCommoditesAttribute()
+    {
+        return $this->annonce->references('commodites-hebergement');
+    }
+
+    public function getServicesAttribute()
+    {
+        return $this->annonce->references('services');
+    }
+
+    public function getTypesMusiqueAttribute()
+    {
+        return $this->annonce->references('types-de-musique');
+    }
+
+    public function getEquipementsVieNocturneAttribute()
+    {
+        return $this->annonce->references('equipements-vie-nocturne');
+    }
+
+}

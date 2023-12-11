@@ -36,6 +36,12 @@ class AnnoncesUtils
                 'route' => 'location-meublees.create',
                 'color' => 'info'
             ],
+            (object) [
+                'nom' => 'Boite de nuit',
+                'icon' => 'fas fa-glass-cheers',
+                'route' => 'boite-de-nuits.create',
+                'color' => 'danger'
+            ],
         ]);
     }
 
