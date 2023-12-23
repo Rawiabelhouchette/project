@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('compte', 'active')
 
@@ -89,8 +89,7 @@
                                                 {{ $date->format('d/m/Y H:i:s') }}
                                             </td>
                                             <td class="text-center">
-                                                <a href="javascript:void(0)" class="edit" data-id="{{ $user->id }}"><i
-                                                        class="fa fa-pencil"></i></a>
+                                                <a href="javascript:void(0)" class="edit" data-id="{{ $user->id }}"><i class="fa fa-pencil"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

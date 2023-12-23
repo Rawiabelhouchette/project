@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('annonce', 'active')
 
@@ -16,7 +16,7 @@
     <div id="page-inner">
         <div class="row bott-wid">
             <div class="col-md-12 col-sm-12">
-                @livewire('admin.location-meublee.edit', ['locationMeublee' => $locationMeublee])
+                @livewire('admin.location-meublee.edit', ['LocationMeublee' => $LocationMeublee])
             </div>
         </div>
     </div>

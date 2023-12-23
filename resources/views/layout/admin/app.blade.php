@@ -140,9 +140,9 @@
 
     <div id="wrapper">
 
-        @include('layout.navbar')
+        @include('layout.admin.navbar')
 
-        @include('layout.sidebar')
+        @include('layout.admin.sidebar')
 
         {{-- @include('sweetalert::alert') --}}
 
@@ -154,7 +154,7 @@
 
             <footer class="main-footer" style="z-index: 1;">
                 <div class="row">
-                    <div class="col-md-6" style="text-align: left !important;">
+                    <div class="col-md-6 col-xm-12" style="text-align: left !important;">
                         <strong>
                             @php
                                 $date = date('Y');
@@ -162,7 +162,8 @@
                             @endphp
                         </strong>Tous droits réservés.
                     </div>
-                    <div class="col-md-6" style="text-align: right !important;">
+
+                    <div class="col-md-6 col-xm-12" style="text-align: right !important;">
                         <strong>Version Janvier 2023</strong>
                     </div>
                 </div>

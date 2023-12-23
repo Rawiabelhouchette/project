@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('annonce', 'active')
 
@@ -80,7 +80,6 @@
                                         <td style="font-weight: bold;" width="30%">Nombre de places</td>
                                         <td>{{ $locationVehicule->nombre_places }}</td>
                                     </tr>
-
 
                                     @include('admin.annonce.reference-component', ['annonce' => $locationVehicule->annonce])
 

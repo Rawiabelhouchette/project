@@ -28,3 +28,7 @@ La description d'entreprise ne marche pas
 - Edit controller file
 - Edit create view
 - Edit livewire create 
+
+
+# TODO 12-12-2023
+- Put conditions on min and max price

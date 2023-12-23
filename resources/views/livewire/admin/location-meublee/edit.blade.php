@@ -60,8 +60,8 @@
                             </div>
                             <div class="col-md-1"></div>
                         </div>
-                    </div> 
-                    
+                    </div>
+
                     <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
                         <div class="row">
                             <div class="col-md-1"></div>
@@ -186,7 +186,7 @@
                     </div>
                 </div>
 
-                <div class="row" wire:ignore>
+                {{-- <div class="row" wire:ignore>
                     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
                         <label class="">Type d'hébergement
                         </label> <br>
@@ -196,7 +196,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="row" wire:ignore>
                     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">

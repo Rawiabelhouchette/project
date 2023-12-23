@@ -169,7 +169,7 @@
                     </div>
                 </div>
 
-                <div class="row" wire:ignore>
+                {{-- <div class="row" wire:ignore>
                     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
                         <label class="">Type d'hébergement
                         </label> <br>
@@ -179,7 +179,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="row" wire:ignore>
                     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">

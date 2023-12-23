@@ -29,9 +29,9 @@
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
                                 <label class="">Téléphone
-                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                    <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input type="text" class="form-control telephone" wire:model.defer='telephone'>
+                                <input type="text" class="form-control telephone" wire:model.defer='telephone' required>
                             </div>
                             <div class="col-md-1"></div>
                         </div>

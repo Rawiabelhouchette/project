@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('localisation', 'active')
 
@@ -66,7 +66,7 @@
 
 
             var datatable = $('#dataTable').DataTable({
-               
+
                 order: [
                     [0, "desc"]
                 ],

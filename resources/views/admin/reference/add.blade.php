@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('reference', 'active')
 
@@ -20,31 +20,31 @@
             </div>
 
             <div class="col-md-12 col-sm-12">
-            <div class="card">
+                <div class="card">
 
-                <div class="card-header">
-                    <h4>Liste des noms de référence</h4>
-                </div>
-
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="dataTable" class="table table-striped table-2 table-hover">
-                            <thead>
-                                <tr>
-                                    <th><span class="custom-checkbox"></span></th>
-                                    <th>Type </th>
-                                    <th>Nom de référence</th>
-                                    <th>Valeur</th>
-                                    <th>Créer par</th>
-                                    <th>Date de création </th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                        </table>
+                    <div class="card-header">
+                        <h4>Liste des noms de référence</h4>
                     </div>
-                </div>
 
-            </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-striped table-2 table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><span class="custom-checkbox"></span></th>
+                                        <th>Type </th>
+                                        <th>Nom de référence</th>
+                                        <th>Valeur</th>
+                                        <th>Créer par</th>
+                                        <th>Date de création </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
 
 
             var datatable = $('#dataTable').DataTable({
-               
+
                 order: [
                     [0, "desc"]
                 ],

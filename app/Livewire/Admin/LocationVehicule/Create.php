@@ -195,7 +195,7 @@ class Create extends Component
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
-                'type' => 'Location vehicule',
+                'type' => 'Location de véhicule',
             ]);
 
             $locationVehicule->annonce()->save($annonce);

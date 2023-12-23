@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('dashboard', 'active')
 
@@ -86,7 +86,6 @@
     {{-- <input type="hidden" id="metaData" data-connexion="{{ route('staff.active-users.get')}}" data-consultation="{{ route('staff.consultation.get')}}"> --}}
 @endsection
 
-
 @section('js')
     <script>
         // $(document).ready(function() {
@@ -99,7 +98,7 @@
         //                 $('#connexions').html(data);
         //             }
         //         });
-    
+
         //         // Consultations
         //         $.ajax({
         //             url: $('#metaData').data('consultation'),
