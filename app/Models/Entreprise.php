@@ -27,6 +27,16 @@ class Entreprise extends Model
         'latitude',
     ];
 
+    protected $appends = [
+        'nombre_annonces',
+    ];
+
+    public function getNombreAnnoncesAttribute()
+    {
+        return $this->annonce()->count();
+    }
+
+
     protected $casts = [
         'nom' => PurifyHtmlOnGet::class,
         'description' => PurifyHtmlOnGet::class,
@@ -42,6 +52,7 @@ class Entreprise extends Model
         'latitude' => PurifyHtmlOnGet::class,
     ];
 
+
     public function heure_ouvertures()
     {
         return $this->hasMany(HeureOuverture::class, 'entreprise_id');
@@ -52,8 +63,16 @@ class Entreprise extends Model
         return $this->belongsTo(Quartier::class, 'quartier_id');
     }
 
+
+
     public function owner()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function annonce()
+    {
+        return $this->hasMany(Annonce::class, 'entreprise_id');
+    }
+
 }

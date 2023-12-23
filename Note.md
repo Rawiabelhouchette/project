@@ -32,3 +32,10 @@ La description d'entreprise ne marche pas
 
 # TODO 12-12-2023
 - Put conditions on min and max price
+
+
+
+# Next step : 23/12/2023
+- 1 page pour le detail de l'entreprise
+- 1 pages pour le resultat de la recherche
+- 1 page pour le detail de l'annonce

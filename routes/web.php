@@ -10,6 +10,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\LocationMeubleeController;
 use App\Http\Controllers\LocationVehiculeController;
 use App\Http\Controllers\PaysController;
+use App\Http\Controllers\publicController;
 use App\Http\Controllers\QuartierController;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\UserController;
@@ -27,9 +28,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('login');//->name('login');
 })->name('connexion');
+
+Route::get('/', [publicController::class, 'home'])->name('home');
+
+
 
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
 
@@ -79,6 +84,7 @@ Route::group([
     });
 
     // TODO: Route for 404, 403, 500, 503, etc
+
 
 });
 

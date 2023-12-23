@@ -172,6 +172,7 @@
                 <div class="row" wire:ignore>
                     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
                         <label class="">Type d'hébergement
+                            <b style="color: red; font-size: 100%;">*</b>
                         </label> <br>
                         <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='types_hebergement' data-nom="types_hebergement" required>
                             @foreach ($list_types_hebergement as $type)

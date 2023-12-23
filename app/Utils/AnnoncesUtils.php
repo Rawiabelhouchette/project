@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use App\Models\Annonce;
 use App\Models\Fichier;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -44,6 +45,50 @@ class AnnoncesUtils
             ],
         ]);
     }
+
+    public static function getPublicAnnonceList(): object
+    {
+        return collect([
+            (object) [
+                'nom' => 'Auberge',
+                'icon' => 'fa fa-hotel',
+                'route' => '',
+                'color' => 'cl-info',
+                'bg' => 'a'
+            ],
+            (object) [
+                'nom' => 'Hôtel',
+                'icon' => 'fa fa-hotel',
+                'route' => '',
+                'color' => 'cl-success',
+                'bg' => 'h'
+            ],
+            (object) [
+                'nom' => 'Véhicule',
+                // 'nom' => 'Location de véhicule',
+                'icon' => 'fa fa-car',
+                'route' => '',
+                'color' => 'cl-warning',
+                'bg' => 'v'
+            ],
+            (object) [
+                'nom' => 'Meuble',
+                // 'nom' => 'Location meublée',
+                'icon' => 'fa fa-home',
+                'route' => '',
+                'color' => 'cl-info',
+                'bg' => 'm'
+            ],
+            (object) [
+                'nom' => 'Boite de nuit',
+                'icon' => 'fas fa-glass-cheers',
+                'route' => '',
+                'color' => 'cl-danger',
+                'bg' => 'b'
+            ],
+        ]);
+    }
+    
 
     public static function createReference($model, $variable, $title, $slug): void
     {
