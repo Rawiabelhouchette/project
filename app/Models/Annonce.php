@@ -28,16 +28,7 @@ class Annonce extends Model
 
     protected $appends = [
         'jour_restant',
-        'adresse_complete'
     ];
-
-    public function getAdresseCompleteAttribute()
-    {
-        $quartier = $this->entreprise->quartier->nom;
-        $ville = $this->entreprise->quartier->ville->nom;
-        $pays = $this->entreprise->quartier->ville->pays->nom;
-        return $pays . ', ' . $ville . ', ' . $quartier;
-    }
 
     protected $casts = [
         'titre' => PurifyHtmlOnGet::class,

@@ -3619,7 +3619,7 @@ Profile Page Styles
     color: #fff;
     background-size: cover !important;
     background-position:center !important;
-	height:510px;
+	height:150px;
 }
 .detail-section .overlay {
     -webkit-backface-visibility: hidden;
@@ -3663,6 +3663,9 @@ Profile Page Styles
 
 .cover-buttons {
     float: right;
+}
+.cover-button {
+    text-align: center;
 }
 .cover-buttons .button-outlined, .cover-buttons .button-plain {
     padding: 14px 18px!important;

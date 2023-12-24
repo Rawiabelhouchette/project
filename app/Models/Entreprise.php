@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
+use Illuminate\Support\Str;
 
 class Entreprise extends Model
 {
@@ -14,6 +15,7 @@ class Entreprise extends Model
 
     protected $fillable = [
         'nom',
+        'slug',
         'description',
         'site_web',
         'email',
@@ -27,13 +29,56 @@ class Entreprise extends Model
         'latitude',
     ];
 
+    // before saing and updating
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->slug = Str::slug($model->nom);
+        });
+
+        static::updating(function ($model) {
+            $model->slug = Str::slug($model->nom);
+        });
+    }
+
     protected $appends = [
         'nombre_annonces',
+        'est_ouverte',
+        'adresse_complete'
     ];
 
     public function getNombreAnnoncesAttribute()
     {
         return $this->annonce()->count();
+    }
+
+    public function getEstOuverteAttribute()
+    {
+        $date = new \DateTime('now', new \DateTimeZone('Africa/Lome'));
+        $jour = \IntlDateFormatter::formatObject($date, 'eeee', 'fr');
+        $heure = date('H:i:s');
+        $heure_ouverture = $this->heure_ouvertures()->where('jour', $jour)->first();
+        if ($this->heure_ouvertures()->where('jour', 'Tous les jours')->first()) {
+            return true;
+        }
+
+        if ($heure_ouverture) {
+            if ($heure >= $heure_ouverture->heure_debut && $heure <= $heure_ouverture->heure_fin) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    public function getAdresseCompleteAttribute()
+    {
+        $quartier = $this->quartier->nom;
+        $ville = $this->quartier->ville->nom;
+        $pays = $this->quartier->ville->pays->nom;
+        return $pays . ', ' . $ville . ', ' . $quartier;
     }
 
 

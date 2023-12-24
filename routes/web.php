@@ -33,8 +33,10 @@ Route::get('/login', function () {
 })->name('connexion');
 
 Route::get('/', [publicController::class, 'home'])->name('home');
+Route::get('/entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
 
 
+// Admin 
 
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
 

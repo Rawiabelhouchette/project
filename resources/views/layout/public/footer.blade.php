@@ -1,3 +1,9 @@
+@php
+    $typeAnnonce = App\Models\Annonce::pluck('type')
+        ->unique()
+        ->toArray();
+@endphp
+
 <footer class="footer dark-footer dark-bg">
     {{-- <div class="container">
         <div class="row">

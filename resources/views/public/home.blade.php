@@ -114,7 +114,7 @@
                                 <div class="list-fx-features">
                                     <div class="listing-card-info-icon">
                                         <span class="inc-fleat inc-add">
-                                            {{ $annonce->adresse_complete }}
+                                            {{ $annonce->entreprise->adresse_complete }}
                                         </span>
                                     </div>
                                     <div class="listing-card-info-icon">
@@ -130,12 +130,16 @@
 
                         <div class="listing-footer-info">
                             <div class="listing-cat">
-                                <a href="search-listing.html" class="cat-icon cl-1">
+                                <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}" class="cat-icon cl-1">
                                     <i class="fas fa-building"></i> {{ $annonce->entreprise->nom }}
                                 </a>
                                 <span class="more-cat" style="">+{{ $annonce->entreprise->nombre_annonces }}</span>
                             </div>
-                            <span class="place-status">Open</span>
+                            @if ($annonce->entreprise->est_ouverte)
+                                <span class="place-status">Ouvert</span>
+                            @else
+                                <span class="place-status closed">Fermée</span>
+                            @endif
                         </div>
 
                     </div>
@@ -169,7 +173,7 @@
                             </div>
                             <div class="cat-box-name">
                                 <h4>{{ $list->nom }}</h4>
-                                <a href="search-listing.html" class="btn-btn-wrowse">Browse</a>
+                                <a href="search-listing.html" class="btn-btn-wrowse">Parcourir</a>
                             </div>
                         </div>
                     </div>
@@ -195,30 +199,18 @@
 
         <div class="row">
             @foreach ($statsAnnonce as $key => $stat)
-                @if ($key % 4 == 0 || $key % 4 == 3)
-                    <div class="col-md-4 col-sm-5">
-                        <a href="search-listing.html" class="place-box">
-                            <span class="listing-count">{{ $stat->count }} Annonce(s)</span>
-                            <div class="place-box-content">
-                                <h4>{{ $stat->type }}</h4>
-                                <span>Get All Listing</span>
-                            </div>
-                            <div class="place-box-bg" style="background-image: url(http://via.placeholder.com/1280x850);"></div>
-                        </a>
-                    </div>
-                @else
-                    <div class="col-md-8 col-sm-7">
-                        <a href="search-listing.html" class="place-box">
-                            <span class="listing-count">{{ $stat->count }} Annonce(s)</span>
-                            <div class="place-box-content">
-                                <h4>{{ $stat->type }}</h4>
-                                <span>Get All Listing</span>
-                            </div>
-                            <div class="place-box-bg" style="background-image: url(http://via.placeholder.com/1280x850);"></div>
-                        </a>
-                    </div>
-                @endif
+                <div class="col-md-{{ $key % 4 == 0 || $key % 4 == 3 ? '4' : '8' }} col-sm-{{ $key % 4 == 0 || $key % 4 == 3 ? '5' : '7' }}">
+                    <a href="search-listing.html" class="place-box">
+                        <span class="listing-count">{{ $stat->count }} Annonce(s)</span>
+                        <div class="place-box-content">
+                            <h4>{{ $stat->type }}</h4>
+                            <span>Voir les annonces</span>
+                        </div>
+                        <div class="place-box-bg" style="background-image: url(http://via.placeholder.com/1280x850);"></div>
+                    </a>
+                </div>
             @endforeach
         </div>
+
 </section>
 @endsection

@@ -39,3 +39,5 @@ La description d'entreprise ne marche pas
 - 1 page pour le detail de l'entreprise
 - 1 pages pour le resultat de la recherche
 - 1 page pour le detail de l'annonce
+
+- Ajouter une photo a l'entrepise
