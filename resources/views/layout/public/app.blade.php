@@ -79,11 +79,11 @@
         <!-- Custom Js -->
         <script src="{{ asset('assets_client/js/custom.js') }}"></script>
 
-        <script type="text/javascript">
+        {{-- <script type="text/javascript">
             $(document).ready(function() {
                 $('select').niceSelect();
             });
-        </script>
+        </script> --}}
 
         <!-- FONTAWSOME -->
         {{-- <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script> --}}

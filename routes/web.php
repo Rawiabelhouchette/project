@@ -13,6 +13,7 @@ use App\Http\Controllers\PaysController;
 use App\Http\Controllers\publicController;
 use App\Http\Controllers\QuartierController;
 use App\Http\Controllers\ReferenceController;
+use App\Http\Controllers\searchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
 use Illuminate\Support\Facades\Route;
@@ -32,8 +33,12 @@ Route::get('/login', function () {
     return view('login');//->name('login');
 })->name('connexion');
 
-Route::get('/', [publicController::class, 'home'])->name('home');
+Route::get('/', [publicController::class, 'home'])->name('accueil');
 Route::get('/entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
+Route::get('/search', [searchController::class, 'search'])->name('search');
+Route::get('/search/{slug}', [searchController::class, 'show'])->name('show');
+// /search?key=&type=
+Route::get('/search?key={key}&type={type}', [searchController::class, 'search'])->name('search.key.type');
 
 
 // Admin 

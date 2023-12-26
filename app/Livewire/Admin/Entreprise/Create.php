@@ -146,7 +146,7 @@ class Create extends Component
         try {
             $entreprise = Entreprise::create($validated);
             foreach ($this->plannings as $planning) {
-                $entreprise->heure_ouvertures()->create($planning);
+                $entreprise->heure_ouverture()->create($planning);
             }
             DB::commit();
         } catch (\Throwable $th) {

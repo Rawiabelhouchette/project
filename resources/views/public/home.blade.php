@@ -8,10 +8,10 @@
                 <div class="col-md-12 col-sm-12 banner-text">
                     <h1>Vamiyi</h1>
                     <p>Explorez les meilleurs endroits, des restaurants et plus encore...</p>
-                    <form class="form-verticle">
+                    <form class="form-verticle" method="GET" action="{{ route('search') }}">
                         <div class="col-md-6 col-sm-5 no-padd">
                             <i class="banner-icon icon-pencil"></i>
-                            <input type="text" class="form-control left-radius right-br" placeholder="{{ __('Mot clé ..') }}">
+                            <input type="text" class="form-control left-radius right-br" placeholder="{{ __('Mot clé ..') }}" name="key">
                         </div>
                         {{-- <div class="col-md-3 col-sm-3 no-padd">
                             <div class="form-box">
@@ -22,8 +22,8 @@
                         <div class="col-md-4 col-sm-4 no-padd">
                             <div class="form-box">
                                 <i class="banner-icon icon-layers"></i>
-                                <select class="form-control">
-                                    <option data-placeholder="{{ __('Choisir le type d\'annonce') }}" class="chosen-select">{{ __('Choisir le type d\'annonce') }}</option>
+                                <select class="form-control" name="type">
+                                    <option value="" data-placeholder="{{ __('Choisir le type d\'annonce') }}" class="chosen-select">{{ __('Choisir le type d\'annonce') }}</option>
                                     @foreach ($typeAnnonce as $annonce)
                                         <option value="{{ $annonce }}">{{ $annonce }}</option>
                                     @endforeach
@@ -33,11 +33,11 @@
 
                         <div class="col-md-2 col-sm-3 no-padd">
                             <div class="form-box">
-                                <button type="button" class="btn theme-btn btn-default">
+                                <button type="submit" class="btn theme-btn btn-default">
                                     {{-- <i class="ti-search"></i> --}}
                                     {{ __('Rechercher') }}
                                 </button>
-                            </div>
+                            </div>k
                         </div>
                     </form>
 
@@ -45,7 +45,7 @@
                         <ul class="popular-categories-list">
                             @foreach ($listAnnonce as $key => $annonce)
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ route('search.key.type', ['', $annonce->nom]) }}">
                                         <div class="pc-box">
                                             <i class="{{ $annonce->icon }} {{ $annonce->color }}"></i>
                                             <p>{{ $annonce->nom }} <br></p>
@@ -86,7 +86,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="property_item classical-list">
                         <div class="image">
-                            <a href="listing-detail.html" class="listing-thumb">
+                            <a href="{{ route('show', $annonce->slug) }}" class="listing-thumb">
                                 <img src="http://via.placeholder.com/1200x800" alt="latest property" class="img-responsive">
                             </a>
                             <div class="listing-price-info">
@@ -103,7 +103,7 @@
                             </div>
                             <div class="proerty_text">
                                 <h3 class="captlize">
-                                    <a href="listing-detail.html">
+                                    <a href="{{ route('show', $annonce->slug) }}">
                                         {{ $annonce->titre }}
                                     </a>
                                     {{-- <span class="veryfied-author"></span> --}}
@@ -173,7 +173,7 @@
                             </div>
                             <div class="cat-box-name">
                                 <h4>{{ $list->nom }}</h4>
-                                <a href="search-listing.html" class="btn-btn-wrowse">Parcourir</a>
+                                <a href="{{ route('search.key.type', ['', $list->nom]) }}" class="btn-btn-wrowse">Parcourir</a>
                             </div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@
         <div class="row">
             @foreach ($statsAnnonce as $key => $stat)
                 <div class="col-md-{{ $key % 4 == 0 || $key % 4 == 3 ? '4' : '8' }} col-sm-{{ $key % 4 == 0 || $key % 4 == 3 ? '5' : '7' }}">
-                    <a href="search-listing.html" class="place-box">
+                    <a href="{{ route('search.key.type', ['', $stat->type]) }}" class="place-box">
                         <span class="listing-count">{{ $stat->count }} Annonce(s)</span>
                         <div class="place-box-content">
                             <h4>{{ $stat->type }}</h4>
@@ -213,4 +213,12 @@
         </div>
 
 </section>
+@endsection
+
+@section('js')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').niceSelect();
+    });
+</script>
 @endsection

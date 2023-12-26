@@ -65,7 +65,7 @@ class Edit extends Component
         $this->pays_id = $entreprise->quartier->ville->pays_id;
         $this->ville_id = $entreprise->quartier->ville_id;
         $this->quartier_id = $entreprise->quartier_id;
-        $this->plannings = $entreprise->heure_ouvertures->toArray();
+        $this->plannings = $entreprise->heure_ouverture->toArray();
         $this->nbr_planning = count($this->plannings);
 
         $this->dispatch('showLocation', [
@@ -173,8 +173,8 @@ class Edit extends Component
         try {
             DB::beginTransaction();
             $this->entreprise->update($validated);
-            $this->entreprise->heure_ouvertures()->delete();
-            $this->entreprise->heure_ouvertures()->createMany($this->plannings);
+            $this->entreprise->heure_ouverture()->delete();
+            $this->entreprise->heure_ouverture()->createMany($this->plannings);
 
             DB::commit();
         } catch (\Throwable $th) {

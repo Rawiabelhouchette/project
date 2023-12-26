@@ -172,6 +172,6 @@
             @php
                 echo date('Y');
             @endphp
-            propulsé par Numrod <a href="http://www.numrod.com/" title="Numrod" target="_blank" style="color: #EA4F0C">Numrod</a></p>
+            propulsé par Numrod <a href="http://www.numrod.com/" title="Numrod" target="_blank">Numrod</a></p>
     </div>
 </footer>

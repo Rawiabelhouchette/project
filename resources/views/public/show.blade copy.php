@@ -1,10 +1,16 @@
 @extends('layout.public.app')
 
-@section('css')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-@endsection
-
 @section('content')
+    @include('layout.public.search_box', [
+        'key' => $key,
+        'type' => $type,
+    ])
+
+    {{-- @livewire('public.search', [
+        'key' => $key,
+        'type' => $type,
+        'filter' => $filter ?? [],
+    ]) --}}
     <!-- ================ Listing Detail Basic Information ======================= -->
     <section class="detail-section" style="background:url(http://via.placeholder.com/1920x850);" data-overlay="6">
         <div class="overlay" style="background-color: rgb(36, 36, 41); opacity: 0.5;"></div>
@@ -152,15 +158,15 @@
                                     <ul class="listing-list">
                                         @foreach ($annonces as $annonce)
                                             <li>
-                                                <a href="{{ route('show', $annonce->slug) }}" title="Listing">
+                                                <a href="#">
                                                     <div class="listing-list-img">
                                                         <img src="http://via.placeholder.com/80x80" class="img-responsive" alt="">
                                                     </div>
                                                 </a>
                                                 <div class="listing-list-info">
-                                                    <h5><a href="{{ route('show', $annonce->slug) }}" title="Listing">{{ $annonce->titre }}</a></h5>
+                                                    <h5><a href="#" title="Listing">{{ $annonce->titre }}</a></h5>
                                                     <div class="listing-post-meta">
-                                                        <span class="updated">{{ date('d-m-Y', strtotime($annonce->created_at)) }}</span> | <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}" rel="tag">{{ $annonce->type }}</a>
+                                                        <span class="updated">{{ date('d-m-Y', strtotime($annonce->created_at)) }}</span> | <a href="#" rel="tag">{{ $annonce->type }}</a>
                                                     </div>
                                                 </div>
                                             </li>
@@ -182,27 +188,4 @@
         </div>
     </section>
     <!-- ================ Listing Detail Full Information ======================= -->
-@endsection
-
-@section('js')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-    <script>
-        var mymap = L.map('map').setView([8.6195, 0.8248], 6);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19
-        }).addTo(mymap);
-
-        var marker;
-
-        var lon = {{ $entreprise->longitude }};
-        var lat = {{ $entreprise->latitude }};
-        if (marker) {
-            mymap.removeLayer(marker);
-        }
-
-        marker = L.marker([lat, lon]).addTo(mymap);
-        mymap.setView([lat, lon], 12);
-    </script>
 @endsection

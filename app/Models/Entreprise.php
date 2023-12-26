@@ -46,7 +46,9 @@ class Entreprise extends Model
     protected $appends = [
         'nombre_annonces',
         'est_ouverte',
-        'adresse_complete'
+        'adresse_complete',
+        'heure_ouvertures',
+        'contact',
     ];
 
     public function getNombreAnnoncesAttribute()
@@ -59,8 +61,8 @@ class Entreprise extends Model
         $date = new \DateTime('now', new \DateTimeZone('Africa/Lome'));
         $jour = \IntlDateFormatter::formatObject($date, 'eeee', 'fr');
         $heure = date('H:i:s');
-        $heure_ouverture = $this->heure_ouvertures()->where('jour', $jour)->first();
-        if ($this->heure_ouvertures()->where('jour', 'Tous les jours')->first()) {
+        $heure_ouverture = $this->heure_ouverture()->where('jour', $jour)->first();
+        if ($this->heure_ouverture()->where('jour', 'Tous les jours')->first()) {
             return true;
         }
 
@@ -69,7 +71,7 @@ class Entreprise extends Model
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -81,6 +83,39 @@ class Entreprise extends Model
         return $pays . ', ' . $ville . ', ' . $quartier;
     }
 
+    public function getHeureOuverturesAttribute(): array
+    {
+        $jours = [
+            'Lundi' => 'Fermé',
+            'Mardi' => 'Fermé',
+            'Mercredi' => 'Fermé',
+            'Jeudi' => 'Fermé',
+            'Vendredi' => 'Fermé',
+            'Samedi' => 'Fermé',
+            'Dimanche' => 'Fermé',
+        ];
+
+        $jours_ouvertures = $this->heure_ouverture()->get();
+
+        $tous_les_jours = $this->heure_ouverture()->where('jour', 'Tous les jours')->first();
+        if ($tous_les_jours) {
+            foreach ($jours as $jour) {
+                $jour = date('H:i', strtotime($tous_les_jours->heure_debut)) . ' - ' . date('H:i', strtotime($tous_les_jours->heure_fin));
+            }
+            return $jours;
+        }
+
+        foreach ($jours_ouvertures as $jour) {
+            $jours[$jour->jour] = date('H:i', strtotime($jour->heure_debut)) . ' - ' . date('H:i', strtotime($jour->heure_fin));
+        }
+
+        return $jours;
+    }
+
+    public function getContactAttribute() : string
+    {
+        return $this->quartier->ville->pays->indicatif . ' ' . str_replace(' ', '', $this->telephone);        
+    }
 
     protected $casts = [
         'nom' => PurifyHtmlOnGet::class,
@@ -98,7 +133,7 @@ class Entreprise extends Model
     ];
 
 
-    public function heure_ouvertures()
+    public function heure_ouverture()
     {
         return $this->hasMany(HeureOuverture::class, 'entreprise_id');
     }

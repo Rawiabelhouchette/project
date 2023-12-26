@@ -101,10 +101,12 @@
                     </div>
                 </div>
 
+                
+
                 <div class="row" wire:ignore>
                     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
                         <label class="">Equipements nocturnes
-                            <b style="color: red; font-size: 100%;">*</b>
+                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                         </label> <br>
                         <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='equipements_vie_nocturne' data-nom="equipements_vie_nocturne" required>
                             @foreach ($list_equipements_vie_nocturne as $type)
@@ -139,7 +141,7 @@
                         </select>
                     </div>
                 </div>
-
+                
                 <div class="row">
                     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 40px; padding-left: 40px;padding-right: 40px;">
                         <label class="">Galérie

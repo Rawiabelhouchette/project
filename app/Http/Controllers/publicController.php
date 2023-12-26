@@ -31,9 +31,8 @@ class publicController extends Controller
     }
 
     public function showEntreprise($slug) {
-        // dd($slug);
         $entreprise = Entreprise::where('slug', $slug)->firstOrFail();
-        $annonces = Annonce::with('annonceable', 'entreprise')->where('entreprise_id', $entreprise->id)->where('is_active', true)->where('date_validite', '>=', date('Y-m-d H:i:s'))->get();
+        $annonces = Annonce::with('annonceable', 'entreprise')->where('entreprise_id', $entreprise->id)->where('is_active', true)->where('date_validite', '>=', date('Y-m-d H:i:s'))->take(4)->get();
         return view('public.company', compact('entreprise', 'annonces'));
     }
 }

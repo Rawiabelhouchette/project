@@ -2,7 +2,7 @@
     <div class="card">
 
         <div class="card-header">
-            <h4>Ajouter une boite de nuit</h4>
+            <h4>Ajouter un hôtel</h4>
         </div>
 
         <div class="card-body">
@@ -37,7 +37,7 @@
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <label class="">Nom de la boite
+                                <label class="">Nom de l'hébergement
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
                                 <input type="text" class="form-control" placeholder="" required wire:model.defer='nom' required>
@@ -49,7 +49,36 @@
                         </div>
                     </div>
 
-                    {{-- <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label class="">Superficie (m²)
+                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                </label> <br>
+                                <input type="number" class="form-control" placeholder="" wire:model.defer='superficie'>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+
+                    {{-- </div>
+
+                <div class="row"> --}}
+                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label class="">Nombre de personne
+                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                </label> <br>
+                                <input type="number" class="form-control" placeholder="" wire:model.defer='nombre_personne'>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
@@ -60,8 +89,44 @@
                             </div>
                             <div class="col-md-1"></div>
                         </div>
-                    </div> --}}
+                    </div>
 
+                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label class="">Prix minimum
+                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                </label> <br>
+                                <input type="number" class="form-control" placeholder="" wire:model.defer='prix_min'>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label class="">Prix maximum
+                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                </label> <br>
+                                <input type="number" class="form-control" placeholder="" wire:model.defer='prix_max'>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label class="">Nombre de salle de bain
+                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                </label> <br>
+                                <input type="number" class="form-control" placeholder="" wire:model.defer='nombre_salles_bain'>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
                     <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
                         <div class="row">
                             <div class="col-md-1"></div>
@@ -77,6 +142,22 @@
                             <div class="col-md-1"></div>
                         </div>
                     </div>
+
+                    {{-- <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label class="">Heure de validité
+                                    <b style="color: red; font-size: 100%;">*</b>
+                                </label> <br>
+                                <input type="time" class="form-control" placeholder="" wire:model.defer='heure_validite' required>
+                                @error('heure_validite')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div> --}}
                 </div>
 
                 <div class="row">
@@ -90,11 +171,11 @@
 
                 <div class="row" wire:ignore>
                     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Type de musique
-                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                        <label class="">Type d'hébergement
+                            <b style="color: red; font-size: 100%;">*</b>
                         </label> <br>
-                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='types_musique' data-nom="types_musique">
-                            @foreach ($list_types_musique as $type)
+                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='types_hebergement' data-nom="types_hebergement" required>
+                            @foreach ($list_types_hebergement as $type)
                                 <option value="{{ $type->id }}">{{ $type->valeur }}</option>
                             @endforeach
                         </select>
@@ -103,11 +184,11 @@
 
                 <div class="row" wire:ignore>
                     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Equipements nocturnes
+                        <label class="">Type de lit
                             <b style="color: red; font-size: 100%;">*</b>
                         </label> <br>
-                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='equipements_vie_nocturne' data-nom="equipements_vie_nocturne" required>
-                            @foreach ($list_equipements_vie_nocturne as $type)
+                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='types_lit' data-nom="types_lit" required>
+                            @foreach ($list_types_lit as $type)
                                 <option value="{{ $type->id }}">{{ $type->valeur }}</option>
                             @endforeach
                         </select>
@@ -135,6 +216,45 @@
                         <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='services' data-nom="services">
                             @foreach ($list_services as $service)
                                 <option value="{{ $service->id }}">{{ $service->valeur }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" wire:ignore>
+                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
+                        <label class="">Equipements d'hébergement
+                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                        </label> <br>
+                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='equipements_herbegement' data-nom="equipements_herbegement">
+                            @foreach ($list_equipements_herbegement as $item)
+                                <option value="{{ $item->id }}">{{ $item->valeur }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" wire:ignore>
+                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
+                        <label class="">Equipement de cuisine
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </label> <br>
+                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='equipements_cuisine' data-nom="equipements_cuisine" required>
+                            @foreach ($list_equipements_cuisine as $item)
+                                <option value="{{ $item->id }}">{{ $item->valeur }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" wire:ignore>
+                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
+                        <label class="">Equipement de salle de bain
+                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                        </label> <br>
+                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='equipements_salle_bain' data-nom="equipements_salle_bain">
+                            @foreach ($list_equipements_salle_bain as $item)
+                                <option value="{{ $item->id }}">{{ $item->valeur }}</option>
                             @endforeach
                         </select>
                     </div>
