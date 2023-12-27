@@ -36,6 +36,14 @@
                                             {{ $annonce->entreprise->nom }}
                                         </a>
                                     </div>
+
+                                    {{-- numero telephone --}}
+                                    <div class="rating-box">
+                                        <a href="tel:{{ $annonce->entreprise->telephone }}" class="listing-address">
+                                            <i class="fas fa-phone mrg-r-5"></i> &nbsp;
+                                            {{ $annonce->entreprise->quartier->ville->pays->indicatif }} {{ $annonce->entreprise->telephone }}
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
