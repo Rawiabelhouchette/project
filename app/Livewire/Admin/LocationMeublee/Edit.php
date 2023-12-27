@@ -129,8 +129,6 @@ class Edit extends Component
             'nombre_chambre' => 'required|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'prix_min' => 'nullable|numeric',
-            'prix_max' => 'nullable|numeric',
             'types_lit' => 'required',
             'commodites' => 'nullable',
             'services' => 'nullable',
@@ -141,6 +139,9 @@ class Edit extends Component
             // 'galerie' => 'max:10',
             'date_validite' => 'required|date',
             // 'heure_validite' => 'required|date_format:H:i',
+            // prix_min < prix_max
+            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_max' => 'nullable|numeric',
         ];
     }
 
@@ -166,14 +167,16 @@ class Edit extends Component
             'nombre_chambre.numeric' => __('Ce champ doit être un nombre'),
             'nombre_personne.numeric' => __('Ce champ doit être un nombre'),
             'superficie.numeric' => __('Ce champ doit être un nombre'),
-            'prix_min.numeric' => __('Ce champ doit être un nombre'),
-            'prix_max.numeric' => __('Ce champ doit être un nombre'),
             'types_lit.required' => __('Ce champ est obligatoire'),
             'commodites.required' => __('Ce champ est obligatoire'),
             'services.required' => __('Ce champ est obligatoire'),
             'equipements_herbegement.required' => __('Ce champ est obligatoire'),
             'equipements_salle_bain.required' => __('Ce champ est obligatoire'),
             'equipements_cuisine.required' => __('Ce champ est obligatoire'),
+            'prix_min.numeric' => __('Ce champ doit être un nombre'),
+            'prix_max.numeric' => __('Ce champ doit être un nombre'),
+            'prix_min.lt' => __('Ce champ doit être inférieur à :prix_max'),
+            'prix_max.lt' => __('Ce champ doit être supérieur à :prix_min'),
         ];
     }
 

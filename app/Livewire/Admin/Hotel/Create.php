@@ -103,8 +103,6 @@ class Create extends Component
             'nombre_chambre' => 'nullable|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'prix_min' => 'nullable|numeric',
-            'prix_max' => 'nullable|numeric',
             'types_lit' => 'nullable',
             'commodites' => 'nullable',
             'services' => 'nullable',
@@ -115,6 +113,8 @@ class Create extends Component
             // 'galerie' => 'max:10',
             'date_validite' => 'required|date|after:today',
             // 'heure_validite' => 'required|date_format:H:i',
+            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_max' => 'nullable|numeric',
         ];
     }
 
@@ -131,6 +131,10 @@ class Create extends Component
             'date_validite.date' => 'La date de validité doit être une date',
             'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
             'heure_validite.required' => 'L\'heure de validité est obligatoire',
+            'prix_min.numeric' => 'Le prix minimum doit être un nombre',
+            'prix_max.numeric' => 'Le prix maximum doit être un nombre',
+            'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
+            'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
         ];
     }
 

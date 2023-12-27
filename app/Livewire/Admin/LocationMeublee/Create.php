@@ -102,8 +102,6 @@ class Create extends Component
             'nombre_chambre' => 'required|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'prix_min' => 'nullable|numeric',
-            'prix_max' => 'nullable|numeric',
             'types_lit' => 'required',
             'commodites' => 'nullable',
             'services' => 'nullable',
@@ -114,6 +112,8 @@ class Create extends Component
             // 'galerie' => 'max:10',
             'date_validite' => 'required|date|after:today',
             // 'heure_validite' => 'required|date_format:H:i',
+            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_max' => 'nullable|numeric',
         ];
     }
 
@@ -134,14 +134,16 @@ class Create extends Component
             'nombre_chambre.numeric' => __('Le nombre de chambre(s) de la location meublée doit être un nombre'),
             'nombre_personne.numeric' => __('Le nombre de personne(s) de la location meublée doit être un nombre'),
             'superficie.numeric' => __('La superficie de la location meublée doit être un nombre'),
-            'prix_min.numeric' => __('Le prix minimum de la location meublée doit être un nombre'),
-            'prix_max.numeric' => __('Le prix maximum de la location meublée doit être un nombre'),
             'types_lit.required' => __('Veuillez choisir au moins un type de lit'),
             'commodites.required' => __('Veuillez choisir au moins une commodité'),
             'services.required' => __('Veuillez choisir au moins un service'),
             'equipements_herbegement.required' => __('Veuillez choisir au moins un équipement d\'hébergement'),
             'equipements_salle_bain.required' => __('Veuillez choisir au moins un équipement de salle de bain'),
             'equipements_cuisine.required' => __('Veuillez choisir au moins un équipement de cuisine'),
+            'prix_min.numeric' => 'Le prix minimum doit être un nombre',
+            'prix_max.numeric' => 'Le prix maximum doit être un nombre',
+            'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
+            'prix_max.gt' => 'Le prix maximum doit être supérieur au prix minimum',
         ];
     }
 

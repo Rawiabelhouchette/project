@@ -111,6 +111,9 @@
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
                                 <input type="number" class="form-control" placeholder="" wire:model.defer='prix_min'>
+                                @error('prix_min')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -123,6 +126,9 @@
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
                                 <input type="number" class="form-control" placeholder="" wire:model.defer='prix_max'>
+                                @error('prix_max')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="col-md-1"></div>
                         </div>
