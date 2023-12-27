@@ -35,15 +35,15 @@ class Add extends Component
     {
         // dd($this->entreprise_id);    
        $rules = [
-            'nom' => 'required|string|min:3|max:255',
-            'prenom' => 'required|string|min:3|max:255',
+            'nom' => 'required|string|min:3',
+            'prenom' => 'required|string|min:3',
             'email' => 'required|email|unique:users,email',
-            'username' => 'required|string|min:3|max:255|unique:users,username',
-            'telephone' => 'required|string|min:3|max:255|unique:users,telephone',
+            'username' => 'required|string|min:3|unique:users,username',
+            'telephone' => 'required|string|min:3|unique:users,telephone',
             'is_active' => 'required|boolean',
-            'password' => 'required|min:4|max:255|confirmed',
+            'password' => 'required|min:4|confirmed',
             'password_confirmation' => 'required',
-            'role' => 'required|string|min:3|max:255',
+            'role' => 'required|string|min:3',
         ];
 
         if ($this->isProfessionnel) {

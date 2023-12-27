@@ -96,10 +96,10 @@ class Create extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
-            'description' => 'required|string|min:3|max:255',
-            'marque' => 'required|string|min:3|max:255',
-            'modele' => 'nullable|string|min:3|max:255',
+            'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
+            'description' => 'required|string|min:3',
+            'marque' => 'required|string|min:3',
+            'modele' => 'nullable|string|min:3',
             'annee' => 'nullable|integer|min:1800|max:9999',
             'carburant' => 'nullable|string|exists:reference_valeurs,valeur',
             'kilometrage' => 'nullable|integer|min:0|max:999999',

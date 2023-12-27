@@ -23,7 +23,7 @@ class Create extends Component
 
     public function rules() {
         return [
-            'nom' => 'required|string|min:3|max:255|unique:quartiers,nom,id,ville_id',
+            'nom' => 'required|string|min:3|unique:quartiers,nom,id,ville_id',
             'ville_id' => 'required|integer|exists:villes,id',
         ];
     }

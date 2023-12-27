@@ -52,7 +52,7 @@ class Search extends Component
         $type = $this->type;
         $key = $this->key;
 
-        $annonces = Annonce::with('entreprise')//->where('is_active', true)->where('date_validite', '>=', date('Y-m-d H:i:s'))
+        $annonces = Annonce::with('entreprise')->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'))
             ->where(function ($query) use ($type, $key, $selectedAnnonceId) {
                 if ($type) {
                     if (!in_array($type, $selectedAnnonceId)) {
@@ -85,7 +85,7 @@ class Search extends Component
 
         
         $annonces = $annonces->paginate(20);
-        $latestAnnonces = Annonce::with('annonceable')->where('is_active', true)->where('date_validite', '>=', date('Y-m-d H:i:s'))->latest()->take(4)->get();
+        $latestAnnonces = Annonce::with('annonceable')->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'))->latest()->take(4)->get();
 
 
         return view('livewire.public.search', compact('annonces', 'latestAnnonces', 'selectedAnnonceId'));

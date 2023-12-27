@@ -28,7 +28,7 @@ class Edit extends Component
 
     public function rules() {
         return [
-            'nom' => 'required|string|min:3|max:255|unique:quartiers,nom,NULL,id,ville_id,' . $this->ville_id,
+            'nom' => 'required|string|min:3|unique:quartiers,nom,NULL,id,ville_id,' . $this->ville_id,
             'ville_id' => 'required|integer|exists:quartiers,id',
         ];
     }

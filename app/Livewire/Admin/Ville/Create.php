@@ -15,7 +15,7 @@ class Create extends Component
 
     public function rules() {
         return [
-            'nom' => 'required|string|min:3|max:255|unique:villes,nom,id,pays_id',
+            'nom' => 'required|string|min:3|unique:villes,nom,id,pays_id',
             'pays_id' => 'required|integer|exists:pays,id',
         ];
     }

@@ -49,19 +49,19 @@ class Create extends Component
     public function rules()
     {
         return [
-            'nom' => 'required|string|min:3|max:255|unique:entreprises,nom,id,quartier_id',
+            'nom' => 'required|string|min:3|unique:entreprises,nom,id,quartier_id',
             // FIXME: Description does not work
-            'description' => 'nullable|string|min:3|max:255',
-            'site_web' => 'nullable|string|min:3|max:255',
-            'email' => 'required|string|min:3|max:255',
-            'telephone' => 'nullable|string|min:3|max:255',
-            'instagram' => 'nullable|string|min:3|max:255',
-            'facebook' => 'nullable|string|min:3|max:255',
-            'whatsapp' => 'required|string|min:3|max:255',
-            'logo' => 'nullable|string|min:3|max:255',
+            'description' => 'nullable|string|min:3',
+            'site_web' => 'nullable|string|min:3',
+            'email' => 'required|string|min:3',
+            'telephone' => 'nullable|string|min:3',
+            'instagram' => 'nullable|string|min:3',
+            'facebook' => 'nullable|string|min:3',
+            'whatsapp' => 'required|string|min:3',
+            'logo' => 'nullable|string|min:3',
             'quartier_id' => 'required|integer|exists:quartiers,id',
-            'longitude' => 'nullable|string|min:3|max:255',
-            'latitude' => 'nullable|string|min:3|max:255',
+            'longitude' => 'nullable|string|min:3',
+            'latitude' => 'nullable|string|min:3',
 
         ];
     }

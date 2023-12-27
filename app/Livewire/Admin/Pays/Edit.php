@@ -17,10 +17,10 @@ class Edit extends Component
 
     public function rules() {
         return [
-            'nom' => 'required|string|min:3|max:255|unique:pays,nom,' . $this->pays->id,
-            'code' => 'required|string|max:255|unique:pays,code,' . $this->pays->id,
-            'indicatif' => 'required|string|min:3|max:255|unique:pays,indicatif,' . $this->pays->id,
-            'langue' => 'required|string|min:3|max:255',
+            'nom' => 'required|string|min:3|unique:pays,nom,' . $this->pays->id,
+            'code' => 'required|string|unique:pays,code,' . $this->pays->id,
+            'indicatif' => 'required|string|min:3|unique:pays,indicatif,' . $this->pays->id,
+            'langue' => 'required|string|min:3',
         ];
     }
 

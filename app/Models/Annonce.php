@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
+use Illuminate\Support\Str;
 
 
 class Annonce extends Model
@@ -18,6 +19,7 @@ class Annonce extends Model
     protected $fillable = [
         'titre',
         'description',
+        'slug',
         'entreprise_id',
         'is_active',
         'date_validite',
@@ -37,6 +39,19 @@ class Annonce extends Model
         'date_validite' => PurifyHtmlOnGet::class,
         'type' => PurifyHtmlOnGet::class,
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            $model->slug = Str::slug($model->titre);
+        });
+
+        static::updating(function ($model) {
+            $model->slug = Str::slug($model->titre);
+        });
+    }
 
     public function entreprise() : BelongsTo
     {
@@ -83,7 +98,7 @@ class Annonce extends Model
         $date = $this->date_validite;
         $now = date('Y-m-d');
         $diff = strtotime($date) - strtotime($now);
-        return round($diff / 86400);
+        return round($diff / 86400) + 1;
     }
 
     public function removeGalerie()

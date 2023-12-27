@@ -43,6 +43,8 @@ class LocationVehicule extends Model implements AnnonceInterface
         'types_vehicule',
         'equipements_vehicule',
         'conditions_location',
+
+        'caracteristiques',
     ];
 
     public function getShowUrlAttribute() : String
@@ -73,6 +75,20 @@ class LocationVehicule extends Model implements AnnonceInterface
     public function getConditionsLocationAttribute() : String
     {
         return $this->annonce->references('conditions-de-location');
+    }
+
+    public function getCaracteristiquesAttribute() : Array
+    {
+        return [
+            'Marque' => $this->marque,
+            'Modèle' => $this->modele,
+            'Année' => $this->annee,
+            'Carburant' => $this->carburant,
+            'Kilométrage' => $this->kilometrage,
+            'Boite de vitesse' => $this->boite_vitesse,
+            'Nombre de portes' => $this->nombre_portes,
+            'Nombre de places' => $this->nombre_places,
+        ];
     }
     
 }

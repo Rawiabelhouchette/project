@@ -73,9 +73,9 @@ class Create extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
+            'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
             'type' => 'nullable',
-            'description' => 'nullable|min:3|max:255',
+            'description' => 'nullable|min:3',
             'commodites' => 'nullable',
             'services' => 'nullable',
             'galerie.*' => 'image', //|max:5120',

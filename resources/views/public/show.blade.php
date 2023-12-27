@@ -41,12 +41,16 @@
                         </div>
                     </div>
 
-                    <div class="detail-wrapper">
+                    {{-- <div class="detail-wrapper">
                         <div class="detail-wrapper-header">
                             <h4>Caractéristiques</h4>
                         </div>
                         <div class="detail-wrapper-body">
                             <p>
+                                @foreach ($annonce->annonceable->getCaracteristiquesAttribute() as $key => $value)
+                                    <h5>{{ ucfirst($key) }} : <span class="badge badge-primary">{{ $value }}</span></h5>
+                                    <br>
+                                @endforeach
                                 @foreach ($annonce->referenceDisplay() as $slug => $values)
                                     <h5>{{ ucfirst($slug) }} :
                                         @foreach ($values as $value)
@@ -55,19 +59,14 @@
                                     </h5>
                                     <br>
                                 @endforeach
-                                @empty($annonce->referenceDisplay())
-                                <p>
-                                    Aucune caractéristique n'est disponible pour cette annonce.
-                                </p>
-                            @endempty
                             </p>
 
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="detail-wrapper">
                         <div class="detail-wrapper-header">
-                            <h4>Description</h4>
+                            <h4><i class="ti-layers-alt padd-r-10"></i>Description</h4>
                         </div>
                         <div class="detail-wrapper-body">
                             @if ($annonce->description)
@@ -77,6 +76,32 @@
                             @endif
                         </div>
                     </div>
+
+                    <!-- Start: Listing Gallery -->
+                    <div class="widget-boxed">
+                        <div class="widget-boxed-header">
+                            <h4><i class="ti-gallery padd-r-10"></i>Galérie ({{ $annonce->galerie->count() }})</h4>
+                        </div>
+                        <div class="widget-boxed-body">
+                            <div class="side-list no-border gallery-box">
+                                <ul class="gallery-list">
+                                    @foreach ($annonce->galerie as $image)
+                                        <li>
+                                            <a data-fancybox="gallery" href="{{ asset('storage/' . $image->chemin) }}">
+                                                <img src="{{ asset('storage/' . $image->chemin) }}" class="img-responsive" alt="">
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                    @empty($annonce->galerie->count())
+                                        <p class="text-center">
+                                            Aucune image n'est disponible pour cette annonce
+                                        </p>
+                                    @endempty
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End: Listing Gallery -->
                 </div>
                 <!-- End: Listing Detail Wrapper -->
 
@@ -84,31 +109,27 @@
                 <div class="col-md-4 col-sm-12">
                     <div class="sidebar">
 
-                        <!-- Start: Listing Gallery -->
                         <div class="widget-boxed">
                             <div class="widget-boxed-header">
-                                <h4><i class="ti-gallery padd-r-10"></i>Galérie ({{ $annonce->galerie->count() }})</h4>
+                                <h4><i class="ti-eye padd-r-10"></i>Caractéristiques</h4>
                             </div>
                             <div class="widget-boxed-body">
-                                <div class="side-list no-border gallery-box">
-                                    <ul class="gallery-list">
-                                        @foreach ($annonce->galerie as $image)
-                                            <li>
-                                                <a data-fancybox="gallery" href="{{ asset('storage/' . $image->chemin) }}">
-                                                    <img src="{{ asset('storage/' . $image->chemin) }}" class="img-responsive" alt="">
-                                                </a>
+                                <div class="side-list">
+                                    <ul>
+                                        @foreach ($annonce->annonceable->getCaracteristiquesAttribute() as $key => $value)
+                                            <li>{{ ucfirst($key) }} <span>{{ $value }}</span></li>
+                                        @endforeach
+                                        @foreach ($annonce->referenceDisplay() as $slug => $values)
+                                            <li>{{ ucfirst($slug) }} :
+                                                @foreach ($values as $value)
+                                                    <span>{{ $value }}</span> <br>
+                                                @endforeach
                                             </li>
                                         @endforeach
-                                        @empty($annonce->galerie->count())
-                                            <p class="text-center">
-                                                Aucune image n'est disponible pour cette annonce
-                                            </p>
-                                        @endempty
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <!-- End: Listing Gallery -->
 
                         <!-- Start: Latest Listing -->
                         <div class="widget-boxed">

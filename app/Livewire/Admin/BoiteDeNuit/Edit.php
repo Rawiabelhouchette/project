@@ -87,9 +87,9 @@ class Edit extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,' . $this->boiteDeNuit->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
+            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->boiteDeNuit->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
             'is_active' => 'required|boolean',
-            'description' => 'nullable|min:3|max:255',
+            'description' => 'nullable|min:3',
             'date_validite' => 'required|date',
 
             'commodites' => 'nullable',
@@ -137,6 +137,15 @@ class Edit extends Component
     public function update()
     {
         $this->validate();
+
+        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title'   => __('Opération échouée'),
+                'message' => __('La date de validité doit être supérieure à la date du jour'),
+            ]);
+            return;
+        }
 
         try {
             DB::beginTransaction();
