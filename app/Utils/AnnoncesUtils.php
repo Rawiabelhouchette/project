@@ -43,6 +43,12 @@ class AnnoncesUtils
                 'route' => 'boite-de-nuits.create',
                 'color' => 'danger'
             ],
+            (object) [
+                'nom' => 'Fast-food',
+                'icon' => 'fas fa-utensils',
+                'route' => 'fast-foods.create',
+                'color' => 'info'
+            ],
         ]);
     }
 

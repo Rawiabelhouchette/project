@@ -6,6 +6,7 @@ use App\Http\Controllers\AubergeController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BoiteDeNuitController;
 use App\Http\Controllers\EntrepriseController;
+use App\Http\Controllers\FastFoodController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\LocationMeubleeController;
 use App\Http\Controllers\LocationVehiculeController;
@@ -88,6 +89,8 @@ Route::group([
         Route::resource('location-meublees', LocationMeubleeController::class);
 
         Route::resource('boite-de-nuits', BoiteDeNuitController::class);
+
+        Route::resource('fast-foods', FastFoodController::class);
     });
 
     // TODO: Route for 404, 403, 500, 503, etc

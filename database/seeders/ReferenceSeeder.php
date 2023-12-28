@@ -151,55 +151,25 @@ class ReferenceSeeder extends Seeder
             'updated_by' => User::first()->id,
         ]);
 
-        // // Commodités entreprise
-        // Reference::updateOrCreate([
-        //     'type' => 'Hébergement',
-        //     'nom' => 'Commodités entreprise',
-        //     'slug_type' => 'hebergement',
-        //     'slug_nom' => 'commodites-entreprise',
-        //     'created_by' => User::first()->id,
-        //     'updated_by' => User::first()->id,
-        // ]);
+        // Equipement restauration
+        Reference::updateOrCreate([
+            'type' => 'Restauration',
+            'nom' => 'Equipements restauration',
+            'slug_type' => 'restauration',
+            'slug_nom' => 'equipements-restauration',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
 
-        // // Equipement restauration
-        // Reference::updateOrCreate([
-        //     'type' => 'Hébergement',
-        //     'nom' => 'Equipements restauration',
-        //     'slug_type' => 'hebergement',
-        //     'slug_nom' => 'equipements-restauration',
-        //     'created_by' => User::first()->id,
-        //     'updated_by' => User::first()->id,
-        // ]);
-
-        // // Equipement vie nocturne
-        // Reference::updateOrCreate([
-        //     'type' => 'Hébergement',
-        //     'nom' => 'Equipements vie nocturne',
-        //     'slug_type' => 'hebergement',
-        //     'slug_nom' => 'equipements-vie-nocturne',
-        //     'created_by' => User::first()->id,
-        //     'updated_by' => User::first()->id,
-        // ]);
-
-        // // Marque
-        // Reference::updateOrCreate([
-        //     'type' => 'Hébergement',
-        //     'nom' => 'Marques',
-        //     'slug_type' => 'hebergement',
-        //     'slug_nom' => 'marques',
-        //     'created_by' => User::first()->id,
-        //     'updated_by' => User::first()->id,
-        // ]);
-
-        // // Spécialité
-        // Reference::updateOrCreate([
-        //     'type' => 'Hébergement',
-        //     'nom' => 'Spécialités',
-        //     'slug_type' => 'hebergement',
-        //     'slug_nom' => 'specialites',
-        //     'created_by' => User::first()->id,
-        //     'updated_by' => User::first()->id,
-        // ]);
+        // Produits restauration
+        Reference::updateOrCreate([
+            'type' => 'Restauration',
+            'nom' => 'Produits fast-food',
+            'slug_type' => 'restauration',
+            'slug_nom' => 'produits-fast-food',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
 
         // Type de carburant
         Reference::updateOrCreate([
@@ -241,11 +211,6 @@ class ReferenceSeeder extends Seeder
             'updated_by' => User::first()->id,
         ]);
 
-
-    }
-
-    public function addData() 
-    {
 
     }
 }

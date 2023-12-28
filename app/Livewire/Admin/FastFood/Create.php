@@ -1,0 +1,151 @@
+<?php
+
+namespace App\Livewire\Admin\FastFood;
+
+use App\Models\Annonce;
+use App\Models\FastFood;
+use App\Models\Entreprise;
+use App\Models\Reference;
+use App\Models\ReferenceValeur;
+use App\Utils\AnnoncesUtils;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+
+class Create extends Component
+{
+    use WithFileUploads;
+
+    public $nom;
+    public $type;
+    public $description;
+    public $date_validite;
+    public $entreprise_id;
+    public $ingredient;
+
+    public $prix_minimum;
+    public $prix_maximum;
+
+    public $produits_fast_food = [];
+    public $list_produits_fast_food = [];
+
+    public $equipements_restauration = [];
+    public $list_equipements_restauration = [];
+
+    public $entreprises = [];
+    public $galerie = [];
+
+    public function mount()
+    {
+        $this->initialization();
+    }
+
+    private function initialization()
+    {
+        $this->entreprises = Entreprise::all();
+
+        $tmp_produit_fast_food = Reference::where('slug_type', 'restauration')->where('slug_nom', 'produits-fast-food')->first();
+        $tmp_produit_fast_food ?
+            $this->list_produits_fast_food = ReferenceValeur::where('reference_id', $tmp_produit_fast_food->id)->select('valeur', 'id')->get() :
+            $this->list_produits_fast_food = [];
+
+        $tmp_equipement_restauration = Reference::where('slug_type', 'restauration')->where('slug_nom', 'equipements-restauration')->first();
+        $tmp_equipement_restauration ?
+            $this->list_equipements_restauration = ReferenceValeur::where('reference_id', $tmp_equipement_restauration->id)->select('valeur', 'id')->get() :
+            $this->list_equipements_restauration = [];
+
+    }
+
+    public function rules()
+    {
+        return [
+            'entreprise_id' => 'required|exists:entreprises,id',
+            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
+            'description' => 'nullable|min:3|max:255',
+            'date_validite' => 'required|date|after:today',
+            // 'ingredient' => 'nullable|string|min:3|max:255',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'entreprise_id.required' => 'Le champ entreprise est obligatoire.',
+            'entreprise_id.exists' => 'L\'entreprise sélectionnée n\'existe pas.',
+            'nom.required' => 'Le champ nom est obligatoire.',
+            'nom.string' => 'Le champ nom doit être une chaîne de caractères.',
+            'nom.min' => 'Le champ nom doit contenir au moins 3 caractères.',
+            'nom.max' => 'Le champ nom ne doit pas dépasser 255 caractères.',
+            'nom.unique' => 'Le nom de l\'annonce existe déjà.',
+            'description.string' => 'Le champ description doit être une chaîne de caractères.',
+            'description.min' => 'Le champ description doit contenir au moins 3 caractères.',
+            'description.max' => 'Le champ description ne doit pas dépasser 255 caractères.',
+            'date_validite.required' => 'Le champ date de validité est obligatoire.',
+            'date_validite.date' => 'Le champ date de validité doit être une date.',
+            'date_validite.after' => 'Le champ date de validité doit être une date supérieure à la date du jour.',
+            // 'ingredient.string' => 'Le champ ingrédient doit être une chaîne de caractères.',
+            // 'ingredient.min' => 'Le champ ingrédient doit contenir au moins 3 caractères.',
+            // 'ingredient.max' => 'Le champ ingrédient ne doit pas dépasser 255 caractères.',
+        ];
+    }
+
+    public function removeGalerie($index)
+    {
+        unset($this->galerie[$index]);
+        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
+    }
+
+    public function store()
+    {
+        $this->validate();
+
+        try {
+            DB::beginTransaction();
+
+            $fastFood = FastFood::create([
+                'prix_min' => $this->prix_minimum,
+                'prix_max' => $this->prix_maximum,
+            ]);
+
+            $annonce = new Annonce([
+                'titre' => $this->nom,
+                'type' => 'Fast-Food',
+                'description' => $this->description,
+                'date_validite' => $this->date_validite,
+                'entreprise_id' => $this->entreprise_id,
+            ]);
+
+            $fastFood->annonce()->save($annonce);
+
+            $references = [
+                ['Produits', $this->produits_fast_food],
+                ['Equipements restauration', $this->equipements_restauration],
+            ];
+
+            AnnoncesUtils::createManyReference($annonce, $references);
+
+            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'fast-foods');
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title'   => __('Opération réussie'),
+                'message' => __('Une erreur est survenue lors de l\'annonce'),
+            ]);
+            Log::error($th->getMessage());
+            return;
+        }
+        
+        session()->flash('success', 'L\'annonce a bien été ajoutée');
+        return redirect()->route('fast-foods.create');
+    }
+
+
+    public function render()
+    {
+        return view('livewire.admin.fast-food.create');
+    }
+}
