@@ -111,16 +111,16 @@ class ReferenceSeeder extends Seeder
             'updated_by' => User::first()->id,
         ]);
 
-        // // Carte de consommation
-        // Reference::updateOrCreate([
-        //     'type' => 'Hébergement',
-        //     'nom' => 'Carte de consommation',
-        //     'slug_type' => 'hebergement',
-        //     'slug_nom' => 'carte-de-consommation',
-        //     'created_by' => User::first()->id,
-        //     'updated_by' => User::first()->id,
-        // ]);
-
+        // Carte de consommation
+        Reference::updateOrCreate([
+            'type' => 'Restauration',
+            'nom' => 'Carte de consommation',
+            'slug_type' => 'restauration',
+            'slug_nom' => 'carte-de-consommation',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
+        
         // Boite de vitesse
         Reference::updateOrCreate([
             'type' => 'Location de véhicule',
@@ -161,6 +161,16 @@ class ReferenceSeeder extends Seeder
             'updated_by' => User::first()->id,
         ]);
 
+        // Equipement patisserie
+        Reference::updateOrCreate([
+            'type' => 'Restauration',
+            'nom' => 'Equipements patisserie',
+            'slug_type' => 'restauration',
+            'slug_nom' => 'equipements-patisserie',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
+
         // Produits restauration
         Reference::updateOrCreate([
             'type' => 'Restauration',
@@ -170,6 +180,17 @@ class ReferenceSeeder extends Seeder
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);
+
+        // Produits patissier
+        Reference::updateOrCreate([
+            'type' => 'Restauration',
+            'nom' => 'Produits patissiers',
+            'slug_type' => 'restauration',
+            'slug_nom' => 'produits-patissiers',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
+
 
         // Type de carburant
         Reference::updateOrCreate([
@@ -181,16 +202,6 @@ class ReferenceSeeder extends Seeder
             'updated_by' => User::first()->id,
         ]);
 
-        // // Type de gâteau
-        // Reference::updateOrCreate([
-        //     'type' => 'Hébergement',
-        //     'nom' => 'Types de gâteau',
-        //     'slug_type' => 'hebergement',
-        //     'slug_nom' => 'types-de-gateau',
-        //     'created_by' => User::first()->id,
-        //     'updated_by' => User::first()->id,
-        // ]);
-
         // Musique
         Reference::updateOrCreate([
             'type' => 'Vie nocturne',
@@ -201,12 +212,32 @@ class ReferenceSeeder extends Seeder
             'updated_by' => User::first()->id,
         ]);
 
+        // Commodite vie nocturne
+        Reference::updateOrCreate([
+            'type' => 'Vie nocturne',
+            'nom' => 'Commodités vie nocturne',
+            'slug_type' => 'vie-nocturne',
+            'slug_nom' => 'commodites-vie-nocturne',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
+
         // Equipement vie nocturne
         Reference::updateOrCreate([
             'type' => 'Vie nocturne',
             'nom' => 'Equipements vie nocturne',
             'slug_type' => 'vie-nocturne',
             'slug_nom' => 'equipements-vie-nocturne',
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
+
+        // Specialite
+        Reference::updateOrCreate([
+            'type' => 'Restauration',
+            'nom' => 'Spécialités',
+            'slug_type' => 'restauration',
+            'slug_nom' => 'specialites',
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);

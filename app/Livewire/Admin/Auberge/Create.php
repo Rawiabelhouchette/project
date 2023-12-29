@@ -133,7 +133,6 @@ class Create extends Component
             'date_validite.date' => 'La date de validité doit être une date',
             'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
             'heure_validite.required' => 'L\'heure de validité est obligatoire',
-            // prix_min < prix_max
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',

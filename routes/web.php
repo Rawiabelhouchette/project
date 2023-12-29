@@ -4,16 +4,19 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\AubergeController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\BarController;
 use App\Http\Controllers\BoiteDeNuitController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\FastFoodController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\LocationMeubleeController;
 use App\Http\Controllers\LocationVehiculeController;
+use App\Http\Controllers\PatisserieController;
 use App\Http\Controllers\PaysController;
 use App\Http\Controllers\publicController;
 use App\Http\Controllers\QuartierController;
 use App\Http\Controllers\ReferenceController;
+use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\searchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
@@ -91,6 +94,12 @@ Route::group([
         Route::resource('boite-de-nuits', BoiteDeNuitController::class);
 
         Route::resource('fast-foods', FastFoodController::class);
+
+        Route::resource('restaurants', RestaurantController::class);
+
+        Route::resource('bars', BarController::class);
+
+        Route::resource('patissieries', PatisserieController::class);
     });
 
     // TODO: Route for 404, 403, 500, 503, etc

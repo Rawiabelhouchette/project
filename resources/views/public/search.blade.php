@@ -9,6 +9,5 @@
     @livewire('public.search', [
         'key' => $key,
         'type' => $type,
-        'filter' => $filter ?? [],
     ])
 @endsection
