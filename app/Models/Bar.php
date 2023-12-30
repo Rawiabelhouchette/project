@@ -64,7 +64,7 @@ class Bar extends Model implements AnnonceInterface
         return $this->annonce->references('commodites-vie-nocturne');
     }
 
-    public function getCaracteristiquesAttribute()
+    public function getCaracteristiquesAttribute() : array
     {
         $attributes = []; 
 

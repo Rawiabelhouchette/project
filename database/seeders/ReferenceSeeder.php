@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Reference;
-use App\Models\ReferenceValeur;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 

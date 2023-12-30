@@ -49,6 +49,24 @@ class AnnoncesUtils
                 'route' => 'fast-foods.create',
                 'color' => 'info'
             ],
+            (object) [
+                'nom' => 'Restaurant',
+                'icon' => 'fas fa-burger',
+                'route' => 'restaurants.create',
+                'color' => 'sucess'
+            ],
+            (object) [
+                'nom' => 'Patisserie',
+                'icon' => 'fas fa-birthday-cake',
+                'route' => 'patisseries.create',
+                'color' => 'warning'
+            ],
+            (object) [
+                'nom' => 'Bar & Rooftop',
+                'icon' => 'fas fa-glass-martini-alt',
+                'route' => 'bars.create',
+                'color' => 'info'
+            ]
         ]);
     }
 

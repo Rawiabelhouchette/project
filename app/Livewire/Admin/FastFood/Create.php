@@ -65,6 +65,8 @@ class Create extends Component
             'description' => 'nullable|min:3|max:255',
             'date_validite' => 'required|date|after:today',
             // 'ingredient' => 'nullable|string|min:3|max:255',
+            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_max' => 'nullable|numeric',
         ];
     }
 
@@ -87,6 +89,11 @@ class Create extends Component
             // 'ingredient.string' => 'Le champ ingrédient doit être une chaîne de caractères.',
             // 'ingredient.min' => 'Le champ ingrédient doit contenir au moins 3 caractères.',
             // 'ingredient.max' => 'Le champ ingrédient ne doit pas dépasser 255 caractères.',
+            'prix_min.numeric' => 'Le prix minimum doit être un nombre',
+            'prix_max.numeric' => 'Le prix maximum doit être un nombre',
+            'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
+            'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
+
         ];
     }
 

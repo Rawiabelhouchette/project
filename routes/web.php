@@ -98,8 +98,8 @@ Route::group([
         Route::resource('restaurants', RestaurantController::class);
 
         Route::resource('bars', BarController::class);
-
-        Route::resource('patissieries', PatisserieController::class);
+        
+        Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);;
     });
 
     // TODO: Route for 404, 403, 500, 503, etc

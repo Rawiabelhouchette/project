@@ -128,7 +128,7 @@
                                             <li>{{ ucfirst($key) }} <span>{{ $value }}</span></li>
                                         @endforeach
                                         @foreach ($annonce->referenceDisplay() as $slug => $values)
-                                            <li>{{ ucfirst($slug) }} :
+                                            <li>{{ ucfirst($slug) }}
                                                 @foreach ($values as $value)
                                                     <span>{{ $value }}</span> <br>
                                                 @endforeach

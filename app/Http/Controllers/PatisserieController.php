@@ -21,7 +21,7 @@ class PatisserieController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.patisserie.create');
     }
 
     /**
@@ -37,7 +37,7 @@ class PatisserieController extends Controller
      */
     public function show(Patisserie $patisserie)
     {
-        //
+        return view('admin.patisserie.show', compact('patisserie'));
     }
 
     /**
@@ -45,7 +45,7 @@ class PatisserieController extends Controller
      */
     public function edit(Patisserie $patisserie)
     {
-        //
+        return view('admin.patisserie.edit', compact('patisserie'));
     }
 
     /**

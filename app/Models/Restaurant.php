@@ -114,7 +114,63 @@ class Restaurant extends Model implements AnnonceInterface
 
     public function getCaracteristiquesAttribute() : array
     {
-        return [];
+        $attributes = [];
+
+        $attributes['ENTREE'] = '';
+
+        if ($this->e_nom) {
+            $attributes['Nom'] = $this->e_nom;
+        }
+
+        if ($this->e_ingredients) {
+            $attributes['Ingrédients'] = $this->e_ingredients;
+        }
+
+        if ($this->e_prix_min) {
+            $attributes['Prix minimum'] = $this->e_prix_min;
+        }
+
+        if ($this->e_prix_max) {
+            $attributes['Prix maximum'] = $this->e_prix_max;
+        }
+
+        $attributes['PLAT'] = '';
+
+        if ($this->p_nom) {
+            $attributes['Nom '] = $this->p_nom;
+        }
+
+        if ($this->p_ingredients) {
+            $attributes['Ingrédients '] = $this->p_ingredients;
+        }
+
+        if ($this->p_prix_min) {
+            $attributes['Prix minimum '] = $this->p_prix_min;
+        }
+
+        if ($this->p_prix_max) {
+            $attributes['Prix maximum '] = $this->p_prix_max;
+        }
+
+        $attributes['DESSERT'] = '';
+
+        if ($this->d_nom) {
+            $attributes['Nom  '] = $this->d_nom;
+        }
+
+        if ($this->d_ingredients) {
+            $attributes['Ingrédients  '] = $this->d_ingredients;
+        }
+
+        if ($this->d_prix_min) {
+            $attributes['Prix minimum  '] = $this->d_prix_min;
+        }
+
+        if ($this->d_prix_max) {
+            $attributes['Prix maximum  '] = $this->d_prix_max;
+        }
+
+        return $attributes;
     }
 
 }

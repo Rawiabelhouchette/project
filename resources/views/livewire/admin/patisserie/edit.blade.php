@@ -2,7 +2,7 @@
     <div class="card">
 
         <div class="card-header">
-            <h4>Modifier une auberge</h4>
+            <h4>Modifier une patisserie</h4>
         </div>
 
         <div class="card-body">
@@ -11,9 +11,6 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
                         <div class="row">
-                            {{-- 
-                             // TODO : Add id form label and link it to input
-                            --}}
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
                                 <label class="">Entreprise
@@ -37,7 +34,7 @@
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <label class="">Nom de la boite
+                                <label class="">Nom
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
                                 <input type="text" class="form-control" placeholder="" required wire:model.defer='nom' required>
@@ -49,17 +46,69 @@
                         </div>
                     </div>
 
-                    {{-- <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <label class="">Type d'hébergement
+                                <label class="">Ingrédients
+                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="" wire:model.defer='types_hebergement'>
+                                <input type="text" class="form-control" placeholder="" wire:model.defer='ingredients'>
+                                @error('ingredients')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="col-md-1"></div>
                         </div>
-                    </div> --}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label class="">Accompagnement
+                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                </label> <br>
+                                <input type="text" class="form-control" placeholder="" wire:model.defer='accompagnement'>
+                                @error('accompagnement')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label class="">Prix minimum
+                                    <b style="color: red; font-size: 100%;">*</b>
+                                </label> <br>
+                                <input type="number" class="form-control" value="0" wire:model.defer='prix_min' min="0">
+                                @error('prix_min')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label class="">Prix maximum
+                                    <b style="color: red; font-size: 100%;">*</b>
+                                </label> <br>
+                                <input type="number" class="form-control" value="0" placeholder="" wire:model.defer='prix_max' min="{{ $this->prix_max }}">
+                                @error('prix_max')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
 
                     <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
                         <div class="row">
@@ -106,72 +155,37 @@
                     </div>
                 </div>
 
-                @include('admin.annonce.reference-select-component', [
-                    'title' => 'Commodités',
-                    'name' => 'commodites',
-                    'options' => $list_commodites,
-                ])
+                <div class="row" style="padding-left: 10px; padding-right: 10px;">
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Produits',
+                        'name' => 'produits_patissiers',
+                        'options' => $list_produits_patissiers,
+                    ])
 
-                @include('admin.annonce.reference-select-component', [
-                    'title' => 'Services',
-                    'name' => 'services',
-                    'options' => $list_services,
-                ])
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Equipements',
+                        'name' => 'equipements_patisserie',
+                        'options' => $list_equipements_patisserie,
+                    ])
 
-                @include('admin.annonce.reference-select-component', [
-                    'title' => 'Equipement',
-                    'name' => 'types_musique',
-                    'options' => $list_types_musique,
-                ])
-                
-                @include('admin.annonce.reference-select-component', [
-                    'title' => 'Types de musique',
-                    'name' => 'equipements_vie_nocturne',
-                    'options' => $list_equipements_vie_nocturne,
+                </div>
+
+                @include('admin.annonce.edit-galery-component', [
+                    'galery' => $galerie,
+                    'old_galerie' => $old_galerie
                 ])
 
                 <div class="row">
-                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 40px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Galérie
-                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                        </label> <br>
-                        <label for="upload" class="btn btn-sm theme-btn-outlined" style="padding: 6px">
-                            <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
-                            &nbsp; &nbsp; &nbsp;
-                            @if ($galerie)
-                                {{ count($galerie) }} image(s) sélectionnée(s)
-                            @else
-                                Aucune image sélectionnée
-                            @endif
-                            &nbsp; &nbsp;
-                        </label>
-                        <input id="upload" type="file" wire:model="galerie" accept="image/*" multiple style="display: none;"> <br>
-                        <div class="text-center">
-                            @foreach ($galerie as $index => $image)
-                                <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
-                            @endforeach
-                            @if (empty($galerie))
-                                @foreach ($old_galerie as $image)
-                                    <img src="{{ asset('storage/' . $image->chemin) }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
-                                @endforeach
-                            @endif
-                        </div>
-
-                        @error('galerie')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group" style="margin-top: 15px;">
-                            <div class="col-md-12 col-sm-12 text-right">
-                                <button wire:target='update' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 30px;">
-                                    <i class="fa fa-pencil fa-lg" style="margin-right: 10px;"></i>
-                                    Modifier
-                                </button>
-                            </div>
+                    <div class="form-group" style="margin-top: 15px;">
+                        <div class="col-md-12 col-sm-12 text-right">
+                            <button wire:target='update' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 30px;">
+                                <i class="fa fa-pencil fa-lg" style="margin-right: 10px;"></i>
+                                Modifier
+                            </button>
                         </div>
                     </div>
+                </div>
+
             </form>
 
         </div>

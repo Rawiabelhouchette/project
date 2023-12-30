@@ -21,7 +21,7 @@ class BarController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.bar.create');
     }
 
     /**
@@ -37,7 +37,7 @@ class BarController extends Controller
      */
     public function show(Bar $bar)
     {
-        //
+        return view('admin.bar.show', compact('bar'));
     }
 
     /**
@@ -45,7 +45,7 @@ class BarController extends Controller
      */
     public function edit(Bar $bar)
     {
-        //
+        return view('admin.bar.edit', compact('bar'));
     }
 
     /**

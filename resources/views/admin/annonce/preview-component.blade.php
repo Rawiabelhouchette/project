@@ -41,7 +41,7 @@
             <div class="listing-shot-info rating">
                 <div class="row extra">
                     <div class="col-md-7 col-sm-7 col-xs-6">
-                        {{ $annonce->type }}
+                        {!! $annonce->type !!}
                     </div>
                     <div class="col-md-5 col-sm-5 col-xs-6 pull-right">
                         <a href="{{ route('show', $annonce->slug) }}" target="_blank" class="detail-link">Ouvrir</a>
