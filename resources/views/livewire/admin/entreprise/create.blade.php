@@ -254,7 +254,7 @@
                                         <option value="Vendredi">Vendredi</option>
                                         <option value="Samedi">Samedi</option>
                                         <option value="Dimanche">Dimanche</option>
-                                        @if ($key == 0)
+                                        @if ($key == 0 && $tousLesJours)
                                             <option value="Tous les jours">Tous les jours</option>
                                         @endif
                                     </select>
@@ -315,8 +315,9 @@
         $(document).ready(function() {
             $('.jour').on('change', function() {
                 var jour = $(this).val();
-                console.log(jour);
                 if (jour == 'Tous les jours') {
+                    Livewire.dispatch('changerJour', [false]);
+                } else if (jour == '') {
                     Livewire.dispatch('changerJour', [false]);
                 } else {
                     Livewire.dispatch('changerJour', [true]);

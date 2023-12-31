@@ -114,12 +114,13 @@ class Edit extends Component
 
     public function addPlanning()
     {
-        if (!$this->autreJour) {
-            return;
-        }
+        if (!$this->autreJour) return;
 
         if ($this->nbr_planning <= 7) {
             $this->nbr_planning++;
+            if ($this->nbr_planning > 1) {
+                $this->tousLesJours = false;
+            }
             $this->plannings[] = [
                 'jour' => '',
                 'heure_debut' => '',
@@ -131,6 +132,10 @@ class Edit extends Component
     public function removePlanning($key)
     {
         unset($this->plannings[$key]);
+        $this->nbr_planning--;
+        if ($this->nbr_planning == 1) {
+            $this->tousLesJours = true;
+        }
     }
 
     #[On('setLocation')]

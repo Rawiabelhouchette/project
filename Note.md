@@ -1,4 +1,4 @@
-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
+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
 
 
 - mettre sweet alet en local
@@ -30,8 +30,8 @@ La description d'entreprise ne marche pas
 - Edit livewire create 
 
 
-# TODO 12-12-2023
-- Put conditions on min and max price
+# 12-12-2023
+- [ok] Put conditions on min and max price
 
 
 

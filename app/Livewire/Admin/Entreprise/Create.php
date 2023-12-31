@@ -31,7 +31,8 @@ class Create extends Component
     public $pays;
     public $villes = [];
     public $quartiers = [];
-    public $autreJour = true;
+    public $autreJour = false;
+    public $tousLesJours = true;
     
     public $plannings = [
         [
@@ -89,8 +90,12 @@ class Create extends Component
     {
         if (!$this->autreJour) return;
 
-        if ($this->nbr_planning <= 7) {
+        
+        if ($this->nbr_planning < 7) {
             $this->nbr_planning++;
+            if ($this->nbr_planning > 1) {
+                $this->tousLesJours = false;
+            }
             $this->plannings[] = [
                 'jour' => '',
                 'heure_debut' => '',
@@ -102,6 +107,10 @@ class Create extends Component
     public function removePlanning($key)
     {
         unset($this->plannings[$key]);
+        $this->nbr_planning--;
+        if ($this->nbr_planning == 1) {
+            $this->tousLesJours = true;
+        }
     }
 
     
