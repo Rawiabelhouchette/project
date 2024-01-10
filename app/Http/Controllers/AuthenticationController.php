@@ -8,14 +8,9 @@ use Illuminate\Support\Facades\Log;
 
 class AuthenticationController extends Controller
 {
-    public static function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required'
-        ]);
 
-        // Enregistrer l'url courant dans la session
+    public static function loginService($request) : object
+    {
         $request->session()->put('url.intended', $request->url());
 
         $remember = $request->has('remember');
@@ -32,16 +27,19 @@ class AuthenticationController extends Controller
         }
 
         if (!Auth::attempt($credentials, $remember)) {
-            return back()->withErrors([
-                'email' => 'Identifiant ou mot de passe incorrect.',
-            ]);
+
+            return (object) [
+                'status' => false,
+                'message' => 'Identifiant ou mot de passe incorrect.'
+            ];
         }
 
         if (auth()->user()->is_active == 0) {
             AuthenticationController::logout($request);
-            return back()->withErrors([
-                'email' => 'Votre compte est désactivé. Veuillez contacter l\'administrateur.',
-            ]);
+            return (object) [
+                'status' => false,
+                'message' => 'Votre compte est désactivé. Veuillez contacter l\'administrateur.'
+            ];
         }
 
         if ($request->filled('url')) {
@@ -54,8 +52,28 @@ class AuthenticationController extends Controller
 
         Log::channel('login')->info('Connexion de l\'utilisateur : (' . auth()->user()->id . ') ' .auth()->user()->username);
 
-        // return redirect()->intended('/');
-        // return back();
+        return (object) [
+            'status' => true,
+            'message' => 'Connexion réussie.'
+        ];
+    }
+
+    public static function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        $login = AuthenticationController::loginService($request);
+
+        if (!$login->status) {
+
+            return back()->withErrors([
+                'email' => $login->message,
+            ]);
+        }
+
         return redirect()->route('home');
     }
 

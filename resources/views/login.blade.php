@@ -43,7 +43,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div id="navbar-menu" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#signin">{{ __('Déposer votre annonce') }}</a></li>
+                        <li><a href="javascript:void(0)" >&nbsp;</a></li>
                         {{-- <li><a href="javascript:void(0)" data-toggle="modal" data-target="#signin">Sign In</a></li> --}}
                     </ul>
                     <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">

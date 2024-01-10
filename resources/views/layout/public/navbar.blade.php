@@ -15,18 +15,51 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div id="navbar-menu" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
-                {{-- <li><a href="javascript:void(0)" data-toggle="modal" data-target="#signin">{{ __('Déposer votre annonce') }}</a></li> --}}
                 <li><a href="javascript:void(0)">{{ __('Déposer votre annonce') }}</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                {{-- <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp"> --}}
-                <li class="no-pd">
-                    <a href="{{ route('login') }}" class="addlist">
-                        {{-- <i class="ti-plus" aria-hidden="true"></i> --}}
-                        {{ __('Connexion') }}
-                    </a>
-                </li>
-            </ul>
+            @if (!auth()->check())
+                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li class="no-pd">
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" class="addlist">
+                            <i class="ti-user" aria-hidden="true"></i>Connexion
+                        </a>
+                    </li>
+                </ul>
+            @else
+                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li class="no-pd dropdown">
+                        <a href="javascript:void(0)" class="addlist">
+                            <img src="{{ asset('assets_client/img/avatar.jpg') }}" class="img-responsive img-circle avater-img" alt="">
+                            <strong>{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</strong>
+                        </a>
+                        <ul class="dropdown-menu animated navbar-left fadeOutUp" style="display: none; opacity: 1;">
+                            <li>
+                                <a href="{{ route('profil.index') }}">
+                                    <i class="fa fa-user" aria-hidden="true"></i> &nbsp;
+                                    Mon compte
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('messages.index') }}">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i> &nbsp;
+                                    Contact
+                                </a>
+                            <li>
+                                <a href="{{ route('favoris.index') }}">
+                                    <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
+                                    Favoris
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('logout') }}">
+                                    <i class="fa fa-power-off" aria-hidden="true"></i> &nbsp;
+                                    Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            @endif
         </div>
         <!-- /.navbar-collapse -->
     </div>
