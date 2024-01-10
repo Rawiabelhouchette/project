@@ -37,7 +37,7 @@
                                     {{-- <i class="ti-search"></i> --}}
                                     {{ __('Rechercher') }}
                                 </button>
-                            </div>k
+                            </div>
                         </div>
                     </form>
 

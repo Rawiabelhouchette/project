@@ -2650,6 +2650,17 @@ span.like-listing i {
 	color: #ffffff;
 	font-size:17px;
 }
+span.like-listing.alt i {
+	background: #ffffff;
+	border: 1px solid #ff3a72;
+	text-align:center;
+	line-height:42px;
+	width:42px;
+	height:42px;
+	border-radius: 50%;
+	color: #ff3a72;
+	font-size:17px;
+}
 .listing-shot-info.rating {
     border-top:1px solid rgba(71, 85, 95,0.11);
 }
@@ -2663,6 +2674,7 @@ span.like-listing i {
 }
 p.listing-location {
     margin-bottom: 0;
+    height: 50px !important;
 }
 .listing-detail-info span {
     display: block;

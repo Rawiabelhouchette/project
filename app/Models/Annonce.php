@@ -30,6 +30,8 @@ class Annonce extends Model
 
     protected $appends = [
         'jour_restant',
+        'description_courte',
+        'note',
     ];
 
     protected $casts = [
@@ -72,7 +74,6 @@ class Annonce extends Model
     public function references($slug = null)
     {
         if (is_null($slug)) {
-            // For save reference through pivot table
             return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->withPivot('slug', 'titre');
         }
         return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->where('slug', $slug)->get();
@@ -110,5 +111,58 @@ class Annonce extends Model
     {
         $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->wherePivot('slug', $slug)->detach();
     }
+
+    // permettre de mettre des nombres en format 1k, 1M
+    private function formatNumber($number) {
+        if ($number >= 1000000) {
+            return number_format($number / 1000000, 1) . 'M';
+        } elseif ($number >= 1000) {
+            return number_format($number / 1000, 1) . 'k';
+        } else {
+            return $number;
+        }
+    }
+
+    // description courte de l'annonce en 70 caractères
+    public function getDescriptionCourteAttribute(): string
+    {
+        $description = $this->description;
+        $description = strip_tags($description);
+        $description = str_replace('&nbsp;', ' ', $description);
+        $description = str_replace("\n", ' ', $description);
+        $description = str_replace("\r", ' ', $description);
+        $description = str_replace("\t", ' ', $description);
+        $description = str_replace('  ', ' ', $description);
+        $description = substr($description, 0, 70);
+
+        if (Str::length($description) >= 70) {
+            $description = $description . '...';
+        }
+
+        return $description;
+    }
+
+    public function favoris()
+    {
+        return $this->hasMany(Favoris::class);
+    }
+
+    public function commentaires()
+    {
+        return $this->hasMany(Commentaire::class);
+    }
+
+    // public function notation()
+    // {
+    //     return $this->hasMany(Notation::class);
+    // }
+
+    // moyen de notation de l'annonce
+    // public function getNoteAttribute() : float
+    // {
+    //     $avg = $this->notation()->avg('note');
+    //     // Pour arrondire de sorte a avoir soir un nombre soit *,5
+    //     return round($avg * 2) / 2;
+    // }
 
 }

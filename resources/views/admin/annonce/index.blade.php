@@ -62,8 +62,8 @@
                     [0, "desc"]
                 ],
                 lengthMenu: [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, "All"]
+                    [10, 25, 50, 100],
+                    [10, 25, 50, 100]
                 ],
                 pageLength: 50,
                 processing: true,

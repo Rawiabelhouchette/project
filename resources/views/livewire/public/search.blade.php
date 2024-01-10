@@ -17,8 +17,8 @@
                                     <ul class="price-range">
                                         @foreach ($typesAnnonce as $type)
                                             <li>
-                                                <span class="custom-checkbox d-block" >
-                                                    <input type="checkbox" id="check-{{ $type }}" value="{{ $type }}" wire:change='changeState("{{ $type }}")' {{ in_array($type, $selectedAnnonceId) ? 'checked' : '' }}>
+                                                <span class="custom-checkbox d-block">
+                                                    <input id="check-{{ $type }}" type="checkbox" value="{{ $type }}" wire:change='changeState("{{ $type }}")' {{ in_array($type, $selectedAnnonceId) ? 'checked' : '' }}>
                                                     <label for="check-{{ $type }}" style="font-weight: normal;">{{ $type }}</label>
                                                 </span>
                                             </li>
@@ -95,8 +95,80 @@
                     <!-- End Filter option -->
 
                     <div class="row mrg-0">
+
                         @foreach ($annonces as $annonce)
                             <div class="col-md-6 col-sm-6">
+                                <div class="listing-shot grid-style">
+                                    <a href="{{ route('show', $annonce->slug) }}">
+                                        <div class="listing-shot-img">
+                                            <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
+                                            {{-- <span class="approve-listing"><i class="fa fa-check"></i></span> --}}
+                                        </div>
+                                        <div class="listing-shot-caption">
+                                            <h4>{{ $annonce->titre }}</h4>
+                                            <p class="listing-location" sty>{{ $annonce->description_courte }}</p>
+                                            <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                            {{-- <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span> --}}
+                                        </div>
+                                    </a>
+                                    <div class="listing-price-info">
+                                        <span class="pricetag">{{ $annonce->type }} </span>
+
+                                    </div>
+                                    <div class="listing-shot-info">
+                                        <div class="row extra">
+                                            <div class="col-md-12">
+                                                <div class="listing-detail-info">
+                                                    <span><i class="fa fa-phone" aria-hidden="true"></i> {{ $annonce->entreprise->contact }}</span>
+                                                    <span>
+                                                        <i class="fa fa-globe" aria-hidden="true"></i>
+                                                        @if ($annonce->entreprise->site_web)
+                                                            {{ $annonce->entreprise->site_web }}
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="listing-shot-info rating">
+                                        <div class="row extra">
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <a href="#">
+                                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                                </a> 123237
+                                                &nbsp;&nbsp;
+                                                <i class="fa fa-eye" aria-hidden="true"></i> 1233,43k
+                                                &nbsp;&nbsp;
+                                                <i class="fa fa-comment" aria-hidden="true"></i> 1233,43k
+
+                                                {{-- <i class="color fa fa-star" aria-hidden="true"></i>
+                                            <i class="color fa fa-star" aria-hidden="true"></i>
+                                            <i class="color fa fa-star" aria-hidden="true"></i>
+                                            <i class="color fa fa-star-half-o" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i> --}}
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+
+                                                <i class="color fa fa-star" aria-hidden="true"></i>
+                                            <i class="color fa fa-star" aria-hidden="true"></i>
+                                            <i class="color fa fa-star" aria-hidden="true"></i>
+                                            <i class="color fa fa-star-half-o" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            </div>
+                                            {{-- <div class="col-md-5 col-sm-5 col-xs-6 pull-right text-right">
+                                                <i class="fa fa-eye" aria-hidden="true"></i> 1233,43k
+                                                &nbsp;
+                                                <i class="fa fa-comment" aria-hidden="true"></i> 1233,43k
+                                            </div> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- <div class="col-md-6 col-sm-6">
                                 <div class="listing-shot grid-style">
                                     <a href="{{ route('show', $annonce->slug) }}">
                                         <div class="listing-shot-img">
@@ -105,7 +177,6 @@
                                         <div class="listing-shot-caption">
                                             <h4>{{ $annonce->titre }}</h4>
                                             <p class="listing-location">{{ $annonce->entreprise->adresse_complete }}</p>
-                                            {{-- <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span> --}}
                                         </div>
                                     </a>
                                     <div class="listing-shot-info">
@@ -136,7 +207,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         @endforeach
                         @empty($annonces->items())
                             <div class="col-md-12 col-sm-12">

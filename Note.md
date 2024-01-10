@@ -41,3 +41,23 @@ La description d'entreprise ne marche pas
 - 1 page pour le detail de l'annonce
 
 - Ajouter une photo a l'entrepise
+
+
+
+
+# Liste de taches a faire
+## Utilisateur public authentifié
+- Concevoir le model pour les utilisateurs publiques
+- Editer l'affichage court des annonces
+- Permettre la creation de compte client
+- Concevoir les pages d'affichage détaillé des annonces
+- Ajouter les facettes sur la page de recherche
+- Ajouter les options de partage sur les annonces
+- Ajouter l'option de favoris sur les annonces
+- Fonction visualisation des annonces favoris
+- Visualisation des mes informations
+- Changement de mot de passe (par mail)
+- Faire une verification du compte par mail
+- Faire des recherches sur la connexion via google account (pas possible pour le momennt apres recherche )
+- Chercher si possible pourquoi les images font genre ne s'affiche pas parfois
+- Trouver une maniere des faire le deploiement automatique
