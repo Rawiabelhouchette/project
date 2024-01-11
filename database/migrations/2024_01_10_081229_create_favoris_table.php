@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('favoris', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usager_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->foreignId('annonce_id')->constrained();
             $table->timestamps();
         });

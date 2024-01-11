@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Log;
 class AuthenticationController extends Controller
 {
 
-    public static function loginService($request) : object
+    public static function loginService(Request $request) : object
     {
-        $request->session()->put('url.intended', $request->url());
-
         $remember = $request->has('remember');
         if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             $request->merge([
@@ -42,15 +40,15 @@ class AuthenticationController extends Controller
             ];
         }
 
-        if ($request->filled('url')) {
-            return redirect($request->url);
-        } elseif ($request->session()->has('url.intended.url')) {
-            return redirect($request->session()->get('url.intended.url'));
-        }
+        // if ($request->filled('url')) {
+        //     return redirect($request->url);
+        // } elseif ($request->session()->has('url.intended.url')) {
+        //     return redirect($request->session()->get('url.intended.url'));
+        // }
 
-        $request->session()->regenerate();
+        // $request->session()->regenerate();
 
-        Log::channel('login')->info('Connexion de l\'utilisateur : (' . auth()->user()->id . ') ' .auth()->user()->username);
+        // Log::channel('login')->info('Connexion de l\'utilisateur : (' . auth()->user()->id . ') ' .auth()->user()->username);
 
         return (object) [
             'status' => true,
@@ -68,13 +66,16 @@ class AuthenticationController extends Controller
         $login = AuthenticationController::loginService($request);
 
         if (!$login->status) {
-
             return back()->withErrors([
                 'email' => $login->message,
             ]);
         }
 
-        return redirect()->route('home');
+        if (auth()->user()->hasRole('Administrateur')) {
+            return redirect()->route('home');
+        }
+
+        return redirect('/');
     }
 
     public static function logout(Request $request)
@@ -85,6 +86,6 @@ class AuthenticationController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('connexion');
+        return redirect('/');
     }
 }

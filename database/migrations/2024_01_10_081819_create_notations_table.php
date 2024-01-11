@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('notations', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('note');
-            $table->foreignId('usager_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->foreignId('annonce_id')->constrained();
             $table->timestamps();
         });

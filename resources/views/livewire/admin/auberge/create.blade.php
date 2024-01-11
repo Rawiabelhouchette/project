@@ -302,7 +302,7 @@
                         </div>
 
                         @error('galerie')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
 

@@ -10,7 +10,7 @@ class Favoris extends Model
     use HasFactory;
 
     protected $fillable = [
-        'usager_id',
+        'user_id',
         'annonce_id',
     ];
 

@@ -13,6 +13,7 @@ class Usager extends Model
 {
     use HasFactory, SoftDeletes;
     
+    protected $table = 'users';
     protected $fillable = [
         'nom',
         'prenom',

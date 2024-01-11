@@ -1,4 +1,4 @@
-<div id="signin" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+<div wire:ignore.self id="signin" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -15,26 +15,28 @@
                     <h2>{{ __('Bienvenue !') }} <span class="theme-cl"></span></h2>
                 </div>
 
-                @error('username')
+                @if($error)
                     <div class="alert-group">
                         <div class="alert alert-danger alert-dismissable" style="text-align: center;">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             {{ $message }}
                         </div>
                     </div>
-                @enderror
+                @endif
 
-                <form method="POST" action="{{ route('login') }}">
+                <form wire:submit="login()">
                     @csrf
                     <div class="form-group">
                         <label>{{ __('Identifiant') }}</label>
-                        {{-- <label>Email</label> --}}
-                        <input type="text" minlength="4" name="username" class="form-control form-control-sm" placeholder="Username" required>
+                        <input type="text" minlength="4" name="email" class="form-control form-control-sm" placeholder="Username" wire:model='email' required>
+                        @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group">
                         <label>{{ __('Mot de passe') }}</label>
-                        <input type="password" name="password" class="form-control" placeholder="*******" required>
+                        <input type="password" name="password" class="form-control" placeholder="*******" wire:model='password' required>
                     </div>
 
                     <span class="custom-checkbox d-block">
@@ -44,7 +46,7 @@
                     </span>
 
                     <div class="center">
-                        <button type="submit" class="btn btn-midium theme-btn btn-radius width-200"> {{ __('Connexion') }} </button>
+                        <button type="submit" wire:target='login' wire:loading.attr='disabled' class="btn btn-midium theme-btn btn-radius width-200"> {{ __('Connexion') }} </button>
                     </div>
 
                 </form>
@@ -53,7 +55,6 @@
             <div class="center mrg-top-5">
                 <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
                 <a id="btn-register" href="javascript:void(0)" class="theme-cl">{{ __('Créer un compte') }}</a>
-
             </div>
 
         </div>

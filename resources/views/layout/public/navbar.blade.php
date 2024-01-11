@@ -14,10 +14,14 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div id="navbar-menu" class="collapse navbar-collapse">
+            {{-- @if (auth()->check() && can('Admin')) --}}
             <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
-                <li><a href="javascript:void(0)">{{ __('Déposer votre annonce') }}</a></li>
+                <li><a href="javascript:void(0)">&nbsp;</a></li>
             </ul>
-            @if (!auth()->check())
+            {{-- if user is not connected or hasrole Administrateur --}}
+            @if (
+                !auth()->check() ||
+                    auth()->user()->hasRole('Administrateur'))
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd">
                         <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" class="addlist">
@@ -25,7 +29,11 @@
                         </a>
                     </li>
                 </ul>
-            @else
+            @endif
+
+            @if (auth()->check() &&
+                    (auth()->user()->hasRole('Usager') ||
+                        auth()->user()->hasRole('Professionnel')))
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd dropdown">
                         <a href="javascript:void(0)" class="addlist">
@@ -34,22 +42,42 @@
                         </a>
                         <ul class="dropdown-menu animated navbar-left fadeOutUp" style="display: none; opacity: 1;">
                             <li>
-                                <a href="{{ route('profil.index') }}">
+                                <a href="#">
                                     <i class="fa fa-user" aria-hidden="true"></i> &nbsp;
                                     Mon compte
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('messages.index') }}">
+                                <a href="#">
                                     <i class="fa fa-envelope" aria-hidden="true"></i> &nbsp;
                                     Contact
                                 </a>
                             <li>
-                                <a href="{{ route('favoris.index') }}">
+                                <a href="#">
                                     <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
                                     Favoris
                                 </a>
                             </li>
+                            @if (auth()->user()->hasRole('Professionnel'))
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-cog" aria-hidden="true"></i> &nbsp;
+                                        Mes annonces
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-comments" aria-hidden="true"></i> &nbsp;
+                                        Commentaires
+                                    </a>
+                                </li>
+                            @endif
+                            {{-- <li>
+                                <a href="{{ route('logout') }}"></a>
+                                    <i class="fa fa-power-off" aria-hidden="true"></i> &nbsp;
+                                    Déconnexion
+                                </a>
+                            </li> --}}
                             <li>
                                 <a href="{{ route('logout') }}">
                                     <i class="fa fa-power-off" aria-hidden="true"></i> &nbsp;
