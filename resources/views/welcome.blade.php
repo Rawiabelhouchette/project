@@ -6,9 +6,6 @@
         @include('layout_client.navbar')
         <!-- End Navigation -->
         <div class="clearfix"></div>
-
-        
-
         <!-- Main Banner Section Start -->
         <div class="banner dark-opacity" style="background-image:url(/assets_client/img/bibioteque_1200x680_bibl.jpg);" data-overlay="8">
             <div class="container">

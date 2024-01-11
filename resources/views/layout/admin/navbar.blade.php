@@ -16,7 +16,7 @@
 
         <div class="navbar-collapse" style="margin-right: 15px;">
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
+                {{-- <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope fa-fw"></i>
                         <span class="count-notification green">7</span>
@@ -66,9 +66,9 @@
                         </li>
                     </ul>
                     <!-- /.dropdown-messages -->
-                </li>
+                </li> --}}
                 <!-- /.dropdown -->
-                <li class="dropdown">
+                {{-- <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-bell fa-fw"></i>
                         <span class="count-notification">4</span>
@@ -127,7 +127,7 @@
                         </li>
                     </ul>
                     <!-- /.dropdown-alerts -->
-                </li>
+                </li> --}}
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">

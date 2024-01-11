@@ -6,7 +6,12 @@
         <div class="container">
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
-                    <h1>Vamiyi</h1>
+                    {{-- <h1>Vamiyi</h1> --}}
+                    <h1
+                    {{-- set the weiht of the text in style attribute --}} 
+                    style="font-size: 50px; " 
+                    >Vamiyi, l'aventure commence ici</h1>
+
                     <p>Explorez les meilleurs endroits, des restaurants et plus encore...</p>
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
                         <div class="col-md-6 col-sm-5 no-padd">

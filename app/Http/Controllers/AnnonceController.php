@@ -100,17 +100,8 @@ class AnnonceController extends Controller
 
         return response()->json(
             [
-                'draw' => request()->get('draw'),
                 'recordsTotal' => $annonces->total(),
                 'recordsFiltered' => $annonces->total(),
-                'metaData' => [
-                    'total' => $annonces->total(),
-                    'per_page' => $annonces->perPage(),
-                    'current_page' => $annonces->currentPage(),
-                    'last_page' => $annonces->lastPage(),
-                    'from' => $annonces->firstItem(),
-                    'to' => $annonces->lastItem(),
-                ],
                 'data' => $annonces->items(),
             ],
             200,

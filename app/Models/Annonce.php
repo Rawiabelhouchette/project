@@ -31,7 +31,7 @@ class Annonce extends Model
     protected $appends = [
         'jour_restant',
         'description_courte',
-        'note',
+        // 'note',
     ];
 
     protected $casts = [

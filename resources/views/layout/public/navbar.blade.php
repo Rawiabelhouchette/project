@@ -7,7 +7,7 @@
         <!-- Start Header Navigation -->
         <div class="navbar-header">
             <a class="navbar-brand" href="{{ route('accueil') }}">
-                <img src="{{ asset('assets/img/logo-vamiyi-by-numrod.png') }}" class="logo logo-display" alt="">
+                <img src="{{ asset('assets/img/logo-vamiyi-by-numrod-white.png') }}" class="logo logo-display" alt="">
                 <img src="{{ asset('assets/img/logo-vamiyi-by-numrod.png') }}" class="logo logo-scrolled" alt="">
             </a>
         </div>
