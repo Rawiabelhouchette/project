@@ -3,6 +3,7 @@
 namespace App\Livewire\Public;
 
 use App\Models\Annonce;
+use App\Models\Favoris;
 use Livewire\Component;
 use Livewire\Attributes\On; 
 
@@ -43,6 +44,19 @@ class Search extends Component
             $this->selectedAnnonceId = array_diff($this->selectedAnnonceId, [$type]);
         } else {
             array_push($this->selectedAnnonceId, $type);
+        }
+    }
+
+    public function updateFavoris($annonceId)
+    {
+        $favorite = Favoris::where('annonce_id', $annonceId)->where('user_id', auth()->user()->id)->first();
+        if ($favorite) {
+            $favorite->delete();
+        } else {
+            Favoris::create([
+                'annonce_id' => $annonceId,
+                'user_id' => auth()->user()->id
+            ]);
         }
     }
 

@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Models\Annonce;
+use App\Models\StatistiqueAnnonce;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
@@ -17,11 +18,37 @@ class Kernel extends ConsoleKernel
         try {
             $schedule->call(function () {
                 Annonce::where('date_validite', '<', now())->update(['is_active' => false]);
-            })->hourly();
+            })
+            // ;
+            ->hourly();
+
+            $schedule->call(function () {
+                $this->updateAnnonceStat();
+            })
+            // ;
+            ->daily();
+            
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
+
     }
+    
+    private function updateAnnonceStat()
+    {
+        // update annonce stat
+        $annonces = Annonce::all();
+        foreach ($annonces as $annonce) {
+            $nb_favoris = $annonce->favoris()->count();
+            $nb_notation = $annonce->notation()->count();
+
+            $stat = StatistiqueAnnonce::where('annonce_id', $annonce->id)->first();
+            $stat->nb_favoris = $nb_favoris;
+            $stat->nb_notation = $nb_notation;
+            $stat->save();
+        }
+    }
+
 
     /**
      * Register the commands for the application.

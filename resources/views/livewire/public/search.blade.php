@@ -99,18 +99,33 @@
                         @foreach ($annonces as $annonce)
                             <div class="col-md-6 col-sm-6">
                                 <div class="listing-shot grid-style">
-                                    <a href="{{ route('show', $annonce->slug) }}">
-                                        <div class="listing-shot-img">
+                                    <div class="listing-shot-img">
+                                        <a href="{{ route('show', $annonce->slug) }}">
                                             <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
-                                            {{-- <span class="approve-listing"><i class="fa fa-check"></i></span> --}}
-                                        </div>
-                                        <div class="listing-shot-caption">
+                                        </a>
+                                        {{-- <span class="approve-listing"><i class="fa fa-check"></i></span> --}}
+                                    </div>
+                                    <div class="listing-shot-caption">
+                                        <a href="{{ route('show', $annonce->slug) }}">
                                             <h4>{{ $annonce->titre }}</h4>
-                                            <p class="listing-location" sty>{{ $annonce->description_courte }}</p>
-                                            <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                            {{-- <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span> --}}
-                                        </div>
-                                    </a>
+                                            <p class="listing-location">{{ $annonce->description_courte }}</p>
+                                        </a>
+                                        @if (Auth::check() && Auth::user()->hasRole('Usager'))
+                                            @if ($annonce->est_favoris)
+                                                <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                                                    <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                                </a>
+                                            @else
+                                                <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                                                    <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                                </a>
+                                            @endif
+                                        @else
+                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" data-toggle="modal" data-target="#signin">
+                                                <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                            </a>
+                                        @endif
+                                    </div>
                                     <div class="listing-price-info">
                                         <span class="pricetag">{{ $annonce->type }} </span>
 
@@ -138,25 +153,37 @@
                                             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                                                 <a href="#">
                                                     <i class="fa fa-share-alt" aria-hidden="true"></i>
-                                                </a> 123237
+                                                </a> {{ $annonce->nb_partage }}
                                                 &nbsp;&nbsp;
-                                                <i class="fa fa-eye" aria-hidden="true"></i> 1233,43k
+                                                <i class="fa fa-eye" aria-hidden="true"></i> {{ $annonce->nb_vue }}
                                                 &nbsp;&nbsp;
-                                                <i class="fa fa-comment" aria-hidden="true"></i> 1233,43k
-
-                                                {{-- <i class="color fa fa-star" aria-hidden="true"></i>
-                                            <i class="color fa fa-star" aria-hidden="true"></i>
-                                            <i class="color fa fa-star" aria-hidden="true"></i>
-                                            <i class="color fa fa-star-half-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i> --}}
+                                                <i class="fa fa-comment" aria-hidden="true"></i> {{ $annonce->nb_commentaire }}
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
 
+                                                {{-- <i class="color fa fa-star" aria-hidden="true"></i>
                                                 <i class="color fa fa-star" aria-hidden="true"></i>
-                                            <i class="color fa fa-star" aria-hidden="true"></i>
-                                            <i class="color fa fa-star" aria-hidden="true"></i>
-                                            <i class="color fa fa-star-half-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="color fa fa-star" aria-hidden="true"></i>
+                                                <i class="color fa fa-star-half-o" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i> --}}
+                                                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
+                                                    @endfor
+                                                    &nbsp;&nbsp;
+                                                    {{ $annonce->nb_notation }}
+                                                </div>
+                                                {{-- <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if ($i <= intval($annonce->note))
+                                                            <i class="color fa fa-star" aria-hidden="true"></i>
+                                                        @elseif ($i == intval($annonce->note) + 1 && $annonce->note - intval($annonce->note) > 0)
+                                                            <i class="color fa fa-star-half-o" aria-hidden="true"></i>
+                                                        @else
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                        @endif
+                                                    @endfor
+                                                </div> --}}
                                             </div>
                                             {{-- <div class="col-md-5 col-sm-5 col-xs-6 pull-right text-right">
                                                 <i class="fa fa-eye" aria-hidden="true"></i> 1233,43k

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\Rules\In;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
 use Illuminate\Support\Str;
@@ -32,6 +33,17 @@ class Annonce extends Model
         'jour_restant',
         'description_courte',
         // 'note',
+        'est_favoris',
+
+        // stat
+        'nb_vue',
+        'nb_vue_par_jour',
+        'nb_vue_par_semaine',
+        'nb_vue_par_mois',
+        'nb_partage',
+        'nb_favoris',
+        'nb_commentaire',
+        'nb_notation',
     ];
 
     protected $casts = [
@@ -48,6 +60,18 @@ class Annonce extends Model
 
         static::saving(function ($model) {
             $model->slug = Str::slug($model->titre);
+
+            if (!$model->statistique) {
+                $model->statistique()->create([
+                    'nb_vue' => 0,
+                    'nb_vue_par_jour' => 0,
+                    'nb_vue_par_semaine' => 0,
+                    'nb_vue_par_mois' => 0,
+                    'nb_partage' => 0,
+                    'nb_favoris' => 0,
+                    'nb_commentaire' => 0,
+                ]);
+            }
         });
 
         static::updating(function ($model) {
@@ -93,6 +117,7 @@ class Annonce extends Model
         }
         return $display;
     }
+
 
     public function getJourRestantAttribute() : int
     {
@@ -152,17 +177,80 @@ class Annonce extends Model
         return $this->hasMany(Commentaire::class);
     }
 
-    // public function notation()
-    // {
-    //     return $this->hasMany(Notation::class);
-    // }
+    public function statistique()
+    {
+        return $this->hasOne(StatistiqueAnnonce::class);
+    }
+
+    public function notation()
+    {
+        return $this->hasMany(Notation::class);
+    }
 
     // moyen de notation de l'annonce
-    // public function getNoteAttribute() : float
-    // {
-    //     $avg = $this->notation()->avg('note');
-    //     // Pour arrondire de sorte a avoir soir un nombre soit *,5
-    //     return round($avg * 2) / 2;
-    // }
+    public function getNoteAttribute() : float
+    {
+        $avg = $this->notation()->avg('note');
 
+        // si la moyenne est null, on retourne 0
+        if (is_null($avg)) {
+            return 0;
+        }
+
+        // arrondir à l'entier supérieur si la décimale est supérieur ou égale à 0.5
+        $decimal = $avg - floor($avg);
+        // dd($decimal);
+        if ($decimal >= 0 && $decimal < 0.5) {
+            return floor($avg);
+        } else {
+            return ceil($avg);
+        }
+
+        
+    }
+
+    public function getEstFavorisAttribute() : bool
+    {
+        return $this->favoris()->where('user_id', auth()->user()->id)->exists();
+    }
+
+    public function getNbVueAttribute() : string
+    {
+        return $this->formatNumber($this->statistique->nb_vue);
+    }
+
+    public function getNbVueParJourAttribute() : string
+    {
+        return $this->formatNumber($this->statistique->nb_vue_par_jour);
+    }
+
+    public function getNbVueParSemaineAttribute() : string
+    {
+        return $this->formatNumber($this->statistique->nb_vue_par_semaine);
+    }
+
+    public function getNbVueParMoisAttribute() : string
+    {
+        return $this->formatNumber($this->statistique->nb_vue_par_mois);
+    }
+
+    public function getNbPartageAttribute() : string
+    {
+        return $this->formatNumber($this->statistique->nb_partage);
+    }
+
+    public function getNbFavorisAttribute() : string
+    {
+        return $this->formatNumber($this->statistique->nb_favoris);
+    }
+
+    public function getNbCommentaireAttribute() : string
+    {
+        return $this->formatNumber($this->statistique->nb_commentaire);
+    }
+
+    public function getNbNotationAttribute() : string
+    {
+        return $this->formatNumber($this->statistique->nb_notation);
+    }
 }
