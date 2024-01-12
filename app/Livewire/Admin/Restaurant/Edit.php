@@ -16,6 +16,8 @@ class Edit extends Component
     use WithFileUploads;
 
     public $nom;
+    public $image;
+    public $old_image;
     public $type;
     public $description;
     public $date_validite;
@@ -85,6 +87,7 @@ class Edit extends Component
         $this->carte_consommation = $restaurant->annonce->references('carte-de-consommation')->pluck('id')->toArray();
 
         $this->old_galerie = $restaurant->annonce->galerie()->get();
+        $this->old_image = $restaurant->annonce->imagePrincipale;
     }
 
     private function initialization()
@@ -254,7 +257,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->restaurant->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->restaurant->annonce, $this->galerie, 'restaurants');
+            AnnoncesUtils::updateGalerie($this->image, $this->restaurant->annonce, $this->galerie, 'restaurants');
 
             DB::commit();
         } catch (\Throwable $th) {

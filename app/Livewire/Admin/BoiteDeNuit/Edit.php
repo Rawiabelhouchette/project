@@ -40,6 +40,8 @@ class Edit extends Component
     public $old_galerie = [];
 
     public $is_active;
+    public $image;
+    public $old_image;
 
 
     public function mount($boiteDeNuit)
@@ -56,6 +58,7 @@ class Edit extends Component
         $this->types_musique = $boiteDeNuit->annonce->references('types-de-musique')->pluck('id')->toArray();
         $this->equipements_vie_nocturne = $boiteDeNuit->annonce->references('equipements-vie-nocturne')->pluck('id')->toArray();
         $this->old_galerie = $boiteDeNuit->annonce->galerie()->get();
+        $this->old_image = $boiteDeNuit->annonce->imagePrincipale;
     }
 
     private function initialization()
@@ -170,7 +173,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->boiteDeNuit->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->boiteDeNuit->annonce, $this->galerie, 'boite-de-nuits');
+            AnnoncesUtils::updateGalerie($this->image, $this->boiteDeNuit->annonce, $this->galerie, 'boite-de-nuits');
 
             DB::commit();
         } catch (\Throwable $th) {

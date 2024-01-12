@@ -51,6 +51,7 @@ class Create extends Component
 
     public $entreprises = [];
     public $galerie = [];
+    public $image;
 
     public function mount()
     {
@@ -212,7 +213,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'restaurants');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'restaurants');
 
             DB::commit();
         } catch (\Throwable $th) {

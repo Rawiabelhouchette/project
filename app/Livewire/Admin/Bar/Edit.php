@@ -38,6 +38,9 @@ class Edit extends Component
     public $entreprises = [];
     public $galerie = [];
     public $old_galerie = [];
+    public $image;
+    public $old_image;
+
 
     public function mount($bar)
     {
@@ -59,6 +62,8 @@ class Edit extends Component
 
         $this->equipements_vie_nocturne = $bar->annonce->references('equipements-vie-nocturne')->pluck('id')->toArray();
         $this->commodites_vie_nocturne = $bar->annonce->references('commodites-vie-nocturne')->pluck('id')->toArray();
+
+        $this->old_image = $bar->annonce->imagePrincipale;
 
     }
 
@@ -188,7 +193,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->bar->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->bar->annonce, $this->galerie, 'bars');
+            AnnoncesUtils::updateGalerie($this->image, $this->bar->annonce, $this->galerie, 'bars');
 
             DB::commit();
         } catch (\Throwable $th) {

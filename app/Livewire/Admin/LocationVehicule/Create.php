@@ -50,6 +50,8 @@ class Create extends Component
     public $galerie = [];
     public $date_validite;
     public $heure_validite;
+    public $image;
+    public $old_image;
 
 
     public function mount()
@@ -208,7 +210,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'location-vehicules');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'location-vehicules');
 
             DB::commit();
         } catch (\Throwable $th) {

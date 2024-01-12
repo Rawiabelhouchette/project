@@ -18,6 +18,8 @@ class Edit extends Component
     use WithFileUploads;
 
     public $nom;
+    public $image;
+    public $old_image;
     public $type;
     public $description;
     public $marque;
@@ -76,6 +78,7 @@ class Edit extends Component
         $this->conditions_location = $locationVehicule->annonce->references('conditions-de-location')->pluck('id')->toArray();
 
         $this->old_galerie = $locationVehicule->annonce->galerie()->get();
+        $this->old_image = $locationVehicule->annonce->imagePrincipale;
     }
 
     private function initialization()
@@ -242,7 +245,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->locationVehicule->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->locationVehicule->annonce, $this->galerie, 'location-vehicules');
+            AnnoncesUtils::updateGalerie($this->image, $this->locationVehicule->annonce, $this->galerie, 'location-vehicules');
 
             DB::commit();
         // } catch (\Throwable $th) {

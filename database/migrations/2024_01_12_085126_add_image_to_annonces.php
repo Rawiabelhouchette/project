@@ -4,15 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::table('annonces', function (Blueprint $table) {
-            $table->string('image_a_la_une')->nullable()->after('description');
+            $table->foreignId('image')->nullable()->constrained('fichiers')->after('description');
         });
     }
 
@@ -22,7 +21,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('annonces', function (Blueprint $table) {
-            //
+            try {
+                $table->dropForeign(['image']);
+                $table->dropColumn('image');
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         });
     }
 };

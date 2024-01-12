@@ -37,6 +37,7 @@ class Create extends Component
 
     public $entreprises = [];
     public $galerie = [];
+    public $image;
 
 
     public function mount()
@@ -69,14 +70,15 @@ class Create extends Component
             'type_bar' => 'nullable|string',
             'type_musique' => 'nullable|string',
             'capacite_accueil' => 'nullable|integer',
-            'equipements_vie_nocturne' => 'required|array',
-            'equipements_vie_nocturne.*' => 'required|integer|exists:reference_valeurs,id',
-            'commodites_vie_nocturne' => 'required|array',
-            'commodites_vie_nocturne.*' => 'required|integer|exists:reference_valeurs,id',
-            'galerie' => 'required|array',
-            'galerie.*' => 'required|image|max:1024',
+            'equipements_vie_nocturne' => 'nullable|array',
+            'equipements_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
+            'commodites_vie_nocturne' => 'nullable|array',
+            'commodites_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
+            'galerie' => 'nullable|array',
+            'galerie.*' => 'nullable|image|max:1024',
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
+            // 'image' => 'required',
         ];
     }
 
@@ -122,6 +124,8 @@ class Create extends Component
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
+
+            'image.required' => 'L\'image est obligatoire',
         ];
     }
 
@@ -160,7 +164,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'bars');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'bars');
 
             DB::commit();
         } catch (\Throwable $th) {

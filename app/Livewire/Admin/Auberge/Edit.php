@@ -47,6 +47,8 @@ class Edit extends Component
     public $date_validite;
     public $heure_validite;
     public $auberge;
+    public $image;
+    public $old_image;
 
     public function mount($auberge)
     {
@@ -71,6 +73,7 @@ class Edit extends Component
         $this->equipements_cuisine = $auberge->annonce->references('equipements-cuisine')->pluck('id')->toArray();
         $this->types_hebergement = $auberge->annonce->references('types-hebergement')->pluck('id')->toArray();
         $this->old_galerie = $auberge->annonce->galerie()->get();
+        $this->old_image = $auberge->annonce->imagePrincipale;
     }
 
     private function initialization()
@@ -229,7 +232,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->auberge->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->auberge->annonce, $this->galerie, 'annonces');
+            AnnoncesUtils::updateGalerie($this->image, $this->auberge->annonce, $this->galerie, 'annonces');
 
             DB::commit();
         } catch (\Throwable $th) {

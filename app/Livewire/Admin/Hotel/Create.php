@@ -46,6 +46,7 @@ class Create extends Component
     public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
+    public $image;
 
     public function mount()
     {
@@ -186,7 +187,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'hotels');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'hotels');
 
 
             DB::commit();

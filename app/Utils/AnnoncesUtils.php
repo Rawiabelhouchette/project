@@ -169,8 +169,20 @@ class AnnoncesUtils
         }
     }
 
-    public static function createGalerie($model, $variable, $folder_name): void
+    public static function createGalerie($model, $image, $variable, $folder_name): void
     {
+        if($image){
+            $image->store('public/' . $folder_name);
+            $fichier = Fichier::create([
+                'nom' => $image->hashName(),
+                'chemin' => $folder_name . '/' . $image->hashName(),
+                'extension' => $image->extension(),
+            ]);
+
+            $model->image = $fichier->id;
+            $model->save();
+        }
+
         if ($variable) {
             foreach ($variable as $image) {
                 $image->store('public/' . $folder_name);
@@ -185,8 +197,20 @@ class AnnoncesUtils
         }
     }
 
-    public static function updateGalerie($model, $variable, $folder_name): void
+    public static function updateGalerie($image, $model, $variable, $folder_name): void
     {
+        if($image){
+            $image->store('public/' . $folder_name);
+            $fichier = Fichier::create([
+                'nom' => $image->hashName(),
+                'chemin' => $folder_name . '/' . $image->hashName(),
+                'extension' => $image->extension(),
+            ]);
+
+            $model->image = $fichier->id;
+            $model->save();
+        }
+
         if ($variable) {
             $model->removeGalerie();
             foreach ($variable as $image) {

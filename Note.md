@@ -61,3 +61,6 @@ La description d'entreprise ne marche pas
 - Faire des recherches sur la connexion via google account (pas possible pour le momennt apres recherche )
 - Chercher si possible pourquoi les images font genre ne s'affiche pas parfois
 - Trouver une maniere des faire le deploiement automatique
+
+
+# verifier et gerer la suppression des fichiers

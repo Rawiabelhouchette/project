@@ -18,6 +18,8 @@ class Edit extends Component
     use WithFileUploads;
 
     public $nom;
+    public $image;
+    public $old_image;
     public $description;
     public $date_validite;
     public $entreprise_id;
@@ -62,6 +64,7 @@ class Edit extends Component
         $this->equipements_patisserie = $patisserie->annonce->references('equipements-patisserie')->pluck('id')->toArray();
 
         $this->old_galerie = $patisserie->annonce->galerie()->get();        
+        $this->old_image = $patisserie->annonce->imagePrincipale;
     }
 
     private function initialization()
@@ -174,7 +177,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->patisserie->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->patisserie->annonce, $this->galerie, 'patisseries');
+            AnnoncesUtils::updateGalerie($this->image, $this->patisserie->annonce, $this->galerie, 'patisseries');
 
             DB::commit();
         } catch (\Throwable $th) {

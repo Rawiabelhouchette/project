@@ -24,8 +24,8 @@ class Create extends Component
     public $entreprise_id;
     public $ingredient;
 
-    public $prix_minimum;
-    public $prix_maximum;
+    public $prix_min;
+    public $prix_max;
 
     public $produits_fast_food = [];
     public $list_produits_fast_food = [];
@@ -35,6 +35,7 @@ class Create extends Component
 
     public $entreprises = [];
     public $galerie = [];
+    public $image;
 
     public function mount()
     {
@@ -111,8 +112,8 @@ class Create extends Component
             DB::beginTransaction();
 
             $fastFood = FastFood::create([
-                'prix_min' => $this->prix_minimum,
-                'prix_max' => $this->prix_maximum,
+                'prix_min' => $this->prix_min,
+                'prix_max' => $this->prix_max,
             ]);
 
             $annonce = new Annonce([
@@ -132,7 +133,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'fast-foods');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'fast-foods');
 
             DB::commit();
         } catch (\Throwable $th) {

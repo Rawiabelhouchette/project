@@ -26,6 +26,7 @@ class Annonce extends Model
         'annonceable_type',
         'annonceable_id',
         'type',
+        'image',
     ];
 
     protected $appends = [
@@ -58,7 +59,7 @@ class Annonce extends Model
 
         static::saving(function ($model) {
             $model->slug = Str::slug($model->titre);
-
+            $model->is_active = true;
         });
 
         static::updating(function ($model) {
@@ -90,6 +91,11 @@ class Annonce extends Model
     public function galerie(): BelongsToMany
     {
         return $this->belongsToMany(Fichier::class, 'annonce_fichier', 'annonce_id', 'fichier_id');
+    }
+
+    public function imagePrincipale()
+    {
+        return $this->belongsTo(Fichier::class, 'image');
     }
 
     public function annonceable()

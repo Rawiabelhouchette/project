@@ -17,6 +17,9 @@ class Edit extends Component
     use WithFileUploads;
 
     public $nom;
+    public $image;
+    public $old_image;
+
     public $type;
     public $types_hebergement;
     public $is_active;
@@ -72,6 +75,7 @@ class Edit extends Component
         $this->equipements_cuisine = $hotel->annonce->references('equipements-cuisine')->pluck('id')->toArray();
         $this->types_hebergement = $hotel->annonce->references('types-hebergement')->pluck('id')->toArray();
         $this->old_galerie = $hotel->annonce->galerie()->get();
+        $this->old_image = $hotel->annonce->imagePrincipale;
     }
 
     private function initialization()
@@ -229,7 +233,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->hotel->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->hotel->annonce, $this->galerie, 'hotels');
+            AnnoncesUtils::updateGalerie($this->image, $this->hotel->annonce, $this->galerie, 'hotels');
             
             DB::commit();
         } catch (\Throwable $th) {

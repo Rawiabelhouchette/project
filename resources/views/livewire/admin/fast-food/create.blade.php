@@ -85,7 +85,7 @@
                                 <label class="">Prix maximum
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="number" class="form-control" value="0" placeholder="" wire:model.defer='prix_max' min="{{ $this->prix_maximum }}">
+                                <input type="number" class="form-control" value="0" placeholder="" wire:model.defer='prix_max' min="{{ $this->prix_max }}">
                                 @error('prix_max')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

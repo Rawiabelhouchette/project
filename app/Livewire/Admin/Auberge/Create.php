@@ -47,6 +47,7 @@ class Create extends Component
     public $galerie = [];
     public $date_validite;
     public $heure_validite;
+    public $image;
 
 
     public function mount()
@@ -117,6 +118,7 @@ class Create extends Component
             // prix_min < prix_max
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
+            // 'image' => 'required|image|max',
         ];
     }
 
@@ -137,6 +139,7 @@ class Create extends Component
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
+            'image.required' => 'L\'image est obligatoire',
         ];
     }
 
@@ -186,7 +189,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'annonces');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'annonces');
 
             DB::commit();
         } catch (\Throwable $th) {

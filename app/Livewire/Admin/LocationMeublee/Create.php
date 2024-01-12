@@ -45,6 +45,7 @@ class Create extends Component
     public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
+    public $image;
 
     public function mount()
     {
@@ -106,7 +107,7 @@ class Create extends Component
             'commodites' => 'nullable',
             'services' => 'nullable',
             'equipements_herbegement' => 'nullable',
-            'equipements_salle_bain' => 'required',
+            'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'required',
             'galerie.*' => 'image',//|max:5120',
             // 'galerie' => 'max:10',
@@ -195,7 +196,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'location-meublees');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'location-meublees');
 
 
             DB::commit();
