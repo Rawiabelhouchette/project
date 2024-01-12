@@ -15,7 +15,12 @@ class Search extends Component
     public $sortOrder = '';
     public $column = '';
     public $direction = '';
+
+    public $allAnnonceTypes = [];
     public $typesAnnonce = [];
+    public $elementToDisplay = 5;
+    public $displayedAnnonce;
+
     public $selectedAnnonce = [];
     public $selectedAnnonceId = [];
 
@@ -23,11 +28,14 @@ class Search extends Component
 
     public function mount($key, $type, $filter = [])
     {
+        $this->displayedAnnonce = $this->elementToDisplay;
         $this->key = $key;
         $this->type = $type;
-        $this->typesAnnonce = Annonce::pluck('type')->unique()->toArray();
+        $this->allAnnonceTypes = Annonce::pluck('type')->unique()->toArray();
         $this->selectedAnnonceId = $filter;
     }
+
+
 
     public function updatedSortOrder()
     {
@@ -60,8 +68,24 @@ class Search extends Component
         }
     }
 
+    public function loadMoreAnnonceType()
+    {
+        // check if the number of displayed annonce is less than the number of annonce type
+        if ($this->displayedAnnonce < count($this->allAnnonceTypes)) {
+            // if yes, add 5 to the number of displayed annonce
+            $this->displayedAnnonce += 5;
+        } else {
+            // if no, set the number of displayed annonce to the number of annonce type
+            $this->displayedAnnonce = count($this->allAnnonceTypes);
+        } 
+    
+        
+
+    }
+
     public function render()
     {
+        $this->typesAnnonce = array_slice($this->allAnnonceTypes, 0, $this->displayedAnnonce);
         $selectedAnnonceId = $this->selectedAnnonceId;
         $type = $this->type;
         $key = $this->key;

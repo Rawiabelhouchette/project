@@ -6,9 +6,10 @@
 
                 <!-- Start Sidebar -->
                 <div class="col-md-4 col-sm-12">
+                    <h4 class="text-center mrg-bot-15">Filtrer vos recherches</h4>
                     <div class="sidebar">
                         <!-- Start: Search By Price -->
-                        <div class="widget-boxed">
+                        <div class="widget-boxed padd-bot-10">
                             <div class="widget-boxed-header">
                                 <h4><i class="ti-briefcase padd-r-10"></i>Types d'annonce
                             </div>
@@ -26,6 +27,13 @@
                                     </ul>
                                 </div>
                             </div>
+                            @if (count($allAnnonceTypes) > count($typesAnnonce))
+                                <div class="text-center padd-top-5 padd-bot-0">
+                                    <a href="javascript:void(0)" wire:click='loadMoreAnnonceType'>
+                                        <h5>Voir plus ({{ count($allAnnonceTypes) - count($typesAnnonce) }}) +</h5>
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                         <!-- End: Search By Price -->
 
@@ -93,9 +101,7 @@
                         </div>
                     </div>
                     <!-- End Filter option -->
-
                     <div class="row mrg-0">
-
                         @foreach ($annonces as $annonce)
                             <div class="col-md-6 col-sm-6">
                                 <div class="listing-shot grid-style">
