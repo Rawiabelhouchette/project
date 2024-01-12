@@ -107,7 +107,11 @@
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-img">
                                         <a href="{{ route('show', $annonce->slug) }}">
-                                            <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
+                                            @if ($annonce->image)
+                                                <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt="">
+                                            @else
+                                                <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
+                                            @endif
                                         </a>
                                         {{-- <span class="approve-listing"><i class="fa fa-check"></i></span> --}}
                                     </div>

@@ -7,10 +7,7 @@
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
                     {{-- <h1>Vamiyi</h1> --}}
-                    <h1
-                    {{-- set the weiht of the text in style attribute --}} 
-                    style="font-size: 50px; " 
-                    >Vamiyi, l'aventure commence ici</h1>
+                    <h1 {{-- set the weiht of the text in style attribute --}} style="font-size: 50px; ">Vamiyi, l'aventure commence ici</h1>
 
                     <p>Explorez les meilleurs endroits, des restaurants et plus encore...</p>
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
@@ -90,21 +87,26 @@
             @foreach ($annonces as $annonce)
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="property_item classical-list">
-                        <div class="image">
+                        <div class="image"  style="height: 200px important">
                             <a href="{{ route('show', $annonce->slug) }}" class="listing-thumb">
-                                <img src="http://via.placeholder.com/1200x800" alt="latest property" class="img-responsive">
+                                @if ($annonce->image)
+                                    <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" class="img-responsive" style="object-fit: cover; object-position: center; width: 100%; height: 100%;">
+                                @else
+                                    <img src="http://via.placeholder.com/1200x800" alt="latest property" class="img-responsive">
+                                @endif
                             </a>
-                            <div class="listing-price-info">
-                                {{-- <span class="pricetag">Featured</span>
-                                    <span class="pricetag">$25 - $65</span> --}}
-                            </div>
-                            {{-- <a href="#" class="tag_t"><i class="ti-heart"></i>Save</a>
-                                <span class="list-rate good">4.2</span> --}}
+                            {{-- <div class="listing-price-info">
+                                <span class="pricetag">{{ $annonce->type }}</span>
+                            </div> --}}
                         </div>
 
                         <div class="proerty_content">
                             <div class="author-avater">
-                                <img src="http://via.placeholder.com/120x120" class="author-avater-img" alt="">
+                                @if ($annonce->image)
+                                    <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" class="author-avater-img" style="width: 70px; height: 70px;">
+                                @else
+                                    <img src="http://via.placeholder.com/120x120" class="author-avater-img" alt="">
+                                @endif
                             </div>
                             <div class="proerty_text">
                                 <h3 class="captlize">
@@ -135,10 +137,12 @@
 
                         <div class="listing-footer-info">
                             <div class="listing-cat">
-                                <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}" class="cat-icon cl-1">
-                                    <i class="fas fa-building"></i> {{ $annonce->entreprise->nom }}
+                                <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}" class=" cl-1">
+                                    <span class="more-cat mrg-l-0" style="">
+                                        <i class="fas fa-building"></i>
+                                    </span> &nbsp;
+                                    {{ $annonce->entreprise->nom }}
                                 </a>
-                                <span class="more-cat" style="">+{{ $annonce->entreprise->nombre_annonces }}</span>
                             </div>
                             @if ($annonce->entreprise->est_ouverte)
                                 <span class="place-status">Ouvert</span>
