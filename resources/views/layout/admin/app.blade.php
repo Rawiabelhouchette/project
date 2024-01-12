@@ -39,6 +39,7 @@
 
     <link href="{{ asset('assets/css/perso.css') }}" rel="stylesheet" />
 
+
     <!-- DATATABLE -->
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css"> --}}
@@ -204,6 +205,9 @@
 
     <!-- SWEET ALERT -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- fancybox -->
+    <script src="{{ asset('assets_client/plugins/js/jquery.fancybox.js') }}"></script>
 
     <script>
         window.addEventListener('alert:modal', event => {

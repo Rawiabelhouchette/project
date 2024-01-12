@@ -157,6 +157,7 @@
 
                 @include('admin.annonce.edit-galery-component', [
                     'galery' => $galerie,
+                    'old_galerie' => $old_galerie,
                 ])
 
                 <div class="row">

@@ -207,138 +207,71 @@
                     </div>
                 </div>
 
-                <div class="row" wire:ignore>
-                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Type d'hébergement
-                        </label> <br>
-                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='types_hebergement' data-nom="types_hebergement">
-                            @foreach ($list_types_hebergement as $type)
-                                <option value="{{ $type->id }}">{{ $type->valeur }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                <div class="row" style="padding-left: 10px; padding-right: 10px;">
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Type d\'hebergement',
+                        'name' => 'types_hebergement',
+                        'options' => $list_types_hebergement,
+                    ])
+
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Type de lit',
+                        'name' => 'types_lit',
+                        'options' => $list_types_lit,
+                        'required' => true,
+                    ])
+
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Commodités',
+                        'name' => 'commodites',
+                        'options' => $list_commodites,
+                    ])
+
+                    {{-- service --}}
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Services',
+                        'name' => 'services',
+                        'options' => $list_services,
+                    ])
+
+                    {{-- equipements_herbegement --}}
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Equipements d\'hébergement',
+                        'name' => 'equipements_herbegement',
+                        'options' => $list_equipements_herbegement,
+                    ])
+
+                    {{-- equipements_cuisine --}}
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Equipements de cuisine',
+                        'name' => 'equipements_cuisine',
+                        'options' => $list_equipements_cuisine,
+                        'required' => true,
+                    ])
+
+                    {{-- equipements_salle_bain --}}
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Equipements de salle de bain',
+                        'name' => 'equipements_salle_bain',
+                        'options' => $list_equipements_salle_bain,
+                    ])
                 </div>
 
-                <div class="row" wire:ignore>
-                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Type de lit
-                            <b style="color: red; font-size: 100%;">*</b>
-                        </label> <br>
-                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='types_lit' data-nom="types_lit" required>
-                            @foreach ($list_types_lit as $type)
-                                <option value="{{ $type->id }}">{{ $type->valeur }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row" wire:ignore>
-                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Commodités
-                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                        </label> <br>
-                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='commodites' data-nom="commodites">
-                            @foreach ($list_commodites as $commodite)
-                                <option value="{{ $commodite->id }}">{{ $commodite->valeur }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row" wire:ignore>
-                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Services
-                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                        </label> <br>
-                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='services' data-nom="services">
-                            @foreach ($list_services as $service)
-                                <option value="{{ $service->id }}">{{ $service->valeur }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row" wire:ignore>
-                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Equipements d'hébergement
-                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                        </label> <br>
-                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='equipements_herbegement' data-nom="equipements_herbegement">
-                            @foreach ($list_equipements_herbegement as $item)
-                                <option value="{{ $item->id }}">{{ $item->valeur }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row" wire:ignore>
-                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Equipement de cuisine
-                            <b style="color: red; font-size: 100%;">*</b>
-                        </label> <br>
-                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='equipements_cuisine' data-nom="equipements_cuisine" required>
-                            @foreach ($list_equipements_cuisine as $item)
-                                <option value="{{ $item->id }}">{{ $item->valeur }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row" wire:ignore>
-                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Equipement de salle de bain
-                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                        </label> <br>
-                        <select class="form-control select2" multiple style="width: 100%;" wire:model.defer='equipements_salle_bain' data-nom="equipements_salle_bain">
-                            @foreach ($list_equipements_salle_bain as $item)
-                                <option value="{{ $item->id }}">{{ $item->valeur }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                @include('admin.annonce.edit-galery-component', [
+                    'galery' => $galerie,
+                    'old_galerie' => $old_galerie,
+                ])
 
                 <div class="row">
-                    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 40px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Galérie
-                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                        </label> <br>
-                        <label for="upload" class="btn btn-sm theme-btn-outlined" style="padding: 6px">
-                            <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
-                            &nbsp; &nbsp; &nbsp;
-                            @if ($galerie)
-                                {{ count($galerie) }} image(s) sélectionnée(s)
-                            @else
-                                Aucune image sélectionnée
-                            @endif
-                            &nbsp; &nbsp;
-                        </label>
-                        <input id="upload" type="file" wire:model="galerie" accept="image/*" multiple style="display: none;"> <br>
-                        <div class="text-center">
-                            @foreach ($galerie as $index => $image)
-                                <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
-                            @endforeach
-                            @if (empty($galerie))
-                                @foreach ($old_galerie as $image)
-                                    <img src="{{ asset('storage/' . $image->chemin) }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
-                                @endforeach
-                            @endif
-                        </div>
-
-                        @error('galerie')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group" style="margin-top: 15px;">
-                            <div class="col-md-12 col-sm-12 text-right">
-                                <button wire:target='update' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 30px;">
-                                    <i class="fa fa-pencil fa-lg" style="margin-right: 10px;"></i>
-                                    Modifier
-                                </button>
-                            </div>
+                    <div class="form-group" style="margin-top: 15px;">
+                        <div class="col-md-12 col-sm-12 text-right">
+                            <button wire:target='update' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 30px;">
+                                <i class="fa fa-pencil fa-lg" style="margin-right: 10px;"></i>
+                                Modifier
+                            </button>
                         </div>
                     </div>
+                </div>
             </form>
 
         </div>

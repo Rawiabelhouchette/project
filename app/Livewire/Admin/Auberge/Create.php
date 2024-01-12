@@ -153,7 +153,7 @@ class Create extends Component
         try {
             DB::beginTransaction();
 
-            $date_validite = $this->date_validite . ' ' . $this->heure_validite;
+            // $date_validite = $this->date_validite . ' ' . $this->heure_validite;
 
             $auberge = Auberge::create([
                 'nombre_chambre' => $this->nombre_chambre,

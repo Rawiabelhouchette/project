@@ -2,7 +2,7 @@
 
 <div class="row bott-wid">
 
-    <div class="col-md-12 col-sm-12">
+    {{-- <div class="col-md-12 col-sm-12">
         <div class="card">
             <div class="card-header">
                 <h4>Prévisualisation de l'annonce</h4>
@@ -10,7 +10,6 @@
         </div>
     </div>
 
-    <!-- Single Listing -->
     <div class="col-md-4 col-sm-6">
         <div class="listing-shot grid-style">
             <a href="{{ route('show', $annonce->slug) }}" target="_blank">
@@ -49,5 +48,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>

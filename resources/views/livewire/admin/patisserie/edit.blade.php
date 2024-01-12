@@ -155,24 +155,21 @@
                     </div>
                 </div>
 
-                <div class="row" style="padding-left: 10px; padding-right: 10px;">
-                    @include('admin.annonce.reference-select-component', [
-                        'title' => 'Produits',
-                        'name' => 'produits_patissiers',
-                        'options' => $list_produits_patissiers,
-                    ])
+                @include('admin.annonce.reference-select-component', [
+                    'title' => 'Produits',
+                    'name' => 'produits_patissiers',
+                    'options' => $list_produits_patissiers,
+                ])
 
-                    @include('admin.annonce.reference-select-component', [
-                        'title' => 'Equipements',
-                        'name' => 'equipements_patisserie',
-                        'options' => $list_equipements_patisserie,
-                    ])
-
-                </div>
+                @include('admin.annonce.reference-select-component', [
+                    'title' => 'Equipements',
+                    'name' => 'equipements_patisserie',
+                    'options' => $list_equipements_patisserie,
+                ])
 
                 @include('admin.annonce.edit-galery-component', [
                     'galery' => $galerie,
-                    'old_galerie' => $old_galerie
+                    'old_galerie' => $old_galerie,
                 ])
 
                 <div class="row">

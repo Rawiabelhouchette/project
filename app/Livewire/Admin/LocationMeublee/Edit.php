@@ -133,7 +133,7 @@ class Edit extends Component
             'commodites' => 'nullable',
             'services' => 'nullable',
             'equipements_herbegement' => 'nullable',
-            'equipements_salle_bain' => 'required',
+            'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'required',
             // 'galerie.*' => 'image|max:5120',
             // 'galerie' => 'max:10',

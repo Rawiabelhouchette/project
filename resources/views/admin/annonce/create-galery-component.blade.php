@@ -16,9 +16,11 @@
             &nbsp; &nbsp;
         </label>
         <input id="upload" type="file" wire:model="galerie" accept="image/*" multiple style="display: none;"> <br>
-        <div class="text-center">
+        <div class="text-center gallery-box">
             @foreach ($galerie as $index => $image)
-                <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
+                <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
+                    <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
+                </a>
             @endforeach
         </div>
 
