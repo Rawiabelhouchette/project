@@ -23,9 +23,11 @@
                         <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
                     </a>
                 @else
-                    <a data-fancybox="gallery" href="{{ asset('storage/' . $old_image->chemin) }}">
-                        <img src="{{ asset('storage/' . $old_image->chemin) }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
-                    </a>
+                    @if ($old_image)
+                        <a data-fancybox="gallery" href="{{ asset('storage/' . $old_image->chemin) }}">
+                            <img src="{{ asset('storage/' . $old_image->chemin) }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
+                        </a>
+                    @endif
                 @endif
             </div>
         </div>
