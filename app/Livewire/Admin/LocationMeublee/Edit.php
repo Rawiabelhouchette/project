@@ -244,7 +244,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->LocationMeublee->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->LocationMeublee->annonce, $this->galerie, 'LocationMeublees');
+            AnnoncesUtils::updateGalerie($this->image, $this->LocationMeublee->annonce, $this->galerie, 'location-meublees');
             
             DB::commit();
         } catch (\Throwable $th) {
@@ -263,7 +263,7 @@ class Edit extends Component
 
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
-        session()->flash('success', __('L\'LocationMeublee a bien été modifiée avec succès'));
+        session()->flash('success', __('L\'Annonce a bien été modifiée avec succès'));
 
         return redirect()->route('annonces.index');
     }

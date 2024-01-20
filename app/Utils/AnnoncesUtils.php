@@ -171,6 +171,7 @@ class AnnoncesUtils
 
     public static function createGalerie($model, $image, $variable, $folder_name): void
     {
+        // dump($folder_name);
         if($image){
             $image->store('public/' . $folder_name);
             $fichier = Fichier::create([
