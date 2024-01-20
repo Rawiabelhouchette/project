@@ -47,13 +47,13 @@ La description d'entreprise ne marche pas
 
 # Liste de taches a faire
 ## Utilisateur public authentifié
-- Concevoir le model pour les utilisateurs publiques
+-  [ok] Concevoir le model pour les utilisateurs publiques
 - Editer l'affichage court des annonces
-- Permettre la creation de compte client
+- [ok] Permettre la creation de compte client
 - Concevoir les pages d'affichage détaillé des annonces
 - Ajouter les facettes sur la page de recherche
 - Ajouter les options de partage sur les annonces
-- Ajouter l'option de favoris sur les annonces
+- [ok] Ajouter l'option de favoris sur les annonces
 - Fonction visualisation des annonces favoris
 - Visualisation des mes informations
 - Changement de mot de passe (par mail)

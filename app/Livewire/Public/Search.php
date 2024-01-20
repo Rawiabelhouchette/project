@@ -32,6 +32,7 @@ class Search extends Component
         $this->key = $key;
         $this->type = $type;
         $this->allAnnonceTypes = Annonce::pluck('type')->unique()->toArray();
+        // dd($this->allAnnonceTypes = Annonce::pluck('type')->unique()->toArray());
         $this->selectedAnnonceId = $filter;
     }
 

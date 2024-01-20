@@ -27,6 +27,11 @@ class Kernel extends ConsoleKernel
             })
             // ;
             ->daily();
+
+            $schedule->call(function () {
+                $this->annonceStatInitializer();
+            })
+            ;
             
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -46,6 +51,24 @@ class Kernel extends ConsoleKernel
             $stat->nb_favoris = $nb_favoris;
             $stat->nb_notation = $nb_notation;
             $stat->save();
+        }
+    }
+
+    public function annonceStatInitializer()
+    {
+        // update annonce stat
+        $annonces = Annonce::all();
+        foreach ($annonces as $annonce) {
+            $annonce->statistique()->updateOrCreate([
+                'nb_vue' => 0,
+                'nb_vue_par_jour' => 0,
+                'nb_vue_par_semaine' => 0,
+                'nb_vue_par_mois' => 0,
+                'nb_partage' => 0,
+                'nb_favoris' => 0,
+                'nb_commentaire' => 0,
+                'nb_notation' => 0,
+            ]);
         }
     }
 
