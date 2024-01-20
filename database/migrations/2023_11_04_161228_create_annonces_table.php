@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('annonces', function (Blueprint $table) {
             $table->id();
             $table->string('titre');
+            $table->string('slug')->unique();
             $table->string('type');
             $table->text('description')->nullable();
             $table->datetime('date_validite');

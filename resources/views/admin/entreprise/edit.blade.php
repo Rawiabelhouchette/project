@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('entreprise', 'active')
 
@@ -60,7 +60,7 @@
             var lat = event.detail[0].lat;
 
             if (marker) {
-                mymap.removeLayer(marker); 
+                mymap.removeLayer(marker);
             }
 
             marker = L.marker([lat, lon]).addTo(mymap);

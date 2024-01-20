@@ -18,6 +18,8 @@ class Edit extends Component
     use WithFileUploads;
 
     public $nom;
+    public $image;
+    public $old_image;
     public $type;
     public $description;
     public $marque;
@@ -76,6 +78,7 @@ class Edit extends Component
         $this->conditions_location = $locationVehicule->annonce->references('conditions-de-location')->pluck('id')->toArray();
 
         $this->old_galerie = $locationVehicule->annonce->galerie()->get();
+        $this->old_image = $locationVehicule->annonce->imagePrincipale;
     }
 
     private function initialization()
@@ -117,10 +120,10 @@ class Edit extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,' . $this->locationVehicule->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
-            'description' => 'required|string|min:3|max:255',
-            'marque' => 'required|string|min:3|max:255',
-            'modele' => 'nullable|string|min:3|max:255',
+            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->locationVehicule->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
+            'description' => 'required|string|min:3',
+            'marque' => 'required|string|min:3',
+            'modele' => 'nullable|string|min:3',
             'annee' => 'nullable|integer|min:1800|max:9999',
             'carburant' => 'nullable|string|exists:reference_valeurs,valeur',
             'kilometrage' => 'nullable|integer|min:0|max:999999',
@@ -200,6 +203,15 @@ class Edit extends Component
     {
         $this->validate();
 
+        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title'   => __('Opération échouée'),
+                'message' => __('La date de validité doit être supérieure à la date du jour'),
+            ]);
+            return;
+        }
+
         // try {
             DB::beginTransaction();
 
@@ -233,7 +245,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->locationVehicule->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->locationVehicule->annonce, $this->galerie, 'location-vehicules');
+            AnnoncesUtils::updateGalerie($this->image, $this->locationVehicule->annonce, $this->galerie, 'location-vehicules');
 
             DB::commit();
         // } catch (\Throwable $th) {

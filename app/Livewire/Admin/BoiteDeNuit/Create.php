@@ -37,6 +37,7 @@ class Create extends Component
 
     public $entreprises = [];
     public $galerie = [];
+    public $image;
 
     public function mount()
     {
@@ -73,9 +74,9 @@ class Create extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
+            'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
             'type' => 'nullable',
-            'description' => 'nullable|min:3|max:255',
+            'description' => 'nullable|min:3',
             'commodites' => 'nullable',
             'services' => 'nullable',
             'galerie.*' => 'image', //|max:5120',
@@ -147,7 +148,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'boite-de-nuits');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'boite-de-nuits');
 
             DB::commit();
         // } catch (\Throwable $th) {

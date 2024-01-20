@@ -50,6 +50,8 @@ class Create extends Component
     public $galerie = [];
     public $date_validite;
     public $heure_validite;
+    public $image;
+    public $old_image;
 
 
     public function mount()
@@ -96,10 +98,10 @@ class Create extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
-            'description' => 'required|string|min:3|max:255',
-            'marque' => 'required|string|min:3|max:255',
-            'modele' => 'nullable|string|min:3|max:255',
+            'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
+            'description' => 'required|string|min:3',
+            'marque' => 'required|string|min:3',
+            'modele' => 'nullable|string|min:3',
             'annee' => 'nullable|integer|min:1800|max:9999',
             'carburant' => 'nullable|string|exists:reference_valeurs,valeur',
             'kilometrage' => 'nullable|integer|min:0|max:999999',
@@ -195,7 +197,7 @@ class Create extends Component
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
-                'type' => 'Location vehicule',
+                'type' => 'Location de véhicule',
             ]);
 
             $locationVehicule->annonce()->save($annonce);
@@ -208,7 +210,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'location-vehicules');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'location-vehicules');
 
             DB::commit();
         } catch (\Throwable $th) {

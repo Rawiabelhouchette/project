@@ -65,7 +65,7 @@ class Edit extends Component
         $this->pays_id = $entreprise->quartier->ville->pays_id;
         $this->ville_id = $entreprise->quartier->ville_id;
         $this->quartier_id = $entreprise->quartier_id;
-        $this->plannings = $entreprise->heure_ouvertures->toArray();
+        $this->plannings = $entreprise->heure_ouverture->toArray();
         $this->nbr_planning = count($this->plannings);
 
         $this->dispatch('showLocation', [
@@ -78,18 +78,18 @@ class Edit extends Component
     public function rules()
     {
         return [
-            'nom' => 'required|string|min:3|max:255|unique:entreprises,nom,' . $this->entreprise->id . ',id,quartier_id,' . $this->quartier_id,
-            'description' => 'nullable|string|min:3|max:255',
-            'site_web' => 'nullable|string|min:3|max:255',
-            'email' => 'required|string|min:3|max:255',
-            'telephone' => 'nullable|string|min:3|max:255',
-            'instagram' => 'nullable|string|min:3|max:255',
-            'facebook' => 'nullable|string|min:3|max:255',
-            'whatsapp' => 'required|string|min:3|max:255',
-            'logo' => 'nullable|string|min:3|max:255',
+            'nom' => 'required|string|min:3|unique:entreprises,nom,' . $this->entreprise->id . ',id,quartier_id,' . $this->quartier_id,
+            'description' => 'nullable|string|min:3',
+            'site_web' => 'nullable|string|min:3',
+            'email' => 'required|string|min:3',
+            'telephone' => 'nullable|string|min:3',
+            'instagram' => 'nullable|string|min:3',
+            'facebook' => 'nullable|string|min:3',
+            'whatsapp' => 'required|string|min:3',
+            'logo' => 'nullable|string|min:3',
             'quartier_id' => 'required|integer|exists:quartiers,id',
-            'longitude' => 'nullable|string|min:3|max:255',
-            'latitude' => 'nullable|string|min:3|max:255',
+            'longitude' => 'nullable|string|min:3',
+            'latitude' => 'nullable|string|min:3',
         ];
     }
 
@@ -114,12 +114,13 @@ class Edit extends Component
 
     public function addPlanning()
     {
-        if (!$this->autreJour) {
-            return;
-        }
+        if (!$this->autreJour) return;
 
         if ($this->nbr_planning <= 7) {
             $this->nbr_planning++;
+            if ($this->nbr_planning > 1) {
+                $this->tousLesJours = false;
+            }
             $this->plannings[] = [
                 'jour' => '',
                 'heure_debut' => '',
@@ -131,6 +132,10 @@ class Edit extends Component
     public function removePlanning($key)
     {
         unset($this->plannings[$key]);
+        $this->nbr_planning--;
+        if ($this->nbr_planning == 1) {
+            $this->tousLesJours = true;
+        }
     }
 
     #[On('setLocation')]
@@ -173,8 +178,8 @@ class Edit extends Component
         try {
             DB::beginTransaction();
             $this->entreprise->update($validated);
-            $this->entreprise->heure_ouvertures()->delete();
-            $this->entreprise->heure_ouvertures()->createMany($this->plannings);
+            $this->entreprise->heure_ouverture()->delete();
+            $this->entreprise->heure_ouverture()->createMany($this->plannings);
 
             DB::commit();
         } catch (\Throwable $th) {

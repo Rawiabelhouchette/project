@@ -42,7 +42,9 @@ class Hotel extends Model implements AnnonceInterface
         'equipements_salle_bain',
         'equipements_cuisine',
         'commodites',
-        'types_hebergement'
+        'types_hebergement',
+
+        'caracteristiques',
     ];
 
     
@@ -94,6 +96,36 @@ class Hotel extends Model implements AnnonceInterface
     public function getTypesHebergementAttribute()
     {
         return $this->annonce->references('types-hebergement');
+    }
+
+    public function getCaracteristiquesAttribute() : Array
+    {
+        $attributes = [];
+        if ($this->nombre_chambre) {
+            $attributes['Nombre de chambre'] = $this->nombre_chambre;
+        }
+
+        if ($this->nombre_personne) {
+            $attributes['Nombre de personne'] = $this->nombre_personne;
+        }
+
+        if ($this->superficie) {
+            $attributes['Superficie (m²)'] = $this->superficie;
+        }
+
+        if ($this->prix_min) {
+            $attributes['Prix minimim'] = $this->prix_min;
+        }
+
+        if ($this->prix_max) {
+            $attributes['Prix maximum'] = $this->prix_max;
+        }
+
+        if ($this->nombre_salles_bain) {
+            $attributes['Nombre de salle de bain'] = $this->nombre_salles_bain;
+        }
+
+        return $attributes;
     }
 
 }

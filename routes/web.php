@@ -4,14 +4,20 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\AubergeController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\BarController;
 use App\Http\Controllers\BoiteDeNuitController;
 use App\Http\Controllers\EntrepriseController;
+use App\Http\Controllers\FastFoodController;
 use App\Http\Controllers\HotelController;
-use App\Http\Controllers\locationMeubleeController;
+use App\Http\Controllers\LocationMeubleeController;
 use App\Http\Controllers\LocationVehiculeController;
+use App\Http\Controllers\PatisserieController;
 use App\Http\Controllers\PaysController;
+use App\Http\Controllers\publicController;
 use App\Http\Controllers\QuartierController;
 use App\Http\Controllers\ReferenceController;
+use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\searchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
 use Illuminate\Support\Facades\Route;
@@ -27,9 +33,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('login');//->name('login');
 })->name('connexion');
+
+Route::get('/', [publicController::class, 'home'])->name('accueil');
+Route::get('/entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
+Route::get('/search', [searchController::class, 'search'])->name('search');
+Route::get('/search/{slug}', [searchController::class, 'show'])->name('show');
+// /search?key=&type=
+Route::get('/search?key={key}&type={type}', [searchController::class, 'search'])->name('search.key.type');
+
+
+// Admin 
 
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
 
@@ -73,12 +89,21 @@ Route::group([
 
         Route::resource('location-vehicules', LocationVehiculeController::class);
 
-        Route::resource('location-meublees', locationMeubleeController::class);
+        Route::resource('location-meublees', LocationMeubleeController::class);
 
         Route::resource('boite-de-nuits', BoiteDeNuitController::class);
+
+        Route::resource('fast-foods', FastFoodController::class);
+
+        Route::resource('restaurants', RestaurantController::class);
+
+        Route::resource('bars', BarController::class);
+        
+        Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);;
     });
 
     // TODO: Route for 404, 403, 500, 503, etc
+
 
 });
 

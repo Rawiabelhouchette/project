@@ -7,6 +7,7 @@ use App\Http\Requests\StoreAnnonceRequest;
 use App\Http\Requests\UpdateAnnonceRequest;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class AnnonceController extends Controller
 {
@@ -74,11 +75,22 @@ class AnnonceController extends Controller
         $columns = Schema::getColumnListing('annonces');
 
         if (request()->input('search')) {
+            $search_columns = ['titre', 'description', 'type', 'date_validite'];
             $search = request()->input('search');
             $annonces = $annonces
-                ->where(function ($query) use ($search, $columns) {
-                    foreach ($columns as $column) {
-                        $query->orWhere($column, 'like', '%' . $search . '%');
+                ->where(function ($query) use ($search, $columns, $search_columns) {
+                    foreach ($search_columns as $column) {
+                        $query->orWhereRaw("LOWER({$column}) LIKE ?", ['%' . Str::lower($search) . '%']);
+                    }
+
+                    $query->orWhereHas('entreprise', function ($query) use ($search) {
+                        $query->whereRaw("LOWER(nom) LIKE ?", ['%' . Str::lower($search) . '%']);
+                    });
+
+                    if (Str::lower($search) == 'actif') {
+                        $query->orWhere('is_active', true);
+                    } elseif (Str::lower($search) == 'inactif') {
+                        $query->orWhere('is_active', false);
                     }
                 })
                 ->orderBy('id', 'asc');
@@ -88,17 +100,8 @@ class AnnonceController extends Controller
 
         return response()->json(
             [
-                'draw' => request()->get('draw'),
                 'recordsTotal' => $annonces->total(),
                 'recordsFiltered' => $annonces->total(),
-                'metaData' => [
-                    'total' => $annonces->total(),
-                    'per_page' => $annonces->perPage(),
-                    'current_page' => $annonces->currentPage(),
-                    'last_page' => $annonces->lastPage(),
-                    'from' => $annonces->firstItem(),
-                    'to' => $annonces->lastItem(),
-                ],
                 'data' => $annonces->items(),
             ],
             200,

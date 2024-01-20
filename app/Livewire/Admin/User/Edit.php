@@ -47,11 +47,11 @@ class Edit extends Component
 
     public function rules() {
         $rules =  [
-            'nom' => 'required|string|min:3|max:255',
-            'prenom' => 'nullable|string|min:3|max:255',
+            'nom' => 'required|string|min:3',
+            'prenom' => 'nullable|string|min:3',
             'email' => 'nullable|email|unique:users,email,' . $this->userId,
-            'username' => 'required|string|min:3|max:255|unique:users,username,' . $this->userId,
-            'telephone' => 'nullable|string|min:3|max:255|unique:users,telephone,' . $this->userId,
+            'username' => 'required|string|min:3|unique:users,username,' . $this->userId,
+            'telephone' => 'nullable|string|min:3|unique:users,telephone,' . $this->userId,
             'is_active' => 'required|boolean',
             'role' => 'required|string|exists:roles,name',
         ];

@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('reference', 'active')
 
@@ -55,7 +55,7 @@
 
 
             var datatable = $('#dataTable').DataTable({
-               
+
                 order: [
                     [0, "desc"]
                 ],

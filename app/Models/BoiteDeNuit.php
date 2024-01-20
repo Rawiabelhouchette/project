@@ -26,6 +26,8 @@ class BoiteDeNuit extends Model implements AnnonceInterface
         'services',
         'types_musique',
         'equipements_vie_nocturne',
+
+        'caracteristiques',
     ];
 
     public function getShowUrlAttribute() : String
@@ -61,6 +63,11 @@ class BoiteDeNuit extends Model implements AnnonceInterface
     public function getEquipementsVieNocturneAttribute()
     {
         return $this->annonce->references('equipements-vie-nocturne');
+    }
+
+    public function getCaracteristiquesAttribute() : Array
+    {
+        return [];
     }
 
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
+use Illuminate\Support\Str;
 
 class Entreprise extends Model
 {
@@ -14,6 +15,7 @@ class Entreprise extends Model
 
     protected $fillable = [
         'nom',
+        'slug',
         'description',
         'site_web',
         'email',
@@ -26,6 +28,94 @@ class Entreprise extends Model
         'longitude',
         'latitude',
     ];
+
+    // before saing and updating
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->slug = Str::slug($model->nom);
+        });
+
+        static::updating(function ($model) {
+            $model->slug = Str::slug($model->nom);
+        });
+    }
+
+    protected $appends = [
+        'nombre_annonces',
+        'est_ouverte',
+        'adresse_complete',
+        'heure_ouvertures',
+        'contact',
+    ];
+
+    public function getNombreAnnoncesAttribute()
+    {
+        return $this->annonce()->count();
+    }
+
+    public function getEstOuverteAttribute()
+    {
+        $date = new \DateTime('now', new \DateTimeZone('Africa/Lome'));
+        $jour = \IntlDateFormatter::formatObject($date, 'eeee', 'fr');
+        $heure = date('H:i:s');
+        $heure_ouverture = $this->heure_ouverture()->where('jour', $jour)->first();
+        if ($this->heure_ouverture()->where('jour', 'Tous les jours')->first()) {
+            return true;
+        }
+
+        if ($heure_ouverture) {
+            if ($heure >= $heure_ouverture->heure_debut && $heure <= $heure_ouverture->heure_fin) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getAdresseCompleteAttribute()
+    {
+        $quartier = $this->quartier->nom;
+        $ville = $this->quartier->ville->nom;
+        $pays = $this->quartier->ville->pays->nom;
+        return $pays . ', ' . $ville . ', ' . $quartier;
+    }
+
+    public function getHeureOuverturesAttribute(): array
+    {
+        $jours = [
+            'Lundi' => 'Fermé',
+            'Mardi' => 'Fermé',
+            'Mercredi' => 'Fermé',
+            'Jeudi' => 'Fermé',
+            'Vendredi' => 'Fermé',
+            'Samedi' => 'Fermé',
+            'Dimanche' => 'Fermé',
+        ];
+
+        $jours_ouvertures = $this->heure_ouverture()->get();
+
+        $tous_les_jours = $this->heure_ouverture()->where('jour', 'Tous les jours')->first();
+        if ($tous_les_jours) {
+            foreach ($jours as $jour) {
+                $jour = date('H:i', strtotime($tous_les_jours->heure_debut)) . ' - ' . date('H:i', strtotime($tous_les_jours->heure_fin));
+            }
+            return $jours;
+        }
+
+        foreach ($jours_ouvertures as $jour) {
+            $jours[$jour->jour] = date('H:i', strtotime($jour->heure_debut)) . ' - ' . date('H:i', strtotime($jour->heure_fin));
+        }
+
+        return $jours;
+    }
+
+    public function getContactAttribute() : string
+    {
+        return $this->quartier->ville->pays->indicatif . ' ' . str_replace(' ', '', $this->telephone);        
+    }
 
     protected $casts = [
         'nom' => PurifyHtmlOnGet::class,
@@ -42,7 +132,8 @@ class Entreprise extends Model
         'latitude' => PurifyHtmlOnGet::class,
     ];
 
-    public function heure_ouvertures()
+
+    public function heure_ouverture()
     {
         return $this->hasMany(HeureOuverture::class, 'entreprise_id');
     }
@@ -52,8 +143,16 @@ class Entreprise extends Model
         return $this->belongsTo(Quartier::class, 'quartier_id');
     }
 
+
+
     public function owner()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function annonce()
+    {
+        return $this->hasMany(Annonce::class, 'entreprise_id');
+    }
+
 }

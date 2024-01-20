@@ -31,7 +31,8 @@ class Create extends Component
     public $pays;
     public $villes = [];
     public $quartiers = [];
-    public $autreJour = true;
+    public $autreJour = false;
+    public $tousLesJours = true;
     
     public $plannings = [
         [
@@ -49,19 +50,19 @@ class Create extends Component
     public function rules()
     {
         return [
-            'nom' => 'required|string|min:3|max:255|unique:entreprises,nom,id,quartier_id',
+            'nom' => 'required|string|min:3|unique:entreprises,nom,id,quartier_id',
             // FIXME: Description does not work
-            'description' => 'nullable|string|min:3|max:255',
-            'site_web' => 'nullable|string|min:3|max:255',
-            'email' => 'required|string|min:3|max:255',
-            'telephone' => 'nullable|string|min:3|max:255',
-            'instagram' => 'nullable|string|min:3|max:255',
-            'facebook' => 'nullable|string|min:3|max:255',
-            'whatsapp' => 'required|string|min:3|max:255',
-            'logo' => 'nullable|string|min:3|max:255',
+            'description' => 'nullable|string|min:3',
+            'site_web' => 'nullable|string|min:3',
+            'email' => 'required|string|min:3',
+            'telephone' => 'nullable|string|min:3',
+            'instagram' => 'nullable|string|min:3',
+            'facebook' => 'nullable|string|min:3',
+            'whatsapp' => 'required|string|min:3',
+            'logo' => 'nullable|string|min:3',
             'quartier_id' => 'required|integer|exists:quartiers,id',
-            'longitude' => 'nullable|string|min:3|max:255',
-            'latitude' => 'nullable|string|min:3|max:255',
+            'longitude' => 'nullable|string|min:3',
+            'latitude' => 'nullable|string|min:3',
 
         ];
     }
@@ -89,8 +90,12 @@ class Create extends Component
     {
         if (!$this->autreJour) return;
 
-        if ($this->nbr_planning <= 7) {
+        
+        if ($this->nbr_planning < 7) {
             $this->nbr_planning++;
+            if ($this->nbr_planning > 1) {
+                $this->tousLesJours = false;
+            }
             $this->plannings[] = [
                 'jour' => '',
                 'heure_debut' => '',
@@ -102,6 +107,10 @@ class Create extends Component
     public function removePlanning($key)
     {
         unset($this->plannings[$key]);
+        $this->nbr_planning--;
+        if ($this->nbr_planning == 1) {
+            $this->tousLesJours = true;
+        }
     }
 
     
@@ -146,7 +155,7 @@ class Create extends Component
         try {
             $entreprise = Entreprise::create($validated);
             foreach ($this->plannings as $planning) {
-                $entreprise->heure_ouvertures()->create($planning);
+                $entreprise->heure_ouverture()->create($planning);
             }
             DB::commit();
         } catch (\Throwable $th) {

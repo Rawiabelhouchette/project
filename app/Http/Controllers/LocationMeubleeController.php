@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\locationMeublee;
-use App\Http\Requests\StorelocationMeubleeRequest;
-use App\Http\Requests\UpdatelocationMeubleeRequest;
+use App\Models\LocationMeublee;
+use App\Http\Requests\StoreLocationMeubleeRequest;
+use App\Http\Requests\UpdateLocationMeubleeRequest;
 
-class locationMeubleeController extends Controller
+class LocationMeubleeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class locationMeubleeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorelocationMeubleeRequest $request)
+    public function store(StoreLocationMeubleeRequest $request)
     {
         //
     }
@@ -35,23 +35,23 @@ class locationMeubleeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(locationMeublee $locationMeublee)
+    public function show(LocationMeublee $LocationMeublee)
     {
-        return view('admin.location-meublee.show', compact('locationMeublee'));
+        return view('admin.location-meublee.show', compact('LocationMeublee'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(locationMeublee $locationMeublee)
+    public function edit(LocationMeublee $LocationMeublee)
     {
-        return view('admin.location-meublee.edit', compact('locationMeublee'));
+        return view('admin.location-meublee.edit', compact('LocationMeublee'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatelocationMeubleeRequest $request, locationMeublee $locationMeublee)
+    public function update(UpdateLocationMeubleeRequest $request, LocationMeublee $LocationMeublee)
     {
         //
     }
@@ -59,7 +59,7 @@ class locationMeubleeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(locationMeublee $locationMeublee)
+    public function destroy(LocationMeublee $LocationMeublee)
     {
         //
     }

@@ -8,16 +8,9 @@ use Illuminate\Support\Facades\Log;
 
 class AuthenticationController extends Controller
 {
-    public static function login(Request $request)
+
+    public static function loginService(Request $request) : object
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required'
-        ]);
-
-        // Enregistrer l'url courant dans la session
-        $request->session()->put('url.intended', $request->url());
-
         $remember = $request->has('remember');
         if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             $request->merge([
@@ -32,31 +25,57 @@ class AuthenticationController extends Controller
         }
 
         if (!Auth::attempt($credentials, $remember)) {
-            return back()->withErrors([
-                'email' => 'Identifiant ou mot de passe incorrect.',
-            ]);
+
+            return (object) [
+                'status' => false,
+                'message' => 'Identifiant ou mot de passe incorrect.'
+            ];
         }
 
         if (auth()->user()->is_active == 0) {
             AuthenticationController::logout($request);
+            return (object) [
+                'status' => false,
+                'message' => 'Votre compte est désactivé. Veuillez contacter l\'administrateur.'
+            ];
+        }
+
+        // if ($request->filled('url')) {
+        //     return redirect($request->url);
+        // } elseif ($request->session()->has('url.intended.url')) {
+        //     return redirect($request->session()->get('url.intended.url'));
+        // }
+
+        // $request->session()->regenerate();
+
+        // Log::channel('login')->info('Connexion de l\'utilisateur : (' . auth()->user()->id . ') ' .auth()->user()->username);
+
+        return (object) [
+            'status' => true,
+            'message' => 'Connexion réussie.'
+        ];
+    }
+
+    public static function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        $login = AuthenticationController::loginService($request);
+
+        if (!$login->status) {
             return back()->withErrors([
-                'email' => 'Votre compte est désactivé. Veuillez contacter l\'administrateur.',
+                'email' => $login->message,
             ]);
         }
 
-        if ($request->filled('url')) {
-            return redirect($request->url);
-        } elseif ($request->session()->has('url.intended.url')) {
-            return redirect($request->session()->get('url.intended.url'));
+        if (auth()->user()->hasRole('Administrateur')) {
+            return redirect()->route('home');
         }
 
-        $request->session()->regenerate();
-
-        Log::channel('login')->info('Connexion de l\'utilisateur : (' . auth()->user()->id . ') ' .auth()->user()->username);
-
-        // return redirect()->intended('/');
-        // return back();
-        return redirect()->route('home');
+        return redirect('/');
     }
 
     public static function logout(Request $request)
@@ -67,6 +86,6 @@ class AuthenticationController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('connexion');
+        return redirect('/');
     }
 }

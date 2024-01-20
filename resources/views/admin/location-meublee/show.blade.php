@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('annonce', 'active')
 
@@ -21,7 +21,7 @@
 
                     <div class="card-header">
                         <h4>Détails d'une location meublée</h4>
-                        <a href="{{ route('location-meublees.edit', $locationMeublee->id) }}" type="button" class="btn theme-btn text-right">
+                        <a href="{{ route('location-meublees.edit', $LocationMeublee->id) }}" type="button" class="btn theme-btn text-right">
                             <i class="fa fa-edit fa-lg" style=""></i>
                         </a>
                     </div>
@@ -31,41 +31,41 @@
                             <table class="table table-striped table-2 table-hover">
                                 <tbody>
 
-                                    @include('admin.annonce.annonce-component', ['annonce' => $locationMeublee->annonce])
+                                    @include('admin.annonce.annonce-component', ['annonce' => $LocationMeublee->annonce])
 
                                     {{-- Nombre de chambre --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Nombre de chambre</td>
-                                        <td>{{ $locationMeublee->nombre_chambre }}</td>
+                                        <td>{{ $LocationMeublee->nombre_chambre }}</td>
                                     </tr>
 
                                     {{-- Nombre de personne --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Nombre de personne</td>
-                                        <td>{{ $locationMeublee->nombre_personne }}</td>
+                                        <td>{{ $LocationMeublee->nombre_personne }}</td>
                                     </tr>
 
                                     {{-- Superficie --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Superficie (m²)</td>
-                                        <td>{{ $locationMeublee->superficie }}</td>
+                                        <td>{{ $LocationMeublee->superficie }}</td>
                                     </tr>
 
                                     {{-- Prix minimum --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Prix minimum</td>
-                                        <td>{{ $locationMeublee->prix_min }}</td>
+                                        <td>{{ $LocationMeublee->prix_min }}</td>
                                     </tr>
 
                                     {{-- Prix maximum --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Prix maximum</td>
-                                        <td>{{ $locationMeublee->prix_max }}</td>
+                                        <td>{{ $LocationMeublee->prix_max }}</td>
                                     </tr>
 
-                                    @include('admin.annonce.reference-component', ['annonce' => $locationMeublee->annonce])
+                                    @include('admin.annonce.reference-component', ['annonce' => $LocationMeublee->annonce])
 
-                                    @include('admin.annonce.galery-component', ['annonce' => $locationMeublee->annonce])
+                                    @include('admin.annonce.galery-component', ['annonce' => $LocationMeublee->annonce])
 
                                 </tbody>
                             </table>
@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        @include('admin.annonce.preview-component', ['annonce' => $locationMeublee->annonce])
+        @include('admin.annonce.preview-component', ['annonce' => $LocationMeublee->annonce])
 
     </div>
 @endsection

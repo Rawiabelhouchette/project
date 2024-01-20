@@ -13,10 +13,10 @@ class Admin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || !auth()->user()->hasRole('Professionnel')) {
-            return redirect()->route('connexion');
+        if (!auth()->check() || (!auth()->user()->hasRole('Professionnel') && !auth()->user()->hasRole('Administrateur'))) {
+            return back()->with('email', 'Vous n\'avez pas accès à cette page.');
         }
         
         return $next($request);

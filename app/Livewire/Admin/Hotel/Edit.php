@@ -17,6 +17,9 @@ class Edit extends Component
     use WithFileUploads;
 
     public $nom;
+    public $image;
+    public $old_image;
+
     public $type;
     public $types_hebergement;
     public $is_active;
@@ -72,6 +75,7 @@ class Edit extends Component
         $this->equipements_cuisine = $hotel->annonce->references('equipements-cuisine')->pluck('id')->toArray();
         $this->types_hebergement = $hotel->annonce->references('types-hebergement')->pluck('id')->toArray();
         $this->old_galerie = $hotel->annonce->galerie()->get();
+        $this->old_image = $hotel->annonce->imagePrincipale;
     }
 
     private function initialization()
@@ -118,19 +122,17 @@ class Edit extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,' . $this->hotel->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
+            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->hotel->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
 
             // 'entreprise_id' => 'required|exists:entreprises,id',
-            // // 'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id', update
-            // 'nom' => 'required|string|min:3|max:255|unique:annonces,titre'. $this->annonce->id .',id,entreprise_id'. $this->entreprise_id,
+            // // 'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id', update
+            // 'nom' => 'required|string|min:3|unique:annonces,titre'. $this->annonce->id .',id,entreprise_id'. $this->entreprise_id,
             'type' => 'nullable',
             'is_active' => 'required|boolean',
-            'description' => 'nullable|min:3|max:255',
+            'description' => 'nullable|min:3',
             'nombre_chambre' => 'nullable|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'prix_min' => 'nullable|numeric',
-            'prix_max' => 'nullable|numeric',
             'types_lit' => 'nullable',
             'commodites' => 'nullable',
             'services' => 'nullable',
@@ -141,6 +143,8 @@ class Edit extends Component
             // 'galerie' => 'max:10',
             'date_validite' => 'required|date',
             // 'heure_validite' => 'required|date_format:H:i',
+            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_max' => 'nullable|numeric',
         ];
     }
 
@@ -161,6 +165,10 @@ class Edit extends Component
             'date_validite.date' => 'La date de validité doit être une date',
             'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
             'heure_validite.required' => 'L\'heure de validité est obligatoire',
+            'prix_min.numeric' => 'Le prix minimum doit être un nombre',
+            'prix_max.numeric' => 'Le prix maximum doit être un nombre',
+            'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
+            'prix_max.gt' => 'Le prix maximum doit être supérieur au prix minimum',
         ];
     }
 
@@ -180,6 +188,15 @@ class Edit extends Component
     public function update()
     {
         $this->validate();
+
+        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title'   => __('Opération échouée'),
+                'message' => __('La date de validité doit être supérieure à la date du jour'),
+            ]);
+            return;
+        }
 
         try {
             DB::beginTransaction();
@@ -216,7 +233,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->hotel->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->hotel->annonce, $this->galerie, 'hotels');
+            AnnoncesUtils::updateGalerie($this->image, $this->hotel->annonce, $this->galerie, 'hotels');
             
             DB::commit();
         } catch (\Throwable $th) {

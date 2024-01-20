@@ -46,6 +46,7 @@ class Create extends Component
     public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
+    public $image;
 
     public function mount()
     {
@@ -97,14 +98,12 @@ class Create extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
+            'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
             'type' => 'nullable',
-            'description' => 'nullable|min:3|max:255',
+            'description' => 'nullable|min:3',
             'nombre_chambre' => 'nullable|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'prix_min' => 'nullable|numeric',
-            'prix_max' => 'nullable|numeric',
             'types_lit' => 'nullable',
             'commodites' => 'nullable',
             'services' => 'nullable',
@@ -115,6 +114,8 @@ class Create extends Component
             // 'galerie' => 'max:10',
             'date_validite' => 'required|date|after:today',
             // 'heure_validite' => 'required|date_format:H:i',
+            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_max' => 'nullable|numeric',
         ];
     }
 
@@ -131,6 +132,10 @@ class Create extends Component
             'date_validite.date' => 'La date de validité doit être une date',
             'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
             'heure_validite.required' => 'L\'heure de validité est obligatoire',
+            'prix_min.numeric' => 'Le prix minimum doit être un nombre',
+            'prix_max.numeric' => 'Le prix maximum doit être un nombre',
+            'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
+            'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
         ];
     }
 
@@ -182,7 +187,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->galerie, 'hotels');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'hotels');
 
 
             DB::commit();

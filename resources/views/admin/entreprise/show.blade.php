@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('entreprise', 'active')
 
@@ -109,7 +109,7 @@
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">HEURE D'OUVERTURE</td>
                                         <td>
-                                            @foreach ($entreprise->heure_ouvertures as $ouverture)
+                                            @foreach ($entreprise->heure_ouverture as $ouverture)
                                                 {{ $ouverture->jour }} : {{ $ouverture->heure_debut }} - {{ $ouverture->heure_fin }}<br>
                                             @endforeach
                                         </td>

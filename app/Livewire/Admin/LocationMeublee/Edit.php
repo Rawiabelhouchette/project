@@ -17,6 +17,8 @@ class Edit extends Component
     use WithFileUploads;
 
     public $nom;
+    public $image;
+    public $old_image;
     public $type;
     public $types_hebergement;
     public $is_active;
@@ -47,31 +49,32 @@ class Edit extends Component
     public $is_old_galerie = true;
     public $date_validite;
     public $heure_validite;
-    public $locationMeublee;
+    public $LocationMeublee;
 
-    public function mount($locationMeublee)
+    public function mount($LocationMeublee)
     {
         $this->initialization();
-        $this->locationMeublee = $locationMeublee;
-        $this->entreprise_id = $locationMeublee->annonce->entreprise_id;
-        $this->nom = $locationMeublee->annonce->titre;
-        $this->is_active = $locationMeublee->annonce->is_active;
-        $this->description = $locationMeublee->annonce->description;
-        $this->nombre_chambre = $locationMeublee->nombre_chambre;
-        $this->nombre_personne = $locationMeublee->nombre_personne;
-        $this->nombre_salles_bain = $locationMeublee->nombre_salles_bain;
-        $this->superficie = $locationMeublee->superficie;
-        $this->prix_min = $locationMeublee->prix_min;
-        $this->prix_max = $locationMeublee->prix_max;
-        $this->date_validite = date('Y-m-d', strtotime($locationMeublee->annonce->date_validite));
-        $this->types_lit = $locationMeublee->annonce->references('types-de-lit')->pluck('id')->toArray();
-        $this->commodites = $locationMeublee->annonce->references('commodites-hebergement')->pluck('id')->toArray();
-        $this->services = $locationMeublee->annonce->references('services')->pluck('id')->toArray();
-        $this->equipements_herbegement = $locationMeublee->annonce->references('equipements-hebergement')->pluck('id')->toArray();
-        $this->equipements_salle_bain = $locationMeublee->annonce->references('equipements-salle-de-bain')->pluck('id')->toArray();
-        $this->equipements_cuisine = $locationMeublee->annonce->references('equipements-cuisine')->pluck('id')->toArray();
-        $this->types_hebergement = $locationMeublee->annonce->references('types-hebergement')->pluck('id')->toArray();
-        $this->old_galerie = $locationMeublee->annonce->galerie()->get();
+        $this->LocationMeublee = $LocationMeublee;
+        $this->entreprise_id = $LocationMeublee->annonce->entreprise_id;
+        $this->nom = $LocationMeublee->annonce->titre;
+        $this->is_active = $LocationMeublee->annonce->is_active;
+        $this->description = $LocationMeublee->annonce->description;
+        $this->nombre_chambre = $LocationMeublee->nombre_chambre;
+        $this->nombre_personne = $LocationMeublee->nombre_personne;
+        $this->nombre_salles_bain = $LocationMeublee->nombre_salles_bain;
+        $this->superficie = $LocationMeublee->superficie;
+        $this->prix_min = $LocationMeublee->prix_min;
+        $this->prix_max = $LocationMeublee->prix_max;
+        $this->date_validite = date('Y-m-d', strtotime($LocationMeublee->annonce->date_validite));
+        $this->types_lit = $LocationMeublee->annonce->references('types-de-lit')->pluck('id')->toArray();
+        $this->commodites = $LocationMeublee->annonce->references('commodites-hebergement')->pluck('id')->toArray();
+        $this->services = $LocationMeublee->annonce->references('services')->pluck('id')->toArray();
+        $this->equipements_herbegement = $LocationMeublee->annonce->references('equipements-hebergement')->pluck('id')->toArray();
+        $this->equipements_salle_bain = $LocationMeublee->annonce->references('equipements-salle-de-bain')->pluck('id')->toArray();
+        $this->equipements_cuisine = $LocationMeublee->annonce->references('equipements-cuisine')->pluck('id')->toArray();
+        $this->types_hebergement = $LocationMeublee->annonce->references('types-hebergement')->pluck('id')->toArray();
+        $this->old_galerie = $LocationMeublee->annonce->galerie()->get();
+        $this->old_image = $LocationMeublee->annonce->imagePrincipale;
     }
 
     private function initialization()
@@ -118,29 +121,30 @@ class Edit extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,' . $this->locationMeublee->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
+            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->LocationMeublee->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
 
             // 'entreprise_id' => 'required|exists:entreprises,id',
-            // // 'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id', update
-            // 'nom' => 'required|string|min:3|max:255|unique:annonces,titre'. $this->annonce->id .',id,entreprise_id'. $this->entreprise_id,
+            // // 'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id', update
+            // 'nom' => 'required|string|min:3|unique:annonces,titre'. $this->annonce->id .',id,entreprise_id'. $this->entreprise_id,
             'type' => 'nullable',
             'is_active' => 'required|boolean',
-            'description' => 'nullable|min:3|max:255',
+            'description' => 'nullable|min:3',
             'nombre_chambre' => 'required|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'prix_min' => 'nullable|numeric',
-            'prix_max' => 'nullable|numeric',
             'types_lit' => 'required',
             'commodites' => 'nullable',
             'services' => 'nullable',
             'equipements_herbegement' => 'nullable',
-            'equipements_salle_bain' => 'required',
+            'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'required',
             // 'galerie.*' => 'image|max:5120',
             // 'galerie' => 'max:10',
             'date_validite' => 'required|date',
             // 'heure_validite' => 'required|date_format:H:i',
+            // prix_min < prix_max
+            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_max' => 'nullable|numeric',
         ];
     }
 
@@ -166,14 +170,16 @@ class Edit extends Component
             'nombre_chambre.numeric' => __('Ce champ doit être un nombre'),
             'nombre_personne.numeric' => __('Ce champ doit être un nombre'),
             'superficie.numeric' => __('Ce champ doit être un nombre'),
-            'prix_min.numeric' => __('Ce champ doit être un nombre'),
-            'prix_max.numeric' => __('Ce champ doit être un nombre'),
             'types_lit.required' => __('Ce champ est obligatoire'),
             'commodites.required' => __('Ce champ est obligatoire'),
             'services.required' => __('Ce champ est obligatoire'),
             'equipements_herbegement.required' => __('Ce champ est obligatoire'),
             'equipements_salle_bain.required' => __('Ce champ est obligatoire'),
             'equipements_cuisine.required' => __('Ce champ est obligatoire'),
+            'prix_min.numeric' => __('Ce champ doit être un nombre'),
+            'prix_max.numeric' => __('Ce champ doit être un nombre'),
+            'prix_min.lt' => __('Ce champ doit être inférieur à :prix_max'),
+            'prix_max.lt' => __('Ce champ doit être supérieur à :prix_min'),
         ];
     }
 
@@ -194,12 +200,21 @@ class Edit extends Component
     {
         $this->validate();
 
+        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title'   => __('Opération échouée'),
+                'message' => __('La date de validité doit être supérieure à la date du jour'),
+            ]);
+            return;
+        }
+
         try {
             DB::beginTransaction();
 
             $date_validite = $this->date_validite . ' ' . $this->heure_validite;
 
-            $this->locationMeublee->annonce->update([
+            $this->LocationMeublee->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
@@ -208,7 +223,7 @@ class Edit extends Component
             ]);
 
 
-            $this->locationMeublee->update([
+            $this->LocationMeublee->update([
                 'nombre_chambre' => $this->nombre_chambre,
                 'nombre_personne' => $this->nombre_personne,
                 'superficie' => $this->superficie,
@@ -227,9 +242,9 @@ class Edit extends Component
                 ['Types hébergement', $this->types_hebergement],
             ];
 
-            AnnoncesUtils::updateManyReference($this->locationMeublee->annonce, $references);
+            AnnoncesUtils::updateManyReference($this->LocationMeublee->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->locationMeublee->annonce, $this->galerie, 'locationMeublees');
+            AnnoncesUtils::updateGalerie($this->image, $this->LocationMeublee->annonce, $this->galerie, 'LocationMeublees');
             
             DB::commit();
         } catch (\Throwable $th) {
@@ -237,7 +252,7 @@ class Edit extends Component
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title'   => __('Opération réussie'),
-                'message' => __('Une erreur est survenue lors de l\'ajout de l\'locationMeublee'),
+                'message' => __('Une erreur est survenue lors de l\'ajout de l\'LocationMeublee'),
             ]);
             Log::error($th->getMessage());
             return;
@@ -248,7 +263,7 @@ class Edit extends Component
 
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
-        session()->flash('success', __('L\'locationMeublee a bien été modifiée avec succès'));
+        session()->flash('success', __('L\'LocationMeublee a bien été modifiée avec succès'));
 
         return redirect()->route('annonces.index');
     }

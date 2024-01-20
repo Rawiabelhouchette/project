@@ -272,17 +272,8 @@ class ReferenceController extends Controller
 
         return response()->json(
             [
-                'draw' => request()->get('draw'),
                 'recordsTotal' => $references->total(),
                 'recordsFiltered' => $references->total(),
-                'metaData' => [
-                    'total' => $references->total(),
-                    'per_page' => $references->perPage(),
-                    'current_page' => $references->currentPage(),
-                    'last_page' => $references->lastPage(),
-                    'from' => $references->firstItem(),
-                    'to' => $references->lastItem(),
-                ],
                 'data' => $references->items(),
             ],
             200
