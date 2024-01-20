@@ -2,7 +2,7 @@
     <div class="card">
 
         <div class="card-header">
-            <h4>Modifier une auberge</h4>
+            <h4>Modifier location vehicule</h4>
         </div>
 
         <div class="card-body">
