@@ -49,7 +49,11 @@
                                             <li>
                                                 <a href="{{ route('show', $annonce->slug) }}">
                                                     <div class="listing-list-img">
-                                                        <img src="http://via.placeholder.com/100x100" class="img-responsive" alt="">
+                                                        @if ($annonce->image)
+                                                            <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt="">
+                                                        @else
+                                                            <img src="http://via.placeholder.com/100x100" class="img-responsive" alt="">
+                                                        @endif
                                                     </div>
                                                 </a>
                                                 <div class="listing-list-info">
@@ -256,7 +260,8 @@
                             </div>
                         @endempty
                     </div>
-                    {{ $annonces->links() }}
+                    {{-- {{ $annonces->links() }} --}}
+                    {{ $annonces->appends(['key' => $link_key, 'type' => $link_type])->links() }}
                 </div>
                 <!-- End All Listing -->
             </div>

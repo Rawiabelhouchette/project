@@ -14,14 +14,23 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div id="navbar-menu" class="collapse navbar-collapse">
-            {{-- @if (auth()->check() && can('Admin')) --}}
             <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
-                <li><a href="javascript:void(0)">&nbsp;</a></li>
+                <li>
+                    <a href="{{ route('accueil') }}">
+                        Accueil
+                    </a>
+                </li>
+                @if (auth()->check() &&
+                        auth()->user()->hasRole('Administrateur'))
+                    <li>
+                        <a href="{{ route('home') }}" target="_blank">
+                            Accès professionnel
+                        </a>
+                    </li>
+                @endif
             </ul>
             {{-- if user is not connected or hasrole Administrateur --}}
-            @if (
-                !auth()->check() ||
-                    auth()->user()->hasRole('Administrateur'))
+            @if (!auth()->check())
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd">
                         <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" class="addlist">
@@ -31,9 +40,7 @@
                 </ul>
             @endif
 
-            @if (auth()->check() &&
-                    (auth()->user()->hasRole('Usager') ||
-                        auth()->user()->hasRole('Professionnel')))
+            @if (auth()->check())
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd dropdown">
                         <a href="javascript:void(0)" class="addlist">
@@ -58,7 +65,7 @@
                                     Favoris
                                 </a>
                             </li>
-                            @if (auth()->user()->hasRole('Professionnel'))
+                            @if (!auth()->user()->hasRole('Usager'))
                                 <li>
                                     <a href="#">
                                         <i class="fa fa-cog" aria-hidden="true"></i> &nbsp;
@@ -72,12 +79,6 @@
                                     </a>
                                 </li>
                             @endif
-                            {{-- <li>
-                                <a href="{{ route('logout') }}"></a>
-                                    <i class="fa fa-power-off" aria-hidden="true"></i> &nbsp;
-                                    Déconnexion
-                                </a>
-                            </li> --}}
                             <li>
                                 <a href="{{ route('logout') }}">
                                     <i class="fa fa-power-off" aria-hidden="true"></i> &nbsp;

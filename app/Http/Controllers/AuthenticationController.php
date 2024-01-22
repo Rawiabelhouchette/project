@@ -70,12 +70,13 @@ class AuthenticationController extends Controller
                 'email' => $login->message,
             ]);
         }
+        return back();
 
-        if (auth()->user()->hasRole('Administrateur')) {
-            return redirect()->route('home');
-        }
+        // if (auth()->user()->hasRole('Administrateur')) {
+        //     return redirect()->route('home');
+        // }
 
-        return redirect('/');
+        // return redirect('/');
     }
 
     public static function logout(Request $request)

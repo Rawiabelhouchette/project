@@ -1,9 +1,13 @@
-@props(['key', 'type', 'detail' => false])
+@props(['detail' => false])
 
 @php
     $typeAnnonce = App\Models\Annonce::pluck('type')
         ->unique()
         ->toArray();
+
+    $search = new App\Utils\SearchValues();
+    $key = $search->key;
+    $type = $search->type;
 @endphp
 
 <!-- ================ Start Page Title ======================= -->
@@ -42,7 +46,7 @@
                     </div>
                     <div class="col-md-4 col-sm-4 no-padd">
                         <select class="selectpicker form-control" data-live-search="true" name="type" value="{{ $type }}">
-                            <option value="">Choisir le type d'annonce</option>
+                            <option value="" selected>Tous les types d'annonce</option>
                             @foreach ($typeAnnonce as $annonce)
                                 <option value="{{ $annonce }}" {{ $annonce == $type ? 'selected' : '' }}>{{ $annonce }}</option>
                             @endforeach

@@ -34,6 +34,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/login', function () {
+    if (auth()->check()) {
+        return back();
+    }
     return view('login');//->name('login');
 })->name('connexion');
 

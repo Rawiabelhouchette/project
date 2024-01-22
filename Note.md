@@ -5,7 +5,7 @@ github_pat_11AN53YQA0Uno4xOceACc3_Rg4VW2R0FIINRyQcL7yopsrGTmjagwgzLdbDgMIZtOdPAI
 
 
 Prochainement:
--[ok]  creer une tbale qui va garder les horaires
+-[ok]  creer une table qui va garder les horaires
 
 La description d'entreprise ne marche pas
 
@@ -64,3 +64,14 @@ La description d'entreprise ne marche pas
 
 
 # verifier et gerer la suppression des fichiers
+
+
+
+
+
+
+Avant d'attaquer la partie détail des comptes, je pense qu'il faudrait avancer sur : 
+
+- les facettes ( faire afficher toutes) 
+- gérer la partie compte (pro et usager en respectant la maquette) 
+- gérer aussi les actions ( partage, favoris etc)
