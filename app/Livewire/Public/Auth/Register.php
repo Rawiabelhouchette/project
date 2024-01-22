@@ -13,7 +13,7 @@ class Register extends Component
     public $error = false;
     public $message = '';
 
-    public $registration = 'Usager';
+    public $type = 'Usager';
     public $nom;
     public $prenom;
     public $sexe;
@@ -29,8 +29,9 @@ class Register extends Component
         return [
             'nom' => 'required',
             'prenom' => 'required',
-            // 'sexe' => 'required',
-            'username' => 'required',
+            'email' => 'required|email|unique:users',
+            'username' => 'required|unique:users',
+            'type' => 'required|in:Usager,Professionnel',
             'password' => 'required',
             'password_confirmation' => 'required|same:password',
         ];
@@ -43,6 +44,12 @@ class Register extends Component
             'prenom.required' => 'Le prenom est obligatoire',
             'sexe.required' => 'Le sexe est obligatoire',
             'username.required' => 'Le nom d\'utilisateur est obligatoire',
+            'username.unique' => 'Ce nom d\'utilisateur existe deja',
+            'type.required' => 'Le type d\'utilisateur est obligatoire',
+            'type.in' => 'Le type d\'utilisateur est invalide',
+            'email.required' => 'L\'email est obligatoire',
+            'email.email' => 'L\'email est invalide',
+            'email.unique' => 'Cet email existe deja',
             'password.required' => 'Le mot de passe est obligatoire',
             'password_confirmation.required' => 'La confirmation du mot de passe est obligatoire',
             'password_confirmation.same' => 'Les mots de passe ne sont pas identiques',
@@ -52,40 +59,6 @@ class Register extends Component
     public function register()
     {
         $this->validate();
-
-
-        // Verifier si le username existe deja
-        $user = User::where('username', $this->username)->first();
-        if ($user) {
-            $this->error = true;
-            $this->message = 'Veuiilez choisir un autre nom d\'utilisateur';
-            $this->username = '';
-            $this->password = '';
-            $this->password_confirmation = '';
-            return;
-        }
-
-        // Verifier si l'email existe deja
-        if ($this->email != '') {
-            $user = User::where('email', $this->email)->first();
-            if ($user) {
-                $this->error = true;
-                $this->message = 'Email existe deja';
-                $this->email = '';
-                $this->password = '';
-                $this->password_confirmation = '';
-                return;
-            }
-        }
-
-        // Verifier si la combinaison nom et prenom existe deja
-        // $user = User::where('nom', $this->nom)->where('prenom', $this->prenom)->first();
-        // if ($user) {
-        //     $this->error = true;
-        //     $this->message = 'Ce nom et prenom existe deja';
-
-        //     return;
-        // }
 
         DB::beginTransaction();
 
@@ -98,7 +71,7 @@ class Register extends Component
                 'password' => $this->password,
             ]);
 
-            $user->assignRole($this->registration);
+            $user->assignRole($this->type);
 
             DB::commit();
         } catch (\Exception $e) {

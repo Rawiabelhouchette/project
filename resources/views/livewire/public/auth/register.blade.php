@@ -15,7 +15,7 @@
                     <h3>Bienvenue! <span class="theme-cl">Nouveau compte ?</span></h3>
                 </div>
 
-                @if($error)
+                @if ($error)
                     <div class="alert-group">
                         <div class="alert alert-danger alert-dismissable" style="text-align: center;">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -27,42 +27,49 @@
                 <form wire:submit="register()">
                     @csrf
 
-                    <input type="hidden" name="registration" value="usager">
-
                     <div class="row">
 
                         {{-- Nom --}}
                         <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
-                            <label>Nom</label>
-                            <input type="text" name="nom" class="form-control" placeholder="Nom" required wire:model="nom">
+                            <label for="nom">Nom</label>
+                            <input type="text" id="nom" class="form-control" placeholder="Nom" required wire:model="nom">
                         </div>
 
                         {{-- Prénom --}}
                         <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
-                            <label>Prénom</label>
-                            <input type="text" name="prenom" class="form-control" placeholder="Prénom" required wire:model="prenom">
+                            <label for="prenom">Prénom</label>
+                            <input type="text" id="prenom" class="form-control" placeholder="Prénom" required wire:model="prenom">
                         </div>
-
-                        {{-- Sexe --}}
-                        {{-- <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
-                            <label>Sexe</label>
-                            <select class="form-control" name="sexe" required wire:model="sexe">
-                                <option value="" data-placeholder="Choisir" style="font-style: italic; opacity: 0.4;">Choisir</option>
-                                <option value="Masculin">Masculin</option>
-                                <option value="Féminin">Féminin</option>
-                            </select>
-                        </div> --}}
 
                         {{-- Nom d'utilisateur --}}
                         <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
-                            <label>Nom d'utilisateur</label>
-                            <input type="text" name="username" class="form-control" placeholder="Nom d'utilisateur" required wire:model="username">
+                            <label for="username">Nom d'utilisateur</label>
+                            <input type="text" id="username" class="form-control" placeholder="Nom d'utilisateur" required wire:model="username">
+                            @error('username')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         {{-- Email --}}
                         <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Email" required wire:model="email">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="Email" required wire:model="email">
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- Type --}}
+                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
+                            <label for="type">Type de compte</label>
+                            <select class="form-control" id="type" required data-nom="type" wire:model.lazy="type">
+                                <option style="font-style: italic; opacity: 0.4;">Choisir</option>
+                                <option value="Usager">Usager</option>
+                                <option value="Professionnel">Professionnel</option>
+                            </select>
+                            @error('type')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         {{-- Telephone --}}
@@ -73,23 +80,27 @@
 
                         {{-- Mot de passe --}}
                         <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
-                            <label>Mot de passe</label>
-                            <input type="password" name="password" class="form-control" placeholder="Mot de passe" required wire:model="password">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" id="password" class="form-control" placeholder="Mot de passe" required wire:model="password">
                         </div>
 
                         {{-- Confirmation du mot de passe --}}
                         <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
-                            <label>Rattaper le mot de passe</label>
-                            <input type="password" name="password_confirmation" class="form-control" placeholder="Rattaper le mot de passe" required wire:model="password_confirmation">
-                            @error('password_confirmation') <span class="text-danger">{{ $message }}</span> @enderror
+                            <label for="password_confirmation">Rattaper le mot de passe</label>
+                            <input type="password" id="password_confirmation" class="form-control" placeholder="Rattaper le mot de passe" required wire:model="password_confirmation">
+                            @error('password_confirmation')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                     </div>
 
                     <span class="custom-checkbox d-block">
                         <input id="remember" type="checkbox" name="remember" wire:model="remember">
-                        <label for="remember"></label>
-                        {{ __('Se souvenir de moi') }}
+                        <label for="remember">
+
+                            {{ __('Se souvenir de moi') }}
+                        </label>
                     </span>
 
                     <div class="center">
@@ -107,3 +118,16 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#type').on('change', function(e) {
+                var data = $(this).val();
+                console.log(data);
+                var nom = $(this).data('nom');
+                @this.set(nom, data);
+            });
+        });
+    </script>
+@endpush

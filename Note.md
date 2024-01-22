@@ -75,3 +75,10 @@ Avant d'attaquer la partie détail des comptes, je pense qu'il faudrait avancer 
 - les facettes ( faire afficher toutes) 
 - gérer la partie compte (pro et usager en respectant la maquette) 
 - gérer aussi les actions ( partage, favoris etc)
+
+
+
+# NEXT
+- Ajouter l'option de type de compte lors de la creation de compte (niveau public)
+- Interface de visulasation des informations
+  
