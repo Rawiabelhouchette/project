@@ -49,7 +49,7 @@
                         </a>
                         <ul class="dropdown-menu animated navbar-left fadeOutUp" style="display: none; opacity: 1;">
                             <li>
-                                <a href="#">
+                                <a href="{{ route('accounts.index') }}">
                                     <i class="fa fa-user" aria-hidden="true"></i> &nbsp;
                                     Mon compte
                                 </a>

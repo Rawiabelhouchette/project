@@ -87,7 +87,7 @@
             @foreach ($annonces as $annonce)
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="property_item classical-list">
-                        <div class="image"  style="height: 200px important">
+                        <div class="image" style="height: 200px important">
                             <a href="{{ route('show', $annonce->slug) }}" class="listing-thumb">
                                 @if ($annonce->image)
                                     <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" class="img-responsive" style="object-fit: cover; object-position: center; width: 100%; height: 100%;">
@@ -222,6 +222,8 @@
         </div>
 
 </section>
+
+{{-- @include('cookie-consent::index') --}}
 @endsection
 
 @section('js')

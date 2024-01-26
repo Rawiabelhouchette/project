@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\AubergeController;
@@ -44,7 +45,6 @@ Route::get('/', [publicController::class, 'home'])->name('accueil');
 Route::get('/entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
 Route::get('/search', [searchController::class, 'search'])->name('search');
 Route::get('/search/{slug}', [searchController::class, 'show'])->name('show');
-// /search?key=&type=
 Route::get('/search?key={key}&type={type}', [searchController::class, 'search'])->name('search.key.type');
 
 
@@ -58,6 +58,18 @@ Route::group([
 ], function () {
 
     Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+
+    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
+    Route::get('/favoris', [AccountController::class, 'indexFavoris'])->name('accounts.favoris.index');
+
+
+
+
+
+
+
+
+
 
     Route::prefix('staff')->middleware('App\Http\Middleware\Admin')->group(function () {
 

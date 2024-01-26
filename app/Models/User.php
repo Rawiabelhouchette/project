@@ -64,5 +64,18 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Entreprise::class);
     }
+
+
+    /**
+     * Get the favoris annonces for the user.
+     */
+    public function favorisAnnonces()
+    {
+        // return $this->hasMany(Favoris::class);
+        return $this
+            ->belongsToMany(Annonce::class, 'favoris', 'user_id', 'annonce_id')
+            ->withPivot('id')
+            ->latest();
+    }
     
 }

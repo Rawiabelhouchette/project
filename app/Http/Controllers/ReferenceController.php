@@ -61,13 +61,13 @@ class ReferenceController extends Controller
         // Verifier si la combinaison type/nom existe
         $reference = Reference::where('type', $request->type)->where('nom', $request->nom)->first();
         if (!$reference) {
-            return redirect()->back()->with('error', 'Cette combinaison type/nom n\'existe pas.');
+            return back()->with('error', 'Cette combinaison type/nom n\'existe pas.');
         }
 
         // Verifier si la combinaison valeur/ reference_id existe déjà
         $referenceValeur = ReferenceValeur::where('valeur', $request->valeur)->where('reference_id', $reference->id)->first();
         if ($referenceValeur) {
-            return redirect()->back()->with('error', 'Cette combinaison valeur/ reference_id existe déjà.');
+            return back()->with('error', 'Cette combinaison valeur/ reference_id existe déjà.');
         }
 
         // Enregistrer la nouvelle valeur de référence
@@ -76,7 +76,7 @@ class ReferenceController extends Controller
         $referenceValeur->reference_id = $reference->id;
         $referenceValeur->save();
         
-        return redirect()->back()->with('success', 'La référence a été ajoutée avec succès.');
+        return back()->with('success', 'La référence a été ajoutée avec succès.');
     }
 
     /**
@@ -96,7 +96,7 @@ class ReferenceController extends Controller
         // Verifier si la combinaison type/nom existe déjà
         $reference = Reference::where('type', $request->type)->where('nom', $request->nom)->first();
         if ($reference) {
-            return redirect()->back()->with('error', 'Cette combinaison type/nom existe déjà.');
+            return back()->with('error', 'Cette combinaison type/nom existe déjà.');
         }
 
         // Enregistrer le nouveau nom de référence
@@ -105,7 +105,7 @@ class ReferenceController extends Controller
         $reference->nom = $request->nom;
         $reference->save();
 
-        return redirect()->back()->with('success', 'Le nom de référence a été ajouté avec succès.');
+        return back()->with('success', 'Le nom de référence a été ajouté avec succès.');
     }
 
     /**
@@ -151,7 +151,7 @@ class ReferenceController extends Controller
         // Verifier si la combinaison type/nom existe
         $reference = Reference::where('type', $request->type)->where('nom', $request->nom)->first();
         if (!$reference) {
-            return redirect()->back()->with('error', 'Cette combinaison type/nom n\'existe pas.');
+            return back()->with('error', 'Cette combinaison type/nom n\'existe pas.');
         }
 
         // Verifier s'il y a eu une modification
@@ -163,7 +163,7 @@ class ReferenceController extends Controller
         // Verifier si la combinaison valeur/ reference_id existe déjà
         $referenceValeur = ReferenceValeur::where('valeur', $request->valeur)->where('reference_id', $reference->id)->first();
         if ($referenceValeur) {
-            return redirect()->back()->with('error', 'Cette combinaison valeur/reference existe déjà.');
+            return back()->with('error', 'Cette combinaison valeur/reference existe déjà.');
         }
 
         // Enregistrer la nouvelle valeur de référence
