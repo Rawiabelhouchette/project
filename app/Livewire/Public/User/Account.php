@@ -9,6 +9,9 @@ class Account extends Component
 {
     public $user;
     public $isEdit = false;
+    public $editInfo = false;
+    public $editPass = false;
+    public $hasPassword = false;
 
     public $username;
     public $nom;
@@ -16,6 +19,8 @@ class Account extends Component
     public $email;
     public $password;
     public $password_confirmation;
+    public $password_old;
+
 
     public function mount()
     {
@@ -37,17 +42,22 @@ class Account extends Component
 
     public function rules()
     {
-        return [
+        $validate = [
             'username' => 'required|min:3|max:255|unique:users,username,' . $this->user->id,
             'nom' => 'required|min:3|max:255',
             'prenom' => 'required|min:3|max:255',
             'email' => 'required|email|min:3|max:255|unique:users,email,' . $this->user->id,
-            'password' => 'nullable|min:4|max:255|confirmed',
-            'password_confirmation' => 'nullable|min:4|max:255'
         ];
-        
+
+
+        if ($this->hasPassword) {
+            $validate['password'] = 'required|min:4|max:255|confirmed';
+            $validate['password_confirmation'] = 'required|min:4|max:255';
+        }
+
+        return $validate;
     }
-    
+
 
     public function messages()
     {
@@ -75,20 +85,57 @@ class Account extends Component
         ];
     }
 
-    public function edit()
+    // I want the three input to be 
+
+    public function updatedPassword()
     {
-        $this->isEdit = true;
+        if ($this->password != '') {
+            $this->hasPassword = true;
+        } else {
+            $this->hasPassword = false;
+        }
+    }
+
+
+
+    public function editInformation()
+    {
+        $this->editInfo = true;
+    }
+
+    public function editPassword()
+    {
+        $this->editPass = true;
     }
 
     public function cancel()
     {
-        $this->isEdit = false;
+        $this->editInfo = false;
+        $this->editPass = false;
         $this->initialize();
     }
 
     public function update()
     {
-        dd($this->validate());
+        // dd($this->validate());
+
+        $this->user->update([
+            'username' => $this->username,
+            'nom' => $this->nom,
+            'prenom' => $this->prenom,
+            'email' => $this->email,
+        ]);
+
+        $this->isEdit = false;
+
+        if ($this->password) {
+            $this->user->update([
+                'password' => bcrypt($this->password),
+            ]);
+        }
+
+        session()->flash('success', 'Votre compte a été mis à jour avec succès');
+        return;
     }
 
     public function render()

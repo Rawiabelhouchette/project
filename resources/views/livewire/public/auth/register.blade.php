@@ -62,7 +62,7 @@
                         {{-- Type --}}
                         <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
                             <label for="type">Type de compte</label>
-                            <select class="form-control" id="type" required data-nom="type" wire:model.lazy="type">
+                            <select class="form-control" style="font-style: italic; opacity: 0.4;" required data-nom="type" wire:model.lazy="type">
                                 <option style="font-style: italic; opacity: 0.4;">Choisir</option>
                                 <option value="Usager">Usager</option>
                                 <option value="Professionnel">Professionnel</option>
