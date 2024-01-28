@@ -54,6 +54,9 @@ class User extends Authenticatable
 
         'username' => PurifyHtmlOnGet::class,
         'email' => PurifyHtmlOnGet::class,
+        'nom' => PurifyHtmlOnGet::class,
+        'prenom' => PurifyHtmlOnGet::class,
+        'telephone' => PurifyHtmlOnGet::class,
     ];
     
 
@@ -63,6 +66,18 @@ class User extends Authenticatable
     public function entreprise()
     {
         return $this->belongsTo(Entreprise::class);
+    }
+
+
+    /**
+     * Get the favoris annonces for the user.
+     */
+    public function favorisAnnonces()
+    {
+        return $this
+            ->belongsToMany(Annonce::class, 'favoris', 'user_id', 'annonce_id')
+            ->withPivot('id')
+            ->latest();
     }
     
 }

@@ -1,11 +1,11 @@
-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
+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
 
 
 - mettre sweet alet en local
 
 
 Prochainement:
--[ok]  creer une tbale qui va garder les horaires
+-[ok]  creer une table qui va garder les horaires
 
 La description d'entreprise ne marche pas
 
@@ -64,3 +64,35 @@ La description d'entreprise ne marche pas
 
 
 # verifier et gerer la suppression des fichiers
+
+
+
+
+
+
+Avant d'attaquer la partie détail des comptes, je pense qu'il faudrait avancer sur : 
+
+- les facettes ( faire afficher toutes) 
+- gérer la partie compte (pro et usager en respectant la maquette) 
+- gérer aussi les actions ( partage, favoris etc)
+
+
+
+# NEXT
+- Ajouter l'option de type de compte lors de la creation de compte (niveau public)
+- Interface de visulasation des informations
+  
+
+## 28/01/2024
+  MAIL_MAILER=smtp
+MAIL_HOST=mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+a configurer dans le .env
+
+https://aide.lws.fr/base/Email/outllook-thunderbird-iphone/Quels-ports-utiliser-pour-la-configuration-dune-adresse-email

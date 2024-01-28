@@ -25,7 +25,7 @@
                             <div class="form-box">
                                 <i class="banner-icon icon-layers"></i>
                                 <select class="form-control" name="type">
-                                    <option value="" data-placeholder="{{ __('Choisir le type d\'annonce') }}" class="chosen-select">{{ __('Choisir le type d\'annonce') }}</option>
+                                    <option value="" selected data-placeholder="{{ __('Tous les types d\'annonce') }}" class="chosen-select">{{ __('Tous les type d\'annonce') }}</option>
                                     @foreach ($typeAnnonce as $annonce)
                                         <option value="{{ $annonce }}">{{ $annonce }}</option>
                                     @endforeach
@@ -87,7 +87,7 @@
             @foreach ($annonces as $annonce)
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="property_item classical-list">
-                        <div class="image"  style="height: 200px important">
+                        <div class="image" style="height: 200px important">
                             <a href="{{ route('show', $annonce->slug) }}" class="listing-thumb">
                                 @if ($annonce->image)
                                     <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" class="img-responsive" style="object-fit: cover; object-position: center; width: 100%; height: 100%;">
@@ -222,6 +222,8 @@
         </div>
 
 </section>
+
+{{-- @include('cookie-consent::index') --}}
 @endsection
 
 @section('js')

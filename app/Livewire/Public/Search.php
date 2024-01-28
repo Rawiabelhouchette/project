@@ -4,8 +4,9 @@ namespace App\Livewire\Public;
 
 use App\Models\Annonce;
 use App\Models\Favoris;
+use App\Utils\SearchValues;
 use Livewire\Component;
-use Livewire\Attributes\On; 
+use Livewire\Attributes\On;
 
 
 class Search extends Component
@@ -24,16 +25,24 @@ class Search extends Component
     public $selectedAnnonce = [];
     public $selectedAnnonceId = [];
 
+    // 
+    public $link_key;
+    public $link_type;
 
 
-    public function mount($key, $type, $filter = [])
+
+    public function mount($filter = [])
     {
+        $variables = new SearchValues();
         $this->displayedAnnonce = $this->elementToDisplay;
-        $this->key = $key;
-        $this->type = $type;
+        $this->key = $variables->key;
+        $this->type = $variables->type;
         $this->allAnnonceTypes = Annonce::pluck('type')->unique()->toArray();
         // dd($this->allAnnonceTypes = Annonce::pluck('type')->unique()->toArray());
         $this->selectedAnnonceId = $filter;
+
+        $this->link_key = $variables->key;
+        $this->link_type = $variables->type;
     }
 
 
@@ -45,7 +54,7 @@ class Search extends Component
         $this->direction = $direction;
     }
 
-    
+
     public function changeState($type)
     {
         // check if the type is already in the array (selectedAnnonceId) or not and add or remove it
@@ -78,9 +87,9 @@ class Search extends Component
         } else {
             // if no, set the number of displayed annonce to the number of annonce type
             $this->displayedAnnonce = count($this->allAnnonceTypes);
-        } 
-    
-        
+        }
+
+
 
     }
 
@@ -97,15 +106,15 @@ class Search extends Component
                     if (!in_array($type, $selectedAnnonceId)) {
                         array_push($selectedAnnonceId, $type);
                     }
-                    
+
                 }
-                
+
                 if (!empty($selectedAnnonceId)) {
                     foreach ($selectedAnnonceId as $selectedType) {
                         $query->orWhere('type', $selectedType);
                     }
                 }
-                
+
                 if ($key) {
                     $query->where(function ($query) use ($key) {
                         $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])
@@ -115,15 +124,13 @@ class Search extends Component
 
                 $this->selectedAnnonceId = $selectedAnnonceId;
             });
-            
+
         if ($this->sortOrder) {
             list($column, $direction) = explode('|', $this->sortOrder);
             $annonces = $annonces->orderBy($column, $direction);
         }
 
-
-        
-        $annonces = $annonces->paginate(20);
+        $annonces = $annonces->paginate(8);
         $latestAnnonces = Annonce::with('annonceable')->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'))->latest()->take(4)->get();
 
 

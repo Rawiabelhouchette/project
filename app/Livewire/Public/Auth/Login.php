@@ -31,9 +31,9 @@ class Login extends Component
             return;
         }
 
-        if (auth()->user()->hasRole('Administrateur')) {
-            return redirect()->route('home');
-        }
+        // if (auth()->user()->hasRole('Administrateur')) {
+        //     return redirect()->route('home');
+        // }
         
         $this->dispatch('page:reload', []);
     }

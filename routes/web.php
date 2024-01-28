@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\AubergeController;
@@ -34,20 +35,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/login', function () {
-    return view('login');//->name('login');
+    if (auth()->check()) {
+        // return back();
+        return redirect('/');
+    }
+    return view('login');
 })->name('connexion');
 
 Route::get('/', [publicController::class, 'home'])->name('accueil');
 Route::get('/entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
 Route::get('/search', [searchController::class, 'search'])->name('search');
 Route::get('/search/{slug}', [searchController::class, 'show'])->name('show');
-// /search?key=&type=
 Route::get('/search?key={key}&type={type}', [searchController::class, 'search'])->name('search.key.type');
 
-
-// Admin 
-
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
+Route::get('password/reset', [AuthenticationController::class, 'reset'])->name('password.reset');
+
+Route::post('/password-link', [AccountController::class, 'resetPassword'])->name('password.reset.post');
+
+
+Route::get('/notification/reset-password', [AccountController::class, 'notificationSuccess'])->name('notification.rest-password.success');
+Route::post('/reset-password', [AccountController::class, 'newPassword'])->name('password.update');
 
 // Auth middleware
 Route::group([
@@ -55,6 +63,11 @@ Route::group([
 ], function () {
 
     Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+
+    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
+    Route::get('/favoris', [AccountController::class, 'indexFavoris'])->name('accounts.favoris.index');
+
+
 
     Route::prefix('staff')->middleware('App\Http\Middleware\Admin')->group(function () {
 

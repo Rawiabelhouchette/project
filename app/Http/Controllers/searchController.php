@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Annonce;
 use App\Models\StatistiqueAnnonce;
+use App\Utils\SearchValues;
 use Illuminate\Http\Request;
 
 class searchController extends Controller
 {
     public function search(Request $request)
     {
-        $key = $request->input('key');
-        $type = $request->input('type');
-        return view('public.search', compact('key', 'type'));
+        SearchValues::create([
+            'key' => $request->input('key'),
+            'type' => $request->input('type'),
+        ]);
+
+        return view('public.search');
     }
 
     public function show($slug)

@@ -2,12 +2,23 @@
 <html class="no-js" lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    {{-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}') }}" type="image/x-icon">
+
+    <title>Vamiyi</title> --}}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- <meta name="description" content="Best Responsive job portal template build on Latest Bootstrap.">
+    <meta name="keywords" content="job, nob board, job portal, job listing">
+    <meta name="robots" content="index,follow">' --}}
+
+    <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
 
     <title>Vamiyi</title>
 
@@ -48,9 +59,7 @@
         <!-- ================ End Footer Section ======================= -->
 
         <!-- ================== Login & Sign Up Window ================== -->
-        @livewire('public.auth.login')
-
-        @livewire('public.auth.register')
+        @include('layout.public.connexion')
         <!-- ===================== End Login & Sign Up Window =========================== -->
 
         <a id="back2Top" class="theme-bg" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
@@ -99,26 +108,7 @@
 
         @livewireScripts
 
-        <script>
-            $(document).ready(function() {
-                $('#btn-register').click(function() {
-                    $('#signin').modal('hide');
-
-                    setTimeout(function() {
-                        $('#register').modal('show');
-                    }, 500);
-                });
-
-                $('#btn-login').click(function() {
-                    $('#register').modal('hide');
-
-                    // Attendre une seconde avant d'afficher le modal
-                    setTimeout(function() {
-                        $('#signin').modal('show');
-                    }, 500);
-                });
-            });
-        </script>
+        @stack('scripts')
 
         @yield('js')
 
