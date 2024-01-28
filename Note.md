@@ -94,3 +94,5 @@ MAIL_FROM_ADDRESS=null
 MAIL_FROM_NAME="${APP_NAME}"
 
 a configurer dans le .env
+
+https://aide.lws.fr/base/Email/outllook-thunderbird-iphone/Quels-ports-utiliser-pour-la-configuration-dune-adresse-email
