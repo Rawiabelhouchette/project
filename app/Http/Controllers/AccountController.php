@@ -91,7 +91,7 @@ class AccountController extends Controller
             AuthenticationController::login($request);
             return redirect('/');
         } else {
-            return back()->withErrors(['email' => 'Le token est invalide.']);
+            return back()->withErrors(['email' => 'Le lien de réinitialisation a expiré.']);
         }
     }
 

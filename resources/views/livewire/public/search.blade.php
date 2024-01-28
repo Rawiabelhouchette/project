@@ -124,7 +124,7 @@
                                             <h4>{{ $annonce->titre }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
-                                        @if (Auth::check() && Auth::user()->hasRole('Usager'))
+                                        @if (Auth::check())
                                             @if ($annonce->est_favoris)
                                                 <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
                                                     <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
