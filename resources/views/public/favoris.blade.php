@@ -7,7 +7,7 @@
         <div class="profile-cover-content">
             <div class="container">
                 <div class="center">
-                    <h3 style="color: white;">Favoris</h3>
+                    <h3 style="color: white;">Mes favoris</h3>
                 </div>
             </div>
         </div>

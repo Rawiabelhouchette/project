@@ -59,9 +59,7 @@
         <!-- ================ End Footer Section ======================= -->
 
         <!-- ================== Login & Sign Up Window ================== -->
-        @livewire('public.auth.login')
-
-        @livewire('public.auth.register')
+        @include('layout.public.connexion')
         <!-- ===================== End Login & Sign Up Window =========================== -->
 
         <a id="back2Top" class="theme-bg" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
@@ -109,27 +107,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         @livewireScripts
-
-        <script>
-            $(document).ready(function() {
-                $('#btn-register').click(function() {
-                    $('#signin').modal('hide');
-
-                    setTimeout(function() {
-                        $('#register').modal('show');
-                    }, 500);
-                });
-
-                $('#btn-login').click(function() {
-                    $('#register').modal('hide');
-
-                    // Attendre une seconde avant d'afficher le modal
-                    setTimeout(function() {
-                        $('#signin').modal('show');
-                    }, 500);
-                });
-            });
-        </script>
 
         @stack('scripts')
 

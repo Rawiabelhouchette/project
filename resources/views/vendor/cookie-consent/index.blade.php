@@ -1,4 +1,4 @@
-@if($cookieConsentConfig['enabled'] && ! $alreadyConsentedWithCookies)
+{{-- @if($cookieConsentConfig['enabled'] && ! $alreadyConsentedWithCookies)
 
     @include('cookie-consent::dialogContents')
 
@@ -53,4 +53,4 @@
         })();
     </script>
 
-@endif
+@endif --}}

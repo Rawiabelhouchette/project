@@ -13,7 +13,7 @@ class Register extends Component
     public $error = false;
     public $message = '';
 
-    public $type = 'Usager';
+    public $type = '';
     public $nom;
     public $prenom;
     public $sexe;

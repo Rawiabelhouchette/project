@@ -15,7 +15,7 @@
                     <h2>{{ __('Bienvenue !') }} <span class="theme-cl"></span></h2>
                 </div>
 
-                @if($error)
+                @if ($error)
                     <div class="alert-group">
                         <div class="alert alert-danger alert-dismissable" style="text-align: center;">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -39,9 +39,17 @@
                         <input type="password" name="password" class="form-control" placeholder="*******" wire:model='password' required>
                     </div>
 
+                    @if (Route::has('password.reset'))
+                        <div class="text-right">
+                            <a class="btn-link theme-cl" href="{{ route('password.reset') }}">
+                                {{ __('Mot de passe oublié ?') }}
+                            </a>
+                        </div>
+                    @endif
+
                     <span class="custom-checkbox d-block">
-                        <input id="remember1" type="checkbox" name="remember">
-                        <label for="remember1"></label>
+                        <input id="remember" type="checkbox" name="remember" wire:model='remember'>
+                        <label for="remember"></label>
                         {{ __('Se souvenir de moi') }}
                     </span>
 

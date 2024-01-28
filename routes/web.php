@@ -36,7 +36,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', function () {
     if (auth()->check()) {
-        return back();
+        // return back();
+        return redirect('/');
     }
     return view('login');//->name('login');
 })->name('connexion');
@@ -48,9 +49,8 @@ Route::get('/search/{slug}', [searchController::class, 'show'])->name('show');
 Route::get('/search?key={key}&type={type}', [searchController::class, 'search'])->name('search.key.type');
 
 
-// Admin 
-
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
+Route::get('password/reset', [AuthenticationController::class, 'reset'])->name('password.reset');
 
 // Auth middleware
 Route::group([
@@ -61,13 +61,6 @@ Route::group([
 
     Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
     Route::get('/favoris', [AccountController::class, 'indexFavoris'])->name('accounts.favoris.index');
-
-
-
-
-
-
-
 
 
 

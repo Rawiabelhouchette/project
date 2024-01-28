@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class AuthenticationController extends Controller
 {
-
-    public static function loginService(Request $request) : object
+    public static function loginService(Request $request): object
     {
         $remember = $request->has('remember');
         if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
@@ -48,7 +47,9 @@ class AuthenticationController extends Controller
 
         // $request->session()->regenerate();
 
-        // Log::channel('login')->info('Connexion de l\'utilisateur : (' . auth()->user()->id . ') ' .auth()->user()->username);
+        if (auth()->user()->hasRole('Administateur')) {
+            Log::channel('login')->info('Connexion de l\'utilisateur : (' . auth()->user()->id . ') ' . auth()->user()->username);
+        }
 
         return (object) [
             'status' => true,
@@ -60,7 +61,7 @@ class AuthenticationController extends Controller
     {
         $request->validate([
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         $login = AuthenticationController::loginService($request);
@@ -71,15 +72,9 @@ class AuthenticationController extends Controller
             ]);
         }
         return back();
-
-        // if (auth()->user()->hasRole('Administrateur')) {
-        //     return redirect()->route('home');
-        // }
-
-        // return redirect('/');
     }
 
-    public static function logoutService(Request $request) : object
+    public static function logoutService(Request $request): object
     {
         Auth::logout();
 
@@ -104,5 +99,10 @@ class AuthenticationController extends Controller
         }
 
         return redirect('/');
+    }
+
+    public static function reset(Request $request)
+    {
+        // return view('auth.passwords.reset');
     }
 }

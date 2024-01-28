@@ -1,3 +1,5 @@
+@props(['active' => null])
+
 <nav class="navbar navbar-default navbar-fixed navbar-transparent white bootsnav">
     <div class="container-fluid">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
@@ -7,7 +9,11 @@
         <!-- Start Header Navigation -->
         <div class="navbar-header">
             <a class="navbar-brand" href="{{ route('accueil') }}">
-                <img src="{{ asset('assets/img/logo-vamiyi-by-numrod-white.png') }}" class="logo logo-display" alt="">
+                @if ($active == 'login')
+                    <img src="{{ asset('assets/img/logo-vamiyi-by-numrod.png') }}" class="logo logo-display" alt="">
+                @else
+                    <img src="{{ asset('assets/img/logo-vamiyi-by-numrod-white.png') }}" class="logo logo-display" alt="">
+                @endif
                 <img src="{{ asset('assets/img/logo-vamiyi-by-numrod.png') }}" class="logo logo-scrolled" alt="">
             </a>
         </div>
@@ -38,9 +44,7 @@
                         </a>
                     </li>
                 </ul>
-            @endif
-
-            @if (auth()->check())
+            @else
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd dropdown">
                         <a href="javascript:void(0)" class="addlist">
@@ -60,7 +64,7 @@
                                     Contact
                                 </a>
                             <li>
-                                <a href="#">
+                                <a href="{{ route('accounts.favoris.index') }}">
                                     <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
                                     Favoris
                                 </a>

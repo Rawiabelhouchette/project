@@ -62,7 +62,7 @@
                         {{-- Type --}}
                         <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
                             <label for="type">Type de compte</label>
-                            <select class="form-control" style="font-style: italic; opacity: 0.4;" required data-nom="type" wire:model.lazy="type">
+                            <select class="form-control" required data-nom="type" wire:model.lazy="type">
                                 <option style="font-style: italic; opacity: 0.4;">Choisir</option>
                                 <option value="Usager">Usager</option>
                                 <option value="Professionnel">Professionnel</option>
@@ -71,12 +71,6 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-
-                        {{-- Telephone --}}
-                        {{-- <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
-                            <label>Téléphone</label>
-                            <input type="text" name="telephone" class="form-control" placeholder="Téléphone" required>
-                        </div> --}}
 
                         {{-- Mot de passe --}}
                         <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
@@ -106,9 +100,9 @@
                     <div class="center">
                         <button id="signup" wire:target='register' wire:loading.attr='disabled' type="submit" class="btn btn-midium theme-btn btn-radius width-200"> Enregistrer </button>
                     </div>
-            </div>
 
-            </form>
+                </form>
+            </div>
 
             <div class="center mrg-top-5">
                 <div class="bottom-login text-center">Déjà un compte ? </div>
