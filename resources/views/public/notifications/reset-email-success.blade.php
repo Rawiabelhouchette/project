@@ -19,7 +19,7 @@
 
     <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
-    <title>Vamiyi - Login</title>
+    <title>Vamiyi - Reset Password</title>
 
     <!-- All plugins -->
     <link href="{{ asset('assets_client/plugins/css/plugins.css') }}" rel="stylesheet">
@@ -43,68 +43,32 @@
         <!-- Start Navigation -->
         @include('layout.public.navbar', ['active' => 'login'])
         <!-- End Navigation -->
-        <div class="clearfix"></div>
 
         <!-- Start Login Section -->
-        <section class="log-wrapper">
-            <div class="container">
-                <div class="col-md-6 col-sm-10 col-md-offset-3 col-sm-offset-1">
-                    <div class="log-box padd-bot-25">
-                        <h2>Connexion <span class="theme-cl">!</span></h2>
-
-                        @error('email')
-                            <div class="alert-group">
-                                <div class="alert alert-danger alert-dismissable" style="text-align: center;">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    {{ $message }}
-                                </div>
-                            </div>
-                        @enderror
-
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-
-                            <div class="input-group">
-
-                                <span class="input-group-addon"><i class="fa fa-envelope theme-cl"></i></span>
-                                <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Identifiant" required autocomplete="email" autofocus>
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Mot de Passe" required autocomplete="current-password">
-                            </div>
-
-                            @if (Route::has('password.reset'))
-                                <div class="text-right">
-                                    <a class="btn-link theme-cl" href="{{ route('password.reset') }}">
-                                        {{ __('Mot de passe oublié ?') }}
-                                    </a>
-                                </div>
-                            @endif
-
-                            <span class="custom-checkbox d-block">
-                                <input id="remember" type="checkbox" name="remember">
-                                <label for="remember"></label>
-                                {{ __('Se souvenir de moi') }}
-                            </span>
-
-                            <div class="text-center mrg-bot-20">
-                                <button type="submit" class="btn theme-btn width-200 btn-radius">
-                                    {{ __('Connexion') }}
-                                </button>
-                            </div>
-
-                            <div class="center mrg-top-5">
-                                <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#register" class="theme-cl">{{ __('Créer un compte') }}</a>
-                            </div>
-                        </form>
-
+        <section class="detail-section" style="background:url(http://via.placeholder.com/1920x850);" data-overlay="6">
+            <div class="overlay" style="background-color: rgb(36, 36, 41); opacity: 0.5;"></div>
+            <div class="profile-cover-content">
+                <div class="container">
+                    <div class="center">
+                        <h3 style="color: white;">Message</h3>
                     </div>
                 </div>
             </div>
         </section>
         <!-- End Login Section -->
+
+        <div class="clearfix"></div>
+
+        <section>
+            <div class="container">
+                <div class="booking-confirm padd-top-30 padd-bot-30">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    <h2 class="mrg-top-15">Opération réussie !</h2>
+                    <p>Un lien de réinitialisation de mot de passe a été envoyé à votre adresse e-mail</p>
+                    <a href="{{ route('accueil') }}" class="btn theme-btn-trans mrg-top-20">Retourner à l'accueil</a>
+                </div>
+            </div>
+        </section>
 
         <!-- ================ Start Footer ======================= -->
         @include('layout.public.footer')

@@ -7,6 +7,8 @@ use App\Models\User;
 use Livewire\Component;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class Register extends Component
 {
@@ -85,6 +87,16 @@ class Register extends Component
             'email' => $this->username,
             'password' => $this->password,
         ]);
+        
+        try {
+            Mail::send('public.email-welcome', ['prenom' => $this->prenom], function ($message) {
+                $message->to($this->email)
+                    ->subject('Bienvenue sur la plateforme de publication des annonces');
+            });
+        } catch (\Exception $e) {
+            Log::error('Erreur lors de l\'envoi du mail de bienvenue : ' . $e->getMessage());
+        }
+
 
         $login = AuthenticationController::loginService($request);
         if (!$login->status) {

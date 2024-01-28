@@ -39,7 +39,7 @@ Route::get('/login', function () {
         // return back();
         return redirect('/');
     }
-    return view('login');//->name('login');
+    return view('login');
 })->name('connexion');
 
 Route::get('/', [publicController::class, 'home'])->name('accueil');
@@ -48,9 +48,14 @@ Route::get('/search', [searchController::class, 'search'])->name('search');
 Route::get('/search/{slug}', [searchController::class, 'show'])->name('show');
 Route::get('/search?key={key}&type={type}', [searchController::class, 'search'])->name('search.key.type');
 
-
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
 Route::get('password/reset', [AuthenticationController::class, 'reset'])->name('password.reset');
+
+Route::post('/password-link', [AccountController::class, 'resetPassword'])->name('password.reset.post');
+
+
+Route::get('/notification/reset-password', [AccountController::class, 'notificationSuccess'])->name('notification.rest-password.success');
+Route::post('/reset-password', [AccountController::class, 'newPassword'])->name('password.update');
 
 // Auth middleware
 Route::group([

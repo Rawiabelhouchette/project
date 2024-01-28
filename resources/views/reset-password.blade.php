@@ -2,24 +2,11 @@
 <html class="no-js" lang="en">
 
 <head>
-    {{-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}') }}" type="image/x-icon">
-
-    <title>Vamiyi</title> --}}
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- <meta name="description" content="Best Responsive job portal template build on Latest Bootstrap.">
-    <meta name="keywords" content="job, nob board, job portal, job listing">
-    <meta name="robots" content="index,follow">' --}}
 
-    <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
-    <title>Vamiyi - Login</title>
+    <title>Vamiyi - Reset Password</title>
 
     <!-- All plugins -->
     <link href="{{ asset('assets_client/plugins/css/plugins.css') }}" rel="stylesheet">
@@ -48,9 +35,9 @@
         <!-- Start Login Section -->
         <section class="log-wrapper">
             <div class="container">
-                <div class="col-md-6 col-sm-10 col-md-offset-3 col-sm-offset-1">
+                <div class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-1">
                     <div class="log-box padd-bot-25">
-                        <h2>Connexion <span class="theme-cl">!</span></h2>
+                        <h2>Réinitialiser le mot de passe <span class="theme-cl">!</span></h2>
 
                         @error('email')
                             <div class="alert-group">
@@ -61,42 +48,28 @@
                             </div>
                         @enderror
 
-                        <form method="POST" action="{{ route('login') }}">
+                        @error('success')
+                            <div class="alert-group">
+                                <div class="alert alert-success alert-dismissable" style="text-align: center;">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    {{ $message }}
+                                </div>
+                            </div>
+                        @enderror
+
+                        <form method="POST" action="{{ route('password.reset.post') }}">
                             @csrf
 
                             <div class="input-group">
 
                                 <span class="input-group-addon"><i class="fa fa-envelope theme-cl"></i></span>
-                                <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Identifiant" required autocomplete="email" autofocus>
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Mot de Passe" required autocomplete="current-password">
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Email" required autocomplete="email" autofocus>
                             </div>
 
-                            @if (Route::has('password.reset'))
-                                <div class="text-right">
-                                    <a class="btn-link theme-cl" href="{{ route('password.reset') }}">
-                                        {{ __('Mot de passe oublié ?') }}
-                                    </a>
-                                </div>
-                            @endif
-
-                            <span class="custom-checkbox d-block">
-                                <input id="remember" type="checkbox" name="remember">
-                                <label for="remember"></label>
-                                {{ __('Se souvenir de moi') }}
-                            </span>
-
-                            <div class="text-center mrg-bot-20">
-                                <button type="submit" class="btn theme-btn width-200 btn-radius">
-                                    {{ __('Connexion') }}
+                            <div class="text-center mrg-top-20 mrg-bot-20">
+                                <button type="submit" class="btn theme-btn btn-radius">
+                                    {{ __('Réinitialiser le mot de passe') }}
                                 </button>
-                            </div>
-
-                            <div class="center mrg-top-5">
-                                <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#register" class="theme-cl">{{ __('Créer un compte') }}</a>
                             </div>
                         </form>
 

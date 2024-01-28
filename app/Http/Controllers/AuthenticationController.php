@@ -103,6 +103,41 @@ class AuthenticationController extends Controller
 
     public static function reset(Request $request)
     {
-        // return view('auth.passwords.reset');
+        // dd($request->all());
+        if ($request->has('token') && $request->has('email')) {
+            return view('new-password', [
+                'token' => $request->token,
+                'email' => $request->email,
+            ]);
+        }
+        return view('reset-password');
+    }
+
+    public static function resetPassword(Request $request)
+    {
+        // $request->validate([
+        //     'token' => 'required',
+        //     'email' => 'required|email',
+        //     'password' => 'required|confirmed|min:8',
+        // ]);
+
+        // $status = Password::reset(
+        //     $request->only('email', 'password', 'password_confirmation', 'token'),
+        //     function ($user, $password) {
+        //         $user->forceFill([
+        //             'password' => Hash::make($password)
+        //         ])->setRememberToken(Str::random(60));
+
+        //         $user->save();
+
+        //         event(new PasswordReset($user));
+        //     }
+        // );
+
+        // if ($status == Password::PASSWORD_RESET) {
+        //     return redirect()->route('login')->with('status', __($status));
+        // } else {
+        //     return back()->withErrors(['email' => [__($status)]]);
+        // }
     }
 }
