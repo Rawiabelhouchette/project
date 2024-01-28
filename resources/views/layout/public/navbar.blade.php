@@ -45,7 +45,7 @@
                     <li class="no-pd dropdown">
                         <a href="javascript:void(0)" class="addlist">
                             <img src="{{ asset('assets_client/img/avatar.jpg') }}" class="img-responsive img-circle avater-img" alt="">
-                            <strong>{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</strong>
+                            <strong id="navbar_username">{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</strong>
                         </a>
                         <ul class="dropdown-menu animated navbar-left fadeOutUp" style="display: none; opacity: 1;">
                             <li>

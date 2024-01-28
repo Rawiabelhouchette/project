@@ -2,16 +2,18 @@
 
 namespace App\Livewire\Public\User;
 
+use App\Http\Controllers\AuthenticationController;
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 class Account extends Component
 {
     public $user;
-    public $isEdit = false;
     public $editInfo = false;
     public $editPass = false;
-    public $hasPassword = false;
 
     public $username;
     public $nom;
@@ -28,36 +30,32 @@ class Account extends Component
             return redirect()->route('connexion');
         }
 
-        $this->user = User::find(auth()->user()->id);
         $this->initialize();
     }
-
+    
     public function initialize()
     {
+        $this->user = User::find(auth()->user()->id);
         $this->username = $this->user->username;
         $this->nom = $this->user->nom;
         $this->prenom = $this->user->prenom;
         $this->email = $this->user->email;
+        $this->password = '';
+        $this->password_confirmation = '';
+        $this->password_old = '';
     }
 
-    public function rules()
-    {
-        $validate = [
-            'username' => 'required|min:3|max:255|unique:users,username,' . $this->user->id,
-            'nom' => 'required|min:3|max:255',
-            'prenom' => 'required|min:3|max:255',
-            'email' => 'required|email|min:3|max:255|unique:users,email,' . $this->user->id,
-        ];
-
-
-        if ($this->hasPassword) {
-            $validate['password'] = 'required|min:4|max:255|confirmed';
-            $validate['password_confirmation'] = 'required|min:4|max:255';
-        }
-
-        return $validate;
-    }
-
+    // public function rules()
+    // {
+    //     return [
+    //         'username' => 'required|min:3|max:255|unique:users,username,' . $this->user->id,
+    //         'nom' => 'required|min:3|max:255',
+    //         'prenom' => 'required|min:3|max:255',
+    //         'email' => 'required|email|min:3|max:255|unique:users,email,' . $this->user->id,
+    //         'password' => 'required|min:4|max:255|confirmed',
+    //         'password_confirmation' => 'required|min:4|max:255',
+    //     ];
+    // }
 
     public function messages()
     {
@@ -79,24 +77,14 @@ class Account extends Component
             'email.unique' => 'L\'adresse email est déjà utilisée',
             'password.min' => 'Le mot de passe doit contenir au moins 4 caractères',
             'password.max' => 'Le mot de passe ne doit pas dépasser 255 caractères',
+            'password_confirmation.required' => 'La confirmation du mot de passe est obligatoire',
+            'password_old.required' => 'Le mot de passe actuel est obligatoire',
+            'password_old.min' => 'Le mot de passe actuel doit contenir au moins 4 caractères',
+            'password_old.max' => 'Le mot de passe actuel ne doit pas dépasser 255 caractères',
+            'password_old.password' => 'Le mot de passe actuel est incorrect',
             'password.confirmed' => 'Les mots de passe ne correspondent pas',
-            'password_confirmation.min' => 'Le mot de passe doit contenir au moins 4 caractères',
-            'password_confirmation.max' => 'Le mot de passe ne doit pas dépasser 255 caractères',
         ];
     }
-
-    // I want the three input to be 
-
-    public function updatedPassword()
-    {
-        if ($this->password != '') {
-            $this->hasPassword = true;
-        } else {
-            $this->hasPassword = false;
-        }
-    }
-
-
 
     public function editInformation()
     {
@@ -113,26 +101,49 @@ class Account extends Component
         $this->editInfo = false;
         $this->editPass = false;
         $this->initialize();
+        $this->resetValidation();
     }
 
     public function update()
     {
-        // dd($this->validate());
+        $validated = null;
 
-        $this->user->update([
-            'username' => $this->username,
-            'nom' => $this->nom,
-            'prenom' => $this->prenom,
-            'email' => $this->email,
-        ]);
-
-        $this->isEdit = false;
-
-        if ($this->password) {
-            $this->user->update([
-                'password' => bcrypt($this->password),
+        if ($this->editInfo) {
+            $validated = $this->validate([
+                'username' => 'required|min:3|max:255|unique:users,username,' . $this->user->id,
+                'nom' => 'required|min:3|max:255',
+                'prenom' => 'required|min:3|max:255',
+                'email' => 'required|email|min:3|max:255|unique:users,email,' . $this->user->id,
             ]);
+        } else {
+            $validated = $this->validate([
+                'password_old' => 'required|min:4|max:255',
+                'password' => 'required|min:4|max:255|confirmed',
+            ]);
+
+            if (!Hash::check($this->password_old, $this->user->password)) {
+                $validator = Validator::make([], []); // Empty data and rules
+
+                // Add an error message to the password_old field
+                $validator->errors()->add('password_old', 'Le mot de passe actuel est incorrect');
+
+                // Throw a ValidationException with the validator instance
+                throw new \Illuminate\Validation\ValidationException($validator);
+            }
         }
+
+        $this->user->update($validated);
+        
+        if ($this->editPass) {
+            AuthenticationController::logout(request());
+            return redirect('/');
+        }
+
+        $this->cancel();
+
+        $this->dispatch('username:changed', [
+            'username' => $this->user->nom . ' ' . $this->user->prenom
+        ]);
 
         session()->flash('success', 'Votre compte a été mis à jour avec succès');
         return;

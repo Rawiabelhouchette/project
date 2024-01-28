@@ -11,7 +11,7 @@
             @if (session()->has('success'))
                 <div class="alert alert-success alert-dismissable text-center">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <strong>Ok !</strong>
+                    <strong>Succès !</strong>
                     {{ session()->get('success') }}
                 </div>
             @endif
@@ -33,17 +33,6 @@
                         @endif
                     </div> <br>
 
-                    {{-- <div class="listing-box-header">
-                                <div class="avater-box">
-                                    <img src="{{ asset('assets_client/img/avatar.jpg') }}" class="img-responsive img-circle edit-avater" alt="">
-                                    <div class="upload-btn-wrapper">
-                                        <button class="btn theme-btn" style="background-color: #EA4F0C; color: white;">Change Avatar</button>
-                                        <input type="file" name="myfile">
-                                    </div>
-                                </div>
-                                <h3>{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</h3>
-                            </div> --}}
-                    {{-- <form> --}}
                     <div class="row mrg-r-10 mrg-l-10">
                         <div class="col-sm-6">
                             <label>Nom</label>
@@ -101,7 +90,8 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-
+                            </div>
+                            <div class="row mrg-r-10 mrg-l-10">
                                 <div class="col-sm-6">
                                     <label>Retaper le nouveau mot de passe</label>
                                     <input type="password" wire:model='password_confirmation' class="form-control" placeholder="*********" required>
@@ -112,11 +102,13 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="text-center">
+                        <button type="submit" class="btn theme-btn" wire:loading.attr='disabled' wire:target='update'>Mettre a jour</button>
+                    </div>
                 </div>
             @endif
 
-            @if ($editInfo || $editPass)
+            @if ($editInfo)
                 <div class="text-center">
                     <button type="submit" class="btn theme-btn" wire:loading.attr='disabled' wire:target='update'>Mettre a jour</button>
                 </div>
@@ -124,3 +116,11 @@
         </form>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        window.addEventListener('username:changed', event => {
+            $('#navbar_username').text(event.detail[0].username);
+        });
+    </script>
+@endpush

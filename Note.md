@@ -82,3 +82,15 @@ Avant d'attaquer la partie détail des comptes, je pense qu'il faudrait avancer 
 - Ajouter l'option de type de compte lors de la creation de compte (niveau public)
 - Interface de visulasation des informations
   
+
+## 28/01/2024
+  MAIL_MAILER=smtp
+MAIL_HOST=mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+a configurer dans le .env

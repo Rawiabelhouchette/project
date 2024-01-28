@@ -79,13 +79,29 @@ class AuthenticationController extends Controller
         // return redirect('/');
     }
 
-    public static function logout(Request $request)
+    public static function logoutService(Request $request) : object
     {
         Auth::logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
+        return (object) [
+            'status' => true,
+            'message' => 'Déconnexion réussie.'
+        ];
+    }
+
+    public static function logout(Request $request)
+    {
+        $logout = AuthenticationController::logoutService($request);
+
+        if (!$logout->status) {
+            return back()->withErrors([
+                'email' => $logout->message,
+            ]);
+        }
 
         return redirect('/');
     }
