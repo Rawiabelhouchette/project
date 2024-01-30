@@ -18,9 +18,7 @@ class AccountController extends Controller
 
     public function indexFavoris()
     {
-        $user = User::find(auth()->user()->id);
-        $annonces = $user->favorisAnnonces()->paginate(2);
-        return view('public.favoris', compact('annonces'));
+        return view('public.favoris');
     }
 
     // function to reset password using email

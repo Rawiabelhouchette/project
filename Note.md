@@ -96,3 +96,18 @@ MAIL_FROM_NAME="${APP_NAME}"
 a configurer dans le .env
 
 https://aide.lws.fr/base/Email/outllook-thunderbird-iphone/Quels-ports-utiliser-pour-la-configuration-dune-adresse-email
+
+
+
+
+
+cle site
+
+6LfwoF8pAAAAAClgwAb7VRDlrPh-x5c0AyZ520R_
+
+cle secrete
+6LfwoF8pAAAAACHHninimPCRav9bsQawUt4bGquQ
+
+https://developers.google.com/recaptcha/docs/v3
+
+https://www.youtube.com/watch?v=NsFSA-MQjeY&ab_channel=CodeWithTony

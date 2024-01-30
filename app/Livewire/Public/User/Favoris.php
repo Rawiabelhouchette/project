@@ -8,7 +8,8 @@ use Livewire\Component;
 class Favoris extends Component
 {
     public $user;
-    public $favoris;    
+    private $annonces; 
+    private $perPage = 2;   
 
     public function mount()
     {
@@ -17,11 +18,27 @@ class Favoris extends Component
         }
 
         $this->user = User::find(auth()->user()->id);
-        $this->favoris = $this->user->favorisAnnonces()->paginate(10);
+        $this->annonces = $this->user->favorisAnnonces()->paginate($this->perPage);
+    }
+
+    public function updateFavoris($annonceId)
+    {
+        $favorite = \App\Models\Favoris::where('annonce_id', $annonceId)->where('user_id', auth()->user()->id)->first();
+        if ($favorite) {
+            $favorite->delete();
+        } else {
+            \App\Models\Favoris::create([
+                'annonce_id' => $annonceId,
+                'user_id' => auth()->user()->id
+            ]);
+        }
+
+        $this->annonces = $this->user->favorisAnnonces()->paginate($this->perPage);
     }
 
     public function render()
     {
-        return view('livewire.public.user.favoris');
+        $annonces = $this->annonces;
+        return view('livewire.public.user.favoris', compact('annonces'));
     }
 }

@@ -96,7 +96,7 @@
                         </div>
                         <div class="col-md-4">
                             <select id="select-order" class="form-control" style="height: 35px !important; margin-bottom: 0px;" tabindex="-98" wire:model.lazy='sortOrder'>
-                                <option value="">Trier</option>
+                                <option value="" disabled>Trier</option>
                                 <option value="titre|asc">Titre: A à Z</option>
                                 <option value="titre|desc">Titre: Z à A</option>
                                 <option value="created_at|asc">Date: Ancien à récent</option>
@@ -270,3 +270,15 @@
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#select-order').change(function() {
+                var url = window.location.href;
+                url = url.split('&page=')[0];
+                window.history.pushState("", "", url);
+            });
+        });
+    </script>
+@endpush

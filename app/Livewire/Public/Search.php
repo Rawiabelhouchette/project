@@ -6,8 +6,7 @@ use App\Models\Annonce;
 use App\Models\Favoris;
 use App\Utils\SearchValues;
 use Livewire\Component;
-use Livewire\Attributes\On;
-
+use Illuminate\Support\Facades\Log;
 
 class Search extends Component
 {
@@ -43,17 +42,24 @@ class Search extends Component
 
         $this->link_key = $variables->key;
         $this->link_type = $variables->type;
-    }
 
+        $this->sortOrder = $variables->sortOrder;
+        // dd($variables->sortOrder);
+    }
 
 
     public function updatedSortOrder()
     {
+        if (!$this->sortOrder) {
+            return;
+        }
         list($column, $direction) = explode('|', $this->sortOrder);
-        $this->column = $column;
-        $this->direction = $direction;
+        $sessVars = new SearchValues();
+        $sessVars->column = $column;
+        $sessVars->direction = $direction;
+        $sessVars->sortOrder = $this->sortOrder;
+        $sessVars->save();
     }
-
 
     public function changeState($type)
     {
@@ -88,9 +94,6 @@ class Search extends Component
             // if no, set the number of displayed annonce to the number of annonce type
             $this->displayedAnnonce = count($this->allAnnonceTypes);
         }
-
-
-
     }
 
     public function render()
@@ -106,7 +109,6 @@ class Search extends Component
                     if (!in_array($type, $selectedAnnonceId)) {
                         array_push($selectedAnnonceId, $type);
                     }
-
                 }
 
                 if (!empty($selectedAnnonceId)) {
@@ -125,14 +127,14 @@ class Search extends Component
                 $this->selectedAnnonceId = $selectedAnnonceId;
             });
 
-        if ($this->sortOrder) {
-            list($column, $direction) = explode('|', $this->sortOrder);
-            $annonces = $annonces->orderBy($column, $direction);
+        $sessVars = new SearchValues();
+        if ($sessVars->sortOrder) {
+            $annonces = $annonces->orderBy($sessVars->column, $sessVars->direction);
         }
 
         $annonces = $annonces->paginate(8);
+        $this->sortOrder ? $annonces->withPath($sessVars->url) : '';
         $latestAnnonces = Annonce::with('annonceable')->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'))->latest()->take(4)->get();
-
 
         return view('livewire.public.search', compact('annonces', 'latestAnnonces', 'selectedAnnonceId'));
     }
