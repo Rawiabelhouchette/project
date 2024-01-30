@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Utils\CustomSession;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AccountController extends Controller
@@ -18,25 +17,28 @@ class AccountController extends Controller
 
     public function indexFavoris()
     {
+        if (!request()->input('page'))
+        {
+            $sess = new CustomSession();
+            $sess->favorite_search = '';
+            $sess->save();
+        }
+
         return view('public.favoris');
     }
 
     public function indexComment()
     {
+        if (!request()->input('page'))
+        {
+            $sess = new CustomSession();
+            $sess->comment_search = '';
+            $sess->save();
+        }
+
         return view('public.comment');
     }
 
-    // function to reset password using email
-    // public function resetPassword(Request $request)
-    // {
-    //     $request->validate([
-    //         'email' => 'required|email|exists:users,email'
-    //     ]);
-
-    //     $token = app('auth.password.broker')->createToken($request->email);
-
-    //     return view('public.reset-password', ['token' => $token]);
-    // }
     public function resetPassword(Request $request)
     {
         $request->validate([

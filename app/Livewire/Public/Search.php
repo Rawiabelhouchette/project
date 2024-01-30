@@ -5,7 +5,7 @@ namespace App\Livewire\Public;
 use App\Models\Annonce;
 use App\Models\Favoris;
 use App\Utils\AnnoncesUtils;
-use App\Utils\SearchValues;
+use App\Utils\CustomSession;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
 
@@ -33,7 +33,7 @@ class Search extends Component
 
     public function mount($filter = [])
     {
-        $variables = new SearchValues();
+        $variables = new CustomSession();
         $this->displayedAnnonce = $this->elementToDisplay;
         $this->key = $variables->key;
         $this->type = $variables->type;
@@ -53,7 +53,7 @@ class Search extends Component
             return;
         }
         list($column, $direction) = explode('|', $this->sortOrder);
-        $sessVars = new SearchValues();
+        $sessVars = new CustomSession();
         $sessVars->column = $column;
         $sessVars->direction = $direction;
         $sessVars->sortOrder = $this->sortOrder;
@@ -126,13 +126,13 @@ class Search extends Component
                 $this->selectedAnnonceId = $selectedAnnonceId;
             });
 
-        $sessVars = new SearchValues();
+        $sessVars = new CustomSession();
         if ($sessVars->sortOrder) {
             $annonces = $annonces->orderBy($sessVars->column, $sessVars->direction);
         }
 
         $annonces = $annonces->paginate(8);
-        $this->sortOrder ? $annonces->withPath($sessVars->url) : '';
+        $annonces->withPath($sessVars->url);
         $latestAnnonces = Annonce::getActiveAnnonces()->with('annonceable')->latest()->take(4)->get();
 
         return view('livewire.public.search', compact('annonces', 'latestAnnonces', 'selectedAnnonceId'));

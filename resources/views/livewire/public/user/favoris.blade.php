@@ -16,7 +16,7 @@
                         <span id="nbre-favoris" class="mrg-l-10">{{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} favori(s)</span>
                     </div>
                     <div class="col-md-6 text-center">
-                        <input type="text" value="" class="form-control" id="filterInput" placeholder="Afficher la recherche" style="margin-top: 6px; margin-bottom: 6px; height: 35px;">
+                        <input type="text" value="" class="form-control" id="favorite_search" placeholder="Afficher la recherche" style="margin-top: 6px; margin-bottom: 6px; height: 35px;" wire:model.live.debounce.500ms='search'>
                     </div>
                 </div>
             </div>
@@ -47,9 +47,9 @@
                                                     <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                                 </a>
                                             @else --}}
-                                                <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
-                                                    <span class="like-listing @if(!$annonce->est_favoris) alt @endif style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                                </a>
+                                            <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                                                <span class="like-listing @if (!$annonce->est_favoris) alt @endif style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                            </a>
                                             {{-- @endif --}}
                                         @else
                                             <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" data-toggle="modal" data-target="#signin">
@@ -109,7 +109,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-caption text-center mrg-top-5">
-                                        <h4>Aucune annonce trouvée</h4>
+                                        <h4>Aucun commentaire trouvé</h4>
                                     </div>
                                 </div>
                             </div>
@@ -123,3 +123,15 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#favorite_search').change(function() {
+                var url = window.location.href;
+                url = url.split('&page=')[0];
+                window.history.pushState("", "", url);
+            });
+        });
+    </script>
+@endpush

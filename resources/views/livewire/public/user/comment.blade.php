@@ -5,7 +5,7 @@
                 <span id="nbre-favoris">{{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} commentaire(s)</span>
             </div>
             <div class="col-md-6 text-center">
-                <input type="text" value="" class="form-control" id="filterInput" placeholder="Afficher la recherche" style="margin-top: 6px; margin-bottom: 6px; height: 35px;">
+                <input type="text" value="" class="form-control" id="comment_search" placeholder="Afficher la recherche" style="margin-top: 6px; margin-bottom: 6px; height: 35px;" wire:model.live.debounce.500ms='search'>
             </div>
 
         </div>
@@ -43,11 +43,16 @@
                                         </div>
                                     </li>
                                 @endforeach
-                                @if ($annonces->count() == 0)
-                                <li class="text-center">
-                                    <h5>Aucun élément</h5>
-                                </li>
-                                @endif
+
+                                @empty($annonces->items())
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="listing-shot grid-style">
+                                            <div class="listing-shot-caption text-center mrg-top-5">
+                                                <h4>Aucune annonce trouvée</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endempty
                             </ul>
                         </div>
                     </div>

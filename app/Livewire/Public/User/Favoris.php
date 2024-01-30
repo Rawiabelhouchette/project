@@ -3,6 +3,7 @@
 namespace App\Livewire\Public\User;
 
 use App\Models\User;
+use App\Utils\CustomSession;
 use Livewire\Component;
 
 class Favoris extends Component
@@ -10,15 +11,13 @@ class Favoris extends Component
     public $user;
     private $annonces; 
     private $perPage = 2;   
+    public $search = '';
 
-    public function mount()
+    public function updatedSearch($value)
     {
-        if (!auth()->check()) {
-            return redirect()->route('connexion');
-        }
-
-        $this->user = User::find(auth()->user()->id);
-        $this->annonces = $this->user->favorisAnnonces()->paginate($this->perPage);
+        $session = new CustomSession();
+        $session->favorite_search = $value;
+        $session->save();
     }
 
     public function updateFavoris($annonceId)
@@ -32,13 +31,28 @@ class Favoris extends Component
                 'user_id' => auth()->user()->id
             ]);
         }
-
-        $this->annonces = $this->user->favorisAnnonces()->paginate($this->perPage);
+        // I dont want to run render
     }
 
     public function render()
     {
-        $annonces = $this->annonces;
+        if (!auth()->check()) {
+            return redirect()->route('connexion');
+        }
+        $session = new CustomSession();
+        $this->search = $session->favorite_search;
+        $search = $this->search;
+
+        $this->user = User::find(auth()->user()->id);
+        $annonces = $this->user->favorisAnnonces()->where(function ($query) use ($search) {
+            $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($search) . '%'])
+                ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
+        })   
+        ->paginate($this->perPage);
+        $annonces->withPath($session->favorite_link);
+
+
+        // $annonces = $this->annonces;
         return view('livewire.public.user.favoris', compact('annonces'));
     }
 }

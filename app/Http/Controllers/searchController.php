@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Annonce;
 use App\Models\StatistiqueAnnonce;
-use App\Utils\SearchValues;
+use App\Utils\CustomSession;
 use Illuminate\Http\Request;
 
 class searchController extends Controller
 {
     public function search(Request $request)
     {
-        // SearchValues::clear();
-        SearchValues::create([
+        // CustomSession::clear();
+        CustomSession::create([
             'key' => $request->input('key'),
             'type' => $request->input('type'),
             'url' => url()->current(),

@@ -21,7 +21,7 @@
                         </li>
 
                         <li>
-                            <a href="{{ route('accounts.favoris.index') }}">
+                            <a href="{{ route('accounts.favorite.index') }}">
                                 <span class="custom-checkbox d-block @if ($category == 1) theme-cl @endif" style="font-size: 18px;">
                                     <i class="fa-solid fa-star @if ($category == 1) theme-cl @endif"></i> &nbsp;
                                     Favoris

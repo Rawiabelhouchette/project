@@ -5,7 +5,7 @@
         ->unique()
         ->toArray();
 
-    $search = new App\Utils\SearchValues();
+    $search = new App\Utils\CustomSession();
     $key = $search->key;
     $type = $search->type;
 @endphp

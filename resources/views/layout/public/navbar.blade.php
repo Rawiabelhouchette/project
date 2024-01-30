@@ -65,7 +65,7 @@
                                 </a>
                             </li> --}}
                             <li>
-                                <a href="{{ route('accounts.favoris.index') }}">
+                                <a href="{{ route('accounts.favorite.index') }}">
                                     <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
                                     Favoris
                                 </a>

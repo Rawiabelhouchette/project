@@ -2,7 +2,7 @@
 
 namespace App\Utils;
 
-class SearchValues
+class CustomSession
 {
     public $key = '';
     public $type = '';
@@ -10,6 +10,10 @@ class SearchValues
     public $column = '';
     public $direction = '';
     public $url = '';
+    public $favorite_link = '';
+    public $favorite_search = '';
+    public $comment_link = '';
+    public $comment_search = '';
     public $annonces;
 
     public function __construct()
@@ -20,6 +24,10 @@ class SearchValues
         $this->column = session()->get('search_column');
         $this->direction = session()->get('search_direction');
         $this->url = session()->get('search_url');
+        $this->favorite_link = session()->get('favorite_link');
+        $this->favorite_search = session()->get('favorite_search');
+        $this->comment_link = session()->get('comment_link');
+        $this->comment_search = session()->get('comment_search');
         $this->annonces = session()->get('search_annonces');
     }
 
@@ -31,6 +39,10 @@ class SearchValues
 
         session(['search_key' => $data['key'] ?? '']);
         session(['search_type' => $data['type'] ?? '']);
+        session(['favorite_link' => $data['favorite_link'] ?? '']);
+        session(['favorite_search' => $data['favorite_search'] ?? '']);
+        session(['comment_link' => $data['comment_link'] ?? '']);
+        session(['comment_search' => $data['comment_search'] ?? '']);
         session(['search_sortOrder' => !session()->get('search_sortOrder') ? $data['sortOrder'] ?? '' : session()->get('search_sortOrder')]);
         session(['search_column' => !session()->get('search_column') ? $data['column'] ?? '' : session()->get('search_column')]);
         session(['search_direction' => !session()->get('search_direction') ? $data['direction'] ?? '' : session()->get('search_direction')]);
@@ -47,6 +59,10 @@ class SearchValues
         session(['search_column' => $this->column]);
         session(['search_direction' => $this->direction]);
         session(['search_url' => $this->url]);
+        session(['favorite_link' => $this->favorite_link]);
+        session(['favorite_search' => $this->favorite_search]);
+        session(['comment_link' => $this->comment_link]);
+        session(['comment_search' => $this->comment_search]);
         session(['search_annonces' => $this->annonces]);
     }
 
@@ -56,6 +72,10 @@ class SearchValues
         session()->forget('search_type');
         session()->forget('search_sortOrder');
         session()->forget('search_column');
+        session()->forget('favorite_link');
+        session()->forget('favorite_search');
+        session()->forget('comment_link');
+        session()->forget('comment_search');
         session()->forget('search_direction');
         session()->forget('search_url');
         session()->forget('search_annonces');

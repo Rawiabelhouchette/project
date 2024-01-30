@@ -119,4 +119,4 @@ https://www.youtube.com/watch?v=NsFSA-MQjeY&ab_channel=CodeWithTony
 
 ## A continuer
 - Rechecher de favoris et de commentaire
-- Suppression d'un commentaire [attendre]
+- Suppression d'un commentaire [attendre] - Dans Favoris le render (ne pas l'executer) 
