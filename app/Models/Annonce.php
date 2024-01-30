@@ -172,6 +172,11 @@ class Annonce extends Model
         }
     }
 
+    public static function getActiveAnnonces()
+    {
+        return Annonce::query()->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'));
+    }
+
 
     /* ###################### ATTRIBUTES (APPENDED) ######################
     ###################################################################### */

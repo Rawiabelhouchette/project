@@ -4,6 +4,7 @@ namespace App\Livewire\Public;
 
 use App\Models\Annonce;
 use App\Models\Favoris;
+use App\Utils\AnnoncesUtils;
 use App\Utils\SearchValues;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
@@ -37,14 +38,12 @@ class Search extends Component
         $this->key = $variables->key;
         $this->type = $variables->type;
         $this->allAnnonceTypes = Annonce::pluck('type')->unique()->toArray();
-        // dd($this->allAnnonceTypes = Annonce::pluck('type')->unique()->toArray());
         $this->selectedAnnonceId = $filter;
 
         $this->link_key = $variables->key;
         $this->link_type = $variables->type;
 
         $this->sortOrder = $variables->sortOrder;
-        // dd($variables->sortOrder);
     }
 
 
@@ -103,7 +102,7 @@ class Search extends Component
         $type = $this->type;
         $key = $this->key;
 
-        $annonces = Annonce::with('entreprise')->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'))
+        $annonces = Annonce::getActiveAnnonces()->with('entreprise')
             ->where(function ($query) use ($type, $key, $selectedAnnonceId) {
                 if ($type) {
                     if (!in_array($type, $selectedAnnonceId)) {
@@ -134,7 +133,7 @@ class Search extends Component
 
         $annonces = $annonces->paginate(8);
         $this->sortOrder ? $annonces->withPath($sessVars->url) : '';
-        $latestAnnonces = Annonce::with('annonceable')->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'))->latest()->take(4)->get();
+        $latestAnnonces = Annonce::getActiveAnnonces()->with('annonceable')->latest()->take(4)->get();
 
         return view('livewire.public.search', compact('annonces', 'latestAnnonces', 'selectedAnnonceId'));
     }

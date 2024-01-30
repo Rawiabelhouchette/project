@@ -23,8 +23,8 @@ class searchController extends Controller
 
     public function show($slug)
     {
-        $annonce = Annonce::where('slug', $slug)->where('is_active', true)->where('date_validite', '>=', date('Y-m-d H:i:s'))->firstOrFail();
-        $annonces = Annonce::where('type', $annonce->type)->where('is_active', true)->where('date_validite', '>=', date('Y-m-d H:i:s'))->latest()->take(4)->get();
+        $annonce = Annonce::getActiveAnnonces()->where('slug', $slug)->where('is_active', true)->firstOrFail();
+        $annonces = Annonce::getActiveAnnonces()->where('type', $annonce->type)->latest()->take(4)->get();
         $type = $annonce->type;
         $key = '';
         // increement statistiqueAnnonce nb_vue

@@ -113,7 +113,6 @@ class AnnoncesUtils
         ]);
     }
     
-
     public static function createReference($model, $variable, $title, $slug): void
     {
         if ($variable) {
@@ -128,7 +127,6 @@ class AnnoncesUtils
             }
         }
     }
-
     public static function updateReference($model, $variable, $title, $slug): void
     {
         $model->removeReferences($slug);
