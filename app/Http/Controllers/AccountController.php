@@ -21,6 +21,11 @@ class AccountController extends Controller
         return view('public.favoris');
     }
 
+    public function indexComment()
+    {
+        return view('public.comment');
+    }
+
     // function to reset password using email
     // public function resetPassword(Request $request)
     // {

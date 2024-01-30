@@ -111,3 +111,12 @@ cle secrete
 https://developers.google.com/recaptcha/docs/v3
 
 https://www.youtube.com/watch?v=NsFSA-MQjeY&ab_channel=CodeWithTony
+
+
+# 30/01/2024
+## a faire
+- chercher comment afficher une image rectangle dans un carré de sorte a ce que ce soit centrer
+
+## A continuer
+- Rechecher de favoris et de commentaire
+- Suppression d'un commentaire [attendre]

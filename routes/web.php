@@ -65,7 +65,8 @@ Route::group([
     Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 
     Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
-    Route::get('/favoris', [AccountController::class, 'indexFavoris'])->name('accounts.favoris.index');
+    Route::get('/favourites', [AccountController::class, 'indexFavoris'])->name('accounts.favoris.index');
+    Route::get('/comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
 
 
 

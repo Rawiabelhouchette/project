@@ -58,11 +58,12 @@
                                     Mon compte
                                 </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="#">
                                     <i class="fa fa-envelope" aria-hidden="true"></i> &nbsp;
                                     Contact
                                 </a>
+                            </li> --}}
                             <li>
                                 <a href="{{ route('accounts.favoris.index') }}">
                                     <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
@@ -77,7 +78,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ route('accounts.comment.index') }}">
                                         <i class="fa fa-comments" aria-hidden="true"></i> &nbsp;
                                         Commentaires
                                     </a>

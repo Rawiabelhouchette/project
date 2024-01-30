@@ -28,14 +28,15 @@
                                 </span>
                             </a>
                         </li>
-                        {{-- <li>
-                            <a href="#">
-                                <span class="custom-checkbox d-block" style="font-size: 18px;">
-                                    <i class="fa-solid fa-comment"></i> &nbsp;
-                                    Message
+
+                        <li>
+                            <a href="{{ route('accounts.comment.index') }}">
+                                <span class="custom-checkbox d-block @if ($category == 2) theme-cl @endif" style="font-size: 18px;">
+                                    <i class="fa-solid fa-comment @if ($category == 2) theme-cl @endif"></i> &nbsp;
+                                    Commentaires
                                 </span>
                             </a>
-                        </li> --}}
+                        </li>
                     </ul>
                 </div>
             </div>

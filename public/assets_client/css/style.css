@@ -6859,3 +6859,18 @@ a.cl-box {
 .coquelicot {
     background: #ff3800
 }
+
+.light-red-btn{
+	background:#e8edf1;
+	border:1px solid #ff3a72;
+}
+.light-gray-btn:hover, .light-gray-btn:focus{
+	color:#ffffff;
+	background:#78909C;
+	border:1px solid #78909C;
+}
+.light-red-btn:hover, .light-red-btn:focus{
+	color:#ffffff;
+	background:#ff3a72;
+	border:1px solid #ff3a72;
+}

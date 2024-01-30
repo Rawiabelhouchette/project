@@ -12,14 +12,12 @@
         <div class="card-body padd-l-0 padd-r-0">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-3 text-left" style="margin-top: 10px;">
-                        <span id="nbre-favoris">{{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} favori(s)</span>
+                    <div class="col-md-6" style="margin-top: 10px;">
+                        <span id="nbre-favoris" class="mrg-l-10">{{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} favori(s)</span>
                     </div>
-                    <div class="col-md-7 text-center">
+                    <div class="col-md-6 text-center">
                         <input type="text" value="" class="form-control" id="filterInput" placeholder="Afficher la recherche" style="margin-top: 6px; margin-bottom: 6px; height: 35px;">
                     </div>
-                    <div class="col-md-1"></div>
                 </div>
             </div>
             <div class="col-md-12">
