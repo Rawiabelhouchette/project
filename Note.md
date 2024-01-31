@@ -118,5 +118,5 @@ https://www.youtube.com/watch?v=NsFSA-MQjeY&ab_channel=CodeWithTony
 - chercher comment afficher une image rectangle dans un carré de sorte a ce que ce soit centrer
 
 ## A continuer
-- Rechecher de favoris et de commentaire
+- [ok] Rechecher de favoris et de commentaire
 - Suppression d'un commentaire [attendre] - Dans Favoris le render (ne pas l'executer) 
