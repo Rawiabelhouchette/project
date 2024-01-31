@@ -4,13 +4,16 @@ namespace App\Livewire\Public;
 
 use App\Models\Annonce;
 use App\Models\Favoris;
-use App\Utils\AnnoncesUtils;
 use App\Utils\CustomSession;
 use Livewire\Component;
-use Illuminate\Support\Facades\Log;
+use Livewire\WithPagination;
 
 class Search extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $type = '';
     public $key = '';
     public $sortOrder = '';
@@ -46,6 +49,15 @@ class Search extends Component
         $this->sortOrder = $variables->sortOrder;
     }
 
+
+    public function updatingSortOrder()
+    {
+        if (!$this->sortOrder) {
+            return;
+        }
+
+        $this->resetPage();
+    }
 
     public function updatedSortOrder()
     {
@@ -132,7 +144,7 @@ class Search extends Component
         }
 
         $annonces = $annonces->paginate(8);
-        $annonces->withPath($sessVars->url);
+        // $annonces->withPath($sessVars->url);
         $latestAnnonces = Annonce::getActiveAnnonces()->with('annonceable')->latest()->take(4)->get();
 
         return view('livewire.public.search', compact('annonces', 'latestAnnonces', 'selectedAnnonceId'));
