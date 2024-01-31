@@ -14,7 +14,7 @@
     </section>
     <!-- ================ End Listing Detail Basic Information ======================= -->
 
-    <section class="show-case">
+    <section class="show-case padd-bot-10">
         <div class="container">
             <div class="row">
 

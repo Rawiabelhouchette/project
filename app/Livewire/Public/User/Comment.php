@@ -3,45 +3,31 @@
 namespace App\Livewire\Public\User;
 
 use App\Models\User;
-use App\Utils\CustomSession;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Comment extends Component
 {
-    public $user;
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     private $perPage = 1;   
     public $search = '';
-    private $annonces;
 
-    public function mount()
+    public function updatingSearch()
     {
-        if (!auth()->check()) {
-            return redirect()->route('connexion');
-        }
-
-        $this->user = User::find(auth()->user()->id);
-        $this->annonces = $this->user->commentaires()->paginate($this->perPage);
+        $this->resetPage();
     }
 
-    public function updatedSearch($value)
-    {
-        $session = new CustomSession();
-        $annonces = $this->user->commentaires();
-        $annonces = $annonces->where(function ($query) use ($value) {
-            $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($value) . '%'])
-                ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($value) . '%']);
-        });   
-        $this->annonces = $annonces->paginate($this->perPage);
-        $this->annonces->withPath($session->comment_link);
-        $session->comment_search = $value;
-        $session->save();
-    }
-    
     public function render()
     {
-        $session = new CustomSession();
-        $this->search = $session->comment_search;
-        $annonces = $this->annonces;
+        $search = $this->search;
+        $user = User::find(auth()->user()->id);
+        $annonces = $user->commentaires()->where(function ($query) use ($search) {
+            $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($search) . '%'])
+                ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
+        })->paginate($this->perPage);
         return view('livewire.public.user.comment', compact('annonces'));
     }
 }

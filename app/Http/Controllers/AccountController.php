@@ -12,16 +12,17 @@ class AccountController extends Controller
 {
     public function index()
     {
+        if (!auth()->check()) {
+            return redirect()->route('connexion');
+        }
+
         return view('public.account');
     }
 
     public function indexFavoris()
     {
-        if (!request()->input('page'))
-        {
-            $sess = new CustomSession();
-            $sess->favorite_search = '';
-            $sess->save();
+        if (!auth()->check()) {
+            return redirect()->route('connexion');
         }
 
         return view('public.favoris');

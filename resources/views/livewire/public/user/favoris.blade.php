@@ -1,14 +1,5 @@
 <div class="col-md-9 col-sm-12">
     <div class="card">
-        {{-- <div class="card-header facette-color">
-            <div class="col-md-6 text-left">
-                <h4>
-                    <i class="fa fa-list" style="font-size: 15px;"></i> &nbsp;Liste des favoris
-                </h4>
-            </div>
-            <div class="col-md-6 text-right"></div>
-        </div> --}}
-
         <div class="card-body padd-l-0 padd-r-0">
             <div class="col-md-12">
                 <div class="row">
@@ -124,7 +115,7 @@
     </div>
 </div>
 
-@push('scripts')
+{{-- @push('scripts')
     <script>
         $(document).ready(function() {
             $('#favorite_search').change(function() {
@@ -134,4 +125,4 @@
             });
         });
     </script>
-@endpush
+@endpush --}}
