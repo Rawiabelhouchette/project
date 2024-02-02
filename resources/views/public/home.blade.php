@@ -1,8 +1,50 @@
 @extends('layout.public.app')
 
 @section('content')
+    <style>
+        #banner {
+            transition: background 2s ease-in-out;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var images = ['image-1.jpg', 'image-2.jpg', 'image-3.JPEG', 'image-4.jpg'];
+            var index = 0;
+            var interval;
+
+            var banner = document.getElementById('banner');
+            var form = document.querySelector('.form-verticle');
+
+            // Function to change image
+            function changeImage() {
+                index = (index + 1) % images.length;
+                banner.style.backgroundImage = "url('assets_client/img/banner/" + images[index] + "')";
+            }
+
+            // Set image change interval
+            function setImageChangeInterval() {
+                interval = setInterval(changeImage, 5000);
+            }
+
+            setImageChangeInterval();
+
+            // Change image on click
+            banner.addEventListener('click', function(event) {
+                if (event.target === form || form.contains(event.target)) {
+                    // If the click event originated from the form, stop the event propagation
+                    // event.stopPropagation();
+                } else {
+                    clearInterval(interval); // Clear the interval
+                    changeImage(); // Change the image immediately
+                    setImageChangeInterval(); // Set the interval again
+                }
+            });
+        });
+    </script>
+
     <!-- Main Banner Section Start -->
-    <div class="banner dark-opacity" style="background-image:url(http://via.placeholder.com/1920x1000);" data-overlay="8">
+    <div class="banner dark-opacity" id="banner" style="background-image:url(assets_client/img/banner/image-1.jpg);" data-overlay="8">
         <div class="container">
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
