@@ -27,6 +27,10 @@ class Quartier extends Model
         static::creating(function ($quartier) {
             $quartier->slug = Str::slug($quartier->nom);
         });
+
+        static::updating(function ($quartier) {
+            $quartier->slug = Str::slug($quartier->nom);
+        });
     }
 
     protected $casts = [
