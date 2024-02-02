@@ -79,8 +79,8 @@ Avant d'attaquer la partie détail des comptes, je pense qu'il faudrait avancer 
 
 
 # NEXT
-- Ajouter l'option de type de compte lors de la creation de compte (niveau public)
-- Interface de visulasation des informations
+- [ok] Ajouter l'option de type de compte lors de la creation de compte (niveau public)
+- [ok] Interface de visulasation des informations
   
 
 ## 28/01/2024

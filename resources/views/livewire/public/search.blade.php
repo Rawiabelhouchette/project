@@ -160,95 +160,50 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="listing-shot-info rating">
-                                        <div class="row extra">
 
-                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                                <a href="#">
-                                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
-                                                </a> {{ $annonce->nb_partage }}
-                                                &nbsp;&nbsp;
-                                                <i class="fa fa-eye" aria-hidden="true"></i> {{ $annonce->nb_vue }}
-                                                &nbsp;&nbsp;
-                                                <i class="fa fa-comment" aria-hidden="true"></i> {{ $annonce->nb_commentaire }}
-                                            </div>
-                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                        <div class="listing-shot-info rating padd-0">
+                                            {{ $annonce->note }}
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
+                                            @endfor
+                                            &nbsp;&nbsp;
+                                            ({{ $annonce->nb_notation }})
+                                            {{-- <a href="javascript:void(0)" data-url="{{ route('show', $annonce->slug) }}" class="theme-cl annonce_share" style="float: right;">
+                                                <i class="fa fa-share theme-cl" aria-hidden="true"></i>
+                                                Partager
+                                            </a> --}}
+                                            <a href="javascript:void(0)" id="shareButton" data-url="{{ route('show', $annonce->slug) }}" class="theme-cl annonce_share" style="float: right;">
+                                                <i class="fa fa-share theme-cl" aria-hidden="true"></i>
+                                                Partager
+                                            </a>
+                                            <p id="copyMessage" style="display: none;">URL copiée dans le presse-papiers !</p>
 
-                                                {{-- <i class="color fa fa-star" aria-hidden="true"></i>
-                                                <i class="color fa fa-star" aria-hidden="true"></i>
-                                                <i class="color fa fa-star" aria-hidden="true"></i>
-                                                <i class="color fa fa-star-half-o" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i> --}}
-                                                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
-                                                    @endfor
-                                                    &nbsp;&nbsp;
-                                                    {{ $annonce->nb_notation }}
-                                                </div>
-                                                {{-- <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        @if ($i <= intval($annonce->note))
-                                                            <i class="color fa fa-star" aria-hidden="true"></i>
-                                                        @elseif ($i == intval($annonce->note) + 1 && $annonce->note - intval($annonce->note) > 0)
-                                                            <i class="color fa fa-star-half-o" aria-hidden="true"></i>
-                                                        @else
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                        @endif
-                                                    @endfor
-                                                </div> --}}
+                                            <div id="shareBox" style="display: none;">
+                                                <p>Partager ce lien:</p>
+                                                <a id="whatsappShare" href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                                                <!-- Ajoutez d'autres options de partage ici -->
                                             </div>
-                                            {{-- <div class="col-md-5 col-sm-5 col-xs-6 pull-right text-right">
-                                                <i class="fa fa-eye" aria-hidden="true"></i> 1233,43k
-                                                &nbsp;
-                                                <i class="fa fa-comment" aria-hidden="true"></i> 1233,43k
-                                            </div> --}}
+
                                         </div>
+                                    </div>
+                                    <div class="tp-author-basic-info mrg-top-0">
+                                        <ul>
+                                            <li class="text-center">
+                                                <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                                {{ $annonce->nb_vue }}
+                                            </li>
+                                            <li class="text-center">
+                                                <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
+                                                {{ $annonce->nb_favoris }}
+                                            </li>
+                                            <li class="text-center">
+                                                <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
+                                                {{ $annonce->nb_commentaire }}
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-
-                            {{-- <div class="col-md-6 col-sm-6">
-                                <div class="listing-shot grid-style">
-                                    <a href="{{ route('show', $annonce->slug) }}">
-                                        <div class="listing-shot-img">
-                                            <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
-                                        </div>
-                                        <div class="listing-shot-caption">
-                                            <h4>{{ $annonce->titre }}</h4>
-                                            <p class="listing-location">{{ $annonce->entreprise->adresse_complete }}</p>
-                                        </div>
-                                    </a>
-                                    <div class="listing-shot-info">
-                                        <div class="row extra">
-                                            <div class="col-md-12">
-                                                <div class="listing-detail-info">
-                                                    <span><i class="fa fa-phone" aria-hidden="true"></i> {{ $annonce->entreprise->contact }}</span>
-                                                    <span>
-                                                        <i class="fa fa-globe" aria-hidden="true"></i>
-                                                        @if ($annonce->entreprise->site_web)
-                                                            {{ $annonce->entreprise->site_web }}
-                                                        @else
-                                                            -
-                                                        @endif
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="listing-shot-info rating">
-                                        <div class="row extra">
-                                            <div class="col-md-7 col-sm-7 col-xs-6">
-                                                {{ $annonce->type }}
-                                            </div>
-                                            <div class="col-md-5 col-sm-5 col-xs-6 pull-right">
-                                                <a href="{{ route('show', $annonce->slug) }}" class="detail-link">Ouvrir</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         @endforeach
                         @empty($annonces->items())
                             <div class="col-md-12 col-sm-12">
@@ -269,6 +224,20 @@
         </div>
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
+
+    <style>
+        #copyMessage {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 3px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+            z-index: 9999;
+        }
+    </style>
 </div>
 
 @push('scripts')
@@ -278,6 +247,36 @@
                 var url = window.location.href;
                 url = url.split('&page=')[0];
                 window.history.pushState("", "", url);
+            });
+
+            $('.annonce_share').click(function() {
+                var url = $(this).data('url'),
+                    dummy = document.createElement('input'),
+                    text = url;
+
+                document.body.appendChild(dummy);
+                dummy.value = text;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+
+                // $(this).next().show();
+                $('#copyMessage').hide();
+                $('#copyMessage').show();
+                setTimeout(function() {
+                    $('#copyMessage').hide();
+                }, 2000);
+            });
+        });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#shareButton").click(function() {
+                var url = window.location.href;
+                $("#whatsappShare").attr("href", "https://api.whatsapp.com/send?text=" + encodeURIComponent(url));
+                $("#shareBox").toggle();
             });
         });
     </script>
