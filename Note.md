@@ -120,3 +120,7 @@ https://www.youtube.com/watch?v=NsFSA-MQjeY&ab_channel=CodeWithTony
 ## A continuer
 - [ok] Rechecher de favoris et de commentaire
 - Suppression d'un commentaire [attendre] - Dans Favoris le render (ne pas l'executer) 
+
+380
+
+download default icon

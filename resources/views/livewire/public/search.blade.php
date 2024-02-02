@@ -168,22 +168,10 @@
                                             @endfor
                                             &nbsp;&nbsp;
                                             ({{ $annonce->nb_notation }})
-                                            {{-- <a href="javascript:void(0)" data-url="{{ route('show', $annonce->slug) }}" class="theme-cl annonce_share" style="float: right;">
-                                                <i class="fa fa-share theme-cl" aria-hidden="true"></i>
-                                                Partager
-                                            </a> --}}
-                                            <a href="javascript:void(0)" id="shareButton" data-url="{{ route('show', $annonce->slug) }}" class="theme-cl annonce_share" style="float: right;">
+                                            <a href="javascript:void(0)" data-url="{{ route('show', $annonce->slug) }}" class="theme-cl annonce_share" style="float: right;">
                                                 <i class="fa fa-share theme-cl" aria-hidden="true"></i>
                                                 Partager
                                             </a>
-                                            <p id="copyMessage" style="display: none;">URL copiée dans le presse-papiers !</p>
-
-                                            <div id="shareBox" style="display: none;">
-                                                <p>Partager ce lien:</p>
-                                                <a id="whatsappShare" href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-                                                <!-- Ajoutez d'autres options de partage ici -->
-                                            </div>
-
                                         </div>
                                     </div>
                                     <div class="tp-author-basic-info mrg-top-0">
@@ -224,60 +212,4 @@
         </div>
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
-
-    <style>
-        #copyMessage {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border-radius: 3px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-            z-index: 9999;
-        }
-    </style>
 </div>
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#select-order').change(function() {
-                var url = window.location.href;
-                url = url.split('&page=')[0];
-                window.history.pushState("", "", url);
-            });
-
-            $('.annonce_share').click(function() {
-                var url = $(this).data('url'),
-                    dummy = document.createElement('input'),
-                    text = url;
-
-                document.body.appendChild(dummy);
-                dummy.value = text;
-                dummy.select();
-                document.execCommand('copy');
-                document.body.removeChild(dummy);
-
-                // $(this).next().show();
-                $('#copyMessage').hide();
-                $('#copyMessage').show();
-                setTimeout(function() {
-                    $('#copyMessage').hide();
-                }, 2000);
-            });
-        });
-    </script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#shareButton").click(function() {
-                var url = window.location.href;
-                $("#whatsappShare").attr("href", "https://api.whatsapp.com/send?text=" + encodeURIComponent(url));
-                $("#shareBox").toggle();
-            });
-        });
-    </script>
-@endpush
