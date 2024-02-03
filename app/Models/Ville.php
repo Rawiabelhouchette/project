@@ -27,6 +27,10 @@ class Ville extends Model
         static::creating(function ($ville) {
             $ville->slug = Str::slug($ville->nom);
         });
+
+        static::updating(function ($ville) {
+            $ville->slug = Str::slug($ville->nom);
+        });
     }
 
     protected $casts = [

@@ -7,20 +7,20 @@
         <div class="profile-cover-content">
             <div class="container">
                 <div class="center">
-                    <h3 style="color: white;">Mes favoris</h3>
+                    <h3 style="color: white;">Mes commentaires</h3>
                 </div>
             </div>
         </div>
     </section>
     <!-- ================ End Listing Detail Basic Information ======================= -->
 
-    <section class="show-case padd-bot-10">
+    <section class="show-case">
         <div class="container">
             <div class="row">
 
-                @include('public.menu', ['category' => 1])
+                @include('public.menu', ['category' => 2])
 
-                @livewire('public.user.favoris')
+                @livewire('public.user.comment')
 
             </div>
         </div>

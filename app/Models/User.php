@@ -79,5 +79,17 @@ class User extends Authenticatable
             ->withPivot('id')
             ->latest();
     }
+
+    /**
+     * Get the commentaires for the user.
+     */
+    public function commentaires()
+    {
+        return $this->belongsToMany(Annonce::class, 'commentaires', 'user_id', 'annonce_id')
+            ->withPivot('contenu', 'created_at')
+            ->latest();
+    }
+
+
     
 }

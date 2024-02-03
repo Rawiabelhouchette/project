@@ -4,24 +4,45 @@ namespace App\Livewire\Public\User;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Favoris extends Component
 {
-    public $user;
-    public $favoris;    
+    use WithPagination;
 
-    public function mount()
+    protected $paginationTheme = 'bootstrap';
+
+    private $perPage = 2;   
+    public $search = '';
+
+    public function updatingSearch()
     {
-        if (!auth()->check()) {
-            return redirect()->route('connexion');
-        }
+        $this->resetPage();
+    }
 
-        $this->user = User::find(auth()->user()->id);
-        $this->favoris = $this->user->favorisAnnonces()->paginate(10);
+    public function updateFavoris($annonceId)
+    {
+        $favorite = \App\Models\Favoris::where('annonce_id', $annonceId)->where('user_id', auth()->user()->id)->first();
+        if ($favorite) {
+            $favorite->delete();
+        } else {
+            \App\Models\Favoris::create([
+                'annonce_id' => $annonceId,
+                'user_id' => auth()->user()->id
+            ]);
+        }
     }
 
     public function render()
     {
-        return view('livewire.public.user.favoris');
+        $search = $this->search;
+        $user = User::find(auth()->user()->id);
+        $annonces = $user->favorisAnnonces()->where(function ($query) use ($search) {
+            $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($search) . '%'])
+                ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
+        })   
+        ->paginate($this->perPage);
+        
+        return view('livewire.public.user.favoris', compact('annonces'));
     }
 }

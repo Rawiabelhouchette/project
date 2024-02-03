@@ -79,8 +79,8 @@ Avant d'attaquer la partie détail des comptes, je pense qu'il faudrait avancer 
 
 
 # NEXT
-- Ajouter l'option de type de compte lors de la creation de compte (niveau public)
-- Interface de visulasation des informations
+- [ok] Ajouter l'option de type de compte lors de la creation de compte (niveau public)
+- [ok] Interface de visulasation des informations
   
 
 ## 28/01/2024
@@ -96,3 +96,31 @@ MAIL_FROM_NAME="${APP_NAME}"
 a configurer dans le .env
 
 https://aide.lws.fr/base/Email/outllook-thunderbird-iphone/Quels-ports-utiliser-pour-la-configuration-dune-adresse-email
+
+
+
+
+
+cle site
+
+6LfwoF8pAAAAAClgwAb7VRDlrPh-x5c0AyZ520R_
+
+cle secrete
+6LfwoF8pAAAAACHHninimPCRav9bsQawUt4bGquQ
+
+https://developers.google.com/recaptcha/docs/v3
+
+https://www.youtube.com/watch?v=NsFSA-MQjeY&ab_channel=CodeWithTony
+
+
+# 30/01/2024
+## a faire
+- chercher comment afficher une image rectangle dans un carré de sorte a ce que ce soit centrer
+
+## A continuer
+- [ok] Rechecher de favoris et de commentaire
+- Suppression d'un commentaire [attendre] - Dans Favoris le render (ne pas l'executer) 
+
+380
+
+download default icon

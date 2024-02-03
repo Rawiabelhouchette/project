@@ -172,6 +172,11 @@ class Annonce extends Model
         }
     }
 
+    public static function getActiveAnnonces()
+    {
+        return Annonce::query()->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'));
+    }
+
 
     /* ###################### ATTRIBUTES (APPENDED) ######################
     ###################################################################### */
@@ -203,21 +208,21 @@ class Annonce extends Model
     }
 
     // moyen de notation de l'annonce
-    public function getNoteAttribute(): float
+    public function getNoteAttribute()
     {
         $avg = $this->notation()->avg('note');
 
         // si la moyenne est null, on retourne 0
         if (is_null($avg)) {
-            return 0;
+            return number_format(0, 1);
         }
+
         // arrondir à l'entier supérieur si la décimale est supérieur ou égale à 0.5
         $decimal = $avg - floor($avg);
-        // dd($decimal);
         if ($decimal >= 0 && $decimal < 0.5) {
-            return floor($avg);
+            return number_format(floor($avg), 1);
         } else {
-            return ceil($avg);
+            return number_format(ceil($avg), 1);
         }
     }
 

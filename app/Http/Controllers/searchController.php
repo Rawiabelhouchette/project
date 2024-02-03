@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Annonce;
 use App\Models\StatistiqueAnnonce;
-use App\Utils\SearchValues;
+use App\Utils\CustomSession;
 use Illuminate\Http\Request;
 
 class searchController extends Controller
 {
     public function search(Request $request)
     {
-        SearchValues::create([
+        // CustomSession::clear();
+        CustomSession::create([
             'key' => $request->input('key'),
             'type' => $request->input('type'),
+            'url' => url()->current(),
         ]);
 
         return view('public.search');
@@ -21,8 +23,8 @@ class searchController extends Controller
 
     public function show($slug)
     {
-        $annonce = Annonce::where('slug', $slug)->where('is_active', true)->where('date_validite', '>=', date('Y-m-d H:i:s'))->firstOrFail();
-        $annonces = Annonce::where('type', $annonce->type)->where('is_active', true)->where('date_validite', '>=', date('Y-m-d H:i:s'))->latest()->take(4)->get();
+        $annonce = Annonce::getActiveAnnonces()->where('slug', $slug)->where('is_active', true)->firstOrFail();
+        $annonces = Annonce::getActiveAnnonces()->where('type', $annonce->type)->latest()->take(4)->get();
         $type = $annonce->type;
         $key = '';
         // increement statistiqueAnnonce nb_vue

@@ -96,7 +96,7 @@
                         </div>
                         <div class="col-md-4">
                             <select id="select-order" class="form-control" style="height: 35px !important; margin-bottom: 0px;" tabindex="-98" wire:model.lazy='sortOrder'>
-                                <option value="">Trier</option>
+                                <option value="" disabled>Trier</option>
                                 <option value="titre|asc">Titre: A à Z</option>
                                 <option value="titre|desc">Titre: Z à A</option>
                                 <option value="created_at|asc">Date: Ancien à récent</option>
@@ -160,95 +160,38 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="listing-shot-info rating">
-                                        <div class="row extra">
 
-                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                                <a href="#">
-                                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
-                                                </a> {{ $annonce->nb_partage }}
-                                                &nbsp;&nbsp;
-                                                <i class="fa fa-eye" aria-hidden="true"></i> {{ $annonce->nb_vue }}
-                                                &nbsp;&nbsp;
-                                                <i class="fa fa-comment" aria-hidden="true"></i> {{ $annonce->nb_commentaire }}
-                                            </div>
-                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-
-                                                {{-- <i class="color fa fa-star" aria-hidden="true"></i>
-                                                <i class="color fa fa-star" aria-hidden="true"></i>
-                                                <i class="color fa fa-star" aria-hidden="true"></i>
-                                                <i class="color fa fa-star-half-o" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i> --}}
-                                                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
-                                                    @endfor
-                                                    &nbsp;&nbsp;
-                                                    {{ $annonce->nb_notation }}
-                                                </div>
-                                                {{-- <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        @if ($i <= intval($annonce->note))
-                                                            <i class="color fa fa-star" aria-hidden="true"></i>
-                                                        @elseif ($i == intval($annonce->note) + 1 && $annonce->note - intval($annonce->note) > 0)
-                                                            <i class="color fa fa-star-half-o" aria-hidden="true"></i>
-                                                        @else
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                        @endif
-                                                    @endfor
-                                                </div> --}}
-                                            </div>
-                                            {{-- <div class="col-md-5 col-sm-5 col-xs-6 pull-right text-right">
-                                                <i class="fa fa-eye" aria-hidden="true"></i> 1233,43k
-                                                &nbsp;
-                                                <i class="fa fa-comment" aria-hidden="true"></i> 1233,43k
-                                            </div> --}}
+                                        <div class="listing-shot-info rating padd-0">
+                                            {{ $annonce->note }}
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
+                                            @endfor
+                                            &nbsp;&nbsp;
+                                            ({{ $annonce->nb_notation }})
+                                            <a href="javascript:void(0)" data-url="{{ route('show', $annonce->slug) }}" class="theme-cl annonce_share" style="float: right;">
+                                                <i class="fa fa-share theme-cl" aria-hidden="true"></i>
+                                                Partager
+                                            </a>
                                         </div>
+                                    </div>
+                                    <div class="tp-author-basic-info mrg-top-0">
+                                        <ul>
+                                            <li class="text-center">
+                                                <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                                {{ $annonce->nb_vue }}
+                                            </li>
+                                            <li class="text-center">
+                                                <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
+                                                {{ $annonce->nb_favoris }}
+                                            </li>
+                                            <li class="text-center">
+                                                <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
+                                                {{ $annonce->nb_commentaire }}
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-
-                            {{-- <div class="col-md-6 col-sm-6">
-                                <div class="listing-shot grid-style">
-                                    <a href="{{ route('show', $annonce->slug) }}">
-                                        <div class="listing-shot-img">
-                                            <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
-                                        </div>
-                                        <div class="listing-shot-caption">
-                                            <h4>{{ $annonce->titre }}</h4>
-                                            <p class="listing-location">{{ $annonce->entreprise->adresse_complete }}</p>
-                                        </div>
-                                    </a>
-                                    <div class="listing-shot-info">
-                                        <div class="row extra">
-                                            <div class="col-md-12">
-                                                <div class="listing-detail-info">
-                                                    <span><i class="fa fa-phone" aria-hidden="true"></i> {{ $annonce->entreprise->contact }}</span>
-                                                    <span>
-                                                        <i class="fa fa-globe" aria-hidden="true"></i>
-                                                        @if ($annonce->entreprise->site_web)
-                                                            {{ $annonce->entreprise->site_web }}
-                                                        @else
-                                                            -
-                                                        @endif
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="listing-shot-info rating">
-                                        <div class="row extra">
-                                            <div class="col-md-7 col-sm-7 col-xs-6">
-                                                {{ $annonce->type }}
-                                            </div>
-                                            <div class="col-md-5 col-sm-5 col-xs-6 pull-right">
-                                                <a href="{{ route('show', $annonce->slug) }}" class="detail-link">Ouvrir</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         @endforeach
                         @empty($annonces->items())
                             <div class="col-md-12 col-sm-12">

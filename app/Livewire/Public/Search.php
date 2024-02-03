@@ -4,13 +4,16 @@ namespace App\Livewire\Public;
 
 use App\Models\Annonce;
 use App\Models\Favoris;
-use App\Utils\SearchValues;
+use App\Utils\CustomSession;
 use Livewire\Component;
-use Livewire\Attributes\On;
-
+use Livewire\WithPagination;
 
 class Search extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public $type = '';
     public $key = '';
     public $sortOrder = '';
@@ -25,35 +28,53 @@ class Search extends Component
     public $selectedAnnonce = [];
     public $selectedAnnonceId = [];
 
-    // 
+    //
     public $link_key;
     public $link_type;
 
-
+    protected $queryString = [
+        'key' => ['except' => ''],
+        'type' => ['except' => ''],
+    ];
 
     public function mount($filter = [])
     {
-        $variables = new SearchValues();
+        $variables = new CustomSession();
         $this->displayedAnnonce = $this->elementToDisplay;
         $this->key = $variables->key;
         $this->type = $variables->type;
-        $this->allAnnonceTypes = Annonce::pluck('type')->unique()->toArray();
-        // dd($this->allAnnonceTypes = Annonce::pluck('type')->unique()->toArray());
+        $this->allAnnonceTypes = Annonce::pluck('type')
+            ->unique()
+            ->toArray();
         $this->selectedAnnonceId = $filter;
 
         $this->link_key = $variables->key;
         $this->link_type = $variables->type;
+
+        $this->sortOrder = $variables->sortOrder;
     }
 
+    public function updatingSortOrder()
+    {
+        if (!$this->sortOrder) {
+            return;
+        }
 
+        $this->resetPage();
+    }
 
     public function updatedSortOrder()
     {
-        list($column, $direction) = explode('|', $this->sortOrder);
-        $this->column = $column;
-        $this->direction = $direction;
+        if (!$this->sortOrder) {
+            return;
+        }
+        [$column, $direction] = explode('|', $this->sortOrder);
+        $sessVars = new CustomSession();
+        $sessVars->column = $column;
+        $sessVars->direction = $direction;
+        $sessVars->sortOrder = $this->sortOrder;
+        $sessVars->save();
     }
-
 
     public function changeState($type)
     {
@@ -67,13 +88,15 @@ class Search extends Component
 
     public function updateFavoris($annonceId)
     {
-        $favorite = Favoris::where('annonce_id', $annonceId)->where('user_id', auth()->user()->id)->first();
+        $favorite = Favoris::where('annonce_id', $annonceId)
+            ->where('user_id', auth()->user()->id)
+            ->first();
         if ($favorite) {
             $favorite->delete();
         } else {
             Favoris::create([
                 'annonce_id' => $annonceId,
-                'user_id' => auth()->user()->id
+                'user_id' => auth()->user()->id,
             ]);
         }
     }
@@ -88,9 +111,6 @@ class Search extends Component
             // if no, set the number of displayed annonce to the number of annonce type
             $this->displayedAnnonce = count($this->allAnnonceTypes);
         }
-
-
-
     }
 
     public function render()
@@ -100,13 +120,13 @@ class Search extends Component
         $type = $this->type;
         $key = $this->key;
 
-        $annonces = Annonce::with('entreprise')->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'))
+        $annonces = Annonce::getActiveAnnonces()
+            ->with('entreprise')
             ->where(function ($query) use ($type, $key, $selectedAnnonceId) {
                 if ($type) {
                     if (!in_array($type, $selectedAnnonceId)) {
                         array_push($selectedAnnonceId, $type);
                     }
-
                 }
 
                 if (!empty($selectedAnnonceId)) {
@@ -117,22 +137,25 @@ class Search extends Component
 
                 if ($key) {
                     $query->where(function ($query) use ($key) {
-                        $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])
-                            ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
+                        $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
                     });
                 }
 
                 $this->selectedAnnonceId = $selectedAnnonceId;
             });
 
-        if ($this->sortOrder) {
-            list($column, $direction) = explode('|', $this->sortOrder);
-            $annonces = $annonces->orderBy($column, $direction);
+        $sessVars = new CustomSession();
+        if ($sessVars->sortOrder) {
+            $annonces = $annonces->orderBy($sessVars->column, $sessVars->direction);
         }
 
         $annonces = $annonces->paginate(8);
-        $latestAnnonces = Annonce::with('annonceable')->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'))->latest()->take(4)->get();
-
+        // $annonces->withPath($sessVars->url);
+        $latestAnnonces = Annonce::getActiveAnnonces()
+            ->with('annonceable')
+            ->latest()
+            ->take(4)
+            ->get();
 
         return view('livewire.public.search', compact('annonces', 'latestAnnonces', 'selectedAnnonceId'));
     }

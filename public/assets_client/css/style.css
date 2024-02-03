@@ -2668,7 +2668,7 @@ span.like-listing.alt i {
 	font-size:17px;
 }
 .listing-shot-info.rating {
-    border-top:1px solid rgba(71, 85, 95,0.11);
+    /* border-top:1px solid rgba(71, 85, 95,0.11); */
 }
 .listing-shot-caption, .listing-shot-info {
     padding: 10px 15px;
@@ -2693,7 +2693,7 @@ p.listing-location {
     font-size: 15px;
 }
 .listing-shot-info.rating i {
-    color: #a1acb5;
+    /* color: #a1acb5; */
 }
 .listing-shot-info.rating i.color {
     color: #FF9800;
@@ -6858,4 +6858,19 @@ a.cl-box {
 
 .coquelicot {
     background: #ff3800
+}
+
+.light-red-btn{
+	background:#e8edf1;
+	border:1px solid #ff3a72;
+}
+.light-gray-btn:hover, .light-gray-btn:focus{
+	color:#ffffff;
+	background:#78909C;
+	border:1px solid #78909C;
+}
+.light-red-btn:hover, .light-red-btn:focus{
+	color:#ffffff;
+	background:#ff3a72;
+	border:1px solid #ff3a72;
 }

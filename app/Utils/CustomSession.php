@@ -2,13 +2,14 @@
 
 namespace App\Utils;
 
-class SearchValues
+class CustomSession
 {
     public $key = '';
     public $type = '';
     public $sortOrder = '';
     public $column = '';
     public $direction = '';
+    public $url = '';
     public $annonces;
 
     public function __construct()
@@ -18,6 +19,7 @@ class SearchValues
         $this->sortOrder = session()->get('search_sortOrder');
         $this->column = session()->get('search_column');
         $this->direction = session()->get('search_direction');
+        $this->url = session()->get('search_url');
         $this->annonces = session()->get('search_annonces');
     }
 
@@ -29,9 +31,10 @@ class SearchValues
 
         session(['search_key' => $data['key'] ?? '']);
         session(['search_type' => $data['type'] ?? '']);
-        session(['search_sortOrder' => $data['sortOrder'] ?? '']);
-        session(['search_column' => $data['column'] ?? '']);
-        session(['search_direction' => $data['direction'] ?? '']);
+        session(['search_sortOrder' => !session()->get('search_sortOrder') ? $data['sortOrder'] ?? '' : session()->get('search_sortOrder')]);
+        session(['search_column' => !session()->get('search_column') ? $data['column'] ?? '' : session()->get('search_column')]);
+        session(['search_direction' => !session()->get('search_direction') ? $data['direction'] ?? '' : session()->get('search_direction')]);
+        session(['search_url' => $data['url'] ?? '']);
         session(['search_annonces' => $data['annonces'] ?? null]);
         return new self();
     }
@@ -43,6 +46,7 @@ class SearchValues
         session(['search_sortOrder' => $this->sortOrder]);
         session(['search_column' => $this->column]);
         session(['search_direction' => $this->direction]);
+        session(['search_url' => $this->url]);
         session(['search_annonces' => $this->annonces]);
     }
 
@@ -53,6 +57,7 @@ class SearchValues
         session()->forget('search_sortOrder');
         session()->forget('search_column');
         session()->forget('search_direction');
+        session()->forget('search_url');
         session()->forget('search_annonces');
     }
 }

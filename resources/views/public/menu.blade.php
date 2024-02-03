@@ -21,21 +21,22 @@
                         </li>
 
                         <li>
-                            <a href="{{ route('accounts.favoris.index') }}">
+                            <a href="{{ route('accounts.favorite.index') }}">
                                 <span class="custom-checkbox d-block @if ($category == 1) theme-cl @endif" style="font-size: 18px;">
                                     <i class="fa-solid fa-star @if ($category == 1) theme-cl @endif"></i> &nbsp;
                                     Favoris
                                 </span>
                             </a>
                         </li>
-                        {{-- <li>
-                            <a href="#">
-                                <span class="custom-checkbox d-block" style="font-size: 18px;">
-                                    <i class="fa-solid fa-comment"></i> &nbsp;
-                                    Message
+
+                        <li>
+                            <a href="{{ route('accounts.comment.index') }}">
+                                <span class="custom-checkbox d-block @if ($category == 2) theme-cl @endif" style="font-size: 18px;">
+                                    <i class="fa-solid fa-comment @if ($category == 2) theme-cl @endif"></i> &nbsp;
+                                    Commentaires
                                 </span>
                             </a>
-                        </li> --}}
+                        </li>
                     </ul>
                 </div>
             </div>

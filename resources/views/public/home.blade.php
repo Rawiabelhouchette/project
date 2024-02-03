@@ -2,26 +2,24 @@
 
 @section('content')
     <!-- Main Banner Section Start -->
-    <div class="banner dark-opacity" style="background-image:url(http://via.placeholder.com/1920x1000);" data-overlay="8">
+    <div class="banner dark-opacity" id="banner" style="background-image:url(assets_client/img/banner/image-1.jpg);" data-overlay="8">
         <div class="container">
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
-                    {{-- <h1>Vamiyi</h1> --}}
-                    <h1 {{-- set the weiht of the text in style attribute --}} style="font-size: 50px; ">Vamiyi, l'aventure commence ici</h1>
-
+                    <h1 style="font-size: 50px; ">Vamiyi, l'aventure commence ici</h1>
                     <p>Explorez les meilleurs endroits, des restaurants et plus encore...</p>
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                        <div class="col-md-6 col-sm-5 no-padd">
+                        <div class="col-md-3 col-sm-2 no-padd">
                             <i class="banner-icon icon-pencil"></i>
                             <input type="text" class="form-control left-radius right-br" placeholder="{{ __('Mot clé ..') }}" name="key">
                         </div>
-                        {{-- <div class="col-md-3 col-sm-3 no-padd">
+                        <div class="col-md-3 col-sm-3 no-padd">
                             <div class="form-box">
                                 <i class="banner-icon icon-map-pin"></i>
                                 <input type="text" class="form-control right-br" placeholder="Location..">
                             </div>
-                        </div> --}}
-                        <div class="col-md-4 col-sm-4 no-padd">
+                        </div>
+                        <div class="col-md-3 col-sm-3 no-padd">
                             <div class="form-box">
                                 <i class="banner-icon icon-layers"></i>
                                 <select class="form-control" name="type">
@@ -177,11 +175,11 @@
                 @foreach ($listAnnonce as $list)
                     <div class="list-slide-box">
                         <div class="category-full-widget">
-                            <div class="category-widget-bg" style="background-image: url(http://via.placeholder.com/1200x900);">
+                            <div class="category-widget-bg" style="background-image: url({{ $list->image }});">
                                 <i class="bg-{{ $list->bg }} cat-icon {{ $list->icon }}" aria-hidden="true"></i>
                             </div>
                             <div class="cat-box-name">
-                                <h4>{{ $list->nom }}</h4>
+                                <h4>{{ $list->libelle }}</h4>
                                 <a href="{{ route('search.key.type', ['', $list->nom]) }}" class="btn-btn-wrowse">Parcourir</a>
                             </div>
                         </div>
@@ -208,22 +206,104 @@
 
         <div class="row">
             @foreach ($statsAnnonce as $key => $stat)
-                <div class="col-md-{{ $key % 4 == 0 || $key % 4 == 3 ? '4' : '8' }} col-sm-{{ $key % 4 == 0 || $key % 4 == 3 ? '5' : '7' }}">
-                    <a href="{{ route('search.key.type', ['', $stat->type]) }}" class="place-box">
-                        <span class="listing-count">{{ $stat->count }} Annonce(s)</span>
-                        <div class="place-box-content">
-                            <h4>{{ $stat->type }}</h4>
-                            <span>Voir les annonces</span>
-                        </div>
-                        <div class="place-box-bg" style="background-image: url(http://via.placeholder.com/1280x850);"></div>
-                    </a>
-                </div>
-            @endforeach
-        </div>
+                @if ($key > 5)
+                @break
+            @endif
+            <div class="col-md-{{ $key % 4 == 0 || $key % 4 == 3 ? '4' : '8' }} col-sm-{{ $key % 4 == 0 || $key % 4 == 3 ? '5' : '7' }}">
+                <a href="{{ route('search.key.type', ['', $stat->type]) }}" class="place-box">
+                    <span class="listing-count">
+                        <strong> {{ $stat->count }} Annonce(s) </strong>
+                    </span>
+                    <div class="place-box-content">
+                        <h4>{{ $stat->type }}</h4>
+                        <span>Voir les annonces</span>
+                    </div>
+                    @foreach ($listAnnonce as $type)
+                        @if ($type->nom == $stat->type || $type->libelle == $stat->type)
+                            <div class="place-box-bg" style="background-image: url({{ $type->image }});"></div>
+                        @endif
+                    @endforeach
+                </a>
+            </div>
+        @endforeach
+    </div>
 
 </section>
 
-{{-- @include('cookie-consent::index') --}}
+<section class="company-state theme-overlap" style="background:url(assets_client/img/image-stat.JPEG);">
+    <div class="container-fluid">
+        <div class="col-md-3 col-sm-6">
+            <div class="work-count">
+                <span class="theme-cl icon fa fa-briefcase"></span>
+                <span class="counter">200</span> <span class="counter-incr">+</span>
+                <p>Annonce</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="work-count">
+                <span class="theme-cl icon ti-layers"></span>
+                <span class="counter">307</span> <span class="counter-incr">+</span>
+                <p>Type annonce</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="work-count">
+                <span class="theme-cl icon fa fa-building"></span>
+                <span class="counter">700</span> <span class="counter-incr">+</span>
+                <p>Entreprise</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="work-count">
+                <span class="theme-cl icon ti-user"></span>
+                <span class="counter">770</span> <span class="counter-incr">+</span>
+                <p>Utilisateur</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+#banner {
+    transition: background 2s ease-in-out;
+}
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var images = ['image-1.jpg', 'image-2.jpg', 'image-3.JPEG', 'image-4.jpg'];
+        var index = 0;
+        var interval;
+
+        var banner = document.getElementById('banner');
+        var form = document.querySelector('.form-verticle');
+
+        // Function to change image
+        function changeImage() {
+            index = (index + 1) % images.length;
+            banner.style.backgroundImage = "url('assets_client/img/banner/" + images[index] + "')";
+        }
+
+        // Set image change interval
+        function setImageChangeInterval() {
+            interval = setInterval(changeImage, 5000);
+        }
+
+        setImageChangeInterval();
+
+        // Change image on click
+        banner.addEventListener('click', function(event) {
+            if (event.target === form || form.contains(event.target)) {
+                // If the click event originated from the form, stop the event propagation
+                // event.stopPropagation();
+            } else {
+                clearInterval(interval); // Clear the interval
+                changeImage(); // Change the image immediately
+                setImageChangeInterval(); // Set the interval again
+            }
+        });
+    });
+</script>
 @endsection
 
 @section('js')
