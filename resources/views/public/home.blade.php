@@ -1,5 +1,13 @@
 @extends('layout.public.app')
 
+@section('css')
+    <style>
+        #banner {
+            transition: background 2s ease-in-out;
+        }
+    </style>
+@endsection
+
 @section('content')
     <!-- Main Banner Section Start -->
     <div class="banner dark-opacity" id="banner" style="background-image:url(assets_client/img/banner/image-1.jpg);" data-overlay="8">
@@ -9,7 +17,7 @@
                     <h1 style="font-size: 50px; ">Vamiyi, l'aventure commence ici</h1>
                     <p>Explorez les meilleurs endroits, des restaurants et plus encore...</p>
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                        <div class="col-md-3 col-sm-2 no-padd">
+                        <div class="col-md-4 col-sm-4 no-padd">
                             <i class="banner-icon icon-pencil"></i>
                             <input type="text" class="form-control left-radius right-br" placeholder="{{ __('Mot clé ..') }}" name="key">
                         </div>
@@ -159,7 +167,7 @@
 <!-- End Listings Section -->
 
 <!-- Category Section -->
-<section class="bg-image" style="background-image:url(http://via.placeholder.com/1920x1000);" data-overlay="6">
+<section class="bg-image" style="background:url(assets_client/img/image-stat.JPEG);" data-overlay="6">
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -219,7 +227,7 @@
                         <span>Voir les annonces</span>
                     </div>
                     @foreach ($listAnnonce as $type)
-                        @if ($type->nom == $stat->type || $type->libelle == $stat->type)
+                        @if (Str::slug($type->nom) == $stat->type || Str::slug($type->libelle) == $stat->type)
                             <div class="place-box-bg" style="background-image: url({{ $type->image }});"></div>
                         @endif
                     @endforeach
@@ -231,43 +239,37 @@
 </section>
 
 <section class="company-state theme-overlap" style="background:url(assets_client/img/image-stat.JPEG);">
-    <div class="container-fluid">
-        <div class="col-md-3 col-sm-6">
-            <div class="work-count">
-                <span class="theme-cl icon fa fa-briefcase"></span>
-                <span class="counter">200</span> <span class="counter-incr">+</span>
-                <p>Annonce</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="work-count">
-                <span class="theme-cl icon ti-layers"></span>
-                <span class="counter">307</span> <span class="counter-incr">+</span>
-                <p>Type annonce</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="work-count">
-                <span class="theme-cl icon fa fa-building"></span>
-                <span class="counter">700</span> <span class="counter-incr">+</span>
-                <p>Entreprise</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="work-count">
-                <span class="theme-cl icon ti-user"></span>
-                <span class="counter">770</span> <span class="counter-incr">+</span>
-                <p>Utilisateur</p>
-            </div>
+<div class="container-fluid">
+    <div class="col-md-3 col-sm-6">
+        <div class="work-count">
+            <span class="theme-cl icon fa fa-briefcase"></span>
+            <span class="counter">200</span> <span class="counter-incr">+</span>
+            <p>Annonce</p>
         </div>
     </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="work-count">
+            <span class="theme-cl icon ti-layers"></span>
+            <span class="counter">307</span> <span class="counter-incr">+</span>
+            <p>Type annonce</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="work-count">
+            <span class="theme-cl icon fa fa-building"></span>
+            <span class="counter">700</span> <span class="counter-incr">+</span>
+            <p>Entreprise</p>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="work-count">
+            <span class="theme-cl icon ti-user"></span>
+            <span class="counter">770</span> <span class="counter-incr">+</span>
+            <p>Utilisateur</p>
+        </div>
+    </div>
+</div>
 </section>
-
-<style>
-#banner {
-    transition: background 2s ease-in-out;
-}
-</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
