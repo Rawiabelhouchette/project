@@ -22,6 +22,11 @@ class publicController extends Controller
             ];
         }
 
+        // order by count
+        usort($statsAnnonce, function($a, $b) {
+            return $a->count < $b->count;
+        });
+
         return view('public.home', compact(
             'listAnnonce',
             'typeAnnonce', 

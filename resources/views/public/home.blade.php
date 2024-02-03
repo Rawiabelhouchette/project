@@ -177,11 +177,11 @@
                 @foreach ($listAnnonce as $list)
                     <div class="list-slide-box">
                         <div class="category-full-widget">
-                            <div class="category-widget-bg" style="background-image: url(http://via.placeholder.com/1200x900);">
+                            <div class="category-widget-bg" style="background-image: url({{ $list->image }});">
                                 <i class="bg-{{ $list->bg }} cat-icon {{ $list->icon }}" aria-hidden="true"></i>
                             </div>
                             <div class="cat-box-name">
-                                <h4>{{ $list->nom }}</h4>
+                                <h4>{{ $list->libelle }}</h4>
                                 <a href="{{ route('search.key.type', ['', $list->nom]) }}" class="btn-btn-wrowse">Parcourir</a>
                             </div>
                         </div>
@@ -208,25 +208,34 @@
 
         <div class="row">
             @foreach ($statsAnnonce as $key => $stat)
-                <div class="col-md-{{ $key % 4 == 0 || $key % 4 == 3 ? '4' : '8' }} col-sm-{{ $key % 4 == 0 || $key % 4 == 3 ? '5' : '7' }}">
-                    <a href="{{ route('search.key.type', ['', $stat->type]) }}" class="place-box">
-                        <span class="listing-count">{{ $stat->count }} Annonce(s)</span>
-                        <div class="place-box-content">
-                            <h4>{{ $stat->type }}</h4>
-                            <span>Voir les annonces</span>
-                        </div>
-                        <div class="place-box-bg" style="background-image: url(http://via.placeholder.com/1280x850);"></div>
-                    </a>
-                </div>
-            @endforeach
-        </div>
+                @if ($key > 5)
+                @break
+            @endif
+            <div class="col-md-{{ $key % 4 == 0 || $key % 4 == 3 ? '4' : '8' }} col-sm-{{ $key % 4 == 0 || $key % 4 == 3 ? '5' : '7' }}">
+                <a href="{{ route('search.key.type', ['', $stat->type]) }}" class="place-box">
+                    <span class="listing-count">
+                        <strong> {{ $stat->count }} Annonce(s) </strong>
+                    </span>
+                    <div class="place-box-content">
+                        <h4>{{ $stat->type }}</h4>
+                        <span>Voir les annonces</span>
+                    </div>
+                    @foreach ($listAnnonce as $type)
+                        @if ($type->nom == $stat->type || $type->libelle == $stat->type)
+                            <div class="place-box-bg" style="background-image: url({{ $type->image }});"></div>
+                        @endif
+                    @endforeach
+                </a>
+            </div>
+        @endforeach
+    </div>
 
 </section>
 
 <style>
-    #banner {
-        transition: background 2s ease-in-out;
-    }
+#banner {
+    transition: background 2s ease-in-out;
+}
 </style>
 
 <script>

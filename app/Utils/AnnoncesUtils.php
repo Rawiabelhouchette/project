@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-use App\Models\Annonce;
 use App\Models\Fichier;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -72,43 +71,88 @@ class AnnoncesUtils
 
     public static function getPublicAnnonceList(): object
     {
+        $img_path = 'assets_client/img/type-annonce/';
         return collect([
             (object) [
-                'nom' => 'Auberge',
-                'icon' => 'fa fa-hotel',
-                'route' => '',
-                'color' => 'cl-info',
-                'bg' => 'a'
-            ],
-            (object) [
                 'nom' => 'Hôtel',
+                'libelle' => 'Hôtel',
                 'icon' => 'fa fa-hotel',
                 'route' => '',
                 'color' => 'cl-success',
-                'bg' => 'h'
+                'bg' => 'h',
+                'image' => $img_path . 'hotel.jpg',
             ],
             (object) [
                 'nom' => 'Véhicule',
-                // 'nom' => 'Location de véhicule',
+                'libelle' => 'Location de véhicule',
                 'icon' => 'fa fa-car',
                 'route' => '',
                 'color' => 'cl-warning',
-                'bg' => 'v'
+                'bg' => 'v',
+                'image' => $img_path . 'vehicule.jpg',
+            ],
+            (object) [
+                'nom' => 'Auberge',
+                'libelle' => 'Auberge',
+                'icon' => 'fa fa-hotel',
+                'route' => '',
+                'color' => 'cl-info',
+                'bg' => 'a',
+                'image' => $img_path . 'hotel.jpg',
             ],
             (object) [
                 'nom' => 'Meuble',
-                // 'nom' => 'Location meublée',
+                'libelle' => 'Location meublée',
                 'icon' => 'fa fa-home',
                 'route' => '',
                 'color' => 'cl-info',
-                'bg' => 'm'
+                'bg' => 'm',
+                'image' => $img_path . 'meuble.jpg',
             ],
             (object) [
                 'nom' => 'Boite de nuit',
+                'libelle' => 'Boite de nuit',
                 'icon' => 'fas fa-glass-cheers',
                 'route' => '',
                 'color' => 'cl-danger',
-                'bg' => 'b'
+                'bg' => 'b',
+                'image' => $img_path . 'boite.jpg',
+            ],
+            (object) [
+                'nom' => 'Bar',
+                'libelle' => 'Bar & Rooftop',
+                'icon' => 'fas fa-glass-martini-alt',
+                'route' => '',
+                'color' => 'cl-info',
+                'bg' => 'f',
+                'image' => $img_path . 'bar.jpg',
+            ],
+            (object) [
+                'nom' => 'Restaurant',
+                'libelle' => 'Restaurant',
+                'icon' => 'fa fa-burger',
+                'route' => '',
+                'color' => 'cl-success',
+                'bg' => 'd',
+                'image' => $img_path . 'restaurant.jpg',
+            ],
+            (object) [
+                'nom' => 'Patisserie',
+                'libelle' => 'Patisserie',
+                'icon' => 'fa fa-birthday-cake',
+                'route' => '',
+                'color' => 'cl-warning',
+                'bg' => 'p',
+                'image' => $img_path . 'patisserie.jpg',
+            ],
+            (object) [
+                'nom' => 'Fast-Food',
+                'libelle' => 'Fast-Food',
+                'icon' => 'fa fa-utensils',
+                'route' => '',
+                'color' => 'cl-info',
+                'bg' => 'f',
+                'image' => $img_path . 'fast-food.jpg',
             ],
         ]);
     }
