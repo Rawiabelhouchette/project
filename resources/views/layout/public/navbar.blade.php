@@ -26,6 +26,11 @@
                         Accueil
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('accounts.contact') }}">
+                        Contact
+                    </a>
+                </li>
                 @if (auth()->check() &&
                         auth()->user()->hasRole('Administrateur'))
                     <li>
