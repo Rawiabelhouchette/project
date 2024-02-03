@@ -227,7 +227,7 @@
                         <span>Voir les annonces</span>
                     </div>
                     @foreach ($listAnnonce as $type)
-                        @if (Str::slug($type->nom) == $stat->type || Str::slug($type->libelle) == $stat->type)
+                        @if (Str::slug($type->nom) == Str::slug($stat->type) || Str::slug($type->libelle) == Str::slug($stat->type))
                             <div class="place-box-bg" style="background-image: url({{ $type->image }});"></div>
                         @endif
                     @endforeach
