@@ -52,7 +52,7 @@
             @else
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd dropdown">
-                        <a href="javascript:void(0)" class="addlist">
+                        <a href="{{ route('accounts.index') }}" class="addlist">
                             <img src="{{ asset('assets_client/img/avatar.png') }}" class="img-responsive img-circle avater-img" alt="">
                             <strong id="navbar_username">{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</strong>
                         </a>
@@ -63,12 +63,6 @@
                                     Mon compte
                                 </a>
                             </li>
-                            {{-- <li>
-                                <a href="#">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i> &nbsp;
-                                    Contact
-                                </a>
-                            </li> --}}
                             <li>
                                 <a href="{{ route('accounts.favorite.index') }}">
                                     <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
