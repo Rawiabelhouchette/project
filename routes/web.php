@@ -43,6 +43,7 @@ Route::get('/login', function () {
 })->name('connexion');
 
 Route::get('/', [publicController::class, 'home'])->name('accueil');
+Route::get('contact', [AccountController::class, 'contact'])->name('accounts.contact');
 Route::get('entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
 Route::get('search', [searchController::class, 'search'])->name('search');
 Route::get('search/{slug}', [searchController::class, 'show'])->name('show');
@@ -67,7 +68,6 @@ Route::group([
     Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
     Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
     Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
-    Route::get('contact', [AccountController::class, 'contact'])->name('accounts.contact');
 
 
 
