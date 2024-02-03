@@ -43,30 +43,31 @@ Route::get('/login', function () {
 })->name('connexion');
 
 Route::get('/', [publicController::class, 'home'])->name('accueil');
-Route::get('/entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
-Route::get('/search', [searchController::class, 'search'])->name('search');
-Route::get('/search/{slug}', [searchController::class, 'show'])->name('show');
-Route::get('/search?key={key}&type={type}', [searchController::class, 'search'])->name('search.key.type');
+Route::get('entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
+Route::get('search', [searchController::class, 'search'])->name('search');
+Route::get('search/{slug}', [searchController::class, 'show'])->name('show');
+Route::get('search?key={key}&type={type}', [searchController::class, 'search'])->name('search.key.type');
 
-Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
+Route::post('login', [AuthenticationController::class, 'login'])->name('login');
 Route::get('password/reset', [AuthenticationController::class, 'reset'])->name('password.reset');
 
-Route::post('/password-link', [AccountController::class, 'resetPassword'])->name('password.reset.post');
+Route::post('password-link', [AccountController::class, 'resetPassword'])->name('password.reset.post');
 
 
-Route::get('/notification/reset-password', [AccountController::class, 'notificationSuccess'])->name('notification.rest-password.success');
-Route::post('/reset-password', [AccountController::class, 'newPassword'])->name('password.update');
+Route::get('notification/reset-password', [AccountController::class, 'notificationSuccess'])->name('notification.rest-password.success');
+Route::post('reset-password', [AccountController::class, 'newPassword'])->name('password.update');
 
 // Auth middleware
 Route::group([
     'middleware' => 'App\Http\Middleware\Auth',
 ], function () {
 
-    Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+    Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
-    Route::get('/favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
-    Route::get('/comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
+    Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
+    Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
+    Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
+    Route::get('contact', [AccountController::class, 'contact'])->name('accounts.contact');
 
 
 

@@ -16,7 +16,7 @@ class AccountController extends Controller
             return redirect()->route('connexion');
         }
 
-        return view('public.account');
+        return view('public.user.account');
     }
 
     public function indexFavoris()
@@ -25,7 +25,7 @@ class AccountController extends Controller
             return redirect()->route('connexion');
         }
 
-        return view('public.favoris');
+        return view('public..user.favoris');
     }
 
     public function indexComment()
@@ -37,7 +37,12 @@ class AccountController extends Controller
             $sess->save();
         }
 
-        return view('public.comment');
+        return view('public..user.comment');
+    }
+
+    public function contact()
+    {
+        return view('public.contact');
     }
 
     public function resetPassword(Request $request)
