@@ -28,7 +28,7 @@
                 </li>
                 <li>
                     <a href="{{ route('accounts.contact') }}">
-                        Contact
+                        Contactez-nous
                     </a>
                 </li>
                 @if (auth()->check() &&
