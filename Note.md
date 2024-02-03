@@ -123,4 +123,8 @@ https://www.youtube.com/watch?v=NsFSA-MQjeY&ab_channel=CodeWithTony
 
 380
 
-download default icon
+download default pics
+
+
+# 03/02/2024
+- [ok] Faire une operation sur les stats quand on met en favoris
