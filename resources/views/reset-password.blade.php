@@ -8,7 +8,6 @@
     <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
 
-
     <title>Vamiyi - Reset Password</title>
 
     <!-- All plugins -->
@@ -71,7 +70,7 @@
 
                             <div class="text-center mrg-top-20 mrg-bot-20">
                                 <button type="submit" class="btn theme-btn btn-radius">
-                                    {{ __('Réinitialiser le mot de passe') }}
+                                    {{ __('Réinitialiser') }}
                                 </button>
                             </div>
                         </form>
