@@ -6,22 +6,20 @@
         <div class="container">
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
-                    {{-- <h1>Vamiyi</h1> --}}
-                    <h1 {{-- set the weiht of the text in style attribute --}} style="font-size: 50px; ">Vamiyi, l'aventure commence ici</h1>
-
+                    <h1 style="font-size: 50px; ">Vamiyi, l'aventure commence ici</h1>
                     <p>Explorez les meilleurs endroits, des restaurants et plus encore...</p>
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                        <div class="col-md-6 col-sm-5 no-padd">
+                        <div class="col-md-3 col-sm-2 no-padd">
                             <i class="banner-icon icon-pencil"></i>
                             <input type="text" class="form-control left-radius right-br" placeholder="{{ __('Mot clé ..') }}" name="key">
                         </div>
-                        {{-- <div class="col-md-3 col-sm-3 no-padd">
+                        <div class="col-md-3 col-sm-3 no-padd">
                             <div class="form-box">
                                 <i class="banner-icon icon-map-pin"></i>
                                 <input type="text" class="form-control right-br" placeholder="Location..">
                             </div>
-                        </div> --}}
-                        <div class="col-md-4 col-sm-4 no-padd">
+                        </div>
+                        <div class="col-md-3 col-sm-3 no-padd">
                             <div class="form-box">
                                 <i class="banner-icon icon-layers"></i>
                                 <select class="form-control" name="type">
@@ -230,6 +228,39 @@
         @endforeach
     </div>
 
+</section>
+
+<section class="company-state theme-overlap" style="background:url(assets_client/img/image-stat.JPEG);">
+    <div class="container-fluid">
+        <div class="col-md-3 col-sm-6">
+            <div class="work-count">
+                <span class="theme-cl icon fa fa-briefcase"></span>
+                <span class="counter">200</span> <span class="counter-incr">+</span>
+                <p>Annonce</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="work-count">
+                <span class="theme-cl icon ti-layers"></span>
+                <span class="counter">307</span> <span class="counter-incr">+</span>
+                <p>Type annonce</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="work-count">
+                <span class="theme-cl icon fa fa-building"></span>
+                <span class="counter">700</span> <span class="counter-incr">+</span>
+                <p>Entreprise</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="work-count">
+                <span class="theme-cl icon ti-user"></span>
+                <span class="counter">770</span> <span class="counter-incr">+</span>
+                <p>Utilisateur</p>
+            </div>
+        </div>
+    </div>
 </section>
 
 <style>

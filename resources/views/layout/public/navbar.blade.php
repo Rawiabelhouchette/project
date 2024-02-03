@@ -48,7 +48,7 @@
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd dropdown">
                         <a href="javascript:void(0)" class="addlist">
-                            <img src="{{ asset('assets_client/img/avatar.jpg') }}" class="img-responsive img-circle avater-img" alt="">
+                            <img src="{{ asset('assets_client/img/avatar.png') }}" class="img-responsive img-circle avater-img" alt="">
                             <strong id="navbar_username">{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</strong>
                         </a>
                         <ul class="dropdown-menu animated navbar-left fadeOutUp" style="display: none; opacity: 1;">
