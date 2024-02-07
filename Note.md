@@ -128,3 +128,12 @@ download default pics
 
 # 03/02/2024
 - [ok] Faire une operation sur les stats quand on met en favoris
+
+Home, location vehicule, le bon type n'est pas pris
+
+
+
+
+- Pour la creation de compte
+  - Juste creer un compte classique (usager)
+  - Avoir un bouton pour passer pro

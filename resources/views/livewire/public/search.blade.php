@@ -9,16 +9,16 @@
                     <h4 class="text-center mrg-bot-15">Filtrer vos recherches</h4>
                     <div class="sidebar">
                         <!-- Start: Search By Price -->
-                        <div class="widget-boxed padd-bot-10">
+                        <div class="widget-boxed padd-bot-10 mrg-bot-10">
                             <div class="widget-boxed-header">
                                 <h4><i class="ti-briefcase padd-r-10"></i>Types d'annonce
                             </div>
-                            <div class="widget-boxed-body padd-top-10 padd-bot-0">
+                            <div class="widget-boxed-body padd-top-10">
                                 <div class="side-list">
                                     <ul class="price-range">
                                         @foreach ($typesAnnonce as $type)
                                             <li>
-                                                <span class="custom-checkbox d-block">
+                                                <span class="custom-checkbox d-block padd-top-0">
                                                     <input id="check-{{ $type }}" type="checkbox" value="{{ $type }}" wire:change='changeState("{{ $type }}")' {{ in_array($type, $selectedAnnonceId) ? 'checked' : '' }}>
                                                     <label for="check-{{ $type }}" style="font-weight: normal;">{{ $type }}</label>
                                                 </span>
