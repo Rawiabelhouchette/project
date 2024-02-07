@@ -88,7 +88,7 @@
                 <!-- Start All Listing -->
                 <div class="col-md-8 col-sm-12">
                     <!-- Filter option -->
-                    <div class="row mrg-0 mrg-bot-20">
+                    <div class="row mrg-0">
                         <div class="col-md-6 mrg-top-10">
                             <h5>Affichage : {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} résultat trouvé(s)</h5>
                         </div>
@@ -106,7 +106,18 @@
                     </div>
                     <!-- End Filter option -->
                     <div class="row mrg-0">
-                        @foreach ($annonces as $annonce)
+
+                        {{-- button --}}
+
+                        @include('components.share-modal', [
+                            'title' => 'Partager cette annonce',
+                        ])
+
+                        @if ($isLoading)
+                            @include('components.loader')
+                        @endif
+
+                        @forelse ($annonces as $annonce)
                             <div class="col-md-6 col-sm-6">
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-img">
@@ -168,7 +179,7 @@
                                             @endfor
                                             &nbsp;&nbsp;
                                             ({{ $annonce->nb_notation }})
-                                            <a href="javascript:void(0)" data-url="{{ route('show', $annonce->slug) }}" class="theme-cl annonce_share" style="float: right;">
+                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#share" data-url="{{ route('show', $annonce->slug) }}" class="theme-cl annonce_share" style="float: right;">
                                                 <i class="fa fa-share theme-cl" aria-hidden="true"></i>
                                                 Partager
                                             </a>
@@ -192,8 +203,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                        @empty($annonces->items())
+                        @empty
                             <div class="col-md-12 col-sm-12">
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-caption text-center mrg-top-5">
@@ -201,7 +211,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @endempty
+                        @endforelse
                     </div>
                     {{-- {{ $annonces->links() }} --}}
                     {{ $annonces->appends(['key' => $link_key, 'type' => $link_type])->links() }}

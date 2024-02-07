@@ -34,6 +34,7 @@ class Search extends Component
 
     public $perPage = 8;
     public $latestPerPage = 4;
+    public $isLoading = false;
 
     protected $queryString = [
         'key' => ['except' => ''],
