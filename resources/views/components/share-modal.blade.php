@@ -40,14 +40,14 @@
                         <div class="col-12 mrg-10">
                             <div class="side-list text-center">
                                 <ul class="padd-top-0">
-                                    <li class="padd-top-0">
+                                    <li class="padd-top-0 padd-bot-0">
                                         <div class="listing-list-img">
-                                            <img src="http://via.placeholder.com/80x80" class="img-responsive" alt="">
+                                            <img id="annonce-image-url" src="http://via.placeholder.com/80x80" class="img-responsive" alt="">
                                         </div>
                                         <div class="listing-list-info">
-                                            <h5><a href="#" title="Listing">Titre annonce</a></h5>
+                                            <h5 id="annonce-titre"></h5>
                                             <div class="listing-post-meta">
-                                                <span class="updated">type annonce</span>
+                                                <span class="updated" id="annonce-type">type annonce</span>
                                             </div>
                                         </div>
                                     </li>
@@ -58,27 +58,41 @@
                         <div class="col-12 text-center mrg-10">
                             <ul class="side-list-inline no-border social-side">
                                 <li class="share-icon">
-                                    <a href="javascrip:void(0)">
+                                    <a href="javascript:void(0)" id="annonce-url">
                                         <i class="fa fa-copy theme-cl"></i>
                                     </a>
                                 </li>
                                 <li class="share-icon">
-                                    <a href="#">
+                                    <a href="javascript:void(0)" id="annonce-facebook" target="_blank">
                                         <i class="fa-brands fa-facebook theme-cl"></i>
                                     </a>
                                 </li>
                                 <li class="share-icon">
-                                    <a href="#">
+                                    <a href="javascript:void(0)" id="annonce-whatsapp" target="_blank">
                                         <i class="fa-brands fa-whatsapp theme-cl"></i>
                                     </a>
                                 </li>
                                 <li class="share-icon">
-                                    <a href="#">
+                                    <a href="javascript:void(0)" id="annonce-email" target="_blank">
                                         <i class="fa fa-envelope theme-cl"></i>
                                     </a>
                                 </li>
                             </ul>
                         </div>
+
+                        <div class="col-12 text-center mrg-10">
+                            <p id="copyMessage" style="display: none;">URL copiée dans le presse-papiers !</p>
+                        </div>
+
+                        <style>
+                            #copyMessage {
+                                background-color: #4CAF50;
+                                color: white;
+                                padding: 10px;
+                                border-radius: 3px;
+                            }
+                        </style>
+
                     </div>
                 </div>
             </div>

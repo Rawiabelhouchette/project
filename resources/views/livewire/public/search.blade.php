@@ -179,7 +179,11 @@
                                             @endfor
                                             &nbsp;&nbsp;
                                             ({{ $annonce->nb_notation }})
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#share" data-url="{{ route('show', $annonce->slug) }}" class="theme-cl annonce_share" style="float: right;">
+                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#share" class="theme-cl annonce-share" style="float: right;"
+                                               data-url="{{ route('show', $annonce->slug) }}"
+                                               data-titre="{{ $annonce->titre }}"
+                                               data-image="{{ $annonce->image ? asset('storage/' . $annonce->imagePrincipale->chemin) : 'http://via.placeholder.com/800x800' }}"
+                                               data-type="{{ $annonce->type }}">
                                                 <i class="fa fa-share theme-cl" aria-hidden="true"></i>
                                                 Partager
                                             </a>
@@ -213,8 +217,8 @@
                             </div>
                         @endforelse
                     </div>
-                    {{-- {{ $annonces->links() }} --}}
-                    {{ $annonces->appends(['key' => $link_key, 'type' => $link_type])->links() }}
+                    {{ $annonces->links() }}
+                    {{-- {{ $annonces->appends(['key' => $link_key, 'type' => $link_type])->links() }} --}}
                 </div>
                 <!-- End All Listing -->
             </div>
@@ -223,3 +227,39 @@
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.annonce-share').on('click', function() {
+                var text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + $(this).data('titre') + "%0ALien : " + $(this).data('url') + " ";
+                $('#annonce-titre').text($(this).data('titre'));
+                $('#annonce-image-url').attr('src', $(this).data('image'));
+                $('#annonce-type').text($(this).data('type'));
+                $('#annonce-url').data('url', $(this).data('url'));
+                $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + $(this).data('url'));
+                $('#annonce-whatsapp').attr('href', 'https://web.whatsapp.com/send?text=' + text);
+                $('#annonce-email').attr('href', 'mailto:?subject=' + $(this).data('titre') + '&body=' + text);
+            });
+
+            $('#annonce-url').click(function() {
+                var text = $(this).data('url');
+
+                if (!navigator.clipboard) {
+                    console.log('Clipboard API not available');
+                    return;
+                }
+
+                navigator.clipboard.writeText(text).then(function() {
+                    $('#copyMessage').hide();
+                    $('#copyMessage').show();
+                    setTimeout(function() {
+                        $('#copyMessage').hide();
+                    }, 2000);
+                }, function(err) {
+                    console.error('Could not copy text: ', err);
+                });
+            });
+        });
+    </script>
+@endpush
