@@ -74,8 +74,7 @@
                         <div class="col-md-6 mrg-top-10">
                             <h5>Affichage : {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} résultat trouvé(s)</h5>
                         </div>
-                        <div class="col-md-2">
-                        </div>
+                        <div class="col-md-1"></div>
                         <div class="col-md-4">
                             <select id="select-order" class="form-control" style="height: 35px !important; margin-bottom: 0px;" tabindex="-98" wire:model.lazy='sortOrder'>
                                 <option value="" disabled>Trier</option>
@@ -84,6 +83,11 @@
                                 <option value="created_at|asc">Date: Ancien à récent</option>
                                 <option value="created_at|desc">Date: Récent à ancien</option>
                             </select>
+                        </div>
+                        <div class="col-md-1" style="display: flex; top: 50%">
+                            <a href="javascript:void(0)" class="annonce-share" data-toggle="modal" data-target="#share" data-type="all">
+                                <i class="fa fa-share fa-lg" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
                     <!-- End Filter option -->
@@ -216,14 +220,28 @@
     <script>
         $(document).ready(function() {
             $('.annonce-share').on('click', function() {
-                var text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + $(this).data('titre') + "%0ALien : " + $(this).data('url') + " ";
-                $('#annonce-titre').text($(this).data('titre'));
-                $('#annonce-image-url').attr('src', $(this).data('image'));
-                $('#annonce-type').text($(this).data('type'));
-                $('#annonce-url').data('url', $(this).data('url'));
-                $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + $(this).data('url'));
+                var type = $(this).data('type');
+                var text;
+                $('#share-annonce-image').show();
+                if (type === 'all') {
+                    text = window.location.href;
+                    $('#share-annonce-image').hide();
+                    $('#annonce-type').text('');
+                    $('#annonce-titre').text("Partager la page");
+                    $('#annonce-email').attr('href', 'mailto:?subject=' + $(this).data('titre') + '&body=' + text);
+                    $('#annonce-url').data('url', text);
+                    $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + text);
+                } else {
+                    text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + $(this).data('titre') + "%0ALien : " + $(this).data('url') + " ";
+                    $('#annonce-titre').text($(this).data('titre'));
+                    $('#annonce-image-url').attr('src', $(this).data('image'));
+                    $('#annonce-type').text($(this).data('type'));
+                    $('#annonce-email').attr('href', 'mailto:?subject=' + $(this).data('titre') + '&body=' + text);
+                    $('#annonce-url').data('url', $(this).data('url'));
+                    $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + $(this).data('url'));
+                }
+
                 $('#annonce-whatsapp').attr('href', 'https://web.whatsapp.com/send?text=' + text);
-                $('#annonce-email').attr('href', 'mailto:?subject=' + $(this).data('titre') + '&body=' + text);
             });
 
             $('#annonce-url').click(function() {
