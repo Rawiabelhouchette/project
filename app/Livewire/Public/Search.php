@@ -15,25 +15,24 @@ class Search extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $type = '';
+    public $type = [];
     public $key = '';
     public $location = '';
-
-
-
-    public $perPage = 2;
-    public $isLoading = false;
-
-
-
-
-
-
+    public $column = '';
+    public $direction = '';
+    protected $queryString = [
+        'type',
+        'key',
+        'location',
+        'column',
+        'direction',
+    ];
 
 
     public $sortOrder = '';
-    public $column = '';
-    public $direction = '';
+    public $perPage = 2;
+    public $isLoading = false;
+
 
     public $allAnnonceTypes = [];
     public $typesAnnonce = [];
@@ -46,19 +45,14 @@ class Search extends Component
 
     public function mount($filter)
     {
-        // dd($filter);
         $this->key = $filter->key ?? '';
-        $this->type = $filter->type ?? '';
+        $this->type = $filter->type ?? [];
         $this->page = $filter->page ?? 1;
         $this->location = $filter->location ?? '';
+        $this->column = $filter->column ?? 'created_at';
+        $this->direction = $filter->direction ?? 'desc';
 
-
-
-
-        // $variables = new CustomSession();
         $this->displayedAnnonce = $this->elementToDisplay;
-        // $this->key = $variables->key;
-        // $this->type = $variables->type;
         $this->allAnnonceTypes = Annonce::pluck('type')
             ->unique()
             ->toArray();
@@ -67,26 +61,20 @@ class Search extends Component
         // $this->sortOrder = $variables->sortOrder;
     }
 
-    public function updatingSortOrder()
+    public function updatedSortOrder()
     {
         if (!$this->sortOrder) {
             return;
         }
 
-        $this->resetPage();
-    }
+        $this->isLoading = true;
 
-    public function updatedSortOrder()
-    {
-        // if (!$this->sortOrder) {
-        //     return;
-        // }
-        // [$column, $direction] = explode('|', $this->sortOrder);
-        // $sessVars = new CustomSession();
-        // $sessVars->column = $column;
-        // $sessVars->direction = $direction;
-        // $sessVars->sortOrder = $this->sortOrder;
-        // $sessVars->save();
+        $parts = explode('|', $this->sortOrder);
+
+        if (count($parts) === 2) {
+            [$this->column, $this->direction] = $parts;
+            $this->resetPage();
+        }
     }
 
     // A gerer sur le front avec du js
@@ -139,30 +127,24 @@ class Search extends Component
 
     public function search()
     {
-        $sessVars = new CustomSession();
-
         $annonces = Annonce::public()->with('entreprise');
         $annonces = $this->filters($annonces);
-        if ($sessVars->sortOrder) {
-            $annonces = $annonces->orderBy($sessVars->column, $sessVars->direction);
-        }
-        // $query = request()->query();
         $annonces = $annonces->paginate($this->perPage);
-        // $annonces->withPath($this->addQueryToUrl($query));
-        // dd($annonces->links());
+        $this->isLoading = false;
         return $annonces;
     }
 
     // Apply all filters (the filters on the left side of the page)
-    private function filters($annonces)
+    protected function filters($annonces)
     {
         $annonces = $this->filterAnnoncesByTypeKeyLocation($annonces);
-        
+        $annonces = $this->filterByOrder($annonces);
+
         return $annonces;
     }
 
     // filter the annonces by type, key and location
-    private function filterAnnoncesByTypeKeyLocation($annonces)
+    protected function filterAnnoncesByTypeKeyLocation($annonces)
     {
         if ($this->type) {
             $annonces = $annonces->where('type', $this->type);
@@ -177,7 +159,7 @@ class Search extends Component
 
         if ($this->location) {
             $parts = explode(',', $this->location);
-        
+
             if (count($parts) > 0) {
                 $quartier = trim($parts[0]);
                 $annonces = $annonces->whereHas('entreprise.quartier', function ($query) use ($quartier) {
@@ -189,42 +171,30 @@ class Search extends Component
         return $annonces;
     }
 
+    // Filter by order
+    protected function filterByOrder($annonces)
+    {
+        if (!in_array($this->direction, ['asc', 'desc'])) {
+            $this->direction = 'desc';
+        }
+
+        if (!in_array($this->column, ['created_at', 'titre'])) {
+            $this->column = 'titre';
+        }
+
+        $this->sortOrder = $this->column . '|' . $this->direction;
+
+        if ($this->column && $this->direction) {
+            $annonces = $annonces->orderBy($this->column, $this->direction);
+        }
+
+        return $annonces;
+    }
+
 
     public function render()
     {
         $this->typesAnnonce = array_slice($this->allAnnonceTypes, 0, $this->displayedAnnonce);
-        // $selectedAnnonceId = $this->selectedAnnonceId;
-        // $type = $this->type;
-        // $key = $this->key;
-
-        // $annonces = Annonce::getActiveAnnonces()
-        //     ->with('entreprise')
-        //     ->where(function ($query) use ($type, $key, $selectedAnnonceId) {
-        //         if ($type) {
-        //             if (!in_array($type, $selectedAnnonceId)) {
-        //                 array_push($selectedAnnonceId, $type);
-        //             }
-        //         }
-
-        //         if (!empty($selectedAnnonceId)) {
-        //             foreach ($selectedAnnonceId as $selectedType) {
-        //                 $query->orWhere('type', $selectedType);
-        //             }
-        //         }
-
-        //         if ($key) {
-        //             $query->where(function ($query) use ($key) {
-        //                 $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
-        //             });
-        //         }
-
-        //     });
-        //     $this->selectedAnnonceId = $selectedAnnonceId;
-
-        // $sessVars = new CustomSession();
-        // if ($sessVars->sortOrder) {
-        //     $annonces = $annonces->orderBy($sessVars->column, $sessVars->direction);
-        // }
 
         return view('livewire.public.search', [
             'annonces' => $this->search(),

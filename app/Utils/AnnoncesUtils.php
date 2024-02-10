@@ -156,7 +156,7 @@ class AnnoncesUtils
             ],
         ]);
     }
-    
+
     public static function createReference($model, $variable, $title, $slug): void
     {
         if ($variable) {
@@ -187,7 +187,8 @@ class AnnoncesUtils
 
     public static function createManyReference($model, $references)
     {
-        if (!$references) return;
+        if (!$references)
+            return;
 
         try {
             for ($i = 0; $i < count($references); $i++) {
@@ -200,7 +201,8 @@ class AnnoncesUtils
 
     public static function updateManyReference($model, $references)
     {
-        if (!$references) return;
+        if (!$references)
+            return;
 
         try {
             for ($i = 0; $i < count($references); $i++) {
@@ -214,7 +216,7 @@ class AnnoncesUtils
     public static function createGalerie($model, $image, $variable, $folder_name): void
     {
         // dump($folder_name);
-        if($image){
+        if ($image) {
             $image->store('public/' . $folder_name);
             $fichier = Fichier::create([
                 'nom' => $image->hashName(),
@@ -242,7 +244,7 @@ class AnnoncesUtils
 
     public static function updateGalerie($image, $model, $variable, $folder_name): void
     {
-        if($image){
+        if ($image) {
             $image->store('public/' . $folder_name);
             $fichier = Fichier::create([
                 'nom' => $image->hashName(),
@@ -277,8 +279,12 @@ class AnnoncesUtils
         $query = explode('&', $query);
         $params = [];
         foreach ($query as $param) {
-            list($name, $value) = explode('=', $param, 2);
-            $params[urldecode($name)][] = urldecode($value);
+            $parts = explode('=', $param, 2);
+
+            if (count($parts) === 2) {
+                list($name, $value) = $parts;
+                $params[urldecode($name)][] = urldecode($value);
+            }
         }
         return (object) $params;
     }
