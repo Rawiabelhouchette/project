@@ -268,4 +268,18 @@ class AnnoncesUtils
             }
         }
     }
+
+    // function to grab all query parameters from the current url to an object
+    public static function getQueryParams(): object
+    {
+        $url = url()->full();
+        $query = parse_url($url, PHP_URL_QUERY);
+        $query = explode('&', $query);
+        $params = [];
+        foreach ($query as $param) {
+            list($name, $value) = explode('=', $param, 2);
+            $params[urldecode($name)][] = urldecode($value);
+        }
+        return (object) $params;
+    }
 }

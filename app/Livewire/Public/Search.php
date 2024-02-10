@@ -12,14 +12,26 @@ use Livewire\Attributes\Url;
 class Search extends Component
 {
     use WithPagination;
-    // public $currentUrl;
 
     protected $paginationTheme = 'bootstrap';
-    // #[Url]
 
     public $type = '';
     public $key = '';
     public $location = '';
+
+
+
+    public $perPage = 2;
+    public $latestPerPage = 4;
+    public $isLoading = false;
+
+
+
+
+
+
+
+
     public $sortOrder = '';
     public $column = '';
     public $direction = '';
@@ -32,61 +44,6 @@ class Search extends Component
     public $selectedAnnonce = [];
     public $selectedAnnonceId = [];
 
-    //
-    public $link_key;
-    public $link_type;
-
-    public $perPage = 2;
-    public $latestPerPage = 4;
-    public $isLoading = false;
-
-    protected $queryString = [
-        'key',
-        'type',
-        'location',
-        'page' => ['except' => 1],
-    ];
-
-    public $page = 1;
-
-    // public function updatedPage($value)
-    // {
-    //     $query = [
-    //         'key' => $this->key,
-    //         'type' => $this->type,
-    //     ];
-    //     $url = $this->addQueryToUrl($query);
-
-    //     $url = $url . '&page=' . $value;
-
-    //     // $this->dispatch('refresh:url', [
-    //     //     'url' => $url,
-    //     // ]);
-    //     // dd($url);
-
-    //     $this->currentUrl = $url;
-    // }
-
-    private function addQueryToUrl($query) : string
-    {
-        $query = array_map(function ($value) {
-            return $value === null ? '' : $value;
-        }, $query);
-
-        // Get the current URL without the query string
-        $url = request()->getSchemeAndHttpHost();
-
-        // dump($query);
-
-        // Generate a URL-encoded query string from the array
-        $queryString = http_build_query($query);
-
-        // Append the query string to the base URL
-        $url .= '/search?' . $queryString;
-
-        // Return the new URL
-        return $url;
-    }
 
     public function mount($filter)
     {
@@ -99,7 +56,7 @@ class Search extends Component
 
 
 
-        $variables = new CustomSession();
+        // $variables = new CustomSession();
         $this->displayedAnnonce = $this->elementToDisplay;
         // $this->key = $variables->key;
         // $this->type = $variables->type;
@@ -108,10 +65,7 @@ class Search extends Component
             ->toArray();
         $this->selectedAnnonceId = []; //$filter;
 
-        $this->link_key = $variables->key;
-        $this->link_type = $variables->type;
-
-        $this->sortOrder = $variables->sortOrder;
+        // $this->sortOrder = $variables->sortOrder;
     }
 
     public function updatingSortOrder()
@@ -125,15 +79,15 @@ class Search extends Component
 
     public function updatedSortOrder()
     {
-        if (!$this->sortOrder) {
-            return;
-        }
-        [$column, $direction] = explode('|', $this->sortOrder);
-        $sessVars = new CustomSession();
-        $sessVars->column = $column;
-        $sessVars->direction = $direction;
-        $sessVars->sortOrder = $this->sortOrder;
-        $sessVars->save();
+        // if (!$this->sortOrder) {
+        //     return;
+        // }
+        // [$column, $direction] = explode('|', $this->sortOrder);
+        // $sessVars = new CustomSession();
+        // $sessVars->column = $column;
+        // $sessVars->direction = $direction;
+        // $sessVars->sortOrder = $this->sortOrder;
+        // $sessVars->save();
     }
 
     // A gerer sur le front avec du js
@@ -200,31 +154,42 @@ class Search extends Component
         return $annonces;
     }
 
-    // Apply filters to the query (the filters on the left side of the page)
-    public function filters($q)
+    // Apply all filters (the filters on the left side of the page)
+    private function filters($annonces)
     {
-        // $q->where(function ($query) use ($type, $key, $selectedAnnonceId) {
-        //     if ($type) {
-        //         if (!in_array($type, $selectedAnnonceId)) {
-        //             array_push($selectedAnnonceId, $type);
-        //         }
-        //     }
-
-        //     if (!empty($selectedAnnonceId)) {
-        //         foreach ($selectedAnnonceId as $selectedType) {
-        //             $query->orWhere('type', $selectedType);
-        //         }
-        //     }
-
-        //     if ($key) {
-        //         $query->where(function ($query) use ($key) {
-        //             $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
-        //         });
-        //     }
-
-        // });
-        return $q;
+        $annonces = $this->filterAnnoncesByTypeKeyLocation($annonces);
+        
+        return $annonces;
     }
+
+    // filter the annonces by type, key and location
+    private function filterAnnoncesByTypeKeyLocation($annonces)
+    {
+        if ($this->type) {
+            $annonces = $annonces->where('type', $this->type);
+        }
+
+        if ($this->key) {
+            $key = $this->key;
+            $annonces = $annonces->where(function ($query) use ($key) {
+                $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
+            });
+        }
+
+        if ($this->location) {
+            $parts = explode(',', $this->location);
+        
+            if (count($parts) > 0) {
+                $quartier = trim($parts[0]);
+                $annonces = $annonces->whereHas('entreprise.quartier', function ($query) use ($quartier) {
+                    $query->where('nom', 'like', '%' . $quartier . '%');
+                });
+            }
+        }
+
+        return $annonces;
+    }
+
 
     // Retrieve the latest annonces
     public function latestAnnonces()

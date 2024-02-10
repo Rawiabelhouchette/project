@@ -4,9 +4,14 @@
     @php
         $typeAnnonce = App\Models\Annonce::pluck('type')->unique()->toArray();
 
-        $search = new App\Utils\CustomSession();
-        $key = $search->key;
-        $type = $search->type;
+        $params = App\Utils\AnnoncesUtils::getQueryParams();
+        $key = $params->key[0] ?? '';
+        $location = $params->location[0] ?? '';
+        $type = $params->type[0] ?? '';
+
+        // $search = new App\Utils\CustomSession();
+        // $key = $search->key;
+        // $type = $search->type;
 
         $quartiers = App\Models\Quartier::getAllQuartiers();
     @endphp
@@ -46,7 +51,7 @@
                             <input type="text" class="form-control left-radius" placeholder="Mot clé .." name="key" value="{{ $key }}">
                         </div>
                         <div class="col-md-4 col-sm-4 no-padd">
-                            <input id="myInput" type="text" class="form-control" placeholder="Localisation .." name="location">
+                            <input id="myInput" type="text" class="form-control" placeholder="Localisation .." name="location" value="{{ $location }}">
                             <div id="autocomplete-results" class="autocomplete-items"></div>
                         </div>
 
@@ -101,8 +106,54 @@
     @push('scripts')
         <script>
             let countries = @json($quartiers);
+            let myInput = document.getElementById('myInput');
 
-            document.getElementById('myInput').addEventListener('input', function(e) {
+            myInput.addEventListener('focus', function(e) {
+                let a, b, val = this.value;
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "autocomplete-list");
+                a.setAttribute("class", "autocomplete-items");
+                this.parentNode.appendChild(a);
+                if (!val) {
+                    for (let i = 0; i < countries.length; i++) {
+                        b = document.createElement("DIV");
+                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;' + countries[i];
+                        b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
+                        b.addEventListener("click", function(e) {
+                            document.getElementById('myInput').value = this.getElementsByTagName("input")[0].value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+
+                    }
+                    return;
+
+                }
+
+                for (let i = 0; i < countries.length; i++) {
+                    let country = normalize(countries[i]).toUpperCase();
+                    let searchVal = normalize(val).toUpperCase();
+
+                    if (country.includes(searchVal)) {
+                        let startIdx = country.indexOf(searchVal);
+                        let endIdx = startIdx + searchVal.length;
+
+                        b = document.createElement("DIV");
+                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;' + countries[i].substr(0, startIdx) +
+                            "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
+                            countries[i].substr(endIdx);
+                        b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
+                        b.addEventListener("click", function(e) {
+                            document.getElementById('myInput').value = this.getElementsByTagName("input")[0].value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+
+
+            myInput.addEventListener('input', function(e) {
                 let a, b, val = this.value;
                 closeAllLists();
                 if (!val) {
@@ -121,7 +172,7 @@
                         let endIdx = startIdx + searchVal.length;
 
                         b = document.createElement("DIV");
-                        b.innerHTML = countries[i].substr(0, startIdx) +
+                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;' + countries[i].substr(0, startIdx) +
                             "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
                             countries[i].substr(endIdx);
                         b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";

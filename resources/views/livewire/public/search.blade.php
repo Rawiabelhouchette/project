@@ -219,7 +219,6 @@
                     </div>
 
                     {{ $annonces->links() }}
-                    {{-- {{ $annonces->appends(['key' => $link_key, 'type' => $link_type])->links() }} --}}
                 </div>
                 <!-- End All Listing -->
             </div>
