@@ -12,11 +12,11 @@ class searchController extends Controller
     public function search(Request $request)
     {
         // CustomSession::clear();
-        CustomSession::create([
-            'key' => $request->input('key'),
-            'type' => $request->input('type'),
-            'url' => url()->current(),
-        ]);
+        // CustomSession::create([
+        //     'key' => $request->input('key'),
+        //     'type' => $request->input('type'),
+        //     'url' => url()->current(),
+        // ]);
 
         return view('public.search', [
             'filter' => (object) $request->all(),

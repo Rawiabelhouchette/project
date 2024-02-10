@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Annonce;
 use App\Models\Entreprise;
+use App\Models\Quartier;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,7 @@ class publicController extends Controller
         $annonces = Annonce::getActiveAnnonces()->with('annonceable', 'entreprise')->inRandomOrder()->take(6)->get();
         
         $statsAnnonce = [];
+        $quartiers = Quartier::getAllQuartiers();
         foreach ($typeAnnonce as $type) {
             $statsAnnonce[] = (object) [
                 'type' => $type,
@@ -31,7 +33,8 @@ class publicController extends Controller
             'listAnnonce',
             'typeAnnonce', 
             'annonces',
-            'statsAnnonce'
+            'statsAnnonce',
+            'quartiers'
         ));
     }
 

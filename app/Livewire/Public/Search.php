@@ -56,9 +56,7 @@ class Search extends Component
         $this->allAnnonceTypes = Annonce::pluck('type')
             ->unique()
             ->toArray();
-        $this->selectedAnnonceId = []; //$filter;
-
-        // $this->sortOrder = $variables->sortOrder;
+        $this->selectedAnnonceId = [];
     }
 
     public function updatedSortOrder()

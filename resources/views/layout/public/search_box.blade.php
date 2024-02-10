@@ -9,10 +9,6 @@
         $location = $params->location[0] ?? '';
         $type = $params->type[0] ?? '';
 
-        // $search = new App\Utils\CustomSession();
-        // $key = $search->key;
-        // $type = $search->type;
-
         $quartiers = App\Models\Quartier::getAllQuartiers();
     @endphp
 
@@ -88,6 +84,7 @@
             top: 100%;
             left: 0;
             right: 0;
+            border-radius: 5px;
         }
 
         .autocomplete-items div {
@@ -100,6 +97,16 @@
         .autocomplete-items div:hover {
             background-color: #ff3a72;
             color: #fff;
+        }
+
+        .autocomplete-items div:first-child {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .autocomplete-items div:last-child {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
         }
     </style>
 
@@ -117,7 +124,7 @@
                 if (!val) {
                     for (let i = 0; i < countries.length; i++) {
                         b = document.createElement("DIV");
-                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;' + countries[i];
+                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i];
                         b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
                         b.addEventListener("click", function(e) {
                             document.getElementById('myInput').value = this.getElementsByTagName("input")[0].value;
@@ -139,7 +146,7 @@
                         let endIdx = startIdx + searchVal.length;
 
                         b = document.createElement("DIV");
-                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;' + countries[i].substr(0, startIdx) +
+                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i].substr(0, startIdx) +
                             "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
                             countries[i].substr(endIdx);
                         b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
@@ -172,7 +179,7 @@
                         let endIdx = startIdx + searchVal.length;
 
                         b = document.createElement("DIV");
-                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;' + countries[i].substr(0, startIdx) +
+                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i].substr(0, startIdx) +
                             "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
                             countries[i].substr(endIdx);
                         b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";

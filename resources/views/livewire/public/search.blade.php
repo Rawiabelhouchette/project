@@ -17,7 +17,7 @@
                                 <div class="side-list">
                                     <ul class="price-range">
                                         @foreach ($typesAnnonce as $type)
-                                            <li>
+                                            <li style="padding: 5px;">
                                                 <span class="custom-checkbox d-block padd-top-0">
                                                     <input id="check-{{ $type }}" type="checkbox" value="{{ $type }}" wire:change='changeState("{{ $type }}")' {{ in_array($type, $selectedAnnonceId) ? 'checked' : '' }}>
                                                     <label for="check-{{ $type }}" style="font-weight: normal;">{{ $type }}</label>
@@ -55,6 +55,20 @@
                 <!-- Start All Listing -->
                 <div class="col-md-8 col-sm-12">
                     <!-- Filter option -->
+                    {{-- <div class="row mrg-0">
+                        <div class="col-md-12 mrg-top-10">
+                            <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: flex; align-items: center; ">
+                                Recherche : &nbsp;
+                                @foreach (['test1', 'test3', 'Lome'] as $element)
+                                    <span class="badge height-25" style="background-color: #ff3a72">
+                                        {{ $element }}
+                                        <a href="javascript:void(0)" class="filtre" data-slug="{{ $element }}" style="color: #35434E"> x </a>
+                                    </span> &nbsp;
+                                @endforeach
+                            </div>
+                        </div>
+                    </div> --}}
+
                     <div class="row mrg-0">
                         <div class="col-md-6 mrg-top-10">
                             <h5>Affichage : {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} résultat trouvé(s)</h5>
@@ -158,15 +172,15 @@
                                     </div>
                                     <div class="tp-author-basic-info mrg-top-0">
                                         <ul>
-                                            <li class="text-center">
+                                            <li class="text-center padd-top-10 padd-bot-0">
                                                 <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                                 {{ $annonce->nb_vue }}
                                             </li>
-                                            <li class="text-center">
+                                            <li class="text-center padd-top-10 padd-bot-0">
                                                 <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
                                                 {{ $annonce->nb_favoris }}
                                             </li>
-                                            <li class="text-center">
+                                            <li class="text-center padd-top-10 padd-bot-0">
                                                 <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
                                                 {{ $annonce->nb_commentaire }}
                                             </li>
@@ -176,7 +190,7 @@
                             </div>
                         @empty
                             <div class="col-md-12 col-sm-12">
-                                <div class="listing-shot grid-style">
+                                <div class="listing-shot grid-style" style="padding-top: 50px; padding-bottom: 50px;">
                                     <div class="listing-shot-caption text-center mrg-top-5">
                                         <h4>Aucune annonce trouvée</h4>
                                     </div>
