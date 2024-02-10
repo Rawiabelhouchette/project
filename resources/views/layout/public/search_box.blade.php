@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="col-md-3 col-sm-3 no-padd">
-                            <select class="selectpicker form-control" data-live-search="true" name="type" value="{{ $type }}">
+                            <select class="selectpicker form-control" data-live-search="true" name="type[]" value="{{ $type }}">
                                 <option value="" selected>Tous les types d'annonce</option>
                                 @foreach ($typeAnnonce as $annonce)
                                     <option value="{{ $annonce }}" {{ $annonce == $type ? 'selected' : '' }}>{{ $annonce }}</option>

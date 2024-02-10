@@ -15,11 +15,12 @@
                             </div>
                             <div class="widget-boxed-body padd-top-10">
                                 <div class="side-list">
-                                    <ul class="price-range" id="list-types">
+                                    <ul class="price-range">
                                         @foreach ($typeAnnonces as $item)
                                             <li style="padding: 5px;">
                                                 <span class="custom-checkbox d-block padd-top-0">
-                                                    <input id="check-{{ $item }}" type="checkbox" value="{{ $item }}" wire:change='changeState("{{ $item }}")' {{ in_array($item, $type) ? 'checked' : '' }}>
+                                                    <input id="check-{{ $item }}" item="checkbox" value="{{ $item }}" {{ in_array($item, $type) ? 'checked' : '' }}>
+                                                    {{-- <input id="check-{{ $item }}" item="checkbox" value="{{ $item }}" wire:change='changeState("{{ $item }}")' {{ in_array($item, $type) ? 'checked' : '' }}> --}}
                                                     <label for="check-{{ $item }}" style="font-weight: normal;">{{ $item }}</label>
                                                 </span>
                                             </li>
@@ -27,14 +28,13 @@
                                     </ul>
                                 </div>
                             </div>
-
-                            @if (count($typeAnnonces) > 5)
-                                <div class="text-center padd-top-5 padd-bot-0" id="voir-plus-zone-type">
-                                    <a href="javascript:void(0)" id="voir-plus-btn-type">
-                                        <h5>Voir plus ({{ count($typeAnnonces) - 5 }}) +</h5>
+                            {{-- @if (count($allAnnonceTypes) > count($typesAnnonce))
+                                <div class="text-center padd-top-5 padd-bot-0">
+                                    <a href="javascript:void(0)" wire:click='loadMoreAnnonceType'>
+                                        <h5>Voir plus ({{ count($allAnnonceTypes) - count($typesAnnonce) }}) +</h5>
                                     </a>
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                         <!-- End: Search By Price -->
 
@@ -211,8 +211,6 @@
 </div>
 
 @push('scripts')
-    <script src="{{ asset('assets_client/js/search.js') }}"></script>
-
     <script>
         $(document).ready(function() {
             $('.annonce-share').on('click', function() {

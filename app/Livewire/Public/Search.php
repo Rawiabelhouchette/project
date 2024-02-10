@@ -4,10 +4,8 @@ namespace App\Livewire\Public;
 
 use App\Models\Annonce;
 use App\Models\Favoris;
-use App\Utils\CustomSession;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Url;
 
 class Search extends Component
 {
@@ -32,6 +30,14 @@ class Search extends Component
     public $sortOrder = '';
     public $perPage = 2;
     public $isLoading = false;
+
+
+    public $typeAnnonces = [];
+
+
+
+
+
 
 
     public $allAnnonceTypes = [];
@@ -145,7 +151,11 @@ class Search extends Component
     protected function filterAnnoncesByTypeKeyLocation($annonces)
     {
         if ($this->type) {
-            $annonces = $annonces->where('type', $this->type);
+            $annonces = $annonces->where(function ($query) {
+                foreach ($this->type as $type) {
+                    $query->orWhere('type', 'like', '%' . $type . '%');
+                }
+            });
         }
 
         if ($this->key) {
@@ -192,6 +202,7 @@ class Search extends Component
 
     public function render()
     {
+        $this->typeAnnonces = Annonce::pluck('type')->unique()->toArray();
         $this->typesAnnonce = array_slice($this->allAnnonceTypes, 0, $this->displayedAnnonce);
 
         return view('livewire.public.search', [

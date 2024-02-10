@@ -31,7 +31,7 @@
                         <div class="col-md-3 col-sm-3 no-padd">
                             <div class="form-box">
                                 <i class="banner-icon icon-layers"></i>
-                                <select class="form-control" name="type">
+                                <select class="form-control" name="type[]">
                                     <option value="" selected data-placeholder="{{ __('Tous les types d\'annonce') }}" class="chosen-select">{{ __('Tous les type d\'annonce') }}</option>
                                     @foreach ($typeAnnonce as $annonce)
                                         <option value="{{ $annonce }}">{{ $annonce }}</option>
