@@ -7,15 +7,19 @@ use App\Models\Favoris;
 use App\Utils\CustomSession;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Url;
 
 class Search extends Component
 {
     use WithPagination;
+    // public $currentUrl;
 
     protected $paginationTheme = 'bootstrap';
+    // #[Url]
 
     public $type = '';
     public $key = '';
+    public $location = '';
     public $sortOrder = '';
     public $column = '';
     public $direction = '';
@@ -32,25 +36,77 @@ class Search extends Component
     public $link_key;
     public $link_type;
 
-    public $perPage = 8;
+    public $perPage = 2;
     public $latestPerPage = 4;
     public $isLoading = false;
 
     protected $queryString = [
-        'key' => ['except' => ''],
-        'type' => ['except' => ''],
+        'key',
+        'type',
+        'location',
+        'page' => ['except' => 1],
     ];
 
-    public function mount($filter = [])
+    public $page = 1;
+
+    // public function updatedPage($value)
+    // {
+    //     $query = [
+    //         'key' => $this->key,
+    //         'type' => $this->type,
+    //     ];
+    //     $url = $this->addQueryToUrl($query);
+
+    //     $url = $url . '&page=' . $value;
+
+    //     // $this->dispatch('refresh:url', [
+    //     //     'url' => $url,
+    //     // ]);
+    //     // dd($url);
+
+    //     $this->currentUrl = $url;
+    // }
+
+    private function addQueryToUrl($query) : string
     {
+        $query = array_map(function ($value) {
+            return $value === null ? '' : $value;
+        }, $query);
+
+        // Get the current URL without the query string
+        $url = request()->getSchemeAndHttpHost();
+
+        // dump($query);
+
+        // Generate a URL-encoded query string from the array
+        $queryString = http_build_query($query);
+
+        // Append the query string to the base URL
+        $url .= '/search?' . $queryString;
+
+        // Return the new URL
+        return $url;
+    }
+
+    public function mount($filter)
+    {
+        // dd($filter);
+        $this->key = $filter->key ?? '';
+        $this->type = $filter->type ?? '';
+        $this->page = $filter->page ?? 1;
+        $this->location = $filter->location ?? '';
+
+
+
+
         $variables = new CustomSession();
         $this->displayedAnnonce = $this->elementToDisplay;
-        $this->key = $variables->key;
-        $this->type = $variables->type;
+        // $this->key = $variables->key;
+        // $this->type = $variables->type;
         $this->allAnnonceTypes = Annonce::pluck('type')
             ->unique()
             ->toArray();
-        $this->selectedAnnonceId = $filter;
+        $this->selectedAnnonceId = []; //$filter;
 
         $this->link_key = $variables->key;
         $this->link_type = $variables->type;
@@ -80,6 +136,7 @@ class Search extends Component
         $sessVars->save();
     }
 
+    // A gerer sur le front avec du js
     public function changeState($type)
     {
         // check if the type is already in the array (selectedAnnonceId) or not and add or remove it
@@ -136,8 +193,11 @@ class Search extends Component
         if ($sessVars->sortOrder) {
             $annonces = $annonces->orderBy($sessVars->column, $sessVars->direction);
         }
+        // $query = request()->query();
         $annonces = $annonces->paginate($this->perPage);
-        return $annonces;   
+        // $annonces->withPath($this->addQueryToUrl($query));
+        // dd($annonces->links());
+        return $annonces;
     }
 
     // Apply filters to the query (the filters on the left side of the page)
@@ -221,7 +281,7 @@ class Search extends Component
             'latestAnnonces' => $this->latestAnnonces(),
             'selectedAnnonceId' => $this->selectedAnnonceId,
         ]);
-        
+
         // compact('annonces', 'latestAnnonces', 'selectedAnnonceId'));
     }
 }

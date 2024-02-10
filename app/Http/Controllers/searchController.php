@@ -18,7 +18,9 @@ class searchController extends Controller
             'url' => url()->current(),
         ]);
 
-        return view('public.search');
+        return view('public.search', [
+            'filter' => (object) $request->all(),
+        ]);
     }
 
     public function show($slug)

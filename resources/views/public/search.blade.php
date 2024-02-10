@@ -3,5 +3,5 @@
 @section('content')
     @include('layout.public.search_box')
 
-    @livewire('public.search')
+    @livewire('public.search', ['filter' => $filter])
 @endsection

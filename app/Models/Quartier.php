@@ -43,4 +43,18 @@ class Quartier extends Model
     {
         return $this->belongsTo(Ville::class);
     }
+
+    // All quartiers with their ville and their pays ex : "Avedji, Lome, Togo"
+    // return array of string
+    public static function getAllQuartiers() : array
+    {
+        $quartiers = Quartier::with('ville.pays')->get();
+        $quartiersArray = [];
+        foreach ($quartiers as $quartier) {
+            $quartiersArray[] = $quartier->nom . ', ' . $quartier->ville->nom . ', ' . $quartier->ville->pays->nom;
+        }
+        return $quartiersArray;
+    }
+
+    
 }
