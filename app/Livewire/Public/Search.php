@@ -22,7 +22,6 @@ class Search extends Component
 
 
     public $perPage = 2;
-    public $latestPerPage = 4;
     public $isLoading = false;
 
 
@@ -191,12 +190,6 @@ class Search extends Component
     }
 
 
-    // Retrieve the latest annonces
-    public function latestAnnonces()
-    {
-        return Annonce::public()->latest()->take($this->latestPerPage)->with('annonceable')->get();
-    }
-
     public function render()
     {
         $this->typesAnnonce = array_slice($this->allAnnonceTypes, 0, $this->displayedAnnonce);
@@ -233,20 +226,9 @@ class Search extends Component
         //     $annonces = $annonces->orderBy($sessVars->column, $sessVars->direction);
         // }
 
-        // $annonces = $annonces->paginate(8);
-        // // $annonces->withPath($sessVars->url);
-        // $latestAnnonces = Annonce::getActiveAnnonces()
-        //     ->with('annonceable')
-        //     ->latest()
-        //     ->take(4)
-        //     ->get();
-
         return view('livewire.public.search', [
             'annonces' => $this->search(),
-            'latestAnnonces' => $this->latestAnnonces(),
             'selectedAnnonceId' => $this->selectedAnnonceId,
         ]);
-
-        // compact('annonces', 'latestAnnonces', 'selectedAnnonceId'));
     }
 }

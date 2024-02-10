@@ -37,39 +37,6 @@
                         </div>
                         <!-- End: Search By Price -->
 
-                        <!-- Start: Latest Listing -->
-                        <div class="widget-boxed">
-                            <div class="widget-boxed-header">
-                                <h4><i class="ti-check-box padd-r-10"></i>Dernières annonces</h4>
-                            </div>
-                            <div class="widget-boxed-body padd-top-5" wire:ignore>
-                                <div class="side-list">
-                                    <ul class="listing-list">
-                                        @foreach ($latestAnnonces as $annonce)
-                                            <li>
-                                                <a href="{{ route('show', $annonce->slug) }}">
-                                                    <div class="listing-list-img">
-                                                        @if ($annonce->image)
-                                                            <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt="">
-                                                        @else
-                                                            <img src="http://via.placeholder.com/100x100" class="img-responsive" alt="">
-                                                        @endif
-                                                    </div>
-                                                </a>
-                                                <div class="listing-list-info">
-                                                    <h5><a href="{{ route('show', $annonce->slug) }}" title="Listing">{{ $annonce->titre }}</a></h5>
-                                                    <div class="listing-post-meta">
-                                                        <span class="updated">{{ date('d-m-Y', strtotime($annonce->created_at)) }}</span> | <a href="{{ route('search.key.type', ['', $annonce->type]) }}" rel="tag">{{ $annonce->type }}</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End: Latest Listing -->
-
                         <!-- Start: Help & Support -->
                         <div class="widget-boxed">
                             <div class="widget-boxed-body padd-top-40 padd-bot-40 text-center">
