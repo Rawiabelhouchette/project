@@ -17,11 +17,18 @@
                     @endif --}}
 
                     <div class="sidebar">
-
                         @include('components.public.filter-view', [
                             'title' => 'Types d\'annonce',
                             'category' => 'type',
                             'elements' => $typeAnnonces,
+                            'selectedItems' => $type,
+                        ])
+
+                        @include('components.public.filter-view', [
+                            'title' => 'Villes',
+                            'category' => 'ville',
+                            'elements' => $villes,
+                            'selectedItems' => $ville,
                         ])
 
                         <!-- End: Search By Price -->
@@ -254,36 +261,33 @@
     <script>
         function filterList(category) {
             // Get the input field and its value
-            var input = document.getElementById('search-' + category);
-            var filter = normalizeString(input.value);
+            var filter = normalizeString($('#search-' + category).val());
 
             // Get the list and its items
-            var ul = document.getElementById('list-' + category + 's');
-            var li = ul.getElementsByTagName('li');
+            var $li = $('#list-' + category + 's li');
 
             // Variable to count the number of items displayed
             var count = 0;
 
             // Loop through the list items and hide those that don't match the filter
-            for (var i = 0; i < li.length; i++) {
-                var label = li[i].getElementsByTagName('label')[0];
-                var txtValue = normalizeString(label.textContent || label.innerText);
+            $li.each(function() {
+                var txtValue = normalizeString($(this).find('label').text());
                 if (txtValue.indexOf(filter) > -1) {
-                    li[i].style.display = "";
+                    $(this).fadeIn(300);
                     count++;
                 } else {
-                    li[i].style.display = "none";
+                    $(this).fadeOut(300);
                 }
-            }
+            });
 
             // Get the no results message
-            var noResults = document.getElementById('no-' + category + '-results');
+            var $noResults = $('#no-' + category + '-results');
 
             // If no items are displayed, show the no results message
             if (count === 0) {
-                noResults.style.display = "";
+                $noResults.fadeIn(300);
             } else {
-                noResults.style.display = "none";
+                $noResults.fadeOut(300);
             }
         }
 

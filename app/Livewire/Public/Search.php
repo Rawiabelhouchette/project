@@ -4,6 +4,7 @@ namespace App\Livewire\Public;
 
 use App\Models\Annonce;
 use App\Models\Favoris;
+use App\Models\Ville;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -18,12 +19,14 @@ class Search extends Component
     public $location = '';
     public $column = '';
     public $direction = '';
+    public $ville = [];
     protected $queryString = [
         'type',
         'key',
         'location',
         'column',
         'direction',
+        'ville'
     ];
 
 
@@ -33,6 +36,7 @@ class Search extends Component
 
 
     public $typeAnnonces = [];
+    public $villes = [];
 
 
 
@@ -49,11 +53,19 @@ class Search extends Component
     {
         $this->key = $filter->key ?? '';
         $this->type = $filter->type ?? [];
-        $this->type = array_filter($this->type);
         $this->page = $filter->page ?? 1;
         $this->location = $filter->location ?? '';
         $this->column = $filter->column ?? 'created_at';
         $this->direction = $filter->direction ?? 'desc';
+
+        $this->type = array_filter($this->type);
+        if ($this->location) {
+            $tmp = explode(',', $this->location);
+            if (count($tmp) == 3) {
+                // pattern : quartier, ville, Pays
+                $this->ville[] = trim($tmp[1]);
+            }
+        }
     }
 
     public function updatedSortOrder()
@@ -73,14 +85,36 @@ class Search extends Component
     }
 
     // A gerer sur le front avec du js
-    public function changeState($type)
+    public function changeState($value, $category)
     {
-        // check if the type is already in the array (selectedAnnonceId) or not and add or remove it
-        if (in_array($type, $this->type)) {
-            $this->type = array_diff($this->type, [$type]);
-        } else {
-            array_push($this->type, $type);
+        if (property_exists($this, $category)) {
+            if (in_array($value, $this->$category)) {
+                $this->$category = array_diff($this->$category, [$value]);
+            } else {
+                array_push($this->$category, $value);
+            }
         }
+        // switch ($category) {
+        //     case 'type':
+        //         if (in_array($value, $this->type)) {
+        //             $this->type = array_diff($this->type, [$value]);
+        //         } else {
+        //             array_push($this->type, $value);
+        //         }
+        //         break;
+
+        //     case 'ville':
+        //         if (in_array($value, $this->ville)) {
+        //             $this->ville = array_diff($this->ville, [$value]);
+        //         } else {
+        //             array_push($this->ville, $value);
+        //         }
+        //         break;
+
+        //     default:
+        //         # code...
+        //         break;
+        // }
     }
 
     public function updateFavoris($annonceId)
@@ -110,14 +144,6 @@ class Search extends Component
     //     }
     // }
 
-    public function resetFilter()
-    {
-        $this->key = '';
-        $this->type = [];
-        $this->location = '';
-        $this->resetPage();
-
-    }
 
     public function search()
     {
@@ -128,9 +154,24 @@ class Search extends Component
         return $annonces;
     }
 
+    // =============================== 
+    // =========== FILTERS ===========
+    // =============================== 
+
+    public function resetFilter()
+    {
+        $this->key = '';
+        $this->type = [];
+        $this->location = '';
+        $this->ville = [];
+        $this->sortOrder = 'created_at|desc';
+        $this->resetPage();
+    }
+
     // Apply all filters (the filters on the left side of the page)
     protected function filters($annonces)
     {
+        $annonces = $this->filterByVille($annonces);
         $annonces = $this->filterAnnoncesByTypeKeyLocation($annonces);
         $annonces = $this->filterByOrder($annonces);
 
@@ -169,6 +210,24 @@ class Search extends Component
         return $annonces;
     }
 
+    protected function filterByVille($annonces)
+    {
+        $this->location = '';
+
+        if ($this->ville) {
+            $villes = $this->ville;
+            $annonces = $annonces->whereHas('entreprise.quartier.ville', function ($query) use ($villes) {
+                $query->where(function ($query) use ($villes) {
+                    foreach ($villes as $ville) {
+                        $query->orWhere('nom', 'like', '%' . $ville . '%');
+                    }    
+                });
+            });
+        }
+
+        return $annonces;
+    }
+
     // Filter by order
     protected function filterByOrder($annonces)
     {
@@ -192,12 +251,13 @@ class Search extends Component
     public function render()
     {
         $this->typeAnnonces = Annonce::pluck('type')->unique()->toArray();
+        $this->villes = Ville::pluck('nom')->unique()->toArray();
 
         return view('livewire.public.search', [
             'annonces' => $this->search(),
         ]);
     }
-    
+
     public function rendered($view, $html)
     {
         $this->dispatch('refresh:filter');

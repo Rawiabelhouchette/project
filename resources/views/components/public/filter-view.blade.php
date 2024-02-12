@@ -1,4 +1,4 @@
-@props(['title', 'category', 'elements'])
+@props(['title', 'category', 'elements', 'selectedItems'])
 
 <div>
     <div class="widget-boxed padd-bot-10 mrg-bot-10">
@@ -12,7 +12,7 @@
                     @foreach ($elements as $item)
                         <li style="padding: 5px;">
                             <span class="custom-checkbox d-block padd-top-0">
-                                <input id="check-{{ $item }}" type="checkbox" value="{{ $item }}" wire:change='changeState("{{ $item }}", "{{ $category }}")' {{ in_array($item, $type) ? 'checked' : '' }} wire:loading.attr="disabled">
+                                <input id="check-{{ $item }}" type="checkbox" value="{{ $item }}" wire:change='changeState("{{ $item }}", "{{ $category }}")' {{ in_array($item, $selectedItems) ? 'checked' : '' }}> {{-- wire:loading.attr="disabled"> --}}
                                 <label for="check-{{ $item }}" style="font-weight: normal;">{{ $item }}</label>
                             </span>
                         </li>
