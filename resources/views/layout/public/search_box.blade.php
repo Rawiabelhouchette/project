@@ -5,8 +5,8 @@
         $typeAnnonce = App\Models\Annonce::pluck('type')->unique()->toArray();
 
         $params = App\Utils\AnnoncesUtils::getQueryParams();
-        $key = $params->key[0] ?? '';
-        $location = $params->location[0] ?? '';
+        $key = $params->key ?? '';
+        $location = $params->location ?? '';
         $type = $params->type[0] ?? '';
 
         $quartiers = App\Models\Quartier::getAllQuartiers();

@@ -39,30 +39,21 @@ class Search extends Component
 
 
 
-
-    public $allAnnonceTypes = [];
     public $typesAnnonce = [];
-    public $elementToDisplay = 5;
     public $displayedAnnonce;
 
     public $selectedAnnonce = [];
-    public $selectedAnnonceId = [];
 
 
     public function mount($filter)
     {
         $this->key = $filter->key ?? '';
         $this->type = $filter->type ?? [];
+        $this->type = array_filter($this->type);
         $this->page = $filter->page ?? 1;
         $this->location = $filter->location ?? '';
         $this->column = $filter->column ?? 'created_at';
         $this->direction = $filter->direction ?? 'desc';
-
-        $this->displayedAnnonce = $this->elementToDisplay;
-        $this->allAnnonceTypes = Annonce::pluck('type')
-            ->unique()
-            ->toArray();
-        $this->selectedAnnonceId = [];
     }
 
     public function updatedSortOrder()
@@ -85,10 +76,10 @@ class Search extends Component
     public function changeState($type)
     {
         // check if the type is already in the array (selectedAnnonceId) or not and add or remove it
-        if (in_array($type, $this->selectedAnnonceId)) {
-            $this->selectedAnnonceId = array_diff($this->selectedAnnonceId, [$type]);
+        if (in_array($type, $this->type)) {
+            $this->type = array_diff($this->type, [$type]);
         } else {
-            array_push($this->selectedAnnonceId, $type);
+            array_push($this->type, $type);
         }
     }
 
@@ -107,26 +98,25 @@ class Search extends Component
         }
     }
 
-    public function loadMoreAnnonceType()
-    {
-        // check if the number of displayed annonce is less than the number of annonce type
-        if ($this->displayedAnnonce < count($this->allAnnonceTypes)) {
-            // if yes, add 5 to the number of displayed annonce
-            $this->displayedAnnonce += 5;
-        } else {
-            // if no, set the number of displayed annonce to the number of annonce type
-            $this->displayedAnnonce = count($this->allAnnonceTypes);
-        }
-    }
+    // public function loadMoreAnnonceType()
+    // {
+    //     // check if the number of displayed annonce is less than the number of annonce type
+    //     if ($this->displayedAnnonce < count($this->allAnnonceTypes)) {
+    //         // if yes, add 5 to the number of displayed annonce
+    //         $this->displayedAnnonce += 5;
+    //     } else {
+    //         // if no, set the number of displayed annonce to the number of annonce type
+    //         $this->displayedAnnonce = count($this->allAnnonceTypes);
+    //     }
+    // }
 
     public function resetFilter()
     {
         $this->key = '';
-        $this->type = '';
-        $this->selectedAnnonceId = [];
-        $this->link_key = '';
-        $this->link_type = '';
+        $this->type = [];
+        $this->location = '';
         $this->resetPage();
+
     }
 
     public function search()
@@ -203,11 +193,9 @@ class Search extends Component
     public function render()
     {
         $this->typeAnnonces = Annonce::pluck('type')->unique()->toArray();
-        $this->typesAnnonce = array_slice($this->allAnnonceTypes, 0, $this->displayedAnnonce);
 
         return view('livewire.public.search', [
             'annonces' => $this->search(),
-            'selectedAnnonceId' => $this->selectedAnnonceId,
         ]);
     }
 }

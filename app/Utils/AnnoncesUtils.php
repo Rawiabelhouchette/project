@@ -274,18 +274,22 @@ class AnnoncesUtils
     // function to grab all query parameters from the current url to an object
     public static function getQueryParams(): object
     {
-        $url = url()->full();
-        $query = parse_url($url, PHP_URL_QUERY);
-        $query = explode('&', $query);
-        $params = [];
-        foreach ($query as $param) {
-            $parts = explode('=', $param, 2);
+        $query = request()->query();
 
-            if (count($parts) === 2) {
-                list($name, $value) = $parts;
-                $params[urldecode($name)][] = urldecode($value);
+        $params = [];
+        foreach ($query as $key => $value) {
+            if (str_starts_with($key, 'type')) {
+                $key = 'type';
+            }
+
+            if (is_array($value)) {
+                $params[$key] = array_map('urldecode', $value);
+            } else {
+                $params[$key] = urldecode($value);
             }
         }
+
         return (object) $params;
     }
 }
+

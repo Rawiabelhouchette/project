@@ -7,6 +7,15 @@
                 <!-- Start Sidebar -->
                 <div class="col-md-4 col-sm-12">
                     <h4 class="text-center mrg-bot-15">Filtrer vos recherches</h4>
+
+                    {{-- @if (count($this->type) != 0)
+                        <p class="text-center" wire:transition>
+                            <a href="javascript:void(0)" wire:click='resetFilter()'>
+                                Effacer tous les filtres
+                            </a>
+                        </p>
+                    @endif --}}
+
                     <div class="sidebar">
                         <!-- Start: Search By Price -->
                         <div class="widget-boxed padd-bot-10 mrg-bot-10">
@@ -15,26 +24,20 @@
                             </div>
                             <div class="widget-boxed-body padd-top-10">
                                 <div class="side-list">
-                                    <ul class="price-range" id="list-types">
+                                    <input type="search" style="height: 40px; border-radius: 5px;" class="form-control" id="search-type" placeholder="Rechercher un type d'annonce" onkeyup="filterTypList()">
+                                    <ul class="price-range" id="list-types" style="min-height: 100px; max-height: 273px; overflow-y: auto;">
                                         @foreach ($typeAnnonces as $item)
                                             <li style="padding: 5px;">
                                                 <span class="custom-checkbox d-block padd-top-0">
-                                                    <input id="check-{{ $item }}" type="checkbox" value="{{ $item }}" wire:change='changeState("{{ $item }}")' {{ in_array($item, $type) ? 'checked' : '' }}>
+                                                    <input id="check-{{ $item }}" type="checkbox" value="{{ $item }}" wire:change='changeState("{{ $item }}")' {{ in_array($item, $type) ? 'checked' : '' }} wire:loading.attr="disabled">
                                                     <label for="check-{{ $item }}" style="font-weight: normal;">{{ $item }}</label>
                                                 </span>
                                             </li>
                                         @endforeach
+                                        <p id="no-type-results" class="text-center" style="display: none;">Aucun résultat</p>
                                     </ul>
                                 </div>
                             </div>
-
-                            @if (count($typeAnnonces) > 5)
-                                <div class="text-center padd-top-5 padd-bot-0" id="voir-plus-zone-type">
-                                    <a href="javascript:void(0)" id="voir-plus-btn-type">
-                                        <h5>Voir plus ({{ count($typeAnnonces) - 5 }}) +</h5>
-                                    </a>
-                                </div>
-                            @endif
                         </div>
                         <!-- End: Search By Price -->
 
@@ -215,8 +218,6 @@
 </div>
 
 @push('scripts')
-    <script src="{{ asset('assets_client/js/search.js') }}"></script>
-
     <script>
         $(document).ready(function() {
             $('.annonce-share').on('click', function() {
@@ -263,5 +264,52 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        function filterTypList() {
+            // Get the input field and its value
+            var input = document.getElementById('search-type');
+            var filter = normalizeString(input.value);
+
+            // Get the list and its items
+            var ul = document.getElementById('list-types');
+            var li = ul.getElementsByTagName('li');
+
+            // Variable to count the number of items displayed
+            var count = 0;
+
+            // Loop through the list items and hide those that don't match the filter
+            for (var i = 0; i < li.length; i++) {
+                var label = li[i].getElementsByTagName('label')[0];
+                var txtValue = normalizeString(label.textContent || label.innerText);
+                if (txtValue.indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                    count++;
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+
+            // Get the no results message
+            var noResults = document.getElementById('no-type-results');
+
+            // If no items are displayed, show the no results message
+            if (count === 0) {
+                noResults.style.display = "";
+            } else {
+                noResults.style.display = "none";
+            }
+        }
+
+        function normalizeString(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+        }
+    </script>
+
+    <script>
+        setInterval(function() {
+            filterTypList();
+        }, 500);
     </script>
 @endpush
