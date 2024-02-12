@@ -17,28 +17,13 @@
                     @endif --}}
 
                     <div class="sidebar">
-                        <!-- Start: Search By Price -->
-                        <div class="widget-boxed padd-bot-10 mrg-bot-10">
-                            <div class="widget-boxed-header">
-                                <h4><i class="ti-briefcase padd-r-10"></i>Types d'annonce
-                            </div>
-                            <div class="widget-boxed-body padd-top-10">
-                                <div class="side-list">
-                                    <input type="search" style="height: 40px; border-radius: 5px;" class="form-control" id="search-type" placeholder="Rechercher un type d'annonce" onkeyup="filterTypList()">
-                                    <ul class="price-range" id="list-types" style="min-height: 100px; max-height: 273px; overflow-y: auto;">
-                                        @foreach ($typeAnnonces as $item)
-                                            <li style="padding: 5px;">
-                                                <span class="custom-checkbox d-block padd-top-0">
-                                                    <input id="check-{{ $item }}" type="checkbox" value="{{ $item }}" wire:change='changeState("{{ $item }}")' {{ in_array($item, $type) ? 'checked' : '' }} wire:loading.attr="disabled">
-                                                    <label for="check-{{ $item }}" style="font-weight: normal;">{{ $item }}</label>
-                                                </span>
-                                            </li>
-                                        @endforeach
-                                        <p id="no-type-results" class="text-center" style="display: none;">Aucun résultat</p>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+
+                        @include('components.public.filter-view', [
+                            'title' => 'Types d\'annonce',
+                            'category' => 'type',
+                            'elements' => $typeAnnonces,
+                        ])
+
                         <!-- End: Search By Price -->
 
                         <!-- Start: Help & Support -->
@@ -98,12 +83,12 @@
 
                         {{-- button --}}
 
-                        @include('components.share-modal', [
+                        @include('components.public.share-modal', [
                             'title' => 'Partager cette annonce',
                         ])
 
                         @if ($isLoading)
-                            @include('components.loader')
+                            @include('components.public.loader')
                         @endif
 
                         @forelse ($annonces as $annonce)
@@ -267,13 +252,13 @@
     </script>
 
     <script>
-        function filterTypList() {
+        function filterList(category) {
             // Get the input field and its value
-            var input = document.getElementById('search-type');
+            var input = document.getElementById('search-' + category);
             var filter = normalizeString(input.value);
 
             // Get the list and its items
-            var ul = document.getElementById('list-types');
+            var ul = document.getElementById('list-' + category + 's');
             var li = ul.getElementsByTagName('li');
 
             // Variable to count the number of items displayed
@@ -292,7 +277,7 @@
             }
 
             // Get the no results message
-            var noResults = document.getElementById('no-type-results');
+            var noResults = document.getElementById('no-' + category + '-results');
 
             // If no items are displayed, show the no results message
             if (count === 0) {
@@ -308,8 +293,20 @@
     </script>
 
     <script>
-        setInterval(function() {
-            filterTypList();
-        }, 500);
+        window.addEventListener('refresh:filter', event => {
+            var intervalId = setInterval(function() {
+                var categories = [];
+                $('ul.price-range').each(function() {
+                    if (this.id.startsWith('list-')) {
+                        var idWithoutList = this.id.replace('list-', '').slice(0, -1);
+                        categories.push(idWithoutList);
+                    }
+                });
+                categories.forEach(function(category) {
+                    filterList(category);
+                });
+                clearInterval(intervalId);
+            }, 500);
+        });
     </script>
 @endpush

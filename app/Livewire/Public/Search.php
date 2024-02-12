@@ -189,7 +189,6 @@ class Search extends Component
         return $annonces;
     }
 
-
     public function render()
     {
         $this->typeAnnonces = Annonce::pluck('type')->unique()->toArray();
@@ -197,5 +196,10 @@ class Search extends Component
         return view('livewire.public.search', [
             'annonces' => $this->search(),
         ]);
+    }
+    
+    public function rendered($view, $html)
+    {
+        $this->dispatch('refresh:filter');
     }
 }
