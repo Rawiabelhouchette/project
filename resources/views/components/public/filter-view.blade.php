@@ -12,8 +12,8 @@
                     @foreach ($elements as $item)
                         <li style="padding: 5px;">
                             <span class="custom-checkbox d-block padd-top-0">
-                                <input id="check-{{ $item }}" type="checkbox" value="{{ $item }}" wire:change='changeState("{{ $item }}", "{{ $category }}")' {{ in_array($item, $selectedItems) ? 'checked' : '' }}> {{-- wire:loading.attr="disabled"> --}}
-                                <label for="check-{{ $item }}" style="font-weight: normal;">{{ $item }}</label>
+                                <input id="check-{{ $item['value'] }}" type="checkbox" value="{{ $item['value'] }}" wire:change='changeState("{{ $item['value'] }}", "{{ $category }}")' {{ in_array($item['value'], $selectedItems) ? 'checked' : '' }}> {{-- wire:loading.attr="disabled"> --}}
+                                <label for="check-{{ $item['value'] }}" style="font-weight: normal;">{{ $item['value'] }} ({{ $item['count'] }})</label>
                             </span>
                         </li>
                     @endforeach

@@ -7,6 +7,7 @@ use App\Models\Favoris;
 use App\Models\Ville;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class Search extends Component
 {
@@ -220,7 +221,7 @@ class Search extends Component
                 $query->where(function ($query) use ($villes) {
                     foreach ($villes as $ville) {
                         $query->orWhere('nom', 'like', '%' . $ville . '%');
-                    }    
+                    }
                 });
             });
         }
@@ -250,8 +251,20 @@ class Search extends Component
 
     public function render()
     {
-        $this->typeAnnonces = Annonce::pluck('type')->unique()->toArray();
-        $this->villes = Ville::pluck('nom')->unique()->toArray();
+        $this->typeAnnonces = Annonce::public()->pluck('type')
+            ->countBy()
+            ->map(function ($count, $type) {
+                return ['value' => $type, 'count' => $count];
+            })
+            ->values()
+            ->all();
+
+        foreach (Ville::all() as $ville) {
+            $tmp = ['value' => $ville->nom, 'count' => $ville->nombre_annonce];
+            if (!in_array($tmp, $this->villes)) {
+                $this->villes[] = $tmp;
+            }
+        }
 
         return view('livewire.public.search', [
             'annonces' => $this->search(),
