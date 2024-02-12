@@ -7,7 +7,6 @@ use App\Models\Favoris;
 use App\Models\Ville;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\DB;
 
 class Search extends Component
 {
@@ -21,13 +20,15 @@ class Search extends Component
     public $column = '';
     public $direction = '';
     public $ville = [];
+    public $quartier = [];
     protected $queryString = [
         'type',
         'key',
         'location',
         'column',
         'direction',
-        'ville'
+        'ville',
+        'quartier',
     ];
 
 
@@ -38,28 +39,21 @@ class Search extends Component
 
     public $typeAnnonces = [];
     public $villes = [];
+    public $quartiers = [];
 
-
-
-
-
-
-    public $typesAnnonce = [];
-    public $displayedAnnonce;
-
-    public $selectedAnnonce = [];
 
 
     public function mount($filter)
     {
-        $this->key = $filter->key ?? '';
-        $this->type = $filter->type ?? [];
-        $this->page = $filter->page ?? 1;
-        $this->location = $filter->location ?? '';
-        $this->column = $filter->column ?? 'created_at';
-        $this->direction = $filter->direction ?? 'desc';
+        // $this->key = $filter->key ?? '';
+        // $this->type = $filter->type ?? [];
+        // $this->page = $filter->page ?? 1;
+        // $this->location = $filter->location ?? '';
+        // $this->column = $filter->column ?? 'created_at';
+        // $this->direction = $filter->direction ?? 'desc';
 
         $this->type = array_filter($this->type);
+        $this->ville = array_filter($this->ville);
         if ($this->location) {
             $tmp = explode(',', $this->location);
             if (count($tmp) == 3) {
@@ -132,18 +126,6 @@ class Search extends Component
             ]);
         }
     }
-
-    // public function loadMoreAnnonceType()
-    // {
-    //     // check if the number of displayed annonce is less than the number of annonce type
-    //     if ($this->displayedAnnonce < count($this->allAnnonceTypes)) {
-    //         // if yes, add 5 to the number of displayed annonce
-    //         $this->displayedAnnonce += 5;
-    //     } else {
-    //         // if no, set the number of displayed annonce to the number of annonce type
-    //         $this->displayedAnnonce = count($this->allAnnonceTypes);
-    //     }
-    // }
 
 
     public function search()

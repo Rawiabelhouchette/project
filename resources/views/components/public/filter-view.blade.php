@@ -13,7 +13,7 @@
                         <li style="padding: 5px;">
                             <span class="custom-checkbox d-block padd-top-0">
                                 <input id="check-{{ $item['value'] }}" type="checkbox" value="{{ $item['value'] }}" wire:change='changeState("{{ $item['value'] }}", "{{ $category }}")' {{ in_array($item['value'], $selectedItems) ? 'checked' : '' }}> {{-- wire:loading.attr="disabled"> --}}
-                                <label for="check-{{ $item['value'] }}" style="font-weight: normal;">{{ $item['value'] }} ({{ $item['count'] }})</label>
+                                <label for="check-{{ $item['value'] }}" style="font-weight: normal;">{{ $item['value'] }}</label>
                             </span>
                         </li>
                     @endforeach
