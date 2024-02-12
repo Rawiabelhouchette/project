@@ -31,7 +31,7 @@ class SearchBox extends Component
 
     public function render()
     {
-        $typeAnnonce = Annonce::pluck('type')->unique()->toArray();
+        $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
 
         $params = AnnoncesUtils::getQueryParams();
         $this->key = $params->key ?? '';
