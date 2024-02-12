@@ -45,15 +45,10 @@ class Search extends Component
 
     public function mount($filter)
     {
-        // $this->key = $filter->key ?? '';
-        // $this->type = $filter->type ?? [];
-        // $this->page = $filter->page ?? 1;
-        // $this->location = $filter->location ?? '';
-        // $this->column = $filter->column ?? 'created_at';
-        // $this->direction = $filter->direction ?? 'desc';
-
         $this->type = array_filter($this->type);
         $this->ville = array_filter($this->ville);
+        $this->quartier = array_filter($this->quartier);
+
         if ($this->location) {
             $tmp = explode(',', $this->location);
             if (count($tmp) == 3) {

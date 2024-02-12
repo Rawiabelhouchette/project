@@ -1,17 +1,10 @@
 @extends('layout.public.app')
 
 @section('content')
-    @include('layout.public.search_box', [
-        'key' => $key,
-        'type' => $type,
+
+    @livewire('public.search-box', [
         'detail' => true,
     ])
-
-    {{-- @livewire('public.search', [
-        'key' => $key,
-        'type' => $type,
-        'filter' => $filter ?? [],
-    ]) --}}
 
     <!-- ================ Listing Detail Full Information ======================= -->
     <section class="list-detail mrg-0 padd-0">
