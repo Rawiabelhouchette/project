@@ -136,13 +136,17 @@ class Search extends Component
     // =========== FILTERS ===========
     // =============================== 
 
-    public function resetFilter()
+    public function resetFilters()
     {
         $this->key = '';
         $this->type = [];
         $this->location = '';
         $this->ville = [];
+        $this->quartier = [];
+        $this->column = '';
+        $this->direction = '';
         $this->sortOrder = 'created_at|desc';
+        // $this->dispatch('resetSearchBox');
         $this->resetPage();
     }
 

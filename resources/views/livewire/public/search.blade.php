@@ -193,6 +193,7 @@
                                 <div class="listing-shot grid-style" style="padding-top: 50px; padding-bottom: 50px;">
                                     <div class="listing-shot-caption text-center mrg-top-5">
                                         <h4>Aucune annonce trouvée</h4>
+                                        <a href="{{ route('search') }}" class="theme-cl">Effacer les filtres</a>
                                     </div>
                                 </div>
                             </div>

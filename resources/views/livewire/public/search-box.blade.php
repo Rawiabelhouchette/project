@@ -1,17 +1,4 @@
 <div>
-    @props(['detail' => false])
-
-    @php
-        $typeAnnonce = App\Models\Annonce::pluck('type')->unique()->toArray();
-
-        $params = App\Utils\AnnoncesUtils::getQueryParams();
-        $key = $params->key ?? '';
-        $location = $params->location ?? '';
-        $type = $params->type[0] ?? '';
-
-        $quartiers = App\Models\Quartier::getAllQuartiers();
-    @endphp
-
     <!-- ================ Start Page Title ======================= -->
     <section class="title-transparent page-title" style="background:url(assets_client/img/banner/image-1.jpg);">
         <div class="container">
@@ -51,8 +38,8 @@
                             <div id="autocomplete-results" class="autocomplete-items"></div>
                         </div>
 
-                        <div class="col-md-3 col-sm-3 no-padd">
-                            <select class="selectpicker form-control" data-live-search="true" name="type[]" value="{{ $type }}">
+                        <div class="col-md-3 col-sm-3 no-padd" wire:ignore>
+                            <select class="selectpicker form-control" data-live-search="true" id="search-type-input" name="type[]" value="{{ $type }}">
                                 <option value="" selected>Tous les types d'annonce</option>
                                 @foreach ($typeAnnonce as $annonce)
                                     <option value="{{ $annonce }}" {{ $annonce == $type ? 'selected' : '' }}>{{ $annonce }}</option>
