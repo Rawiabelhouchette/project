@@ -37,7 +37,7 @@ class Search extends Component
 
     public $sortOrder = '';
     public $perPage = 12;
-    public $isLoading = false;
+    public $isLoading = true;
 
 
     public $typeAnnonces = [];
@@ -122,6 +122,7 @@ class Search extends Component
     // A gerer sur le front avec du js
     public function changeState($value, $category)
     {
+        $this->isLoading = true;
         // if (property_exists($this, $category)) {
         //     if (in_array($value, $this->$category)) {
         //         $this->$category = array_diff($this->$category, [$value]);
@@ -407,7 +408,7 @@ class Search extends Component
             ->all();
 
 
-
+        $this->isLoading = false;
         return view('livewire.public.search', [
             'annonces' => $this->search(),
         ]);

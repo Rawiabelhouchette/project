@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use PDOException;
 
 class Handler extends ExceptionHandler
 {
@@ -27,4 +28,16 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    // public function render($request, Throwable $exception)
+    // {
+    //     if ($exception instanceof PDOException) {
+    //         // return a custom view or error message
+    //         // return redirect()->route('500');
+    //         // dd($exception);
+    //         abort(500, 'Internal Server Error');
+    //     }
+
+    //     return parent::render($request, $exception);
+    // }
 }
