@@ -22,6 +22,7 @@
                             'category' => 'type',
                             'elements' => $typeAnnonces,
                             'selectedItems' => $type,
+                            'icon' => 'ti-briefcase',
                         ])
 
                         @include('components.public.filter-view', [
@@ -29,6 +30,7 @@
                             'category' => 'ville',
                             'elements' => $villes,
                             'selectedItems' => $ville,
+                            'icon' => 'ti-location-pin',
                         ])
 
                         @include('components.public.filter-view', [
@@ -36,6 +38,7 @@
                             'category' => 'quartier',
                             'elements' => $quartiers,
                             'selectedItems' => $quartier,
+                            'icon' => 'ti-location-pin',
                         ])
 
                         <!-- End: Search By Price -->

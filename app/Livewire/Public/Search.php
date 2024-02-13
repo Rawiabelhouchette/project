@@ -162,12 +162,16 @@ class Search extends Component
                     $query->where('nom', 'like', '%' . $quartier['value'] . '%');
                 })->count();
             }
-            // rendre le tableau unique
             $quartiers = array_unique($quartiers, SORT_REGULAR);
             $this->quartiers = $quartiers;
         } else {
             $this->getAllQuartiers();
         }
+
+        foreach ($this->quartiers as $quartier) {
+            $tmp[] = $quartier['value'];
+        }
+        $this->quartier = array_intersect($this->quartier, $tmp);
     }
 
     protected function getVillesParType()

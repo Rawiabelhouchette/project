@@ -1,9 +1,9 @@
-@props(['title', 'category', 'elements', 'selectedItems'])
+@props(['title', 'category', 'elements', 'selectedItems', 'icon'])
 
 <div>
     <div class="widget-boxed padd-bot-10 mrg-bot-10">
         <div class="widget-boxed-header">
-            <h4><i class="ti-briefcase padd-r-10"></i>{{ $title }}
+            <h4><i class="{{ $icon }} padd-r-10"></i>{{ $title }}
         </div>
         <div class="widget-boxed-body padd-top-10">
             <div class="side-list">
