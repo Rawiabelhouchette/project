@@ -19,6 +19,10 @@ class Quartier extends Model
         'ville_id',
     ];
 
+    protected $appends = [
+        'nombre_annonce'
+    ];
+
     // mount
     public static function boot()
     {
@@ -54,6 +58,15 @@ class Quartier extends Model
             $quartiersArray[] = $quartier->nom . ', ' . $quartier->ville->nom . ', ' . $quartier->ville->pays->nom;
         }
         return $quartiersArray;
+    }
+
+    public function getNombreAnnonceAttribute()
+    {
+        $ville = $this->nom;
+        $count = Annonce::public()->whereHas('entreprise.quartier', function ($query) use ($ville) {
+            $query->where('nom', $ville);
+        })->count();
+        return $count;
     }
 
     

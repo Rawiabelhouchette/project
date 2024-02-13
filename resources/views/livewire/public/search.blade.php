@@ -31,6 +31,13 @@
                             'selectedItems' => $ville,
                         ])
 
+                        @include('components.public.filter-view', [
+                            'title' => 'Quartiers',
+                            'category' => 'quartier',
+                            'elements' => $quartiers,
+                            'selectedItems' => $quartier,
+                        ])
+
                         <!-- End: Search By Price -->
 
                         <!-- Start: Help & Support -->
