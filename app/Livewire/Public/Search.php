@@ -3,6 +3,7 @@
 namespace App\Livewire\Public;
 
 use App\Models\Annonce;
+use App\Models\Entreprise;
 use App\Models\Favoris;
 use App\Models\Quartier;
 use App\Models\Ville;
@@ -22,6 +23,7 @@ class Search extends Component
     public $direction = '';
     public $ville = [];
     public $quartier = [];
+    public $entreprise = [];
     protected $queryString = [
         'type',
         'key',
@@ -30,16 +32,18 @@ class Search extends Component
         'direction',
         'ville',
         'quartier',
+        'entrerpirse'
     ];
 
     public $sortOrder = '';
-    public $perPage = 2;
+    public $perPage = 12;
     public $isLoading = false;
 
 
     public $typeAnnonces = [];
     public $villes = [];
     public $quartiers = [];
+    public $entreprises = [];
 
 
     public function mount($filter)
@@ -47,6 +51,7 @@ class Search extends Component
         $this->type = array_filter($this->type);
         $this->ville = array_filter($this->ville);
         $this->quartier = array_filter($this->quartier);
+        $this->entreprise = array_filter($this->entreprise);
 
         if ($this->location) {
             $tmp = explode(',', $this->location);
@@ -56,10 +61,10 @@ class Search extends Component
             }
         }
 
+
+        $this->getAllEntreprises();
         $this->getVillesParType();
         $this->getQuartiersParVilles();
-
-
     }
 
     private function getAllVilles(): void
@@ -82,6 +87,18 @@ class Search extends Component
             $tmp = array_unique($tmp, SORT_REGULAR);
             if (!in_array($tmp, $this->quartiers)) {
                 $this->quartiers[] = $tmp;
+            }
+        }
+    }
+
+    public function getAllEntreprises()
+    {
+        $this->entreprises = [];
+        foreach (Entreprise::all() as $entreprise) {
+            $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonce];
+            $tmp = array_unique($tmp, SORT_REGULAR);
+            if (!in_array($tmp, $this->entreprises)) {
+                $this->entreprises[] = $tmp;
             }
         }
     }
@@ -135,6 +152,13 @@ class Search extends Component
                     $this->quartier = array_diff($this->quartier, [$value]);
                 } else {
                     array_push($this->quartier, $value);
+                }
+                break;
+            case 'entreprise':
+                if (in_array($value, $this->entreprise)) {
+                    $this->entreprise = array_diff($this->entreprise, [$value]);
+                } else {
+                    array_push($this->entreprise, $value);
                 }
                 break;
             default:
@@ -263,6 +287,7 @@ class Search extends Component
     // Apply all filters (the filters on the left side of the page)
     protected function filters($annonces)
     {
+        $annonces = $this->filterByEntreprise($annonces);
         $annonces = $this->filterByVille($annonces);
         $annonces = $this->filterByQuartier($annonces);
         $annonces = $this->filterAnnoncesByTypeKeyLocation($annonces);
@@ -315,6 +340,18 @@ class Search extends Component
                         $query->orWhere('nom', 'like', '%' . $ville . '%');
                     }
                 });
+            });
+        }
+
+        return $annonces;
+    }
+
+    public function filterByEntreprise($annonces)
+    {
+        if ($this->entreprise) {
+            $entreprises = $this->entreprise;
+            $annonces = $annonces->whereHas('entreprise', function ($query) use ($entreprises) {
+                $query->whereIn('nom', $entreprises);
             });
         }
 

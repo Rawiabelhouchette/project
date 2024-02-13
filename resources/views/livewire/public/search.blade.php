@@ -41,6 +41,14 @@
                             'icon' => 'ti-location-pin',
                         ])
 
+                        @include('components.public.filter-view', [
+                            'title' => 'Entreprises',
+                            'category' => 'entreprise',
+                            'elements' => $entreprises,
+                            'selectedItems' => $entreprise,
+                            'icon' => 'ti-user',
+                        ])
+
                         <!-- End: Search By Price -->
 
                         <!-- Start: Help & Support -->
@@ -298,7 +306,7 @@
             if (count === 0) {
                 $noResults.fadeIn(300);
             } else {
-                $noResults.fadeOut(300);
+                $noResults.hide(); //fadeOut(300);
             }
         }
 
