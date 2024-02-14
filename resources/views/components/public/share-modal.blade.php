@@ -26,7 +26,7 @@
     </style>
 
     <div id="share" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="shareLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content padd-bot-0">
                 <div class="modal-header" id="share-header">
                     <h4 id="modalLabel2" class="modal-title">Partager</h4>

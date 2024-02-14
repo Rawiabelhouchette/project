@@ -17,7 +17,33 @@
                     @endif --}}
 
                     <div class="sidebar">
-                        @include('components.public.filter-view', [
+                        <div class="widget-boxed padd-bot-10 mrg-bot-10">
+                            <div class="widget-boxed-header">
+                                <h4><i class="ti-user padd-r-10"></i>Titre
+                            </div>
+                            <div class="widget-boxed-body padd-top-10">
+                                <div class="side-list">
+                                    <input type="search" style="height: 40px; border-radius: 5px;" class="form-control" id="search-type" placeholder="Rechercher" onkeyup="filterList('type')">
+                                    <ul class="price-range" id="list-types" style="min-height: 100px; max-height: 273px; overflow-y: auto;">
+                                        @foreach ($type as $item)
+                                            {{ $item }}
+                                        @endforeach
+
+                                        @foreach ($typeAnnonces as $item)
+                                            {{ in_array($item['value'], $type) ? 'checked' : '' }}
+                                            <li style="padding: 5px;">
+                                                <span class="custom-checkbox d-block padd-top-0">
+                                                    <input id="check-{{ $item['value'] }}" type="checkbox" value="{{ $item['value'] }}" wire:change='changeState("{{ $item['value'] }}", "type")' {{ in_array($item['value'], $type) ? 'checked' : null }}> {{-- wire:loading.attr="disabled"> --}}
+                                                    <label for="check-{{ $item['value'] }}" style="font-weight: normal;">{{ $item['value'] }}</label>
+                                                </span>
+                                            </li>
+                                        @endforeach
+                                        <p id="no-type-results" class="text-center" style="display: none;">Aucun résultat</p>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- @include('components.public.filter-view', [
                             'title' => 'Types d\'annonce',
                             'category' => 'type',
                             'elements' => $typeAnnonces,
@@ -47,7 +73,7 @@
                             'elements' => $entreprises,
                             'selectedItems' => $entreprise,
                             'icon' => 'ti-user',
-                        ])
+                        ]) --}}
 
                         <!-- End: Search By Price -->
 
@@ -69,19 +95,39 @@
                 <!-- Start All Listing -->
                 <div class="col-md-8 col-sm-12">
                     <!-- Filter option -->
-                    {{-- <div class="row mrg-0">
-                        <div class="col-md-12 mrg-top-10">
-                            <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: flex; align-items: center; ">
-                                Recherche : &nbsp;
-                                @foreach (['test1', 'test3', 'Lome'] as $element)
-                                    <span class="badge height-25" style="background-color: #ff3a72">
-                                        {{ $element }}
-                                        <a href="javascript:void(0)" class="filtre" data-slug="{{ $element }}" style="color: #35434E"> x </a>
-                                    </span> &nbsp;
-                                @endforeach
+                    @if (array_merge($type, $ville, $quartier))
+                        <div class="row mrg-0 mrg-bot-10" wire:transition>
+                            <div class="col-md-12 mrg-top-10">
+                                <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
+                                    Recherche : &nbsp;
+                                    @foreach ($type as $item)
+                                        <span class="badge height-25 theme-bg">
+                                            {{ $item }}
+                                            <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "type", true)'> x </a>
+                                        </span> &nbsp;
+                                    @endforeach
+                                    @foreach ($ville as $item)
+                                        <span class="badge height-25 theme-bg">
+                                            {{ $item }}
+                                            <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "ville", true)'> x </a>
+                                        </span> &nbsp;
+                                    @endforeach
+                                    @foreach ($quartier as $item)
+                                        <span class="badge height-25 theme-bg">
+                                            {{ $item }}
+                                            <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "quartier", true)'> x </a>
+                                        </span> &nbsp;
+                                    @endforeach
+                                    @foreach ($entreprise as $item)
+                                        <span class="badge height-25 theme-bg">
+                                            {{ $item }}
+                                            <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "entreprise", true)'> x </a>
+                                        </span> &nbsp;
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
-                    </div> --}}
+                    @endif
 
                     <div class="row mrg-0">
                         <div class="col-md-6 mrg-top-10">
@@ -97,7 +143,7 @@
                                 <option value="created_at|desc">Date: Récent à ancien</option>
                             </select>
                         </div>
-                        <div class="col-md-1" style="display: flex; top: 50%">
+                        <div class="col-md-1" style="">
                             <a href="javascript:void(0)" class="annonce-share" data-toggle="modal" data-target="#share" data-type="all">
                                 <i class="fa fa-share fa-lg" aria-hidden="true"></i>
                             </a>
@@ -117,7 +163,7 @@
                         @endif
 
                         @forelse ($annonces as $annonce)
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-6 col-sm-6" wire:key='{{ $annonce->id }}'>
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-img">
                                         <a href="{{ route('show', $annonce->slug) }}">
@@ -127,7 +173,6 @@
                                                 <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
                                             @endif
                                         </a>
-                                        {{-- <span class="approve-listing"><i class="fa fa-check"></i></span> --}}
                                     </div>
                                     <div class="listing-shot-caption">
                                         <a href="{{ route('show', $annonce->slug) }}">
@@ -145,7 +190,7 @@
                                                 </a>
                                             @endif
                                         @else
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" data-toggle="modal" data-target="#signin">
+                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" onclick="$('#share').hide()">
                                                 <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                             </a>
                                         @endif
@@ -211,7 +256,8 @@
                                 <div class="listing-shot grid-style" style="padding-top: 50px; padding-bottom: 50px;">
                                     <div class="listing-shot-caption text-center mrg-top-5">
                                         <h4>Aucune annonce trouvée</h4>
-                                        <a href="{{ route('search') }}" class="theme-cl">Effacer les filtres</a>
+                                        {{-- <a href="{{ route('search') }}" class="theme-cl">Effacer les filtres</a> --}}
+                                        <a href="javascript:void(0)" class="theme-cl" wire:click='resetFilters'>Effacer les filtres</a>
                                     </div>
                                 </div>
                             </div>
@@ -253,7 +299,9 @@
                     $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + $(this).data('url'));
                 }
 
-                $('#annonce-whatsapp').attr('href', 'https://web.whatsapp.com/send?text=' + text);
+                // $('#annonce-whatsapp').attr('href', 'https://web.whatsapp.com/send?text=' + text);
+                // open directly in whatsapp app
+                $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
             });
 
             $('#annonce-url').click(function() {
@@ -266,9 +314,11 @@
 
                 navigator.clipboard.writeText(text).then(function() {
                     $('#copyMessage').hide();
-                    $('#copyMessage').show();
+                    $('#copyMessage').fadeIn(500);
+                    // $('#copyMessage').show();
                     setTimeout(function() {
-                        $('#copyMessage').hide();
+                        $('#copyMessage').fadeOut(500);
+                        // $('#copyMessage').hide();
                     }, 2000);
                 }, function(err) {
                     console.error('Could not copy text: ', err);

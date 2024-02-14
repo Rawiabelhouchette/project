@@ -32,7 +32,7 @@ class Search extends Component
         'direction',
         'ville',
         'quartier',
-        'entrerpirse'
+        'entreprise'
     ];
 
     public $sortOrder = '';
@@ -120,20 +120,15 @@ class Search extends Component
     }
 
     // A gerer sur le front avec du js
-    public function changeState($value, $category)
+    public function changeState($value, $category, $remove = false)
     {
+        // dump($value, $category, $remove);
         $this->isLoading = true;
-        // if (property_exists($this, $category)) {
-        //     if (in_array($value, $this->$category)) {
-        //         $this->$category = array_diff($this->$category, [$value]);
-        //     } else {
-        //         array_push($this->$category, $value);
-        //     }
-        // }
         switch ($category) {
             case 'type':
-                if (in_array($value, $this->type)) {
+                if ($remove || in_array($value, $this->type)) {
                     $this->type = array_diff($this->type, [$value]);
+                    // dd($this->type);
                 } else {
                     array_push($this->type, $value);
                 }
@@ -141,31 +136,36 @@ class Search extends Component
                 break;
 
             case 'ville':
-                if (in_array($value, $this->ville)) {
+                if ($remove || in_array($value, $this->ville)) {
                     $this->ville = array_diff($this->ville, [$value]);
                 } else {
                     array_push($this->ville, $value);
                 }
                 $this->getQuartiersParVilles();
                 break;
+
             case 'quartier':
-                if (in_array($value, $this->quartier)) {
+                if ($remove || in_array($value, $this->quartier)) {
                     $this->quartier = array_diff($this->quartier, [$value]);
                 } else {
                     array_push($this->quartier, $value);
                 }
                 break;
+
             case 'entreprise':
-                if (in_array($value, $this->entreprise)) {
+                if ($remove || in_array($value, $this->entreprise)) {
                     $this->entreprise = array_diff($this->entreprise, [$value]);
                 } else {
                     array_push($this->entreprise, $value);
                 }
                 break;
+
             default:
                 # code...
                 break;
         }
+
+        // dd($this->entreprise);
     }
 
     protected function getQuartiersParVilles()
@@ -408,6 +408,7 @@ class Search extends Component
             ->all();
 
 
+        // dd($this->type);
         $this->isLoading = false;
         return view('livewire.public.search', [
             'annonces' => $this->search(),
