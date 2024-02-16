@@ -16,6 +16,7 @@ class Search extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    // filter input on the back
     public $type = [];
     public $key = '';
     public $location = '';
@@ -35,10 +36,16 @@ class Search extends Component
         'entreprise'
     ];
 
+    // filter input on the front (facette)
+    public string $typeFilterValue = '';
+    public string $villeFilterValue = '';
+    public string $quartierFilterValue = '';
+    public string $entrepriseFilterValue = '';
+
     public $sortOrder = 'created_at|desc'; // default sorting column and direction
     public $perPage = 12;
 
-
+    // List of facette's elements
     public $typeAnnonces = [];
     public $villes = [];
     public $quartiers = [];
@@ -116,51 +123,21 @@ class Search extends Component
         }
     }
 
-    // A gerer sur le front avec du js
     public function changeState($value, $category, $remove = false)
     {
-        switch ($category) {
-            case 'type':
-                if ($remove || in_array($value, $this->type)) {
-                    $this->type = array_diff($this->type, [$value]);
-                    // dd($this->type);
-                } else {
-                    array_push($this->type, $value);
-                }
+        if (in_array($category, ['type', 'ville', 'quartier', 'entreprise'])) {
+            if ($remove || in_array($value, $this->$category)) {
+                $this->$category = array_diff($this->$category, [$value]);
+            } else {
+                array_push($this->$category, $value);
+            }
+
+            if ($category === 'type') {
                 $this->getVillesParType();
-                break;
-
-            case 'ville':
-                if ($remove || in_array($value, $this->ville)) {
-                    $this->ville = array_diff($this->ville, [$value]);
-                } else {
-                    array_push($this->ville, $value);
-                }
+            } elseif ($category === 'ville') {
                 $this->getQuartiersParVilles();
-                break;
-
-            case 'quartier':
-                if ($remove || in_array($value, $this->quartier)) {
-                    $this->quartier = array_diff($this->quartier, [$value]);
-                } else {
-                    array_push($this->quartier, $value);
-                }
-                break;
-
-            case 'entreprise':
-                if ($remove || in_array($value, $this->entreprise)) {
-                    $this->entreprise = array_diff($this->entreprise, [$value]);
-                } else {
-                    array_push($this->entreprise, $value);
-                }
-                break;
-
-            default:
-                # code...
-                break;
+            }
         }
-
-        // dd($this->entreprise);
     }
 
     protected function getQuartiersParVilles()
@@ -409,6 +386,7 @@ class Search extends Component
                 'items' => $this->typeAnnonces,
                 'selectedItems' => $this->type,
                 'icon' => 'ti-briefcase',
+                'filterModel' => 'typeFilterValue',
             ],
             (object) [
                 'id' => uniqid(),
@@ -417,6 +395,7 @@ class Search extends Component
                 'items' => $this->villes,
                 'selectedItems' => $this->ville,
                 'icon' => 'ti-map-alt',
+                'filterModel' => 'villeFilterValue',
             ],
             (object) [
                 'id' => uniqid(),
@@ -425,6 +404,7 @@ class Search extends Component
                 'items' => $this->quartiers,
                 'selectedItems' => $this->quartier,
                 'icon' => 'ti-location-pin',
+                'filterModel' => 'quartierFilterValue',
             ],
             (object) [
                 'id' => uniqid(),
@@ -433,6 +413,7 @@ class Search extends Component
                 'items' => $this->entreprises,
                 'selectedItems' => $this->entreprise,
                 'icon' => 'ti-briefcase',
+                'filterModel' => 'entrepriseFilterValue',
             ],
         ];
 

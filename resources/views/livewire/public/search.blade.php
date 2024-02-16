@@ -26,6 +26,7 @@
                                     'items' => $facette->items,
                                     'selectedItems' => $facette->selectedItems,
                                     'icon' => $facette->icon,
+                                    'filterModel' => $facette->filterModel,
                                 ])
                             </div>
                         @endforeach
@@ -113,7 +114,7 @@
                             'title' => 'Partager cette annonce',
                         ])
 
-                        <div wire:loading.delay>
+                        <div class="col-md-12 col-sm-12" wire:loading.delay wire:transition>
                             @include('components.public.loader')
                         </div>
 
@@ -230,6 +231,13 @@
 </div>
 
 @push('scripts')
+    {{-- <script>
+        // on page load
+        window.addEventListener('load', event => {
+            localStorage.clear();
+        });
+    </script> --}}
+
     <script>
         $(document).ready(function() {
             $('.annonce-share').on('click', function() {
@@ -284,6 +292,10 @@
 
     <script>
         function filterList(category) {
+            // set the input search in local storage
+            // var search = $('#search-' + category).val();
+            // localStorage.setItem('search-' + category, search);
+
             // Get the input field and its value
             var filter = normalizeString($('#search-' + category).val());
 
@@ -330,9 +342,20 @@
                         categories.push(idWithoutList);
                     }
                 });
-                console.log(categories);
-                console.log($('#search-type').val());
+
+                // console.log(categories);
+                // console.log($('#search-type').val());
+
+                // on page load, empty the local storage
+
                 categories.forEach(function(category) {
+                    // var searchFromLocalStorage = localStorage.getItem('search-' + category);
+
+                    // if (searchFromLocalStorage) {
+                    //     $('#search-' + category).val(searchFromLocalStorage);
+                    // }
+
+
                     filterList(category);
                 });
                 clearInterval(intervalId);

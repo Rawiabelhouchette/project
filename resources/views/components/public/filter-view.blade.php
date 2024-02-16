@@ -1,4 +1,4 @@
-@props(['title', 'category', 'items', 'selectedItems', 'icon'])
+@props(['title', 'category', 'items', 'selectedItems', 'icon', 'filterModel'])
 
 <div>
     <div class="widget-boxed padd-bot-10 mrg-bot-10">
@@ -7,9 +7,7 @@
         </div>
         <div class="widget-boxed-body padd-top-10">
             <div class="side-list">
-                <div wire:ignore>
-                    <input type="search" style="height: 40px; border-radius: 5px;" class="form-control" id="search-{{ $category }}" placeholder="Rechercher" onkeyup="filterList('{{ $category }}')">
-                </div>
+                <input type="search" wire:model='{{ $filterModel }}' style="height: 40px; border-radius: 5px;" class="form-control" id="search-{{ $category }}" placeholder="Rechercher" onkeyup="filterList('{{ $category }}')">
                 <ul class="price-range" id="list-{{ $category }}s" style="min-height: 100px; max-height: 273px; overflow-y: auto;">
                     @foreach ($items as $item)
                         <li style="padding: 5px;" wire:key='{{ $category }}-{{ $item['value'] }}'>
