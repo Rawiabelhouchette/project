@@ -17,63 +17,18 @@
                     @endif --}}
 
                     <div class="sidebar">
-                        <div class="widget-boxed padd-bot-10 mrg-bot-10">
-                            <div class="widget-boxed-header">
-                                <h4><i class="ti-user padd-r-10"></i>Titre
+
+                        @foreach ($facettes as $facette)
+                            <div wire:key='{{ $facette->id }}'>
+                                @include('components.public.filter-view', [
+                                    'title' => $facette->title,
+                                    'category' => $facette->category,
+                                    'items' => $facette->items,
+                                    'selectedItems' => $facette->selectedItems,
+                                    'icon' => $facette->icon,
+                                ])
                             </div>
-                            <div class="widget-boxed-body padd-top-10">
-                                <div class="side-list">
-                                    <input type="search" style="height: 40px; border-radius: 5px;" class="form-control" id="search-type" placeholder="Rechercher" onkeyup="filterList('type')">
-                                    <ul class="price-range" id="list-types" style="min-height: 100px; max-height: 273px; overflow-y: auto;">
-                                        @foreach ($type as $item)
-                                            {{ $item }}
-                                        @endforeach
-
-                                        @foreach ($typeAnnonces as $item)
-                                            {{ in_array($item['value'], $type) ? 'checked' : '' }}
-                                            <li style="padding: 5px;">
-                                                <span class="custom-checkbox d-block padd-top-0">
-                                                    <input id="check-{{ $item['value'] }}" type="checkbox" value="{{ $item['value'] }}" wire:change='changeState("{{ $item['value'] }}", "type")' {{ in_array($item['value'], $type) ? 'checked' : null }}> {{-- wire:loading.attr="disabled"> --}}
-                                                    <label for="check-{{ $item['value'] }}" style="font-weight: normal;">{{ $item['value'] }}</label>
-                                                </span>
-                                            </li>
-                                        @endforeach
-                                        <p id="no-type-results" class="text-center" style="display: none;">Aucun résultat</p>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- @include('components.public.filter-view', [
-                            'title' => 'Types d\'annonce',
-                            'category' => 'type',
-                            'elements' => $typeAnnonces,
-                            'selectedItems' => $type,
-                            'icon' => 'ti-briefcase',
-                        ])
-
-                        @include('components.public.filter-view', [
-                            'title' => 'Villes',
-                            'category' => 'ville',
-                            'elements' => $villes,
-                            'selectedItems' => $ville,
-                            'icon' => 'ti-location-pin',
-                        ])
-
-                        @include('components.public.filter-view', [
-                            'title' => 'Quartiers',
-                            'category' => 'quartier',
-                            'elements' => $quartiers,
-                            'selectedItems' => $quartier,
-                            'icon' => 'ti-location-pin',
-                        ])
-
-                        @include('components.public.filter-view', [
-                            'title' => 'Entreprises',
-                            'category' => 'entreprise',
-                            'elements' => $entreprises,
-                            'selectedItems' => $entreprise,
-                            'icon' => 'ti-user',
-                        ]) --}}
+                        @endforeach
 
                         <!-- End: Search By Price -->
 
@@ -158,9 +113,9 @@
                             'title' => 'Partager cette annonce',
                         ])
 
-                        @if ($isLoading)
+                        <div wire:loading.delay>
                             @include('components.public.loader')
-                        @endif
+                        </div>
 
                         @forelse ($annonces as $annonce)
                             <div class="col-md-6 col-sm-6" wire:key='{{ $annonce->id }}'>
@@ -375,6 +330,8 @@
                         categories.push(idWithoutList);
                     }
                 });
+                console.log(categories);
+                console.log($('#search-type').val());
                 categories.forEach(function(category) {
                     filterList(category);
                 });

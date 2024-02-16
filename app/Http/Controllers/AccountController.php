@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Utils\CustomSession;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -30,13 +29,6 @@ class AccountController extends Controller
 
     public function indexComment()
     {
-        if (!request()->input('page'))
-        {
-            $sess = new CustomSession();
-            $sess->comment_search = '';
-            $sess->save();
-        }
-
         return view('public..user.comment');
     }
 

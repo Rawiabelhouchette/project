@@ -44,7 +44,7 @@
             @if (!auth()->check())
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd">
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" class="addlist">
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" class="addlist" onclick="$('#share').hide()">
                             <i class="ti-user" aria-hidden="true"></i>Connexion
                         </a>
                     </li>

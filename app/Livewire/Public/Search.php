@@ -35,9 +35,8 @@ class Search extends Component
         'entreprise'
     ];
 
-    public $sortOrder = '';
+    public $sortOrder = 'created_at|desc'; // default sorting column and direction
     public $perPage = 12;
-    public $isLoading = true;
 
 
     public $typeAnnonces = [];
@@ -109,8 +108,6 @@ class Search extends Component
             return;
         }
 
-        $this->isLoading = true;
-
         $parts = explode('|', $this->sortOrder);
 
         if (count($parts) === 2) {
@@ -122,8 +119,6 @@ class Search extends Component
     // A gerer sur le front avec du js
     public function changeState($value, $category, $remove = false)
     {
-        // dump($value, $category, $remove);
-        $this->isLoading = true;
         switch ($category) {
             case 'type':
                 if ($remove || in_array($value, $this->type)) {
@@ -263,7 +258,6 @@ class Search extends Component
         $annonces = Annonce::public()->with('entreprise');
         $annonces = $this->filters($annonces);
         $annonces = $annonces->paginate($this->perPage);
-        $this->isLoading = false;
         return $annonces;
     }
 
@@ -385,7 +379,7 @@ class Search extends Component
         }
 
         if (!in_array($this->column, ['created_at', 'titre'])) {
-            $this->column = 'titre';
+            $this->column = 'created_at';
         }
 
         $this->sortOrder = $this->column . '|' . $this->direction;
@@ -407,11 +401,44 @@ class Search extends Component
             ->values()
             ->all();
 
+        $facettes = [
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Type d\'annonce',
+                'category' => 'type',
+                'items' => $this->typeAnnonces,
+                'selectedItems' => $this->type,
+                'icon' => 'ti-briefcase',
+            ],
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Ville',
+                'category' => 'ville',
+                'items' => $this->villes,
+                'selectedItems' => $this->ville,
+                'icon' => 'ti-map-alt',
+            ],
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Quartier',
+                'category' => 'quartier',
+                'items' => $this->quartiers,
+                'selectedItems' => $this->quartier,
+                'icon' => 'ti-location-pin',
+            ],
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Entreprise',
+                'category' => 'entreprise',
+                'items' => $this->entreprises,
+                'selectedItems' => $this->entreprise,
+                'icon' => 'ti-briefcase',
+            ],
+        ];
 
-        // dd($this->type);
-        $this->isLoading = false;
         return view('livewire.public.search', [
             'annonces' => $this->search(),
+            'facettes' => $facettes,
         ]);
     }
 
