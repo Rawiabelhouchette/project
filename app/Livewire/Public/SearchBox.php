@@ -24,7 +24,7 @@ class SearchBox extends Component
     public function resetLocation()
     {
         $this->location = '';
-        $this->type = [];
+        // $this->type = [];
         $this->key = '';
         $this->dispatch('search-type-input:reload');
     }

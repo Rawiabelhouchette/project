@@ -8,16 +8,15 @@
                 <div class="col-md-4 col-sm-12">
                     <h4 class="text-center mrg-bot-15">Filtrer vos recherches</h4>
 
-                    {{-- @if (count($this->type) != 0)
-                        <p class="text-center" wire:transition>
-                            <a href="javascript:void(0)" wire:click='resetFilter()'>
+                    {{-- @if ($type || $ville || $quartier)
+                        <p class="text-center">
+                            <a href="javascript:void(0)" class="reset-filters" wire:click='resetFilters'>
                                 Effacer tous les filtres
                             </a>
                         </p>
                     @endif --}}
 
                     <div class="sidebar">
-
                         @foreach ($facettes as $facette)
                             <div wire:key='{{ $facette->id }}'>
                                 @include('components.public.filter-view', [
@@ -31,9 +30,6 @@
                             </div>
                         @endforeach
 
-                        <!-- End: Search By Price -->
-
-                        <!-- Start: Help & Support -->
                         <div class="widget-boxed">
                             <div class="widget-boxed-body padd-top-40 padd-bot-40 text-center">
                                 <div class="help-support">
@@ -43,7 +39,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- End: Help & Support -->
                     </div>
                 </div>
                 <!-- End Start Sidebar -->
@@ -51,33 +46,34 @@
                 <!-- Start All Listing -->
                 <div class="col-md-8 col-sm-12">
                     <!-- Filter option -->
-                    @if (array_merge($type, $ville, $quartier))
-                        <div class="row mrg-0 mrg-bot-10" wire:transition>
+                    @if ($type || $ville || $quartier)
+                        {{-- @if (array_merge($type, $ville, $quartier)) --}}
+                        <div class="row mrg-0 mrg-bot-10">
                             <div class="col-md-12 mrg-top-10">
                                 <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
                                     Recherche : &nbsp;
                                     @foreach ($type as $item)
                                         <span class="badge height-25 theme-bg">
                                             {{ $item }}
-                                            <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "type", true)'> x </a>
+                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "type", true)'> x </a> --}}
                                         </span> &nbsp;
                                     @endforeach
                                     @foreach ($ville as $item)
                                         <span class="badge height-25 theme-bg">
                                             {{ $item }}
-                                            <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "ville", true)'> x </a>
+                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "ville", true)'> x </a> --}}
                                         </span> &nbsp;
                                     @endforeach
                                     @foreach ($quartier as $item)
                                         <span class="badge height-25 theme-bg">
                                             {{ $item }}
-                                            <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "quartier", true)'> x </a>
+                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "quartier", true)'> x </a> --}}
                                         </span> &nbsp;
                                     @endforeach
                                     @foreach ($entreprise as $item)
                                         <span class="badge height-25 theme-bg">
                                             {{ $item }}
-                                            <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "entreprise", true)'> x </a>
+                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "entreprise", true)'> x </a> --}}
                                         </span> &nbsp;
                                     @endforeach
                                 </div>
@@ -118,7 +114,7 @@
                             @include('components.public.loader')
                         </div>
 
-                        @forelse ($annonces as $annonce)
+                        @foreach ($annonces as $annonce)
                             <div class="col-md-6 col-sm-6" wire:key='{{ $annonce->id }}'>
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-img">
@@ -207,17 +203,18 @@
                                     </div>
                                 </div>
                             </div>
-                        @empty
+                        @endforeach
+
+                        @empty($annonces->count())
                             <div class="col-md-12 col-sm-12">
                                 <div class="listing-shot grid-style" style="padding-top: 50px; padding-bottom: 50px;">
                                     <div class="listing-shot-caption text-center mrg-top-5">
                                         <h4>Aucune annonce trouvée</h4>
-                                        {{-- <a href="{{ route('search') }}" class="theme-cl">Effacer les filtres</a> --}}
-                                        <a href="javascript:void(0)" class="theme-cl" wire:click='resetFilters'>Effacer les filtres</a>
+                                        <a href="javascript:void(0)" class="reset-filters" class="theme-cl" wire:click='resetFilters'>Effacer les filtres</a>
                                     </div>
                                 </div>
                             </div>
-                        @endforelse
+                        @endempty
                     </div>
 
                     {{ $annonces->links() }}
@@ -231,13 +228,6 @@
 </div>
 
 @push('scripts')
-    {{-- <script>
-        // on page load
-        window.addEventListener('load', event => {
-            localStorage.clear();
-        });
-    </script> --}}
-
     <script>
         $(document).ready(function() {
             $('.annonce-share').on('click', function() {
@@ -292,10 +282,6 @@
 
     <script>
         function filterList(category) {
-            // set the input search in local storage
-            // var search = $('#search-' + category).val();
-            // localStorage.setItem('search-' + category, search);
-
             // Get the input field and its value
             var filter = normalizeString($('#search-' + category).val());
 
@@ -343,23 +329,22 @@
                     }
                 });
 
-                // console.log(categories);
-                // console.log($('#search-type').val());
-
-                // on page load, empty the local storage
-
                 categories.forEach(function(category) {
-                    // var searchFromLocalStorage = localStorage.getItem('search-' + category);
-
-                    // if (searchFromLocalStorage) {
-                    //     $('#search-' + category).val(searchFromLocalStorage);
-                    // }
-
-
                     filterList(category);
                 });
                 clearInterval(intervalId);
             }, 500);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.reset-filters').on('click', function() {
+                var url = window.location.href;
+                var newUrl = url.split('?')[0];
+                console.log(newUrl);
+                window.history.pushState({}, '', newUrl);
+            });
         });
     </script>
 @endpush

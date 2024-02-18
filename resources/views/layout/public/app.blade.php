@@ -94,12 +94,6 @@
             });
         </script>
 
-        {{-- <script type="text/javascript">
-            $(document).ready(function() {
-                $('select').niceSelect();
-            });
-        </script> --}}
-
         <!-- FONTAWSOME -->
         {{-- <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script> --}}
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
@@ -115,6 +109,7 @@
             });
         </script>
 
+       
         @livewireScripts
 
         @stack('scripts')

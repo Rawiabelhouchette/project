@@ -33,19 +33,21 @@
                         <div class="col-md-3 col-sm-3 no-padd">
                             <input type="text" class="form-control left-radius" placeholder="Mot clé .." name="key" value="{{ $key }}">
                         </div>
+
                         <div class="col-md-4 col-sm-4 no-padd">
                             <input id="myInput" type="text" class="form-control" placeholder="Localisation .." name="location" value="{{ $location }}">
                             <div id="autocomplete-results" class="autocomplete-items"></div>
                         </div>
 
-                        <div class="col-md-3 col-sm-3 no-padd" wire:ignore>
-                            <select class="selectpicker form-control" data-live-search="true" id="search-type-input" name="type[]" value="{{ $type }}">
+                        <div class="col-md-3 col-sm-3 no-padd">
+                            <select class="form-control" id="search-type-input" name="type[]" value="{{ $type }}">
                                 <option value="" selected>Tous les types d'annonce</option>
                                 @foreach ($typeAnnonce as $annonce)
-                                    <option value="{{ $annonce }}" {{ $annonce == $type ? 'selected' : '' }}>{{ $annonce }}</option>
+                                    <option value="{{ $annonce }}" {{ $annonce == $type ? 'selected' : '' }} style="hover: #ff3a72;">{{ $annonce }}</option>
                                 @endforeach
                             </select>
                         </div>
+
                         <div class="col-md-2 col-sm-2 no-padd">
                             <button type="submit" class="btn theme-btn normal-height full-width">Rechercher</button>
                         </div>
@@ -72,6 +74,7 @@
             left: 0;
             right: 0;
             border-radius: 5px;
+            margin-top: 5px;
         }
 
         .autocomplete-items div {
@@ -79,16 +82,17 @@
             cursor: pointer;
             background-color: #fff;
             border-bottom: 1px solid #d4d4d4;
+            text-align: left;
         }
 
         .autocomplete-items div:hover {
-            background-color: #ff3a72;
-            color: #fff;
+            background-color: #f6f6f6;
         }
 
         .autocomplete-items div:first-child {
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
+            border-top: 1px solid #d4d4d4;
         }
 
         .autocomplete-items div:last-child {
@@ -197,5 +201,4 @@
             });
         </script>
     @endpush
-
 </div>

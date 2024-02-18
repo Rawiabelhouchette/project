@@ -43,7 +43,7 @@ class Search extends Component
     public string $entrepriseFilterValue = '';
 
     public $sortOrder = 'created_at|desc'; // default sorting column and direction
-    public $perPage = 12;
+    public $perPage = 2;
 
     // List of facette's elements
     public $typeAnnonces = [];
@@ -59,18 +59,30 @@ class Search extends Component
         $this->quartier = array_filter($this->quartier);
         $this->entreprise = array_filter($this->entreprise);
 
-        if ($this->location) {
-            $tmp = explode(',', $this->location);
-            if (count($tmp) == 3) {
-                // pattern : quartier, ville, Pays
-                $this->ville[] = trim($tmp[1]);
-            }
-        }
-
 
         $this->getAllEntreprises();
         $this->getVillesParType();
         $this->getQuartiersParVilles();
+
+
+        // dd($this->villes);
+        if ($this->location) {
+            $tmp = explode(',', $this->location);
+            if (count($tmp) == 3) {
+                // pattern : quartier, ville, Pays
+                $villesValues = array_column($this->villes, 'value');
+                $quartiersValues = array_column($this->quartiers, 'value');
+
+                if (in_array(trim($tmp[1]), $villesValues)) {
+                    $this->ville[] = trim($tmp[1]);
+                }
+
+                if (in_array(trim($tmp[0]), $quartiersValues)) {
+                    $this->quartier[] = trim($tmp[0]);
+                }
+            }
+        }
+
     }
 
     private function getAllVilles(): void
@@ -136,8 +148,16 @@ class Search extends Component
                 $this->getVillesParType();
             } elseif ($category === 'ville') {
                 $this->getQuartiersParVilles();
+                // $this->location = '';
+            } elseif ($category === 'quartier') {
+                // $this->location = '';
+                // dd($this->location);
             }
         }
+
+        // if ($this->type || $this->ville || $this->quartier || $this->entreprise) {
+        //     $this->dispatch('showResetFilters');
+        // }
     }
 
     protected function getQuartiersParVilles()
@@ -252,18 +272,28 @@ class Search extends Component
         $this->column = '';
         $this->direction = '';
         $this->sortOrder = 'created_at|desc';
-        // $this->dispatch('resetSearchBox');
-        $this->resetPage();
+        $this->dispatch('resetSearchBox');
+        // $this->resetPage();
+        // reload the component
+        // $this->emit('refreshComponent');
+        // return $this->render();
+
     }
 
     // Apply all filters (the filters on the left side of the page)
     protected function filters($annonces)
     {
-        $annonces = $this->filterByEntreprise($annonces);
-        $annonces = $this->filterByVille($annonces);
-        $annonces = $this->filterByQuartier($annonces);
-        $annonces = $this->filterAnnoncesByTypeKeyLocation($annonces);
-        $annonces = $this->filterByOrder($annonces);
+        $filters = [
+            'filterByEntreprise',
+            'filterByVille',
+            'filterByQuartier',
+            'filterAnnoncesByTypeKeyLocation',
+            'filterByOrder',
+        ];
+
+        foreach ($filters as $filter) {
+            $annonces = $this->$filter($annonces);
+        }
 
         return $annonces;
     }
@@ -368,17 +398,9 @@ class Search extends Component
         return $annonces;
     }
 
-    public function render()
+    public function getFacettes(): array
     {
-        $this->typeAnnonces = Annonce::public()->pluck('type')
-            ->countBy()
-            ->map(function ($count, $type) {
-                return ['value' => $type, 'count' => $count];
-            })
-            ->values()
-            ->all();
-
-        $facettes = [
+        return [
             (object) [
                 'id' => uniqid(),
                 'title' => 'Type d\'annonce',
@@ -416,10 +438,22 @@ class Search extends Component
                 'filterModel' => 'entrepriseFilterValue',
             ],
         ];
+    }
+
+    public function render()
+    {
+        $this->typeAnnonces = Annonce::public()->pluck('type')
+            ->countBy()
+            ->map(function ($count, $type) {
+                return ['value' => $type, 'count' => $count];
+            })
+            ->values()
+            ->all();
+
 
         return view('livewire.public.search', [
             'annonces' => $this->search(),
-            'facettes' => $facettes,
+            'facettes' => $this->getFacettes(),
         ]);
     }
 

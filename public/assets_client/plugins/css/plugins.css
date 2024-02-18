@@ -17127,7 +17127,9 @@ li.fancybox-thumbs-loading {
     -ms-user-select: none;
     user-select: none;
     white-space: nowrap;
-    width: auto
+    width: 100%;
+
+    /*  */
 }
 
 .nice-select:hover {

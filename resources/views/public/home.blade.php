@@ -297,11 +297,15 @@
         background-color: #fff;
         border-bottom: 1px solid #d4d4d4;
         text-align: left;
+        /*  */
+        color: #90969e;
     }
 
     .autocomplete-items div:hover {
-        background-color: #ff3a72;
-        color: #fff;
+        background-color: #f6f6f6;
+        /* background-color: #ff3a72; */
+        /* color: #fff; */
+        color: #90969e;
     }
 
     .autocomplete-items div:first-child {
@@ -412,6 +416,12 @@
 
         document.addEventListener("click", function(e) {
             closeAllLists(e.target);
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select').niceSelect();
         });
     </script>
 @endpush
