@@ -37,6 +37,10 @@ class Ville extends Model
         'nom' => PurifyHtmlOnGet::class,
     ];
 
+    protected $appends = [
+        'nombre_annonce'
+    ];
+
 
     public function pays()
     {
@@ -48,5 +52,13 @@ class Ville extends Model
         return $this->hasMany(Quartier::class);
     }
 
-    // public
+    // nombre d'annonce liees a la ville
+    public function getNombreAnnonceAttribute()
+    {
+        $ville = $this->nom;
+        $count = Annonce::public()->whereHas('entreprise.quartier.ville', function ($query) use ($ville) {
+            $query->where('nom', $ville);
+        })->count();
+        return $count;
+    }
 }

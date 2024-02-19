@@ -156,7 +156,7 @@ class AnnoncesUtils
             ],
         ]);
     }
-    
+
     public static function createReference($model, $variable, $title, $slug): void
     {
         if ($variable) {
@@ -187,7 +187,8 @@ class AnnoncesUtils
 
     public static function createManyReference($model, $references)
     {
-        if (!$references) return;
+        if (!$references)
+            return;
 
         try {
             for ($i = 0; $i < count($references); $i++) {
@@ -200,7 +201,8 @@ class AnnoncesUtils
 
     public static function updateManyReference($model, $references)
     {
-        if (!$references) return;
+        if (!$references)
+            return;
 
         try {
             for ($i = 0; $i < count($references); $i++) {
@@ -214,7 +216,7 @@ class AnnoncesUtils
     public static function createGalerie($model, $image, $variable, $folder_name): void
     {
         // dump($folder_name);
-        if($image){
+        if ($image) {
             $image->store('public/' . $folder_name);
             $fichier = Fichier::create([
                 'nom' => $image->hashName(),
@@ -242,7 +244,7 @@ class AnnoncesUtils
 
     public static function updateGalerie($image, $model, $variable, $folder_name): void
     {
-        if($image){
+        if ($image) {
             $image->store('public/' . $folder_name);
             $fichier = Fichier::create([
                 'nom' => $image->hashName(),
@@ -268,4 +270,26 @@ class AnnoncesUtils
             }
         }
     }
+
+    // function to grab all query parameters from the current url to an object
+    public static function getQueryParams(): object
+    {
+        $query = request()->query();
+
+        $params = [];
+        foreach ($query as $key => $value) {
+            if (str_starts_with($key, 'type')) {
+                $key = 'type';
+            }
+
+            if (is_array($value)) {
+                $params[$key] = array_map('urldecode', $value);
+            } else {
+                $params[$key] = urldecode($value);
+            }
+        }
+
+        return (object) $params;
+    }
 }
+

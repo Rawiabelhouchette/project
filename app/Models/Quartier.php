@@ -19,6 +19,10 @@ class Quartier extends Model
         'ville_id',
     ];
 
+    protected $appends = [
+        'nombre_annonce'
+    ];
+
     // mount
     public static function boot()
     {
@@ -43,4 +47,27 @@ class Quartier extends Model
     {
         return $this->belongsTo(Ville::class);
     }
+
+    // All quartiers with their ville and their pays ex : "Avedji, Lome, Togo"
+    // return array of string
+    public static function getAllQuartiers() : array
+    {
+        $quartiers = Quartier::with('ville.pays')->get();
+        $quartiersArray = [];
+        foreach ($quartiers as $quartier) {
+            $quartiersArray[] = $quartier->nom . ', ' . $quartier->ville->nom . ', ' . $quartier->ville->pays->nom;
+        }
+        return $quartiersArray;
+    }
+
+    public function getNombreAnnonceAttribute()
+    {
+        $ville = $this->nom;
+        $count = Annonce::public()->whereHas('entreprise.quartier', function ($query) use ($ville) {
+            $query->where('nom', $ville);
+        })->count();
+        return $count;
+    }
+
+    
 }

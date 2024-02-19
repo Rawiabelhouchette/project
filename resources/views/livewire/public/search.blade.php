@@ -7,70 +7,29 @@
                 <!-- Start Sidebar -->
                 <div class="col-md-4 col-sm-12">
                     <h4 class="text-center mrg-bot-15">Filtrer vos recherches</h4>
+
+                    {{-- @if ($type || $ville || $quartier)
+                        <p class="text-center">
+                            <a href="javascript:void(0)" class="reset-filters" wire:click='resetFilters'>
+                                Effacer tous les filtres
+                            </a>
+                        </p>
+                    @endif --}}
+
                     <div class="sidebar">
-                        <!-- Start: Search By Price -->
-                        <div class="widget-boxed padd-bot-10">
-                            <div class="widget-boxed-header">
-                                <h4><i class="ti-briefcase padd-r-10"></i>Types d'annonce
+                        @foreach ($facettes as $facette)
+                            <div wire:key='{{ $facette->id }}'>
+                                @include('components.public.filter-view', [
+                                    'title' => $facette->title,
+                                    'category' => $facette->category,
+                                    'items' => $facette->items,
+                                    'selectedItems' => $facette->selectedItems,
+                                    'icon' => $facette->icon,
+                                    'filterModel' => $facette->filterModel,
+                                ])
                             </div>
-                            <div class="widget-boxed-body padd-top-10 padd-bot-0">
-                                <div class="side-list">
-                                    <ul class="price-range">
-                                        @foreach ($typesAnnonce as $type)
-                                            <li>
-                                                <span class="custom-checkbox d-block">
-                                                    <input id="check-{{ $type }}" type="checkbox" value="{{ $type }}" wire:change='changeState("{{ $type }}")' {{ in_array($type, $selectedAnnonceId) ? 'checked' : '' }}>
-                                                    <label for="check-{{ $type }}" style="font-weight: normal;">{{ $type }}</label>
-                                                </span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                            @if (count($allAnnonceTypes) > count($typesAnnonce))
-                                <div class="text-center padd-top-5 padd-bot-0">
-                                    <a href="javascript:void(0)" wire:click='loadMoreAnnonceType'>
-                                        <h5>Voir plus ({{ count($allAnnonceTypes) - count($typesAnnonce) }}) +</h5>
-                                    </a>
-                                </div>
-                            @endif
-                        </div>
-                        <!-- End: Search By Price -->
+                        @endforeach
 
-                        <!-- Start: Latest Listing -->
-                        <div class="widget-boxed">
-                            <div class="widget-boxed-header">
-                                <h4><i class="ti-check-box padd-r-10"></i>Dernières annonces</h4>
-                            </div>
-                            <div class="widget-boxed-body padd-top-5" wire:ignore>
-                                <div class="side-list">
-                                    <ul class="listing-list">
-                                        @foreach ($latestAnnonces as $annonce)
-                                            <li>
-                                                <a href="{{ route('show', $annonce->slug) }}">
-                                                    <div class="listing-list-img">
-                                                        @if ($annonce->image)
-                                                            <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt="">
-                                                        @else
-                                                            <img src="http://via.placeholder.com/100x100" class="img-responsive" alt="">
-                                                        @endif
-                                                    </div>
-                                                </a>
-                                                <div class="listing-list-info">
-                                                    <h5><a href="{{ route('show', $annonce->slug) }}" title="Listing">{{ $annonce->titre }}</a></h5>
-                                                    <div class="listing-post-meta">
-                                                        <span class="updated">{{ date('d-m-Y', strtotime($annonce->created_at)) }}</span> | <a href="{{ route('search.key.type', ['', $annonce->type]) }}" rel="tag">{{ $annonce->type }}</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End: Latest Listing -->
-
-                        <!-- Start: Help & Support -->
                         <div class="widget-boxed">
                             <div class="widget-boxed-body padd-top-40 padd-bot-40 text-center">
                                 <div class="help-support">
@@ -80,7 +39,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- End: Help & Support -->
                     </div>
                 </div>
                 <!-- End Start Sidebar -->
@@ -88,12 +46,46 @@
                 <!-- Start All Listing -->
                 <div class="col-md-8 col-sm-12">
                     <!-- Filter option -->
-                    <div class="row mrg-0 mrg-bot-20">
+                    @if ($type || $ville || $quartier)
+                        {{-- @if (array_merge($type, $ville, $quartier)) --}}
+                        <div class="row mrg-0 mrg-bot-10">
+                            <div class="col-md-12 mrg-top-10">
+                                <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
+                                    Recherche : &nbsp;
+                                    @foreach ($type as $item)
+                                        <span class="badge height-25 theme-bg">
+                                            {{ $item }}
+                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "type", true)'> x </a> --}}
+                                        </span> &nbsp;
+                                    @endforeach
+                                    @foreach ($ville as $item)
+                                        <span class="badge height-25 theme-bg">
+                                            {{ $item }}
+                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "ville", true)'> x </a> --}}
+                                        </span> &nbsp;
+                                    @endforeach
+                                    @foreach ($quartier as $item)
+                                        <span class="badge height-25 theme-bg">
+                                            {{ $item }}
+                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "quartier", true)'> x </a> --}}
+                                        </span> &nbsp;
+                                    @endforeach
+                                    @foreach ($entreprise as $item)
+                                        <span class="badge height-25 theme-bg">
+                                            {{ $item }}
+                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "entreprise", true)'> x </a> --}}
+                                        </span> &nbsp;
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="row mrg-0">
                         <div class="col-md-6 mrg-top-10">
                             <h5>Affichage : {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} résultat trouvé(s)</h5>
                         </div>
-                        <div class="col-md-2">
-                        </div>
+                        <div class="col-md-1"></div>
                         <div class="col-md-4">
                             <select id="select-order" class="form-control" style="height: 35px !important; margin-bottom: 0px;" tabindex="-98" wire:model.lazy='sortOrder'>
                                 <option value="" disabled>Trier</option>
@@ -103,11 +95,27 @@
                                 <option value="created_at|desc">Date: Récent à ancien</option>
                             </select>
                         </div>
+                        <div class="col-md-1" style="">
+                            <a href="javascript:void(0)" class="annonce-share" data-toggle="modal" data-target="#share" data-type="all">
+                                <i class="fa fa-share fa-lg" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     </div>
                     <!-- End Filter option -->
                     <div class="row mrg-0">
+
+                        {{-- button --}}
+
+                        @include('components.public.share-modal', [
+                            'title' => 'Partager cette annonce',
+                        ])
+
+                        <div class="col-md-12 col-sm-12" wire:loading.delay wire:transition>
+                            @include('components.public.loader')
+                        </div>
+
                         @foreach ($annonces as $annonce)
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-6 col-sm-6" wire:key='{{ $annonce->id }}'>
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-img">
                                         <a href="{{ route('show', $annonce->slug) }}">
@@ -117,7 +125,6 @@
                                                 <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
                                             @endif
                                         </a>
-                                        {{-- <span class="approve-listing"><i class="fa fa-check"></i></span> --}}
                                     </div>
                                     <div class="listing-shot-caption">
                                         <a href="{{ route('show', $annonce->slug) }}">
@@ -135,7 +142,7 @@
                                                 </a>
                                             @endif
                                         @else
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" data-toggle="modal" data-target="#signin">
+                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" onclick="$('#share').hide()">
                                                 <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                             </a>
                                         @endif
@@ -168,7 +175,11 @@
                                             @endfor
                                             &nbsp;&nbsp;
                                             ({{ $annonce->nb_notation }})
-                                            <a href="javascript:void(0)" data-url="{{ route('show', $annonce->slug) }}" class="theme-cl annonce_share" style="float: right;">
+                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#share" class="theme-cl annonce-share" style="float: right;"
+                                               data-url="{{ route('show', $annonce->slug) }}"
+                                               data-titre="{{ $annonce->titre }}"
+                                               data-image="{{ $annonce->image ? asset('storage/' . $annonce->imagePrincipale->chemin) : 'http://via.placeholder.com/800x800' }}"
+                                               data-type="{{ $annonce->type }}">
                                                 <i class="fa fa-share theme-cl" aria-hidden="true"></i>
                                                 Partager
                                             </a>
@@ -176,15 +187,15 @@
                                     </div>
                                     <div class="tp-author-basic-info mrg-top-0">
                                         <ul>
-                                            <li class="text-center">
+                                            <li class="text-center padd-top-10 padd-bot-0">
                                                 <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                                 {{ $annonce->nb_vue }}
                                             </li>
-                                            <li class="text-center">
+                                            <li class="text-center padd-top-10 padd-bot-0">
                                                 <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
                                                 {{ $annonce->nb_favoris }}
                                             </li>
-                                            <li class="text-center">
+                                            <li class="text-center padd-top-10 padd-bot-0">
                                                 <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
                                                 {{ $annonce->nb_commentaire }}
                                             </li>
@@ -193,18 +204,20 @@
                                 </div>
                             </div>
                         @endforeach
-                        @empty($annonces->items())
+
+                        @empty($annonces->count())
                             <div class="col-md-12 col-sm-12">
-                                <div class="listing-shot grid-style">
+                                <div class="listing-shot grid-style" style="padding-top: 50px; padding-bottom: 50px;">
                                     <div class="listing-shot-caption text-center mrg-top-5">
                                         <h4>Aucune annonce trouvée</h4>
+                                        <a href="javascript:void(0)" class="reset-filters" class="theme-cl" wire:click='resetFilters'>Effacer les filtres</a>
                                     </div>
                                 </div>
                             </div>
                         @endempty
                     </div>
-                    {{-- {{ $annonces->links() }} --}}
-                    {{ $annonces->appends(['key' => $link_key, 'type' => $link_type])->links() }}
+
+                    {{ $annonces->links() }}
                 </div>
                 <!-- End All Listing -->
             </div>
@@ -213,3 +226,125 @@
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.annonce-share').on('click', function() {
+                var type = $(this).data('type');
+                var text;
+                $('#share-annonce-image').show();
+                if (type === 'all') {
+                    text = window.location.href;
+                    $('#share-annonce-image').hide();
+                    $('#annonce-type').text('');
+                    $('#annonce-titre').text("Partager la page");
+                    $('#annonce-email').attr('href', 'mailto:?subject=' + $(this).data('titre') + '&body=' + text);
+                    $('#annonce-url').data('url', text);
+                    $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + text);
+                } else {
+                    text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + $(this).data('titre') + "%0ALien : " + $(this).data('url') + " ";
+                    $('#annonce-titre').text($(this).data('titre'));
+                    $('#annonce-image-url').attr('src', $(this).data('image'));
+                    $('#annonce-type').text($(this).data('type'));
+                    $('#annonce-email').attr('href', 'mailto:?subject=' + $(this).data('titre') + '&body=' + text);
+                    $('#annonce-url').data('url', $(this).data('url'));
+                    $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + $(this).data('url'));
+                }
+
+                // $('#annonce-whatsapp').attr('href', 'https://web.whatsapp.com/send?text=' + text);
+                // open directly in whatsapp app
+                $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
+            });
+
+            $('#annonce-url').click(function() {
+                var text = $(this).data('url');
+
+                if (!navigator.clipboard) {
+                    console.log('Clipboard API not available');
+                    return;
+                }
+
+                navigator.clipboard.writeText(text).then(function() {
+                    $('#copyMessage').hide();
+                    $('#copyMessage').fadeIn(500);
+                    // $('#copyMessage').show();
+                    setTimeout(function() {
+                        $('#copyMessage').fadeOut(500);
+                        // $('#copyMessage').hide();
+                    }, 2000);
+                }, function(err) {
+                    console.error('Could not copy text: ', err);
+                });
+            });
+        });
+    </script>
+
+    <script>
+        function filterList(category) {
+            // Get the input field and its value
+            var filter = normalizeString($('#search-' + category).val());
+
+            // Get the list and its items
+            var $li = $('#list-' + category + 's li');
+
+            // Variable to count the number of items displayed
+            var count = 0;
+
+            // Loop through the list items and hide those that don't match the filter
+            $li.each(function() {
+                var txtValue = normalizeString($(this).find('label').text());
+                if (txtValue.indexOf(filter) > -1) {
+                    $(this).fadeIn(300);
+                    count++;
+                } else {
+                    $(this).fadeOut(300);
+                }
+            });
+
+            // Get the no results message
+            var $noResults = $('#no-' + category + '-results');
+
+            // If no items are displayed, show the no results message
+            if (count === 0) {
+                $noResults.fadeIn(300);
+            } else {
+                $noResults.hide(); //fadeOut(300);
+            }
+        }
+
+        function normalizeString(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+        }
+    </script>
+
+    <script>
+        window.addEventListener('refresh:filter', event => {
+            var intervalId = setInterval(function() {
+                var categories = [];
+                $('ul.price-range').each(function() {
+                    if (this.id.startsWith('list-')) {
+                        var idWithoutList = this.id.replace('list-', '').slice(0, -1);
+                        categories.push(idWithoutList);
+                    }
+                });
+
+                categories.forEach(function(category) {
+                    filterList(category);
+                });
+                clearInterval(intervalId);
+            }, 500);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.reset-filters').on('click', function() {
+                var url = window.location.href;
+                var newUrl = url.split('?')[0];
+                console.log(newUrl);
+                window.history.pushState({}, '', newUrl);
+            });
+        });
+    </script>
+@endpush

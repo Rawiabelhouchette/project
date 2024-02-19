@@ -3,8 +3,10 @@
 namespace App\Livewire\Public;
 
 use App\Models\Annonce;
+use App\Models\Entreprise;
 use App\Models\Favoris;
-use App\Utils\CustomSession;
+use App\Models\Quartier;
+use App\Models\Ville;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -14,53 +16,109 @@ class Search extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $type = '';
+    // filter input on the back
+    public $type = [];
     public $key = '';
-    public $sortOrder = '';
+    public $location = '';
     public $column = '';
     public $direction = '';
-
-    public $allAnnonceTypes = [];
-    public $typesAnnonce = [];
-    public $elementToDisplay = 5;
-    public $displayedAnnonce;
-
-    public $selectedAnnonce = [];
-    public $selectedAnnonceId = [];
-
-    //
-    public $link_key;
-    public $link_type;
-
+    public $ville = [];
+    public $quartier = [];
+    public $entreprise = [];
     protected $queryString = [
-        'key' => ['except' => ''],
-        'type' => ['except' => ''],
+        'type',
+        'key',
+        'location',
+        'column',
+        'direction',
+        'ville',
+        'quartier',
+        'entreprise'
     ];
 
-    public function mount($filter = [])
+    // filter input on the front (facette)
+    public string $typeFilterValue = '';
+    public string $villeFilterValue = '';
+    public string $quartierFilterValue = '';
+    public string $entrepriseFilterValue = '';
+
+    public $sortOrder = 'created_at|desc'; // default sorting column and direction
+    public $perPage = 2;
+
+    // List of facette's elements
+    public $typeAnnonces = [];
+    public $villes = [];
+    public $quartiers = [];
+    public $entreprises = [];
+
+
+    public function mount($filter)
     {
-        $variables = new CustomSession();
-        $this->displayedAnnonce = $this->elementToDisplay;
-        $this->key = $variables->key;
-        $this->type = $variables->type;
-        $this->allAnnonceTypes = Annonce::pluck('type')
-            ->unique()
-            ->toArray();
-        $this->selectedAnnonceId = $filter;
+        $this->type = array_filter($this->type);
+        $this->ville = array_filter($this->ville);
+        $this->quartier = array_filter($this->quartier);
+        $this->entreprise = array_filter($this->entreprise);
 
-        $this->link_key = $variables->key;
-        $this->link_type = $variables->type;
 
-        $this->sortOrder = $variables->sortOrder;
-    }
+        $this->getAllEntreprises();
+        $this->getVillesParType();
+        $this->getQuartiersParVilles();
 
-    public function updatingSortOrder()
-    {
-        if (!$this->sortOrder) {
-            return;
+
+        // dd($this->villes);
+        if ($this->location) {
+            $tmp = explode(',', $this->location);
+            if (count($tmp) == 3) {
+                // pattern : quartier, ville, Pays
+                $villesValues = array_column($this->villes, 'value');
+                $quartiersValues = array_column($this->quartiers, 'value');
+
+                if (in_array(trim($tmp[1]), $villesValues)) {
+                    $this->ville[] = trim($tmp[1]);
+                }
+
+                if (in_array(trim($tmp[0]), $quartiersValues)) {
+                    $this->quartier[] = trim($tmp[0]);
+                }
+            }
         }
 
-        $this->resetPage();
+    }
+
+    private function getAllVilles(): void
+    {
+        $this->villes = [];
+        foreach (Ville::all() as $ville) {
+            $tmp = ['value' => $ville->nom, 'count' => $ville->nombre_annonce];
+            $tmp = array_unique($tmp, SORT_REGULAR);
+            if (!in_array($tmp, $this->villes)) {
+                $this->villes[] = $tmp;
+            }
+        }
+    }
+
+    private function getAllQuartiers(): void
+    {
+        $this->quartiers = [];
+        foreach (Quartier::all() as $quartier) {
+            $tmp = ['value' => $quartier->nom, 'count' => $quartier->nombre_annonce];
+            $tmp = array_unique($tmp, SORT_REGULAR);
+            if (!in_array($tmp, $this->quartiers)) {
+                $this->quartiers[] = $tmp;
+            }
+        }
+    }
+
+    public function getAllEntreprises()
+    {
+        $this->entreprises = [];
+        foreach (Entreprise::all() as $entreprise) {
+            $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonce];
+            $tmp = array_unique($tmp, SORT_REGULAR);
+            if (!in_array($tmp, $this->entreprises)) {
+                $this->entreprises[] = $tmp;
+            }
+        }
     }
 
     public function updatedSortOrder()
@@ -68,22 +126,112 @@ class Search extends Component
         if (!$this->sortOrder) {
             return;
         }
-        [$column, $direction] = explode('|', $this->sortOrder);
-        $sessVars = new CustomSession();
-        $sessVars->column = $column;
-        $sessVars->direction = $direction;
-        $sessVars->sortOrder = $this->sortOrder;
-        $sessVars->save();
+
+        $parts = explode('|', $this->sortOrder);
+
+        if (count($parts) === 2) {
+            [$this->column, $this->direction] = $parts;
+            $this->resetPage();
+        }
     }
 
-    public function changeState($type)
+    public function changeState($value, $category, $remove = false)
     {
-        // check if the type is already in the array (selectedAnnonceId) or not and add or remove it
-        if (in_array($type, $this->selectedAnnonceId)) {
-            $this->selectedAnnonceId = array_diff($this->selectedAnnonceId, [$type]);
-        } else {
-            array_push($this->selectedAnnonceId, $type);
+        if (in_array($category, ['type', 'ville', 'quartier', 'entreprise'])) {
+            if ($remove || in_array($value, $this->$category)) {
+                $this->$category = array_diff($this->$category, [$value]);
+            } else {
+                array_push($this->$category, $value);
+            }
+
+            if ($category === 'type') {
+                $this->getVillesParType();
+            } elseif ($category === 'ville') {
+                $this->getQuartiersParVilles();
+                // $this->location = '';
+            } elseif ($category === 'quartier') {
+                // $this->location = '';
+                // dd($this->location);
+            }
         }
+
+        // if ($this->type || $this->ville || $this->quartier || $this->entreprise) {
+        //     $this->dispatch('showResetFilters');
+        // }
+    }
+
+    protected function getQuartiersParVilles()
+    {
+        if (count($this->ville) > 0) {
+            $villes = $this->ville;
+            $quartiers = [];
+            // $annonces = Annonce::public()->where('type', $type)->get();
+            $annonces = Annonce::public()->whereHas('entreprise.quartier.ville', function ($query) use ($villes) {
+                $query->whereIn('nom', $villes);
+            })->get();
+
+            foreach ($annonces as $annonce) {
+                $quartiers[] = ['value' => $annonce->entreprise->quartier->nom];
+            }
+            // parcourir chaque valeur et chercher le nombre d'annonce correspondant
+            foreach ($quartiers as $key => $quartier) {
+                $quartiers[$key]['count'] = Annonce::public()->where('type', $quartier)->whereHas('entreprise.quartier', function ($query) use ($quartier) {
+                    $query->where('nom', 'like', '%' . $quartier['value'] . '%');
+                })->count();
+            }
+            $quartiers = array_unique($quartiers, SORT_REGULAR);
+            $this->quartiers = $quartiers;
+        } else {
+            $this->getAllQuartiers();
+        }
+
+        foreach ($this->quartiers as $quartier) {
+            $tmp[] = $quartier['value'];
+        }
+        $this->quartier = array_intersect($this->quartier, $tmp);
+    }
+
+    protected function getVillesParType()
+    {
+        $this->getAllVilles();
+
+
+        // if (count($this->type) > 0) { 
+        // $quartiers = [];
+        // $villes = [];
+        // // $annonces = Annonce::public()->where('type', $type)->get();
+        // $annonces = Annonce::public()->where(function ($query) use ($type) {
+        //     foreach ($type as $t) {
+        //         $query->orWhere('type', 'like', '%' . $t . '%');
+        //     }
+        // })->get();
+        // foreach ($annonces as $annonce) {
+        //     $quartiers[] = ['value' => $annonce->entreprise->quartier->nom];
+        //     $villes[] = ['value' => $annonce->entreprise->quartier->ville->nom];
+        // }
+        // // parcourir chaque valeur et chercher le nombre d'annonce correspondant
+        // foreach ($quartiers as $key => $quartier) {
+        //     $quartiers[$key]['count'] = Annonce::public()->where('type', $type)->whereHas('entreprise.quartier', function ($query) use ($quartier) {
+        //         $query->where('nom', 'like', '%' . $quartier['value'] . '%');
+        //     })->count();
+        // }
+        // foreach ($villes as $key => $ville) {
+        //     $villes[$key]['count'] = Annonce::public()->where('type', $type)->whereHas('entreprise.quartier.ville', function ($query) use ($ville) {
+        //         $query->where('nom', 'like', '%' . $ville['value'] . '%');
+        //     })->count();
+        // }
+        // // rendre le tableau unique
+        // $quartiers = array_unique($quartiers, SORT_REGULAR);
+        // $villes = array_unique($villes, SORT_REGULAR);
+        // Filtre en fonction de du type selectionner
+        // $this->quartiers = $quartiers;
+        // $this->villes = $villes;
+        // } else {
+        //     $this->getAllVilles();
+        //     // dd($this->villes);
+        // }
+
+
     }
 
     public function updateFavoris($annonceId)
@@ -101,62 +249,216 @@ class Search extends Component
         }
     }
 
-    public function loadMoreAnnonceType()
+
+    public function search()
     {
-        // check if the number of displayed annonce is less than the number of annonce type
-        if ($this->displayedAnnonce < count($this->allAnnonceTypes)) {
-            // if yes, add 5 to the number of displayed annonce
-            $this->displayedAnnonce += 5;
-        } else {
-            // if no, set the number of displayed annonce to the number of annonce type
-            $this->displayedAnnonce = count($this->allAnnonceTypes);
+        $annonces = Annonce::public()->with('entreprise');
+        $annonces = $this->filters($annonces);
+        $annonces = $annonces->paginate($this->perPage);
+        return $annonces;
+    }
+
+    // =============================== 
+    // =========== FILTERS ===========
+    // =============================== 
+
+    public function resetFilters()
+    {
+        $this->key = '';
+        $this->type = [];
+        $this->location = '';
+        $this->ville = [];
+        $this->quartier = [];
+        $this->column = '';
+        $this->direction = '';
+        $this->sortOrder = 'created_at|desc';
+        $this->dispatch('resetSearchBox');
+        // $this->resetPage();
+        // reload the component
+        // $this->emit('refreshComponent');
+        // return $this->render();
+
+    }
+
+    // Apply all filters (the filters on the left side of the page)
+    protected function filters($annonces)
+    {
+        $filters = [
+            'filterByEntreprise',
+            'filterByVille',
+            'filterByQuartier',
+            'filterAnnoncesByTypeKeyLocation',
+            'filterByOrder',
+        ];
+
+        foreach ($filters as $filter) {
+            $annonces = $this->$filter($annonces);
         }
+
+        return $annonces;
+    }
+
+    // filter the annonces by type, key and location
+    protected function filterAnnoncesByTypeKeyLocation($annonces)
+    {
+        if ($this->type) {
+            $annonces = $annonces->where(function ($query) {
+                foreach ($this->type as $type) {
+                    $query->orWhere('type', 'like', '%' . $type . '%');
+                }
+            });
+        }
+
+        if ($this->key) {
+            $key = $this->key;
+            $annonces = $annonces->where(function ($query) use ($key) {
+                $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
+            });
+        }
+
+        if ($this->location) {
+            $parts = explode(',', $this->location);
+
+            if (count($parts) > 0) {
+                $quartier = trim($parts[0]);
+                $annonces = $annonces->whereHas('entreprise.quartier', function ($query) use ($quartier) {
+                    $query->where('nom', 'like', '%' . $quartier . '%');
+                });
+            }
+        }
+
+        return $annonces;
+    }
+
+    protected function filterByVille($annonces)
+    {
+        $this->location = '';
+
+        if ($this->ville) {
+            $villes = $this->ville;
+            $annonces = $annonces->whereHas('entreprise.quartier.ville', function ($query) use ($villes) {
+                $query->where(function ($query) use ($villes) {
+                    foreach ($villes as $ville) {
+                        $query->orWhere('nom', 'like', '%' . $ville . '%');
+                    }
+                });
+            });
+        }
+
+        return $annonces;
+    }
+
+    public function filterByEntreprise($annonces)
+    {
+        if ($this->entreprise) {
+            $entreprises = $this->entreprise;
+            $annonces = $annonces->whereHas('entreprise', function ($query) use ($entreprises) {
+                $query->whereIn('nom', $entreprises);
+            });
+        }
+
+        return $annonces;
+    }
+
+    protected function filterByQuartier($annonces)
+    {
+        $this->location = '';
+
+        if ($this->quartier) {
+            $quartiers = $this->quartier;
+            $annonces = $annonces->whereHas('entreprise.quartier', function ($query) use ($quartiers) {
+                $query->where(function ($query) use ($quartiers) {
+                    foreach ($quartiers as $quartier) {
+                        $query->orWhere('nom', 'like', '%' . $quartier . '%');
+                    }
+                });
+            });
+        }
+
+        return $annonces;
+    }
+
+    // Filter by order
+    protected function filterByOrder($annonces)
+    {
+        if (!in_array($this->direction, ['asc', 'desc'])) {
+            $this->direction = 'desc';
+        }
+
+        if (!in_array($this->column, ['created_at', 'titre'])) {
+            $this->column = 'created_at';
+        }
+
+        $this->sortOrder = $this->column . '|' . $this->direction;
+
+        if ($this->column && $this->direction) {
+            $annonces = $annonces->orderBy($this->column, $this->direction);
+        }
+
+        return $annonces;
+    }
+
+    public function getFacettes(): array
+    {
+        return [
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Type d\'annonce',
+                'category' => 'type',
+                'items' => $this->typeAnnonces,
+                'selectedItems' => $this->type,
+                'icon' => 'ti-briefcase',
+                'filterModel' => 'typeFilterValue',
+            ],
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Ville',
+                'category' => 'ville',
+                'items' => $this->villes,
+                'selectedItems' => $this->ville,
+                'icon' => 'ti-map-alt',
+                'filterModel' => 'villeFilterValue',
+            ],
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Quartier',
+                'category' => 'quartier',
+                'items' => $this->quartiers,
+                'selectedItems' => $this->quartier,
+                'icon' => 'ti-location-pin',
+                'filterModel' => 'quartierFilterValue',
+            ],
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Entreprise',
+                'category' => 'entreprise',
+                'items' => $this->entreprises,
+                'selectedItems' => $this->entreprise,
+                'icon' => 'ti-briefcase',
+                'filterModel' => 'entrepriseFilterValue',
+            ],
+        ];
     }
 
     public function render()
     {
-        $this->typesAnnonce = array_slice($this->allAnnonceTypes, 0, $this->displayedAnnonce);
-        $selectedAnnonceId = $this->selectedAnnonceId;
-        $type = $this->type;
-        $key = $this->key;
+        $this->typeAnnonces = Annonce::public()->pluck('type')
+            ->countBy()
+            ->map(function ($count, $type) {
+                return ['value' => $type, 'count' => $count];
+            })
+            ->values()
+            ->all();
 
-        $annonces = Annonce::getActiveAnnonces()
-            ->with('entreprise')
-            ->where(function ($query) use ($type, $key, $selectedAnnonceId) {
-                if ($type) {
-                    if (!in_array($type, $selectedAnnonceId)) {
-                        array_push($selectedAnnonceId, $type);
-                    }
-                }
 
-                if (!empty($selectedAnnonceId)) {
-                    foreach ($selectedAnnonceId as $selectedType) {
-                        $query->orWhere('type', $selectedType);
-                    }
-                }
+        return view('livewire.public.search', [
+            'annonces' => $this->search(),
+            'facettes' => $this->getFacettes(),
+        ]);
+    }
 
-                if ($key) {
-                    $query->where(function ($query) use ($key) {
-                        $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
-                    });
-                }
-
-                $this->selectedAnnonceId = $selectedAnnonceId;
-            });
-
-        $sessVars = new CustomSession();
-        if ($sessVars->sortOrder) {
-            $annonces = $annonces->orderBy($sessVars->column, $sessVars->direction);
-        }
-
-        $annonces = $annonces->paginate(8);
-        // $annonces->withPath($sessVars->url);
-        $latestAnnonces = Annonce::getActiveAnnonces()
-            ->with('annonceable')
-            ->latest()
-            ->take(4)
-            ->get();
-
-        return view('livewire.public.search', compact('annonces', 'latestAnnonces', 'selectedAnnonceId'));
+    public function rendered($view, $html)
+    {
+        $this->dispatch('refresh:filter');
     }
 }

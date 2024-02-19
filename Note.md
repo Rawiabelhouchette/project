@@ -1,5 +1,4 @@
-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
-
+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
 
 - mettre sweet alet en local
 
@@ -128,3 +127,23 @@ download default pics
 
 # 03/02/2024
 - [ok] Faire une operation sur les stats quand on met en favoris
+
+Home, location vehicule, le bon type n'est pas pris
+
+
+
+
+- Pour la creation de compte
+  - Juste creer un compte classique (usager)
+  - Avoir un bouton pour passer pro
+
+
+# 16/02/2024
+- Essayer de mettre la page d'affichage de recheche en petit composant
+
+
+
+
+- Enlever le nice-select
+- Revoir la couleur des options de localisation
+- on filter , changer l'url de sort a mettre correction les attributs (Le but c'est d'eviter les caracteres speciaux dans l'url)

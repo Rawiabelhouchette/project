@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
@@ -53,11 +55,12 @@ class Annonce extends Model
         'date_validite' => PurifyHtmlOnGet::class,
         'type' => PurifyHtmlOnGet::class,
     ];
+
     public static function boot()
     {
         parent::boot();
 
-        static::saving(function ($model) {
+        static::creating(function ($model) {
             $model->slug = Str::slug($model->titre);
             $model->is_active = true;
         });
@@ -93,12 +96,12 @@ class Annonce extends Model
         return $this->belongsToMany(Fichier::class, 'annonce_fichier', 'annonce_id', 'fichier_id');
     }
 
-    public function imagePrincipale()
+    public function imagePrincipale() : BelongsTo
     {
         return $this->belongsTo(Fichier::class, 'image');
     }
 
-    public function annonceable()
+    public function annonceable() : MorphTo
     {
         return $this->morphTo();
     }
@@ -170,11 +173,6 @@ class Annonce extends Model
         } else {
             return $number;
         }
-    }
-
-    public static function getActiveAnnonces()
-    {
-        return Annonce::query()->where('is_active', true)->where('date_validite', '>=', date('Y-m-d'));
     }
 
 
@@ -269,5 +267,16 @@ class Annonce extends Model
     public function getNbNotationAttribute(): string
     {
         return $this->formatNumber($this->statistique->nb_notation);
+    }
+
+
+    /* ######################## SCOPE ##############################
+    ###################################################################### */
+    public function scopePublic(Builder $query): void
+    {
+        $query
+            // add some code here to make sure to only display annonce that are registrer ed to an offer
+            ->whereIsActive(true)
+            ->whereDate('date_validite', '>=', date('Y-m-d'));
     }
 }

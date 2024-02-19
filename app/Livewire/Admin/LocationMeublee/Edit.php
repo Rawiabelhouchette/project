@@ -211,9 +211,7 @@ class Edit extends Component
 
         try {
             DB::beginTransaction();
-
-            $date_validite = $this->date_validite . ' ' . $this->heure_validite;
-
+            
             $this->LocationMeublee->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
