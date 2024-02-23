@@ -43,7 +43,7 @@ class Search extends Component
     public string $entrepriseFilterValue = '';
 
     public $sortOrder = 'created_at|desc'; // default sorting column and direction
-    public $perPage = 2;
+    public $perPage = 10;
 
     // List of facette's elements
     public $typeAnnonces = [];
