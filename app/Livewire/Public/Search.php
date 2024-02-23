@@ -113,7 +113,7 @@ class Search extends Component
     {
         $this->entreprises = [];
         foreach (Entreprise::all() as $entreprise) {
-            $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonce];
+            $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonces];
             $tmp = array_unique($tmp, SORT_REGULAR);
             if (!in_array($tmp, $this->entreprises)) {
                 $this->entreprises[] = $tmp;

@@ -15,6 +15,9 @@
                                 <input id="check-{{ $item['value'] }}" type="checkbox" value="{{ $item['value'] }}" wire:change='changeState("{{ $item['value'] }}", "{{ $category }}")' {{ in_array($item['value'], $selectedItems) ? 'checked' : null }}> {{-- wire:loading.attr="disabled"> --}}
                                 <label for="check-{{ $item['value'] }}" style="font-weight: normal;">{{ $item['value'] }}</label>
                             </span>
+                            <span class="theme-cl" style="float: right;">
+                                {{ $item['count'] }} &nbsp;
+                            </span>
                         </li>
                     @endforeach
                     <p id="no-{{ $category }}-results" class="text-center" style="display: none;">Aucun résultat</p>
