@@ -43,7 +43,7 @@ class Search extends Component
     public string $entrepriseFilterValue = '';
 
     public $sortOrder = 'created_at|desc'; // default sorting column and direction
-    public $perPage = 2;
+    public $perPage = 10;
 
     // List of facette's elements
     public $typeAnnonces = [];
@@ -82,7 +82,6 @@ class Search extends Component
                 }
             }
         }
-
     }
 
     private function getAllVilles(): void
@@ -113,7 +112,7 @@ class Search extends Component
     {
         $this->entreprises = [];
         foreach (Entreprise::all() as $entreprise) {
-            $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonce];
+            $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonces];
             $tmp = array_unique($tmp, SORT_REGULAR);
             if (!in_array($tmp, $this->entreprises)) {
                 $this->entreprises[] = $tmp;
@@ -175,9 +174,11 @@ class Search extends Component
             }
             // parcourir chaque valeur et chercher le nombre d'annonce correspondant
             foreach ($quartiers as $key => $quartier) {
-                $quartiers[$key]['count'] = Annonce::public()->where('type', $quartier)->whereHas('entreprise.quartier', function ($query) use ($quartier) {
-                    $query->where('nom', 'like', '%' . $quartier['value'] . '%');
-                })->count();
+                $quartiers[$key]['count'] = Annonce::public()
+                    ->whereHas('entreprise.quartier', function ($query) use ($quartier) {
+                        $query->where('nom', 'like', '%' . $quartier['value'] . '%');
+                    })
+                    ->count();
             }
             $quartiers = array_unique($quartiers, SORT_REGULAR);
             $this->quartiers = $quartiers;
@@ -442,7 +443,8 @@ class Search extends Component
 
     public function render()
     {
-        $this->typeAnnonces = Annonce::public()->pluck('type')
+        $this->typeAnnonces = Annonce::public()
+            ->pluck('type')
             ->countBy()
             ->map(function ($count, $type) {
                 return ['value' => $type, 'count' => $count];

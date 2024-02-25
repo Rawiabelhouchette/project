@@ -8,13 +8,13 @@
                 <div class="col-md-4 col-sm-12">
                     <h4 class="text-center mrg-bot-15">Filtrer vos recherches</h4>
 
-                    {{-- @if ($type || $ville || $quartier)
+                    @if ($type || $ville || $quartier || $entreprise)
                         <p class="text-center">
                             <a href="javascript:void(0)" class="reset-filters" wire:click='resetFilters'>
                                 Effacer tous les filtres
                             </a>
                         </p>
-                    @endif --}}
+                    @endif
 
                     <div class="sidebar">
                         @foreach ($facettes as $facette)
@@ -46,35 +46,24 @@
                 <!-- Start All Listing -->
                 <div class="col-md-8 col-sm-12">
                     <!-- Filter option -->
-                    @if ($type || $ville || $quartier)
-                        {{-- @if (array_merge($type, $ville, $quartier)) --}}
+                    @if ($type || $ville || $quartier || $entreprise || $key)
                         <div class="row mrg-0 mrg-bot-10">
                             <div class="col-md-12 mrg-top-10">
                                 <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
                                     Recherche : &nbsp;
-                                    @foreach ($type as $item)
+                                    @if ($key)
                                         <span class="badge height-25 theme-bg">
-                                            {{ $item }}
-                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "type", true)'> x </a> --}}
+                                            {{ $key }}
+                                            {{-- <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $key }}", "key", true)'> x </a> --}}
                                         </span> &nbsp;
-                                    @endforeach
-                                    @foreach ($ville as $item)
-                                        <span class="badge height-25 theme-bg">
-                                            {{ $item }}
-                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "ville", true)'> x </a> --}}
-                                        </span> &nbsp;
-                                    @endforeach
-                                    @foreach ($quartier as $item)
-                                        <span class="badge height-25 theme-bg">
-                                            {{ $item }}
-                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "quartier", true)'> x </a> --}}
-                                        </span> &nbsp;
-                                    @endforeach
-                                    @foreach ($entreprise as $item)
-                                        <span class="badge height-25 theme-bg">
-                                            {{ $item }}
-                                            {{-- <a href="javascript:void(0)" class="text-white" wire:click='changeState("{{ $item }}", "entreprise", true)'> x </a> --}}
-                                        </span> &nbsp;
+                                    @endif
+                                    @foreach ($facettes as $facette)
+                                        @foreach ($facette->selectedItems as $item)
+                                            <span class="badge height-25 theme-bg">
+                                                {{ $item }}
+                                                <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'> x </a>
+                                            </span> &nbsp;
+                                        @endforeach
                                     @endforeach
                                 </div>
                             </div>
@@ -101,11 +90,8 @@
                             </a>
                         </div>
                     </div>
-                    <!-- End Filter option -->
+
                     <div class="row mrg-0">
-
-                        {{-- button --}}
-
                         @include('components.public.share-modal', [
                             'title' => 'Partager cette annonce',
                         ])
@@ -209,8 +195,9 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="listing-shot grid-style" style="padding-top: 50px; padding-bottom: 50px;">
                                     <div class="listing-shot-caption text-center mrg-top-5">
+                                        <i class="fa-solid fa-xmark fa-5x" aria-hidden="true"></i> <br>
                                         <h4>Aucune annonce trouvée</h4>
-                                        <a href="javascript:void(0)" class="reset-filters" class="theme-cl" wire:click='resetFilters'>Effacer les filtres</a>
+                                        {{-- <a href="javascript:void(0)" class="reset-filters" class="theme-cl" wire:click='resetFilters'>Effacer les filtres</a> --}}
                                     </div>
                                 </div>
                             </div>
@@ -219,9 +206,7 @@
 
                     {{ $annonces->links() }}
                 </div>
-                <!-- End All Listing -->
             </div>
-            <!-- End Pagination -->
         </div>
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->

@@ -147,3 +147,7 @@ Home, location vehicule, le bon type n'est pas pris
 - Enlever le nice-select
 - Revoir la couleur des options de localisation
 - on filter , changer l'url de sort a mettre correction les attributs (Le but c'est d'eviter les caracteres speciaux dans l'url)
+
+
+
+- update url on launch using attributes
