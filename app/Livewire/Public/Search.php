@@ -175,9 +175,11 @@ class Search extends Component
             }
             // parcourir chaque valeur et chercher le nombre d'annonce correspondant
             foreach ($quartiers as $key => $quartier) {
-                $quartiers[$key]['count'] = Annonce::public()->where('type', $quartier)->whereHas('entreprise.quartier', function ($query) use ($quartier) {
-                    $query->where('nom', 'like', '%' . $quartier['value'] . '%');
-                })->count();
+                $quartiers[$key]['count'] = Annonce::public()
+                    ->whereHas('entreprise.quartier', function ($query) use ($quartier) {
+                        $query->where('nom', 'like', '%' . $quartier['value'] . '%');
+                    })
+                    ->count();
             }
             $quartiers = array_unique($quartiers, SORT_REGULAR);
             $this->quartiers = $quartiers;

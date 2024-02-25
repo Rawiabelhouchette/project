@@ -189,8 +189,9 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="listing-shot grid-style" style="padding-top: 50px; padding-bottom: 50px;">
                                     <div class="listing-shot-caption text-center mrg-top-5">
+                                        <i class="fa-solid fa-xmark fa-5x" aria-hidden="true"></i> <br>
                                         <h4>Aucune annonce trouvée</h4>
-                                        <a href="javascript:void(0)" class="reset-filters" class="theme-cl" wire:click='resetFilters'>Effacer les filtres</a>
+                                        {{-- <a href="javascript:void(0)" class="reset-filters" class="theme-cl" wire:click='resetFilters'>Effacer les filtres</a> --}}
                                     </div>
                                 </div>
                             </div>
