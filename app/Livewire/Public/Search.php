@@ -82,7 +82,6 @@ class Search extends Component
                 }
             }
         }
-
     }
 
     private function getAllVilles(): void
@@ -444,7 +443,8 @@ class Search extends Component
 
     public function render()
     {
-        $this->typeAnnonces = Annonce::public()->pluck('type')
+        $this->typeAnnonces = Annonce::public()
+            ->pluck('type')
             ->countBy()
             ->map(function ($count, $type) {
                 return ['value' => $type, 'count' => $count];
