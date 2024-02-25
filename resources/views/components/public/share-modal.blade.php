@@ -42,7 +42,9 @@
                                 <ul class="padd-top-0">
                                     <li class="padd-top-0 padd-bot-0">
                                         <div class="listing-list-img" id="share-annonce-image">
-                                            <img id="annonce-image-url" src="http://via.placeholder.com/80x80" class="img-responsive" alt="">
+                                            <span class="text-center">
+                                                <img id="annonce-image-url" src="http://via.placeholder.com/80x80" class="img-responsive" alt="">
+                                            </span>
                                         </div>
                                         <div class="listing-list-info">
                                             <h5 id="annonce-titre"></h5>
