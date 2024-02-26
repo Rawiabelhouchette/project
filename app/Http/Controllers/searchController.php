@@ -10,9 +10,7 @@ class searchController extends Controller
 {
     public function search(Request $request)
     {
-        return view('public.search', [
-            'filter' => (object) $request->all(),
-        ]);
+        return view('public.search');
     }
 
     public function show($slug)

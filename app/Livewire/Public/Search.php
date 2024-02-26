@@ -51,9 +51,13 @@ class Search extends Component
     public $quartiers = [];
     public $entreprises = [];
 
+    private $initURL = '';
 
-    public function mount($filter)
+
+    public function mount()
     {
+
+        // dd($this->location);
         $this->type = array_filter($this->type);
         $this->ville = array_filter($this->ville);
         $this->quartier = array_filter($this->quartier);
@@ -82,6 +86,27 @@ class Search extends Component
                 }
             }
         }
+        $this->location = '';
+
+        $url = url()->current();
+
+        $properties = ['type', 'ville', 'quartier'];
+        $hasFirst = false;
+
+        foreach ($properties as $property) {
+            if ($this->$property) {
+                foreach ($this->$property as $key => $value) {
+                    $url .= $hasFirst ? '&' : '?';
+                    $url .= $property . '[' . $key . ']=' . $value;
+                    $hasFirst = true;
+                }
+            }
+        }
+
+
+        $url = str_replace(' ', '+', $url);
+
+        $this->initURL = trim($url);
     }
 
     private function getAllVilles(): void
@@ -147,10 +172,7 @@ class Search extends Component
                 $this->getVillesParType();
             } elseif ($category === 'ville') {
                 $this->getQuartiersParVilles();
-                // $this->location = '';
             } elseif ($category === 'quartier') {
-                // $this->location = '';
-                // dd($this->location);
             }
         }
 
@@ -186,6 +208,7 @@ class Search extends Component
             $this->getAllQuartiers();
         }
 
+        $tmp = [];
         foreach ($this->quartiers as $quartier) {
             $tmp[] = $quartier['value'];
         }
@@ -462,5 +485,9 @@ class Search extends Component
     public function rendered($view, $html)
     {
         $this->dispatch('refresh:filter');
+
+        $this->dispatch('refresh:url', [
+            'url' => $this->initURL,
+        ]);
     }
 }

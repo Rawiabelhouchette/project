@@ -323,6 +323,7 @@
     </script>
 
     <script>
+        // reset filters
         $(document).ready(function() {
             $('.reset-filters').on('click', function() {
                 var url = window.location.href;
