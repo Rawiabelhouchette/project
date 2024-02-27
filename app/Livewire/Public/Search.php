@@ -56,8 +56,6 @@ class Search extends Component
 
     public function mount()
     {
-
-        // dd($this->location);
         $this->type = array_filter($this->type);
         $this->ville = array_filter($this->ville);
         $this->quartier = array_filter($this->quartier);
@@ -69,7 +67,6 @@ class Search extends Component
         $this->getQuartiersParVilles();
 
 
-        // dd($this->villes);
         if ($this->location) {
             $tmp = explode(',', $this->location);
             if (count($tmp) == 3) {
@@ -92,6 +89,12 @@ class Search extends Component
 
         $properties = ['type', 'ville', 'quartier'];
         $hasFirst = false;
+
+        if ($this->key) {
+            $url .= $hasFirst ? '&' : '?';
+            $url .= 'key=' . $this->key;
+            $hasFirst = true;
+        }
 
         foreach ($properties as $property) {
             if ($this->$property) {
@@ -161,6 +164,12 @@ class Search extends Component
 
     public function changeState($value, $category, $remove = false)
     {
+        if ($category == 'key' && $remove) {
+            $this->key = '';
+            $this->dispatch('resetSearchKey');
+            return;
+        }
+
         if (in_array($category, ['type', 'ville', 'quartier', 'entreprise'])) {
             if ($remove || in_array($value, $this->$category)) {
                 $this->$category = array_diff($this->$category, [$value]);
@@ -172,13 +181,8 @@ class Search extends Component
                 $this->getVillesParType();
             } elseif ($category === 'ville') {
                 $this->getQuartiersParVilles();
-            } elseif ($category === 'quartier') {
             }
         }
-
-        // if ($this->type || $this->ville || $this->quartier || $this->entreprise) {
-        //     $this->dispatch('showResetFilters');
-        // }
     }
 
     protected function getQuartiersParVilles()
@@ -293,14 +297,14 @@ class Search extends Component
         $this->location = '';
         $this->ville = [];
         $this->quartier = [];
+        $this->entreprise = [];
         $this->column = '';
         $this->direction = '';
         $this->sortOrder = 'created_at|desc';
+        $this->reset('typeFilterValue', 'villeFilterValue', 'quartierFilterValue', 'entrepriseFilterValue', 'ville');
         $this->dispatch('resetSearchBox');
-        // $this->resetPage();
-        // reload the component
-        // $this->emit('refreshComponent');
-        // return $this->render();
+
+        // dump($this->ville, $this->quartier);
 
     }
 
