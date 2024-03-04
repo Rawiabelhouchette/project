@@ -41,8 +41,15 @@ class Edit extends Component
     public $equipements_cuisine = [];
     public $list_equipements_cuisine = [];
     public $list_types_hebergement = [];
+    
+    public $selected_images = [];
+
+
     public $galerie = [];
+
+
     public $old_galerie = [];
+    public $deleted_old_galerie = [];
     public $is_old_galerie = true;
     public $date_validite;
     public $heure_validite;
@@ -74,6 +81,15 @@ class Edit extends Component
         $this->types_hebergement = $auberge->annonce->references('types-hebergement')->pluck('id')->toArray();
         $this->old_galerie = $auberge->annonce->galerie()->get();
         $this->old_image = $auberge->annonce->imagePrincipale;
+    }
+
+    public function updatedSelectedImages($images)
+    {
+        foreach ($images as $image) {
+            $this->galerie[] = $image;
+        }
+        
+        $this->selected_images = [];
     }
 
     private function initialization()
@@ -171,18 +187,21 @@ class Edit extends Component
         ];
     }
 
-    public function removeGalerie($index)
+    public function removeImage($array_name, $index, $deleteAll = false)
     {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
+        if ($deleteAll) {
+            // $this->old_galerie = [];
+            // $this->galerie = [];
+            return;
+        }
 
-    public function updatedIsActive()
-    {
-        // TODO : Mettre le controle de sorte qu'on puisse activer une annonce avec une date de validité inferieur à la date du jour
+        if($array_name == 'old_galerie') {
+            $this->deleted_old_galerie[] = $index; // correspond à l'id de l'image dans la base de données
+        } else if ($array_name == 'galerie') {
+            unset($this->galerie[$index]);
+            $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
+        }
     }
-
-    // public function updated
 
     public function update()
     {
@@ -230,9 +249,14 @@ class Edit extends Component
                 ['Types hébergement', $this->types_hebergement],
             ];
 
+            // $galerie = array_merge($this->old_galerie->toArray(), $this->galerie);
+            // dump($this->old_galerie);
+            // dump($this->galerie);
+            // dd($galerie);
+
             AnnoncesUtils::updateManyReference($this->auberge->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->auberge->annonce, $this->galerie, 'annonces');
+            AnnoncesUtils::updateGalerie($this->image, $this->auberge->annonce, $this->galerie, $this->deleted_old_galerie, 'annonces');
 
             DB::commit();
         } catch (\Throwable $th) {

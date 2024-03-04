@@ -242,7 +242,7 @@ class AnnoncesUtils
         }
     }
 
-    public static function updateGalerie($image, $model, $variable, $folder_name): void
+    public static function updateGalerie($image, $model, $variable, $delete_galerie, $folder_name): void
     {
         if ($image) {
             $image->store('public/' . $folder_name);
@@ -257,7 +257,7 @@ class AnnoncesUtils
         }
 
         if ($variable) {
-            $model->removeGalerie();
+            $model->removeGalerie($delete_galerie);
             foreach ($variable as $image) {
                 $image->store('public/' . $folder_name);
                 $fichier = Fichier::create([
