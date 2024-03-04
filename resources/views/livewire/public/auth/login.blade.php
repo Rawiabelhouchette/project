@@ -49,8 +49,9 @@
 
                     <span class="custom-checkbox d-block">
                         <input id="remember" type="checkbox" name="remember" wire:model='remember'>
-                        <label for="remember"></label>
-                        {{ __('Se souvenir de moi') }}
+                        <label for="remember" style="font-weight: normal;">
+                            {{ __('Se souvenir de moi') }}
+                        </label>
                     </span>
 
                     <div class="center">
