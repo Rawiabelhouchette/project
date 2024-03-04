@@ -155,4 +155,4 @@ Home, location vehicule, le bon type n'est pas pris
 
 ## 26/02/2024
 - [ok] Lors de la copie du lien , les caracteres speciaux sont retiré , arranger cela
-- Apres suppression de filtre par fois le rendre ne fait pas disparaitre l'element arranger cela
+- Apres suppression de filtre par fois le rendu ne fait pas disparaitre l'element arranger cela

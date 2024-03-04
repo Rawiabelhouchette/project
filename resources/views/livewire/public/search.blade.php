@@ -46,29 +46,29 @@
                 <!-- Start All Listing -->
                 <div class="col-md-8 col-sm-12" wire:key='filterShow'>
                     <!-- Filter option -->
-                        @if ($type || $ville || $quartier || $entreprise || $key)
-                            <div class="row mrg-0 mrg-bot-10">
-                                <div class="col-md-12 mrg-top-10">
-                                    <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
-                                        Recherche : &nbsp;
-                                        @if ($key)
-                                            <span class="badge height-25 theme-bg">
-                                                {{ $key }}
-                                                <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $key }}", "key", true)'> x </a>
+                    @if ($type || $ville || $quartier || $entreprise || $key)
+                        <div class="row mrg-0 mrg-bot-10">
+                            <div class="col-md-12 mrg-top-10">
+                                <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
+                                    Recherche : &nbsp;
+                                    @if ($key)
+                                        <span class="badge height-25 theme-bg">
+                                            {{ $key }}
+                                            <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $key }}", "key", true)'> x </a>
+                                        </span> &nbsp;
+                                    @endif
+                                    @foreach ($facettes as $facette)
+                                        @foreach ($facette->selectedItems as $item)
+                                            <span class="badge height-25 theme-bg" wire:key='{{ $item }}'>
+                                                {{ $item }}
+                                                <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'> x </a>
                                             </span> &nbsp;
-                                        @endif
-                                        @foreach ($facettes as $facette)
-                                            @foreach ($facette->selectedItems as $item)
-                                                <span class="badge height-25 theme-bg" wire:key='{{ $item }}'>
-                                                    {{ $item }}
-                                                    <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'> x </a>
-                                                </span> &nbsp;
-                                            @endforeach
                                         @endforeach
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
-                        @endif
+                        </div>
+                    @endif
 
                     <div class="row mrg-0">
                         <div class="col-md-6 mrg-top-10">
@@ -334,5 +334,20 @@
                 window.history.pushState({}, '', newUrl);
             });
         });
+    </script>
+
+    <script>
+        // $(document).ready(function() {
+        //     $('.selectedOption').on('click', function() {
+        //         // supprimer l'element pres 2 seconde s'il existe toujours
+
+        //         var intervalId = setInterval(function() {
+        //             if ($(this).length > 0) {
+        //                 $(this).parent().remove(); //.fadeOut(300);
+        //             }
+        //             clearInterval(intervalId);
+        //         }, 500);
+        //     });
+        // });
     </script>
 @endpush

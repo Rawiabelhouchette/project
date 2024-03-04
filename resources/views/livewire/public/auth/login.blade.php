@@ -54,7 +54,14 @@
                     </span>
 
                     <div class="center">
-                        <button type="submit" wire:target='login' wire:loading.attr='disabled' class="btn btn-midium theme-btn btn-radius width-200"> {{ __('Connexion') }} </button>
+                        <button type="submit" wire:target='login' wire:loading.attr='disabled' class="btn btn-midium theme-btn btn-radius width-200">
+                            <span wire:loading>
+                                @include('components.public.loader', ['withText' => false, 'color' => '#fff'])
+                            </span>
+                            <span>
+                                &nbsp;{{ __('Connexion') }}
+                            </span>
+                        </button>
                     </div>
 
                 </form>
