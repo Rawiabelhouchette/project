@@ -187,20 +187,28 @@ class Edit extends Component
         ];
     }
 
-    public function removeImage($array_name, $index, $deleteAll = false)
+    public function removeImage($array_name, $index)
     {
-        if ($deleteAll) {
-            // $this->old_galerie = [];
-            // $this->galerie = [];
-            return;
-        }
-
         if($array_name == 'old_galerie') {
             $this->deleted_old_galerie[] = $index; // correspond à l'id de l'image dans la base de données
         } else if ($array_name == 'galerie') {
             unset($this->galerie[$index]);
             $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
         }
+    }
+
+    public function removeAllImages() {
+        $this->galerie = [];
+        $this->deleted_old_galerie = [];
+        foreach ($this->old_galerie as $image) {
+            $this->deleted_old_galerie[] = $image->id;
+        }
+    }
+
+    // Cancel all modifications
+    public function restoreImages() {
+        $this->galerie = [];
+        $this->deleted_old_galerie = [];
     }
 
     public function update()
@@ -248,11 +256,6 @@ class Edit extends Component
                 ['Equipements cuisine', $this->equipements_cuisine],
                 ['Types hébergement', $this->types_hebergement],
             ];
-
-            // $galerie = array_merge($this->old_galerie->toArray(), $this->galerie);
-            // dump($this->old_galerie);
-            // dump($this->galerie);
-            // dd($galerie);
 
             AnnoncesUtils::updateManyReference($this->auberge->annonce, $references);
 

@@ -256,7 +256,7 @@ class AnnoncesUtils
             $model->save();
         }
 
-        if ($variable) {
+        if ($variable || $delete_galerie) {
             $model->removeGalerie($delete_galerie);
             foreach ($variable as $image) {
                 $image->store('public/' . $folder_name);
