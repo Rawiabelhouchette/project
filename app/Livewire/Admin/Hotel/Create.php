@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Admin\Hotel;
 
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Hotel;
 use App\Models\Entreprise;
-use App\Models\Fichier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Utils\AnnoncesUtils;
@@ -16,7 +16,7 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;
@@ -42,11 +42,9 @@ class Create extends Component
     public $list_equipements_salle_bain = [];
     public $equipements_cuisine = [];
     public $list_equipements_cuisine = [];
-    public $galerie = [];
     public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
-    public $image;
 
     public function mount()
     {
@@ -139,14 +137,6 @@ class Create extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
-    // public function updated
-
     public function store()
     {
         $this->validate();
@@ -202,16 +192,7 @@ class Create extends Component
             return;
         }
 
-        // $this->reset();
-        // $this->initialization();
-
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
-
-        // $this->dispatch('swal:modal', [
-        //     'icon' => 'success',
-        //     'title'   => __('Opération réussie'),
-        //     'message' => __('L\'hôtel a bien été ajoutée'),
-        // ]);
 
         session()->flash('success', 'L\'hôtel a bien été ajoutée');
         return redirect()->route('hotels.create');

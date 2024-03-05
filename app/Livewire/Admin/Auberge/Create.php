@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Admin\Auberge;
 
-use App\Livewire\Admin\AnnonceBase;
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Auberge;
 use App\Models\Entreprise;
@@ -16,7 +16,7 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBase;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;

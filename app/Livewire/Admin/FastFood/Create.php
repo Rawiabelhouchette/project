@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\FastFood;
 
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\FastFood;
 use App\Models\Entreprise;
@@ -15,7 +16,7 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;
@@ -34,8 +35,6 @@ class Create extends Component
     public $list_equipements_restauration = [];
 
     public $entreprises = [];
-    public $galerie = [];
-    public $image;
 
     public function mount()
     {
@@ -96,12 +95,6 @@ class Create extends Component
             'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
 
         ];
-    }
-
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
     }
 
     public function store()

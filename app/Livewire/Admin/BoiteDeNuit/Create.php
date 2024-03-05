@@ -2,20 +2,21 @@
 
 namespace App\Livewire\Admin\BoiteDeNuit;
 
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\BoiteDeNuit;
 use App\Models\Entreprise;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Utils\AnnoncesUtils;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;
@@ -34,10 +35,6 @@ class Create extends Component
 
     public $equipements_vie_nocturne = [];
     public $list_equipements_vie_nocturne = [];
-
-    public $entreprises = [];
-    public $galerie = [];
-    public $image;
 
     public function mount()
     {
@@ -114,17 +111,11 @@ class Create extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
     public function store()
     {
         $this->validate();
 
-        // try {
+        try {
             DB::beginTransaction();
 
             $boiteDeNuit = BoiteDeNuit::create([]);
@@ -151,29 +142,19 @@ class Create extends Component
             AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'boite-de-nuits');
 
             DB::commit();
-        // } catch (\Throwable $th) {
-        //     DB::rollBack();
-        //     $this->dispatch('swal:modal', [
-        //         'icon' => 'error',
-        //         'title'   => __('Opération réussie'),
-        //         'message' => __('Une erreur est survenue lors de l\'annonce'),
-        //     ]);
-        //     Log::error($th->getMessage());
-        //     return;
-        // }
-
-        // $this->reset();
-        // $this->initialization();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title'   => __('Opération réussie'),
+                'message' => __('Une erreur est survenue lors de l\'annonce'),
+            ]);
+            Log::error($th->getMessage());
+            return;
+        }
 
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
-
-
-        // $this->dispatch('swal:modal', [
-        //     'icon' => 'success',
-        //     'title'   => __('Opération réussie'),
-        //     'message' => __('L\'boiteDeNuit a bien été ajoutée'),
-        // ]);
         session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('boite-de-nuits.create');
     }

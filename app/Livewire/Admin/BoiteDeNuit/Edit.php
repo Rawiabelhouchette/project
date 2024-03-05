@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\BoiteDeNuit;
 
+use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Utils\AnnoncesUtils;
 use Livewire\Component;
 use App\Models\Entreprise;
@@ -13,7 +14,7 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseEdit;
 
     public $nom;
     public $type;
@@ -36,12 +37,8 @@ class Edit extends Component
     public $list_equipements_vie_nocturne = [];
 
     public $entreprises = [];
-    public $galerie = [];
-    public $old_galerie = [];
 
     public $is_active;
-    public $image;
-    public $old_image;
 
 
     public function mount($boiteDeNuit)
@@ -85,7 +82,6 @@ class Edit extends Component
             $this->list_equipements_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_equipements_vie_nocturne->id)->select('valeur', 'id')->get() :
             $this->list_equipements_vie_nocturne = [];
     }
-
     public function rules()
     {
         return [
@@ -126,17 +122,6 @@ class Edit extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
-    public function updatedIsActive()
-    {
-        // TODO : Mettre le controle de sorte qu'on puisse activer une annonce avec une date de validité inferieur à la date du jour
-    }
-
     public function update()
     {
         $this->validate();
@@ -173,7 +158,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->boiteDeNuit->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->boiteDeNuit->annonce, $this->galerie, 'boite-de-nuits');
+            AnnoncesUtils::updateGalerie($this->image, $this->boiteDeNuit->annonce, $this->galerie, $this->deleted_old_galerie, 'boite-de-nuits');
 
             DB::commit();
         } catch (\Throwable $th) {
@@ -186,9 +171,6 @@ class Edit extends Component
             Log::error($th->getMessage());
             return;
         }
-
-        $this->reset();
-        $this->initialization();
 
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 

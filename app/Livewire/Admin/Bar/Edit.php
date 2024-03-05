@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Bar;
 
+use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Models\Entreprise;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseEdit;
 
     public $nom;
     public $type;
@@ -36,10 +37,6 @@ class Edit extends Component
     public $list_commodites_vie_nocturne = [];
 
     public $entreprises = [];
-    public $galerie = [];
-    public $old_galerie = [];
-    public $image;
-    public $old_image;
 
 
     public function mount($bar)
@@ -140,12 +137,6 @@ class Edit extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
     public function updatedIsActive()
     {
         // TODO : Mettre le controle de sorte qu'on puisse activer une annonce avec une date de validité inferieur à la date du jour
@@ -193,7 +184,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->bar->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->bar->annonce, $this->galerie, 'bars');
+            AnnoncesUtils::updateGalerie($this->image, $this->bar->annonce, $this->galerie, $this->deleted_old_galerie, 'bars');
 
             DB::commit();
         } catch (\Throwable $th) {
@@ -206,10 +197,7 @@ class Edit extends Component
             Log::error($th->getMessage());
             return;
         }
-
-        $this->reset();
-        $this->initialization();
-
+        
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', __('L\'bar a bien été modifiée avec succès'));

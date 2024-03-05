@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Auberge;
 
+use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Utils\AnnoncesUtils;
 use Livewire\Component;
 use App\Models\Entreprise;
@@ -13,7 +14,7 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseEdit;
 
     public $nom;
     public $type;
@@ -41,18 +42,9 @@ class Edit extends Component
     public $equipements_cuisine = [];
     public $list_equipements_cuisine = [];
     public $list_types_hebergement = [];
-    
-    public $selected_images = [];
-    public $galerie = [];
-
-    public $old_galerie = [];
-    public $deleted_old_galerie = [];
-    public $is_old_galerie = true;
     public $date_validite;
     public $heure_validite;
     public $auberge;
-    public $image;
-    public $old_image;
 
     public function mount($auberge)
     {
@@ -184,30 +176,6 @@ class Edit extends Component
         ];
     }
 
-    public function removeImage($array_name, $index)
-    {
-        if($array_name == 'old_galerie') {
-            $this->deleted_old_galerie[] = $index; // correspond à l'id de l'image dans la base de données
-        } else if ($array_name == 'galerie') {
-            unset($this->galerie[$index]);
-            $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-        }
-    }
-
-    public function removeAllImages() {
-        $this->galerie = [];
-        $this->deleted_old_galerie = [];
-        foreach ($this->old_galerie as $image) {
-            $this->deleted_old_galerie[] = $image->id;
-        }
-    }
-
-    // Cancel all modifications
-    public function restoreImages() {
-        $this->galerie = [];
-        $this->deleted_old_galerie = [];
-    }
-
     public function update()
     {
         $this->validate();
@@ -269,9 +237,6 @@ class Edit extends Component
             Log::error($th->getMessage());
             return;
         }
-
-        $this->reset();
-        $this->initialization();
 
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 

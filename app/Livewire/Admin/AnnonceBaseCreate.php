@@ -3,10 +3,11 @@
 namespace App\Livewire\Admin;
 
 
-trait AnnonceBase {
+trait AnnonceBaseCreate {
     public $selected_images = [];
     public $galerie = [];
     public $image;
+
 
     public function updatedSelectedImages($images)
     {

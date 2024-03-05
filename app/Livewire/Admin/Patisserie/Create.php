@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Patisserie;
 
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Entreprise;
 use App\Models\Patisserie;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;
@@ -36,8 +37,6 @@ class Create extends Component
     public $list_produits_patissiers = [];
 
     public $entreprises = [];
-    public $galerie = [];
-    public $image;
 
 
     public function mount()
@@ -109,13 +108,7 @@ class Create extends Component
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
         ];
     }
-
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
+    
     public function store()
     {
         $this->validate();
