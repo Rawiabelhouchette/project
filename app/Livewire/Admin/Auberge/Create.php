@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Auberge;
 
+use App\Livewire\Admin\AnnonceBase;
 use App\Models\Annonce;
 use App\Models\Auberge;
 use App\Models\Entreprise;
@@ -15,7 +16,7 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBase;
 
     public $nom;
     public $type;
@@ -42,11 +43,8 @@ class Create extends Component
     public $equipements_cuisine = [];
     public $list_equipements_cuisine = [];
     public $list_types_hebergement = [];
-    public $selected_images = [];
-    public $galerie = [];
     public $date_validite;
     public $heure_validite;
-    public $image;
 
     public function mount()
     {
@@ -107,25 +105,7 @@ class Create extends Component
             : ($this->list_types_hebergement = []);
     }
 
-    public function updatedSelectedImages($images)
-    {
-        foreach ($images as $image) {
-            $this->galerie[] = $image;
-        }
 
-        $this->selected_images = [];
-    }
-
-    public function removeImage($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
-    public function removeAllImages()
-    {
-        $this->galerie = [];
-    }
 
     public function rules()
     {
@@ -173,12 +153,6 @@ class Create extends Component
             'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
             'image.required' => 'L\'image est obligatoire',
         ];
-    }
-
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
     }
 
     public function store()

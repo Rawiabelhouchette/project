@@ -36,6 +36,7 @@ class Create extends Component
     public $list_commodites_vie_nocturne = [];
 
     public $entreprises = [];
+    public $selected_images = [];
     public $galerie = [];
     public $image;
 
