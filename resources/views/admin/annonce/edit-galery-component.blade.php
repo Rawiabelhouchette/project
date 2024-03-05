@@ -25,7 +25,7 @@
         <div class="text-center gallery-box">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="listing-shot grid-style  mrg-bot-15">
+                    <div class="listing-shot grid-style mrg-bot-15">
                         @if ($image)
                         <div style="display: flex; justify-content: center; align-items: center;">
                             <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
@@ -38,10 +38,6 @@
                                     <img class="listing-shot-img" src="{{ asset('storage/' . $old_image->chemin) }}" class="img-responsive" alt="">
                                 </a>
                             </div>
-
-                            {{-- <a data-fancybox="gallery" href="{{ asset('storage/' . $old_image->chemin) }}">
-                        <img src="{{ asset('storage/' . $old_image->chemin) }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
-                    </a> --}}
                         @endif
                     </div>
                 </div>

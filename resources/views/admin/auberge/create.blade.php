@@ -7,7 +7,7 @@
         <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
                 <li><a href="#">Auberge</a></li>
-                <li class="active">Ajouter une</li>
+                <li class="active">Ajouter une auberge</li>
             </ol>
         </div>
         <!-- /.col-lg-12 -->

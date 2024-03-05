@@ -43,10 +43,7 @@ class Edit extends Component
     public $list_types_hebergement = [];
     
     public $selected_images = [];
-
-
     public $galerie = [];
-
 
     public $old_galerie = [];
     public $deleted_old_galerie = [];
