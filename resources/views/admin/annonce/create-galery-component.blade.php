@@ -66,13 +66,15 @@
                 <input id="upload" type="file" wire:model="selected_images" accept="image/*" multiple style="display: none;"> <br>
             </div>
             <div class="col-md-4">
-                <a href="javascript:void(0)" wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?"
-                   @if (count($galerie) == 0) disabled @endif class="btn btn-sm theme-btn-outlined" wire:click="removeAllImages" style="padding: 6px">
-                    <i class="fa fa-trash fa-lg" style="margin-left: 10px;"></i>
-                    &nbsp; &nbsp; &nbsp;
-                    Supprimer toutes les images
-                    &nbsp; &nbsp;
-                </a>
+                @if (count($galerie) != 0)
+                    <a href="javascript:void(0)" wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?"
+                       class="btn btn-sm theme-btn-outlined" wire:click="removeAllImages" style="padding: 6px">
+                        <i class="fa fa-trash fa-lg" style="margin-left: 10px;"></i>
+                        &nbsp; &nbsp; &nbsp;
+                        Supprimer toutes les images
+                        &nbsp; &nbsp;
+                    </a>
+                @endif
             </div>
             <div class="col-md-4">
                 {{-- <a href="javascript:void(0)" wire:click='restoreImages' wire:confirm="Confirmez-vous cette action ?"
