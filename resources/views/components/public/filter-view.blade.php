@@ -19,7 +19,7 @@
                                 {{ $item['count'] }} &nbsp;
                             </span>
                         </li>
-                    @endforeach 
+                    @endforeach
                     <p id="no-{{ $category }}-results" class="text-center" style="display: none;">Aucun résultat</p>
                 </ul>
             </div>

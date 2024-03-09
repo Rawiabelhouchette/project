@@ -27,7 +27,6 @@ class Login extends Component
         if (!$login->status) {
             $this->error = true;
             $this->message = $login->message;
-            $this->password = '';
             return;
         }
 

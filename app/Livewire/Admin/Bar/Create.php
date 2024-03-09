@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Bar;
 
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Bar;
 use App\Models\Entreprise;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;
@@ -36,8 +37,6 @@ class Create extends Component
     public $list_commodites_vie_nocturne = [];
 
     public $entreprises = [];
-    public $galerie = [];
-    public $image;
 
 
     public function mount()
@@ -127,12 +126,6 @@ class Create extends Component
 
             'image.required' => 'L\'image est obligatoire',
         ];
-    }
-
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
     }
 
     public function store()

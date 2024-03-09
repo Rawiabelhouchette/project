@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Admin\Hotel;
 
+use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Utils\AnnoncesUtils;
 use Livewire\Component;
 use App\Models\Entreprise;
-use App\Models\Fichier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use Illuminate\Support\Facades\DB;
@@ -14,12 +14,9 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseEdit;
 
     public $nom;
-    public $image;
-    public $old_image;
-
     public $type;
     public $types_hebergement;
     public $is_active;
@@ -45,9 +42,6 @@ class Edit extends Component
     public $equipements_cuisine = [];
     public $list_equipements_cuisine = [];
     public $list_types_hebergement = [];
-    public $galerie = [];
-    public $old_galerie = [];
-    public $is_old_galerie = true;
     public $date_validite;
     public $heure_validite;
     public $hotel;
@@ -172,19 +166,6 @@ class Edit extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
-    public function updatedIsActive()
-    {
-        // TODO : Mettre le controle de sorte qu'on puisse activer une annonce avec une date de validité inferieur à la date du jour
-    }
-
-    // public function updated
-
     public function update()
     {
         $this->validate();
@@ -233,7 +214,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->hotel->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->hotel->annonce, $this->galerie, 'hotels');
+            AnnoncesUtils::updateGalerie($this->image, $this->hotel->annonce, $this->galerie, $this->deleted_old_galerie, 'hotels');
             
             DB::commit();
         } catch (\Throwable $th) {
@@ -246,9 +227,6 @@ class Edit extends Component
             Log::error($th->getMessage());
             return;
         }
-
-        $this->reset();
-        $this->initialization();
 
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 

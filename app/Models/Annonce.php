@@ -158,9 +158,12 @@ class Annonce extends Model
         return $display;
     }
 
-    public function removeGalerie()
+    public function removeGalerie(array $image_ids = null)
     {
-        $this->galerie()->detach();
+        // $this->galerie()->detach();
+        $this->galerie()->detach($image_ids);
+
+
     }
 
     // permettre de mettre des nombres en format 1k, 1M

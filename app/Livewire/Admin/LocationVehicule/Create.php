@@ -2,13 +2,12 @@
 
 namespace App\Livewire\Admin\LocationVehicule;
 
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\LocationVehicule;
 use App\Models\Entreprise;
-use App\Models\Fichier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
-use App\Utils\Annonces;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +16,7 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;
@@ -46,12 +45,8 @@ class Create extends Component
 
     public $conditions_location = [];
     public $list_conditions_location = [];
-
-    public $galerie = [];
     public $date_validite;
     public $heure_validite;
-    public $image;
-    public $old_image;
 
 
     public function mount()
@@ -162,12 +157,6 @@ class Create extends Component
             'nombre_portes.min' => __('Le nombre de portes doit être supérieur ou égal à :min'),
             'nombre_portes.max' => __('Le nombre de portes doit être inférieur ou égal à :max'),
         ];
-    }
-
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
     }
 
     public function store()

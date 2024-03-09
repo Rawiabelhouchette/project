@@ -51,8 +51,10 @@ class Search extends Component
     public $quartiers = [];
     public $entreprises = [];
 
+    private $initURL = '';
 
-    public function mount($filter)
+
+    public function mount()
     {
         $this->type = array_filter($this->type);
         $this->ville = array_filter($this->ville);
@@ -65,7 +67,6 @@ class Search extends Component
         $this->getQuartiersParVilles();
 
 
-        // dd($this->villes);
         if ($this->location) {
             $tmp = explode(',', $this->location);
             if (count($tmp) == 3) {
@@ -82,6 +83,33 @@ class Search extends Component
                 }
             }
         }
+        $this->location = '';
+
+        $url = url()->current();
+
+        $properties = ['type', 'ville', 'quartier'];
+        $hasFirst = false;
+
+        if ($this->key) {
+            $url .= $hasFirst ? '&' : '?';
+            $url .= 'key=' . $this->key;
+            $hasFirst = true;
+        }
+
+        foreach ($properties as $property) {
+            if ($this->$property) {
+                foreach ($this->$property as $key => $value) {
+                    $url .= $hasFirst ? '&' : '?';
+                    $url .= $property . '[' . $key . ']=' . $value;
+                    $hasFirst = true;
+                }
+            }
+        }
+
+
+        $url = str_replace(' ', '+', $url);
+
+        $this->initURL = trim($url);
     }
 
     private function getAllVilles(): void
@@ -136,6 +164,12 @@ class Search extends Component
 
     public function changeState($value, $category, $remove = false)
     {
+        if ($category == 'key' && $remove) {
+            $this->key = '';
+            $this->dispatch('resetSearchKey');
+            return;
+        }
+
         if (in_array($category, ['type', 'ville', 'quartier', 'entreprise'])) {
             if ($remove || in_array($value, $this->$category)) {
                 $this->$category = array_diff($this->$category, [$value]);
@@ -147,16 +181,8 @@ class Search extends Component
                 $this->getVillesParType();
             } elseif ($category === 'ville') {
                 $this->getQuartiersParVilles();
-                // $this->location = '';
-            } elseif ($category === 'quartier') {
-                // $this->location = '';
-                // dd($this->location);
             }
         }
-
-        // if ($this->type || $this->ville || $this->quartier || $this->entreprise) {
-        //     $this->dispatch('showResetFilters');
-        // }
     }
 
     protected function getQuartiersParVilles()
@@ -186,6 +212,7 @@ class Search extends Component
             $this->getAllQuartiers();
         }
 
+        $tmp = [];
         foreach ($this->quartiers as $quartier) {
             $tmp[] = $quartier['value'];
         }
@@ -270,14 +297,14 @@ class Search extends Component
         $this->location = '';
         $this->ville = [];
         $this->quartier = [];
+        $this->entreprise = [];
         $this->column = '';
         $this->direction = '';
         $this->sortOrder = 'created_at|desc';
+        $this->reset('typeFilterValue', 'villeFilterValue', 'quartierFilterValue', 'entrepriseFilterValue', 'ville');
         $this->dispatch('resetSearchBox');
-        // $this->resetPage();
-        // reload the component
-        // $this->emit('refreshComponent');
-        // return $this->render();
+
+        // dump($this->ville, $this->quartier);
 
     }
 
@@ -462,5 +489,9 @@ class Search extends Component
     public function rendered($view, $html)
     {
         $this->dispatch('refresh:filter');
+
+        $this->dispatch('refresh:url', [
+            'url' => $this->initURL,
+        ]);
     }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Livewire\Admin\Patisserie;
 
-use App\Models\Annonce;
+use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Models\Entreprise;
-use App\Models\Patisserie;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Utils\AnnoncesUtils;
@@ -15,11 +14,9 @@ use Illuminate\Support\Facades\Log;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseEdit;
 
     public $nom;
-    public $image;
-    public $old_image;
     public $description;
     public $date_validite;
     public $entreprise_id;
@@ -40,8 +37,6 @@ class Edit extends Component
     public $list_produits_patissiers = [];
 
     public $entreprises = [];
-    public $galerie = [];
-    public $old_galerie = [];
 
 
     public function mount($patisserie)
@@ -132,12 +127,6 @@ class Edit extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
     public function update()
     {
         $this->validate();
@@ -177,7 +166,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->patisserie->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->patisserie->annonce, $this->galerie, 'patisseries');
+            AnnoncesUtils::updateGalerie($this->image, $this->patisserie->annonce, $this->galerie, $this->deleted_old_galerie, 'patisseries');
 
             DB::commit();
         } catch (\Throwable $th) {

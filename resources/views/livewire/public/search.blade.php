@@ -44,7 +44,7 @@
                 <!-- End Start Sidebar -->
 
                 <!-- Start All Listing -->
-                <div class="col-md-8 col-sm-12">
+                <div class="col-md-8 col-sm-12" wire:key='filterShow'>
                     <!-- Filter option -->
                     @if ($type || $ville || $quartier || $entreprise || $key)
                         <div class="row mrg-0 mrg-bot-10">
@@ -54,12 +54,12 @@
                                     @if ($key)
                                         <span class="badge height-25 theme-bg">
                                             {{ $key }}
-                                            {{-- <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $key }}", "key", true)'> x </a> --}}
+                                            <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $key }}", "key", true)'> x </a>
                                         </span> &nbsp;
                                     @endif
                                     @foreach ($facettes as $facette)
                                         @foreach ($facette->selectedItems as $item)
-                                            <span class="badge height-25 theme-bg">
+                                            <span class="badge height-25 theme-bg" wire:key='{{ $item }}'>
                                                 {{ $item }}
                                                 <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'> x </a>
                                             </span> &nbsp;
@@ -217,28 +217,31 @@
         $(document).ready(function() {
             $('.annonce-share').on('click', function() {
                 var type = $(this).data('type');
-                var text;
+                var text, subject, url, image, annonceType;
+
                 $('#share-annonce-image').show();
+
                 if (type === 'all') {
-                    text = window.location.href;
+                    text = decodeURI(window.location.href);
+                    subject = $(this).data('titre');
+                    url = text;
                     $('#share-annonce-image').hide();
                     $('#annonce-type').text('');
                     $('#annonce-titre').text("Partager la page");
-                    $('#annonce-email').attr('href', 'mailto:?subject=' + $(this).data('titre') + '&body=' + text);
-                    $('#annonce-url').data('url', text);
-                    $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + text);
                 } else {
                     text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + $(this).data('titre') + "%0ALien : " + $(this).data('url') + " ";
-                    $('#annonce-titre').text($(this).data('titre'));
-                    $('#annonce-image-url').attr('src', $(this).data('image'));
-                    $('#annonce-type').text($(this).data('type'));
-                    $('#annonce-email').attr('href', 'mailto:?subject=' + $(this).data('titre') + '&body=' + text);
-                    $('#annonce-url').data('url', $(this).data('url'));
-                    $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + $(this).data('url'));
+                    subject = $(this).data('titre');
+                    url = $(this).data('url');
+                    image = $(this).data('image');
+                    annonceType = $(this).data('type');
+                    $('#annonce-titre').text(subject);
+                    $('#annonce-image-url').attr('src', image);
+                    $('#annonce-type').text(annonceType);
                 }
 
-                // $('#annonce-whatsapp').attr('href', 'https://web.whatsapp.com/send?text=' + text);
-                // open directly in whatsapp app
+                $('#annonce-email').attr('href', 'mailto:?subject=' + subject + '&body=' + text);
+                $('#annonce-url').data('url', url);
+                $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url);
                 $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
             });
 
@@ -246,7 +249,7 @@
                 var text = $(this).data('url');
 
                 if (!navigator.clipboard) {
-                    console.log('Clipboard API not available');
+                    console.error('Clipboard API not available');
                     return;
                 }
 
@@ -323,13 +326,28 @@
     </script>
 
     <script>
+        // reset filters
         $(document).ready(function() {
             $('.reset-filters').on('click', function() {
                 var url = window.location.href;
                 var newUrl = url.split('?')[0];
-                console.log(newUrl);
                 window.history.pushState({}, '', newUrl);
             });
         });
+    </script>
+
+    <script>
+        // $(document).ready(function() {
+        //     $('.selectedOption').on('click', function() {
+        //         // supprimer l'element pres 2 seconde s'il existe toujours
+
+        //         var intervalId = setInterval(function() {
+        //             if ($(this).length > 0) {
+        //                 $(this).parent().remove(); //.fadeOut(300);
+        //             }
+        //             clearInterval(intervalId);
+        //         }, 500);
+        //     });
+        // });
     </script>
 @endpush

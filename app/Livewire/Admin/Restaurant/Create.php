@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Restaurant;
 
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Entreprise;
 use App\Models\Reference;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;
@@ -50,8 +51,6 @@ class Create extends Component
 
 
     public $entreprises = [];
-    public $galerie = [];
-    public $image;
 
     public function mount()
     {
@@ -163,12 +162,6 @@ class Create extends Component
             'galerie.array' => 'La galerie doit être un tableau.',
             'galerie.*.image' => 'La galerie doit contenir des images.',
         ];
-    }
-
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
     }
 
     public function store()

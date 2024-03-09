@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\FastFood;
 
+use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Models\Annonce;
 use App\Models\FastFood;
 use App\Models\Entreprise;
@@ -15,11 +16,9 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseEdit;
 
     public $nom;
-    public $image;
-    public $old_image;
     public $type;
     public $description;
     public $date_validite;
@@ -37,10 +36,6 @@ class Edit extends Component
     public $list_equipements_restauration = [];
 
     public $entreprises = [];
-    public $galerie = [];
-
-    public $old_galerie = [];
-
     public $fastFood;
 
     public function mount($fastFood)
@@ -116,12 +111,6 @@ class Edit extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
     public function update()
     {
         $this->validate();
@@ -158,7 +147,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->fastFood->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->fastFood->annonce, $this->galerie, 'fast-foods');
+            AnnoncesUtils::updateGalerie($this->image, $this->fastFood->annonce, $this->galerie, $this->deleted_old_galerie, 'fast-foods');
 
             DB::commit();
         } catch (\Throwable $th) {

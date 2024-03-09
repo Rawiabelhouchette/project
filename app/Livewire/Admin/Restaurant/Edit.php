@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Restaurant;
 
+use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Models\Entreprise;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
@@ -13,11 +14,9 @@ use Illuminate\Support\Facades\Log;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseEdit;
 
     public $nom;
-    public $image;
-    public $old_image;
     public $type;
     public $description;
     public $date_validite;
@@ -50,10 +49,7 @@ class Edit extends Component
     public $carte_consommation = [];
     public $list_carte_consommation = [];
 
-
     public $entreprises = [];
-    public $galerie = [];
-    public $old_galerie = [];
 
     public function mount($restaurant)
     {
@@ -201,12 +197,6 @@ class Edit extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
     public function update()
     {
         $this->validate();
@@ -257,7 +247,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->restaurant->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->restaurant->annonce, $this->galerie, 'restaurants');
+            AnnoncesUtils::updateGalerie($this->image, $this->restaurant->annonce, $this->galerie, $this->deleted_old_galerie, 'restaurants');
 
             DB::commit();
         } catch (\Throwable $th) {
