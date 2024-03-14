@@ -7,7 +7,7 @@
     <td colspan="2">
         <div class="text-center gallery-box">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="listing-shot grid-style mrg-bot-15">
                         @if ($annonce->image)
                             <a data-fancybox="gallery" href="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}">
