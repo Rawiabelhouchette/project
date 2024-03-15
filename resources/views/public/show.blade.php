@@ -55,11 +55,36 @@
                     <!-- Start: Listing Gallery -->
                     <div class="widget-boxed">
                         <div class="widget-boxed-header">
-                            <h4><i class="ti-gallery padd-r-10"></i>Gallery</h4>
+                            <h4><i class="ti-gallery padd-r-10"></i>Galérie</h4>
                         </div>
                         <div class="widget-boxed-body padd-top-0">
                             <div class="side-list no-border gallery-box">
                                 <div class="row">
+                                    <div class="col-xs-12 col-md-12" style="margin-bottom: -20px !important; margin-top: -10px !important;">
+                                        <div class="listing-shot grid-style">
+                                            {{-- <a data-fancybox="gallery" href="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"> --}}
+                                            <div class="" style="display: flex; justify-content: center; align-items: center; height: 220px;
+                                            background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;
+                                            ">
+                                                {{-- <img class="listing-shot-img" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt=""> --}}
+                                            </div>
+                                            {{-- </a> --}}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <div class="listing-shot grid-style">
+                                            {{-- <a data-fancybox="gallery" href="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"> --}}
+                                            <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px;
+                                            background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;
+                                            ">
+                                                {{-- <img class="listing-shot-img" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt=""> --}}
+                                            </div>
+                                            {{-- </a> --}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- <div class="row">
                                     @foreach ($annonce->galerie as $image)
                                         <div class="col-xs-12 col-md-4">
                                             <div class="listing-shot grid-style">
@@ -70,13 +95,19 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
-                                </div>
+                                        @endforeach
+                                    </div> --}}
 
-                                {{-- <div class="col-md-12 col-sm-12 padd-top-5" data-fancybox="gallery" href="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"
-                                     style="background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center; height: 300px;">
+                                {{-- <div class="col-md-12 col-sm-12 padd-top-5">
                                 </div>
-                                <ul class="gallery-list">
+                                <div class="col-md-3 col-xs-6">
+                                    <div class="gallery-box">
+                                        <a data-fancybox="gallery" href="http://via.placeholder.com/1200x850">
+                                            <img src="http://via.placeholder.com/100x80" class="img-responsive" alt="" />
+                                        </a>
+                                    </div>
+                                </div> --}}
+                                {{-- <ul class="gallery-list">
                                     <li>
                                         <a data-fancybox="gallery" href="http://via.placeholder.com/1200x850">
                                             <img src="http://via.placeholder.com/100x80" class="img-responsive" alt="" />
@@ -125,7 +156,6 @@
                     </div>
 
                     <div class="tab style-1 mrg-bot-40" role="tabpanel">
-
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#information" aria-controls="information" role="tab" data-toggle="tab">Information</a></li>
@@ -330,9 +360,6 @@
                             <div class="widget-boxed-body padd-top-5">
                                 <div class="side-list no-border">
                                     <ul>
-                                        {{-- <li><i class="ti-location-pin padd-r-10"></i>171 Greenwich St QCH7</li>
-                                        <li><i class="ti-mobile padd-r-10"></i>91 234 567 8765</li>
-                                        <li><i class="ti-email padd-r-10"></i>suppoer@listinghub.com</li> --}}
                                         <li>Pays : <strong>{{ $annonce->entreprise->quartier->ville->pays->nom }} </strong></li>
                                         <li>Ville : <strong>{{ $annonce->entreprise->quartier->ville->nom }} </strong></li>
                                         <li>Quartier : <strong>{{ $annonce->entreprise->quartier->nom }} </strong></li>
