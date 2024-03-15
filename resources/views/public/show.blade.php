@@ -136,8 +136,9 @@
                             <div role="tabpanel" class="tab-pane fade in active" id="information">
                                 <div class="row">
                                     @forelse ($annonce->annonceable->caracteristiques as $key => $value)
-                                        <div class="col-md-6 col-xs-12 mrg-bot-5">
-                                            {{ ucfirst($key) }} : <strong>{{ $value }}</strong>
+                                        <div class="col-md-4 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                                            {{ ucfirst($key) }} <br>
+                                            <strong>{{ $value }}</strong>
                                         </div>
                                     @empty
                                         <div class="col-md-12">
@@ -153,10 +154,10 @@
                                             <div class="col-md-12 text-center">
                                                 <strong class="" style="text-transform: uppercase;">{{ ucfirst($key) }}</strong>
                                             </div>
-                                            <div class="detail-wrapper-body">
+                                            <div class="detail-wrapper-body padd-bot-10">
                                                 <ul class="detail-check">
                                                     @forelse ($value as $equipement)
-                                                        <div class="col-md-6 col-md-6">
+                                                        <div class="col-xs-12 col-md-4">
                                                             <li style="width: 100%;">{{ $equipement }}</li>
                                                         </div>
                                                     @empty

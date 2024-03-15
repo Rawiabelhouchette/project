@@ -164,13 +164,13 @@ class Create extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération réussie'),
+                'title' => __('Opération réussie'),
                 'message' => __('Une erreur est survenue lors de l\'annonce'),
             ]);
             Log::error($th->getMessage());
             return;
         }
-        
+
         session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('bars.create');
     }

@@ -44,12 +44,12 @@ class Bar extends Model implements AnnonceInterface
         return $this->morphOne(Annonce::class, 'annonceable');
     }
 
-    public function getShowUrlAttribute() : String
+    public function getShowUrlAttribute(): string
     {
         return route('bars.show', $this);
     }
 
-    public function getEditUrlAttribute() : String
+    public function getEditUrlAttribute(): string
     {
         return route('bars.edit', $this);
     }
@@ -64,9 +64,9 @@ class Bar extends Model implements AnnonceInterface
         return $this->annonce->references('commodites-vie-nocturne');
     }
 
-    public function getCaracteristiquesAttribute() : array
+    public function getCaracteristiquesAttribute(): array
     {
-        $attributes = []; 
+        $attributes = [];
 
         if ($this->type_bar) {
             $attributes['Type de bar'] = $this->type_bar;
@@ -81,11 +81,11 @@ class Bar extends Model implements AnnonceInterface
         }
 
         if ($this->prix_min) {
-            $attributes['Prix minimum'] = $this->prix_min;
+            $attributes['Prix minimum'] = number_format($this->prix_min, '0', ',', '.');
         }
 
         if ($this->prix_max) {
-            $attributes['Prix maximum'] = $this->prix_max;
+            $attributes['Prix maximum'] =  number_format($this->prix_max, '0', ',', '.');
         }
 
         return $attributes;

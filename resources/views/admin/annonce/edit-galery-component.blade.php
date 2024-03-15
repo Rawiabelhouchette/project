@@ -24,7 +24,7 @@
         <input id="upload-image" type="file" wire:model="image" accept="image/*" style="display: none;"> <br>
         <div class="text-center gallery-box">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="listing-shot grid-style mrg-bot-15">
                         @if ($image)
                             <div style="display: flex; justify-content: center; align-items: center;">
