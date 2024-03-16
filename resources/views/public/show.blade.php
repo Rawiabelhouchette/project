@@ -53,30 +53,30 @@
                 <div class="col-md-8 col-sm-8">
 
                     <!-- Start: Listing Gallery -->
-                    <div class="widget-boxed">
+                    <div class="widget-boxed padd-bot-10">
                         <div class="widget-boxed-header">
                             <h4><i class="ti-gallery padd-r-10"></i>Galérie</h4>
                         </div>
                         <div class="widget-boxed-body padd-top-0">
                             <div class="side-list no-border gallery-box">
-                                <div class="row">
+                                <div class="row mrg-l-5 mrg-r-10">
                                     @foreach ($annonce->galerie as $key => $image)
                                         @if ($key == 0)
-                                            <div class="col-xs-12 col-md-12" style="margin-bottom: -20px !important; margin-top: -10px !important;">
+                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-12 padd-0 image-preview" style="margin-bottom: -20px !important; margin-top: -10px !important; padding-left : 3px; padding-right : 3px;">
                                                 <div class="listing-shot grid-style">
                                                     <div class="" style="display: flex; justify-content: center; align-items: center; height: 220px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
                                                     </div>
                                                 </div>
                                             </div>
                                         @elseif ($key < 4)
-                                            <div class="col-xs-6 col-md-3">
+                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-6 col-md-3 padd-0 padd-5 image-preview">
                                                 <div class="listing-shot grid-style">
                                                     <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;">
                                                     </div>
                                                 </div>
                                             </div>
                                         @elseif ($key == 4)
-                                            <div class="col-xs-6 col-md-3">
+                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-6 col-md-3 padd-0 padd-5 image-preview">
                                                 <div class="listing-shot grid-style">
                                                     <div style="position: relative; display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;">
                                                         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
@@ -121,7 +121,7 @@
                             <div class="row">
                                 @forelse ($annonce->annonceable->caracteristiques as $key => $value)
                                     <div class="col-md-4 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                                        {{ ucfirst($key) }} <br>
+                                        {{ strtoupper($key) }} <br>
                                         <strong>{{ $value }}</strong>
                                     </div>
                                 @empty
@@ -136,7 +136,7 @@
                                 @if (count($value) > 0)
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <strong class="" style="text-transform: uppercase;">{{ ucfirst($key) }}</strong>
+                                            <strong class="" style="text-transform: uppercase;">{{ $key }}</strong>
                                         </div>
                                         <div class="detail-wrapper-body padd-bot-10">
                                             <ul class="detail-check">
@@ -349,6 +349,28 @@
     </div>
 </section>
 <!-- ================ Listing Detail Full Information ======================= -->
+
+@include('public.gallery', ['galerie' => $annonce->galerie])
+
+<style>
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(0.9);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .pulse {
+        animation: pulse 1s infinite;
+    }
+</style>
 @endsection
 
 @section('js')
@@ -371,5 +393,37 @@
 
     marker = L.marker([lat, lon]).addTo(mymap);
     mymap.setView([lat, lon], 12);
+</script>
+
+<script>
+    // $(document).ready(function() {
+    //     $('.image-preview').click(function() {
+    //         var id = $(this).data('id');
+    //         var isHighlighted = false;
+    //         var highlightInterval = setInterval(() => {
+    //             if (isHighlighted) {
+    //                 $('#image-' + id).css('border', 'none');
+    //             } else {
+    //                 $('#image-' + id).css('border', '2px solid #f8b400');
+    //             }
+    //             isHighlighted = !isHighlighted;
+    //         }, 500); // Change border every 500ms
+
+    //         setTimeout(() => {
+    //             clearInterval(highlightInterval); // Stop changing border after 2 seconds
+    //             $('#image-' + id).css('border', 'none');
+    //         }, 2000);
+    //     });
+    // });
+
+    $(document).ready(function() {
+        $('.image-preview').click(function() {
+            var id = $(this).data('id');
+            $('#image-' + id).addClass('pulse');
+            setTimeout(() => {
+                $('#image-' + id).removeClass('pulse');
+            }, 2000);
+        });
+    });
 </script>
 @endsection
