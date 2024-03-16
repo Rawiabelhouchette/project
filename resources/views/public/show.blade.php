@@ -396,26 +396,6 @@
 </script>
 
 <script>
-    // $(document).ready(function() {
-    //     $('.image-preview').click(function() {
-    //         var id = $(this).data('id');
-    //         var isHighlighted = false;
-    //         var highlightInterval = setInterval(() => {
-    //             if (isHighlighted) {
-    //                 $('#image-' + id).css('border', 'none');
-    //             } else {
-    //                 $('#image-' + id).css('border', '2px solid #f8b400');
-    //             }
-    //             isHighlighted = !isHighlighted;
-    //         }, 500); // Change border every 500ms
-
-    //         setTimeout(() => {
-    //             clearInterval(highlightInterval); // Stop changing border after 2 seconds
-    //             $('#image-' + id).css('border', 'none');
-    //         }, 2000);
-    //     });
-    // });
-
     $(document).ready(function() {
         $('.image-preview').click(function() {
             var id = $(this).data('id');
