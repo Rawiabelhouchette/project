@@ -26,13 +26,13 @@
                     </ul> --}}
                 </div>
                 <div class="listing-owner hidden-xs hidden-sm">
-                    <div class="detail-wrapper">
+                    {{-- <div class="detail-wrapper">
                         <div class="detail-wrapper-body" style="text-align: left !important;">
                             <h4>{{ $annonce->entreprise->nom }}<span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h4>
                             <h4>Pizza Prizm House</h4>
 
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- <div class="listing-owner-avater">
                         <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->entreprise->quartier->ville->pays->nom }}</span></h3>
                     </div>
@@ -51,7 +51,40 @@
             <div class="row">
                 <!-- Start: Listing Detail Wrapper -->
                 <div class="col-md-8 col-sm-8">
+                    <div class="detail-wrapper">
+                        <div class="detail-wrapper-body">
+                            <div class="listing-title-bar">
+                                <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3>
+                                <div>
+                                    @if ($annonce->entreprise->site_web)
+                                        <a href="{{ $annonce->entreprise->site_web }}" target="_blank">
+                                            <i class="ti-world"></i>&nbsp;
+                                            {{ $annonce->entreprise->site_web }}
+                                        </a>
+                                        <br>
+                                    @endif
 
+                                    @if ($annonce->entreprise->email)
+                                        {{-- <a href="mailto:{{ $annonce->entreprise->email }}"> --}}
+                                        <a href="javascript:void(0)">
+                                            <i class="ti-email"></i>&nbsp;
+                                            {{ $annonce->entreprise->email }}
+                                        </a>
+                                        <br>
+                                    @endif
+
+                                    @if ($annonce->entreprise->whatsapp)
+                                        {{-- <a href="https://api.whatsapp.com/send?phone={{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank"> --}}
+                                        <a href="javascript:void(0)">
+                                            <i class="fa-brands fa-whatsapp"></i>&nbsp;
+                                            {{ $annonce->entreprise->whatsapp }}
+                                        </a>
+                                        <br>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Start: Listing Gallery -->
                     <div class="widget-boxed padd-bot-10">
                         <div class="widget-boxed-header">
@@ -59,26 +92,25 @@
                         </div>
                         <div class="widget-boxed-body padd-top-0">
                             <div class="side-list no-border gallery-box">
-                                <div class="row mrg-l-5 mrg-r-10">
+                                <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
+                                    <div data-toggle="modal" data-id="{{ $annonce->imagePrincipale->chemin }}" data-target="#modal-gallery" class="col-xs-12 col-md-12 padd-0 image-preview" style="margin-bottom: -20px !important; margin-top: -10px !important; padding-left : 3px; padding-right : 3px;">
+                                        <div class="listing-shot grid-style">
+                                            <div class="" style="display: flex; justify-content: center; align-items: center; height: 220px; background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;">
+                                            </div>
+                                        </div>
+                                    </div>
                                     @foreach ($annonce->galerie as $key => $image)
-                                        @if ($key == 0)
-                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-12 padd-0 image-preview" style="margin-bottom: -20px !important; margin-top: -10px !important; padding-left : 3px; padding-right : 3px;">
+                                        @if ($key < 5)
+                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-6 col-md-3 padd-0 padd-5 image-preview">
                                                 <div class="listing-shot grid-style">
-                                                    <div class="" style="display: flex; justify-content: center; align-items: center; height: 220px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
+                                                    <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
                                                     </div>
                                                 </div>
                                             </div>
-                                        @elseif ($key < 4)
+                                        @elseif ($key == 5)
                                             <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-6 col-md-3 padd-0 padd-5 image-preview">
                                                 <div class="listing-shot grid-style">
-                                                    <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @elseif ($key == 4)
-                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-6 col-md-3 padd-0 padd-5 image-preview">
-                                                <div class="listing-shot grid-style">
-                                                    <div style="position: relative; display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;">
+                                                    <div style="position: relative; display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
                                                         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
                                                             <div style="color: white; font-size: 20px;">
                                                                 +{{ count($annonce->galerie) - 4 }}
