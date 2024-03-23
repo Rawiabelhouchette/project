@@ -214,9 +214,7 @@
                     </div>
                 </div>
 
-                @include('public.comment', [
-                    'commentaires' => $annonce->commentaires,
-                ])
+                @livewire('public.comment', ['annonce' => $annonce])
 
             </div>
             <!-- End: Listing Detail Wrapper -->
