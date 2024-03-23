@@ -62,22 +62,30 @@
                             <div class="jr-ratenode jr-nomal "></div>
                             <div class="jr-ratenode jr-nomal "></div>
                             <div class="jr-ratenode jr-nomal "></div>
-                        </div>
+                        </div> <br>
+                        @error('note')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-12">
-                        <textarea class="form-control height-110" placeholder="Commentaire ..."></textarea>
-                    </div>
-                    <div class="col-sm-12">
-
-                        @if (auth()->check())
-                            <button class="btn theme-btn" type="submit">Commenter</button>
-                        @else
-                            <button class="btn theme-btn" type="buttom" data-toggle="modal" data-target="#signin">Commenter</button>
-                        @endif
-                    </div>
+                    <form wire:submit.prevent="addComment">
+                        <div class="col-sm-12">
+                            <textarea class="form-control height-110" placeholder="Commentaire ..." wire:model='comment' required minlength="5"></textarea>
+                            @error('comment')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <input type="hidden" id="info">
+                        <div class="col-sm-12">
+                            @if (auth()->check())
+                                <button class="btn theme-btn" id="btn-add" type="submit" wire:loading.attr="disabled">Commenter</button>
+                            @else
+                                <button class="btn theme-btn" type="buttom" data-toggle="modal" data-target="#signin">Commenter</button>
+                            @endif
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -86,8 +94,12 @@
     @push('scripts')
         <script>
             $('.rating-opt').start(function(cur) {
-                console.log(cur);
-                $('#info').text(cur);
+                $('#info').val(cur);
+            });
+
+            $('#btn-add').click(function() {
+                var note = $('#info').val();
+                Livewire.dispatch('updateNoteValue', [note]);
             });
         </script>
     @endpush
