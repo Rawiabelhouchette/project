@@ -2,11 +2,11 @@
     <div>
         <div class="detail-wrapper">
             <div class="detail-wrapper-header">
-                <h4>{{ $annonce->commentaires->count() }} Commentaire(s)</h4>
+                <h4>{{ $count }} Commentaire(s)</h4>
             </div>
             <div class="detail-wrapper-body">
                 <ul class="review-list">
-                    @foreach ($annonce->commentaires as $commentaire)
+                    @foreach ($comments as $commentaire)
                         <li>
                             <div class="reviews-box">
                                 <div class="review-body">
@@ -17,7 +17,7 @@
                                         <div class="review-info">
                                             <div class="review-comment">
                                                 <div class="review-author">
-                                                    {{ $commentaire->name }}
+                                                    {{ $commentaire->auteur->nom }} {{ $commentaire->auteur->prenom }}
                                                 </div>
                                                 <div class="review-comment-stars">
                                                     @for ($i = 0; $i < $commentaire->note; $i++)
@@ -40,7 +40,14 @@
                             </div>
                         </li>
                     @endforeach
+
+                    @if ($comments->hasMorePages())
+                        <div class="text-center mrg-top-10">
+                            <a class="theme-cl" href="javascript:void(0)" wire:click="loadMore({{ $id }})">Afficher plus</a>
+                        </div>
+                    @endif
                 </ul>
+
             </div>
         </div>
 
@@ -70,22 +77,32 @@
                 </div>
 
                 <div class="row">
-                    <form wire:submit.prevent="addComment">
-                        <div class="col-sm-12">
-                            <textarea class="form-control height-110" placeholder="Commentaire ..." wire:model='comment' required minlength="5"></textarea>
-                            @error('comment')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <input type="hidden" id="info">
-                        <div class="col-sm-12">
-                            @if (auth()->check())
-                                <button class="btn theme-btn" id="btn-add" type="submit" wire:loading.attr="disabled">Commenter</button>
-                            @else
-                                <button class="btn theme-btn" type="buttom" data-toggle="modal" data-target="#signin">Commenter</button>
-                            @endif
-                        </div>
-                    </form>
+                    @if (auth()->check())
+                        <form wire:submit="addComment()">
+                    @endif
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="Nom*" disabled @if (auth()->check()) value="{{ auth()->user()->nom }}" @endif>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="Prénom*" disabled @if (auth()->check()) value="{{ auth()->user()->prenom }}" @endif>
+                    </div>
+                    <div class="col-sm-12">
+                        <textarea class="form-control height-110" placeholder="Commentaire ..." wire:model='comment' required minlength="5" @if (!auth()->check()) disabled @endif></textarea>
+                        @error('comment')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <input type="hidden" id="info">
+                    <div class="col-sm-12">
+                        @if (auth()->check())
+                            <button class="btn theme-btn" wire:target='addComment' id="btn-add" type="submit" wire:loading.attr="disabled">Commenter</button>
+                        @else
+                            <button class="btn theme-btn" type="button" data-toggle="modal" data-target="#signin">Commenter</button>
+                        @endif
+                    </div>
+                    @if (auth()->check())
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>

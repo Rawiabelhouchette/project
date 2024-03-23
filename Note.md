@@ -164,3 +164,5 @@ Home, location vehicule, le bon type n'est pas pris
 
 ## 23/03/2024
 - Revoir l'affichage des etoiles sur l'affichage court des recherches
+- Se pencher plus sur la ce qui vient apres les etoiles
+- Ajouter l'affichage avec k pour les vues

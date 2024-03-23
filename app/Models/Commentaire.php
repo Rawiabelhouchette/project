@@ -37,4 +37,9 @@ class Commentaire extends Model
     {
         return $this->belongsTo(Annonce::class);
     }
+
+    public function auteur()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

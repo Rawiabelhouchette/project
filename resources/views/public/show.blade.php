@@ -25,12 +25,20 @@
                             <div class="buttons medium button-plain "><i class="fa-brands fa-whatsapp"></i> {{ $annonce->entreprise->quartier->ville->pays->indicatif }} {{ $annonce->entreprise->whatsapp }}</div>
                         </li>
                         <li>
+                            <div class="buttons medium button-plain "><i class="fa fa-eye"></i>{{ $annonce->nb_vue }} vue(s)</div>
+                        </li>
+                        <li>
+                            <div class="buttons medium button-plain "><i class="fa fa-comments"></i>{{ $annonce->commentaires->count() }} commentaire(s)</div>
+                        </li>
+                        <li>
                             <div class="inside-rating buttons listing-rating theme-btn button-plain">
                                 <span class="value">{{ $annonce->note }}</span>
                                 <sup class="out-of">/ 5</sup>
                             </div>
                         </li>
-                        @if (auth()->check())
+                        {{-- number of comment --}}
+
+                        {{-- @if (auth()->check())
                             <li>
                                 <a href="#write-review" class="buttons btn-outlined medium add-review">
                                     <i class="fa fa-comments-o"></i><span class="hidden-xs">Commenter</span>
@@ -42,7 +50,7 @@
                                     <i class="fa fa-comments-o"></i><span class="hidden-xs">Commenter</span>
                                 </a>
                             </li>
-                        @endif
+                        @endif --}}
                     </ul>
                 </div>
                 <div class="listing-owner hidden-xs hidden-sm">
@@ -74,7 +82,8 @@
                     <div class="detail-wrapper">
                         <div class="detail-wrapper-body">
                             <div class="listing-title-bar">
-                                <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3>
+                                {{-- <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3> --}}
+                                <h3> {{ $annonce->titre }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3>
                                 <div>
                                     @if ($annonce->entreprise->site_web)
                                         <a href="{{ $annonce->entreprise->site_web }}" target="_blank">
@@ -214,7 +223,7 @@
                     </div>
                 </div>
 
-                @livewire('public.comment', ['annonce' => $annonce])
+                @livewire('public.comment', [$annonce->id])
 
             </div>
             <!-- End: Listing Detail Wrapper -->
