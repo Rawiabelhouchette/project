@@ -46,7 +46,7 @@
     <!-- ================ End Listing Detail Basic Information ======================= -->
 
     <!-- ================ Listing Detail Full Information ======================= -->
-    <section class="list-detail">
+    <section class="list-detail padd-bot-10">
         <div class="container">
             <div class="row">
                 <!-- Start: Listing Detail Wrapper -->
@@ -93,21 +93,21 @@
                         <div class="widget-boxed-body padd-top-0">
                             <div class="side-list no-border gallery-box">
                                 <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
-                                    <div data-toggle="modal" data-id="{{ $annonce->imagePrincipale->chemin }}" data-target="#modal-gallery" class="col-xs-12 col-md-12 padd-0 image-preview" style="margin-bottom: -20px !important; margin-top: -10px !important; padding-left : 3px; padding-right : 3px;">
+                                    <div data-toggle="modal" data-id="{{ $annonce->imagePrincipale->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-12 padd-0 image-preview" style="margin-bottom: -20px !important; margin-top: -10px !important; padding-left : 3px; padding-right : 3px;">
                                         <div class="listing-shot grid-style">
                                             <div class="" style="display: flex; justify-content: center; align-items: center; height: 220px; background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;">
                                             </div>
                                         </div>
                                     </div>
                                     @foreach ($annonce->galerie as $key => $image)
-                                        @if ($key < 5)
-                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-6 col-md-3 padd-0 padd-5 image-preview">
+                                        @if ($key < 3)
+                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-6 col-md-3 padd-0 padd-3 image-preview">
                                                 <div class="listing-shot grid-style">
                                                     <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
                                                     </div>
                                                 </div>
                                             </div>
-                                        @elseif ($key == 5)
+                                        @elseif ($key == 3)
                                             <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-6 col-md-3 padd-0 padd-5 image-preview">
                                                 <div class="listing-shot grid-style">
                                                     <div style="position: relative; display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
@@ -382,7 +382,10 @@
 </section>
 <!-- ================ Listing Detail Full Information ======================= -->
 
-@include('public.gallery', ['galerie' => $annonce->galerie])
+@include('public.gallery', [
+    'galerie' => $annonce->galerie,
+    'couverture' => $annonce->imagePrincipale,
+])
 
 <style>
     @keyframes pulse {
