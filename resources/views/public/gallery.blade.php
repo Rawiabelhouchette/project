@@ -5,7 +5,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h4 id="modalLabel3" class="modal-title">Galerie ({{ count($galerie) }} images)</h4>
+                <h4 id="modalLabel3" class="modal-title">Galérie ({{ count($galerie) }} images)</h4>
                 <button type="button" class="m-close" data-dismiss="modal" aria-label="Close">
                     <i class="ti-close"></i>
                 </button>

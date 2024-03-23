@@ -15,8 +15,8 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, Userstamps, softDeletes, HasRoles;
-    
-    
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,7 +32,7 @@ class User extends Authenticatable
         'is_active',
         'entreprise_id',
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -42,7 +42,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-    
+
     /**
      * The attributes that should be cast.
      *
@@ -58,7 +58,7 @@ class User extends Authenticatable
         'prenom' => PurifyHtmlOnGet::class,
         'telephone' => PurifyHtmlOnGet::class,
     ];
-    
+
 
     /**
      * Get the entreprise that owns the user.
@@ -86,10 +86,11 @@ class User extends Authenticatable
     public function commentaires()
     {
         return $this->belongsToMany(Annonce::class, 'commentaires', 'user_id', 'annonce_id')
+            ->public()
             ->withPivot('contenu', 'created_at')
             ->latest();
     }
 
 
-    
+
 }

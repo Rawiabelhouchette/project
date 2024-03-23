@@ -11,6 +11,7 @@ class Commentaire extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'note',
         'contenu',
         'user_id',
         'parent_id',

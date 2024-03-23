@@ -211,7 +211,8 @@ class Annonce extends Model
     // moyen de notation de l'annonce
     public function getNoteAttribute()
     {
-        $avg = $this->notation()->avg('note');
+        // $avg = $this->notation()->avg('note');
+        $avg = $this->commentaires()->avg('note');
 
         // si la moyenne est null, on retourne 0
         if (is_null($avg)) {

@@ -161,3 +161,6 @@ Home, location vehicule, le bon type n'est pas pris
 ## 13/03/2024
 - Pour la galerie vous vous etes basé sur le template ?
 - Pour les details (equipement de vie nocture) quand il y en a plusieurs , qu'est ce qui se passe ?
+
+## 23/03/2024
+- Revoir l'affichage des etoiles sur l'affichage court des recherches
