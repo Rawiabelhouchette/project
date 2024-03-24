@@ -44,11 +44,13 @@ class Comment extends Component
 
     public function setNoteValue($value)
     {
+        $this->hasMessage = false;
         $this->note = $value;
     }
 
     public function loadMore($id, $perPage)
     {
+        $this->hasMessage = false;
         $this->perPage = $perPage + 1;
         $this->annonce = Annonce::find($id);
     }
