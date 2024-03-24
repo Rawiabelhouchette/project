@@ -168,3 +168,4 @@ Home, location vehicule, le bon type n'est pas pris
 - Ajouter l'affichage avec k pour les vues
 - [ok] Afficher un message avoir avoir envoyer un commentaire
 - Implementer fovoris sur la page des details
+- Ajouter le bouton de partage sur l'affichage des details
