@@ -13,7 +13,7 @@
 
             <div class="modal-body padd-top-0" style="max-height: 80vh; overflow-y: auto;">
                 <div class="row padd-0">
-                    <div class="col-xs-12 col-md-3 col-lg-3">
+                    <div class="col-xs-6 col-md-3 col-lg-3">
                         <div class="listing-shot grid-style">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a id="image-{{ $couverture->id }}" data-fancybox="gallery" href="{{ asset('storage/' . $couverture->chemin) }}">
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     @foreach ($galerie as $image)
-                        <div class="col-xs-12 col-md-3 col-lg-3">
+                        <div class="col-xs-6 col-md-3 col-lg-3">
                             <div class="listing-shot grid-style">
                                 <div style="display: flex; justify-content: center; align-items: center;">
                                     <a id="image-{{ $image->id }}" data-fancybox="gallery" href="{{ asset('storage/' . $image->chemin) }}">
