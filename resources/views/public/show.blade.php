@@ -28,7 +28,7 @@
                             <div class="buttons medium button-plain "><i class="fa fa-eye"></i>{{ $annonce->nb_vue }} vue(s)</div>
                         </li>
                         <li>
-                            <div class="buttons medium button-plain "><i class="fa fa-comments"></i>{{ $annonce->commentaires->count() }} commentaire(s)</div>
+                            <div class="buttons medium button-plain " id="commentsCount"><i class="fa fa-comments"></i>{{ $annonce->commentaires->count() }} commentaire(s)</div>
                         </li>
                         <li>
                             <div class="inside-rating buttons listing-rating theme-btn button-plain">
@@ -223,7 +223,7 @@
                     </div>
                 </div>
 
-                @livewire('public.comment', [$annonce->id])
+                @livewire('public.comment', [$annonce])
 
             </div>
             <!-- End: Listing Detail Wrapper -->

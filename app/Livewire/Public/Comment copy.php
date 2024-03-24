@@ -4,21 +4,25 @@ namespace App\Livewire\Public;
 
 use App\Models\Annonce;
 use Livewire\Component;
+use Livewire\Attributes\On; 
 
 class Comment extends Component
 {
-    public $annonce_id;
-    public $annonce;
+    public $id;
+    public $count = 0;
+    protected $comments;
     public $comment;
     public $note;
-    public $perPage = 2;
+    protected $perPage = 2;
 
-    protected $listeners = ['updateNoteValue' => 'setNoteValue'];
+    // protected $listeners = ['updateNoteValue' => 'setNoteValue'];
 
-    public function mount($annonce)
+    public function mount($annonce_id)
     {
-        $this->annonce = $annonce;
-        $this->annonce_id = $annonce->id;
+        $this->count = Annonce::find($annonce_id)->commentaires()->count();
+        $this->id = $annonce_id;
+        $annonce = Annonce::find($annonce_id);
+        $this->comments = $annonce->commentaires();
     }
 
     public function rules()
@@ -40,27 +44,26 @@ class Comment extends Component
         ];
     }
 
-
+    #[On('updateNoteValue')]
     public function setNoteValue($value)
     {
+        // dd("++++++++++++++++");
         $this->note = $value;
+        // return false; // to avoid the re-render of the component
     }
 
-    public function loadMore($id, $perPage)
+    public function loadMore($id)
     {
-        $this->perPage = $perPage + 1;
-        $this->annonce = Annonce::find($id);
+        $this->count = Annonce::find($id)->commentaires()->count();
+        $this->perPage = $this->perPage + 1;
+        $annonce = Annonce::find($id);
+        $this->comments = $annonce->commentaires();
     }
 
-    // Add comment
     public function addComment()
     {
         $this->validate();
-        // dd($this->note, $this->comment);
-
-        if (!auth()->check()) {
-            return redirect()->route('connexion');
-        }
+        dd($this->note);
 
         $this->annonce->commentaires()->create([
             'user_id' => auth()->id(),
@@ -68,22 +71,14 @@ class Comment extends Component
             'contenu' => $this->comment
         ]);
 
-        // session()->flash('success', 'Commentaire ajouté avec succès');
-
         $this->comment = '';
     }
-
+    
     public function render()
     {
-        $count = $this->annonce->commentaires()->count();
-
-        $this->dispatch('update:comment-value', [
-            'value' => $count,
-        ]);
-
+        $this->comments = $this->comments->latest()->paginate($this->perPage);
         return view('livewire.public.comment', [
-            'commentaires' => $this->annonce->commentaires()->latest()->paginate($this->perPage),
-            'count' => $count
+            'comments' => $this->comments
         ]);
     }
 }

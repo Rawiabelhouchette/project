@@ -6,7 +6,7 @@
             </div>
             <div class="detail-wrapper-body">
                 <ul class="review-list">
-                    @foreach ($comments as $commentaire)
+                    @foreach ($commentaires as $commentaire)
                         <li>
                             <div class="reviews-box">
                                 <div class="review-body">
@@ -41,19 +41,25 @@
                         </li>
                     @endforeach
 
-                    @if ($comments->hasMorePages())
+                    @if ($commentaires->hasMorePages())
                         <div class="text-center mrg-top-10">
-                            <a class="theme-cl" href="javascript:void(0)" wire:click="loadMore({{ $id }})">Afficher plus</a>
+                            <a class="theme-cl" href="javascript:void(0)" wire:click="loadMore({{ $annonce_id }}, {{ $perPage }})">Afficher plus</a>
                         </div>
                     @endif
                 </ul>
-
             </div>
         </div>
 
         <div class="detail-wrapper" id="write-review">
             <div class="detail-wrapper-header">
-                <h4>Laisser un commentaire</h4>
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <h4>Laisser un commentaire</h4>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        
+                    </div>
+                </div>
             </div>
             <div class="detail-wrapper-body">
 
@@ -77,32 +83,28 @@
                 </div>
 
                 <div class="row">
-                    @if (auth()->check())
-                        <form wire:submit="addComment()">
-                    @endif
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" placeholder="Nom*" disabled @if (auth()->check()) value="{{ auth()->user()->nom }}" @endif>
-                    </div>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" placeholder="Prénom*" disabled @if (auth()->check()) value="{{ auth()->user()->prenom }}" @endif>
-                    </div>
-                    <div class="col-sm-12">
-                        <textarea class="form-control height-110" placeholder="Commentaire ..." wire:model='comment' required minlength="5" @if (!auth()->check()) disabled @endif></textarea>
-                        @error('comment')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <input type="hidden" id="info">
-                    <div class="col-sm-12">
-                        @if (auth()->check())
-                            <button class="btn theme-btn" wire:target='addComment' id="btn-add" type="submit" wire:loading.attr="disabled">Commenter</button>
-                        @else
-                            <button class="btn theme-btn" type="button" data-toggle="modal" data-target="#signin">Commenter</button>
-                        @endif
-                    </div>
-                    @if (auth()->check())
-                        </form>
-                    @endif
+                    <form wire:submit.prevent="addComment">
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" placeholder="Nom*" readonly @if (auth()->check()) value="{{ auth()->user()->nom }}" @else disabled @endif>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" placeholder="Prénom*" readonly @if (auth()->check()) value="{{ auth()->user()->prenom }}" @else disabled @endif>
+                        </div>
+                        <div class="col-sm-12">
+                            <textarea class="form-control height-110" placeholder="Commentaire ..." wire:model='comment' required minlength="5" @if (!auth()->check()) disabled @endif></textarea>
+                            @error('comment')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <input type="hidden" id="info">
+                        <div class="col-sm-12">
+                            @if (auth()->check())
+                                <button class="btn theme-btn" id="btn-add" type="submit" wire:loading.attr="disabled">Commenter</button>
+                            @else
+                                <button class="btn theme-btn" type="button" data-toggle="modal" data-target="#signin">Commenter</button>
+                            @endif
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -117,6 +119,12 @@
             $('#btn-add').click(function() {
                 var note = $('#info').val();
                 Livewire.dispatch('updateNoteValue', [note]);
+            });
+        </script>
+
+        <script>
+            window.addEventListener('update:comment-value', event => {
+                $('#commentsCount').html('<i class="fa fa-comments"></i>' + event.detail[0].value + ' commentaire(s)'); 
             });
         </script>
     @endpush
