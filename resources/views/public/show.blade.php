@@ -36,7 +36,12 @@
                                 <sup class="out-of">/ 5</sup>
                             </div>
                         </li>
-                        <li><a href="#" data-listing-id="74" data-nonce="01a769d424" class="buttons btn-outlined"><i class="fa fa-heart-o"></i><span class="hidden-xs">Favoris</span> </a></li>
+                        @if (Auth::check())
+                            <li><a href="#" data-listing-id="74" data-nonce="01a769d424" class="buttons btn-outlined"><i class="fa fa-heart-o"></i><span class="hidden-xs">Favoris</span> </a></li>
+                        @else
+                            <li><a href="#" data-toggle="modal" data-target="#signin" class="buttons btn-outlined"><i class="fa fa-heart-o"></i><span class="hidden-xs">Favoris</span> </a></li>
+                        @endif
+
                     </ul>
                 </div>
                 <div class="listing-owner hidden-xs hidden-sm">

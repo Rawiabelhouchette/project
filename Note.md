@@ -166,5 +166,5 @@ Home, location vehicule, le bon type n'est pas pris
 - Revoir l'affichage des etoiles sur l'affichage court des recherches
 - Se pencher plus sur la ce qui vient apres les etoiles
 - Ajouter l'affichage avec k pour les vues
-- Afficher un message avoir avoir envoyer un commentaire
+- [ok] Afficher un message avoir avoir envoyer un commentaire
 - Implementer fovoris sur la page des details
