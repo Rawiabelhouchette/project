@@ -36,21 +36,7 @@
                                 <sup class="out-of">/ 5</sup>
                             </div>
                         </li>
-                        {{-- number of comment --}}
-
-                        {{-- @if (auth()->check())
-                            <li>
-                                <a href="#write-review" class="buttons btn-outlined medium add-review">
-                                    <i class="fa fa-comments-o"></i><span class="hidden-xs">Commenter</span>
-                                </a>
-                            </li>
-                        @else
-                            <li>
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" class="buttons btn-outlined medium add-review">
-                                    <i class="fa fa-comments-o"></i><span class="hidden-xs">Commenter</span>
-                                </a>
-                            </li>
-                        @endif --}}
+                        <li><a href="#" data-listing-id="74" data-nonce="01a769d424" class="buttons btn-outlined"><i class="fa fa-heart-o"></i><span class="hidden-xs">Favoris</span> </a></li>
                     </ul>
                 </div>
                 <div class="listing-owner hidden-xs hidden-sm">

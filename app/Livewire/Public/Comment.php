@@ -40,7 +40,6 @@ class Comment extends Component
         ];
     }
 
-
     public function setNoteValue($value)
     {
         $this->note = $value;
@@ -52,11 +51,9 @@ class Comment extends Component
         $this->annonce = Annonce::find($id);
     }
 
-    // Add comment
     public function addComment()
     {
         $this->validate();
-        // dd($this->note, $this->comment);
 
         if (!auth()->check()) {
             return redirect()->route('connexion');
