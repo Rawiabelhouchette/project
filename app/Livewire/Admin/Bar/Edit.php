@@ -11,6 +11,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+
 class Edit extends Component
 {
     use WithFileUploads, AnnonceBaseEdit;
@@ -61,7 +62,6 @@ class Edit extends Component
         $this->commodites_vie_nocturne = $bar->annonce->references('commodites-vie-nocturne')->pluck('id')->toArray();
 
         $this->old_image = $bar->annonce->imagePrincipale;
-
     }
 
     private function initialization()
@@ -151,7 +151,7 @@ class Edit extends Component
         if ($this->is_active && $this->date_validite < date('Y-m-d')) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération échouée'),
+                'title' => __('Opération échouée'),
                 'message' => __('La date de validité doit être supérieure à la date du jour'),
             ]);
             return;
@@ -182,6 +182,7 @@ class Edit extends Component
                 ['Commodités de vie nocturne', $this->commodites_vie_nocturne],
             ];
 
+
             AnnoncesUtils::updateManyReference($this->bar->annonce, $references);
 
             AnnoncesUtils::updateGalerie($this->image, $this->bar->annonce, $this->galerie, $this->deleted_old_galerie, 'bars');
@@ -191,13 +192,13 @@ class Edit extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération réussie'),
+                'title' => __('Opération réussie'),
                 'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
             ]);
             Log::error($th->getMessage());
             return;
         }
-        
+
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', __('L\'bar a bien été modifiée avec succès'));

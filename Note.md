@@ -1,5 +1,4 @@
-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
-
+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
 - mettre sweet alet en local
 
 
@@ -156,3 +155,16 @@ Home, location vehicule, le bon type n'est pas pris
 ## 26/02/2024
 - [ok] Lors de la copie du lien , les caracteres speciaux sont retiré , arranger cela
 - Apres suppression de filtre par fois le rendu ne fait pas disparaitre l'element arranger cela
+
+
+
+## 13/03/2024
+- Pour la galerie vous vous etes basé sur le template ?
+- Pour les details (equipement de vie nocture) quand il y en a plusieurs , qu'est ce qui se passe ?
+
+## 23/03/2024
+- Revoir l'affichage des etoiles sur l'affichage court des recherches
+- Se pencher plus sur la ce qui vient apres les etoiles
+- Ajouter l'affichage avec k pour les vues
+- [ok] Afficher un message avoir avoir envoyer un commentaire
+- Implementer fovoris sur la page des details

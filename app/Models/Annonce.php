@@ -211,20 +211,22 @@ class Annonce extends Model
     // moyen de notation de l'annonce
     public function getNoteAttribute()
     {
-        $avg = $this->notation()->avg('note');
+        // $avg = $this->notation()->avg('note');
+        $avg = $this->commentaires()->avg('note');
+        return number_format($avg, 1);
 
-        // si la moyenne est null, on retourne 0
-        if (is_null($avg)) {
-            return number_format(0, 1);
-        }
+        // // si la moyenne est null, on retourne 0
+        // if (is_null($avg)) {
+        //     return number_format(0, 1);
+        // }
 
-        // arrondir à l'entier supérieur si la décimale est supérieur ou égale à 0.5
-        $decimal = $avg - floor($avg);
-        if ($decimal >= 0 && $decimal < 0.5) {
-            return number_format(floor($avg), 1);
-        } else {
-            return number_format(ceil($avg), 1);
-        }
+        // // arrondir à l'entier supérieur si la décimale est supérieur ou égale à 0.5
+        // $decimal = $avg - floor($avg);
+        // if ($decimal >= 0 && $decimal < 0.5) {
+        //     return number_format(floor($avg), 1);
+        // } else {
+        //     return number_format(ceil($avg), 1);
+        // }
     }
 
     public function getEstFavorisAttribute(): bool

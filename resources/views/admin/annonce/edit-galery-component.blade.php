@@ -24,11 +24,11 @@
         <input id="upload-image" type="file" wire:model="image" accept="image/*" style="display: none;"> <br>
         <div class="text-center gallery-box">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="listing-shot grid-style mrg-bot-15">
                         @if ($image)
-                        <div style="display: flex; justify-content: center; align-items: center;">
-                            <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
                                     <img class="listing-shot-img" src="{{ $image->temporaryUrl() }}" class="img-responsive" alt="">
                                 </a>
                             </div>
@@ -72,13 +72,15 @@
 
             </div>
             <div class="col-md-4">
-                <a href="javascript:void(0)" wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?"
-                   @if (count($galerie) + count($old_galerie) - count($deleted_old_galerie) == 0) disabled @endif class="btn btn-sm theme-btn-outlined" wire:click="removeAllImages" style="padding: 6px">
-                    <i class="fa fa-trash fa-lg" style="margin-left: 10px;"></i>
-                    &nbsp; &nbsp; &nbsp;
-                    Supprimer toutes les images
-                    &nbsp; &nbsp;
-                </a>
+                @if (count($galerie) + count($old_galerie) - count($deleted_old_galerie) != 0)
+                    <a href="javascript:void(0)" wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?"
+                       class="btn btn-sm theme-btn-outlined" wire:click="removeAllImages" style="padding: 6px">
+                        <i class="fa fa-trash fa-lg" style="margin-left: 10px;"></i>
+                        &nbsp; &nbsp; &nbsp;
+                        Supprimer toutes les images
+                        &nbsp; &nbsp;
+                    </a>
+                @endif
             </div>
             <div class="col-md-4">
                 {{-- <a href="javascript:void(0)" wire:click='restoreImages' wire:confirm="Confirmez-vous cette action ?"
