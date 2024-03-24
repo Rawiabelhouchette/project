@@ -18,7 +18,7 @@
                         {{-- Website --}}
                         @if ($annonce->entreprise->site_web)
                             <li>
-                                <div class="buttons medium button-plain "><i class="ti-world"></i><a href="{{ $annonce->entreprise->site_web }}" target="_blank">{{ $annonce->entreprise->site_web }}</a></div>
+                                <div class="buttons medium button-plain "><i class="ti-world"></i><a style="color: white;" href="{{ $annonce->entreprise->site_web }}" target="_blank">{{ $annonce->entreprise->site_web }}</a></div>
                             </li>
                         @endif
                         <li>

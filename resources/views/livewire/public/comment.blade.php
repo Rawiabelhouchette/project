@@ -41,6 +41,18 @@
                         </li>
                     @endforeach
 
+                    @empty($commentaires->count())
+                        <li>
+                            <div class="reviews-box">
+                                <div class="review-body">
+                                    <div class="review-content">
+                                        <p class="text-center">Aucun commentaire pour le moment</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    @endempty
+
                     @if ($commentaires->hasMorePages())
                         <div class="text-center mrg-top-10">
                             <a class="theme-cl" href="javascript:void(0)" wire:click="loadMore({{ $annonce_id }}, {{ $perPage }})">Afficher plus</a>
