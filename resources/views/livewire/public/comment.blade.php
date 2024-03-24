@@ -57,7 +57,22 @@
                         <h4>Laisser un commentaire</h4>
                     </div>
                     <div class="col-md-6 col-xs-12">
-                        
+                        @if ($hasMessage)
+                            @if ($message->type == 'success')
+                                <div class="alert alert-success alert-dismissible fade show mrg-bot-0 padd-top-0 padd-bot-0" role="alert">
+                                    <strong>{{ $message->message }}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @else
+                                <div class="alert alert-danger alert-dismissible fade show mrg-bot-0 padd-top-0 padd-bot-0" role="alert">
+                                    <strong>{{ $message->message }}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>
@@ -124,7 +139,7 @@
 
         <script>
             window.addEventListener('update:comment-value', event => {
-                $('#commentsCount').html('<i class="fa fa-comments"></i>' + event.detail[0].value + ' commentaire(s)'); 
+                $('#commentsCount').html('<i class="fa fa-comments"></i>' + event.detail[0].value + ' commentaire(s)');
             });
         </script>
     @endpush

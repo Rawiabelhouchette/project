@@ -12,6 +12,8 @@ class Comment extends Component
     public $comment;
     public $note;
     public $perPage = 2;
+    public $message = [];
+    public $hasMessage = false;
 
     protected $listeners = ['updateNoteValue' => 'setNoteValue'];
 
@@ -59,13 +61,29 @@ class Comment extends Component
             return redirect()->route('connexion');
         }
 
-        $this->annonce->commentaires()->create([
-            'user_id' => auth()->id(),
-            'note' => $this->note,
-            'contenu' => $this->comment
-        ]);
+        $this->hasMessage = true;
+        try {
+            $this->annonce->commentaires()->create([
+                'user_id' => auth()->id(),
+                'note' => $this->note,
+                'contenu' => $this->comment
+            ]);
+        } catch (\Exception $e) {
+            $this->message = (object) [
+                'type' => 'danger',
+                'message' => 'Une erreur est survenue lors de l\'ajout du commentaire'
+            ];
+            return;
+        }
 
         // session()->flash('success', 'Commentaire ajouté avec succès');
+        // 
+
+        $this->message = (object) [
+            'type' => 'success',
+            'message' => 'Commentaire ajouté avec succès'
+        ];
+        // 
 
         $this->comment = '';
     }
