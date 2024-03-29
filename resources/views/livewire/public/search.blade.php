@@ -58,14 +58,12 @@
                                         </span> &nbsp;
                                     @endif
                                     @foreach ($facettes as $facette)
-                                        <div wire:key='facette-filter-{{ $loop->index }}'>
-                                            @foreach ($facette->selectedItems as $item)
+                                        @foreach ($facette->selectedItems as $item)
                                             <span class="badge height-25 theme-bg" wire:key='sub-facette-filter-{{ $loop->index }}'>
                                                 {{ $item }}
                                                 <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'> x </a>
                                             </span> &nbsp;
                                         @endforeach
-                                        </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -102,96 +100,99 @@
                             @include('components.public.loader')
                         </div>
 
-                        @foreach ($annonces as $annonce)
-                            <div class="col-md-6 col-sm-6" wire:key='{{ $annonce->id }}'>
-                                <div class="listing-shot grid-style">
-                                    <div class="listing-shot-img">
-                                        <a href="{{ route('show', $annonce->slug) }}">
-                                            @if ($annonce->image)
-                                                <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt="">
+                        {{-- {{ $annonces->count() }} --}}
+                        <div id="annonces-zone">
+                            @foreach ($annonces as $annonce)
+                                <div class="col-md-6 col-sm-6" wire:key='{{ time() . $annonce->id }}' id="annonce-{{ $annonce->id }}">
+                                    <div class="listing-shot grid-style">
+                                        <div class="listing-shot-img">
+                                            <a href="{{ route('show', $annonce->slug) }}">
+                                                @if ($annonce->image)
+                                                    <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt="">
+                                                @else
+                                                    <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
+                                                @endif
+                                            </a>
+                                        </div>
+                                        <div class="listing-shot-caption">
+                                            <a href="{{ route('show', $annonce->slug) }}">
+                                                <h4>{{ $annonce->titre }}</h4>
+                                                <p class="listing-location">{{ $annonce->description_courte }}</p>
+                                            </a>
+                                            @if (Auth::check())
+                                                @if ($annonce->est_favoris)
+                                                    <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                                                        <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                                    </a>
+                                                @else
+                                                    <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                                                        <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                                    </a>
+                                                @endif
                                             @else
-                                                <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
-                                            @endif
-                                        </a>
-                                    </div>
-                                    <div class="listing-shot-caption">
-                                        <a href="{{ route('show', $annonce->slug) }}">
-                                            <h4>{{ $annonce->titre }}</h4>
-                                            <p class="listing-location">{{ $annonce->description_courte }}</p>
-                                        </a>
-                                        @if (Auth::check())
-                                            @if ($annonce->est_favoris)
-                                                <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
-                                                    <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                                </a>
-                                            @else
-                                                <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                                                <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" onclick="$('#share').hide()">
                                                     <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                                 </a>
                                             @endif
-                                        @else
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" onclick="$('#share').hide()">
-                                                <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                            </a>
-                                        @endif
-                                    </div>
-                                    <div class="listing-price-info">
-                                        <span class="pricetag">{{ $annonce->type }} </span>
+                                        </div>
+                                        <div class="listing-price-info">
+                                            <span class="pricetag">{{ $annonce->type }} </span>
 
-                                    </div>
-                                    <div class="listing-shot-info">
-                                        <div class="row extra">
-                                            <div class="col-md-12">
-                                                <div class="listing-detail-info">
-                                                    <span><i class="fa fa-phone" aria-hidden="true"></i> {{ $annonce->entreprise->contact }}</span>
-                                                    <span>
-                                                        <i class="fa fa-globe" aria-hidden="true"></i>
-                                                        @if ($annonce->entreprise->site_web)
-                                                            {{ $annonce->entreprise->site_web }}
-                                                        @else
-                                                            -
-                                                        @endif
-                                                    </span>
+                                        </div>
+                                        <div class="listing-shot-info">
+                                            <div class="row extra">
+                                                <div class="col-md-12">
+                                                    <div class="listing-detail-info">
+                                                        <span><i class="fa fa-phone" aria-hidden="true"></i> {{ $annonce->entreprise->contact }}</span>
+                                                        <span>
+                                                            <i class="fa fa-globe" aria-hidden="true"></i>
+                                                            @if ($annonce->entreprise->site_web)
+                                                                {{ $annonce->entreprise->site_web }}
+                                                            @else
+                                                                -
+                                                            @endif
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="listing-shot-info rating padd-0">
-                                            {{ $annonce->note }}
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
-                                            @endfor
-                                            &nbsp;&nbsp;
-                                            ({{ $annonce->nb_notation }})
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#share" class="theme-cl annonce-share" style="float: right;"
-                                               data-url="{{ route('show', $annonce->slug) }}"
-                                               data-titre="{{ $annonce->titre }}"
-                                               data-image="{{ $annonce->image ? asset('storage/' . $annonce->imagePrincipale->chemin) : 'http://via.placeholder.com/800x800' }}"
-                                               data-type="{{ $annonce->type }}">
-                                                <i class="fa fa-share theme-cl" aria-hidden="true"></i>
-                                                Partager
-                                            </a>
+                                            <div class="listing-shot-info rating padd-0">
+                                                {{ $annonce->note }}
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
+                                                @endfor
+                                                &nbsp;&nbsp;
+                                                ({{ $annonce->nb_notation }})
+                                                <a href="javascript:void(0)" data-toggle="modal" data-target="#share" class="theme-cl annonce-share" style="float: right;"
+                                                   data-url="{{ route('show', $annonce->slug) }}"
+                                                   data-titre="{{ $annonce->titre }}"
+                                                   data-image="{{ $annonce->image ? asset('storage/' . $annonce->imagePrincipale->chemin) : 'http://via.placeholder.com/800x800' }}"
+                                                   data-type="{{ $annonce->type }}">
+                                                    <i class="fa fa-share theme-cl" aria-hidden="true"></i>
+                                                    Partager
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="tp-author-basic-info mrg-top-0">
-                                        <ul>
-                                            <li class="text-center padd-top-10 padd-bot-0">
-                                                <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                                {{ $annonce->nb_vue }}
-                                            </li>
-                                            <li class="text-center padd-top-10 padd-bot-0">
-                                                <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
-                                                {{ $annonce->nb_favoris }}
-                                            </li>
-                                            <li class="text-center padd-top-10 padd-bot-0">
-                                                <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
-                                                {{ $annonce->nb_commentaire }}
-                                            </li>
-                                        </ul>
+                                        <div class="tp-author-basic-info mrg-top-0">
+                                            <ul>
+                                                <li class="text-center padd-top-10 padd-bot-0">
+                                                    <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+                                                    {{ $annonce->nb_vue }}
+                                                </li>
+                                                <li class="text-center padd-top-10 padd-bot-0">
+                                                    <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
+                                                    {{ $annonce->nb_favoris }}
+                                                </li>
+                                                <li class="text-center padd-top-10 padd-bot-0">
+                                                    <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
+                                                    {{ $annonce->nb_commentaire }}
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
 
                         @empty($annonces->count())
                             <div class="col-md-12 col-sm-12">
@@ -206,7 +207,9 @@
                         @endempty
                     </div>
 
-                    {{ $annonces->links() }}
+                    <div id="annonce-pagination">
+                        {{ $annonces->links() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -306,9 +309,7 @@
         function normalizeString(str) {
             return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
         }
-    </script>
 
-    <script>
         window.addEventListener('refresh:filter', event => {
             var intervalId = setInterval(function() {
                 var categories = [];
@@ -339,6 +340,41 @@
     </script>
 
     <script>
+        window.addEventListener('custom:element-removal', event => {
+            var ids = event.detail[0].element;
+            var perPage = event.detail[0].perPage;
+
+            if (perPage > ids.length) {
+                $('#annonce-pagination').fadeOut(300);
+            } else {
+                $('#annonce-pagination').fadeIn(300);
+            }
+            // remove element where id is not in ids using js looping on annonces-zone id
+
+            $('#annonces-zone').children().each(function() {
+                var annonceId = $(this).attr('id').split('-')[1];
+                if (!ids.includes(annonceId)) {
+                    console.log(annonceId);
+                    // $(this).remove(); remove with add fadeOut
+                    $(this).fadeOut(300);
+                }
+            });
+
+            console.log(ids);
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
         // $(document).ready(function() {
         //     $('.selectedOption').on('click', function() {
         //         // supprimer l'element pres 2 seconde s'il existe toujours

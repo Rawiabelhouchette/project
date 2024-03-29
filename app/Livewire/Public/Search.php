@@ -16,6 +16,8 @@ class Search extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public $booted = true;
+
     // filter input on the back
     public $type = [];
     public $key = '';
@@ -164,6 +166,12 @@ class Search extends Component
 
     public function changeState($value, $category, $remove = false)
     {
+        $this->booted = false;
+
+        if ($category == 'key' && $value = 'key') {
+            return;
+        }
+
         if ($category == 'key' && $remove) {
             $this->key = '';
             $this->dispatch('resetSearchKey');
@@ -183,6 +191,9 @@ class Search extends Component
                 $this->getQuartiersParVilles();
             }
         }
+
+        $this->dispatch('$refresh');
+
     }
 
     protected function getQuartiersParVilles()
@@ -282,7 +293,7 @@ class Search extends Component
     {
         $annonces = Annonce::public()->with('entreprise');
         $annonces = $this->filters($annonces);
-        $annonces = $annonces->paginate($this->perPage);
+        // $annonces = $annonces->paginate($this->perPage);
         return $annonces;
     }
 
@@ -481,9 +492,19 @@ class Search extends Component
 
 
         return view('livewire.public.search', [
-            'annonces' => $this->search(),
+            'annonces' => $this->search()->paginate($this->perPage),
             'facettes' => $this->getFacettes(),
         ]);
+    }
+
+    public function rendering()
+    {
+        if (!$this->booted) {
+            $this->dispatch('custom:element-removal', [
+                'element' => $this->search()->get()->pluck('id')->toArray(),
+                'perPage' => $this->perPage,
+            ]);
+        }
     }
 
     public function rendered($view, $html)
