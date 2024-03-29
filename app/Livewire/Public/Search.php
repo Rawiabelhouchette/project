@@ -167,11 +167,7 @@ class Search extends Component
     public function changeState($value, $category, $remove = false)
     {
         $this->booted = false;
-
-        if ($category == 'key' && $value = 'key') {
-            return;
-        }
-
+        
         if ($category == 'key' && $remove) {
             $this->key = '';
             $this->dispatch('resetSearchKey');
