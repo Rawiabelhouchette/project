@@ -96,12 +96,12 @@ class Annonce extends Model
         return $this->belongsToMany(Fichier::class, 'annonce_fichier', 'annonce_id', 'fichier_id');
     }
 
-    public function imagePrincipale() : BelongsTo
+    public function imagePrincipale(): BelongsTo
     {
         return $this->belongsTo(Fichier::class, 'image');
     }
 
-    public function annonceable() : MorphTo
+    public function annonceable(): MorphTo
     {
         return $this->morphTo();
     }
@@ -231,6 +231,8 @@ class Annonce extends Model
 
     public function getEstFavorisAttribute(): bool
     {
+        if (!auth()->check())
+            return false;
         return $this->favoris()->where('user_id', auth()->user()->id)->exists();
     }
 
