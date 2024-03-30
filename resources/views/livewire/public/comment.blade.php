@@ -43,13 +43,7 @@
 
                     @empty($commentaires->count())
                         <li>
-                            <div class="reviews-box">
-                                <div class="review-body">
-                                    <div class="review-content">
-                                        <p class="text-center">Aucun commentaire pour le moment</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <p class="text-center">Aucun commentaire pour le moment</p>
                         </li>
                     @endempty
 
