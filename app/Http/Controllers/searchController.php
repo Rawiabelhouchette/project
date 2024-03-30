@@ -24,8 +24,6 @@ class searchController extends Controller
         if ($form_request) {
             $hasSessionValue = false;
         }
-
-        // dd($form_request);
         return view('public.search', compact('hasSessionValue'));
     }
 

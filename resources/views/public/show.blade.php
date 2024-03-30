@@ -6,45 +6,44 @@
 
 @section('content')
     <!-- ================ Listing Detail Basic Information ======================= -->
-    <div class="banner dark-opacity" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); height: 10vh !important; min-height: 300px;" data-overlay="8">
+    {{-- <div class="banner dark-opacity" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); height: 300px !important; min-height: 300px !important;" data-overlay="8"> --}}
+    <div class="banner dark-opacity" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); height: 300px !important; min-height: 300px !important;" data-overlay="8">
         <div class="container">
             <div class="banner-caption">
-                <div class="col-md-12 col-sm-12 banner-text mrg-top-10">
-                    <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                        <input type="hidden" value="1" name="form_request">
-                        <div class="col-md-4 col-sm-4 no-padd">
-                            <i class="banner-icon icon-pencil"></i>
-                            <input type="text" class="form-control left-radius right-br" placeholder="Mot clé..." name="key">
+                <form class="form-verticle" method="GET" action="{{ route('search') }}">
+                    <input type="hidden" value="1" name="form_request">
+                    <div class="col-md-4 col-sm-4 no-padd">
+                        <i class="banner-icon icon-pencil"></i>
+                        <input type="text" class="form-control left-radius right-br" placeholder="Mot clé..." name="key">
+                    </div>
+                    <div class="col-md-3 col-sm-3 no-padd">
+                        <div class="form-box">
+                            <i class="banner-icon icon-map-pin"></i>
+                            <input id="myInput" type="text" class="form-control right-br" placeholder="Localisation..." name="location">
+                            <div id="autocomplete-results" class="autocomplete-items"></div>
                         </div>
-                        <div class="col-md-3 col-sm-3 no-padd">
-                            <div class="form-box">
-                                <i class="banner-icon icon-map-pin"></i>
-                                <input id="myInput" type="text" class="form-control right-br" placeholder="Localisation..." name="location">
-                                <div id="autocomplete-results" class="autocomplete-items"></div>
-                            </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 no-padd">
+                        <div class="form-box">
+                            <i class="banner-icon icon-layers"></i>
+                            <select class="form-control" name="type[]">
+                                <option value="" selected data-placeholder="{{ __('Tous les types d\'annonce') }}" class="chosen-select">{{ __('Tous les type d\'annonce') }}</option>
+                                @foreach ($typeAnnonce as $type)
+                                    <option value="{{ $type }}">{{ $type }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="col-md-3 col-sm-3 no-padd">
-                            <div class="form-box">
-                                <i class="banner-icon icon-layers"></i>
-                                <select class="form-control" name="type[]">
-                                    <option value="" selected data-placeholder="{{ __('Tous les types d\'annonce') }}" class="chosen-select">{{ __('Tous les type d\'annonce') }}</option>
-                                    @foreach ($typeAnnonce as $type)
-                                        <option value="{{ $type }}">{{ $type }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+                    </div>
 
-                        <div class="col-md-2 col-sm-3 no-padd">
-                            <div class="form-box">
-                                <button type="submit" class="btn theme-btn btn-default">
-                                    {{-- <i class="ti-search"></i> --}}
-                                    {{ __('Rechercher') }}
-                                </button>
-                            </div>
+                    <div class="col-md-2 col-sm-3 no-padd">
+                        <div class="form-box">
+                            <button type="submit" class="btn theme-btn btn-default">
+                                {{-- <i class="ti-search"></i> --}}
+                                {{ __('Rechercher') }}
+                            </button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -55,7 +54,6 @@
         <div class="container">
             <div class="row mrg-bot-40">
                 <div class="col-md-6 col-sm-6">
-                    {{-- icon de retour avec letext "Retour" --}}
                     <h5>
                         <a href="{{ route('search') }}" title="Revenir à la recherche">
                             <i class="fa fa-fw fa-arrow-left" aria-hidden="true"></i>

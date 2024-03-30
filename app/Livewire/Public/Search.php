@@ -48,6 +48,7 @@ class Search extends Component
 
     public $sortOrder = 'created_at|desc'; // default sorting column and direction
     public $perPage = 10;
+    public $page = 1;
 
     // List of facette's elements
     public $typeAnnonces = [];
@@ -71,6 +72,7 @@ class Search extends Component
             $this->quartier = $session->quartier;
             $this->entreprise = $session->entreprise;
             $this->sortOrder = $session->sortOrder;
+            $this->setPage($session->page);
         }
 
         $this->type = array_filter($this->type ?? []);
@@ -204,6 +206,8 @@ class Search extends Component
         }
 
         $this->dispatch('$refresh');
+
+        $this->resetPage();
 
     }
 
@@ -502,14 +506,16 @@ class Search extends Component
             ->all();
 
 
+        $annonces = $this->search()->paginate($this->perPage);
+        $this->page = $annonces->currentPage();
+
         $this->saveVariableToSession();
 
         return view('livewire.public.search', [
-            'annonces' => $this->search()->paginate($this->perPage),
+            'annonces' => $annonces,
             'facettes' => $this->getFacettes(),
         ]);
     }
-
 
 
     public function rendering()
@@ -538,6 +544,7 @@ class Search extends Component
             'quartier' => $this->quartier,
             'entreprise' => $this->entreprise,
             'sortOrder' => $this->sortOrder,
+            'page' => $this->page,
         ]);
     }
 
