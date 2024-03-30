@@ -28,6 +28,7 @@ class Search extends Component
     public $ville = [];
     public $quartier = [];
     public $entreprise = [];
+
     protected $queryString = [
         'type',
         'key',
@@ -57,12 +58,25 @@ class Search extends Component
     private $initURL = '';
 
 
-    public function mount()
+    public function mount($hasSessionValue)
     {
-        $this->type = array_filter($this->type);
-        $this->ville = array_filter($this->ville);
-        $this->quartier = array_filter($this->quartier);
-        $this->entreprise = array_filter($this->entreprise);
+        if ($hasSessionValue) {
+            $session = new CustomSession();
+            $this->key = $session->key;
+            $this->type = $session->type;
+            $this->location = $session->location;
+            $this->column = $session->column;
+            $this->direction = $session->direction;
+            $this->ville = $session->ville;
+            $this->quartier = $session->quartier;
+            $this->entreprise = $session->entreprise;
+            $this->sortOrder = $session->sortOrder;
+        }
+
+        $this->type = array_filter($this->type ?? []);
+        $this->ville = array_filter($this->ville ?? []);
+        $this->quartier = array_filter($this->quartier ?? []);
+        $this->entreprise = array_filter($this->entreprise ?? []);
 
 
         $this->getAllEntreprises();
@@ -487,16 +501,16 @@ class Search extends Component
             ->values()
             ->all();
 
-        CustomSession::create([
-            'annonces' => $this->search()->get()->pluck('id')->toArray(),
-        ]);
 
+        $this->saveVariableToSession();
 
         return view('livewire.public.search', [
             'annonces' => $this->search()->paginate($this->perPage),
             'facettes' => $this->getFacettes(),
         ]);
     }
+
+
 
     public function rendering()
     {
@@ -507,6 +521,24 @@ class Search extends Component
                 'key' => $this->key,
             ]);
         }
+    }
+
+    private function saveVariableToSession()
+    {
+        CustomSession::clear();
+
+        CustomSession::create([
+            'annonces' => $this->search()->get()->pluck('id')->toArray(),
+            'type' => $this->type,
+            'key' => $this->key,
+            'location' => $this->location,
+            'column' => $this->column,
+            'direction' => $this->direction,
+            'ville' => $this->ville,
+            'quartier' => $this->quartier,
+            'entreprise' => $this->entreprise,
+            'sortOrder' => $this->sortOrder,
+        ]);
     }
 
     public function rendered($view, $html)

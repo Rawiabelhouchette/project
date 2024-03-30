@@ -11,6 +11,7 @@
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text mrg-top-10">
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
+                        <input type="hidden" value="1" name="form_request">
                         <div class="col-md-4 col-sm-4 no-padd">
                             <i class="banner-icon icon-pencil"></i>
                             <input type="text" class="form-control left-radius right-br" placeholder="Mot clé..." name="key">
@@ -56,7 +57,7 @@
                 <div class="col-md-6 col-sm-6">
                     {{-- icon de retour avec letext "Retour" --}}
                     <h5>
-                        <a href="#" onclick="window.history.back(); return false;" title="Revenir à la recherche">
+                        <a href="{{ route('search') }}" title="Revenir à la recherche">
                             <i class="fa fa-fw fa-arrow-left" aria-hidden="true"></i>
                             Revenir à la recherche
                         </a>

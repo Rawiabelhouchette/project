@@ -17,6 +17,7 @@
                     <h1 style="font-size: 50px; ">Vamiyi, l'aventure commence ici</h1>
                     <p>Explorez les meilleurs endroits, des restaurants et plus encore...</p>
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
+                        <input type="hidden" value="1" name="form_request">
                         <div class="col-md-4 col-sm-4 no-padd">
                             <i class="banner-icon icon-pencil"></i>
                             <input type="text" class="form-control left-radius right-br" placeholder="Mot clé..." name="key">

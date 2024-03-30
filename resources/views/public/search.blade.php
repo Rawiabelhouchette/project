@@ -3,5 +3,5 @@
 @section('content')
     @livewire('public.search-box')
 
-    @livewire('public.search')
+    @livewire('public.search', ['hasSessionValue' => $hasSessionValue])
 @endsection

@@ -11,12 +11,27 @@ class searchController extends Controller
 {
     public function search(Request $request)
     {
-        return view('public.search');
+        // dd($request->all());
+        $hasSessionValue = false;
+
+        $session = new CustomSession();
+        if ($session->annonces) {
+            $hasSessionValue = true;
+        }
+
+        $form_request = $request->input('form_request', null);
+
+        if ($form_request) {
+            $hasSessionValue = false;
+        }
+
+        // dd($form_request);
+        return view('public.search', compact('hasSessionValue'));
     }
 
     public function show($slug)
     {
-        $annonce = Annonce::public()->where('slug', $slug)->where('is_active', true)->firstOrFail();
+        $annonce = Annonce::public()->where('slug', $slug)->where('is_active', true)->first();
         $annonces = Annonce::public()->where('type', $annonce->type)->latest()->take(4)->get();
         $type = $annonce->type;
         $key = '';
@@ -26,8 +41,19 @@ class searchController extends Controller
         $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
 
         $session = new CustomSession();
+        $sessAnnonces = $session->annonces;
 
-        $result = $this->findElement($session->annonces, $annonce->id);
+
+        if (!$sessAnnonces) {
+            $sessAnnonces[] = $annonce->id;
+            CustomSession::create([
+                'annonces' => $sessAnnonces,
+                'key' => $annonce->titre,
+            ]);
+        }
+
+        // dd($sessAnnonces);
+        $result = $this->findElement($sessAnnonces, $annonce->id);
 
         $previousSlug = 'javascript:void(0)';
         $nextSlug = 'javascript:void(0)';
@@ -40,18 +66,13 @@ class searchController extends Controller
             $nextSlug = route('show', Annonce::public()->where('id', $result->next)->first()->slug);
         }
 
-        $position = $result->position . '/' . count($session->annonces);
+        $position = $result->position . '/' . (count($session->annonces) == 0 ? 1 : count($session->annonces));
 
         $pagination = (object) [
             'position' => $position,
             'previous' => $previousSlug,
             'next' => $nextSlug
         ];
-
-
-        // dd($pagination);
-
-
 
         return view('public.show', compact('annonce', 'type', 'key', 'annonces', 'typeAnnonce', 'pagination'));
     }
@@ -61,7 +82,11 @@ class searchController extends Controller
         $position = array_search($element, $array);
 
         if ($position === false) {
-            return back();
+            return (object) [
+                'position' => 1,
+                'previous' => 0,
+                'next' => 0
+            ];
         }
 
         // dd($position);
