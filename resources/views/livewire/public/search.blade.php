@@ -46,29 +46,31 @@
                 <!-- Start All Listing -->
                 <div class="col-md-8 col-sm-12" wire:key='filterShow'>
                     <!-- Filter option -->
-                    @if ($type || $ville || $quartier || $entreprise || $key)
-                        <div class="row mrg-0 mrg-bot-10">
-                            <div class="col-md-12 mrg-top-10">
-                                <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
-                                    Recherche : &nbsp;
-                                    @if ($key)
-                                        <span class="badge height-25 theme-bg">
-                                            {{ $key }}
-                                            <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $key }}", "key", true)'> x </a>
-                                        </span> &nbsp;
-                                    @endif
-                                    @foreach ($facettes as $facette)
-                                        @foreach ($facette->selectedItems as $item)
-                                            <span class="badge height-25 theme-bg" wire:key='sub-facette-filter-{{ $loop->index }}'>
-                                                {{ $item }}
-                                                <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'> x </a>
+                    <div id="research-zone">
+                        @if ($type || $ville || $quartier || $entreprise || $key)
+                            <div class="row mrg-0 mrg-bot-10">
+                                <div class="col-md-12 mrg-top-10">
+                                    <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
+                                        Recherche : &nbsp;
+                                        @if ($key)
+                                            <span class="badge height-25 theme-bg" id="key-filter" data-value="{{ $key }}">
+                                                {{ $key }}
+                                                <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $key }}", "key", true)'> x </a>
                                             </span> &nbsp;
+                                        @endif
+                                        @foreach ($facettes as $facette)
+                                            @foreach ($facette->selectedItems as $item)
+                                                <span class="badge height-25 theme-bg search-elt" wire:key='sub-facette-filter-{{ $loop->index }}'>
+                                                    {{ $item }}
+                                                    <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'> x </a>
+                                                </span> &nbsp;
+                                            @endforeach
                                         @endforeach
-                                    @endforeach
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endif
+                        @endif
+                    </div>
 
                     <div class="row mrg-0">
                         <div class="col-md-6 mrg-top-10">
@@ -116,7 +118,10 @@
                                         </div>
                                         <div class="listing-shot-caption">
                                             <a href="{{ route('show', $annonce->slug) }}">
-                                                <h4>{{ $annonce->titre }}</h4>
+                                                <h4>
+                                                    {{ $annonce->titre }}
+                                                </h4>
+
                                                 <p class="listing-location">{{ $annonce->description_courte }}</p>
                                             </a>
                                             @if (Auth::check())
@@ -136,13 +141,13 @@
                                             @endif
                                         </div>
                                         <div class="listing-price-info">
-                                            <span class="pricetag">{{ $annonce->type }} </span>
-
+                                            <span class="">{{ $annonce->type }} </span>
                                         </div>
                                         <div class="listing-shot-info">
                                             <div class="row extra">
                                                 <div class="col-md-12">
                                                     <div class="listing-detail-info">
+                                                        {{-- <span class="pricetag theme-bg">Restaurants</span> --}}
                                                         <span><i class="fa fa-phone" aria-hidden="true"></i> {{ $annonce->entreprise->contact }}</span>
                                                         <span>
                                                             <i class="fa fa-globe" aria-hidden="true"></i>
@@ -161,8 +166,7 @@
                                                 @for ($i = 1; $i <= 5; $i++)
                                                     <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
                                                 @endfor
-                                                &nbsp;&nbsp;
-                                                ({{ $annonce->nb_notation }})
+                                                
                                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#share" class="theme-cl annonce-share" style="float: right;"
                                                    data-url="{{ route('show', $annonce->slug) }}"
                                                    data-titre="{{ $annonce->titre }}"
@@ -343,6 +347,20 @@
         window.addEventListener('custom:element-removal', event => {
             var ids = event.detail[0].element;
             var perPage = event.detail[0].perPage;
+            var key = event.detail[0].key;
+
+            console.log(key);
+
+            if (!key) {
+                $('#key-filter').fadeOut(300);
+            }
+
+            // check if search-elt class one element exist
+            if ($('.search-elt').length === 0) {
+                $('#research-zone').fadeOut(300);
+            }
+
+
 
             if (perPage > ids.length) {
                 $('#annonce-pagination').fadeOut(300);
@@ -354,13 +372,13 @@
             $('#annonces-zone').children().each(function() {
                 var annonceId = $(this).attr('id').split('-')[1];
                 if (!ids.includes(annonceId)) {
-                    console.log(annonceId);
+                    // console.log(annonceId);
                     // $(this).remove(); remove with add fadeOut
                     $(this).fadeOut(300);
                 }
             });
 
-            console.log(ids);
+            // console.log(ids);
         });
 
 

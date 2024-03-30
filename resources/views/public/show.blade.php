@@ -6,67 +6,79 @@
 
 @section('content')
     <!-- ================ Listing Detail Basic Information ======================= -->
-    <section class="detail-section-1" style="background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }});" data-overlay="6">
-        <div class="overlay" style="background-color: rgb(36, 36, 41); opacity: 0.5;"></div>
-        <div class="profile-cover-content">
-            <div class="container">
-                <div class="cover-buttons">
-                    <ul>
-                        <li>
-                            <div class="buttons medium button-plain "><i class="fa fa-building"></i>{{ $annonce->entreprise->nom }}</div>
-                        </li>
-                        {{-- Website --}}
-                        @if ($annonce->entreprise->site_web)
-                            <li>
-                                <div class="buttons medium button-plain "><i class="ti-world"></i><a style="color: white;" href="{{ $annonce->entreprise->site_web }}" target="_blank">{{ $annonce->entreprise->site_web }}</a></div>
-                            </li>
-                        @endif
-                        <li>
-                            <div class="buttons medium button-plain "><i class="fa-brands fa-whatsapp"></i> {{ $annonce->entreprise->quartier->ville->pays->indicatif }} {{ $annonce->entreprise->whatsapp }}</div>
-                        </li>
-                        <li>
-                            <div class="buttons medium button-plain "><i class="fa fa-eye"></i>{{ $annonce->nb_vue }} vue(s)</div>
-                        </li>
-                        <li>
-                            <div class="buttons medium button-plain " id="commentsCount"><i class="fa fa-comments"></i>{{ $annonce->commentaires->count() }} commentaire(s)</div>
-                        </li>
-                        <li>
-                            <div class="inside-rating buttons listing-rating theme-btn button-plain">
-                                <span class="value">{{ $annonce->note }}</span>
-                                <sup class="out-of">/ 5</sup>
-                            </div>
-                        </li>
-                        @if (Auth::check())
-                            <li><a href="#" data-listing-id="74" data-nonce="01a769d424" class="buttons btn-outlined"><i class="fa fa-heart-o"></i><span class="hidden-xs">Favoris</span> </a></li>
-                        @else
-                            <li><a href="#" data-toggle="modal" data-target="#signin" class="buttons btn-outlined"><i class="fa fa-heart-o"></i><span class="hidden-xs">Favoris</span> </a></li>
-                        @endif
-
-                    </ul>
-                </div>
-                <div class="listing-owner hidden-xs hidden-sm">
-                    {{-- <div class="detail-wrapper">
-                        <div class="detail-wrapper-body" style="text-align: left !important;">
-                            <h4>{{ $annonce->entreprise->nom }}<span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h4>
-                            <h4>Pizza Prizm House</h4>
-
+    <div class="banner dark-opacity" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); height: 10vh !important; min-height: 300px;" data-overlay="8">
+        <div class="container">
+            <div class="banner-caption">
+                <div class="col-md-12 col-sm-12 banner-text mrg-top-10">
+                    <form class="form-verticle" method="GET" action="{{ route('search') }}">
+                        <div class="col-md-4 col-sm-4 no-padd">
+                            <i class="banner-icon icon-pencil"></i>
+                            <input type="text" class="form-control left-radius right-br" placeholder="Mot clé..." name="key">
                         </div>
-                    </div> --}}
-                    {{-- <div class="listing-owner-avater">
-                        <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->entreprise->quartier->ville->pays->nom }}</span></h3>
-                    </div>
-                    <div class="listing-owner-detail">
-                        <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->entreprise->quartier->ville->pays->nom }}</span></h3>
-                    </div> --}}
+                        <div class="col-md-3 col-sm-3 no-padd">
+                            <div class="form-box">
+                                <i class="banner-icon icon-map-pin"></i>
+                                <input id="myInput" type="text" class="form-control right-br" placeholder="Localisation..." name="location">
+                                <div id="autocomplete-results" class="autocomplete-items"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 no-padd">
+                            <div class="form-box">
+                                <i class="banner-icon icon-layers"></i>
+                                <select class="form-control" name="type[]">
+                                    <option value="" selected data-placeholder="{{ __('Tous les types d\'annonce') }}" class="chosen-select">{{ __('Tous les type d\'annonce') }}</option>
+                                    @foreach ($typeAnnonce as $type)
+                                        <option value="{{ $type }}">{{ $type }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-3 no-padd">
+                            <div class="form-box">
+                                <button type="submit" class="btn theme-btn btn-default">
+                                    {{-- <i class="ti-search"></i> --}}
+                                    {{ __('Rechercher') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     <!-- ================ End Listing Detail Basic Information ======================= -->
 
     <!-- ================ Listing Detail Full Information ======================= -->
-    <section class="list-detail padd-bot-10">
+    <section class="list-detail padd-bot-10 padd-top-30">
         <div class="container">
+            <div class="row mrg-bot-40">
+                <div class="col-md-6 col-sm-6">
+                    {{-- icon de retour avec letext "Retour" --}}
+                    <h5>
+                        <a href="#" onclick="window.history.back(); return false;" title="Revenir à la recherche">
+                            <i class="fa fa-fw fa-arrow-left" aria-hidden="true"></i>
+                            Revenir à la recherche
+                        </a>
+                    </h5>
+                </div>
+                <div class="col-md-6 col-sm-6" style="text-align: right">
+                    <h5>
+                        <a href="#" class="btn-default">
+                            <i class="fa fa-fw fa-angle-left"></i>
+                            Précédent
+                        </a>
+                        <span class="padd-l-10 padd-r-10 theme-cl">
+                            1/12
+                        </span>
+                        <a href="#" class="btn-default">
+                            Suivant
+                            <i class="fa fa-fw fa-angle-right"></i>
+                        </a>
+                    </h5>
+                </div>
+            </div>
+
             <div class="row">
                 <!-- Start: Listing Detail Wrapper -->
                 <div class="col-md-8 col-sm-8">

@@ -10,7 +10,7 @@
 
 @section('content')
     <!-- Main Banner Section Start -->
-    <div class="banner dark-opacity" id="banner" style="background-image:url(assets_client/img/banner/image-1.jpg);" data-overlay="8">
+    <div class="banner dark-opacity" style="background-image:url(assets_client/img/banner/image-1.jpg);" data-overlay="8">
         <div class="container">
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
@@ -124,11 +124,11 @@
                                     {{-- <span class="veryfied-author"></span> --}}
                                 </h3>
                             </div>
-                            <p class="property_add">{{ $annonce->type }}</p>
+                            <p class="property_add" style="color: #ff3a72;">{{ $annonce->type }}</p>
                             <div class="property_meta">
                                 <div class="list-fx-features">
                                     <div class="listing-card-info-icon">
-                                        <span class="inc-fleat inc-add">
+                                        <span class="inc-fleat inc-add mrg-0 ">
                                             {{ $annonce->entreprise->adresse_complete }}
                                         </span>
                                     </div>

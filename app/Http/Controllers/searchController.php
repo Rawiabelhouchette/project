@@ -23,7 +23,10 @@ class searchController extends Controller
         $stat = StatistiqueAnnonce::where('annonce_id', $annonce->id)->first();
         $stat->increment('nb_vue');
 
-        return view('public.show', compact('annonce', 'type', 'key', 'annonces'));
+        $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
+
+
+        return view('public.show', compact('annonce', 'type', 'key', 'annonces', 'typeAnnonce'));
     }
 
 }

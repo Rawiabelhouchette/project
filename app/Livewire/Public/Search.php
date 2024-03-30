@@ -499,6 +499,7 @@ class Search extends Component
             $this->dispatch('custom:element-removal', [
                 'element' => $this->search()->get()->pluck('id')->toArray(),
                 'perPage' => $this->perPage,
+                'key' => $this->key,
             ]);
         }
     }

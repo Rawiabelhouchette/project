@@ -268,7 +268,8 @@ class Annonce extends Model
 
     public function getNbCommentaireAttribute(): string
     {
-        return $this->formatNumber($this->statistique->nb_commentaire);
+        // return $this->formatNumber($this->statistique->nb_commentaire);
+        return $this->formatNumber($this->commentaires()->count());
     }
 
     public function getNbNotationAttribute(): string
