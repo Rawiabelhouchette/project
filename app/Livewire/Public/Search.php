@@ -7,6 +7,7 @@ use App\Models\Entreprise;
 use App\Models\Favoris;
 use App\Models\Quartier;
 use App\Models\Ville;
+use App\Utils\CustomSession;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -167,7 +168,7 @@ class Search extends Component
     public function changeState($value, $category, $remove = false)
     {
         $this->booted = false;
-        
+
         if ($category == 'key' && $remove) {
             $this->key = '';
             $this->dispatch('resetSearchKey');
@@ -485,6 +486,10 @@ class Search extends Component
             })
             ->values()
             ->all();
+
+        CustomSession::create([
+            'annonces' => $this->search()->get()->pluck('id')->toArray(),
+        ]);
 
 
         return view('livewire.public.search', [

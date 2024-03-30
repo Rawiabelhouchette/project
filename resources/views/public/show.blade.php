@@ -64,14 +64,14 @@
                 </div>
                 <div class="col-md-6 col-sm-6" style="text-align: right">
                     <h5>
-                        <a href="#" class="btn-default">
+                        <a href="{{ $pagination->previous }}" class="btn-default">
                             <i class="fa fa-fw fa-angle-left"></i>
                             Précédent
                         </a>
                         <span class="padd-l-10 padd-r-10 theme-cl">
-                            1/12
+                            {{ $pagination->position }}
                         </span>
-                        <a href="#" class="btn-default">
+                        <a href="{{ $pagination->next }}" class="btn-default">
                             Suivant
                             <i class="fa fa-fw fa-angle-right"></i>
                         </a>
