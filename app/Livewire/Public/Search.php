@@ -208,7 +208,6 @@ class Search extends Component
         $this->dispatch('$refresh');
 
         $this->resetPage();
-
     }
 
     protected function getQuartiersParVilles()
