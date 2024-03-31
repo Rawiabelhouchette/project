@@ -87,9 +87,13 @@
                                 {{-- <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3> --}}
                                 <h3> {{ $annonce->titre }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3>
                                 <div>
+                                    <a href="javascript:void(0)">
+                                        <i class="fa fa-building fa-lg" style="color: #ff3a72;"></i>&nbsp;&nbsp;
+                                        {{ $annonce->entreprise->nom }}
+                                    </a><br>
                                     @if ($annonce->entreprise->site_web)
                                         <a href="{{ $annonce->entreprise->site_web }}" target="_blank">
-                                            <i class="ti-world"></i>&nbsp;
+                                            <i class="ti-world" style="color: #ff3a72;"></i>&nbsp;
                                             {{ $annonce->entreprise->site_web }}
                                         </a>
                                         <br>
@@ -98,20 +102,96 @@
                                     @if ($annonce->entreprise->email)
                                         {{-- <a href="mailto:{{ $annonce->entreprise->email }}"> --}}
                                         <a href="javascript:void(0)">
-                                            <i class="ti-email"></i>&nbsp;
+                                            <i class="ti-email" style="color: #ff3a72;"></i>&nbsp;
                                             {{ $annonce->entreprise->email }}
                                         </a>
                                         <br>
                                     @endif
 
-                                    @if ($annonce->entreprise->whatsapp)
-                                        {{-- <a href="https://api.whatsapp.com/send?phone={{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank"> --}}
+                                    {{-- @if ($annonce->entreprise->whatsapp)
+                                        <a href="https://api.whatsapp.com/send?phone={{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank">
                                         <a href="javascript:void(0)">
-                                            <i class="fa-brands fa-whatsapp"></i>&nbsp;
+                                            <i class="fa-brands fa-whatsapp" style="color: #ff3a72;"></i>&nbsp;
                                             {{ $annonce->entreprise->whatsapp }}
                                         </a>
                                         <br>
-                                    @endif
+                                    @endif --}}
+
+                                    <style>
+                                        .li-btn {
+                                            background: grey;
+                                            color: white;
+                                            border: 1px solid grey;
+                                        }
+
+                                        .li-btn:hover {
+                                            color: #ff3a72;
+                                        }
+
+                                        .share-button:hover {
+                                            background: #ff3a72 !important;
+                                            color: white !important;
+                                            border: 1px solid #ff3a72 !important;
+                                        }
+                                    </style>
+                                    <div class="cover-buttons mrg-top-15" style="float: left;">
+                                        <ul>
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                <span class="buttons li-btn padd-10">
+                                                    <i class="fa fa-eye"></i>
+                                                    <span class="hidden-xs">{{ $annonce->nb_vue }} vue(s)</span>
+                                                </span>
+                                            </li>
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                <span class="buttons li-btn padd-10">
+                                                    <i class="fa fa-comment-o"></i>
+                                                    <span class="hidden-xs">{{ $annonce->commentaires->count() }} commentaire(s)</span>
+                                                </span>
+                                            </li>
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                <div class="inside-rating buttons listing-rating theme-btn button-plain" style="padd-0 !important; line-height: 0.5;">
+                                                    <span class="value">9.7</span> <sup class="out-of">/10</sup>
+                                                </div>
+                                            </li>
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                <button class="buttons padd-10" style="background: white; border: 1px solid grey; color: grey;">
+                                                    <i class="fa fa-heart"></i>
+                                                    <span class="hidden-xs">Favoris</span>
+                                                </button>
+                                            </li>
+                                            {{-- <li style="padding-left: 0;" class="mrg-r-10">
+                                                <button class="buttons padd-10" style="background: #ff3a72; border: 1px solid #ff3a72; color: white;">
+                                                    <i class="fa fa-heart"></i>
+                                                    <span class="hidden-xs">Favoris</span>
+                                                </button>
+                                            </li> --}}
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                <button class="buttons padd-10 share-button" style="background: white; border: 1px solid grey; color: grey;">
+                                                    <i class="fa fa-share"></i>
+                                                    <span class="hidden-xs">Partager</span>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="cover-buttons mrg-top-15" style="float: left;">
+                                        <ul>
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                <button class="buttons padd-10" style="background: green; color: white; border: 1px solid green;">
+                                                    <i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;
+                                                    <span class="hidden-xs">Whatsapp</span>
+                                                </button>
+                                            </li>
+                                            <li style="padding-left: 0;" class="mrg-r-10 text-center">
+                                                <button class="buttons padd-10 padd-l-30 padd-r-30" style="background: #E0306D; color: white; border: 1px solid #E0306D;">
+                                                    <i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;
+                                                    <span class="hidden-xs" style="font-size: 15px;">Instagram</span>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <br>
+
                                 </div>
                             </div>
                         </div>
@@ -132,14 +212,14 @@
                                     </div>
                                     @foreach ($annonce->galerie as $key => $image)
                                         @if ($key < 3)
-                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-6 col-md-3 padd-0 padd-3 image-preview">
+                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-3 padd-0 padd-3 image-preview">
                                                 <div class="listing-shot grid-style">
                                                     <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
                                                     </div>
                                                 </div>
                                             </div>
                                         @elseif ($key == 3)
-                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-6 col-md-3 padd-0 padd-3 image-preview">
+                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-3 padd-0 padd-3 image-preview">
                                                 <div class="listing-shot grid-style">
                                                     <div style="position: relative; display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
                                                         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
