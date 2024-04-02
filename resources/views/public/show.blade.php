@@ -385,10 +385,6 @@
         </div>
     </div>
 
-    @include('components.public.share-modal-alt', [
-        'title' => 'Partager cette annonce',
-        'annonce' => $annonce,
-    ])
 </section>
 <!-- ================ Listing Detail Full Information ======================= -->
 
@@ -397,6 +393,10 @@
     'couverture' => $annonce->imagePrincipale,
 ])
 
+@include('components.public.share-modal-alt', [
+    'title' => 'Partager cette annonce',
+    'annonce' => $annonce,
+])
 <style>
     @keyframes pulse {
         0% {

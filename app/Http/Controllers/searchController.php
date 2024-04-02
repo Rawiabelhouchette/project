@@ -43,6 +43,7 @@ class searchController extends Controller
 
 
         if (!$sessAnnonces) {
+            $sessAnnonces = [];
             $sessAnnonces[] = $annonce->id;
             CustomSession::create([
                 'annonces' => $sessAnnonces,
@@ -50,7 +51,7 @@ class searchController extends Controller
             ]);
         }
 
-        // dd($sessAnnonces);
+
         $result = $this->findElement($sessAnnonces, $annonce->id);
 
         $previousSlug = 'javascript:void(0)';
