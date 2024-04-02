@@ -164,8 +164,11 @@ Home, location vehicule, le bon type n'est pas pris
 
 ## 23/03/2024
 - Revoir l'affichage des etoiles sur l'affichage court des recherches
-- Se pencher plus sur la ce qui vient apres les etoiles
+- [ok] [removed]Se pencher plus sur la ce qui vient apres les etoiles
 - Ajouter l'affichage avec k pour les vues
 - [ok] Afficher un message avoir avoir envoyer un commentaire
-- Implementer fovoris sur la page des details
-- Ajouter le bouton de partage sur l'affichage des details
+- Implementer favoris sur la page des details
+- [ok] Ajouter le bouton de partage sur l'affichage des details
+
+## 02/04/2024
+- Rendre les liens cliquables dans l'affichage des informations de l'entreprise
