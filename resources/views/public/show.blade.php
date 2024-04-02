@@ -184,7 +184,7 @@
                                     <div class="cover-buttons mrg-top-15" style="float: left;">
                                         <ul>
                                             <style>
-                                                .qwert {
+                                                .social-network {
                                                     color: #fff;
                                                     display: inline-block;
                                                     font-size: 14px;
@@ -196,19 +196,27 @@
                                                     border: 1px solid transparent;
                                                 }
 
-                                                .qwert:hover {
+                                                .social-network:hover {
+                                                    color: #fff;
+                                                }
+
+                                                .social-network:visited {
                                                     color: #fff;
                                                 }
                                             </style>
                                             {{-- <li style="padding-left: 0;">
-                                                <button class="qwert" style="background-color: #00A884"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</button>
+                                                <button class="social-network" style="background-color: #00A884"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</button>
                                             </li> --}}
-                                            <li style="padding-left: 0; padding-right: 5px;">
-                                                <a href="#" class="qwert" style="background-color: #FF3A72"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;Instagram</a>
-                                            </li>
-                                            <li style="padding-left: 0; padding-right: 5px;">
-                                                <a href="#" class="qwert" style="background-color: #0866FF"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> &nbsp;Facebook</a>
-                                            </li>
+                                            @if ($annonce->entreprise->instagram)
+                                                <li style="padding-left: 0; padding-right: 5px;">
+                                                    <a href="{{ $annonce->entreprise->instagram }}" class="social-network" target="_blank" style="background-color: #FF3A72"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;Instagram</a>
+                                                </li>
+                                            @endif
+                                            @if ($annonce->entreprise->facebook)
+                                                <li style="padding-left: 0; padding-right: 5px;">
+                                                    <a href="{{ $annonce->entreprise->facebook }}" class="social-network" target="_blank" style="background-color: #0866FF"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> &nbsp;Facebook</a>
+                                                </li>
+                                            @endif
                                         </ul>
                                     </div>
                                     <br>
