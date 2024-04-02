@@ -348,19 +348,15 @@
             var ids = event.detail[0].element;
             var perPage = event.detail[0].perPage;
             var key = event.detail[0].key;
-
-            console.log(key);
+            var facette = event.detail[0].facette;
 
             if (!key) {
                 $('#key-filter').fadeOut(300);
             }
 
-            // check if search-elt class one element exist
-            if ($('.search-elt').length === 0) {
+            if (facette == 0 && key == '') {
                 $('#research-zone').fadeOut(300);
             }
-
-
 
             if (perPage > ids.length) {
                 $('#annonce-pagination').fadeOut(300);
@@ -372,13 +368,9 @@
             $('#annonces-zone').children().each(function() {
                 var annonceId = $(this).attr('id').split('-')[1];
                 if (!ids.includes(annonceId)) {
-                    // console.log(annonceId);
-                    // $(this).remove(); remove with add fadeOut
                     $(this).fadeOut(300);
                 }
             });
-
-            // console.log(ids);
         });
 
 

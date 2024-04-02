@@ -17,7 +17,7 @@
                                         <div class="review-info">
                                             <div class="review-comment">
                                                 <div class="review-author">
-                                                    {{ $commentaire->auteur->nom }} {{ $commentaire->auteur->prenom }}
+                                                    <h4>{{ $commentaire->auteur->nom }} {{ $commentaire->auteur->prenom }}</h4>
                                                 </div>
                                                 <div class="review-comment-stars">
                                                     @for ($i = 0; $i < $commentaire->note; $i++)
@@ -30,7 +30,7 @@
                                             </div>
                                             <div class="review-comment-date">
                                                 <div class="review-date">
-                                                    <span>{{ $commentaire->created_at->diffForHumans() }}</span>
+                                                    <span>{{ $commentaire->created_at->format('d-m-Y H:i:s') }}</span>
                                                 </div>
                                             </div>
                                         </div>

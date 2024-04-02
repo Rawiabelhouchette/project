@@ -524,6 +524,7 @@ class Search extends Component
                 'element' => $this->search()->get()->pluck('id')->toArray(),
                 'perPage' => $this->perPage,
                 'key' => $this->key,
+                'facette' => count($this->getFacettes()),
             ]);
         }
     }

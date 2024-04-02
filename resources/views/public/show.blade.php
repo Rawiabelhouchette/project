@@ -119,9 +119,15 @@
 
                                     <style>
                                         .li-btn {
-                                            background: grey;
-                                            color: white;
+                                            background: white;
+                                            color: grey;
                                             border: 1px solid grey;
+                                            border-radius: 4px;
+                                            -webkit-user-select: none;
+                                        }
+
+                                        .li-btn.view:hover {
+                                            color: gray;
                                         }
 
                                         .li-btn:hover {
@@ -132,24 +138,25 @@
                                             background: #ff3a72 !important;
                                             color: white !important;
                                             border: 1px solid #ff3a72 !important;
+                                            border-radius: 4px;
                                         }
                                     </style>
                                     <div class="cover-buttons mrg-top-15" style="float: left;">
                                         <ul>
                                             <li style="padding-left: 0;" class="mrg-r-10">
-                                                <span class="buttons li-btn padd-10">
-                                                    <i class="fa fa-eye"></i>
-                                                    <span class="hidden-xs">{{ $annonce->nb_vue }} vue(s)</span>
+                                                <span class="buttons li-btn view padd-10">
+                                                    <i class="fa fa-eye hidden-xs"></i>
+                                                    <span class="">{{ $annonce->nb_vue }} vue(s)</span>
                                                 </span>
                                             </li>
                                             <li style="padding-left: 0;" class="mrg-r-10">
-                                                <span class="buttons li-btn padd-10">
-                                                    <i class="fa fa-comment-o"></i>
-                                                    <span class="hidden-xs">{{ $annonce->commentaires->count() }} commentaire(s)</span>
+                                                <span class="buttons li-btn view padd-10">
+                                                    <i class="fa fa-comment-o hidden-xs"></i>
+                                                    <span class="">{{ $annonce->commentaires->count() }} commentaire(s)</span>
                                                 </span>
                                             </li>
                                             <li style="padding-left: 0;" class="mrg-r-10">
-                                                <div class="inside-rating buttons listing-rating theme-btn button-plain" style="padd-0 !important; line-height: 0.5;">
+                                                <div class="inside-rating buttons listing-rating theme-btn button-plain" style="padd-0 !important; line-height: 0.5; -webkit-user-select: none;">
                                                     <span class="value">9.7</span> <sup class="out-of">/10</sup>
                                                 </div>
                                             </li>
@@ -166,7 +173,7 @@
                                                 </button>
                                             </li> --}}
                                             <li style="padding-left: 0;" class="mrg-r-10">
-                                                <button class="buttons padd-10 share-button" style="background: white; border: 1px solid grey; color: grey;">
+                                                <button class="buttons padd-10 share-button" data-toggle="modal" data-target="#share" style="background: white; border: 1px solid grey; color: grey;">
                                                     <i class="fa fa-share"></i>
                                                     <span class="hidden-xs">Partager</span>
                                                 </button>
@@ -176,17 +183,31 @@
 
                                     <div class="cover-buttons mrg-top-15" style="float: left;">
                                         <ul>
-                                            <li style="padding-left: 0;" class="mrg-r-10">
-                                                <button class="buttons padd-10" style="background: green; color: white; border: 1px solid green;">
-                                                    <i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;
-                                                    <span class="hidden-xs">Whatsapp</span>
-                                                </button>
+                                            <style>
+                                                .qwert {
+                                                    color: #fff;
+                                                    display: inline-block;
+                                                    font-size: 14px;
+                                                    font-weight: 500;
+                                                    padding: 6px 15px;
+                                                    border-radius: 4px;
+                                                    margin-right: 3px;
+                                                    margin-bottom: 15px;
+                                                    border: 1px solid transparent;
+                                                }
+
+                                                .qwert:hover {
+                                                    color: #fff;
+                                                }
+                                            </style>
+                                            {{-- <li style="padding-left: 0;">
+                                                <button class="qwert" style="background-color: #00A884"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</button>
+                                            </li> --}}
+                                            <li style="padding-left: 0; padding-right: 5px;">
+                                                <a href="#" class="qwert" style="background-color: #FF3A72"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;Instagram</a>
                                             </li>
-                                            <li style="padding-left: 0;" class="mrg-r-10 text-center">
-                                                <button class="buttons padd-10 padd-l-30 padd-r-30" style="background: #E0306D; color: white; border: 1px solid #E0306D;">
-                                                    <i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;
-                                                    <span class="hidden-xs" style="font-size: 15px;">Instagram</span>
-                                                </button>
+                                            <li style="padding-left: 0; padding-right: 5px;">
+                                                <a href="#" class="qwert" style="background-color: #0866FF"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> &nbsp;Facebook</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -355,6 +376,11 @@
             <!-- End: Sidebar Start -->
         </div>
     </div>
+
+    @include('components.public.share-modal-alt', [
+        'title' => 'Partager cette annonce',
+        'annonce' => $annonce,
+    ])
 </section>
 <!-- ================ Listing Detail Full Information ======================= -->
 
