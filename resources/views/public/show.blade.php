@@ -6,7 +6,6 @@
 
 @section('content')
     <!-- ================ Listing Detail Basic Information ======================= -->
-    {{-- <div class="banner dark-opacity" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); height: 300px !important; min-height: 300px !important;" data-overlay="8"> --}}
     <div class="banner dark-opacity" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); height: 300px !important; min-height: 300px !important;" data-overlay="8">
         <div class="container">
             <div class="banner-caption">
@@ -157,14 +156,11 @@
                                             </li>
                                             <li style="padding-left: 0;" class="mrg-r-10">
                                                 <div class="inside-rating buttons listing-rating theme-btn button-plain" style="padd-0 !important; line-height: 0.5; -webkit-user-select: none;">
-                                                    <span class="value">9.7</span> <sup class="out-of">/10</sup>
+                                                    <span class="value">{{ $annonce->note }}</span> <sup class="out-of">/5</sup>
                                                 </div>
                                             </li>
                                             <li style="padding-left: 0;" class="mrg-r-10">
-                                                <button class="buttons padd-10" style="background: white; border: 1px solid grey; color: grey;">
-                                                    <i class="fa fa-heart"></i>
-                                                    <span class="hidden-xs">Favoris</span>
-                                                </button>
+                                                @livewire('public.favoris', [$annonce])
                                             </li>
                                             {{-- <li style="padding-left: 0;" class="mrg-r-10">
                                                 <button class="buttons padd-10" style="background: #ff3a72; border: 1px solid #ff3a72; color: white;">
@@ -443,6 +439,7 @@
 <script>
     $(document).ready(function() {
         $('.image-preview').click(function() {
+            $('#share').hide();
             var id = $(this).data('id');
             $('#image-' + id).addClass('pulse');
             setTimeout(() => {

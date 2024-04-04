@@ -1,0 +1,13 @@
+<div>
+    @if (Auth::check())
+        <button wire:click='updateFavoris' wire:loading.attr="disabled" class="buttons padd-10" style="background: {{ $isEnabled ? '#ff3a72' : 'white' }}; border: 1px solid {{ $isEnabled ? '#ff3a72' : 'grey' }}; color: {{ $isEnabled ? 'white' : 'grey' }};">
+            <i class="fa fa-heart"></i>
+            <span class="hidden-xs">Favoris</span>
+        </button>
+    @else
+        <button data-toggle="modal" data-target="#signin" class="buttons padd-10" style="background: white; border: 1px solid grey; color: grey;">
+            <i class="fa fa-heart"></i>
+            <span class="hidden-xs">Favoris</span>
+        </button>
+    @endif
+</div>
