@@ -13,6 +13,10 @@ class Favoris extends Component
 
     public function mount($annonce)
     {
+        if (auth()->guest()) {
+            return;
+        }
+        
         $this->annonceId = $annonce->id;
         $favoris = \App\Models\Favoris::where('annonce_id', $this->annonceId)
             ->where('user_id', auth()->user()->id)

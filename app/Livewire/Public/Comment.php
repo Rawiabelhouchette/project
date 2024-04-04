@@ -11,7 +11,7 @@ class Comment extends Component
     public $annonce;
     public $comment;
     public $note;
-    public $perPage = 2;
+    public $perPage = 10;
     public $message = [];
     public $hasMessage = false;
 
@@ -51,7 +51,7 @@ class Comment extends Component
     public function loadMore($id, $perPage)
     {
         $this->hasMessage = false;
-        $this->perPage = $perPage + 1;
+        $this->perPage = $perPage + 5;
         $this->annonce = Annonce::find($id);
     }
 
@@ -96,6 +96,7 @@ class Comment extends Component
 
         $this->dispatch('update:comment-value', [
             'value' => $count,
+            'note' => $this->annonce->note,
         ]);
 
         return view('livewire.public.comment', [

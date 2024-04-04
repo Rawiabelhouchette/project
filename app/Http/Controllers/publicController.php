@@ -30,18 +30,7 @@ class publicController extends Controller
             return $a->count < $b->count;
         });
 
-        CustomSession::create([
-            'annonces' => [],
-            'type' => [],
-            'key' => '',
-            'location' => '',
-            'column' => '',
-            'direction' => '',
-            'ville' => [],
-            'quartier' => [],
-            'entreprise' => [],
-            'sortOrder' => ''
-        ]);
+        CustomSession::reset();
 
         return view(
             'public.home',

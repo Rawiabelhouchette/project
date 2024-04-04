@@ -76,4 +76,20 @@ class CustomSession
     {
         session()->forget($key);
     }
+
+    public static function reset()
+    {
+        self::create([
+            'annonces' => [],
+            'type' => [],
+            'key' => '',
+            'location' => '',
+            'column' => '',
+            'direction' => '',
+            'ville' => [],
+            'quartier' => [],
+            'entreprise' => [],
+            'sortOrder' => ''
+        ]);
+    }
 }

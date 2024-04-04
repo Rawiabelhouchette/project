@@ -151,23 +151,17 @@
                                             <li style="padding-left: 0;" class="mrg-r-10">
                                                 <span class="buttons li-btn view padd-10">
                                                     <i class="fa fa-comment-o hidden-xs"></i>
-                                                    <span class="">{{ $annonce->commentaires->count() }} commentaire(s)</span>
+                                                    <span class="" id="annonce-commentaire">{{ $annonce->commentaires->count() }}</span> commentaire(s)
                                                 </span>
                                             </li>
                                             <li style="padding-left: 0;" class="mrg-r-10">
                                                 <div class="inside-rating buttons listing-rating theme-btn button-plain" style="padd-0 !important; line-height: 0.5; -webkit-user-select: none;">
-                                                    <span class="value">{{ $annonce->note }}</span> <sup class="out-of">/5</sup>
+                                                    <span class="value" id="annonce-note">{{ $annonce->note }}</span> <sup class="out-of">/ 5</sup>
                                                 </div>
                                             </li>
                                             <li style="padding-left: 0;" class="mrg-r-10">
                                                 @livewire('public.favoris', [$annonce])
                                             </li>
-                                            {{-- <li style="padding-left: 0;" class="mrg-r-10">
-                                                <button class="buttons padd-10" style="background: #ff3a72; border: 1px solid #ff3a72; color: white;">
-                                                    <i class="fa fa-heart"></i>
-                                                    <span class="hidden-xs">Favoris</span>
-                                                </button>
-                                            </li> --}}
                                             <li style="padding-left: 0;" class="mrg-r-10">
                                                 <button class="buttons padd-10 share-button" data-toggle="modal" data-target="#share" style="background: white; border: 1px solid grey; color: grey;">
                                                     <i class="fa fa-share"></i>
