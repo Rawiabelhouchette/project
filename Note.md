@@ -137,7 +137,7 @@ Home, location vehicule, le bon type n'est pas pris
   - Avoir un bouton pour passer pro
 
 
-# 16/02/2024
+# [ok] 16/02/2024
 - Essayer de mettre la page d'affichage de recheche en petit composant
 
 
@@ -154,21 +154,21 @@ Home, location vehicule, le bon type n'est pas pris
 
 ## 26/02/2024
 - [ok] Lors de la copie du lien , les caracteres speciaux sont retiré , arranger cela
-- Apres suppression de filtre par fois le rendu ne fait pas disparaitre l'element arranger cela
+- [ok] Apres suppression de filtre par fois le rendu ne fait pas disparaitre l'element arranger cela
 
 
 
 ## 13/03/2024
-- Pour la galerie vous vous etes basé sur le template ?
-- Pour les details (equipement de vie nocture) quand il y en a plusieurs , qu'est ce qui se passe ?
+- [ok] Pour la galerie vous vous etes basé sur le template ?
+- [ok] Pour les details (equipement de vie nocture) quand il y en a plusieurs , qu'est ce qui se passe ?
 
 ## 23/03/2024
 - Revoir l'affichage des etoiles sur l'affichage court des recherches
 - [ok] [removed]Se pencher plus sur la ce qui vient apres les etoiles
 - Ajouter l'affichage avec k pour les vues
 - [ok] Afficher un message avoir avoir envoyer un commentaire
-- Implementer favoris sur la page des details
+- [ok] Implementer favoris sur la page des details
 - [ok] Ajouter le bouton de partage sur l'affichage des details
 
 ## 02/04/2024
-- Rendre les liens cliquables dans l'affichage des informations de l'entreprise
+- [ok] Rendre les liens cliquables dans l'affichage des informations de l'entreprise
