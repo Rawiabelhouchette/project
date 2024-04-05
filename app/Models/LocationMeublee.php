@@ -33,8 +33,12 @@ class LocationMeublee extends Model implements AnnonceInterface
     ];
 
     protected $appends = [
+        // common
         'show_url',
         'edit_url',
+        'caracteristiques',
+        // 'informations',
+        // 'equipements',
 
         'types_lit',
         'commodites',
@@ -45,7 +49,6 @@ class LocationMeublee extends Model implements AnnonceInterface
         'commodites',
         'types_hebergement',
 
-        'caracteristiques',
     ];
 
     
@@ -124,5 +127,19 @@ class LocationMeublee extends Model implements AnnonceInterface
 
         return $attributes;
     }
+
+    // public function getInformationsAttribute() : Array
+    // {
+    //     $informations = [];
+
+    //     return $informations;
+    // }
+
+    // public function getEquipementsAttribute() : Array
+    // {
+    //     $equipements = [];
+
+    //     return $equipements;
+    // }
 
 }

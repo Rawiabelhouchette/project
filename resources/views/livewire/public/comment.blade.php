@@ -7,7 +7,7 @@
             <div class="detail-wrapper-body">
                 <ul class="review-list">
                     @foreach ($commentaires as $commentaire)
-                        <li>
+                        <li style="padding-top: 25px !important; padding-bottom: 5px !important;">
                             <div class="reviews-box">
                                 <div class="review-body">
                                     <div class="review-avatar">

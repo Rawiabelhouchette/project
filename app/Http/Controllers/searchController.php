@@ -65,7 +65,7 @@ class searchController extends Controller
             $nextSlug = route('show', Annonce::public()->where('id', $result->next)->first()->slug);
         }
 
-        $position = $result->position . '/' . (count($session->annonces) == 0 ? 1 : count($session->annonces));
+        $position = $result->position . '/' . (count($sessAnnonces) == 0 ? 1 : count($sessAnnonces));
 
         $pagination = (object) [
             'position' => $position,
