@@ -1,12 +1,16 @@
 <div>
+    <style>
+        .theme-cl-blue {
+            color: #006ce4 !important;
+        }
+    </style>
     <!-- ================ Listing In Grid Style ======================= -->
     <section class="padd-top-20">
         <div class="container">
             <div class="row">
-
                 <!-- Start Sidebar -->
                 <div class="col-md-4 col-sm-12">
-                    <h4 class="text-center mrg-bot-15">Filtrer vos recherches</h4>
+                    <h4 class="text-center mrg-bot-15 theme-cl-blue">Filtrer vos recherches</h4>
 
                     @if ($type || $ville || $quartier || $entreprise)
                         <p class="text-center">
@@ -74,7 +78,7 @@
 
                     <div class="row mrg-0">
                         <div class="col-md-6 mrg-top-10">
-                            <h5>Affichage : {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} résultat trouvé(s)</h5>
+                            <h5 class="theme-cl-blue">Affichage : {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} résultat trouvé(s)</h5>
                         </div>
                         <div class="col-md-1"></div>
                         <div class="col-md-4">
@@ -118,10 +122,7 @@
                                         </div>
                                         <div class="listing-shot-caption">
                                             <a href="{{ route('show', $annonce->slug) }}">
-                                                <h4>
-                                                    {{ $annonce->titre }}
-                                                </h4>
-
+                                                <h4 class="theme-cl-blue">{{ $annonce->titre }}</h4>
                                                 <p class="listing-location">{{ $annonce->description_courte }}</p>
                                             </a>
                                             @if (Auth::check())
