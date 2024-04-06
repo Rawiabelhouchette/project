@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Utils;
+use Illuminate\View\View;
 
 /**
  * Interface AnnonceInterface
@@ -14,7 +15,7 @@ interface AnnonceInterface
 {
     public function getShowUrlAttribute(): string;
     public function getEditUrlAttribute(): string;
-    public function getCaracteristiquesAttribute();
+    public function getCaracteristiquesAttribute(): View;
 
     // public function getInformationsAttribute(): array;
     // public function getEquipementsAttribute(): array;

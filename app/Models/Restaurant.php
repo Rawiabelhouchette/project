@@ -171,7 +171,6 @@ class Restaurant extends Model implements AnnonceInterface
             $attributes['Prix maximum  '] = $this->d_prix_max;
         }
 
-        // return $attributes;
         return view('components.public.show.default', [
             'caracteristiques' => $attributes,
         ]);
