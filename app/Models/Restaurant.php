@@ -117,8 +117,6 @@ class Restaurant extends Model implements AnnonceInterface
     {
         $attributes = [];
 
-        $attributes['ENTREE'] = '';
-
         if ($this->e_nom) {
             $attributes['Nom'] = $this->e_nom;
         }
@@ -134,8 +132,6 @@ class Restaurant extends Model implements AnnonceInterface
         if ($this->e_prix_max) {
             $attributes['Prix maximum'] = $this->e_prix_max;
         }
-
-        $attributes['PLAT'] = '';
 
         if ($this->p_nom) {
             $attributes['Nom '] = $this->p_nom;
@@ -153,8 +149,6 @@ class Restaurant extends Model implements AnnonceInterface
             $attributes['Prix maximum '] = $this->p_prix_max;
         }
 
-        $attributes['DESSERT'] = '';
-
         if ($this->d_nom) {
             $attributes['Nom  '] = $this->d_nom;
         }
@@ -171,7 +165,7 @@ class Restaurant extends Model implements AnnonceInterface
             $attributes['Prix maximum  '] = $this->d_prix_max;
         }
 
-        return view('components.public.show.default', [
+        return view('components.public.show.restaurant', [
             'caracteristiques' => $attributes,
         ]);
     }
