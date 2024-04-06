@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\View\View;
 use Wildside\Userstamps\Userstamps;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Illuminate\Support\Str;
@@ -53,7 +54,7 @@ class Restaurant extends Model implements AnnonceInterface
         });
     }
 
-    
+
     protected $casts = [
         'e_nom' => PurifyHtmlOnGet::class,
         'e_ingredients' => PurifyHtmlOnGet::class,
@@ -82,17 +83,17 @@ class Restaurant extends Model implements AnnonceInterface
         'caracteristiques',
     ];
 
-    public function getShowUrlAttribute() : String
+    public function getShowUrlAttribute(): string
     {
         return route('restaurants.show', $this);
     }
 
-    public function getEditUrlAttribute() : String
+    public function getEditUrlAttribute(): string
     {
         return route('restaurants.edit', $this);
     }
 
-    public function annonce() : MorphOne
+    public function annonce(): MorphOne
     {
         return $this->morphOne(Annonce::class, 'annonceable');
     }
@@ -112,7 +113,7 @@ class Restaurant extends Model implements AnnonceInterface
         return $this->annonce->references('carte-de-consommation');
     }
 
-    public function getCaracteristiquesAttribute() : array
+    public function getCaracteristiquesAttribute(): View
     {
         $attributes = [];
 
@@ -170,7 +171,10 @@ class Restaurant extends Model implements AnnonceInterface
             $attributes['Prix maximum  '] = $this->d_prix_max;
         }
 
-        return $attributes;
+        // return $attributes;
+        return view('components.public.show.default', [
+            'caracteristiques' => $attributes,
+        ]);
     }
 
 }

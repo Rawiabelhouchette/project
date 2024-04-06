@@ -14,7 +14,7 @@ interface AnnonceInterface
 {
     public function getShowUrlAttribute(): string;
     public function getEditUrlAttribute(): string;
-    public function getCaracteristiquesAttribute(): array;
+    public function getCaracteristiquesAttribute();
 
     // public function getInformationsAttribute(): array;
     // public function getEquipementsAttribute(): array;
