@@ -68,7 +68,11 @@ class BoiteDeNuit extends Model implements AnnonceInterface
 
     public function getCaracteristiquesAttribute(): View
     {
-        return [];
+        $attributes = [];
+
+        return view('components.public.show.default', [
+            'caracteristiques' => $attributes,
+        ]);
     }
 
 }

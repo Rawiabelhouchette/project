@@ -6,6 +6,7 @@ use App\Utils\AnnonceInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\View\View;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
