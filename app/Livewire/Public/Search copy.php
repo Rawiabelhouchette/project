@@ -7,7 +7,6 @@ use App\Models\Entreprise;
 use App\Models\Favoris;
 use App\Models\Quartier;
 use App\Models\Ville;
-use App\Utils\CustomSession;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,8 +15,6 @@ class Search extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-
-    public $booted = true;
 
     // filter input on the back
     public $type = [];
@@ -28,7 +25,6 @@ class Search extends Component
     public $ville = [];
     public $quartier = [];
     public $entreprise = [];
-
     protected $queryString = [
         'type',
         'key',
@@ -48,7 +44,6 @@ class Search extends Component
 
     public $sortOrder = 'created_at|desc'; // default sorting column and direction
     public $perPage = 10;
-    public $page = 1;
 
     // List of facette's elements
     public $typeAnnonces = [];
@@ -59,26 +54,12 @@ class Search extends Component
     private $initURL = '';
 
 
-    public function mount($hasSessionValue)
+    public function mount()
     {
-        if ($hasSessionValue) {
-            $session = new CustomSession();
-            $this->key = $session->key;
-            $this->type = $session->type;
-            $this->location = $session->location;
-            $this->column = $session->column;
-            $this->direction = $session->direction;
-            $this->ville = $session->ville;
-            $this->quartier = $session->quartier;
-            $this->entreprise = $session->entreprise;
-            $this->sortOrder = $session->sortOrder;
-            $this->setPage($session->page);
-        }
-
-        $this->type = array_filter($this->type ?? []);
-        $this->ville = array_filter($this->ville ?? []);
-        $this->quartier = array_filter($this->quartier ?? []);
-        $this->entreprise = array_filter($this->entreprise ?? []);
+        $this->type = array_filter($this->type);
+        $this->ville = array_filter($this->ville);
+        $this->quartier = array_filter($this->quartier);
+        $this->entreprise = array_filter($this->entreprise);
 
 
         $this->getAllEntreprises();
@@ -183,8 +164,6 @@ class Search extends Component
 
     public function changeState($value, $category, $remove = false)
     {
-        $this->booted = false;
-
         if ($category == 'key' && $remove) {
             $this->key = '';
             $this->dispatch('resetSearchKey');
@@ -204,10 +183,6 @@ class Search extends Component
                 $this->getQuartiersParVilles();
             }
         }
-
-        $this->dispatch('$refresh');
-
-        $this->resetPage();
     }
 
     protected function getQuartiersParVilles()
@@ -307,7 +282,7 @@ class Search extends Component
     {
         $annonces = Annonce::public()->with('entreprise');
         $annonces = $this->filters($annonces);
-        // $annonces = $annonces->paginate($this->perPage);
+        $annonces = $annonces->paginate($this->perPage);
         return $annonces;
     }
 
@@ -505,46 +480,9 @@ class Search extends Component
             ->all();
 
 
-        $annonces = $this->search()->paginate($this->perPage);
-        $this->page = $annonces->currentPage();
-
-        $this->saveVariableToSession();
-
         return view('livewire.public.search', [
-            'annonces' => $annonces,
+            'annonces' => $this->search(),
             'facettes' => $this->getFacettes(),
-        ]);
-    }
-
-
-    public function rendering()
-    {
-        if (!$this->booted) {
-            $this->dispatch('custom:element-removal', [
-                'element' => $this->search()->get()->pluck('id')->toArray(),
-                'perPage' => $this->perPage,
-                'key' => $this->key,
-                'facette' => count($this->getFacettes()),
-            ]);
-        }
-    }
-
-    private function saveVariableToSession()
-    {
-        CustomSession::clear();
-
-        CustomSession::create([
-            'annonces' => $this->search()->get()->pluck('id')->toArray(),
-            'type' => $this->type,
-            'key' => $this->key,
-            'location' => $this->location,
-            'column' => $this->column,
-            'direction' => $this->direction,
-            'ville' => $this->ville,
-            'quartier' => $this->quartier,
-            'entreprise' => $this->entreprise,
-            'sortOrder' => $this->sortOrder,
-            'page' => $this->page,
         ]);
     }
 

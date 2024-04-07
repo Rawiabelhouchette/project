@@ -6167,7 +6167,9 @@ button.w3-button.w3-teal.w3-xlarge.w3-right {
 }
 .listing-price-info span {
     display: inline-block;
-    background: #ffffff;
+    /* background: #ffffff; */
+    background: #ff3a72;
+    color: #ffffff !important;
     padding: 4px 18px;
     border-radius: 50px;
     font-size: 14px;

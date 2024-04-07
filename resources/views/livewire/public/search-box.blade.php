@@ -30,6 +30,7 @@
                 <div class="white-box white-shadow padd-top-30 padd-bot-30 translateY-60">
                     <h3 class="text-center">Recherche</h3>
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
+                        <input type="hidden" value="1" name="form_request">
                         <div class="col-md-3 col-sm-3 no-padd">
                             <input type="text" class="form-control left-radius" placeholder="Mot clé .." name="key" value="{{ $key }}">
                         </div>

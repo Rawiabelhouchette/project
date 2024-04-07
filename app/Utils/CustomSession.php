@@ -4,23 +4,31 @@ namespace App\Utils;
 
 class CustomSession
 {
-    public $key = '';
+    public $annonces = [];
     public $type = '';
-    public $sortOrder = '';
+    public $key = '';
+    public $location = '';
     public $column = '';
     public $direction = '';
-    public $url = '';
-    public $annonces;
+    public $ville = '';
+    public $quartier = '';
+    public $entreprise = '';
+    public $sortOrder = '';
+    public $page;
 
     public function __construct()
     {
-        $this->key = session()->get('search_key');
-        $this->type = session()->get('search_type');
-        $this->sortOrder = session()->get('search_sortOrder');
-        $this->column = session()->get('search_column');
-        $this->direction = session()->get('search_direction');
-        $this->url = session()->get('search_url');
         $this->annonces = session()->get('search_annonces');
+        $this->type = session()->get('type');
+        $this->key = session()->get('key');
+        $this->location = session()->get('location');
+        $this->column = session()->get('column');
+        $this->direction = session()->get('direction');
+        $this->ville = session()->get('ville');
+        $this->quartier = session()->get('quartier');
+        $this->entreprise = session()->get('entreprise');
+        $this->sortOrder = session()->get('sortOrder');
+        $this->page = session()->get('page');
     }
 
     public static function create($data = [])
@@ -28,36 +36,60 @@ class CustomSession
         if (empty($data)) {
             return new self();
         }
-
-        session(['search_key' => $data['key'] ?? '']);
-        session(['search_type' => $data['type'] ?? '']);
-        session(['search_sortOrder' => !session()->get('search_sortOrder') ? $data['sortOrder'] ?? '' : session()->get('search_sortOrder')]);
-        session(['search_column' => !session()->get('search_column') ? $data['column'] ?? '' : session()->get('search_column')]);
-        session(['search_direction' => !session()->get('search_direction') ? $data['direction'] ?? '' : session()->get('search_direction')]);
-        session(['search_url' => $data['url'] ?? '']);
-        session(['search_annonces' => $data['annonces'] ?? null]);
+        session([
+            'search_annonces' => $data['annonces'] ?? null,
+            'type' => $data['type'] ?? null,
+            'key' => $data['key'] ?? null,
+            'location' => $data['location'] ?? null,
+            'column' => $data['column'] ?? null,
+            'direction' => $data['direction'] ?? null,
+            'ville' => $data['ville'] ?? null,
+            'quartier' => $data['quartier'] ?? null,
+            'entreprise' => $data['entreprise'] ?? null,
+            'sortOrder' => $data['sortOrder'] ?? null,
+            'page' => $data['page'] ?? null,
+        ]);
         return new self();
     }
 
     public function save()
     {
-        session(['search_key' => $this->key]);
-        session(['search_type' => $this->type]);
-        session(['search_sortOrder' => $this->sortOrder]);
-        session(['search_column' => $this->column]);
-        session(['search_direction' => $this->direction]);
-        session(['search_url' => $this->url]);
         session(['search_annonces' => $this->annonces]);
     }
 
     public static function clear()
     {
-        session()->forget('search_key');
-        session()->forget('search_type');
-        session()->forget('search_sortOrder');
-        session()->forget('search_column');
-        session()->forget('search_direction');
-        session()->forget('search_url');
         session()->forget('search_annonces');
+        session()->forget('type');
+        session()->forget('key');
+        session()->forget('location');
+        session()->forget('column');
+        session()->forget('direction');
+        session()->forget('ville');
+        session()->forget('quartier');
+        session()->forget('entreprise');
+        session()->forget('sortOrder');
+        session()->forget('page');
+    }
+
+    public static function forget($key)
+    {
+        session()->forget($key);
+    }
+
+    public static function reset()
+    {
+        self::create([
+            'annonces' => [],
+            'type' => [],
+            'key' => '',
+            'location' => '',
+            'column' => '',
+            'direction' => '',
+            'ville' => [],
+            'quartier' => [],
+            'entreprise' => [],
+            'sortOrder' => ''
+        ]);
     }
 }

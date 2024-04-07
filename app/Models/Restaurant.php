@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\View\View;
 use Wildside\Userstamps\Userstamps;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Illuminate\Support\Str;
@@ -53,7 +54,7 @@ class Restaurant extends Model implements AnnonceInterface
         });
     }
 
-    
+
     protected $casts = [
         'e_nom' => PurifyHtmlOnGet::class,
         'e_ingredients' => PurifyHtmlOnGet::class,
@@ -82,17 +83,17 @@ class Restaurant extends Model implements AnnonceInterface
         'caracteristiques',
     ];
 
-    public function getShowUrlAttribute() : String
+    public function getShowUrlAttribute(): string
     {
         return route('restaurants.show', $this);
     }
 
-    public function getEditUrlAttribute() : String
+    public function getEditUrlAttribute(): string
     {
         return route('restaurants.edit', $this);
     }
 
-    public function annonce() : MorphOne
+    public function annonce(): MorphOne
     {
         return $this->morphOne(Annonce::class, 'annonceable');
     }
@@ -112,11 +113,9 @@ class Restaurant extends Model implements AnnonceInterface
         return $this->annonce->references('carte-de-consommation');
     }
 
-    public function getCaracteristiquesAttribute() : array
+    public function getCaracteristiquesAttribute(): View
     {
         $attributes = [];
-
-        $attributes['ENTREE'] = '';
 
         if ($this->e_nom) {
             $attributes['Nom'] = $this->e_nom;
@@ -134,8 +133,6 @@ class Restaurant extends Model implements AnnonceInterface
             $attributes['Prix maximum'] = $this->e_prix_max;
         }
 
-        $attributes['PLAT'] = '';
-
         if ($this->p_nom) {
             $attributes['Nom '] = $this->p_nom;
         }
@@ -151,8 +148,6 @@ class Restaurant extends Model implements AnnonceInterface
         if ($this->p_prix_max) {
             $attributes['Prix maximum '] = $this->p_prix_max;
         }
-
-        $attributes['DESSERT'] = '';
 
         if ($this->d_nom) {
             $attributes['Nom  '] = $this->d_nom;
@@ -170,7 +165,9 @@ class Restaurant extends Model implements AnnonceInterface
             $attributes['Prix maximum  '] = $this->d_prix_max;
         }
 
-        return $attributes;
+        return view('components.public.show.restaurant', [
+            'caracteristiques' => $attributes,
+        ]);
     }
 
 }

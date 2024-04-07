@@ -7,7 +7,7 @@
             <div class="detail-wrapper-body">
                 <ul class="review-list">
                     @foreach ($commentaires as $commentaire)
-                        <li>
+                        <li style="padding-top: 25px !important; padding-bottom: 5px !important;">
                             <div class="reviews-box">
                                 <div class="review-body">
                                     <div class="review-avatar">
@@ -17,7 +17,7 @@
                                         <div class="review-info">
                                             <div class="review-comment">
                                                 <div class="review-author">
-                                                    {{ $commentaire->auteur->nom }} {{ $commentaire->auteur->prenom }}
+                                                    <h5 style="font-size: 18px !important;">{{ $commentaire->auteur->nom }} {{ $commentaire->auteur->prenom }}</h5>
                                                 </div>
                                                 <div class="review-comment-stars">
                                                     @for ($i = 0; $i < $commentaire->note; $i++)
@@ -30,7 +30,7 @@
                                             </div>
                                             <div class="review-comment-date">
                                                 <div class="review-date">
-                                                    <span>{{ $commentaire->created_at->diffForHumans() }}</span>
+                                                    <span>{{ $commentaire->created_at->format('d-m-Y H:i:s') }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -43,13 +43,7 @@
 
                     @empty($commentaires->count())
                         <li>
-                            <div class="reviews-box">
-                                <div class="review-body">
-                                    <div class="review-content">
-                                        <p class="text-center">Aucun commentaire pour le moment</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <p class="text-center">Aucun commentaire pour le moment</p>
                         </li>
                     @endempty
 
@@ -151,7 +145,8 @@
 
         <script>
             window.addEventListener('update:comment-value', event => {
-                $('#commentsCount').html('<i class="fa fa-comments"></i>' + event.detail[0].value + ' commentaire(s)');
+                $('#annonce-commentaire').html(event.detail[0].value);
+                $('#annonce-note').html(event.detail[0].note);
             });
         </script>
     @endpush

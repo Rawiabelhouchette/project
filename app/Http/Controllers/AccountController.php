@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Utils\CustomSession;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -11,15 +12,18 @@ class AccountController extends Controller
 {
     public function index()
     {
+        CustomSession::reset();
+
         if (!auth()->check()) {
             return redirect()->route('connexion');
         }
-
         return view('public.user.account');
     }
 
     public function indexFavoris()
     {
+        CustomSession::reset();
+
         if (!auth()->check()) {
             return redirect()->route('connexion');
         }
@@ -29,11 +33,15 @@ class AccountController extends Controller
 
     public function indexComment()
     {
+        CustomSession::reset();
+
         return view('public..user.comment');
     }
 
     public function contact()
     {
+        CustomSession::reset();
+
         return view('public.contact');
     }
 

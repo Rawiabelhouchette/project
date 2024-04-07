@@ -6,6 +6,7 @@ use App\Utils\AnnonceInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\View\View;
 use Wildside\Userstamps\Userstamps;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 
@@ -64,7 +65,7 @@ class Bar extends Model implements AnnonceInterface
         return $this->annonce->references('commodites-vie-nocturne');
     }
 
-    public function getCaracteristiquesAttribute(): array
+    public function getCaracteristiquesAttribute(): View
     {
         $attributes = [];
 
@@ -85,9 +86,11 @@ class Bar extends Model implements AnnonceInterface
         }
 
         if ($this->prix_max) {
-            $attributes['Prix maximum'] =  number_format($this->prix_max, '0', ',', '.');
+            $attributes['Prix maximum'] = number_format($this->prix_max, '0', ',', '.');
         }
 
-        return $attributes;
+        return view('components.public.show.default', [
+            'caracteristiques' => $attributes,
+        ]);
     }
 }
