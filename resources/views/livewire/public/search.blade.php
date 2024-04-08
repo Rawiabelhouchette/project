@@ -91,7 +91,7 @@
                             </select>
                         </div>
                         <div class="col-md-1" style="">
-                            <a href="javascript:void(0)" class="annonce-share" data-toggle="modal" data-target="#share" data-type="all">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#share" onclick="sharePage()">
                                 <i class="fa fa-share fa-lg" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -106,7 +106,6 @@
                             @include('components.public.loader')
                         </div>
 
-                        {{-- {{ $annonces->count() }} --}}
                         <div id="annonces-zone">
                             @foreach ($annonces as $annonce)
                                 <div class="col-md-6 col-sm-6" wire:key='{{ time() . $annonce->id }}' id="annonce-{{ $annonce->id }}">

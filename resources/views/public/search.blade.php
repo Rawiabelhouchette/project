@@ -6,8 +6,6 @@
     @livewire('public.search', ['hasSessionValue' => $hasSessionValue])
 
     @push('scripts')
-        <script></script>
-
         <script>
             function shareAnnonce(url, titre, image, type) {
                 var text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + titre + "%0ALien : " + url + " ";
@@ -24,6 +22,21 @@
                 $('#annonce-url').data('url', url);
                 $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url);
                 $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
+                $('#share-page-zone').hide();
+                $('#image-share').show();
+            }
+
+            function sharePage() {
+                var url = window.location.href;
+                var text = "Salut!%0AJette un œil à la page que j’ai trouvé sur Vamiyi%0ALien : " + url + " ";
+
+                $('#annonce-url').data('url', url);
+                $('#annonce-email').attr('href', 'mailto:?subject=Vamiyi&body=' + text);
+                $('#annonce-url').attr('href', url);
+                $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url);
+                $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
+                $('#share-page-zone').show();
+                $('#image-share').hide();
             }
 
             $('#annonce-url').click(function() {
@@ -103,12 +116,13 @@
 
         <script>
             // reset filters
-            $(document).ready(function() {
-                $('.reset-filters').on('click', function() {
-                    var url = window.location.href;
-                    var newUrl = url.split('?')[0];
-                    window.history.pushState({}, '', newUrl);
-                });
+            $('.reset-filters').on('click', function() {
+                var url = window.location.href;
+                var newUrl = url.split('?')[0];
+                window.history.pushState({}, '', newUrl);
+
+                $('#reset-filters').fadeOut(300);
+                $('#research-zone').fadeOut(300);
             });
         </script>
 

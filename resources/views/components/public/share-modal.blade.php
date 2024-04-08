@@ -39,7 +39,10 @@
                     <div class="row">
                         <div class="col-12 mrg-10">
                             <div class="side-list text-center">
-                                <ul class="padd-top-0">
+                                <p id="share-page-zone" class="mrg-top-25" style="display: none;">
+                                    Partage de la page de recherche
+                                </p>
+                                <ul class="padd-top-0" id="image-share">
                                     <li class="padd-top-0 padd-bot-0">
                                         <div class="listing-list-img" id="share-annonce-image">
                                             <span class="text-center">
