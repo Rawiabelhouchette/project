@@ -60,7 +60,7 @@
                         </div>
 
                         {{-- Type --}}
-                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
+                        {{-- <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
                             <label for="type">Type de compte</label>
                             <select class="form-control" required data-nom="type" wire:model.lazy="type">
                                 <option style="font-style: italic; opacity: 0.4;">Choisir</option>
@@ -70,7 +70,7 @@
                             @error('type')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         {{-- Mot de passe --}}
                         <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
@@ -98,7 +98,14 @@
                     </span>
 
                     <div class="center">
-                        <button id="signup" wire:target='register' wire:loading.attr='disabled' type="submit" class="btn btn-midium theme-btn btn-radius width-200"> Enregistrer </button>
+                        <button id="signup" wire:target='register' wire:loading.attr='disabled' type="submit" class="btn btn-midium theme-btn btn-radius width-200">
+                            <span wire:loading>
+                                @include('components.public.loader', ['withText' => false, 'color' => '#fff'])
+                            </span>
+                            <span>
+                                &nbsp;{{ __('Enregistrer') }}
+                            </span>
+                        </button>
                     </div>
 
                 </form>

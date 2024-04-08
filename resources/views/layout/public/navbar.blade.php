@@ -38,6 +38,13 @@
                         </a>
                     </li>
                 @endif
+                @if (auth()->check() && auth()->user()->hasRole('Usager'))
+                    <li>
+                        <a href="{{ route('home') }}" target="_blank">
+                            Déposer une annonce
+                        </a>
+                    </li>
+                @endif
             </ul>
             {{-- if user is not connected or hasrole Administrateur --}}
             @if (!auth()->check())
@@ -68,7 +75,7 @@
                                     Favoris
                                 </a>
                             </li>
-                            @if (!auth()->user()->hasRole('Usager'))
+                            @if (!auth()->user()->hasRole('Professionnel'))
                                 <li>
                                     <a href="#">
                                         <i class="fa fa-cog" aria-hidden="true"></i> &nbsp;
