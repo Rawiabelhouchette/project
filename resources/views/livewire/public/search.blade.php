@@ -13,7 +13,7 @@
                     <h4 class="text-center mrg-bot-15 theme-cl-blue">Filtrer vos recherches</h4>
 
                     @if ($type || $ville || $quartier || $entreprise)
-                        <p class="text-center">
+                        <p class="text-center" id="reset-filters">
                             <a href="javascript:void(0)" class="reset-filters" wire:click='resetFilters'>
                                 Effacer tous les filtres
                             </a>
@@ -167,7 +167,7 @@
                                                 @for ($i = 1; $i <= 5; $i++)
                                                     <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
                                                 @endfor
-                                                
+
                                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#share" class="theme-cl annonce-share" style="float: right;"
                                                    data-url="{{ route('show', $annonce->slug) }}"
                                                    data-titre="{{ $annonce->titre }}"
@@ -220,159 +220,159 @@
         </div>
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
-</div>
+    <section wire:ignore.self>
+        @push('scripts')
+            <script>
+                $(document).ready(function() {
+                    $('.annonce-share').on('click', function() {
+                        var type = $(this).data('type');
+                        var text, subject, url, image, annonceType;
 
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('.annonce-share').on('click', function() {
-                var type = $(this).data('type');
-                var text, subject, url, image, annonceType;
+                        $('#share-annonce-image').show();
 
-                $('#share-annonce-image').show();
+                        if (type === 'all') {
+                            text = decodeURI(window.location.href);
+                            subject = $(this).data('titre');
+                            url = text;
+                            $('#share-annonce-image').hide();
+                            $('#annonce-type').text('');
+                            $('#annonce-titre').text("Partager la page");
+                        } else {
+                            text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + $(this).data('titre') + "%0ALien : " + $(this).data('url') + " ";
+                            subject = $(this).data('titre');
+                            url = $(this).data('url');
+                            image = $(this).data('image');
+                            annonceType = $(this).data('type');
+                            $('#annonce-titre').text(subject);
+                            $('#annonce-image-url').attr('src', image);
+                            $('#annonce-type').text(annonceType);
+                        }
 
-                if (type === 'all') {
-                    text = decodeURI(window.location.href);
-                    subject = $(this).data('titre');
-                    url = text;
-                    $('#share-annonce-image').hide();
-                    $('#annonce-type').text('');
-                    $('#annonce-titre').text("Partager la page");
-                } else {
-                    text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + $(this).data('titre') + "%0ALien : " + $(this).data('url') + " ";
-                    subject = $(this).data('titre');
-                    url = $(this).data('url');
-                    image = $(this).data('image');
-                    annonceType = $(this).data('type');
-                    $('#annonce-titre').text(subject);
-                    $('#annonce-image-url').attr('src', image);
-                    $('#annonce-type').text(annonceType);
-                }
+                        $('#annonce-email').attr('href', 'mailto:?subject=' + subject + '&body=' + text);
+                        $('#annonce-url').data('url', url);
+                        $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url);
+                        $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
+                    });
 
-                $('#annonce-email').attr('href', 'mailto:?subject=' + subject + '&body=' + text);
-                $('#annonce-url').data('url', url);
-                $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url);
-                $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
-            });
+                    $('#annonce-url').click(function() {
+                        var text = $(this).data('url');
 
-            $('#annonce-url').click(function() {
-                var text = $(this).data('url');
+                        if (!navigator.clipboard) {
+                            console.error('Clipboard API not available');
+                            return;
+                        }
 
-                if (!navigator.clipboard) {
-                    console.error('Clipboard API not available');
-                    return;
-                }
-
-                navigator.clipboard.writeText(text).then(function() {
-                    $('#copyMessage').hide();
-                    $('#copyMessage').fadeIn(500);
-                    // $('#copyMessage').show();
-                    setTimeout(function() {
-                        $('#copyMessage').fadeOut(500);
-                        // $('#copyMessage').hide();
-                    }, 2000);
-                }, function(err) {
-                    console.error('Could not copy text: ', err);
+                        navigator.clipboard.writeText(text).then(function() {
+                            $('#copyMessage').hide();
+                            $('#copyMessage').fadeIn(500);
+                            // $('#copyMessage').show();
+                            setTimeout(function() {
+                                $('#copyMessage').fadeOut(500);
+                                // $('#copyMessage').hide();
+                            }, 2000);
+                        }, function(err) {
+                            console.error('Could not copy text: ', err);
+                        });
+                    });
                 });
-            });
-        });
-    </script>
+            </script>
 
-    <script>
-        function filterList(category) {
-            // Get the input field and its value
-            var filter = normalizeString($('#search-' + category).val());
+            <script>
+                function filterList(category) {
+                    // Get the input field and its value
+                    var filter = normalizeString($('#search-' + category).val());
 
-            // Get the list and its items
-            var $li = $('#list-' + category + 's li');
+                    // Get the list and its items
+                    var $li = $('#list-' + category + 's li');
 
-            // Variable to count the number of items displayed
-            var count = 0;
+                    // Variable to count the number of items displayed
+                    var count = 0;
 
-            // Loop through the list items and hide those that don't match the filter
-            $li.each(function() {
-                var txtValue = normalizeString($(this).find('label').text());
-                if (txtValue.indexOf(filter) > -1) {
-                    $(this).fadeIn(300);
-                    count++;
-                } else {
-                    $(this).fadeOut(300);
-                }
-            });
+                    // Loop through the list items and hide those that don't match the filter
+                    $li.each(function() {
+                        var txtValue = normalizeString($(this).find('label').text());
+                        if (txtValue.indexOf(filter) > -1) {
+                            $(this).fadeIn(300);
+                            count++;
+                        } else {
+                            $(this).fadeOut(300);
+                        }
+                    });
 
-            // Get the no results message
-            var $noResults = $('#no-' + category + '-results');
+                    // Get the no results message
+                    var $noResults = $('#no-' + category + '-results');
 
-            // If no items are displayed, show the no results message
-            if (count === 0) {
-                $noResults.fadeIn(300);
-            } else {
-                $noResults.hide(); //fadeOut(300);
-            }
-        }
-
-        function normalizeString(str) {
-            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
-        }
-
-        window.addEventListener('refresh:filter', event => {
-            var intervalId = setInterval(function() {
-                var categories = [];
-                $('ul.price-range').each(function() {
-                    if (this.id.startsWith('list-')) {
-                        var idWithoutList = this.id.replace('list-', '').slice(0, -1);
-                        categories.push(idWithoutList);
+                    // If no items are displayed, show the no results message
+                    if (count === 0) {
+                        $noResults.fadeIn(300);
+                    } else {
+                        $noResults.hide(); //fadeOut(300);
                     }
-                });
-
-                categories.forEach(function(category) {
-                    filterList(category);
-                });
-                clearInterval(intervalId);
-            }, 500);
-        });
-    </script>
-
-    <script>
-        // reset filters
-        $(document).ready(function() {
-            $('.reset-filters').on('click', function() {
-                var url = window.location.href;
-                var newUrl = url.split('?')[0];
-                window.history.pushState({}, '', newUrl);
-            });
-        });
-    </script>
-
-    <script>
-        window.addEventListener('custom:element-removal', event => {
-            var ids = event.detail[0].element;
-            var perPage = event.detail[0].perPage;
-            var key = event.detail[0].key;
-            var facette = event.detail[0].facette;
-
-            if (!key) {
-                $('#key-filter').fadeOut(300);
-            }
-
-            if (facette == 0 && key == '') {
-                $('#research-zone').fadeOut(300);
-            }
-
-            if (perPage > ids.length) {
-                $('#annonce-pagination').fadeOut(300);
-            } else {
-                $('#annonce-pagination').fadeIn(300);
-            }
-            // remove element where id is not in ids using js looping on annonces-zone id
-
-            $('#annonces-zone').children().each(function() {
-                var annonceId = $(this).attr('id').split('-')[1];
-                if (!ids.includes(annonceId)) {
-                    $(this).fadeOut(300);
                 }
-            });
-        });
+
+                function normalizeString(str) {
+                    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+                }
+
+                window.addEventListener('refresh:filter', event => {
+                    var intervalId = setInterval(function() {
+                        var categories = [];
+                        $('ul.price-range').each(function() {
+                            if (this.id.startsWith('list-')) {
+                                var idWithoutList = this.id.replace('list-', '').slice(0, -1);
+                                categories.push(idWithoutList);
+                            }
+                        });
+
+                        categories.forEach(function(category) {
+                            filterList(category);
+                        });
+                        clearInterval(intervalId);
+                    }, 500);
+                });
+            </script>
+
+            <script>
+                // reset filters
+                $(document).ready(function() {
+                    $('.reset-filters').on('click', function() {
+                        var url = window.location.href;
+                        var newUrl = url.split('?')[0];
+                        window.history.pushState({}, '', newUrl);
+                    });
+                });
+            </script>
+
+            <script>
+                window.addEventListener('custom:element-removal', event => {
+                    var ids = event.detail[0].element;
+                    var perPage = event.detail[0].perPage;
+                    var key = event.detail[0].key;
+                    var facette = event.detail[0].facette;
+
+                    if (!key) {
+                        $('#key-filter').fadeOut(300);
+                    }
+
+                    if (facette == 0 && key == '') {
+                        $('#research-zone').fadeOut(300);
+                        $('#reset-filters').fadeOut(300);
+                    }
+
+                    if (perPage > ids.length) {
+                        $('#annonce-pagination').fadeOut(300);
+                    } else {
+                        $('#annonce-pagination').fadeIn(300);
+                    }
+                    // remove element where id is not in ids using js looping on annonces-zone id
+
+                    $('#annonces-zone').children().each(function() {
+                        var annonceId = $(this).attr('id').split('-')[1];
+                        if (!ids.includes(annonceId)) {
+                            $(this).fadeOut(300);
+                        }
+                    });
+                });
 
 
 
@@ -386,17 +386,20 @@
 
 
 
-        // $(document).ready(function() {
-        //     $('.selectedOption').on('click', function() {
-        //         // supprimer l'element pres 2 seconde s'il existe toujours
+                // $(document).ready(function() {
+                //     $('.selectedOption').on('click', function() {
+                //         // supprimer l'element pres 2 seconde s'il existe toujours
 
-        //         var intervalId = setInterval(function() {
-        //             if ($(this).length > 0) {
-        //                 $(this).parent().remove(); //.fadeOut(300);
-        //             }
-        //             clearInterval(intervalId);
-        //         }, 500);
-        //     });
-        // });
-    </script>
-@endpush
+                //         var intervalId = setInterval(function() {
+                //             if ($(this).length > 0) {
+                //                 $(this).parent().remove(); //.fadeOut(300);
+                //             }
+                //             clearInterval(intervalId);
+                //         }, 500);
+                //     });
+                // });
+            </script>
+        @endpush
+
+    </section>
+</div>

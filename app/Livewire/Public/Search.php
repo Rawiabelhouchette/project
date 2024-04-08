@@ -528,7 +528,7 @@ class Search extends Component
                 'element' => $this->search()->get()->pluck('id')->toArray(),
                 'perPage' => $this->perPage,
                 'key' => $this->key,
-                'facette' => count($this->getFacettes()),
+                'facette' => count($this->type) + count($this->ville) + count($this->quartier) + count($this->entreprise),
             ]);
         }
     }
