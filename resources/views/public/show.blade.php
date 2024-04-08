@@ -197,11 +197,7 @@
                                                     <span class="hidden-xs">Partager</span>
                                                 </button>
                                             </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="cover-buttons mrg-top-15" style="float: left;">
-                                        <ul>
+                                            <br><br>
                                             @if ($annonce->entreprise->instagram)
                                                 <li style="padding-left: 0; padding-right: 5px;">
                                                     <a href="{{ $annonce->entreprise->instagram }}" class="social-network" target="_blank" style="background-color: #FF3A72"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;Instagram</a>
@@ -220,7 +216,6 @@
                                         </ul>
                                     </div>
                                     <br>
-
                                 </div>
                             </div>
                         </div>

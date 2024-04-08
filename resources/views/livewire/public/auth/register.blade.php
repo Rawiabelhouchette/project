@@ -30,13 +30,13 @@
                     <div class="row">
 
                         {{-- Nom --}}
-                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
+                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 form-group">
                             <label for="nom">Nom</label>
                             <input type="text" id="nom" class="form-control" placeholder="Nom" required wire:model="nom">
                         </div>
 
                         {{-- Prénom --}}
-                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-12 form-group">
+                        <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 form-group">
                             <label for="prenom">Prénom</label>
                             <input type="text" id="prenom" class="form-control" placeholder="Prénom" required wire:model="prenom">
                         </div>

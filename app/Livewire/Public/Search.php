@@ -75,6 +75,10 @@ class Search extends Component
             $this->setPage($session->page);
         }
 
+        if (is_string($this->type)) {
+            $this->type = [$this->type];
+        }
+
         $this->type = array_filter($this->type ?? []);
         $this->ville = array_filter($this->ville ?? []);
         $this->quartier = array_filter($this->quartier ?? []);
