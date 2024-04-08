@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
@@ -57,6 +58,8 @@ Route::post('password-link', [AccountController::class, 'resetPassword'])->name(
 
 Route::get('notification/reset-password', [AccountController::class, 'notificationSuccess'])->name('notification.rest-password.success');
 Route::post('reset-password', [AccountController::class, 'newPassword'])->name('password.update');
+
+Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
 
 // Auth middleware
 Route::group([

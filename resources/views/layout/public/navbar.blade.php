@@ -40,7 +40,7 @@
                 @endif
                 @if (auth()->check() && auth()->user()->hasRole('Usager'))
                     <li>
-                        <a href="{{ route('home') }}" target="_blank">
+                        <a href="{{ route('pricing') }}">
                             Déposer une annonce
                         </a>
                     </li>
