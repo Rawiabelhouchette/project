@@ -13,7 +13,8 @@ class AbonnementController extends Controller
         }
 
         if (!auth()->user()->hasRole('Usager')) {
-            return redirect()->route('accueil');
+            // return redirect()->route('accueil');
+            return back();
         }
         return view('public.pricing');
     }
