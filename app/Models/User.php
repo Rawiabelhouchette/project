@@ -30,7 +30,6 @@ class User extends Authenticatable
         'email',
         'password',
         'is_active',
-        'entreprise_id',
     ];
 
     /**
@@ -65,7 +64,11 @@ class User extends Authenticatable
      */
     public function entreprise()
     {
-        return $this->belongsTo(Entreprise::class);
+        return $this
+            ->belongsToMany(Entreprise::class, 'entreprise_user', 'user_id', 'entreprise_id')
+            ->withPivot('is_admin', 'is_active', 'date_debut', 'date_fin')
+            ->wherePivot('is_active', true)
+            ->withTimestamps();
     }
 
 

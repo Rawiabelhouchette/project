@@ -172,3 +172,8 @@ Home, location vehicule, le bon type n'est pas pris
 
 ## 02/04/2024
 - [ok] Rendre les liens cliquables dans l'affichage des informations de l'entreprise
+
+
+## 11/04/2024
+- AJouter attribut date de debut a annonce avec default la date de creation de l'annonce
+- Ajouter aussi l'option de desactivation de l'annonce sur la liste des annonces avec une confirmatio d'action quand on clique dessus
