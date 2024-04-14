@@ -22,6 +22,12 @@ class OffreAbonnement extends Model
         'options' => 'array',
     ];
 
+    // add a scroped query
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
 
     protected $appends = [
         'offres',

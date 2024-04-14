@@ -6,6 +6,7 @@ use App\Models\Annonce;
 use App\Http\Requests\StoreAnnonceRequest;
 use App\Http\Requests\UpdateAnnonceRequest;
 use App\Utils\AnnoncesUtils;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
@@ -71,7 +72,12 @@ class AnnonceController extends Controller
     public function getDataTable()
     {
         $perPage = request()->input('length') ?? 30;
-        $annonces = Annonce::latest();
+        if (Auth::user()->hasRole('Professionnel')) {
+            $annonces = Auth::user()->annonces();
+        } else {
+            $annonces = Annonce::with('entreprise', 'annonceable')->latest();
+        }
+
         $columns = Schema::getColumnListing('annonces');
 
         if (request()->input('search')) {
@@ -95,7 +101,6 @@ class AnnonceController extends Controller
                 })
                 ->orderBy('id', 'asc');
         }
-        $annonces = $annonces->with('entreprise', 'annonceable');
         $annonces = $annonces->paginate($perPage);
 
         return response()->json(

@@ -50,9 +50,9 @@
                                             <td>{{ $entreprise->telephone }}</td>
                                             <td>{{ $entreprise->email }}</td>
                                             <td>{{ $entreprise->whatsapp }}</td>
-                                            <td>{{ $entreprise->quartier->ville->pays->nom }}</td>
-                                            <td>{{ $entreprise->quartier->ville->nom }}</td>
-                                            <td>{{ $entreprise->quartier->nom }}</td>
+                                            <td>{{ $entreprise->quartier->ville->pays->nom ?? '-' }}</td>
+                                            <td>{{ $entreprise->quartier->ville->nom ?? '-' }}</td>
+                                            <td>{{ $entreprise->quartier->nom ?? '-' }}</td>
                                             <td>{{ $entreprise->creator->nom }} {{ $entreprise->creator->prenom }}</td>
                                             <td>{{ $entreprise->created_at }}</td>
                                             <td class="text-center">

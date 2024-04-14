@@ -10,7 +10,7 @@
     <div class="row bg-title" style="padding-top: 20px;">
         <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
-                <li><a href="#">Entreprise</a></li>
+                <li><a href="{{ route('entreprises.index') }}">Entreprise</a></li>
                 <li class="active">Modifier un entreprise</li>
             </ol>
         </div>

@@ -62,7 +62,7 @@ class User extends Authenticatable
     /**
      * Get the entreprise that owns the user.
      */
-    public function entreprise()
+    public function entreprises()
     {
         return $this
             ->belongsToMany(Entreprise::class, 'entreprise_user', 'user_id', 'entreprise_id')
@@ -92,6 +92,13 @@ class User extends Authenticatable
             ->public()
             ->withPivot('contenu', 'created_at')
             ->latest();
+    }
+
+    public function annonces()
+    {
+        $entreprises_id = $this->entreprises->pluck('id');
+        
+        return Annonce::with('entreprise', 'annonceable')->whereIn('entreprise_id', $entreprises_id)->latest();
     }
 
 

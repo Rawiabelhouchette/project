@@ -72,7 +72,7 @@ class Search extends Component
             $this->quartier = $session->quartier;
             $this->entreprise = $session->entreprise;
             $this->sortOrder = $session->sortOrder;
-            $this->setPage($session->page);
+            // $this->setPage($session->page);
         }
 
         if (is_string($this->type)) {

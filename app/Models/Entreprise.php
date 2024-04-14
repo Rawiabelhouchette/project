@@ -77,9 +77,9 @@ class Entreprise extends Model
 
     public function getAdresseCompleteAttribute()
     {
-        $quartier = $this->quartier->nom;
-        $ville = $this->quartier->ville->nom;
-        $pays = $this->quartier->ville->pays->nom;
+        $quartier = $this->quartier->nom ?? '';
+        $ville = $this->quartier->ville->nom ?? '';
+        $pays = $this->quartier->ville->pays->nom ?? '';
         return $pays . ', ' . $ville . ', ' . $quartier;
     }
 
@@ -115,7 +115,7 @@ class Entreprise extends Model
 
     public function getContactAttribute() : string
     {
-        return $this->quartier->ville->pays->indicatif . ' ' . str_replace(' ', '', $this->telephone);        
+        return $this->quartier->ville->pays->indicatif ?? '' . ' ' . str_replace(' ', '', $this->telephone);   
     }
 
     protected $casts = [
@@ -154,4 +154,13 @@ class Entreprise extends Model
         return $this->hasMany(Annonce::class, 'entreprise_id');
     }
 
+    public function abonnements()
+    {
+        return $this->belongsToMany(Abonnement::class, 'abonnement_entreprise', 'entreprise_id', 'abonnement_id');
+    }
+
+    public function abonnement($id)
+    {
+        return $this->abonnements()->where('abonnement_id', $id)->first();
+    }
 }

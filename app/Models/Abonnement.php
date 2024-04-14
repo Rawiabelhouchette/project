@@ -8,4 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Abonnement extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'offre_abonnement_id',
+        'date_debut',
+        'date_fin',
+        'is_active',
+    ];
+
+    public function entreprises()
+    {
+        return $this->belongsToMany(Entreprise::class, 'abonnement_entreprise');
+    }
+
+    public function entreprise($id)
+    {
+        return $this->entreprises()->where('entreprise_id', $id)->first();
+    }
 }

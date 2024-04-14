@@ -75,9 +75,9 @@
                                     Favoris
                                 </a>
                             </li>
-                            @if (!auth()->user()->hasRole('Professionnel'))
+                            @if (auth()->user()->hasRole('Professionnel'))
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ route('annonces.index') }}">
                                         <i class="fa fa-cog" aria-hidden="true"></i> &nbsp;
                                         Mes annonces
                                     </a>

@@ -177,3 +177,15 @@ Home, location vehicule, le bon type n'est pas pris
 ## 11/04/2024
 - AJouter attribut date de debut a annonce avec default la date de creation de l'annonce
 - Ajouter aussi l'option de desactivation de l'annonce sur la liste des annonces avec une confirmatio d'action quand on clique dessus
+
+## 13/04/2024
+- Ajouter les with() au modele necessaire pour eviter les requetes supplementaires
+
+## 14/04/2024
+Etape de creation d'un nouvel abonnement
+- Creer une entreprise
+- Lier l'entreprise a un l'utilisateur
+- Creer un abonnement
+- Lier l'abonnement a l'entreprise
+
+- Ajouter l'option d'abonnement

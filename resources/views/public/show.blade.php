@@ -210,7 +210,7 @@
                                             @endif
                                             @if ($annonce->entreprise->whatsapp)
                                                 <li style="padding-left: 0; padding-right: 5px;">
-                                                    <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" class="social-network" target="_blank" style="background-color: #00A884"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</a>
+                                                    <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" class="social-network" target="_blank" style="background-color: #00A884"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</a>
                                                 </li>
                                             @endif
                                         </ul>
@@ -335,9 +335,9 @@
                         <div class="widget-boxed-body padd-top-5">
                             <div class="side-list no-border">
                                 <ul>
-                                    <li>Pays : <strong>{{ $annonce->entreprise->quartier->ville->pays->nom }} </strong></li>
-                                    <li>Ville : <strong>{{ $annonce->entreprise->quartier->ville->nom }} </strong></li>
-                                    <li>Quartier : <strong>{{ $annonce->entreprise->quartier->nom }} </strong></li>
+                                    <li>Pays : <strong>{{ $annonce->entreprise->quartier->ville->pays->nom ?? '-' }} </strong></li>
+                                    <li>Ville : <strong>{{ $annonce->entreprise->quartier->ville->nom ?? '-' }} </strong></li>
+                                    <li>Quartier : <strong>{{ $annonce->entreprise->quartier->nom ?? '-' }} </strong></li>
                                     <li>
                                         <div id="map" class="full-width" style="height:200px;"></div>
                                     </li>

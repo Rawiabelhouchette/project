@@ -12,6 +12,29 @@ class OffreAbonnementSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $offres = [
+            [
+                'libelle' => 'Offre 1',
+                'prix' => 15000,
+                'duree' => 1,
+                'description' => 'Offre 1',
+            ],
+            [
+                'libelle' => 'Offre 2',
+                'prix' => 25000,
+                'duree' => 2,
+                'description' => 'Offre 2',
+            ],
+            [
+                'libelle' => 'Offre 3',
+                'prix' => 35000,
+                'duree' => 3,
+                'description' => 'Offre 3',
+            ],
+        ];
+
+        foreach ($offres as $offre) {
+            \App\Models\OffreAbonnement::create($offre);
+        }
     }
 }
