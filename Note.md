@@ -183,9 +183,12 @@ Home, location vehicule, le bon type n'est pas pris
 
 ## 14/04/2024
 Etape de creation d'un nouvel abonnement
-- Creer une entreprise
-- Lier l'entreprise a un l'utilisateur
-- Creer un abonnement
-- Lier l'abonnement a l'entreprise
+- [ok] Creer une entreprise
+- [ok] Lier l'entreprise a un l'utilisateur
+- [ok] Creer un abonnement
+- [ok] Lier l'abonnement a l'entreprise
 
-- Ajouter l'option d'abonnement
+- [ok] Ajouter l'option d'abonnement
+
+## 15/04/2024
+- Implementer la recherche sur la page d'abonnement

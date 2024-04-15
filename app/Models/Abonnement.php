@@ -25,4 +25,9 @@ class Abonnement extends Model
     {
         return $this->entreprises()->where('entreprise_id', $id)->first();
     }
+
+    public function offre()
+    {
+        return $this->belongsTo(OffreAbonnement::class, 'offre_abonnement_id');
+    }
 }

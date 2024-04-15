@@ -6,6 +6,7 @@
             <li class="@yield('dashboard')">
                 <a href="{{ route('home') }}" style="padding-top: 25px;"><i class="fa fa-dashboard" aria-hidden="true"></i>Dashboard</a>
             </li>
+
             @if (auth()->user()->hasRole('Administrateur'))
                 <li class="@yield('reference')">
                     <a href="javascript:void(0)"><i class="fa fa-cog" aria-hidden="true"></i>Référence <span class="fa arrow"></span></a>
@@ -103,6 +104,10 @@
                         </a>
                     </li>
                 </ul>
+            </li>
+
+            <li class="@yield('abonnement')">
+                <a href="{{ route('abonnements.index') }}" style="padding-top: 25px;"><i class="fa fa-credit-card" aria-hidden="true"></i>Abonnement</a>
             </li>
 
             @if (auth()->user()->hasRole('Administrateur'))

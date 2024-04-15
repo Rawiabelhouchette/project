@@ -97,10 +97,22 @@ class User extends Authenticatable
     public function annonces()
     {
         $entreprises_id = $this->entreprises->pluck('id');
-        
-        return Annonce::with('entreprise', 'annonceable')->whereIn('entreprise_id', $entreprises_id)->latest();
+        return Annonce::with('entreprises', 'annonceable')->whereIn('entreprise_id', $entreprises_id)->latest();
     }
 
+    public function abonnements()
+    {
+        $entreprises_id = $this->entreprises->pluck('id');
+        return Abonnement::with('offre','entreprises')->whereHas('entreprises', function ($query) use ($entreprises_id) {
+            $query->whereIn('entreprise_id', $entreprises_id);
+        })->latest();
+    }
 
-
+    public function activeAbonnements()
+    {
+        return $this->belongsToMany(Abonnement::class, 'abonnement_user', 'user_id', 'abonnement_id')
+            ->withPivot('is_active', 'date_debut', 'date_fin')
+            ->wherePivot('is_active', true)
+            ->withTimestamps();
+    }
 }

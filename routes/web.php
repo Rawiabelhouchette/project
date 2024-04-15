@@ -128,6 +128,8 @@ Route::group([
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
 
     Route::resource('abonnements', AbonnementController::class);
+    Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
+
     // TODO: Route for 404, 403, 500, 503, etc
 
 
