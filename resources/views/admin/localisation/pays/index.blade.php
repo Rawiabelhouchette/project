@@ -41,7 +41,7 @@
                             <table id="dataTable" class="table table-striped table-2 table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
+                                        <th>N°</th>
                                         <th>Indicatif</th>
                                         <th>Nom</th>
                                         <th>Langue</th>
@@ -52,7 +52,7 @@
                                 <tbody>
                                     @foreach ($pays as $item)
                                         <tr>
-                                            <td>{{ $item->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->indicatif }}</td>
                                             <td>{{ $item->nom }}</td>
                                             <td>{{ $item->langue }}</td>

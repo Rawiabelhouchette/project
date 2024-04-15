@@ -27,7 +27,7 @@
                             <table id="dataTable" class="table table-striped table-2 table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
+                                        <th>N°</th>
                                         <th>Nom</th>
                                         <th>Description</th>
                                         <th>Téléphone</th>
@@ -44,7 +44,7 @@
                                 <tbody>
                                     @foreach ($entreprises as $entreprise)
                                         <tr>
-                                            <td>{{ $entreprise->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $entreprise->nom }}</td>
                                             <td>{{ $entreprise->description }}</td>
                                             <td>{{ $entreprise->telephone }}</td>

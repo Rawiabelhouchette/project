@@ -32,7 +32,7 @@
                             <table id="dataTable" class="table table-striped table-2 table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
+                                        <th>N°</th>
                                         <th>Pays</th>
                                         <th>Ville</th>
                                         <th>Quartier</th>

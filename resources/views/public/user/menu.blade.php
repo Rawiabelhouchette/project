@@ -4,21 +4,48 @@
     <div class="sidebar">
         <!-- Start: Search By Price -->
         <div class="widget-boxed facette-color" style="padding-bottom: 0px;">
-            {{-- <div class="widget-boxed-header">
-                    <h4><i class="ti-money padd-r-10"></i>Top Categories</h4>
-                </div> --}}
-
             <div class="widget-boxed-body padd-top-10 padd-bot-0">
                 <div class="side-list">
                     <ul class="price-range">
+                        @if (auth()->user()->hasRole('Professionnel'))
+                            <li>
+                                <a href="{{ route('home') }}">
+                                    <span class="custom-checkbox d-block" style="font-size: 18px;">
+                                        <i class="fa-solid fa-tachometer"></i> &nbsp;
+                                        Tableau de bord
+                                    </span>
+                                </a>
+                            </li>
+                        @endif
+
                         <li>
                             <a href="{{ route('accounts.index') }}">
                                 <span class="custom-checkbox d-block @if ($category == 0) theme-cl @endif" style="font-size: 18px;">
                                     <i class="fa-solid fa-user @if ($category == 0) theme-cl @endif"></i> &nbsp;
-                                    Compte
+                                    Profil
                                 </span>
                             </a>
                         </li>
+
+                        @if (auth()->user()->hasRole('Professionnel'))
+                            <li>
+                                <a href="{{ route('entreprises.index') }}">
+                                    <span class="custom-checkbox d-block" style="font-size: 18px;">
+                                        <i class="fa-solid fa-cog"></i> &nbsp;
+                                        Entreprise
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('annonces.index') }}">
+                                    <span class="custom-checkbox d-block @if ($category == 4) theme-cl @endif" style="font-size: 18px;">
+                                        <i class="fa-solid fa-ad @if ($category == 4) theme-cl @endif"></i> &nbsp;
+                                        Annonces
+                                    </span>
+                                </a>
+                            </li>
+                        @endif
 
                         <li>
                             <a href="{{ route('accounts.favorite.index') }}">
@@ -37,25 +64,6 @@
                                 </span>
                             </a>
                         </li>
-
-                        @if (auth()->user()->hasRole('Professionnel'))
-                            <li>
-                                <a href="{{ route('entreprises.index') }}">
-                                    <span class="custom-checkbox d-block @if ($category == 3) theme-cl @endif" style="font-size: 18px;">
-                                        <i class="fa-solid fa-cog @if ($category == 3) theme-cl @endif"></i> &nbsp;
-                                        Entreprise
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('annonces.index') }}">
-                                    <span class="custom-checkbox d-block @if ($category == 4) theme-cl @endif" style="font-size: 18px;">
-                                        <i class="fa-solid fa-ad @if ($category == 4) theme-cl @endif"></i> &nbsp;
-                                        Annonces
-                                    </span>
-                                </a>
-                            </li>
-                        @endif
                     </ul>
                 </div>
             </div>

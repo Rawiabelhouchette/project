@@ -88,7 +88,7 @@ class AbonnementController extends Controller
         if (\Auth::user()->hasRole('Professionnel')) {
             $abonnements = \Auth::user()->abonnements();
         } else {
-            $abonnements = Abonnement::latest();
+            $abonnements = Abonnement::with('offre','entreprises')->latest();
         }
 
         $columns = Schema::getColumnListing('abonnements');

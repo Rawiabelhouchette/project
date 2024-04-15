@@ -29,9 +29,11 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Offre</th>
+                                        <th>Durée (mois)</th>
                                         <th>Entreprise</th>
                                         <th>Date debut</th>
                                         <th>Date fin</th>
+                                        <th>Temps restant</th>
                                         <th>Etat</th>
                                     </tr>
                                 </thead>
@@ -67,10 +69,16 @@
                 processing: true,
                 serverSide: true,
                 columns: [{
-                        data: 'id',
+                        data: null,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
                     },
                     {
                         data: 'offre.libelle',
+                    },
+                    {
+                        data: 'offre.duree',
                     },
                     {
                         data: 'entreprises.0.nom',
@@ -82,11 +90,25 @@
                         data: 'date_fin',
                     },
                     {
+                        className: 'text-center',
+                        render: function(data, type, row) {
+                            if (row.is_active == 0) {
+                                return '-';
+                            }
+                            var date1 = new Date(row.date_fin);
+                            var date2 = new Date();
+                            var diff = date1.getTime() - date2.getTime();
+                            var days = diff / (1000 * 3600 * 24);
+                            return days.toFixed(0) + ' jours';
+                        }
+                    },
+                    {
+                        className: 'text-center',
                         render: function(data, type, row) {
                             if (row.is_active == 1) {
-                                return '<span class="label label-success text-center">Actif</span>';
+                                return '<span class="label label-success">Actif</span>';
                             } else {
-                                return '<span class="label label-danger text-center">Inactif</span>';
+                                return '<span class="label label-danger">Inactif</span>';
                             }
                         }
                     },
