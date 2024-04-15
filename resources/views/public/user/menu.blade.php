@@ -37,6 +37,25 @@
                                 </span>
                             </a>
                         </li>
+
+                        @if (auth()->user()->hasRole('Professionnel'))
+                            <li>
+                                <a href="{{ route('entreprises.index') }}">
+                                    <span class="custom-checkbox d-block @if ($category == 3) theme-cl @endif" style="font-size: 18px;">
+                                        <i class="fa-solid fa-cog @if ($category == 3) theme-cl @endif"></i> &nbsp;
+                                        Entreprise
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('annonces.index') }}">
+                                    <span class="custom-checkbox d-block @if ($category == 4) theme-cl @endif" style="font-size: 18px;">
+                                        <i class="fa-solid fa-ad @if ($category == 4) theme-cl @endif"></i> &nbsp;
+                                        Annonces
+                                    </span>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
