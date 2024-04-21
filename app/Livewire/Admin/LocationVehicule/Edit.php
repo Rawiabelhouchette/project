@@ -53,7 +53,7 @@ class Edit extends Component
     {
         $this->initialization();
         $this->locationVehicule = $locationVehicule;
-        $this->entreprise_id =  $locationVehicule->annonce->entreprise_id;
+        $this->entreprise_id = $locationVehicule->annonce->entreprise_id;
         $this->nom = $locationVehicule->annonce->titre;
         $this->description = $locationVehicule->annonce->description;
         $this->is_active = $locationVehicule->annonce->is_active;
@@ -65,7 +65,7 @@ class Edit extends Component
         $this->kilometrage = $locationVehicule->kilometrage;
         $this->boite_vitesse = $locationVehicule->boite_vitesse;
         $this->nombre_portes = $locationVehicule->nombre_portes;
-        $this->nombre_places = $locationVehicule->nombre_places; 
+        $this->nombre_places = $locationVehicule->nombre_places;
 
         $this->types_vehicule = $locationVehicule->annonce->references('types-de-vehicule')->pluck('id')->toArray();
         $this->equipements_vehicule = $locationVehicule->annonce->references('equipements-vehicule')->pluck('id')->toArray();
@@ -77,7 +77,11 @@ class Edit extends Component
 
     private function initialization()
     {
-        $this->entreprises = Entreprise::all();
+        if (\Auth::user()->hasRole('Professionnel')) {
+            $this->entreprises = \Auth::user()->entreprises;
+        } else {
+            $this->entreprises = Entreprise::all();
+        }
 
         $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-vehicule')->first();
         $tmp_type_vehicule ?
@@ -187,7 +191,7 @@ class Edit extends Component
         if ($this->is_active && $this->date_validite < date('Y-m-d')) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération échouée'),
+                'title' => __('Opération échouée'),
                 'message' => __('La date de validité doit être supérieure à la date du jour'),
             ]);
             return;
@@ -233,7 +237,7 @@ class Edit extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération réussie'),
+                'title' => __('Opération réussie'),
                 'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
             ]);
             Log::error($th->getMessage());

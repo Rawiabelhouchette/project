@@ -27,7 +27,7 @@
                             <table id="dataTable" class="table table-striped table-2 table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
+                                        <th>N°</th>
                                         <th>Nom</th>
                                         <th>Description</th>
                                         <th>Téléphone</th>
@@ -44,15 +44,15 @@
                                 <tbody>
                                     @foreach ($entreprises as $entreprise)
                                         <tr>
-                                            <td>{{ $entreprise->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $entreprise->nom }}</td>
                                             <td>{{ $entreprise->description }}</td>
                                             <td>{{ $entreprise->telephone }}</td>
                                             <td>{{ $entreprise->email }}</td>
                                             <td>{{ $entreprise->whatsapp }}</td>
-                                            <td>{{ $entreprise->quartier->ville->pays->nom }}</td>
-                                            <td>{{ $entreprise->quartier->ville->nom }}</td>
-                                            <td>{{ $entreprise->quartier->nom }}</td>
+                                            <td>{{ $entreprise->quartier->ville->pays->nom ?? '-' }}</td>
+                                            <td>{{ $entreprise->quartier->ville->nom ?? '-' }}</td>
+                                            <td>{{ $entreprise->quartier->nom ?? '-' }}</td>
                                             <td>{{ $entreprise->creator->nom }} {{ $entreprise->creator->prenom }}</td>
                                             <td>{{ $entreprise->created_at }}</td>
                                             <td class="text-center">

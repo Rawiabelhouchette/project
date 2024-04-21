@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
@@ -58,6 +59,7 @@ Route::post('password-link', [AccountController::class, 'resetPassword'])->name(
 Route::get('notification/reset-password', [AccountController::class, 'notificationSuccess'])->name('notification.rest-password.success');
 Route::post('reset-password', [AccountController::class, 'newPassword'])->name('password.update');
 
+
 // Auth middleware
 Route::group([
     'middleware' => 'App\Http\Middleware\Auth',
@@ -86,7 +88,7 @@ Route::group([
         Route::resource('pays', PaysController::class);
 
         Route::resource('villes', VilleController::class);
-        
+
         Route::resource('quartiers', QuartierController::class);
         Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
 
@@ -113,9 +115,20 @@ Route::group([
         Route::resource('restaurants', RestaurantController::class);
 
         Route::resource('bars', BarController::class);
-        
-        Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);;
+
+        Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
+        ;
+
+
+
+
+
     });
+
+    Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
+
+    Route::resource('abonnements', AbonnementController::class);
+    Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
 
     // TODO: Route for 404, 403, 500, 503, etc
 

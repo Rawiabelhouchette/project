@@ -106,6 +106,7 @@ class LocationMeublee extends Model implements AnnonceInterface
     public function getCaracteristiquesAttribute(): View
     {
         $attributes = [];
+
         if ($this->nombre_chambre) {
             $attributes['Nombre de chambre'] = $this->nombre_chambre;
         }
@@ -126,23 +127,14 @@ class LocationMeublee extends Model implements AnnonceInterface
             $attributes['Prix maximum'] = $this->prix_max;
         }
 
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
+        }
+
         return view('components.public.show.default', [
             'caracteristiques' => $attributes,
         ]);
     }
-
-    // public function getInformationsAttribute() : Array
-    // {
-    //     $informations = [];
-
-    //     return $informations;
-    // }
-
-    // public function getEquipementsAttribute() : Array
-    // {
-    //     $equipements = [];
-
-    //     return $equipements;
-    // }
-
 }

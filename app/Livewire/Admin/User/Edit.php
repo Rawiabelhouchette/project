@@ -39,7 +39,8 @@ class Edit extends Component
         $this->telephone = $user->telephone;
         $this->is_active = $user->is_active;
         $this->role = $user->roles->first()->name;
-        $this->entreprise_id = $user->entreprise_id;
+        // TODO : Must change something here
+        // $this->entreprise_id = $user->entreprise_id;
         if ($this->entreprise_id) {
             $this->isProfessionnel = true;
         }

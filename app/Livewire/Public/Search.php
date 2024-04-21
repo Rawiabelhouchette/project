@@ -37,7 +37,7 @@ class Search extends Component
         'direction',
         'ville',
         'quartier',
-        'entreprise'
+        'entreprise',
     ];
 
     // filter input on the front (facette)
@@ -48,7 +48,7 @@ class Search extends Component
 
     public $sortOrder = 'created_at|desc'; // default sorting column and direction
     public $perPage = 10;
-    public $page = 1;
+    // public $pageTest = 1;
 
     // List of facette's elements
     public $typeAnnonces = [];
@@ -72,7 +72,11 @@ class Search extends Component
             $this->quartier = $session->quartier;
             $this->entreprise = $session->entreprise;
             $this->sortOrder = $session->sortOrder;
-            $this->setPage($session->page);
+            // $this->setPage($session->page);
+        }
+
+        if (is_string($this->type)) {
+            $this->type = [$this->type];
         }
 
         $this->type = array_filter($this->type ?? []);
@@ -506,7 +510,6 @@ class Search extends Component
 
 
         $annonces = $this->search()->paginate($this->perPage);
-        $this->page = $annonces->currentPage();
 
         $this->saveVariableToSession();
 
@@ -524,7 +527,7 @@ class Search extends Component
                 'element' => $this->search()->get()->pluck('id')->toArray(),
                 'perPage' => $this->perPage,
                 'key' => $this->key,
-                'facette' => count($this->getFacettes()),
+                'facette' => count($this->type) + count($this->ville) + count($this->quartier) + count($this->entreprise),
             ]);
         }
     }
@@ -544,7 +547,7 @@ class Search extends Component
             'quartier' => $this->quartier,
             'entreprise' => $this->entreprise,
             'sortOrder' => $this->sortOrder,
-            'page' => $this->page,
+            'page' => $this->search()->paginate($this->perPage)->currentPage(),
         ]);
     }
 

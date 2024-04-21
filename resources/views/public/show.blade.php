@@ -5,6 +5,68 @@
 @endsection
 
 @section('content')
+    <style>
+        .social-network {
+            color: #fff;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 6px 15px;
+            border-radius: 4px;
+            margin-right: 3px;
+            margin-bottom: 15px;
+            border: 1px solid transparent;
+        }
+
+        .social-network:hover {
+            color: #fff;
+        }
+
+        .social-network:visited {
+            color: #fff;
+        }
+
+        .li-btn {
+            background: white;
+            color: grey;
+            border: 1px solid grey;
+            border-radius: 4px;
+            -webkit-user-select: none;
+        }
+
+        .li-btn.view:hover {
+            color: gray;
+        }
+
+        .li-btn:hover {
+            color: #ff3a72;
+        }
+
+        .share-button:hover {
+            background: #ff3a72 !important;
+            color: white !important;
+            border: 1px solid #ff3a72 !important;
+            border-radius: 4px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+    </style>
     <!-- ================ Listing Detail Basic Information ======================= -->
     <div class="banner dark-opacity" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); height: 300px !important; min-height: 300px !important;" data-overlay="8">
         <div class="container">
@@ -107,39 +169,6 @@
                                         <br>
                                     @endif
 
-                                    {{-- @if ($annonce->entreprise->whatsapp)
-                                        <a href="https://api.whatsapp.com/send?phone={{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank">
-                                        <a href="javascript:void(0)">
-                                            <i class="fa-brands fa-whatsapp" style="color: #ff3a72;"></i>&nbsp;
-                                            {{ $annonce->entreprise->whatsapp }}
-                                        </a>
-                                        <br>
-                                    @endif --}}
-
-                                    <style>
-                                        .li-btn {
-                                            background: white;
-                                            color: grey;
-                                            border: 1px solid grey;
-                                            border-radius: 4px;
-                                            -webkit-user-select: none;
-                                        }
-
-                                        .li-btn.view:hover {
-                                            color: gray;
-                                        }
-
-                                        .li-btn:hover {
-                                            color: #ff3a72;
-                                        }
-
-                                        .share-button:hover {
-                                            background: #ff3a72 !important;
-                                            color: white !important;
-                                            border: 1px solid #ff3a72 !important;
-                                            border-radius: 4px;
-                                        }
-                                    </style>
                                     <div class="cover-buttons mrg-top-15" style="float: left;">
                                         <ul>
                                             <li style="padding-left: 0;" class="mrg-r-10">
@@ -168,35 +197,7 @@
                                                     <span class="hidden-xs">Partager</span>
                                                 </button>
                                             </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="cover-buttons mrg-top-15" style="float: left;">
-                                        <ul>
-                                            <style>
-                                                .social-network {
-                                                    color: #fff;
-                                                    display: inline-block;
-                                                    font-size: 14px;
-                                                    font-weight: 500;
-                                                    padding: 6px 15px;
-                                                    border-radius: 4px;
-                                                    margin-right: 3px;
-                                                    margin-bottom: 15px;
-                                                    border: 1px solid transparent;
-                                                }
-
-                                                .social-network:hover {
-                                                    color: #fff;
-                                                }
-
-                                                .social-network:visited {
-                                                    color: #fff;
-                                                }
-                                            </style>
-                                            {{-- <li style="padding-left: 0;">
-                                                <button class="social-network" style="background-color: #00A884"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</button>
-                                            </li> --}}
+                                            <br><br>
                                             @if ($annonce->entreprise->instagram)
                                                 <li style="padding-left: 0; padding-right: 5px;">
                                                     <a href="{{ $annonce->entreprise->instagram }}" class="social-network" target="_blank" style="background-color: #FF3A72"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;Instagram</a>
@@ -207,10 +208,14 @@
                                                     <a href="{{ $annonce->entreprise->facebook }}" class="social-network" target="_blank" style="background-color: #0866FF"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> &nbsp;Facebook</a>
                                                 </li>
                                             @endif
+                                            @if ($annonce->entreprise->whatsapp)
+                                                <li style="padding-left: 0; padding-right: 5px;">
+                                                    <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" class="social-network" target="_blank" style="background-color: #00A884"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</a>
+                                                </li>
+                                            @endif
                                         </ul>
                                     </div>
                                     <br>
-
                                 </div>
                             </div>
                         </div>
@@ -330,9 +335,9 @@
                         <div class="widget-boxed-body padd-top-5">
                             <div class="side-list no-border">
                                 <ul>
-                                    <li>Pays : <strong>{{ $annonce->entreprise->quartier->ville->pays->nom }} </strong></li>
-                                    <li>Ville : <strong>{{ $annonce->entreprise->quartier->ville->nom }} </strong></li>
-                                    <li>Quartier : <strong>{{ $annonce->entreprise->quartier->nom }} </strong></li>
+                                    <li>Pays : <strong>{{ $annonce->entreprise->quartier->ville->pays->nom ?? '-' }} </strong></li>
+                                    <li>Ville : <strong>{{ $annonce->entreprise->quartier->ville->nom ?? '-' }} </strong></li>
+                                    <li>Quartier : <strong>{{ $annonce->entreprise->quartier->nom ?? '-' }} </strong></li>
                                     <li>
                                         <div id="map" class="full-width" style="height:200px;"></div>
                                     </li>
@@ -376,25 +381,6 @@
     'title' => 'Partager cette annonce',
     'annonce' => $annonce,
 ])
-<style>
-    @keyframes pulse {
-        0% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(0.9);
-        }
-
-        100% {
-            transform: scale(1);
-        }
-    }
-
-    .pulse {
-        animation: pulse 1s infinite;
-    }
-</style>
 @endsection
 
 @section('js')

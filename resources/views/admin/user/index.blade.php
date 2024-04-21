@@ -27,7 +27,7 @@
                             <table id="dataTable" class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
+                                        <th>N°</th>
                                         <th>Nom</th>
                                         <th>Prénom</th>
                                         <th>Téléphone</th>
@@ -35,7 +35,7 @@
                                         <th>Actif</th>
                                         <th>Profil</th>
                                         <th>Entreprise</th>
-                                        <th>Identifiant</th>
+                                        {{-- <th>Identifiant</th> --}}
                                         <th>Ajouté le</th>
                                         <th>Actions</th>
                                     </tr>
@@ -43,9 +43,9 @@
                                 <tbody>
                                     @foreach ($users as $user)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $user->nom }}</td>
-                                            <td class="text-center">
+                                            <td class="">
                                                 @if ($user->prenom == '')
                                                     -
                                                 @else
@@ -59,7 +59,7 @@
                                                     {{ $user->telephone }}
                                                 @endif
                                             </td>
-                                            <td class="text-center">
+                                            <td class="">
                                                 @if ($user->email == '')
                                                     -
                                                 @else
@@ -74,14 +74,12 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">{{ $user->roles[0]->name }}</td>
-                                            <td class="text-center">
-                                                @if ($user->entreprise == null)
-                                                    -
-                                                @else
-                                                    {{ $user->entreprise->nom }}
-                                                @endif
+                                            <td class="">
+                                                @foreach ($user->entreprises as $entreprise)
+                                                    - {{ $entreprise->nom }} <br>
+                                                @endforeach
                                             </td>
-                                            <td>{{ $user->username }}</td>
+                                            {{-- <td>{{ $user->username }}</td> --}}
                                             <td>
                                                 @php
                                                     $date = new DateTime($user->created_at);
@@ -89,7 +87,7 @@
                                                 {{ $date->format('d/m/Y H:i:s') }}
                                             </td>
                                             <td class="text-center">
-                                                @if ($user->hasRole('Usager'))
+                                                @if ($user->hasRole('Usager') || $user->hasRole('Professionnel'))
                                                     <span class="text-center">-</span>
                                                 @else
                                                     <a href="javascript:void(0)" class="edit" data-id="{{ $user->id }}"><i class="fa fa-pencil"></i></a>
@@ -165,7 +163,11 @@
                 //     },
                 // },
                 // columns: [{
-                //         data: 'id',
+                //         //data: 'id',
+                // data: null,
+                // render: function(data, type, row, meta) {
+                //     return meta.row + meta.settings._iDisplayStart + 1;
+                // }
                 //     },
                 //     {
                 //         data: 'nom',

@@ -1,5 +1,5 @@
 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
-- mettre sweet alet en local
+- mettre sweet alert en local
 
 
 Prochainement:
@@ -172,3 +172,27 @@ Home, location vehicule, le bon type n'est pas pris
 
 ## 02/04/2024
 - [ok] Rendre les liens cliquables dans l'affichage des informations de l'entreprise
+
+
+## 11/04/2024
+- AJouter attribut date de debut a annonce avec default la date de creation de l'annonce
+- Ajouter aussi l'option de desactivation de l'annonce sur la liste des annonces avec une confirmatio d'action quand on clique dessus
+
+## 13/04/2024
+- Ajouter les with() au modele necessaire pour eviter les requetes supplementaires
+
+## 14/04/2024
+Etape de creation d'un nouvel abonnement
+- [ok] Creer une entreprise
+- [ok] Lier l'entreprise a un l'utilisateur
+- [ok] Creer un abonnement
+- [ok] Lier l'abonnement a l'entreprise
+
+- [ok] Ajouter l'option d'abonnement
+
+## 15/04/2024
+- Implementer la recherche sur la page d'abonnement
+
+## 21/04/2024
+- Add a loader when loading annonce images
+- Demande a MOnsieur de definir le nombre d'image a uploader et la taille max

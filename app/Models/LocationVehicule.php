@@ -81,6 +81,7 @@ class LocationVehicule extends Model implements AnnonceInterface
     public function getCaracteristiquesAttribute(): View
     {
         $attributes = [];
+
         if ($this->marque) {
             $attributes['Marque'] = $this->marque;
         }
@@ -111,6 +112,12 @@ class LocationVehicule extends Model implements AnnonceInterface
 
         if ($this->nombre_places) {
             $attributes['Nombre de places'] = $this->nombre_places;
+        }
+
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
         }
 
         return view('components.public.show.default', [

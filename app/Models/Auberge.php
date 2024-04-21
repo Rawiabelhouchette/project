@@ -123,6 +123,12 @@ class Auberge extends Model implements AnnonceInterface
             $attributes['Prix maximum'] = $this->prix_max;
         }
 
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
+        }
+
         return view('components.public.show.default', [
             'caracteristiques' => $attributes,
         ]);

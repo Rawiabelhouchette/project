@@ -49,8 +49,8 @@ class Edit extends Component
     {
         $this->entreprise = $entreprise;
         $this->pays = Pays::all();
-        $this->villes = Ville::where('pays_id', $entreprise->quartier->ville->pays_id)->get();
-        $this->quartiers = Quartier::where('ville_id', $entreprise->quartier->ville_id)->get();
+        $this->villes = $entreprise->quartier ? Ville::where('pays_id', $entreprise->quartier->ville->pays_id)->get() : [];
+        $this->quartiers = $entreprise->quartier ? Quartier::where('ville_id', $entreprise->quartier->ville_id)->get() : [];
         $this->nom = $entreprise->nom;
         $this->description = $entreprise->description;
         $this->site_web = $entreprise->site_web;
@@ -62,10 +62,12 @@ class Edit extends Component
         $this->logo = $entreprise->logo;
         $this->longitude = $entreprise->longitude;
         $this->latitude = $entreprise->latitude;
-        $this->pays_id = $entreprise->quartier->ville->pays_id;
-        $this->ville_id = $entreprise->quartier->ville_id;
-        $this->quartier_id = $entreprise->quartier_id;
-        $this->plannings = $entreprise->heure_ouverture->toArray();
+        $this->pays_id = $entreprise->quartier ? $entreprise->quartier->ville->pays_id : '';
+        $this->ville_id = $entreprise->quartier ? $entreprise->quartier->ville_id : '';
+        $this->quartier_id = $entreprise->quartier ? $entreprise->quartier_id : '';
+        if (!empty($entreprise->heure_ouverture->toArray())) {
+            $this->plannings = $entreprise->heure_ouverture->toArray();
+        }
         $this->nbr_planning = count($this->plannings);
 
         $this->dispatch('showLocation', [
@@ -114,7 +116,8 @@ class Edit extends Component
 
     public function addPlanning()
     {
-        if (!$this->autreJour) return;
+        if (!$this->autreJour)
+            return;
 
         if ($this->nbr_planning <= 7) {
             $this->nbr_planning++;
@@ -169,7 +172,7 @@ class Edit extends Component
             if ($planning['heure_debut'] > $planning['heure_fin']) {
                 $index = array_search($planning, $this->plannings) + 1;
                 $this->dispatch('alert:modal', [
-                    'message' => __('Heure de fermeture ['. $index .'] doit être supérieur à heure de d\'ouverture'),
+                    'message' => __('Heure de fermeture [' . $index . '] doit être supérieur à heure de d\'ouverture'),
                 ]);
                 return;
             }

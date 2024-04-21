@@ -51,7 +51,7 @@
                         </div>
                     </form>
 
-                    <div class="popular-categories">
+                    {{-- <div class="popular-categories">
                         <ul class="popular-categories-list">
                             @foreach ($listAnnonce as $key => $annonce)
                                 <li>
@@ -67,7 +67,7 @@
                             @endif
                         @endforeach
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Entreprise;
 use App\Http\Requests\StoreEntrepriseRequest;
 use App\Http\Requests\UpdateEntrepriseRequest;
+use Illuminate\Support\Facades\Auth;
 
 class EntrepriseController extends Controller
 {
@@ -13,7 +14,12 @@ class EntrepriseController extends Controller
      */
     public function index()
     {
-        $entreprises = Entreprise::all();
+        if (Auth::user()->hasRole('Professionnel')) {
+            $entreprises = Auth::user()->entreprises;
+        } else {
+            $entreprises = Entreprise::with('quartier', 'quartier.ville', 'quartier.ville.pays')->get();
+        }
+
         return view('admin.entreprise.index', compact('entreprises'));
     }
 
@@ -38,6 +44,10 @@ class EntrepriseController extends Controller
      */
     public function show(Entreprise $entreprise)
     {
+        // check if the user is the owner of the entreprise
+        if (!Auth::user()->hasRole('Admin') && !Auth::user()->entreprises->contains($entreprise)) {
+            return redirect()->route('home');
+        }
         return view('admin.entreprise.show', compact('entreprise'));
     }
 

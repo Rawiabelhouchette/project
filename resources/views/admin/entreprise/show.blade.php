@@ -98,19 +98,19 @@
                                     {{-- Pays --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">PAYS</td>
-                                        <td>{{ $entreprise->quartier->ville->pays->nom }}</td>
+                                        <td>{{ $entreprise->quartier->ville->pays->nom ?? '-' }}</td>
                                     </tr>
 
                                     {{-- Ville --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">VILLE</td>
-                                        <td>{{ $entreprise->quartier->ville->nom }}</td>
+                                        <td>{{ $entreprise->quartier->ville->nom ?? '-' }}</td>
                                     </tr>
 
                                     {{-- Quartier --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">QUARTIER</td>
-                                        <td>{{ $entreprise->quartier->nom }}</td>
+                                        <td>{{ $entreprise->quartier->nom ?? '-' }}</td>
                                     </tr>
 
                                     {{-- Heure d'ouverture --}}
