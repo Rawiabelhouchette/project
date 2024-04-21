@@ -77,9 +77,9 @@ class Entreprise extends Model
 
     public function getAdresseCompleteAttribute()
     {
-        $quartier = $this->quartier->nom;
-        $ville = $this->quartier->ville->nom;
-        $pays = $this->quartier->ville->pays->nom;
+        $quartier = $this->quartier->nom ?? '';
+        $ville = $this->quartier->ville->nom ?? '';
+        $pays = $this->quartier->ville->pays->nom ?? '';
         return $pays . ', ' . $ville . ', ' . $quartier;
     }
 
@@ -99,10 +99,11 @@ class Entreprise extends Model
 
         $tous_les_jours = $this->heure_ouverture()->where('jour', 'Tous les jours')->first();
         if ($tous_les_jours) {
-            foreach ($jours as $jour) {
-                $jour = date('H:i', strtotime($tous_les_jours->heure_debut)) . ' - ' . date('H:i', strtotime($tous_les_jours->heure_fin));
+            $tmp = [];
+            foreach ($jours as $key => $jour) {
+                $tmp[ucfirst($key)] = date('H:i', strtotime($tous_les_jours->heure_debut)) . ' - ' . date('H:i', strtotime($tous_les_jours->heure_fin));
             }
-            return $jours;
+            return $tmp;
         }
 
         foreach ($jours_ouvertures as $jour) {
@@ -114,7 +115,7 @@ class Entreprise extends Model
 
     public function getContactAttribute() : string
     {
-        return $this->quartier->ville->pays->indicatif . ' ' . str_replace(' ', '', $this->telephone);        
+        return $this->quartier->ville->pays->indicatif ?? '' . ' ' . str_replace(' ', '', $this->telephone);   
     }
 
     protected $casts = [
@@ -143,8 +144,6 @@ class Entreprise extends Model
         return $this->belongsTo(Quartier::class, 'quartier_id');
     }
 
-
-
     public function owner()
     {
         return $this->belongsTo(User::class);
@@ -155,4 +154,13 @@ class Entreprise extends Model
         return $this->hasMany(Annonce::class, 'entreprise_id');
     }
 
+    public function abonnements()
+    {
+        return $this->belongsToMany(Abonnement::class, 'abonnement_entreprise', 'entreprise_id', 'abonnement_id');
+    }
+
+    public function abonnement($id)
+    {
+        return $this->abonnements()->where('abonnement_id', $id)->first();
+    }
 }

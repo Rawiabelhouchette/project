@@ -11,6 +11,7 @@ class Commentaire extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'note',
         'contenu',
         'user_id',
         'parent_id',
@@ -35,5 +36,10 @@ class Commentaire extends Model
     public function annonce()
     {
         return $this->belongsTo(Annonce::class);
+    }
+
+    public function auteur()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

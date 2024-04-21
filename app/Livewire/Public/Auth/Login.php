@@ -19,22 +19,27 @@ class Login extends Component
         $validated = $this->validate([
             'email' => 'required|min:4',
             'password' => 'required|min:4',
+        ], [
+            'email.required' => 'Le champ email est obligatoire',
+            'email.min' => 'Le champ email doit contenir au moins 4 caractères',
+            'password.required' => 'Le champ mot de passe est obligatoire',
+            'password.min' => 'Le champ mot de passe doit contenir au moins 4 caractères',
+
         ]);
-        
+
         $request = new Request($validated);
-        
+
         $login = AuthenticationController::loginService($request);
         if (!$login->status) {
             $this->error = true;
             $this->message = $login->message;
-            $this->password = '';
             return;
         }
 
         // if (auth()->user()->hasRole('Administrateur')) {
         //     return redirect()->route('home');
         // }
-        
+
         $this->dispatch('page:reload', []);
     }
 

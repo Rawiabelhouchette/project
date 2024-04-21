@@ -11,15 +11,12 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
                         <div class="row">
-                            {{-- 
-                             // TODO : Add id form label and link it to input
-                            --}}
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <label class="">Entreprise
+                                <label for="entreprise">Entreprise
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <select class="select2" wire:model.defer='entreprise_id' required data-nom="entreprise_id">
+                                <select id="entreprise" class="select2" wire:model.defer='entreprise_id' required data-nom="entreprise_id">
                                     <option value="">-- Sélectionner --</option>
                                     @foreach ($entreprises as $entreprise)
                                         <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>

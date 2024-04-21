@@ -31,11 +31,17 @@
                         Contactez-nous
                     </a>
                 </li>
-                @if (auth()->check() &&
-                        auth()->user()->hasRole('Administrateur'))
+                @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
                     <li>
                         <a href="{{ route('home') }}" target="_blank">
                             Accès professionnel
+                        </a>
+                    </li>
+                @endif
+                @if (auth()->check() && auth()->user()->hasRole('Usager'))
+                    <li>
+                        <a href="{{ route('pricing') }}">
+                            Déposer une annonce
                         </a>
                     </li>
                 @endif
@@ -44,7 +50,7 @@
             @if (!auth()->check())
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd">
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" class="addlist">
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" class="addlist" onclick="$('#share').hide()">
                             <i class="ti-user" aria-hidden="true"></i>Connexion
                         </a>
                     </li>
@@ -53,7 +59,7 @@
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd dropdown">
                         <a href="{{ route('accounts.index') }}" class="addlist">
-                            <img src="{{ asset('assets_client/img/avatar.png') }}" class="img-responsive img-circle avater-img" alt="">
+                            <img src="{{ asset('assets_client/img/default-user.svg') }}" class="img-responsive img-circle avater-img" width="50px" height="50px" alt="">
                             <strong id="navbar_username">{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</strong>
                         </a>
                         <ul class="dropdown-menu animated navbar-left fadeOutUp" style="display: none; opacity: 1;">
@@ -69,9 +75,9 @@
                                     Favoris
                                 </a>
                             </li>
-                            @if (!auth()->user()->hasRole('Usager'))
+                            @if (auth()->user()->hasRole('Professionnel'))
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ route('annonces.index') }}">
                                         <i class="fa fa-cog" aria-hidden="true"></i> &nbsp;
                                         Mes annonces
                                     </a>

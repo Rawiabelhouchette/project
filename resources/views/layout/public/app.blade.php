@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="fr">
 
 <head>
     {{-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -94,11 +94,12 @@
             });
         </script>
 
-        {{-- <script type="text/javascript">
-            $(document).ready(function() {
-                $('select').niceSelect();
+        <script>
+            // refresh url
+            window.addEventListener('refresh:url', event => {
+                window.history.replaceState({}, '', event.detail[0].url);
             });
-        </script> --}}
+        </script>
 
         <!-- FONTAWSOME -->
         {{-- <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script> --}}

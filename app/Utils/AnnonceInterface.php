@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Utils;
+use Illuminate\View\View;
 
 /**
  * Interface AnnonceInterface
@@ -10,8 +11,12 @@ namespace App\Utils;
  * @property array $caracteristiques
  */
 
-interface AnnonceInterface {
-    public function getShowUrlAttribute() : String;
-    public function getEditUrlAttribute() : String;
-    public function getCaracteristiquesAttribute() : Array;
+interface AnnonceInterface
+{
+    public function getShowUrlAttribute(): string;
+    public function getEditUrlAttribute(): string;
+    public function getCaracteristiquesAttribute(): View;
+
+    // public function getInformationsAttribute(): array;
+    // public function getEquipementsAttribute(): array;
 }

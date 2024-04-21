@@ -3652,6 +3652,27 @@ Profile Page Styles
     transition: opacity .3s ease-in-out;
 }
 
+.detail-section-1 {
+    position: relative;
+    color: #fff;
+    background-size: cover !important;
+    background-position:center !important;
+	height:450px;
+}
+
+.detail-section-1 .overlay {
+    -webkit-backface-visibility: hidden;
+    position: absolute;
+    width: 100%;
+    bottom:0;
+	top:0;
+	left:0;
+	right:0;
+    opacity: .4;
+    background-color: #242429;
+    transition: opacity .3s ease-in-out;
+}
+
 .profile-cover-content {
     position: absolute;
     bottom: 20px;
@@ -6146,7 +6167,9 @@ button.w3-button.w3-teal.w3-xlarge.w3-right {
 }
 .listing-price-info span {
     display: inline-block;
-    background: #ffffff;
+    /* background: #ffffff; */
+    background: #ff3a72;
+    color: #ffffff !important;
     padding: 4px 18px;
     border-radius: 50px;
     font-size: 14px;

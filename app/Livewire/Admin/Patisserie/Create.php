@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Patisserie;
 
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Entreprise;
 use App\Models\Patisserie;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;
@@ -36,8 +37,6 @@ class Create extends Component
     public $list_produits_patissiers = [];
 
     public $entreprises = [];
-    public $galerie = [];
-    public $image;
 
 
     public function mount()
@@ -47,8 +46,12 @@ class Create extends Component
 
     private function initialization()
     {
-        $this->entreprises = Entreprise::all();
-        
+        if (\Auth::user()->hasRole('Professionnel')) {
+            $this->entreprises = \Auth::user()->entreprises;
+        } else {
+            $this->entreprises = Entreprise::all();
+        }
+
         $tmp_equipement_patisserie = Reference::where('slug_type', 'restauration')->where('slug_nom', 'equipements-patisserie')->first();
         $tmp_equipement_patisserie ?
             $this->list_equipements_patisserie = ReferenceValeur::where('reference_id', $tmp_equipement_patisserie->id)->select('valeur', 'id')->get() :
@@ -110,12 +113,6 @@ class Create extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
     public function store()
     {
         $this->validate();
@@ -154,13 +151,13 @@ class Create extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération réussie'),
+                'title' => __('Opération réussie'),
                 'message' => __('Une erreur est survenue lors de l\'annonce'),
             ]);
             Log::error($th->getMessage());
             return;
         }
-        
+
         session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('patisseries.create');
     }

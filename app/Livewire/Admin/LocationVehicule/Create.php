@@ -2,13 +2,12 @@
 
 namespace App\Livewire\Admin\LocationVehicule;
 
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\LocationVehicule;
 use App\Models\Entreprise;
-use App\Models\Fichier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
-use App\Utils\Annonces;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +16,7 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;
@@ -46,12 +45,8 @@ class Create extends Component
 
     public $conditions_location = [];
     public $list_conditions_location = [];
-
-    public $galerie = [];
     public $date_validite;
     public $heure_validite;
-    public $image;
-    public $old_image;
 
 
     public function mount()
@@ -61,7 +56,11 @@ class Create extends Component
 
     private function initialization()
     {
-        $this->entreprises = Entreprise::all();
+        if (\Auth::user()->hasRole('Professionnel')) {
+            $this->entreprises = \Auth::user()->entreprises;
+        } else {
+            $this->entreprises = Entreprise::all();
+        }
 
         $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-vehicule')->first();
         $tmp_type_vehicule ?
@@ -164,12 +163,6 @@ class Create extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
     public function store()
     {
         $this->validate();
@@ -217,7 +210,7 @@ class Create extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération réussie'),
+                'title' => __('Opération réussie'),
                 'message' => __('Une erreur est survenue lors de l\'enregistrement de l\'annonce'),
             ]);
             Log::error($th->getMessage());

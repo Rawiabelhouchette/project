@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Admin\Hotel;
 
+use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Hotel;
 use App\Models\Entreprise;
-use App\Models\Fichier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Utils\AnnoncesUtils;
@@ -16,7 +16,7 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseCreate;
 
     public $nom;
     public $type;
@@ -42,11 +42,9 @@ class Create extends Component
     public $list_equipements_salle_bain = [];
     public $equipements_cuisine = [];
     public $list_equipements_cuisine = [];
-    public $galerie = [];
     public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
-    public $image;
 
     public function mount()
     {
@@ -55,42 +53,46 @@ class Create extends Component
 
     private function initialization()
     {
-        $this->entreprises = Entreprise::all();
+        if (\Auth::user()->hasRole('Professionnel')) {
+            $this->entreprises = \Auth::user()->entreprises;
+        } else {
+            $this->entreprises = Entreprise::all();
+        }
 
         $tmp_commodite = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'commodites-hebergement')->first();
         $tmp_commodite ?
-        $this->list_commodites = ReferenceValeur::where('reference_id', $tmp_commodite->id)->select('valeur', 'id')->get() :
-        $this->list_commodites = [];
+            $this->list_commodites = ReferenceValeur::where('reference_id', $tmp_commodite->id)->select('valeur', 'id')->get() :
+            $this->list_commodites = [];
 
         $tmp_types_lit = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'types-de-lit')->first();
         $tmp_types_lit ?
-        $this->list_types_lit = ReferenceValeur::where('reference_id', $tmp_types_lit->id)->select('valeur', 'id')->get() :
-        $this->list_types_lit = [];
+            $this->list_types_lit = ReferenceValeur::where('reference_id', $tmp_types_lit->id)->select('valeur', 'id')->get() :
+            $this->list_types_lit = [];
 
         $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services')->first();
         $tmp_services ?
-        $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
-        $this->list_services = [];
+            $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
+            $this->list_services = [];
 
         $tmp_equipements_herbegement = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'equipements-hebergement')->first();
         $tmp_equipements_herbegement ?
-        $this->list_equipements_herbegement = ReferenceValeur::where('reference_id', $tmp_equipements_herbegement->id)->select('valeur', 'id')->get() :
-        $this->list_equipements_herbegement = [];
+            $this->list_equipements_herbegement = ReferenceValeur::where('reference_id', $tmp_equipements_herbegement->id)->select('valeur', 'id')->get() :
+            $this->list_equipements_herbegement = [];
 
         $tmp_equipements_salle_bain = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'equipements-salle-de-bain')->first();
         $tmp_equipements_salle_bain ?
-        $this->list_equipements_salle_bain = ReferenceValeur::where('reference_id', $tmp_equipements_salle_bain->id)->select('valeur', 'id')->get() :
-        $this->list_equipements_salle_bain = [];
+            $this->list_equipements_salle_bain = ReferenceValeur::where('reference_id', $tmp_equipements_salle_bain->id)->select('valeur', 'id')->get() :
+            $this->list_equipements_salle_bain = [];
 
         $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'equipements-cuisine')->first();
         $tmp_equipements_cuisine ?
-        $this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)->select('valeur', 'id')->get() :
-        $this->list_equipements_cuisine = [];
-        
+            $this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)->select('valeur', 'id')->get() :
+            $this->list_equipements_cuisine = [];
+
         $tmp_types_hebergement = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'types-hebergement')->first();
         $tmp_types_hebergement ?
-        $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
-        $this->list_types_hebergement = [];
+            $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
+            $this->list_types_hebergement = [];
 
     }
 
@@ -138,14 +140,6 @@ class Create extends Component
             'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
         ];
     }
-
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
-    // public function updated
 
     public function store()
     {
@@ -195,23 +189,14 @@ class Create extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération réussie'),
+                'title' => __('Opération réussie'),
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'hotel'),
             ]);
             Log::error($th->getMessage());
             return;
         }
 
-        // $this->reset();
-        // $this->initialization();
-
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
-
-        // $this->dispatch('swal:modal', [
-        //     'icon' => 'success',
-        //     'title'   => __('Opération réussie'),
-        //     'message' => __('L\'hôtel a bien été ajoutée'),
-        // ]);
 
         session()->flash('success', 'L\'hôtel a bien été ajoutée');
         return redirect()->route('hotels.create');

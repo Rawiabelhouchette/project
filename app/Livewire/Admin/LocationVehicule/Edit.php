@@ -2,11 +2,10 @@
 
 namespace App\Livewire\Admin\LocationVehicule;
 
+use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Utils\AnnoncesUtils;
 use Livewire\Component;
 use App\Models\Entreprise;
-use App\Models\Annonce;
-use App\Models\Fichier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use Illuminate\Support\Facades\DB;
@@ -15,11 +14,9 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseEdit;
 
     public $nom;
-    public $image;
-    public $old_image;
     public $type;
     public $description;
     public $marque;
@@ -49,9 +46,6 @@ class Edit extends Component
     public $conditions_location = [];
     public $list_conditions_location = [];
 
-    public $galerie = [];
-    public $old_galerie = [];
-    public $is_old_galerie = true;
     public $date_validite;
     public $heure_validite;
 
@@ -59,7 +53,7 @@ class Edit extends Component
     {
         $this->initialization();
         $this->locationVehicule = $locationVehicule;
-        $this->entreprise_id =  $locationVehicule->annonce->entreprise_id;
+        $this->entreprise_id = $locationVehicule->annonce->entreprise_id;
         $this->nom = $locationVehicule->annonce->titre;
         $this->description = $locationVehicule->annonce->description;
         $this->is_active = $locationVehicule->annonce->is_active;
@@ -71,7 +65,7 @@ class Edit extends Component
         $this->kilometrage = $locationVehicule->kilometrage;
         $this->boite_vitesse = $locationVehicule->boite_vitesse;
         $this->nombre_portes = $locationVehicule->nombre_portes;
-        $this->nombre_places = $locationVehicule->nombre_places; 
+        $this->nombre_places = $locationVehicule->nombre_places;
 
         $this->types_vehicule = $locationVehicule->annonce->references('types-de-vehicule')->pluck('id')->toArray();
         $this->equipements_vehicule = $locationVehicule->annonce->references('equipements-vehicule')->pluck('id')->toArray();
@@ -83,7 +77,11 @@ class Edit extends Component
 
     private function initialization()
     {
-        $this->entreprises = Entreprise::all();
+        if (\Auth::user()->hasRole('Professionnel')) {
+            $this->entreprises = \Auth::user()->entreprises;
+        } else {
+            $this->entreprises = Entreprise::all();
+        }
 
         $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-vehicule')->first();
         $tmp_type_vehicule ?
@@ -186,19 +184,6 @@ class Edit extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
-    public function updatedIsActive()
-    {
-        // TODO : Mettre le controle de sorte qu'on puisse activer une annonce avec une date de validité inferieur à la date du jour
-    }
-
-    // public function updated
-
     public function update()
     {
         $this->validate();
@@ -206,13 +191,13 @@ class Edit extends Component
         if ($this->is_active && $this->date_validite < date('Y-m-d')) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération échouée'),
+                'title' => __('Opération échouée'),
                 'message' => __('La date de validité doit être supérieure à la date du jour'),
             ]);
             return;
         }
 
-        // try {
+        try {
             DB::beginTransaction();
 
             $this->locationVehicule->annonce->update([
@@ -245,22 +230,19 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->locationVehicule->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->locationVehicule->annonce, $this->galerie, 'location-vehicules');
+            AnnoncesUtils::updateGalerie($this->image, $this->locationVehicule->annonce, $this->galerie, $this->deleted_old_galerie, 'location-vehicules');
 
             DB::commit();
-        // } catch (\Throwable $th) {
-        //     DB::rollBack();
-        //     $this->dispatch('swal:modal', [
-        //         'icon' => 'error',
-        //         'title'   => __('Opération réussie'),
-        //         'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
-        //     ]);
-        //     Log::error($th->getMessage());
-        //     return;
-        // }
-
-        $this->reset();
-        $this->initialization();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération réussie'),
+                'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
+            ]);
+            Log::error($th->getMessage());
+            return;
+        }
 
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 

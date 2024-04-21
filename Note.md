@@ -1,7 +1,5 @@
-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
-
-
-- mettre sweet alet en local
+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
+- mettre sweet alert en local
 
 
 Prochainement:
@@ -128,3 +126,73 @@ download default pics
 
 # 03/02/2024
 - [ok] Faire une operation sur les stats quand on met en favoris
+
+Home, location vehicule, le bon type n'est pas pris
+
+
+
+
+- Pour la creation de compte
+  - Juste creer un compte classique (usager)
+  - Avoir un bouton pour passer pro
+
+
+# [ok] 16/02/2024
+- Essayer de mettre la page d'affichage de recheche en petit composant
+
+
+
+
+- Enlever le nice-select
+- Revoir la couleur des options de localisation
+- on filter , changer l'url de sort a mettre correction les attributs (Le but c'est d'eviter les caracteres speciaux dans l'url)
+
+
+
+- update url on launch using attributes
+
+
+## 26/02/2024
+- [ok] Lors de la copie du lien , les caracteres speciaux sont retiré , arranger cela
+- [ok] Apres suppression de filtre par fois le rendu ne fait pas disparaitre l'element arranger cela
+
+
+
+## 13/03/2024
+- [ok] Pour la galerie vous vous etes basé sur le template ?
+- [ok] Pour les details (equipement de vie nocture) quand il y en a plusieurs , qu'est ce qui se passe ?
+
+## 23/03/2024
+- Revoir l'affichage des etoiles sur l'affichage court des recherches
+- [ok] [removed] Se pencher plus sur la ce qui vient apres les etoiles
+- Ajouter l'affichage avec k pour les vues
+- [ok] Afficher un message avoir avoir envoyer un commentaire
+- [ok] Implementer favoris sur la page des details
+- [ok] Ajouter le bouton de partage sur l'affichage des details
+
+## 02/04/2024
+- [ok] Rendre les liens cliquables dans l'affichage des informations de l'entreprise
+
+
+## 11/04/2024
+- AJouter attribut date de debut a annonce avec default la date de creation de l'annonce
+- Ajouter aussi l'option de desactivation de l'annonce sur la liste des annonces avec une confirmatio d'action quand on clique dessus
+
+## 13/04/2024
+- Ajouter les with() au modele necessaire pour eviter les requetes supplementaires
+
+## 14/04/2024
+Etape de creation d'un nouvel abonnement
+- [ok] Creer une entreprise
+- [ok] Lier l'entreprise a un l'utilisateur
+- [ok] Creer un abonnement
+- [ok] Lier l'abonnement a l'entreprise
+
+- [ok] Ajouter l'option d'abonnement
+
+## 15/04/2024
+- Implementer la recherche sur la page d'abonnement
+
+## 21/04/2024
+- Add a loader when loading annonce images
+- Demande a MOnsieur de definir le nombre d'image a uploader et la taille max

@@ -10,27 +10,29 @@
 
 @section('content')
     <!-- Main Banner Section Start -->
-    <div class="banner dark-opacity" id="banner" style="background-image:url(assets_client/img/banner/image-1.jpg);" data-overlay="8">
+    <div class="banner dark-opacity" style="background-image:url(assets_client/img/banner/image-1.jpg);" data-overlay="8">
         <div class="container">
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
                     <h1 style="font-size: 50px; ">Vamiyi, l'aventure commence ici</h1>
                     <p>Explorez les meilleurs endroits, des restaurants et plus encore...</p>
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
+                        <input type="hidden" value="1" name="form_request">
                         <div class="col-md-4 col-sm-4 no-padd">
                             <i class="banner-icon icon-pencil"></i>
-                            <input type="text" class="form-control left-radius right-br" placeholder="{{ __('Mot clé ..') }}" name="key">
+                            <input type="text" class="form-control left-radius right-br" placeholder="Mot clé..." name="key">
                         </div>
                         <div class="col-md-3 col-sm-3 no-padd">
                             <div class="form-box">
                                 <i class="banner-icon icon-map-pin"></i>
-                                <input type="text" class="form-control right-br" placeholder="Location..">
+                                <input id="myInput" type="text" class="form-control right-br" placeholder="Localisation..." name="location">
+                                <div id="autocomplete-results" class="autocomplete-items"></div>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-3 no-padd">
                             <div class="form-box">
                                 <i class="banner-icon icon-layers"></i>
-                                <select class="form-control" name="type">
+                                <select class="form-control" name="type[]">
                                     <option value="" selected data-placeholder="{{ __('Tous les types d\'annonce') }}" class="chosen-select">{{ __('Tous les type d\'annonce') }}</option>
                                     @foreach ($typeAnnonce as $annonce)
                                         <option value="{{ $annonce }}">{{ $annonce }}</option>
@@ -49,7 +51,7 @@
                         </div>
                     </form>
 
-                    <div class="popular-categories">
+                    {{-- <div class="popular-categories">
                         <ul class="popular-categories-list">
                             @foreach ($listAnnonce as $key => $annonce)
                                 <li>
@@ -65,11 +67,12 @@
                             @endif
                         @endforeach
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
 </div>
+
 <div class="clearfix"></div>
 <!-- Main Banner Section End -->
 
@@ -122,11 +125,11 @@
                                     {{-- <span class="veryfied-author"></span> --}}
                                 </h3>
                             </div>
-                            <p class="property_add">{{ $annonce->type }}</p>
+                            <p class="property_add" style="color: #ff3a72;">{{ $annonce->type }}</p>
                             <div class="property_meta">
                                 <div class="list-fx-features">
                                     <div class="listing-card-info-icon">
-                                        <span class="inc-fleat inc-add">
+                                        <span class="inc-fleat inc-add mrg-0 ">
                                             {{ $annonce->entreprise->adresse_complete }}
                                         </span>
                                     </div>
@@ -269,6 +272,160 @@
         </div>
     </div>
 </div>
+
+<style>
+    .autocomplete {
+        position: relative;
+        display: inline-block;
+    }
+
+    .autocomplete-items {
+        position: absolute;
+        border: 1px solid #d4d4d4;
+        border-bottom: none;
+        border-top: none;
+        z-index: 99;
+        top: 100%;
+        left: 0;
+        right: 0;
+        border-radius: 5px;
+        margin-top: 5px;
+    }
+
+    .autocomplete-items div {
+        padding: 10px;
+        cursor: pointer;
+        background-color: #fff;
+        border-bottom: 1px solid #d4d4d4;
+        text-align: left;
+        /*  */
+        color: #90969e;
+    }
+
+    .autocomplete-items div:hover {
+        background-color: #f6f6f6;
+        /* background-color: #ff3a72; */
+        /* color: #fff; */
+        color: #90969e;
+    }
+
+    .autocomplete-items div:first-child {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .autocomplete-items div:last-child {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+</style>
+
+@push('scripts')
+    <script>
+        let countries = @json($quartiers);
+        let myInput = document.getElementById('myInput');
+
+        myInput.addEventListener('focus', function(e) {
+            let a, b, val = this.value;
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            this.parentNode.appendChild(a);
+            if (!val) {
+                for (let i = 0; i < countries.length; i++) {
+                    b = document.createElement("DIV");
+                    b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i];
+                    b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
+                    b.addEventListener("click", function(e) {
+                        document.getElementById('myInput').value = this.getElementsByTagName("input")[0].value;
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+
+                }
+                return;
+
+            }
+
+            for (let i = 0; i < countries.length; i++) {
+                let country = normalize(countries[i]).toUpperCase();
+                let searchVal = normalize(val).toUpperCase();
+
+                if (country.includes(searchVal)) {
+                    let startIdx = country.indexOf(searchVal);
+                    let endIdx = startIdx + searchVal.length;
+
+                    b = document.createElement("DIV");
+                    b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i].substr(0, startIdx) +
+                        "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
+                        countries[i].substr(endIdx);
+                    b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
+                    b.addEventListener("click", function(e) {
+                        document.getElementById('myInput').value = this.getElementsByTagName("input")[0].value;
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+
+
+        myInput.addEventListener('input', function(e) {
+            let a, b, val = this.value;
+            closeAllLists();
+            if (!val) {
+                return false;
+            }
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            this.parentNode.appendChild(a);
+            for (let i = 0; i < countries.length; i++) {
+                let country = normalize(countries[i]).toUpperCase();
+                let searchVal = normalize(val).toUpperCase();
+
+                if (country.includes(searchVal)) {
+                    let startIdx = country.indexOf(searchVal);
+                    let endIdx = startIdx + searchVal.length;
+
+                    b = document.createElement("DIV");
+                    b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i].substr(0, startIdx) +
+                        "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
+                        countries[i].substr(endIdx);
+                    b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
+                    b.addEventListener("click", function(e) {
+                        document.getElementById('myInput').value = this.getElementsByTagName("input")[0].value;
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+
+        function normalize(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function closeAllLists(elmnt) {
+            let x = document.getElementsByClassName("autocomplete-items");
+            for (let i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != document.getElementById('myInput')) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+
+        document.addEventListener("click", function(e) {
+            closeAllLists(e.target);
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select').niceSelect();
+        });
+    </script>
+@endpush
 </section>
 
 <script>

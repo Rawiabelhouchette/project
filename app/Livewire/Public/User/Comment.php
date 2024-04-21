@@ -12,7 +12,7 @@ class Comment extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    private $perPage = 1;   
+    private $perPage = 20;
     public $search = '';
 
     public function updatingSearch()

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\View\View;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
 
@@ -47,18 +48,18 @@ class Hotel extends Model implements AnnonceInterface
         'caracteristiques',
     ];
 
-    
-    public function getShowUrlAttribute() : String
+
+    public function getShowUrlAttribute(): string
     {
         return route('hotels.show', $this);
     }
 
-    public function getEditUrlAttribute() : String
+    public function getEditUrlAttribute(): string
     {
         return route('hotels.edit', $this);
     }
-    
-    public function annonce() : MorphOne
+
+    public function annonce(): MorphOne
     {
         return $this->morphOne(Annonce::class, 'annonceable');
     }
@@ -98,7 +99,7 @@ class Hotel extends Model implements AnnonceInterface
         return $this->annonce->references('types-hebergement');
     }
 
-    public function getCaracteristiquesAttribute() : Array
+    public function getCaracteristiquesAttribute(): View
     {
         $attributes = [];
         if ($this->nombre_chambre) {
@@ -125,7 +126,15 @@ class Hotel extends Model implements AnnonceInterface
             $attributes['Nombre de salle de bain'] = $this->nombre_salles_bain;
         }
 
-        return $attributes;
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
+        }
+
+        return view('components.public.show.default', [
+            'caracteristiques' => $attributes,
+        ]);
     }
 
 }

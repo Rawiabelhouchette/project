@@ -15,7 +15,7 @@ class Register extends Component
     public $error = false;
     public $message = '';
 
-    public $type = '';
+    public $type = 'Usager';
     public $nom;
     public $prenom;
     public $sexe;
@@ -87,7 +87,7 @@ class Register extends Component
             'email' => $this->username,
             'password' => $this->password,
         ]);
-        
+
         try {
             Mail::send('public.email-welcome', ['prenom' => $this->prenom], function ($message) {
                 $message->to($this->email)

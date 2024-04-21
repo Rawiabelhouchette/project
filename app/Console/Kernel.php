@@ -17,21 +17,27 @@ class Kernel extends ConsoleKernel
     {
         try {
             $schedule->call(function () {
-                Annonce::where('date_validite', '<', now())->update(['is_active' => false]);
-            })
-            // ;
-            ->hourly();
+                $annonce = Annonce::whereNotNull('image')->first();
+                Annonce::whereNull('image')->update(['image' => $annonce->image]);
+            });
 
-            $schedule->call(function () {
-                $this->updateAnnonceStat();
-            })
-            // ;
-            ->daily();
 
-            $schedule->call(function () {
-                $this->annonceStatInitializer();
-            })
-            ;
+            // $schedule->call(function () {
+            //     Annonce::where('date_validite', '<', now())->update(['is_active' => false]);
+            // })
+            // // ;
+            // ->hourly();
+
+            // $schedule->call(function () {
+            //     $this->updateAnnonceStat();
+            // })
+            // // ;
+            // ->daily();
+
+            // $schedule->call(function () {
+            //     $this->annonceStatInitializer();
+            // })
+            // ;
             
         } catch (\Exception $e) {
             Log::error($e->getMessage());

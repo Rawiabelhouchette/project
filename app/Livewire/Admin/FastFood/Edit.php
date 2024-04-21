@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\FastFood;
 
+use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Models\Annonce;
 use App\Models\FastFood;
 use App\Models\Entreprise;
@@ -15,11 +16,9 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseEdit;
 
     public $nom;
-    public $image;
-    public $old_image;
     public $type;
     public $description;
     public $date_validite;
@@ -37,10 +36,6 @@ class Edit extends Component
     public $list_equipements_restauration = [];
 
     public $entreprises = [];
-    public $galerie = [];
-
-    public $old_galerie = [];
-
     public $fastFood;
 
     public function mount($fastFood)
@@ -62,7 +57,11 @@ class Edit extends Component
 
     private function initialization()
     {
-        $this->entreprises = Entreprise::all();
+        if (\Auth::user()->hasRole('Professionnel')) {
+            $this->entreprises = \Auth::user()->entreprises;
+        } else {
+            $this->entreprises = Entreprise::all();
+        }
 
         $tmp_produit_fast_food = Reference::where('slug_type', 'restauration')->where('slug_nom', 'produits-fast-food')->first();
         $tmp_produit_fast_food ?
@@ -116,12 +115,6 @@ class Edit extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
     public function update()
     {
         $this->validate();
@@ -129,7 +122,7 @@ class Edit extends Component
         if ($this->is_active && $this->date_validite < date('Y-m-d')) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération échouée'),
+                'title' => __('Opération échouée'),
                 'message' => __('La date de validité doit être supérieure à la date du jour'),
             ]);
             return;
@@ -158,20 +151,20 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->fastFood->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->fastFood->annonce, $this->galerie, 'fast-foods');
+            AnnoncesUtils::updateGalerie($this->image, $this->fastFood->annonce, $this->galerie, $this->deleted_old_galerie, 'fast-foods');
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération réussie'),
+                'title' => __('Opération réussie'),
                 'message' => __('Une erreur est survenue lors de l\'annonce'),
             ]);
             Log::error($th->getMessage());
             return;
         }
-        
+
         session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('annonces.index');
     }

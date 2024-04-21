@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Restaurant;
 
+use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Models\Entreprise;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
@@ -13,11 +14,9 @@ use Illuminate\Support\Facades\Log;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AnnonceBaseEdit;
 
     public $nom;
-    public $image;
-    public $old_image;
     public $type;
     public $description;
     public $date_validite;
@@ -50,10 +49,7 @@ class Edit extends Component
     public $carte_consommation = [];
     public $list_carte_consommation = [];
 
-
     public $entreprises = [];
-    public $galerie = [];
-    public $old_galerie = [];
 
     public function mount($restaurant)
     {
@@ -92,8 +88,12 @@ class Edit extends Component
 
     private function initialization()
     {
-        $this->entreprises = Entreprise::all();
-        
+        if (\Auth::user()->hasRole('Professionnel')) {
+            $this->entreprises = \Auth::user()->entreprises;
+        } else {
+            $this->entreprises = Entreprise::all();
+        }
+
         $tmp_equipement_restauration = Reference::where('slug_type', 'restauration')->where('slug_nom', 'equipements-restauration')->first();
         $tmp_equipement_restauration ?
             $this->list_equipements_restauration = ReferenceValeur::where('reference_id', $tmp_equipement_restauration->id)->select('valeur', 'id')->get() :
@@ -201,12 +201,6 @@ class Edit extends Component
         ];
     }
 
-    public function removeGalerie($index)
-    {
-        unset($this->galerie[$index]);
-        $this->galerie = array_values($this->galerie); // Réindexer le tableau après suppression
-    }
-
     public function update()
     {
         $this->validate();
@@ -214,7 +208,7 @@ class Edit extends Component
         if ($this->is_active && $this->date_validite < date('Y-m-d')) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération échouée'),
+                'title' => __('Opération échouée'),
                 'message' => __('La date de validité doit être supérieure à la date du jour'),
             ]);
             return;
@@ -257,14 +251,14 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->restaurant->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->restaurant->annonce, $this->galerie, 'restaurants');
+            AnnoncesUtils::updateGalerie($this->image, $this->restaurant->annonce, $this->galerie, $this->deleted_old_galerie, 'restaurants');
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération réussie'),
+                'title' => __('Opération réussie'),
                 'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
             ]);
             Log::error($th->getMessage());

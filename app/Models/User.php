@@ -15,8 +15,8 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, Userstamps, softDeletes, HasRoles;
-    
-    
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -30,9 +30,8 @@ class User extends Authenticatable
         'email',
         'password',
         'is_active',
-        'entreprise_id',
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -42,7 +41,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-    
+
     /**
      * The attributes that should be cast.
      *
@@ -58,14 +57,18 @@ class User extends Authenticatable
         'prenom' => PurifyHtmlOnGet::class,
         'telephone' => PurifyHtmlOnGet::class,
     ];
-    
+
 
     /**
      * Get the entreprise that owns the user.
      */
-    public function entreprise()
+    public function entreprises()
     {
-        return $this->belongsTo(Entreprise::class);
+        return $this
+            ->belongsToMany(Entreprise::class, 'entreprise_user', 'user_id', 'entreprise_id')
+            ->withPivot('is_admin', 'is_active', 'date_debut', 'date_fin')
+            ->wherePivot('is_active', true)
+            ->withTimestamps();
     }
 
 
@@ -86,10 +89,30 @@ class User extends Authenticatable
     public function commentaires()
     {
         return $this->belongsToMany(Annonce::class, 'commentaires', 'user_id', 'annonce_id')
+            ->public()
             ->withPivot('contenu', 'created_at')
             ->latest();
     }
 
+    public function annonces()
+    {
+        $entreprises_id = $this->entreprises->pluck('id');
+        return Annonce::with('entreprises', 'annonceable')->whereIn('entreprise_id', $entreprises_id)->latest();
+    }
 
-    
+    public function abonnements()
+    {
+        $entreprises_id = $this->entreprises->pluck('id');
+        return Abonnement::with('offre','entreprises')->whereHas('entreprises', function ($query) use ($entreprises_id) {
+            $query->whereIn('entreprise_id', $entreprises_id);
+        })->latest();
+    }
+
+    public function activeAbonnements()
+    {
+        return $this->belongsToMany(Abonnement::class, 'abonnement_user', 'user_id', 'abonnement_id')
+            ->withPivot('is_active', 'date_debut', 'date_fin')
+            ->wherePivot('is_active', true)
+            ->withTimestamps();
+    }
 }

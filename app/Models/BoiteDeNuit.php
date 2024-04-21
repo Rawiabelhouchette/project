@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\View\View;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
 
@@ -30,17 +31,17 @@ class BoiteDeNuit extends Model implements AnnonceInterface
         'caracteristiques',
     ];
 
-    public function getShowUrlAttribute() : String
+    public function getShowUrlAttribute(): string
     {
         return route('boite-de-nuits.show', $this);
     }
 
-    public function getEditUrlAttribute() : String
+    public function getEditUrlAttribute(): string
     {
         return route('boite-de-nuits.edit', $this);
     }
 
-    public function annonce() : MorphOne
+    public function annonce(): MorphOne
     {
         return $this->morphOne(Annonce::class, 'annonceable');
     }
@@ -65,9 +66,19 @@ class BoiteDeNuit extends Model implements AnnonceInterface
         return $this->annonce->references('equipements-vie-nocturne');
     }
 
-    public function getCaracteristiquesAttribute() : Array
+    public function getCaracteristiquesAttribute(): View
     {
-        return [];
+        $attributes = [];
+
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
+        }
+
+        return view('components.public.show.default', [
+            'caracteristiques' => $attributes,
+        ]);
     }
 
 }

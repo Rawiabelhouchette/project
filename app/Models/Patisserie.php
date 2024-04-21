@@ -6,6 +6,7 @@ use App\Utils\AnnonceInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\View\View;
 use Wildside\Userstamps\Userstamps;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 
@@ -43,12 +44,12 @@ class Patisserie extends Model implements AnnonceInterface
         return $this->morphOne(Annonce::class, 'annonceable');
     }
 
-    public function getShowUrlAttribute() : String
+    public function getShowUrlAttribute(): string
     {
         return route('patisseries.show', $this);
     }
 
-    public function getEditUrlAttribute() : String
+    public function getEditUrlAttribute(): string
     {
         return route('patisseries.edit', $this);
     }
@@ -63,7 +64,7 @@ class Patisserie extends Model implements AnnonceInterface
         return $this->annonce->references('equipements-patisserie');
     }
 
-    public function getCaracteristiquesAttribute(): array
+    public function getCaracteristiquesAttribute(): View
     {
         $attributes = [];
 
@@ -83,6 +84,14 @@ class Patisserie extends Model implements AnnonceInterface
             $attributes['Prix maximum'] = $this->prix_max;
         }
 
-        return $attributes;
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
+        }
+
+        return view('components.public.show.default', [
+            'caracteristiques' => $attributes,
+        ]);
     }
 }

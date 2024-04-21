@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\View\View;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
 
@@ -33,8 +34,12 @@ class LocationMeublee extends Model implements AnnonceInterface
     ];
 
     protected $appends = [
+        // common
         'show_url',
         'edit_url',
+        'caracteristiques',
+        // 'informations',
+        // 'equipements',
 
         'types_lit',
         'commodites',
@@ -45,21 +50,20 @@ class LocationMeublee extends Model implements AnnonceInterface
         'commodites',
         'types_hebergement',
 
-        'caracteristiques',
     ];
 
-    
-    public function getShowUrlAttribute() : String
+
+    public function getShowUrlAttribute(): string
     {
         return route('location-meublees.show', $this);
     }
 
-    public function getEditUrlAttribute() : String
+    public function getEditUrlAttribute(): string
     {
         return route('location-meublees.edit', $this);
     }
-    
-    public function annonce() : MorphOne
+
+    public function annonce(): MorphOne
     {
         return $this->morphOne(Annonce::class, 'annonceable');
     }
@@ -99,9 +103,10 @@ class LocationMeublee extends Model implements AnnonceInterface
         return $this->annonce->references('types-hebergement');
     }
 
-    public function getCaracteristiquesAttribute() : Array
+    public function getCaracteristiquesAttribute(): View
     {
         $attributes = [];
+
         if ($this->nombre_chambre) {
             $attributes['Nombre de chambre'] = $this->nombre_chambre;
         }
@@ -122,7 +127,14 @@ class LocationMeublee extends Model implements AnnonceInterface
             $attributes['Prix maximum'] = $this->prix_max;
         }
 
-        return $attributes;
-    }
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
+        }
 
+        return view('components.public.show.default', [
+            'caracteristiques' => $attributes,
+        ]);
+    }
 }

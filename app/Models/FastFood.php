@@ -6,6 +6,7 @@ use App\Utils\AnnonceInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\View\View;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Wildside\Userstamps\Userstamps;
@@ -31,7 +32,7 @@ class FastFood extends Model implements AnnonceInterface
     protected $appends = [
         'show_url',
         'edit_url',
-        
+
         'equipements_restauration',
         'produits_fast_food',
 
@@ -63,7 +64,7 @@ class FastFood extends Model implements AnnonceInterface
         return $this->annonce->references('produits-fast-food')->pluck('id')->toArray();
     }
 
-    public function getCaracteristiquesAttribute(): array
+    public function getCaracteristiquesAttribute(): View
     {
         $attributes = [];
 
@@ -75,6 +76,14 @@ class FastFood extends Model implements AnnonceInterface
             $attributes['Prix maximum'] = $this->prix_max;
         }
 
-        return $attributes;
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
+        }
+
+        return view('components.public.show.default', [
+            'caracteristiques' => $attributes,
+        ]);
     }
 }

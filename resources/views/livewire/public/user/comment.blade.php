@@ -32,7 +32,7 @@
                                                 <a href="{{ route('show', $annonce->slug) }}">
                                                     <h5 title="#">{{ $annonce->titre }} ( {{ $annonce->type }} )</h5>
                                                 </a>
-                                                <p class="mrg-bot-0">Commentaire : <a href="javascript:void(0)">{{ strlen($annonce->pivot->contenu) > 70 ? substr($annonce->pivot->contenu, 0, 70) . '...' : $annonce->pivot->contenu }}</a>
+                                                <p class="mrg-bot-0">Commentaire : <a href="javascript:void(0)">{{ strlen($annonce->pivot->contenu) > 50 ? substr($annonce->pivot->contenu, 0, 50) . '...' : $annonce->pivot->contenu }}</a>
                                                     | <span>{{ $annonce->pivot->created_at->format('d-m-Y') }}</span>
                                                 </p>
                                             </div>
@@ -47,7 +47,7 @@
                                 @empty($annonces->items())
                                     <div class="col-md-12 col-sm-12">
                                         <div class="listing-shot grid-style">
-                                            <div class="listing-shot-caption text-center mrg-top-5">
+                                            <div class="listing-shot-caption text-center mrg-top-20 mrg-bot-20">
                                                 <h4>Aucune annonce trouvée</h4>
                                             </div>
                                         </div>

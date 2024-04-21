@@ -12,15 +12,18 @@ class AccountController extends Controller
 {
     public function index()
     {
+        CustomSession::reset();
+
         if (!auth()->check()) {
             return redirect()->route('connexion');
         }
-
         return view('public.user.account');
     }
 
     public function indexFavoris()
     {
+        CustomSession::reset();
+
         if (!auth()->check()) {
             return redirect()->route('connexion');
         }
@@ -30,18 +33,15 @@ class AccountController extends Controller
 
     public function indexComment()
     {
-        if (!request()->input('page'))
-        {
-            $sess = new CustomSession();
-            $sess->comment_search = '';
-            $sess->save();
-        }
+        CustomSession::reset();
 
         return view('public..user.comment');
     }
 
     public function contact()
     {
+        CustomSession::reset();
+
         return view('public.contact');
     }
 

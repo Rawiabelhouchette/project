@@ -2,7 +2,7 @@
     <div class="card">
 
         <div class="card-header">
-            <h4>Ajouter un restaurant</h4>
+            <h4>Modifier un restaurant</h4>
         </div>
 
         <div class="card-body">

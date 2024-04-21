@@ -119,7 +119,7 @@ class ReferenceSeeder extends Seeder
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);
-        
+
         // Boite de vitesse
         Reference::updateOrCreate([
             'type' => 'Location de véhicule',

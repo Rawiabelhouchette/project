@@ -1,186 +1,420 @@
 @extends('layout.public.app')
 
-@section('content')
-    @include('layout.public.search_box', [
-        'key' => $key,
-        'type' => $type,
-        'detail' => true,
-    ])
+@section('css')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+@endsection
 
-    {{-- @livewire('public.search', [
-        'key' => $key,
-        'type' => $type,
-        'filter' => $filter ?? [],
-    ]) --}}
+@section('content')
+    <style>
+        .social-network {
+            color: #fff;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 6px 15px;
+            border-radius: 4px;
+            margin-right: 3px;
+            margin-bottom: 15px;
+            border: 1px solid transparent;
+        }
+
+        .social-network:hover {
+            color: #fff;
+        }
+
+        .social-network:visited {
+            color: #fff;
+        }
+
+        .li-btn {
+            background: white;
+            color: grey;
+            border: 1px solid grey;
+            border-radius: 4px;
+            -webkit-user-select: none;
+        }
+
+        .li-btn.view:hover {
+            color: gray;
+        }
+
+        .li-btn:hover {
+            color: #ff3a72;
+        }
+
+        .share-button:hover {
+            background: #ff3a72 !important;
+            color: white !important;
+            border: 1px solid #ff3a72 !important;
+            border-radius: 4px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+    </style>
+    <!-- ================ Listing Detail Basic Information ======================= -->
+    <div class="banner dark-opacity" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); height: 300px !important; min-height: 300px !important;" data-overlay="8">
+        <div class="container">
+            <div class="banner-caption">
+                <form class="form-verticle" method="GET" action="{{ route('search') }}">
+                    <input type="hidden" value="1" name="form_request">
+                    <div class="col-md-4 col-sm-4 no-padd">
+                        <i class="banner-icon icon-pencil"></i>
+                        <input type="text" class="form-control left-radius right-br" placeholder="Mot clé..." name="key">
+                    </div>
+                    <div class="col-md-3 col-sm-3 no-padd">
+                        <div class="form-box">
+                            <i class="banner-icon icon-map-pin"></i>
+                            <input id="myInput" type="text" class="form-control right-br" placeholder="Localisation..." name="location">
+                            <div id="autocomplete-results" class="autocomplete-items"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 no-padd">
+                        <div class="form-box">
+                            <i class="banner-icon icon-layers"></i>
+                            <select class="form-control" name="type[]">
+                                <option value="" selected data-placeholder="{{ __('Tous les types d\'annonce') }}" class="chosen-select">{{ __('Tous les type d\'annonce') }}</option>
+                                @foreach ($typeAnnonce as $type)
+                                    <option value="{{ $type }}">{{ $type }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-sm-3 no-padd">
+                        <div class="form-box">
+                            <button type="submit" class="btn theme-btn btn-default">
+                                {{-- <i class="ti-search"></i> --}}
+                                {{ __('Rechercher') }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ================ End Listing Detail Basic Information ======================= -->
 
     <!-- ================ Listing Detail Full Information ======================= -->
-    <section class="list-detail mrg-0 padd-0">
+    <section class="list-detail padd-bot-10 padd-top-30">
         <div class="container">
+            <div class="row mrg-bot-40">
+                <div class="col-md-6 col-sm-6">
+                    <h5>
+                        <a href="{{ route('search') }}" title="Revenir à la recherche">
+                            <i class="fa fa-fw fa-arrow-left" aria-hidden="true"></i>
+                            Revenir à la recherche
+                        </a>
+                    </h5>
+                </div>
+                <div class="col-md-6 col-sm-6" style="text-align: right">
+                    <h5>
+                        <a href="{{ $pagination->previous }}" class="btn-default">
+                            <i class="fa fa-fw fa-angle-left"></i>
+                            Précédent
+                        </a>
+                        <span class="padd-l-10 padd-r-10 theme-cl">
+                            {{ $pagination->position }}
+                        </span>
+                        <a href="{{ $pagination->next }}" class="btn-default">
+                            Suivant
+                            <i class="fa fa-fw fa-angle-right"></i>
+                        </a>
+                    </h5>
+                </div>
+            </div>
+
             <div class="row">
-                <h3 class="text-center">Détail d'une annonce</h3> <br>
                 <!-- Start: Listing Detail Wrapper -->
                 <div class="col-md-8 col-sm-8">
                     <div class="detail-wrapper">
                         <div class="detail-wrapper-body">
                             <div class="listing-title-bar">
-                                <h3>{{ $annonce->titre }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3>
+                                {{-- <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3> --}}
+                                <h3> {{ $annonce->titre }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3>
                                 <div>
-                                    <a href="#listing-location" class="listing-address">
-                                        <i class="ti-location-pin mrg-r-5"></i>
-                                        {{ $annonce->entreprise->adresse_complete }}
-                                    </a>
-
-                                    <div class="rating-box">
-                                        <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}" class="listing-address">
-                                            <i class="fas fa-building mrg-r-5"></i> &nbsp;
-                                            {{ $annonce->entreprise->nom }}
+                                    <a href="javascript:void(0)">
+                                        <i class="fa fa-building fa-lg" style="color: #ff3a72;"></i>&nbsp;&nbsp;
+                                        {{ $annonce->entreprise->nom }}
+                                    </a><br>
+                                    @if ($annonce->entreprise->site_web)
+                                        <a href="{{ $annonce->entreprise->site_web }}" target="_blank">
+                                            <i class="ti-world" style="color: #ff3a72;"></i>&nbsp;
+                                            {{ $annonce->entreprise->site_web }}
                                         </a>
-                                    </div>
+                                        <br>
+                                    @endif
 
-                                    {{-- numero telephone --}}
-                                    <div class="rating-box">
-                                        <a href="tel:{{ $annonce->entreprise->telephone }}" class="listing-address">
-                                            <i class="fas fa-phone mrg-r-5"></i> &nbsp;
-                                            {{ $annonce->entreprise->quartier->ville->pays->indicatif }} {{ $annonce->entreprise->telephone }}
+                                    @if ($annonce->entreprise->email)
+                                        {{-- <a href="mailto:{{ $annonce->entreprise->email }}"> --}}
+                                        <a href="javascript:void(0)">
+                                            <i class="ti-email" style="color: #ff3a72;"></i>&nbsp;
+                                            {{ $annonce->entreprise->email }}
                                         </a>
+                                        <br>
+                                    @endif
+
+                                    <div class="cover-buttons mrg-top-15" style="float: left;">
+                                        <ul>
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                <span class="buttons li-btn view padd-10">
+                                                    <i class="fa fa-eye hidden-xs"></i>
+                                                    <span class="">{{ $annonce->nb_vue }} vue(s)</span>
+                                                </span>
+                                            </li>
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                <span class="buttons li-btn view padd-10">
+                                                    <i class="fa fa-comment-o hidden-xs"></i>
+                                                    <span class="" id="annonce-commentaire">{{ $annonce->commentaires->count() }}</span> commentaire(s)
+                                                </span>
+                                            </li>
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                <div class="inside-rating buttons listing-rating theme-btn button-plain" style="padd-0 !important; line-height: 0.5; -webkit-user-select: none;">
+                                                    <span class="value" id="annonce-note">{{ $annonce->note }}</span> <sup class="out-of">/ 5</sup>
+                                                </div>
+                                            </li>
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                @livewire('public.favoris', [$annonce])
+                                            </li>
+                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                                <button class="buttons padd-10 share-button" data-toggle="modal" data-target="#share" style="background: white; border: 1px solid grey; color: grey;">
+                                                    <i class="fa fa-share"></i>
+                                                    <span class="hidden-xs">Partager</span>
+                                                </button>
+                                            </li>
+                                            <br><br>
+                                            @if ($annonce->entreprise->instagram)
+                                                <li style="padding-left: 0; padding-right: 5px;">
+                                                    <a href="{{ $annonce->entreprise->instagram }}" class="social-network" target="_blank" style="background-color: #FF3A72"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;Instagram</a>
+                                                </li>
+                                            @endif
+                                            @if ($annonce->entreprise->facebook)
+                                                <li style="padding-left: 0; padding-right: 5px;">
+                                                    <a href="{{ $annonce->entreprise->facebook }}" class="social-network" target="_blank" style="background-color: #0866FF"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> &nbsp;Facebook</a>
+                                                </li>
+                                            @endif
+                                            @if ($annonce->entreprise->whatsapp)
+                                                <li style="padding-left: 0; padding-right: 5px;">
+                                                    <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" class="social-network" target="_blank" style="background-color: #00A884"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</a>
+                                                </li>
+                                            @endif
+                                        </ul>
                                     </div>
+                                    <br>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    {{-- <div class="detail-wrapper">
-                        <div class="detail-wrapper-header">
-                            <h4>Caractéristiques</h4>
+                    <!-- Start: Listing Gallery -->
+                    <div class="widget-boxed padd-bot-10">
+                        <div class="widget-boxed-header">
+                            <h4><i class="ti-gallery padd-r-10"></i>Galérie</h4>
                         </div>
-                        <div class="detail-wrapper-body">
-                            <p>
-                                @foreach ($annonce->annonceable->getCaracteristiquesAttribute() as $key => $value)
-                                    <h5>{{ ucfirst($key) }} : <span class="badge badge-primary">{{ $value }}</span></h5>
-                                    <br>
+                        <div class="widget-boxed-body padd-top-0">
+                            <div class="side-list no-border gallery-box">
+                                <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
+                                    <div data-toggle="modal" data-id="{{ $annonce->imagePrincipale->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-12 padd-0 image-preview" style="margin-bottom: -20px !important; margin-top: -10px !important; padding-left : 3px; padding-right : 3px;">
+                                        <div class="listing-shot grid-style">
+                                            <div class="" style="display: flex; justify-content: center; align-items: center; height: 220px; background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @foreach ($annonce->galerie as $key => $image)
+                                        @if ($key < 3)
+                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-3 padd-0 padd-3 image-preview">
+                                                <div class="listing-shot grid-style">
+                                                    <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @elseif ($key == 3)
+                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-3 padd-0 padd-3 image-preview">
+                                                <div class="listing-shot grid-style">
+                                                    <div style="position: relative; display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
+                                                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
+                                                            {{-- <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;"> --}}
+                                                            <div style="color: white; font-size: 20px;">
+                                                                +{{ count($annonce->galerie) - 4 }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @else
+                                        @break
+                                    @endif
                                 @endforeach
-                                @foreach ($annonce->referenceDisplay() as $slug => $values)
-                                    <h5>{{ ucfirst($slug) }} :
-                                        @foreach ($values as $value)
-                                            <span class="badge badge-primary">{{ $value }}</span>
-                                        @endforeach
-                                    </h5>
-                                    <br>
-                                @endforeach
-                            </p>
-
-                        </div>
-                    </div> --}}
-
-                    <div class="detail-wrapper">
-                        <div class="detail-wrapper-header">
-                            <h4><i class="ti-layers-alt padd-r-10"></i>Description</h4>
-                        </div>
-                        <div class="detail-wrapper-body">
-                            @if ($annonce->description)
-                                <p>{{ $annonce->description }}</p>
-                            @else
-                                <p>Aucune description n'est disponible pour cette entreprise.</p>
-                            @endif
+                            </div>
                         </div>
                     </div>
+                </div>
+                <!-- End: Listing Gallery -->
 
-                    <!-- Start: Listing Gallery -->
-                    <div class="widget-boxed">
-                        <div class="widget-boxed-header">
-                            <h4><i class="ti-gallery padd-r-10"></i>Galérie ({{ $annonce->galerie->count() }})</h4>
+                <div class="detail-wrapper">
+                    <div class="detail-wrapper-header">
+                        <h4><i class="ti-info-alt padd-r-10"></i>Description
+                        </h4>
+                    </div>
+                    <div class="detail-wrapper-body">
+                        <p>
+                            {{ $annonce->description ?? 'Aucune description disponible' }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tab style-1 mrg-bot-40" role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#information" aria-controls="information" role="tab" data-toggle="tab">Information</a></li>
+                        <li role="presentation"><a href="#equipement" aria-controls="equipement" role="tab" data-toggle="tab">Equipements</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content tabs">
+                        <div role="tabpanel" class="tab-pane fade in active" id="information">
+                            {{ $annonce->annonceable->caracteristiques }}
                         </div>
-                        <div class="widget-boxed-body">
-                            <div class="side-list no-border gallery-box">
-                                <ul class="gallery-list">
-                                    @foreach ($annonce->galerie as $image)
-                                        <li>
-                                            <a data-fancybox="gallery" href="{{ asset('storage/' . $image->chemin) }}">
-                                                <img src="{{ asset('storage/' . $image->chemin) }}" class="img-responsive" alt="">
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                    @empty($annonce->galerie->count())
-                                        <p class="text-center">
-                                            Aucune image n'est disponible pour cette annonce
-                                        </p>
-                                    @endempty
+                        <div role="tabpanel" class="tab-pane fade" id="equipement">
+                            @forelse ($annonce->referenceDisplay() as $key => $value)
+                                @if (count($value) > 0)
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <strong class="" style="text-transform: uppercase;">{{ $key }}</strong>
+                                        </div>
+                                        <div class="detail-wrapper-body padd-bot-10">
+                                            <ul class="detail-check">
+                                                @forelse ($value as $equipement)
+                                                    <div class="col-xs-12 col-md-4 padd-l-0">
+                                                        <li style="width: 100%;">{{ $equipement }}</li>
+                                                    </div>
+                                                @empty
+                                                    <span class="text-center">
+                                                        Aucun équipement disponible
+                                                    </span>
+                                                @endforelse
+                                            </ul>
+                                        </div>
+                                    </div>
+                                @endif
+                            @empty
+                                <div class="col-md-12">
+                                    Aucun équipement disponible
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
+                @livewire('public.comment', [$annonce])
+
+            </div>
+            <!-- End: Listing Detail Wrapper -->
+
+            <!-- Sidebar Start -->
+            <div class="col-md-4 col-sm-12">
+                <div class="sidebar">
+                    <!-- Start: Listing Location -->
+                    <div class="widget-boxed padd-bot-10">
+                        <div class="widget-boxed-header">
+                            <h4><i class="ti-location-pin padd-r-10"></i>Localisation</h4>
+                        </div>
+                        <div class="widget-boxed-body padd-top-5">
+                            <div class="side-list no-border">
+                                <ul>
+                                    <li>Pays : <strong>{{ $annonce->entreprise->quartier->ville->pays->nom ?? '-' }} </strong></li>
+                                    <li>Ville : <strong>{{ $annonce->entreprise->quartier->ville->nom ?? '-' }} </strong></li>
+                                    <li>Quartier : <strong>{{ $annonce->entreprise->quartier->nom ?? '-' }} </strong></li>
+                                    <li>
+                                        <div id="map" class="full-width" style="height:200px;"></div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <!-- End: Listing Gallery -->
-                </div>
-                <!-- End: Listing Detail Wrapper -->
+                    <!-- End: Listing Location -->
 
-                <!-- Sidebar Start -->
-                <div class="col-md-4 col-sm-12">
-                    <div class="sidebar">
-
-                        <div class="widget-boxed">
-                            <div class="widget-boxed-header">
-                                <h4><i class="ti-eye padd-r-10"></i>Caractéristiques</h4>
-                            </div>
-                            <div class="widget-boxed-body">
-                                <div class="side-list">
-                                    <ul>
-                                        @foreach ($annonce->annonceable->getCaracteristiquesAttribute() as $key => $value)
-                                            <li>{{ ucfirst($key) }} <span>{{ $value }}</span></li>
-                                        @endforeach
-                                        @foreach ($annonce->referenceDisplay() as $slug => $values)
-                                            <li>{{ ucfirst($slug) }}
-                                                @foreach ($values as $value)
-                                                    <span>{{ $value }}</span> <br>
-                                                @endforeach
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                    <!-- Start: Opening hour -->
+                    <div class="widget-boxed padd-bot-10">
+                        <div class="widget-boxed-header">
+                            <h4><i class="ti-time padd-r-10"></i>Heures d'ouverture</h4>
+                        </div>
+                        <div class="widget-boxed-body">
+                            <div class="side-list">
+                                <ul>
+                                    @foreach ($annonce->entreprise->heure_ouvertures as $key => $ouverture)
+                                        <li>{{ $key }} <span>{{ $ouverture }}</span></li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
-
-                        <!-- Start: Latest Listing -->
-                        <div class="widget-boxed">
-                            <div class="widget-boxed-header">
-                                <h4><i class="ti-check-box padd-r-10"></i>Derniéres annonces</h4>
-                            </div>
-                            <div class="widget-boxed-body padd-top-5">
-                                <div class="side-list">
-                                    <ul class="listing-list">
-                                        @foreach ($annonces as $annonce)
-                                            <li>
-                                                <a href="{{ route('show', $annonce->slug) }}" title="Listing">
-                                                    <div class="listing-list-img">
-                                                        @if ($annonce->image)
-                                                            <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt="">
-                                                        @else
-                                                            <img src="http://via.placeholder.com/80x80" class="img-responsive" alt="">
-                                                        @endif
-                                                    </div>
-                                                </a>
-                                                <div class="listing-list-info">
-                                                    <h5><a href="{{ route('show', $annonce->slug) }}" title="Listing">{{ $annonce->titre }}</a></h5>
-                                                    <div class="listing-post-meta">
-                                                        <span class="updated">{{ date('d-m-Y', strtotime($annonce->created_at)) }}</span> | <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}" rel="tag">{{ $annonce->type }}</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                        @empty($annonces)
-                                            <p>
-                                                Aucune annonce n'est disponible pour cette entreprise.
-                                            </p>
-                                        @endempty
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End: Latest Listing -->
                     </div>
+                    <!-- End: Opening hour -->
                 </div>
-                <!-- End: Sidebar Start -->
             </div>
+            <!-- End: Sidebar Start -->
         </div>
-    </section>
-    <!-- ================ Listing Detail Full Information ======================= -->
+    </div>
+
+</section>
+<!-- ================ Listing Detail Full Information ======================= -->
+
+@include('public.gallery', [
+    'galerie' => $annonce->galerie,
+    'couverture' => $annonce->imagePrincipale,
+])
+
+@include('components.public.share-modal-alt', [
+    'title' => 'Partager cette annonce',
+    'annonce' => $annonce,
+])
+@endsection
+
+@section('js')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+    var mymap = L.map('map').setView([8.6195, 0.8248], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+    }).addTo(mymap);
+
+    var marker;
+
+    var lon = {{ $annonce->entreprise->longitude }};
+    var lat = {{ $annonce->entreprise->latitude }};
+    if (marker) {
+        mymap.removeLayer(marker);
+    }
+
+    marker = L.marker([lat, lon]).addTo(mymap);
+    mymap.setView([lat, lon], 12);
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.image-preview').click(function() {
+            $('#share').hide();
+            var id = $(this).data('id');
+            $('#image-' + id).addClass('pulse');
+            setTimeout(() => {
+                $('#image-' + id).removeClass('pulse');
+            }, 2000);
+        });
+    });
+</script>
 @endsection

@@ -27,7 +27,7 @@
                             <table id="dataTable" class="table table-striped table-2 table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
+                                        <th>N°</th>
                                         <th>Pays</th>
                                         <th>Ville</th>
                                         <th>Quartier</th>
@@ -37,7 +37,7 @@
                                 <tbody>
                                     @foreach ($quartiers as $quartier)
                                         <tr>
-                                            <td>{{ $quartier->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $quartier->ville->pays->nom }}</td>
                                             <td>{{ $quartier->ville->nom }}</td>
                                             <td>{{ $quartier->nom }}</td>

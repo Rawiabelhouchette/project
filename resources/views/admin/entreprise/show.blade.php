@@ -66,43 +66,51 @@
                                     {{-- Facebook --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">FACEBOOK</td>
-                                        <td>{{ $entreprise->facebook ? $entreprise->facebook : '-' }}</td>
+                                        <td>
+                                            <a href="{{ $entreprise->facebook ?? 'javascript:void(0)' }}" target="_blank">{{ $entreprise->facebook ?? '-' }}</a>
+                                        </td>
                                     </tr>
 
                                     {{-- Twitter --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">TWITTER</td>
-                                        <td>{{ $entreprise->twitter ? $entreprise->twitter : '-' }}</td>
+                                        <td>
+                                            <a href="{{ $entreprise->twitter ?? 'javascript:void(0)' }}" target="_blank">{{ $entreprise->twitter ?? '-' }}</a>
+                                        </td>
                                     </tr>
 
                                     {{-- Instagram --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">INSTAGRAM</td>
-                                        <td>{{ $entreprise->instagram ? $entreprise->instagram : '-' }}</td>
+                                        <td>
+                                            <a href="{{ $entreprise->instagram ?? 'javascript:void(0)' }}" target="_blank">{{ $entreprise->instagram ?? '-' }}</a>
+                                        </td>
                                     </tr>
 
                                     {{-- Site web --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">SITE WEB</td>
-                                        <td>{{ $entreprise->site_web ? $entreprise->site_web : '-' }}</td>
+                                        <td>
+                                            <a href="{{ $entreprise->site_web ?? 'javascript:void(0)' }}" target="_blank">{{ $entreprise->site_web ?? '-' }}</a>
+                                        </td>
                                     </tr>
 
                                     {{-- Pays --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">PAYS</td>
-                                        <td>{{ $entreprise->quartier->ville->pays->nom }}</td>
+                                        <td>{{ $entreprise->quartier->ville->pays->nom ?? '-' }}</td>
                                     </tr>
 
                                     {{-- Ville --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">VILLE</td>
-                                        <td>{{ $entreprise->quartier->ville->nom }}</td>
+                                        <td>{{ $entreprise->quartier->ville->nom ?? '-' }}</td>
                                     </tr>
 
                                     {{-- Quartier --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">QUARTIER</td>
-                                        <td>{{ $entreprise->quartier->nom }}</td>
+                                        <td>{{ $entreprise->quartier->nom ?? '-' }}</td>
                                     </tr>
 
                                     {{-- Heure d'ouverture --}}

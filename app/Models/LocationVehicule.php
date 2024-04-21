@@ -6,12 +6,13 @@ use App\Utils\AnnonceInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\View\View;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
 
 class LocationVehicule extends Model implements AnnonceInterface
-{ 
+{
     use HasFactory, SoftDeletes, Userstamps;
 
     protected $fillable = [
@@ -47,39 +48,40 @@ class LocationVehicule extends Model implements AnnonceInterface
         'caracteristiques',
     ];
 
-    public function getShowUrlAttribute() : String
+    public function getShowUrlAttribute(): string
     {
         return route('location-vehicules.show', $this);
     }
 
-    public function getEditUrlAttribute() : String
+    public function getEditUrlAttribute(): string
     {
         return route('location-vehicules.edit', $this);
     }
 
-    public function annonce() : MorphOne
+    public function annonce(): MorphOne
     {
         return $this->morphOne(Annonce::class, 'annonceable');
     }
 
-    public function getTypesVehiculeAttribute() : String
+    public function getTypesVehiculeAttribute(): string
     {
         return $this->annonce->references('types-de-vehicule');
     }
 
-    public function getEquipementsVehiculeAttribute() : String
+    public function getEquipementsVehiculeAttribute(): string
     {
         return $this->annonce->references('equipements-vehicule');
     }
 
-    public function getConditionsLocationAttribute() : String
+    public function getConditionsLocationAttribute(): string
     {
         return $this->annonce->references('conditions-de-location');
     }
 
-    public function getCaracteristiquesAttribute() : Array
+    public function getCaracteristiquesAttribute(): View
     {
         $attributes = [];
+
         if ($this->marque) {
             $attributes['Marque'] = $this->marque;
         }
@@ -112,7 +114,15 @@ class LocationVehicule extends Model implements AnnonceInterface
             $attributes['Nombre de places'] = $this->nombre_places;
         }
 
-        return $attributes;
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
+        }
+
+        return view('components.public.show.default', [
+            'caracteristiques' => $attributes,
+        ]);
     }
-    
+
 }

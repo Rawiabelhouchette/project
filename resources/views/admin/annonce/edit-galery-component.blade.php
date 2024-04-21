@@ -1,34 +1,46 @@
-@props(['galery', 'required' => false])
+{{-- @props(['galery', 'required' => false]) --}}
+@props(['old_galerie', 'galerie', 'deleted_old_galerie', 'old_image', 'required' => false])
 
 <div class="row">
     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 20px; padding-left: 40px;padding-right: 40px;">
-        <label class="">Image à la une
-            <b style="color: red; font-size: 100%;">*</b>
-        </label> <br>
-        <label for="upload-image" class="btn btn-sm theme-btn-outlined" style="padding: 6px">
-            <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
-            &nbsp; &nbsp; &nbsp;
-            @if ($old_image)
-                1 image sélectionnée
-            @else
-                Aucune image sélectionnée
-            @endif
-            &nbsp; &nbsp;
-        </label>
+        <div class="row">
+            <label class="">Image à la une
+                <b style="color: red; font-size: 100%;">*</b>
+            </label>
+        </div>
+        <div class="row">
+
+            <label for="upload-image" class="btn btn-sm theme-btn" style="padding: 6px">
+                <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
+                &nbsp; &nbsp; &nbsp;
+                @if ($old_image)
+                    1 image sélectionnée
+                @else
+                    Aucune image sélectionnée
+                @endif
+                &nbsp; &nbsp;
+            </label>
+        </div>
         <input id="upload-image" type="file" wire:model="image" accept="image/*" style="display: none;"> <br>
         <div class="text-center gallery-box">
-            <div class="text-center gallery-box">
-                @if ($image)
-                    <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
-                        <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
-                    </a>
-                @else
-                    @if ($old_image)
-                        <a data-fancybox="gallery" href="{{ asset('storage/' . $old_image->chemin) }}">
-                            <img src="{{ asset('storage/' . $old_image->chemin) }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
-                        </a>
-                    @endif
-                @endif
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="listing-shot grid-style mrg-bot-15">
+                        @if ($image)
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
+                                    <img class="listing-shot-img" src="{{ $image->temporaryUrl() }}" class="img-responsive" alt="">
+                                </a>
+                            </div>
+                        @elseif ($old_image)
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <a data-fancybox="gallery" href="{{ asset('storage/' . $old_image->chemin) }}">
+                                    <img class="listing-shot-img" src="{{ asset('storage/' . $old_image->chemin) }}" class="img-responsive" alt="">
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -38,41 +50,93 @@
     </div>
 
     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 40px; padding-left: 40px;padding-right: 40px;">
-        <label class="">Galérie
-            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-        </label> <br>
-        <label for="upload" class="btn btn-sm theme-btn-outlined" style="padding: 6px">
-            <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
-            &nbsp; &nbsp; &nbsp;
-            @if ($galerie)
-                {{ count($galerie) }} image(s) sélectionnée(s)
-            @elseif (count($old_galerie) > 0)
-                {{ count($old_galerie) }} image(s) sélectionnée(s)
-            @else
-                Aucune image sélectionnée
-            @endif
-            &nbsp; &nbsp;
-        </label>
-        <input id="upload" type="file" wire:model="galerie" accept="image/*" multiple style="display: none;"> <br>
-        <div class="text-center">
-            <div class="text-center gallery-box">
-                @foreach ($galerie as $index => $image)
-                    <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
-                        <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
+        <div class="row">
+            <div class="col-md-12">
+                <label class="">Galérie
+                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                </label>
+            </div>
+            <div class="col-md-4">
+                {{-- <br> --}}
+                <label for="upload" class="btn btn-sm theme-btn" style="padding: 6px">
+                    <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
+                    &nbsp; &nbsp; &nbsp;
+                    @if ($galerie || $old_galerie)
+                        {{ count($galerie) + count($old_galerie) - count($deleted_old_galerie) }} image(s) sélectionnée(s)
+                    @else
+                        Aucune image sélectionnée
+                    @endif
+                    &nbsp; &nbsp;
+                </label>
+                <input id="upload" type="file" wire:model="selected_images" accept="image/*" multiple style="display: none;"> <br>
+
+            </div>
+            <div class="col-md-4">
+                @if (count($galerie) + count($old_galerie) - count($deleted_old_galerie) != 0)
+                    <a href="javascript:void(0)" wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?"
+                       class="btn btn-sm theme-btn-outlined" wire:click="removeAllImages" style="padding: 6px">
+                        <i class="fa fa-trash fa-lg" style="margin-left: 10px;"></i>
+                        &nbsp; &nbsp; &nbsp;
+                        Supprimer toutes les images
+                        &nbsp; &nbsp;
                     </a>
+                @endif
+            </div>
+            <div class="col-md-4">
+                {{-- <a href="javascript:void(0)" wire:click='restoreImages' wire:confirm="Confirmez-vous cette action ?"
+                   class="btn btn-sm theme-btn-outlined" wire:click="removeAllOldImages" style="padding: 6px">
+                    <i class="fa fa-refresh fa-lg" style="margin-left: 10px;"></i>
+                    &nbsp; &nbsp; &nbsp;
+                    Annuler les modifications
+                    &nbsp; &nbsp;
+                </a> --}}
+            </div>
+        </div>
+        <div class="text-center">
+            <div class="text-center gallery-box mrg-top-15">
+                @foreach ($old_galerie as $index => $image)
+                    @if (in_array($image->id, $deleted_old_galerie))
+                        @continue
+                    @endif
+
+                    <div class="col-xs-12 col-md-4 col-lg-3">
+                        <div class="listing-shot grid-style">
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <a data-fancybox="gallery" href="{{ asset('storage/' . $image->chemin) }}">
+                                    <img class="listing-shot-img" src="{{ asset('storage/' . $image->chemin) }}" class="img-responsive" alt="">
+                                </a>
+                                <span class="approve-listing" style="background-color: red;">
+                                    <a href="javascript:void(0)" style="color: white;" wire:click='removeImage("old_galerie", "{{ $image->id }}")'>
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+                @foreach ($galerie as $index => $image)
+                    <div class="col-xs-12 col-md-4 col-lg-3">
+                        <div class="listing-shot grid-style">
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
+                                    <img class="listing-shot-img" src="{{ $image->temporaryUrl() }}" class="img-responsive" alt="">
+                                </a>
+                                <span class="approve-listing" style="background-color: red;">
+                                    <a href="javascript:void(0)" style="color: white;" wire:click='removeImage("galerie", "{{ $index }}")'>
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
             </div>
-            @if (empty($galerie))
-                @foreach ($old_galerie as $image)
-                    <a data-fancybox="gallery" href="{{ asset('storage/' . $image->chemin) }}">
-                        <img src="{{ asset('storage/' . $image->chemin) }}" alt="Image Preview" class="img-fluid" style="width: 200px; height: 150px; margin-top: 10px; margin-right: 10px;">
-                    </a>
-                @endforeach
-            @endif
         </div>
 
         @error('galerie')
             <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
+
 </div>
