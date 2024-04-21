@@ -192,3 +192,7 @@ Etape de creation d'un nouvel abonnement
 
 ## 15/04/2024
 - Implementer la recherche sur la page d'abonnement
+
+## 21/04/2024
+- Add a loader when loading annonce images
+- Demande a MOnsieur de definir le nombre d'image a uploader et la taille max
