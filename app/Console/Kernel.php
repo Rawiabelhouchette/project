@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\Abonnement;
 use App\Models\Annonce;
 use App\Models\StatistiqueAnnonce;
 use Illuminate\Console\Scheduling\Schedule;
@@ -17,34 +18,23 @@ class Kernel extends ConsoleKernel
     {
         try {
             $schedule->call(function () {
-                $annonce = Annonce::whereNotNull('image')->first();
-                Annonce::whereNull('image')->update(['image' => $annonce->image]);
-            });
+                $this->deactivateSubscription();
+            })->daily();
 
+            $schedule->call(function () {
+                $this->deactivateAnnonce();
+            })->daily();
 
-            // $schedule->call(function () {
-            //     Annonce::where('date_validite', '<', now())->update(['is_active' => false]);
-            // })
-            // // ;
-            // ->hourly();
+            $schedule->call(function () {
+                $this->updateAnnonceStat();
+            })->hourly();
 
-            // $schedule->call(function () {
-            //     $this->updateAnnonceStat();
-            // })
-            // // ;
-            // ->daily();
-
-            // $schedule->call(function () {
-            //     $this->annonceStatInitializer();
-            // })
-            // ;
-            
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
 
     }
-    
+
     private function updateAnnonceStat()
     {
         // update annonce stat
@@ -78,13 +68,34 @@ class Kernel extends ConsoleKernel
         }
     }
 
+    // After subscription date is expired, deactivate the subscription
+    public function deactivateSubscription()
+    {
+        $abonnements = Abonnement::where('date_fin', '<', now())->get();
+        foreach ($abonnements as $annonce) {
+            $annonce->update(['is_active' => false]);
+        }
+    }
+
+    // After annonce date is expired, deactivate the annonce
+    public function deactivateAnnonce()
+    {
+        Annonce::where('date_validite', '<', now())->update(['is_active' => false]);
+    }
+
+    public function setDefaultImage()
+    {
+        $annonce = Annonce::whereNotNull('image')->first();
+        Annonce::whereNull('image')->update(['image' => $annonce->image]);
+    }
+
 
     /**
      * Register the commands for the application.
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
