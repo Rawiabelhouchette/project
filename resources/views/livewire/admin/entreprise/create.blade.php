@@ -71,7 +71,7 @@
                                 <label class="">Pays
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <select class="form-control" required wire:model.lazy='pays_id'>
+                                <select class="form-control" id="pays" required wire:model.lazy='pays_id'>
                                     <option value="">-- Pays --</option>
                                     @foreach ($pays as $p)
                                         <option value="{{ $p->id }}">{{ $p->nom }}</option>
@@ -130,7 +130,7 @@
                                 <label class="">Whatsapp
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input type="text" class="form-control telephone" required wire:model.defer='whatsapp'>
+                                <input type="text" class="form-control telephone" id="telephone" required wire:model.defer='whatsapp'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -313,11 +313,25 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            //  Telephone
+            let pays = $('#pays option:selected').text();
+            // add attribute data-country 
+            $('#telephone').attr('data-country', pays);
+            applyMask($('#telephone').attr('data-country'));
+
+            // change pays by selecting the first option
+            // $('#pays').val($('#pays option:first').val());
+
+            $('#pays').on('change', function() {
+                let pays = $('#pays option:selected').text();
+                // add attribute data-country 
+                $('#telephone').attr('data-country', pays);
+                applyMask($('#telephone').attr('data-country'));
+            });
+
             $('.jour').on('change', function() {
                 var jour = $(this).val();
-                if (jour == 'Tous les jours') {
-                    Livewire.dispatch('changerJour', [false]);
-                } else if (jour == '') {
+                if (jour == 'Tous les jours' || jour == '') {
                     Livewire.dispatch('changerJour', [false]);
                 } else {
                     Livewire.dispatch('changerJour', [true]);

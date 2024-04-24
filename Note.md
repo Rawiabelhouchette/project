@@ -196,3 +196,7 @@ Etape de creation d'un nouvel abonnement
 ## 21/04/2024
 - Add a loader when loading annonce images
 - Demande a MOnsieur de definir le nombre d'image a uploader et la taille max
+
+
+## 24/04/2024
+- Demander a Monsieur de definir les options des abonnements

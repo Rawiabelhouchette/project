@@ -128,7 +128,7 @@
                         <!-- End: Opening hour -->
 
                         <!-- Start: Listing Gallery -->
-                        <div class="widget-boxed">
+                        {{-- <div class="widget-boxed">
                             <div class="widget-boxed-header">
                                 <h4><i class="ti-gallery padd-r-10"></i>Image</h4>
                             </div>
@@ -143,7 +143,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- End: Listing Gallery -->
 
                         <!-- Start: Latest Listing -->

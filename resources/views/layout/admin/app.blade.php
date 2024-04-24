@@ -39,7 +39,6 @@
 
     <link href="{{ asset('assets/css/perso.css') }}" rel="stylesheet" />
 
-
     <!-- DATATABLE -->
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css"> --}}
@@ -304,13 +303,35 @@
 
     <script src="https://unpkg.com/imask"></script>
 
-    <script>
+    {{-- <script>
         let elements = document.getElementsByClassName('telephone');
         let maskOptions = {
             mask: '00 00 00 00'
         };
         for (let i = 0; i < elements.length; i++) {
             let mask = IMask(elements[i], maskOptions);
+        }
+    </script> --}}
+    <script>
+        // take cpuntry name as parameter
+        function applyMask(country = 'Togo') {
+            $('.telephone').each(function() {
+                let maskOptions;
+
+                switch (country) {
+                    case 'Togo':
+                        maskOptions = {
+                            mask: '00 00 00 00'
+                        }; // Format for Togo
+                        break;
+                    default:
+                        maskOptions = {
+                            mask: '00 00 00 00'
+                        }; // Default format (TOGO)
+                }
+
+                let mask = IMask(this, maskOptions);
+            });
         }
     </script>
 
