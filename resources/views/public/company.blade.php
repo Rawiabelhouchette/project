@@ -115,7 +115,11 @@
                                 <div class="side-list">
                                     <ul>
                                         @foreach ($entreprise->heure_ouvertures as $key => $ouverture)
-                                            <li>{{ $key }} <span>{{ $ouverture }}</span></li>
+                                            @if ($ouverture == 'Fermé')
+                                                <li>{{ $key }} <span class="text-danger">{{ $ouverture }}</span></li>
+                                            @else
+                                                <li>{{ $key }} <span>{{ $ouverture }}</span></li>
+                                            @endif
                                         @endforeach
                                     </ul>
                                 </div>

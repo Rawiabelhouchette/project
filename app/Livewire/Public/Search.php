@@ -162,7 +162,12 @@ class Search extends Component
     public function getAllEntreprises()
     {
         $this->entreprises = [];
-        foreach (Entreprise::all() as $entreprise) {
+        // Company that have at least one active subscription
+        // public scope filter the annonces that are public (that has a subscription)
+        $entreprises = Entreprise::whereHas('annonces', function ($query) {
+            $query->public();
+        })->get();
+        foreach ($entreprises as $entreprise) {
             $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonces];
             $tmp = array_unique($tmp, SORT_REGULAR);
             if (!in_array($tmp, $this->entreprises)) {

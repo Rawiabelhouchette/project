@@ -53,7 +53,7 @@ class Entreprise extends Model
 
     public function getNombreAnnoncesAttribute()
     {
-        return $this->annonce()->count();
+        return $this->annonces()->count();
     }
 
     public function getEstOuverteAttribute()
@@ -113,9 +113,9 @@ class Entreprise extends Model
         return $jours;
     }
 
-    public function getContactAttribute() : string
+    public function getContactAttribute(): string
     {
-        return $this->quartier->ville->pays->indicatif ?? '' . ' ' . str_replace(' ', '', $this->telephone);   
+        return ($this->quartier->ville->pays->indicatif ?? '') . ' ' . str_replace(' ', '', $this->telephone);
     }
 
     protected $casts = [
@@ -149,7 +149,7 @@ class Entreprise extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function annonce()
+    public function annonces()
     {
         return $this->hasMany(Annonce::class, 'entreprise_id');
     }
