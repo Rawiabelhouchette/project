@@ -122,7 +122,7 @@
                                         <div class="listing-shot-caption">
                                             <a href="{{ route('show', $annonce->slug) }}">
                                                 <h4 class="theme-cl-blue">{{ $annonce->titre }}</h4>
-                                                <p class="listing-location">{{ $annonce->description_courte }}</p>
+                                                <p class="listing-location">{{ $annonce->description_courte == '' ? 'Pas de description' : $annonce->description_courte }}</p>
                                             </a>
                                             @if (Auth::check())
                                                 @if ($annonce->est_favoris)

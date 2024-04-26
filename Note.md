@@ -200,3 +200,7 @@ Etape de creation d'un nouvel abonnement
 
 ## 24/04/2024
 - Demander a Monsieur de definir les options des abonnements
+
+## 26/04/2024
+- Ajouter le mask de saisi sur le numero de telephone lors de la creation d'enreprise
+- Gerer l'envoi de mail de rappel pour les abonnements
