@@ -36,6 +36,7 @@ class Register extends Component
             'type' => 'required|in:Usager,Professionnel',
             'password' => 'required',
             'password_confirmation' => 'required|same:password',
+            'remember' => 'boolean',
         ];
     }
 
@@ -86,6 +87,7 @@ class Register extends Component
         $request = new Request([
             'email' => $this->username,
             'password' => $this->password,
+            'remember' => $this->remember,
         ]);
 
         try {
@@ -96,7 +98,6 @@ class Register extends Component
         } catch (\Exception $e) {
             Log::error('Erreur lors de l\'envoi du mail de bienvenue : ' . $e->getMessage());
         }
-
 
         $login = AuthenticationController::loginService($request);
         if (!$login->status) {

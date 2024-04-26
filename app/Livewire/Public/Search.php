@@ -79,6 +79,8 @@ class Search extends Component
             $this->type = [$this->type];
         }
 
+        $this->changeTypeName();
+
         $this->type = array_filter($this->type ?? []);
         $this->ville = array_filter($this->ville ?? []);
         $this->quartier = array_filter($this->quartier ?? []);
@@ -129,10 +131,19 @@ class Search extends Component
             }
         }
 
-
         $url = str_replace(' ', '+', $url);
 
         $this->initURL = trim($url);
+    }
+
+    public function changeTypeName()
+    {
+        // change vehicule to Location vehicule
+        // check if type contains Véhicule if yes replace it with Location Véhicule
+        if (in_array('Véhicule', $this->type)) {
+            $key = array_search('Véhicule', $this->type);
+            $this->type[$key] = 'Location de véhicule';
+        }
     }
 
     private function getAllVilles(): void
@@ -513,6 +524,16 @@ class Search extends Component
             ->values()
             ->all();
 
+        $tmpTypeAnnonces = Annonce::pluck('type')->unique();
+
+        // check if the type is in the typeAnnonces if not add it and add count 0
+        foreach ($tmpTypeAnnonces as $type) {
+            if (!in_array($type, array_column($this->typeAnnonces, 'value'))) {
+                $this->typeAnnonces[] = ['value' => $type, 'count' => 0];
+            }
+        }
+
+        // dd($this->type);
 
         $annonces = $this->search()->paginate($this->perPage);
 

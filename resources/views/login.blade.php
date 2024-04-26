@@ -127,6 +127,12 @@
         <!-- Custom Js -->
         <script src="{{ asset('assets_client/js/custom.js') }}"></script>
 
+        <script>
+            window.addEventListener('page:reload', event => {
+                location.reload();
+            });
+        </script>
+
         @livewireScripts
 
         @stack('scripts')
