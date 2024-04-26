@@ -8,6 +8,8 @@ use App\Models\StatistiqueAnnonce;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,6 +19,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         try {
+            $schedule->call(function () {
+                $this->clearLivewireTmp();
+            })->hourly();
+
+
             $schedule->call(function () {
                 $this->deactivateSubscription();
             })->daily();
@@ -87,6 +94,21 @@ class Kernel extends ConsoleKernel
     {
         $annonce = Annonce::whereNotNull('image')->first();
         Annonce::whereNull('image')->update(['image' => $annonce->image]);
+    }
+
+    public function clearLivewireTmp()
+    {
+        $files = File::files(storage_path('app/livewire-tmp'));
+
+        foreach ($files as $file) {
+            // Get the last modified time of the file
+            $lastModified = Carbon::createFromTimestamp(filemtime($file));
+
+            // If the file was last modified more than 1 hours ago, delete it
+            if ($lastModified->diffInHours(Carbon::now()) > 1) {
+                File::delete($file);
+            }
+        }
     }
 
 
