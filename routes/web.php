@@ -20,6 +20,7 @@ use App\Http\Controllers\QuartierController;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\searchController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
 use Illuminate\Support\Facades\Route;
@@ -117,8 +118,6 @@ Route::group([
         Route::resource('bars', BarController::class);
 
         Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
-        ;
-
 
 
 
@@ -129,6 +128,9 @@ Route::group([
 
     Route::resource('abonnements', AbonnementController::class);
     Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
+
+    Route::resource('subscriptions', SubscriptionController::class);
+    Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
 
     // TODO: Route for 404, 403, 500, 503, etc
 

@@ -88,7 +88,8 @@ class User extends Authenticatable
      */
     public function commentaires()
     {
-        return $this->belongsToMany(Annonce::class, 'commentaires', 'user_id', 'annonce_id')
+        return $this
+            ->belongsToMany(Annonce::class, 'commentaires', 'user_id', 'annonce_id')
             ->public()
             ->withPivot('contenu', 'created_at')
             ->latest();
@@ -97,7 +98,7 @@ class User extends Authenticatable
     public function annonces()
     {
         $entreprises_id = $this->entreprises->pluck('id');
-        return Annonce::with('entreprises', 'annonceable')->whereIn('entreprise_id', $entreprises_id)->latest();
+        return Annonce::with('entreprise', 'annonceable')->whereIn('entreprise_id', $entreprises_id)->latest();
     }
 
     public function abonnements()

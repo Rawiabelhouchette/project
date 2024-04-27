@@ -30,8 +30,6 @@ class AbonnementController extends Controller
 
     public function index()
     {
-        // dd(\Auth::user()->abonnements()->get());
-        // dd($abonnements = Abonnement::latest());
         return view('admin.abonnement.index');
     }
 
