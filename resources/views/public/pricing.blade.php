@@ -78,12 +78,12 @@
 
                                         <div class="form-group">
                                             <label>Numéro de téléphone</label>
-                                            <input type="text" name="numero_telephone" class="form-control" placeholder="" required>
+                                            <input type="text" name="numero_telephone" class="form-control telephone" data-country="Togo" placeholder="" required>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Numéro de whatsapp</label>
-                                            <input type="text" name="numero_whatsapp" class="form-control" placeholder="" required>
+                                            <input type="text" name="numero_whatsapp" class="form-control telephone" data-country="Togo" placeholder="" required>
                                         </div>
 
                                         <div class="center">
@@ -99,3 +99,11 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            applyMask('Togo');
+        });
+    </script>
+@endpush

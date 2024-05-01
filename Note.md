@@ -204,3 +204,7 @@ Etape de creation d'un nouvel abonnement
 ## 26/04/2024
 - Ajouter le mask de saisi sur le numero de telephone lors de la creation d'enreprise
 - Gerer l'envoi de mail de rappel pour les abonnements
+
+
+## 01/05/2024
+- Desactiver le hide du modal quand l'utilisateur clique en dehors du modal lors du processus de connexion et de creation de compte
