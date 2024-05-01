@@ -13,6 +13,7 @@ use App\Http\Controllers\FastFoodController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\LocationMeubleeController;
 use App\Http\Controllers\LocationVehiculeController;
+use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PatisserieController;
 use App\Http\Controllers\PaysController;
 use App\Http\Controllers\publicController;
@@ -130,6 +131,10 @@ Route::group([
 
     Route::resource('abonnements', AbonnementController::class);
     Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
+    Route::post('abonnements/payment/check', [AbonnementController::class, 'checkPayment'])->name('abonnements.payement.check');
+    // Route::post('abonnements/payment/check', [AbonnementController::class, 'checkPayment'])->name('abonnements.payement.check');
+
+    Route::resource('paiements', PaiementController::class);
 
     Route::resource('subscriptions', SubscriptionController::class);
     Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');

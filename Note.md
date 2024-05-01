@@ -208,3 +208,8 @@ Etape de creation d'un nouvel abonnement
 
 ## 01/05/2024
 - Desactiver le hide du modal quand l'utilisateur clique en dehors du modal lors du processus de connexion et de creation de compte
+
+
+PAIEMENT
+- url de notification doit être une chaine cryptee qui doit changer tout les jours
+- 

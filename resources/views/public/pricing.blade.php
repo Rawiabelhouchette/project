@@ -31,7 +31,7 @@
 
             @foreach ($offres as $offre)
                 <div class="col-md-4 col-sm-4">
-                    <form action="{{ route('abonnements.store') }}" method="POST">
+                    <form action="{{ route('abonnements.payement.check') }}" method="POST">
                         @csrf
                         <div class="package-box">
                             <div class="package-header">
@@ -50,7 +50,7 @@
                                     <li>Full Support</li>
                                 </ul>
                             </div>
-                            <input type="hidden" name="offer_id" value="{{ $offre->id }}">
+                            <input type="hidden" name="offre_id" value="{{ $offre->id }}">
                             <button type="button" data-toggle="modal" data-target="#abonnement-{{ $offre->id }}" class="btn btn-package">Souscrire</button>
                         </div>
 

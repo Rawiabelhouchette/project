@@ -33,6 +33,14 @@ class AbonnementController extends Controller
         return view('admin.abonnement.index');
     }
 
+    // operation de validation avant l'abonnement
+    public function checkPayment(StoreOffreAbonnementRequest $request)
+    {
+        $validated = $request->validated();
+        session()->put('abonnement', $validated);
+        return redirect()->route('paiements.index');
+    }
+
     public function store(StoreOffreAbonnementRequest $request)
     {
         $request->validated();
@@ -65,7 +73,7 @@ class AbonnementController extends Controller
             $abonnement->entreprises()->attach($entreprise->id);
 
             // Get the user
-            $user  = User::find(\auth()->id());
+            $user = User::find(\auth()->id());
 
             // remove role Usager
             $user->removeRole('Usager');
@@ -86,7 +94,7 @@ class AbonnementController extends Controller
         if (\Auth::user()->hasRole('Professionnel')) {
             $abonnements = \Auth::user()->abonnements();
         } else {
-            $abonnements = Abonnement::with('offre','entreprises')->latest();
+            $abonnements = Abonnement::with('offre', 'entreprises')->latest();
         }
 
         $columns = Schema::getColumnListing('abonnements');
@@ -99,15 +107,15 @@ class AbonnementController extends Controller
                     // foreach ($search_columns as $column) {
                     //     $query->orWhereRaw("LOWER({$column}) LIKE ?", ['%' . Str::lower($search) . '%']);
                     // }
-
+    
                     // $query->orWhereHas('entreprises', function ($query) use ($search) {
                     //     $query->whereRaw("LOWER(nom) LIKE ?", ['%' . Str::lower($search) . '%']);
                     // });
-
+    
                     // $query->orWhereHas('offre', function ($query) use ($search) {
                     //     $query->whereRaw("LOWER(libelle) LIKE ?", ['%' . Str::lower($search) . '%']);
                     // });
-
+    
                     // if (Str::lower($search) == 'actif') {
                     //     $query->orWhere('is_active', true);
                     // } elseif (Str::lower($search) == 'inactif') {
