@@ -19,19 +19,19 @@
     </style>
     <script>
         // checkout();
-        $(document).ready(function() {
+        $(document).ready(async function() {
             function checkout() {
                 CinetPay.setConfig({
                     apikey: '{{ $apikey }}', //   YOUR APIKEY
                     site_id: '{{ $site_id }}', //YOUR_SITE_ID
                     notify_url: 'http://mondomaine.com/notify/',
-                    mode: 'PRODUCTION'
+                    mode: 'PROD'
                 });
                 CinetPay.getCheckout({
                     transaction_id: Math.floor(Math.random() * 100000000).toString(), // YOUR TRANSACTION ID
                     amount: {{ $montant }},
                     currency: 'XOF',
-                    channels: 'MOBILE_MONEY',//,CREDIT_CARD',
+                    channels: 'MOBILE_MONEY', //,CREDIT_CARD',
                     // channels: 'ALL',
                     description: 'Test de paiement',
                     //Fournir ces variables pour le paiements par carte bancaire
@@ -61,7 +61,16 @@
                     console.log(data);
                 });
             }
-            checkout();
+            await checkout();
+
+            // wait 2 second
+            setTimeout(function() {
+                console.log('++++++++++++');
+                
+                console.log($('#desk-action').html());
+                $('#desk-action').append('<button type="button" class="btn btn-next btn-block" ">Annuler</button>');
+            }, 5000);
+            // $('.desk-action.p-3').append('<button type="submit" class="btn btn-next btn-block" id="del">Payer 15 000 XOF</button>');
         });
     </script>
 </head>
@@ -70,7 +79,18 @@
     </head>
 
     <body>
-        <div class="sdk"></div>
+        <div style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://docs.cinetpay.com/accueil/assets/images/logo-cinetpay.webp');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        ">
+            <div class="sdk"></div>
+        </div>
     </body>
 
 </html>
