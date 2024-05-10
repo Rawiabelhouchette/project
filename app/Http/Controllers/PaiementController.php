@@ -73,4 +73,11 @@ class PaiementController extends Controller
     {
         //
     }
+
+
+    public function returnURL() 
+    {}
+
+    public function notifyURL()
+    {}
 }

@@ -31,7 +31,8 @@
                     transaction_id: Math.floor(Math.random() * 100000000).toString(), // YOUR TRANSACTION ID
                     amount: {{ $montant }},
                     currency: 'XOF',
-                    channels: 'MOBILE_MONEY', //,CREDIT_CARD',
+                    // channels: 'CREDIT_CARD',
+                    channels: 'MOBILE_MONEY,CREDIT_CARD',
                     // channels: 'ALL',
                     description: 'Test de paiement',
                     //Fournir ces variables pour le paiements par carte bancaire
@@ -41,13 +42,14 @@
                     customer_phone_number: "088767611", //l'email du client
                     customer_address: "BP 0024", //addresse du client
                     customer_city: "Antananarivo", // La ville du client
-                    customer_country: "CM", // le code ISO du pays
-                    customer_state: "CM", // le code ISO l'état
+                    customer_country: "TG", // le code ISO du pays
+                    customer_state: "TG", // le code ISO l'état
                     customer_zip_code: "06510", // code postal
-
                 });
                 CinetPay.waitResponse(function(data) {
                     if (data.status == "REFUSED") {
+                        alert(data);
+                        console.log(data);
                         if (alert("Votre paiement a échoué")) {
                             window.location.reload();
                         }
@@ -63,14 +65,23 @@
             }
             await checkout();
 
+
+
             // wait 2 second
-            setTimeout(function() {
-                console.log('++++++++++++');
-                
-                console.log($('#desk-action').html());
-                $('#desk-action').append('<button type="button" class="btn btn-next btn-block" ">Annuler</button>');
-            }, 5000);
-            // $('.desk-action.p-3').append('<button type="submit" class="btn btn-next btn-block" id="del">Payer 15 000 XOF</button>');
+            //         setTimeout(function() {
+            //             console.log('++++++++++++');
+
+            //             console.log($('#desk-action').html());
+            //             // $('#desk-action').append('<button type="button" class="btn btn-next btn-block" ">Annuler</button>');
+            //             var element = document.getElementById('desk-action');
+            // if (element) {
+            //     console.log(element.innerHTML);
+            //     // element.innerHTML += '<button type="button" class="btn btn-next btn-block">Annuler</button>';
+            // } else {
+            //     console.log('Element #desk-action not found');
+            // }
+            //         }, 5000);
+            //         // $('.desk-action.p-3').append('<button type="submit" class="btn btn-next btn-block" id="del">Payer 15 000 XOF</button>');
         });
     </script>
 </head>
@@ -89,7 +100,7 @@
             background-position: center;
             background-size: contain;
         ">
-            <div class="sdk"></div>
+            {{-- <div class="sdk"></div> --}}
         </div>
     </body>
 

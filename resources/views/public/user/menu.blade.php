@@ -87,14 +87,16 @@
                         @endif --}}
 
                         {{-- Administration --}}
-                        <li>
-                            <a href="{{ route('home') }}" target="_blank">
-                                <span class="custom-checkbox d-block" style="font-size: 18px;">
-                                    <i class="fa-solid fa-cog"></i> &nbsp;
-                                    Administration
-                                </span>
-                            </a>
-                        </li>
+                        @if (auth()->user()->hasRole('Professionnel'))
+                            <li>
+                                <a href="{{ route('home') }}" target="_blank">
+                                    <span class="custom-checkbox d-block" style="font-size: 18px;">
+                                        <i class="fa-solid fa-cog"></i> &nbsp;
+                                        Administration
+                                    </span>
+                                </a>
+                            </li>
+                        @endif
 
                     </ul>
                 </div>
