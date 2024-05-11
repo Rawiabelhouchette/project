@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Paiement;
+
 use Exception;
 
 /**
@@ -203,21 +204,23 @@ class CinetPay
       try {
         $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => $url,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => "",
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 45,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => $method,
-          CURLOPT_POSTFIELDS => json_encode($params),
-          CURLOPT_SSL_VERIFYPEER => $this->VerifySsl,
-          CURLOPT_USERAGENT => 'textuseragent',
-          CURLOPT_HTTPHEADER => array(
-            "content-type:application/json"
-          ),
-        )
+        curl_setopt_array(
+          $curl,
+          array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 45,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_POSTFIELDS => json_encode($params),
+            CURLOPT_SSL_VERIFYPEER => $this->VerifySsl,
+            CURLOPT_USERAGENT => 'textuseragent',
+            CURLOPT_HTTPHEADER => array(
+              "content-type:application/json"
+            ),
+          )
         );
         $response = curl_exec($curl);
         $err = curl_error($curl);
@@ -270,19 +273,23 @@ class CinetPay
     $flux_json = $this->callCinetpayWsMethod($data, $this->BASE_URL . "/check");
 
 
-    if ($flux_json == false)
+    if ($flux_json == false) {
+      \Log::error("Un probleme est survenu lors de l'appel du WS !");
       throw new Exception("Un probleme est survenu lors de l'appel du WS !");
+    }
 
     $StatusPayment = json_decode($flux_json, true);
 
     if (is_array($StatusPayment)) {
       if (empty($StatusPayment['data'])) {
         $message = 'Une erreur est survenue, Code: ' . $StatusPayment['code'] . ', Message: ' . $StatusPayment['message'] . ', Description: ' . $StatusPayment['description'];
+        \Log::error($message);
 
         throw new Exception($message);
       }
 
     }
+    dd($StatusPayment['data']);
     $this->chk_payment_date = $StatusPayment['data']['payment_date'];
     $this->chk_operator_id = $StatusPayment['data']['operator_id'];
     $this->chk_payment_method = $StatusPayment['data']['payment_method'];

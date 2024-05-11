@@ -7,22 +7,31 @@ use App\Models\Abonnement;
 use App\Models\Entreprise;
 use App\Models\OffreAbonnement;
 use App\Models\User;
+use App\Services\Paiement\PaiementService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class AbonnementController extends Controller
 {
-    public function choiceIndex()
+    public function choiceIndex(Request $request)
     {
-        if (!\auth()->check()) {
+        if (!auth()->check()) {
             return redirect()->route('connexion');
         }
 
-        if (!\auth()->user()->hasRole('Usager')) {
+        if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
             // return redirect()->route('accueil');
-            return back();
+            // return back();
+            return redirect()->route('home');
         }
+
+        // dump($request);
+
+        // if ($request->getMethod() == 'POST') {
+        //     dd($request);
+        //     PaiementService::afterPayment($request);
+        // }
 
         $offres = OffreAbonnement::active()->get();
         return view('public.pricing', compact('offres'));

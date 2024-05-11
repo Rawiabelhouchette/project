@@ -127,7 +127,7 @@ Route::group([
 
     });
 
-    Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
+    Route::match(['GET','POST'], 'pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
 
     Route::resource('abonnements', AbonnementController::class);
     Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
@@ -165,3 +165,9 @@ Route::get('500', function () {
     return view('errors.500');
 })->name('500');
 
+
+
+
+Route::get('/test/api', function () {
+    \App\Services\Paiement\PaiementService::checkPayment();
+});

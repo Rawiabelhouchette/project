@@ -4,7 +4,10 @@ namespace App\Services\Paiement;
 use App\Models\User;
 use App\Services\Paiement\CinetPay;
 use App\Services\Paiement\Commande;
+use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Http;
+
 
 class PaiementService
 {
@@ -19,8 +22,6 @@ class PaiementService
                 'url' => null,
             ];
         }
-
-
 
         // La class gère la table "Commande"( A titre d'exemple)
         $commande = new Commande();
@@ -51,8 +52,8 @@ class PaiementService
             $site_id = env("CP_SITE_ID");
 
 
-            $notify_url = 'http://mondomaine.com/notify/';
-            $return_url = 'http://mondomaine.com/return/';
+            $notify_url = route('payment.notification');
+            $return_url = route('payment.return');
 
             // //notify url
             // $notify_url = $commande->getCurrentUrl() . 'cinetpay-sdk-php/notify/notify.php';
@@ -106,8 +107,8 @@ class PaiementService
                 $commande->_montant = $amount;
                 $commande->_transId = $id_transaction;
                 $commande->_method = $channels;
-                $commande->_payId =  
-                $commande->_buyerName = $customer_name . ' ' . $customer_surname;
+                $commande->_payId =
+                    $commande->_buyerName = $customer_name . ' ' . $customer_surname;
                 // $commande->_transStatus = '';
                 // $commande->_signature = '';
                 $commande->_phone = $customer_phone_number;
@@ -116,7 +117,7 @@ class PaiementService
                 // $commande->_dateCreation = date('Y-m-d H:i:s');
                 // $commande->_dateModification = date('Y-m-d H:i:s');
                 // $commande->_datePaiement = '';
-                
+
 
 
                 // ajouter le token à la transaction enregistré
@@ -140,5 +141,57 @@ class PaiementService
                 'url' => null,
             ];
         }
+    }
+
+    public static function afterPayment(Request $request)
+    {
+        if (!$request->transaction_id && !$request->token) {
+            abort(403, "transaction_id non transmis");
+        }
+
+        $commande = new Commande();
+        $id_transaction = $request->transaction_id;
+
+        try {
+            $paiement = self::checkPayment($id_transaction);
+
+            if ($paiement->code != "00") {
+                return redirect()->route('acceuil');
+            }
+
+            return redirect()->route('search');
+
+        } catch (Exception $e) {
+            \Log::error(''. $e->getMessage());
+        }
+        // dump($message);
+        dd('message');
+
+        \Log::info(date('Y-m-d H:i:s') . '==== RETURN =====' . $request);
+
+        // return redirect()->route('pricing');
+        return redirect()->route('accueil');
+
+    }
+
+    public function notify(Request $request)
+    {
+        // ecrire dans le log
+        \Log::info(date('Y-m-d H:i:s') . '==== NOTIFY =====' . $request);
+    }
+
+    public static function checkPayment($transaction_id)
+    {
+        $response = Http::
+            withHeaders([
+                'Content-Type' => 'application/json'
+            ])
+            ->post('https://api-checkout.cinetpay.com/v2/payment/check', [
+                'transaction_id' => $transaction_id,
+                'site_id' => env('CP_SITE_ID'),
+                'apikey' => env('CP_API_KEY'),
+            ]);
+
+        return (object) $response->json();
     }
 }
