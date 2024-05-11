@@ -38,7 +38,7 @@ class AbonnementController extends Controller
     {
         $validated = $request->validated();
         session()->put('abonnement', $validated);
-        return redirect()->route('paiements.index');
+        return redirect()->route('payments.index');
     }
 
     public function store(StoreOffreAbonnementRequest $request)

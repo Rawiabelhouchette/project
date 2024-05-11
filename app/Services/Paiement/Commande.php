@@ -7,19 +7,30 @@ use App\Models\User;
 
 class Commande
 {
-    protected $_montant;
-    protected $_transId;
-    protected $_methode;
-    protected $_payId;
-    protected $_buyerName;
-    protected $_transStatus;
-    protected $_signature;
-    protected $_phone;
-    protected $_errorMessage;
-    protected $_statut;
-    protected $_dateCreation;
-    protected $_dateModification;
-    protected $_datePaiement;
+    public $_montant;
+    public $_transId;
+    public $_methode;
+    public $_payId;
+    public $_buyerName;
+    public $_transStatus;
+    public $_signature;
+    public $_phone;
+    public $_errorMessage;
+    public $_statut;
+    public $_dateCreation;
+    public $_dateModification;
+    public $_datePaiement;
+
+    public $entreprise;
+    public $offre_id;
+    public $numero_telephone;
+    public $numero_whatsapp;
+
+    public function getCurrentUrl()
+    {
+       return  (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]/";
+        
+    }
 
     public function create()
     {
@@ -39,7 +50,12 @@ class Commande
             'date_creation' => $this->_dateCreation,
             'date_modification' => $this->_dateModification,
             'date_paiement' => $this->_datePaiement,
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => auth()->user()->id,
+
+            'entreprise' => $this->entreprise,
+            // 'offre_id' => $this->offre_id,
+            'numero' => $this->numero_telephone,
+            'numero_whatsapp' => $this->numero_whatsapp,
         ]);
     }
 

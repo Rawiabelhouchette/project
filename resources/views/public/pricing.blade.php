@@ -56,7 +56,7 @@
 
                         <div class="modal fade in" id="abonnement-{{ $offre->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                             <div class="modal-dialog">
-                                <div class="modal-content">
+                                <div class="modal-content" style="padding-bottom: 10px;">
 
                                     <div class="modal-header">
                                         <h4 class="modal-title" id="modalLabel2">Création d'entreprise</h4>

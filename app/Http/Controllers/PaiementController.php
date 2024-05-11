@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OffreAbonnement;
+use App\Services\Paiement\PaiementService;
 use Illuminate\Http\Request;
 
 class PaiementController extends Controller
@@ -10,20 +11,38 @@ class PaiementController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         $validated = session()->get('abonnement');
         if (!$validated) {
             return redirect()->route('pricing');
         }
+
         $offre = OffreAbonnement::findOrFail($validated['offre_id']);
-        return view('payment.check', [
-            'request' => $validated,
-            'offre' => $offre->id,
-            'apikey' => '7609021466630b6ca460e04.60749295',
-            'site_id' => '5871411',
-            'montant' => mt_rand($offre->prix, $offre->prix),
-        ]);
+
+        // prix et id de l'utilisateur
+        $guichet = PaiementService::getGuichet($offre->prix, auth()->user()->id, $validated);
+
+        if ($guichet->status == 'success') {
+            // dump($guichet->url);
+            // dd($guichet);
+            return redirect($guichet->url);
+        } else {
+            dd($guichet);
+            return back()->with('error', $guichet->status);
+        }
+
+
+
+
+        // $offre = OffreAbonnement::findOrFail($validated['offre_id']);
+        // return view('payment.check', [
+        //     'request' => $validated,
+        //     'offre' => $offre->id,
+        //     'apikey' => '7609021466630b6ca460e04.60749295',
+        //     'site_id' => '5871411',
+        //     'montant' => mt_rand($offre->prix, $offre->prix),
+        // ]);
     }
 
     /**
@@ -75,9 +94,11 @@ class PaiementController extends Controller
     }
 
 
-    public function returnURL() 
-    {}
+    public function returnURL()
+    {
+    }
 
     public function notifyURL()
-    {}
+    {
+    }
 }

@@ -134,7 +134,7 @@ Route::group([
     Route::post('abonnements/payment/check', [AbonnementController::class, 'checkPayment'])->name('abonnements.payement.check');
     // Route::post('abonnements/payment/check', [AbonnementController::class, 'checkPayment'])->name('abonnements.payement.check');
 
-    Route::resource('paiements', PaiementController::class);
+    Route::resource('payments', PaiementController::class);
 
     Route::resource('subscriptions', SubscriptionController::class);
     Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
