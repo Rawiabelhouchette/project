@@ -222,3 +222,23 @@ NOTIFY
 - Creer une table qui va contenir le hash de la notification
 - [envoi] generer le hash a fois qu'il y a paiement et le supprimer (apres 24h)
 - Verifier si le hash existe deja et que ca correspond a l'utilisateur connecte
+
+
+## 11/05/2024
+Make sure to generate an unique transaction id
+
+Payment status
++ INITIALIZED
++ PENDING
++ ERROR
++ COMPLETED
+
+- Receive a post request from CinetPay
+- Compare transaction_id and site_id (CinetPay - Our DB)
+- Do a request on transaction to ensure that it exists
+- Check the amount using the "offre->prix" value
+- Check transaction status
+  - OK : Make the user become a "Professionnel" and create entreprise
+  - Nok : Do nothing
+
+

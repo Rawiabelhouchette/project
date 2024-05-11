@@ -164,10 +164,3 @@ Route::get('404', function () {
 Route::get('500', function () {
     return view('errors.500');
 })->name('500');
-
-
-
-
-Route::get('/test/api', function () {
-    \App\Services\Paiement\PaiementService::checkPayment();
-});

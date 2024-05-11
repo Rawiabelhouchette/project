@@ -149,29 +149,7 @@ class PaiementService
             abort(403, "transaction_id non transmis");
         }
 
-        $commande = new Commande();
-        $id_transaction = $request->transaction_id;
-
-        try {
-            $paiement = self::checkPayment($id_transaction);
-
-            if ($paiement->code != "00") {
-                return redirect()->route('acceuil');
-            }
-
-            return redirect()->route('search');
-
-        } catch (Exception $e) {
-            \Log::error(''. $e->getMessage());
-        }
-        // dump($message);
-        dd('message');
-
-        \Log::info(date('Y-m-d H:i:s') . '==== RETURN =====' . $request);
-
-        // return redirect()->route('pricing');
-        return redirect()->route('accueil');
-
+        return redirect()->route('pricing');
     }
 
     public function notify(Request $request)

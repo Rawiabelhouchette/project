@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::match(['get','post'],'/payment/notify', [PaiementService::class, 'notify'])->name('payment.notification');
+Route::match(['get', 'post'], '/payment/notify', [PaiementService::class, 'notify'])->name('payment.notification');
 
 Route::post('/payment/return', [PaiementService::class, 'afterPayment'])->name('payment.return');
