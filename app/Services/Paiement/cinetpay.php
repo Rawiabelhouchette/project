@@ -3,6 +3,7 @@
 namespace App\Services\Paiement;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 /**
  * CinetPay
@@ -265,7 +266,8 @@ class CinetPay
     );
     return $dataArray;
   }
-  //get payStatus
+  // get payStatus
+  // UNUSED
   public function getPayStatus($id_transaction, $site_id)
   {
     $data = (array) $this->getPayStatusArray($id_transaction, $site_id);
@@ -274,7 +276,7 @@ class CinetPay
 
 
     if ($flux_json == false) {
-      \Log::error("Un probleme est survenu lors de l'appel du WS !");
+      Log::error("Un probleme est survenu lors de l'appel du WS !");
       throw new Exception("Un probleme est survenu lors de l'appel du WS !");
     }
 
@@ -283,13 +285,13 @@ class CinetPay
     if (is_array($StatusPayment)) {
       if (empty($StatusPayment['data'])) {
         $message = 'Une erreur est survenue, Code: ' . $StatusPayment['code'] . ', Message: ' . $StatusPayment['message'] . ', Description: ' . $StatusPayment['description'];
-        \Log::error($message);
+        Log::error($message);
 
         throw new Exception($message);
       }
 
     }
-    dd($StatusPayment['data']);
+    // dd($StatusPayment['data']);
     $this->chk_payment_date = $StatusPayment['data']['payment_date'];
     $this->chk_operator_id = $StatusPayment['data']['operator_id'];
     $this->chk_payment_method = $StatusPayment['data']['payment_method'];

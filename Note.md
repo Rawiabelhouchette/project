@@ -228,10 +228,9 @@ NOTIFY
 Make sure to generate an unique transaction id
 
 Payment status
-+ INITIALIZED
-+ PENDING
-+ ERROR
-+ COMPLETED
++ PENDING : 0
++ ERROR : -1
++ COMPLETED : 1
 
 - Receive a post request from CinetPay
 - Compare transaction_id and site_id (CinetPay - Our DB)

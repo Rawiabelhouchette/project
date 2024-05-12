@@ -1,12 +1,17 @@
 <?php
 namespace App\Services\Paiement;
 
+use App\Models\Entreprise;
+use App\Models\OffreAbonnement;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Services\Paiement\CinetPay;
 use App\Services\Paiement\Commande;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 
 class PaiementService
@@ -149,13 +154,106 @@ class PaiementService
             abort(403, "transaction_id non transmis");
         }
 
+        // check payment and return to staff is it's success
+
         return redirect()->route('pricing');
     }
 
     public function notify(Request $request)
     {
-        // ecrire dans le log
-        \Log::info(date('Y-m-d H:i:s') . '==== NOTIFY =====' . $request);
+        // check if request contains transaction_id
+        if (!$request->cpm_trans_id) {
+            abort(403, "transaction_id non transmis");
+        }
+        DB::beginTransaction();
+
+        try {
+            // concatenate all the parameters
+            $data_post = implode('', $request->all());
+
+
+            // create token with HMAC-SHA256 method with a secret key
+            $generated_token = hash_hmac('SHA256', $data_post, env('CP_SECRET_KEY'));
+
+            // check if token is available in the header
+            if ($request->header('X-Token')) {
+                $xtoken = $request->header('X-Token');
+            } else {
+                abort(403, "X-token indisponible");
+            }
+
+            // check if the token is valid
+            if (!hash_equals($xtoken, $generated_token)) {
+                abort(403, "Token invalide");
+            }
+
+            // check if the transaction is valid in DB
+            $transaction = Transaction::where('trans_id', $request->cpm_trans_id)->where('signature', $request->signature)->first();
+            // -1 : error
+            //  0  : pending
+            //  1  : success
+            if ($transaction == 1) {
+                abort(403, "Transaction déjà effectuée");
+            }
+
+            // check if the transaction is valid
+            $check_transaction = self::checkPayment($request->cpm_trans_id);
+            if ($check_transaction->code != '00') {
+                // session flash message
+                session()->flash('error', 'Echec, votre paiement a échoué');
+                abort(403, "Echec, votre paiement a échoué");
+            }
+
+            // update the transaction
+            $transaction->update([
+                'statut' => 1,
+                'date_modification' => date('Y-m-d H:i:s'),
+                'date_paiement' => date('Y-m-d H:i:s'),
+                // other fields
+            ]);
+
+            // check if company is valid,
+            $company_name = $transaction->entreprise;
+
+            $check_company = Entreprise::where('nom', $company_name)->where('telephone', $transaction->numero)->first();
+
+            if ($check_company) {
+                // update company information
+                $company_name = $company_name . rand(10, 100);
+            }
+
+            // save company information
+            $company = Entreprise::create([
+                'nom' => $company_name,
+                'telephone' => $transaction->numero,
+                'whatsapp' => $transaction->numero_whatsapp,
+            ]);
+
+
+            // Get offre dabonnement
+            $offre_abonnement = OffreAbonnement::find($transaction->offre_id);
+
+            // Create a new subscription for the company
+            $subscription = $company->abonnements()->create([
+                'offre_id' => $offre_abonnement->id,
+                'date_debut' => date('Y-m-d H:i:s'),
+                'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
+            ]);
+
+            // send email to the company and admin
+
+
+            // logging in subscription channel
+            $message = "New subscription from " . $company->nom . " with offer " . $offre_abonnement->libelle . " (" + $offre_abonnement->prix + ")at " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
+            Log::channel('subscription')->info($message);
+
+            DB::commit();
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            // Mail to admin
+        }
     }
 
     public static function checkPayment($transaction_id)
