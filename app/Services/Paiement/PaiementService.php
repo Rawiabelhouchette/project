@@ -31,16 +31,13 @@ class PaiementService
         // La class gère la table "Commande"( A titre d'exemple)
         $commande = new Commande();
         try {
-            $commande->entreprise = $validated['nom_entreprise'];
-            $commande->numero = $validated['numero_telephone'];
-            $commande->numero_whatsapp = $validated['numero_whatsapp'];
 
             $customer_name = $user->prenom;
             $customer_surname = $user->nom;
-            $description = 'description';
+            $description = "Paiement d'un abonnement de " . $amount . " FCFA";
             $customer_phone_number = $user->telephone ?? '90 90 90 90';
             $customer_email = $user->email;
-            $customer_address = 'adresse';
+            $customer_address = 'Togo';
             $customer_city = 'Togo';
             $customer_state = 'TG';
             $customer_country = 'TG';
@@ -49,7 +46,7 @@ class PaiementService
 
 
             //transaction id
-            $id_transaction = date("YmdHis"); // or $id_transaction = Cinetpay::generateTransId()
+            $id_transaction = self::generateTransId();
 
             //Veuillez entrer votre apiKey
             $apikey = env("CP_API_KEY");
@@ -60,10 +57,6 @@ class PaiementService
             $notify_url = route('payment.notification');
             $return_url = route('payment.return');
 
-            // //notify url
-            // $notify_url = $commande->getCurrentUrl() . 'cinetpay-sdk-php/notify/notify.php';
-            // //return url
-            // $return_url = $commande->getCurrentUrl() . 'cinetpay-sdk-php/return/return.php';
             // // $channels = "ALL";
             $channels = 'MOBILE_MONEY,CREDIT_CARD';
 
@@ -107,28 +100,24 @@ class PaiementService
             if ($result["code"] == '201') {
                 $url = $result["data"]["payment_url"];
 
+                $checStatus = self::checkPayment($id_transaction);
 
-                // ==================
+                // Preparation des elements pour l'enregistrement de la transaction dans la base de données 
+                $commande->_entreprise = $validated['nom_entreprise'];
+                $commande->_numTelephone = $validated['numero_telephone'];
+                $commande->_numWhatsapp = $validated['numero_whatsapp'];
+                $commande->_offreId = $validated['offre_id'];
+                // ============================
                 $commande->_montant = $amount;
                 $commande->_transId = $id_transaction;
                 $commande->_method = $channels;
-                $commande->_payId =
-                    $commande->_buyerName = $customer_name . ' ' . $customer_surname;
-                // $commande->_transStatus = '';
-                // $commande->_signature = '';
+                $commande->_payId = '';
+                $commande->_buyerName = $customer_name . ' ' . $customer_surname;
+                $commande->_transStatus = $checStatus->data['status'];
+                $commande->_signature = self::generateSignature();
                 $commande->_phone = $customer_phone_number;
-                // $commande->_errorMessage = '';
-                // $commande->_statut = '';
-                // $commande->_dateCreation = date('Y-m-d H:i:s');
-                // $commande->_dateModification = date('Y-m-d H:i:s');
-                // $commande->_datePaiement = '';
-
-
-
-                // ajouter le token à la transaction enregistré
-                /* $commande->update(); */
-                //redirection vers l'url de paiement
-                // header('Location:' . $url);
+                $commande->_errorMessage = $checStatus->message;
+                $commande->_statut = '0';
 
                 $commande->create();
 
@@ -165,7 +154,7 @@ class PaiementService
         if (!$request->cpm_trans_id) {
             abort(403, "transaction_id non transmis");
         }
-        
+
         DB::beginTransaction();
 
         try {
@@ -187,18 +176,40 @@ class PaiementService
                 abort(403, "Token invalide");
             }
 
+            // LOG the transaction
+
+            // Valid Token
+            $validtoken = True;
+
+            $log = "User: " . $_SERVER['REMOTE_ADDR'] . ' - ' . date("F j, Y, g:i a") . PHP_EOL .
+                "TransId:" . $_POST['cpm_trans_id'] . PHP_EOL .
+                "SiteId: " . $_POST['cpm_site_id'] . PHP_EOL .
+                "HMAC RECU: " . $xtoken . PHP_EOL .
+                "HMAC GENERATE: " . $generated_token . PHP_EOL .
+                "VALID-TOKEN: " . $validtoken . PHP_EOL .
+                "-------------------------" . PHP_EOL;
+            Log::channel('transaction')->info('' . $log);
+
             // check if the transaction is valid in DB
             $transaction = Transaction::where('trans_id', $request->cpm_trans_id)->where('signature', $request->signature)->first();
             // -1 : error
             //  0  : pending
             //  1  : success
-            if ($transaction == 1) {
+            // TODO : Shall I check from de db first ?
+            if ($transaction->statut == 1) {
                 abort(403, "Transaction déjà effectuée");
             }
 
             // check if the transaction is valid
             $check_transaction = self::checkPayment($request->cpm_trans_id);
             if ($check_transaction->code != '00') {
+                // update the transaction
+                $transaction->update([
+                    'statut' => -1,
+                    'date_paiement' => date('Y-m-d H:i:s'),
+                    'error_message' => $check_transaction->message,
+                    'trans_status' => $check_transaction->data['status'],
+                ]);
                 // session flash message
                 session()->flash('error', 'Echec, votre paiement a échoué');
                 abort(403, "Echec, votre paiement a échoué");
@@ -207,9 +218,9 @@ class PaiementService
             // update the transaction
             $transaction->update([
                 'statut' => 1,
-                'date_modification' => date('Y-m-d H:i:s'),
                 'date_paiement' => date('Y-m-d H:i:s'),
-                // other fields
+                'error_message' => $check_transaction->message,
+                'trans_status' => $check_transaction->data['status'],
             ]);
 
             // check if company is valid,
@@ -288,4 +299,20 @@ class PaiementService
 
         return (object) $response->json();
     }
+
+    public static function generateTransId(): string
+    {
+        $timestamp = time();
+        $parts = explode(' ', microtime());
+        $id = ($timestamp + $parts[0] - strtotime('today 00:00')) * 10;
+        $id = sprintf('%06d', $id) . $timestamp . mt_rand(100, 9999);
+
+        return $id;
+    }
+
+    public static function generateSignature()
+    {
+        return sha1(uniqid(mt_rand(), true));
+    }
+
 }

@@ -9,7 +9,7 @@ class Commande
 {
     public $_montant;
     public $_transId;
-    public $_methode;
+    public $_method;
     public $_payId;
     public $_buyerName;
     public $_transStatus;
@@ -17,14 +17,12 @@ class Commande
     public $_phone;
     public $_errorMessage;
     public $_statut;
-    public $_dateCreation;
-    public $_dateModification;
     public $_datePaiement;
 
-    public $entreprise;
-    public $offre_id;
-    public $numero_telephone;
-    public $numero_whatsapp;
+    public $_entreprise;
+    public $_offreId;
+    public $_numTelephone;
+    public $_numWhatsapp;
 
     public function getCurrentUrl()
     {
@@ -36,10 +34,9 @@ class Commande
     {
         // Création d'une nouvelle commande
         Transaction::create([
-            'abonnement_id' => Abonnement::inRandomOrder()->first()->id,
             'montant' => $this->_montant,
             'trans_id' => $this->_transId,
-            'method' => $this->_methode,
+            'method' => $this->_method,
             'pay_id' => $this->_payId,
             'buyer_name' => $this->_buyerName,
             'trans_status' => $this->_transStatus,
@@ -47,15 +44,13 @@ class Commande
             'phone' => $this->_phone,
             'error_message' => $this->_errorMessage,
             'statut' => $this->_statut,
-            'date_creation' => $this->_dateCreation,
-            'date_modification' => $this->_dateModification,
             'date_paiement' => $this->_datePaiement,
             'user_id' => auth()->user()->id,
+            'offre_id' => $this->_offreId,
 
-            'entreprise' => $this->entreprise,
-            // 'offre_id' => $this->offre_id,
-            'numero' => $this->numero_telephone,
-            'numero_whatsapp' => $this->numero_whatsapp,
+            'entreprise' => $this->_entreprise,
+            'numero' => $this->_numTelephone,
+            'numero_whatsapp' => $this->_numWhatsapp,
         ]);
     }
 
@@ -106,7 +101,7 @@ class Commande
      */
     public function getMethode()
     {
-        return $this->_methode;
+        return $this->_method;
     }
 
     /**
@@ -114,7 +109,7 @@ class Commande
      */
     public function setMethode($methode)
     {
-        $this->_methode = $methode;
+        $this->_method = $methode;
     }
 
     /**

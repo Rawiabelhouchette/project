@@ -139,6 +139,13 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
         ],
+
+        'transaction' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/transaction/transaction.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
     ],
 
 ];
