@@ -224,7 +224,7 @@ NOTIFY
 - Verifier si le hash existe deja et que ca correspond a l'utilisateur connecte
 
 
-## 11/05/2024
+## [ok] 11/05/2024
 Make sure to generate an unique transaction id
 
 Payment status
@@ -239,5 +239,7 @@ Payment status
 - Check transaction status
   - OK : Make the user become a "Professionnel" and create entreprise
   - Nok : Do nothing
+
+## 13/05/2024 : MAILING
 
 
