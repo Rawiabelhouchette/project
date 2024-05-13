@@ -132,21 +132,11 @@ Route::group([
     Route::resource('abonnements', AbonnementController::class);
     Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
     Route::post('abonnements/payment/check', [AbonnementController::class, 'checkPayment'])->name('abonnements.payement.check');
-    // Route::post('abonnements/payment/check', [AbonnementController::class, 'checkPayment'])->name('abonnements.payement.check');
 
     Route::resource('payments', PaiementController::class);
 
     Route::resource('subscriptions', SubscriptionController::class);
     Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
-
-    // TODO: Route for 404, 403, 500, 503, etc
-    
-    // Paiements
-    // GET AND POST ROUTE
-    // Route::match(['get', 'post'], 'payment/notify', function() {
-
-    // });
-    
 
 
 });

@@ -52,6 +52,7 @@ class AbonnementController extends Controller
 
     public function store(StoreOffreAbonnementRequest $request)
     {
+        // UNUSED
         $request->validated();
 
         DB::beginTransaction();
@@ -65,7 +66,7 @@ class AbonnementController extends Controller
             ]);
 
             // set the user entreprise_id
-            \auth()->user()->entreprises()->attach($entreprise->id, [
+            auth()->user()->entreprises()->attach($entreprise->id, [
                 'is_admin' => true,
                 'is_active' => true,
                 'date_debut' => now(),
@@ -82,7 +83,7 @@ class AbonnementController extends Controller
             $abonnement->entreprises()->attach($entreprise->id);
 
             // Get the user
-            $user = User::find(\auth()->id());
+            $user = User::find(auth()->id());
 
             // remove role Usager
             $user->removeRole('Usager');

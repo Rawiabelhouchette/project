@@ -165,12 +165,12 @@ class PaiementService
         if (!$request->cpm_trans_id) {
             abort(403, "transaction_id non transmis");
         }
+        
         DB::beginTransaction();
 
         try {
             // concatenate all the parameters
             $data_post = implode('', $request->all());
-
 
             // create token with HMAC-SHA256 method with a secret key
             $generated_token = hash_hmac('SHA256', $data_post, env('CP_SECRET_KEY'));
@@ -217,6 +217,7 @@ class PaiementService
 
             $check_company = Entreprise::where('nom', $company_name)->where('telephone', $transaction->numero)->first();
 
+            // check if company name already exist 
             if ($check_company) {
                 // update company information
                 $company_name = $company_name . rand(10, 100);
@@ -229,6 +230,16 @@ class PaiementService
                 'whatsapp' => $transaction->numero_whatsapp,
             ]);
 
+            // Get the user
+            $user = User::find($transaction->user_id);
+
+            // set the user entreprise_id
+            $user->entreprises()->attach($company->id, [
+                'is_admin' => true,
+                'is_active' => true,
+                'date_debut' => now(),
+            ]);
+
 
             // Get offre dabonnement
             $offre_abonnement = OffreAbonnement::find($transaction->offre_id);
@@ -239,6 +250,13 @@ class PaiementService
                 'date_debut' => date('Y-m-d H:i:s'),
                 'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
             ]);
+
+            // link the abonnement to the entreprise
+            $subscription->entreprises()->attach($company->id);
+
+            // remove role Usager
+            $user->removeRole('Usager');
+            $user->assignRole('Professionnel');
 
             // send email to the company and admin
 
