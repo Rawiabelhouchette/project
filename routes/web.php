@@ -24,6 +24,9 @@ use App\Http\Controllers\searchController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
+use App\Models\Abonnement;
+use App\Models\User;
+use App\Services\MailingService;
 use App\Services\Paiement\Commande;
 use App\Services\PaiementService;
 use Illuminate\Support\Facades\Route;
@@ -127,7 +130,7 @@ Route::group([
 
     });
 
-    Route::match(['GET','POST'], 'pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
+    Route::match (['GET', 'POST'], 'pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
 
     Route::resource('abonnements', AbonnementController::class);
     Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
@@ -154,3 +157,12 @@ Route::get('404', function () {
 Route::get('500', function () {
     return view('errors.500');
 })->name('500');
+
+
+
+// route to test mail sending
+Route::get('mail', function () {
+    $user = User::inRandomOrder()->first();
+    $subscription = Abonnement::inRandomOrder()->first();
+    MailingService::sendSuccessSubscriptionMail($user, $subscription);
+})->name('mail');
