@@ -37,7 +37,7 @@
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <label class="">Nom de l'hébergement
+                                <label class="">Nom
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
                                 <input type="text" class="form-control" placeholder="" required wire:model.defer='nom' required>
@@ -227,7 +227,7 @@
                     'galery' => $galerie,
                 ])
 
-                <div class="row">
+                <div class="row padd-bot-15">
                     <div class="form-group" style="margin-top: 15px;">
                         <div class="col-md-12 col-sm-12 text-right">
                             <button wire:target='store' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 30px;">

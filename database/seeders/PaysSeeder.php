@@ -38,5 +38,19 @@ class PaysSeeder extends Seeder
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);
+
+        Quartier::updateOrCreate([
+            'nom' => 'Totsi',
+            'ville_id' => 1,
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
+
+        Quartier::updateOrCreate([
+            'nom' => 'Adidogomé',
+            'ville_id' => 1,
+            'created_by' => User::first()->id,
+            'updated_by' => User::first()->id,
+        ]);
     }
 }

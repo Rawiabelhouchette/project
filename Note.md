@@ -46,19 +46,21 @@ La description d'entreprise ne marche pas
 # Liste de taches a faire
 ## Utilisateur public authentifié
 -  [ok] Concevoir le model pour les utilisateurs publiques
-- Editer l'affichage court des annonces
+- [ok] Editer l'affichage court des annonces
 - [ok] Permettre la creation de compte client
-- Concevoir les pages d'affichage détaillé des annonces
-- Ajouter les facettes sur la page de recherche
-- Ajouter les options de partage sur les annonces
+- [ok] Concevoir les pages d'affichage détaillé des annonces
+- [ok] Ajouter les facettes sur la page de recherche
+- [ok] Ajouter les options de partage sur les annonces
 - [ok] Ajouter l'option de favoris sur les annonces
-- Fonction visualisation des annonces favoris
-- Visualisation des mes informations
-- Changement de mot de passe (par mail)
-- Faire une verification du compte par mail
-- Faire des recherches sur la connexion via google account (pas possible pour le momennt apres recherche )
-- Chercher si possible pourquoi les images font genre ne s'affiche pas parfois
-- Trouver une maniere des faire le deploiement automatique
+- [ok] Fonction visualisation des annonces favoris
+- [ok] Visualisation des mes informations
+- [ok] Changement de mot de passe (par mail)
+- [...] Faire une verification du compte par mail
+- [ok] [notPossible] Faire des recherches sur la connexion via google account (pas possible pour le momennt apres recherche )
+- [ok] Chercher si possible pourquoi les images font genre ne s'affiche pas parfois
+  [raison] Donner les bonnes permission sur les dossiers
+- [ok] Trouver une maniere des faire le deploiement automatique
+  [solution] Via Github, avec une branche dédiée
 
 
 # verifier et gerer la suppression des fichiers
@@ -117,7 +119,8 @@ https://www.youtube.com/watch?v=NsFSA-MQjeY&ab_channel=CodeWithTony
 
 ## A continuer
 - [ok] Rechecher de favoris et de commentaire
-- Suppression d'un commentaire [attendre] - Dans Favoris le render (ne pas l'executer) 
+- Suppression d'un commentaire [attendre] 
+- Dans Favoris le render (ne pas l'executer) 
 
 380
 
@@ -143,13 +146,13 @@ Home, location vehicule, le bon type n'est pas pris
 
 
 
-- Enlever le nice-select
-- Revoir la couleur des options de localisation
-- on filter , changer l'url de sort a mettre correction les attributs (Le but c'est d'eviter les caracteres speciaux dans l'url)
+- [ok] Enlever le nice-select
+- [ok] Revoir la couleur des options de localisation
+- [ok] on filter , changer l'url de sort a mettre correction les attributs (Le but c'est d'eviter les caracteres speciaux dans l'url)
 
 
 
-- update url on launch using attributes
+- [ok] update url on launch using attributes
 
 
 ## 26/02/2024
@@ -196,3 +199,47 @@ Etape de creation d'un nouvel abonnement
 ## 21/04/2024
 - Add a loader when loading annonce images
 - Demande a MOnsieur de definir le nombre d'image a uploader et la taille max
+
+
+## 24/04/2024
+- Demander a Monsieur de definir les options des abonnements
+
+## 26/04/2024
+- [ok] Ajouter le mask de saisi sur le numero de telephone lors de la creation d'enreprise
+- Gerer l'envoi de mail de rappel pour les abonnements
+
+
+## 01/05/2024
+- Desactiver le hide du modal quand l'utilisateur clique en dehors du modal lors du processus de connexion et de creation de compte
+
+
+PAIEMENT
+- url de notification doit être une chaine cryptee qui doit changer tout les jours
+- 
+
+
+NOTIFY
+- Creer une table qui va contenir le hash de la notification
+- [envoi] generer le hash a fois qu'il y a paiement et le supprimer (apres 24h)
+- Verifier si le hash existe deja et que ca correspond a l'utilisateur connecte
+
+
+## [ok] 11/05/2024
+Make sure to generate an unique transaction id
+
+Payment status
++ PENDING : 0
++ ERROR : -1
++ COMPLETED : 1
+
+- Receive a post request from CinetPay
+- Compare transaction_id and site_id (CinetPay - Our DB)
+- Do a request on transaction to ensure that it exists
+- Check the amount using the "offre->prix" value
+- Check transaction status
+  - OK : Make the user become a "Professionnel" and create entreprise
+  - Nok : Do nothing
+
+## 13/05/2024 : MAILING
+
+

@@ -92,7 +92,6 @@
                     <span class="custom-checkbox d-block">
                         <input id="remember" type="checkbox" name="remember" wire:model="remember">
                         <label for="remember">
-
                             {{ __('Se souvenir de moi') }}
                         </label>
                     </span>

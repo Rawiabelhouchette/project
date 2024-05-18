@@ -31,7 +31,7 @@
 
             @foreach ($offres as $offre)
                 <div class="col-md-4 col-sm-4">
-                    <form action="{{ route('abonnements.store') }}" method="POST">
+                    <form action="{{ route('abonnements.payement.check') }}" method="POST">
                         @csrf
                         <div class="package-box">
                             <div class="package-header">
@@ -50,13 +50,13 @@
                                     <li>Full Support</li>
                                 </ul>
                             </div>
-                            <input type="hidden" name="offer_id" value="{{ $offre->id }}">
+                            <input type="hidden" name="offre_id" value="{{ $offre->id }}">
                             <button type="button" data-toggle="modal" data-target="#abonnement-{{ $offre->id }}" class="btn btn-package">Souscrire</button>
                         </div>
 
                         <div class="modal fade in" id="abonnement-{{ $offre->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                             <div class="modal-dialog">
-                                <div class="modal-content">
+                                <div class="modal-content" style="padding-bottom: 10px;">
 
                                     <div class="modal-header">
                                         <h4 class="modal-title" id="modalLabel2">Création d'entreprise</h4>
@@ -78,12 +78,12 @@
 
                                         <div class="form-group">
                                             <label>Numéro de téléphone</label>
-                                            <input type="text" name="numero_telephone" class="form-control" placeholder="" required>
+                                            <input type="text" name="numero_telephone" class="form-control telephone" data-country="Togo" placeholder="" required>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Numéro de whatsapp</label>
-                                            <input type="text" name="numero_whatsapp" class="form-control" placeholder="" required>
+                                            <input type="text" name="numero_whatsapp" class="form-control telephone" data-country="Togo" placeholder="" required>
                                         </div>
 
                                         <div class="center">
@@ -99,3 +99,11 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            applyMask('Togo');
+        });
+    </script>
+@endpush
