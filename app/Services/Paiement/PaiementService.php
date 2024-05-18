@@ -116,7 +116,6 @@ class PaiementService
                 $commande->_payId = '';
                 $commande->_buyerName = $customer_name . ' ' . $customer_surname;
                 $commande->_transStatus = $checStatus->data['status'];
-                $commande->_signature = self::generateSignature($amount, $currency);
                 $commande->_phone = $customer_phone_number;
                 $commande->_errorMessage = $checStatus->message;
                 $commande->_statut = '0';
@@ -156,7 +155,7 @@ class PaiementService
 
     public function notify(Request $request)
     {
-        Log::info('+++++++++++++++++++++++++++=' . $request);
+        // Log::info('' . $request);
         // check if request contains transaction_id
         if (!$request->cpm_trans_id) {
             abort(403, "transaction_id non transmis");
@@ -199,10 +198,14 @@ class PaiementService
             Log::channel('transaction')->info('' . $log);
 
             // check if the transaction is valid in DB
-            $transaction = Transaction::where('trans_id', $request->cpm_trans_id)->where('signature', $request->signature)->first();
+            $transaction = Transaction::where('trans_id', $request->cpm_trans_id)->first();
             // -1 : error
             //  0  : pending
             //  1  : success
+            if (!$transaction) {
+                abort(403, "Transaction non trouvée");
+            }
+
             // TODO : Shall I check from de db first ?
             if ($transaction->statut == 1) {
                 abort(403, "Transaction déjà effectuée");
@@ -214,7 +217,6 @@ class PaiementService
                 // update the transaction
                 $transaction->update([
                     'statut' => -1,
-                    'date_paiement' => date('Y-m-d H:i:s'),
                     'error_message' => $check_transaction->message,
                     'trans_status' => $check_transaction->data['status'],
                 ]);
@@ -226,7 +228,8 @@ class PaiementService
             // update the transaction
             $transaction->update([
                 'statut' => 1,
-                'date_paiement' => date('Y-m-d H:i:s'),
+                'signature' => $request->signature,
+                'date_paiement' => $request->cpm_trans_date,
                 'error_message' => $check_transaction->message,
                 'trans_status' => $check_transaction->data['status'],
             ]);
@@ -265,10 +268,15 @@ class PaiementService
 
             // Create a new subscription for the company
             $subscription = $company->abonnements()->create([
-                'offre_id' => $offre_abonnement->id,
+                'offre_abonnement_id' => $offre_abonnement->id,
                 'date_debut' => date('Y-m-d H:i:s'),
                 'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
             ]);
+            // $subscription = $company->abonnements()->create([
+            //     'offre_abonnement_id' => $offre_abonnement->id,
+            //     'date_debut' => date('Y-m-d H:i:s'),
+            //     'date_fin' => date('Y-m-d', strtotime('+' . $offre_abonnement->duree . ' month')) . ' 23:59:59',
+            // ]);
 
             // link the abonnement to the entreprise
             $subscription->entreprises()->attach($company->id);
@@ -281,7 +289,7 @@ class PaiementService
 
 
             // logging in subscription channel
-            $message = "New subscription from " . $company->nom . " with offer " . $offre_abonnement->libelle . " (" + $offre_abonnement->prix + ")at " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
+            $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offre_abonnement->libelle . "' (" . $offre_abonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
             Log::channel('subscription')->info($message);
 
             DB::commit();
@@ -323,92 +331,7 @@ class PaiementService
         $status = 'ACCEPTED';
         // return sha1(uniqid(mt_rand(), true));
         $data = $amount . ' ' . $currency . ' ' . $status;
-        $generated_signature = hash_hmac('SHA256', $data, env('CP_SECRET_KEY'));
-        return $generated_signature;
+        return hash_hmac('SHA256', $data, env('CP_SECRET_KEY'));
     }
-
-    public static function registerSubscription($cpm_trans_id)
-    {
-        $check_transaction = self::checkPayment($cpm_trans_id);
-        if ($check_transaction->code != '00') {
-            return false;
-        }
-
-
-        $signature = $check_transaction->data['amount'] . $check_transaction->data['currency'] . $check_transaction->data['status'];
-        $generated_signature = hash_hmac('SHA256', $signature, env('CP_SECRET_KEY'));
-        dd($generated_signature, $signature);
-        $transaction = Transaction::where('trans_id', $cpm_trans_id)->where('signature', $generated_signature)->first();
-
-        // dd($check_transaction->data['currency'], $check_transaction->data['amount'], $check_transaction->data['status']);
-        if (!$transaction) {
-            return false;
-        }
-        dd($transaction);
-
-        // update the transaction
-        $transaction->update([
-            'statut' => 1,
-            'date_paiement' => date('Y-m-d H:i:s'),
-            'error_message' => $check_transaction->message,
-            'trans_status' => $check_transaction->data['status'],
-        ]);
-
-        // check if company is valid,
-        $company_name = $transaction->entreprise;
-
-        $check_company = Entreprise::where('nom', $company_name)->where('telephone', $transaction->numero)->first();
-
-        // check if company name already exist 
-        if ($check_company) {
-            // update company information
-            $company_name = $company_name . rand(10, 100);
-        }
-
-        // save company information
-        $company = Entreprise::create([
-            'nom' => $company_name,
-            'telephone' => $transaction->numero,
-            'whatsapp' => $transaction->numero_whatsapp,
-        ]);
-
-        // Get the user
-        $user = User::find($transaction->user_id);
-
-        // set the user entreprise_id
-        $user->entreprises()->attach($company->id, [
-            'is_admin' => true,
-            'is_active' => true,
-            'date_debut' => now(),
-        ]);
-
-
-        // Get offre dabonnement
-        $offre_abonnement = OffreAbonnement::find($transaction->offre_id);
-
-        // Create a new subscription for the company
-        $subscription = $company->abonnements()->create([
-            'offre_id' => $offre_abonnement->id,
-            'date_debut' => date('Y-m-d H:i:s'),
-            'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
-        ]);
-
-        // link the abonnement to the entreprise
-        $subscription->entreprises()->attach($company->id);
-
-        // remove role Usager
-        $user->removeRole('Usager');
-        $user->assignRole('Professionnel');
-
-        // send email to the company and admin
-
-
-        // logging in subscription channel
-        $message = "New subscription from " . $company->nom . " with offer " . $offre_abonnement->libelle . " (" + $offre_abonnement->prix + ")at " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
-        Log::channel('subscription')->info($message);
-        return true;
-    }
-
-
 
 }
