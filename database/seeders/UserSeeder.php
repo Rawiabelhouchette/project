@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'email' => 'bill@bill.com',
             'telephone' => '90 90 90 90',
             'password' => 'bill',
-        ])->assignRole('Professionnel');
+        ])->assignRole('Administrateur');
 
         User::create([
             'nom' => 'martin',
@@ -29,6 +29,6 @@ class UserSeeder extends Seeder
             'email' => 'martin@numdoc.fr',
             'telephone' => '90 90 90 87',
             'password' => 'martin',
-        ])->assignRole('Professionnel');
+        ])->assignRole('Administrateur');
     }
 }

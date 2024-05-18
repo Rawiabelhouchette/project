@@ -221,7 +221,7 @@
                     'galery' => $galerie,
                 ])
 
-                <div class="row">
+                <div class="row padd-bot-15">
                     <div class="form-group" style="margin-top: 15px;">
                         <div class="col-md-12 col-sm-12 text-right">
                             <button wire:target='store' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 30px;">

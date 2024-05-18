@@ -115,7 +115,11 @@
                                 <div class="side-list">
                                     <ul>
                                         @foreach ($entreprise->heure_ouvertures as $key => $ouverture)
-                                            <li>{{ $key }} <span>{{ $ouverture }}</span></li>
+                                            @if ($ouverture == 'Fermé')
+                                                <li>{{ $key }} <span class="text-danger">{{ $ouverture }}</span></li>
+                                            @else
+                                                <li>{{ $key }} <span>{{ $ouverture }}</span></li>
+                                            @endif
                                         @endforeach
                                     </ul>
                                 </div>
@@ -124,7 +128,7 @@
                         <!-- End: Opening hour -->
 
                         <!-- Start: Listing Gallery -->
-                        <div class="widget-boxed">
+                        {{-- <div class="widget-boxed">
                             <div class="widget-boxed-header">
                                 <h4><i class="ti-gallery padd-r-10"></i>Image</h4>
                             </div>
@@ -139,7 +143,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- End: Listing Gallery -->
 
                         <!-- Start: Latest Listing -->

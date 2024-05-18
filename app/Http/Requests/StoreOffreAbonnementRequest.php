@@ -22,8 +22,7 @@ class StoreOffreAbonnementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'offer_id' => 'required|exists:offre_abonnements,id',
-
+            'offre_id' => 'required|exists:offre_abonnements,id',
             'nom_entreprise' => 'required|string|unique:entreprises,nom',
             'numero_telephone' => 'required|string',
             'numero_whatsapp' => 'required|string',

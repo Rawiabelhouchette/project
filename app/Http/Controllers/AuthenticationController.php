@@ -24,7 +24,6 @@ class AuthenticationController extends Controller
         }
 
         if (!Auth::attempt($credentials, $remember)) {
-
             return (object) [
                 'status' => false,
                 'message' => 'Identifiant ou mot de passe incorrect.'

@@ -16,6 +16,7 @@ class publicController extends Controller
         $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
         $annonces = Annonce::public()->with('annonceable', 'entreprise')->inRandomOrder()->take(6)->get();
 
+        // dd($annonces);
         $statsAnnonce = [];
         $quartiers = Quartier::getAllQuartiers();
         foreach ($typeAnnonce as $type) {

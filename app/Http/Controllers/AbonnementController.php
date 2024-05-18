@@ -7,22 +7,31 @@ use App\Models\Abonnement;
 use App\Models\Entreprise;
 use App\Models\OffreAbonnement;
 use App\Models\User;
+use App\Services\Paiement\PaiementService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class AbonnementController extends Controller
 {
-    public function choiceIndex()
+    public function choiceIndex(Request $request)
     {
-        if (!\auth()->check()) {
+        if (!auth()->check()) {
             return redirect()->route('connexion');
         }
 
-        if (!\auth()->user()->hasRole('Usager')) {
+        if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
             // return redirect()->route('accueil');
-            return back();
+            // return back();
+            return redirect()->route('home');
         }
+
+        // dump($request);
+
+        // if ($request->getMethod() == 'POST') {
+        //     dd($request);
+        //     PaiementService::afterPayment($request);
+        // }
 
         $offres = OffreAbonnement::active()->get();
         return view('public.pricing', compact('offres'));
@@ -30,13 +39,20 @@ class AbonnementController extends Controller
 
     public function index()
     {
-        // dd(\Auth::user()->abonnements()->get());
-        // dd($abonnements = Abonnement::latest());
         return view('admin.abonnement.index');
+    }
+
+    // operation de validation avant l'abonnement
+    public function checkPayment(StoreOffreAbonnementRequest $request)
+    {
+        $validated = $request->validated();
+        session()->put('abonnement', $validated);
+        return redirect()->route('payments.index');
     }
 
     public function store(StoreOffreAbonnementRequest $request)
     {
+        // UNUSED
         $request->validated();
 
         DB::beginTransaction();
@@ -50,7 +66,7 @@ class AbonnementController extends Controller
             ]);
 
             // set the user entreprise_id
-            \auth()->user()->entreprises()->attach($entreprise->id, [
+            auth()->user()->entreprises()->attach($entreprise->id, [
                 'is_admin' => true,
                 'is_active' => true,
                 'date_debut' => now(),
@@ -67,7 +83,7 @@ class AbonnementController extends Controller
             $abonnement->entreprises()->attach($entreprise->id);
 
             // Get the user
-            $user  = User::find(\auth()->id());
+            $user = User::find(auth()->id());
 
             // remove role Usager
             $user->removeRole('Usager');
@@ -88,7 +104,7 @@ class AbonnementController extends Controller
         if (\Auth::user()->hasRole('Professionnel')) {
             $abonnements = \Auth::user()->abonnements();
         } else {
-            $abonnements = Abonnement::with('offre','entreprises')->latest();
+            $abonnements = Abonnement::with('offre', 'entreprises')->latest();
         }
 
         $columns = Schema::getColumnListing('abonnements');
@@ -101,15 +117,15 @@ class AbonnementController extends Controller
                     // foreach ($search_columns as $column) {
                     //     $query->orWhereRaw("LOWER({$column}) LIKE ?", ['%' . Str::lower($search) . '%']);
                     // }
-
+    
                     // $query->orWhereHas('entreprises', function ($query) use ($search) {
                     //     $query->whereRaw("LOWER(nom) LIKE ?", ['%' . Str::lower($search) . '%']);
                     // });
-
+    
                     // $query->orWhereHas('offre', function ($query) use ($search) {
                     //     $query->whereRaw("LOWER(libelle) LIKE ?", ['%' . Str::lower($search) . '%']);
                     // });
-
+    
                     // if (Str::lower($search) == 'actif') {
                     //     $query->orWhere('is_active', true);
                     // } elseif (Str::lower($search) == 'inactif') {

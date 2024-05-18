@@ -45,7 +45,7 @@ class EntrepriseController extends Controller
     public function show(Entreprise $entreprise)
     {
         // check if the user is the owner of the entreprise
-        if (!Auth::user()->hasRole('Admin') && !Auth::user()->entreprises->contains($entreprise)) {
+        if (!Auth::user()->hasRole('Administrateur') && !Auth::user()->entreprises->contains($entreprise)) {
             return redirect()->route('home');
         }
         return view('admin.entreprise.show', compact('entreprise'));

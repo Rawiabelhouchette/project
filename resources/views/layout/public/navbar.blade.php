@@ -77,9 +77,10 @@
                             </li>
                             @if (auth()->user()->hasRole('Professionnel'))
                                 <li>
-                                    <a href="{{ route('annonces.index') }}">
+                                    <a href="{{ route('home') }}" target="_blank">
                                         <i class="fa fa-cog" aria-hidden="true"></i> &nbsp;
-                                        Mes annonces
+                                        {{-- Mes annonces --}}
+                                        Administration
                                     </a>
                                 </li>
                                 <li>

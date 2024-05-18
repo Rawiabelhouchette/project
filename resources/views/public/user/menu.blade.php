@@ -1,4 +1,14 @@
 @props(['category'])
+{{-- 
+    0: Favoris
+    1: Commentaires
+    2: Tableau de bord
+    3: Annonces
+    4: Entreprise
+    5: Abonnements
+
+    
+--}}
 
 <div class="col-md-3 col-sm-12">
     <div class="sidebar">
@@ -7,16 +17,16 @@
             <div class="widget-boxed-body padd-top-10 padd-bot-0">
                 <div class="side-list">
                     <ul class="price-range">
-                        @if (auth()->user()->hasRole('Professionnel'))
+                        {{-- @if (auth()->user()->hasRole('Professionnel'))
                             <li>
                                 <a href="{{ route('home') }}">
-                                    <span class="custom-checkbox d-block" style="font-size: 18px;">
-                                        <i class="fa-solid fa-tachometer"></i> &nbsp;
+                                    <span class="custom-checkbox d-block @if ($category == 3) theme-cl @endif" style="font-size: 18px;">
+                                        <i class="fa-solid fa-tachometer @if ($category == 3) theme-cl @endif"></i> &nbsp;
                                         Tableau de bord
                                     </span>
                                 </a>
                             </li>
-                        @endif
+                        @endif --}}
 
                         <li>
                             <a href="{{ route('accounts.index') }}">
@@ -27,7 +37,7 @@
                             </a>
                         </li>
 
-                        @if (auth()->user()->hasRole('Professionnel'))
+                        {{-- @if (auth()->user()->hasRole('Professionnel'))
                             <li>
                                 <a href="{{ route('entreprises.index') }}">
                                     <span class="custom-checkbox d-block" style="font-size: 18px;">
@@ -45,7 +55,7 @@
                                     </span>
                                 </a>
                             </li>
-                        @endif
+                        @endif --}}
 
                         <li>
                             <a href="{{ route('accounts.favorite.index') }}">
@@ -64,6 +74,30 @@
                                 </span>
                             </a>
                         </li>
+
+                        {{-- @if (auth()->user()->hasRole('Professionnel'))
+                            <li>
+                                <a href="{{ route('subscriptions.index') }}">
+                                    <span class="custom-checkbox d-block @if ($category == 5) theme-cl @endif" style="font-size: 18px;">
+                                        <i class="fa-solid fa-briefcase @if ($category == 5) theme-cl @endif"></i> &nbsp;
+                                        Abonnements
+                                    </span>
+                                </a>
+                            </li>
+                        @endif --}}
+
+                        {{-- Administration --}}
+                        @if (auth()->user()->hasRole('Professionnel'))
+                            <li>
+                                <a href="{{ route('home') }}" target="_blank">
+                                    <span class="custom-checkbox d-block" style="font-size: 18px;">
+                                        <i class="fa-solid fa-cog"></i> &nbsp;
+                                        Administration
+                                    </span>
+                                </a>
+                            </li>
+                        @endif
+
                     </ul>
                 </div>
             </div>

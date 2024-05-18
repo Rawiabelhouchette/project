@@ -29,15 +29,15 @@
                                     <tr>
                                         <th>N°</th>
                                         <th>Nom</th>
-                                        <th>Description</th>
+                                        {{-- <th>Description</th> --}}
                                         <th>Téléphone</th>
                                         <th>Email</th>
                                         <th>WhatsApp</th>
                                         <th>Pays</th>
                                         <th>Ville</th>
                                         <th>Quartier</th>
-                                        <th>Créer par</th>
-                                        <th>Cree le</th>
+                                        {{-- <th>Créer par</th> --}}
+                                        <th>Crée le</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -46,14 +46,14 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $entreprise->nom }}</td>
-                                            <td>{{ $entreprise->description }}</td>
+                                            {{-- <td>{{ $entreprise->description }}</td> --}}
                                             <td>{{ $entreprise->telephone }}</td>
                                             <td>{{ $entreprise->email }}</td>
                                             <td>{{ $entreprise->whatsapp }}</td>
                                             <td>{{ $entreprise->quartier->ville->pays->nom ?? '-' }}</td>
                                             <td>{{ $entreprise->quartier->ville->nom ?? '-' }}</td>
                                             <td>{{ $entreprise->quartier->nom ?? '-' }}</td>
-                                            <td>{{ $entreprise->creator->nom }} {{ $entreprise->creator->prenom }}</td>
+                                            {{-- <td>{{ $entreprise->creator->nom }} {{ $entreprise->creator->prenom }}</td> --}}
                                             <td>{{ $entreprise->created_at }}</td>
                                             <td class="text-center">
                                                 <span style="display: inline-flex;">

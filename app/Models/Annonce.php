@@ -285,6 +285,14 @@ class Annonce extends Model
         $query
             // add some code here to make sure to only display annonce that are registrer ed to an offer
             ->whereIsActive(true)
+            // check if entreprise has a valid subscription
+            ->whereHas('entreprise', function ($query) {
+                $query->whereHas('abonnements', function ($query) {
+                    $query->where('is_active', true)
+                        ->whereDate('date_fin', '>=', date('Y-m-d') . ' 23:59:59');
+                });
+            })
+            // check if the annonce is still valid
             ->whereDate('date_validite', '>=', date('Y-m-d'));
     }
 }

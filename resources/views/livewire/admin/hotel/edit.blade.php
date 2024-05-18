@@ -37,7 +37,7 @@
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <label class="">Nom de l'hébergement
+                                <label class="">Nom
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
                                 <input type="text" class="form-control" placeholder="" required wire:model.defer='nom' required>
@@ -60,8 +60,8 @@
                             </div>
                             <div class="col-md-1"></div>
                         </div>
-                    </div> 
-                    
+                    </div>
+
                     <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
                         <div class="row">
                             <div class="col-md-1"></div>

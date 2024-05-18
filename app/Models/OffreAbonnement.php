@@ -9,8 +9,23 @@ class OffreAbonnement extends Model
 {
     use HasFactory;
 
+    // before save and update add slug
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            $model->slug = \Str::slug($model->libelle);
+        });
+
+        static::updating(function ($model) {
+            $model->slug = \Str::slug($model->libelle);
+        });
+    }
+
     protected $fillable = [
-        'nom',
+        'libelle',
+        'slug', // unique
         'description',
         'prix',
         'duree', // en mois
