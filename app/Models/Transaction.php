@@ -21,8 +21,8 @@ class Transaction extends Model
         'phone',
         'error_message',
         'statut',
-        'date_creation',
-        'date_modification',
+        // 'date_creation',
+        // 'date_modification',
         'date_paiement',
         'user_id',
 

@@ -166,3 +166,8 @@ Route::get('mail', function () {
     $subscription = Abonnement::inRandomOrder()->first();
     MailingService::sendSuccessSubscriptionMail($user, $subscription);
 })->name('mail');
+
+Route::get('/test', function () {
+    return route('payment.notification');
+});
+
