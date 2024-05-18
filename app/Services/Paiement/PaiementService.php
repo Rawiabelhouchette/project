@@ -272,6 +272,11 @@ class PaiementService
                 'date_debut' => date('Y-m-d H:i:s'),
                 'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
             ]);
+            // $subscription = $company->abonnements()->create([
+            //     'offre_abonnement_id' => $offre_abonnement->id,
+            //     'date_debut' => date('Y-m-d H:i:s'),
+            //     'date_fin' => date('Y-m-d', strtotime('+' . $offre_abonnement->duree . ' month')) . ' 23:59:59',
+            // ]);
 
             // link the abonnement to the entreprise
             $subscription->entreprises()->attach($company->id);
