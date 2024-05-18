@@ -243,3 +243,6 @@ Payment status
 ## 13/05/2024 : MAILING
 
 
+## 18/05/2024
+- Ajouter le montant a la table abonnements car les valeurs d'une offre peuvent changer
+
