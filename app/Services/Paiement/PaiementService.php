@@ -30,12 +30,9 @@ class PaiementService
         }
 
         // La class gère la table "Commande"( A titre d'exemple)
-        $commande = new Commande();
         try {
-
             $customer_name = $user->prenom;
             $customer_surname = $user->nom;
-            // je veux indiquer l'offre d'abonnement
             $description = "Abonnement à l'offre " . $offre->libelle;
             $customer_phone_number = $user->telephone ?? '90 90 90 90';
             $customer_email = $user->email;
@@ -59,7 +56,7 @@ class PaiementService
             $notify_url = route('payment.notification');
             $return_url = route('payment.return');
 
-            // // $channels = "ALL";
+            // $channels = "ALL";
             $channels = 'MOBILE_MONEY,CREDIT_CARD';
 
 
@@ -67,7 +64,7 @@ class PaiementService
              sur la facture de CinetPay(Supporte trois variables 
              que vous nommez à votre convenance)*/
             $invoice_data = array(
-                "Nom" => $customer_name . ' ' . $customer_surname, // exemple 'Nom' => 'Doe John',
+                "Nom" => $customer_name . ' ' . $customer_surname,
                 "Email" => $customer_email,
                 "Abonnement" => $offre->duree . " mois",
             );
@@ -93,9 +90,8 @@ class PaiementService
                 "customer_state" => $customer_state, //L'etat du client
                 "customer_zip_code" => $customer_zip_code, //Le code postal du client
             );
-            // enregistrer la transaction dans votre base de donnée
-            /*  $commande->create(); */
 
+            // enregistrer la transaction dans votre base de donnée
             $CinetPay = new CinetPay($site_id, $apikey, $VerifySsl = false);//$VerifySsl=true <=> Pour activerr la verification ssl sur curl 
             $result = $CinetPay->generatePaymentLink($formData);
 
@@ -104,23 +100,23 @@ class PaiementService
 
                 $checStatus = self::checkPayment($id_transaction);
 
-                // Preparation des elements pour l'enregistrement de la transaction dans la base de données 
-                $commande->_entreprise = $validated['nom_entreprise'];
-                $commande->_numTelephone = $validated['numero_telephone'];
-                $commande->_numWhatsapp = $validated['numero_whatsapp'];
-                $commande->_offreId = $validated['offre_id'];
-                // ============================
-                $commande->_montant = $amount;
-                $commande->_transId = $id_transaction;
-                $commande->_method = $channels;
-                $commande->_payId = '';
-                $commande->_buyerName = $customer_name . ' ' . $customer_surname;
-                $commande->_transStatus = $checStatus->data['status'];
-                $commande->_phone = $customer_phone_number;
-                $commande->_errorMessage = $checStatus->message;
-                $commande->_statut = '0';
+                // Création d'une nouvelle commande
+                Transaction::create([
+                    'montant' => $amount,
+                    'trans_id' => $id_transaction,
+                    'method' => $channels,
+                    'buyer_name' => $customer_name . ' ' . $customer_surname,
+                    'trans_status' => $checStatus->data['status'],
+                    'phone' => $customer_phone_number,
+                    'error_message' => $checStatus->message,
+                    'statut' => '0',
+                    'user_id' => auth()->user()->id,
+                    'offre_id' => $validated['offre_id'],
 
-                $commande->create();
+                    'entreprise' => $validated['nom_entreprise'],
+                    'numero' => $validated['numero_telephone'],
+                    'numero_whatsapp' => $validated['numero_whatsapp'],
+                ]);
 
                 return (object) [
                     'status' => 'success',
@@ -144,18 +140,11 @@ class PaiementService
             abort(403, "transaction_id non transmis");
         }
 
-        // $sub = self::registerSubscription($request->transaction_id);
-
-        // return $sub;
-
-        // check payment and return to staff is it's success
-
         return redirect()->route('pricing');
     }
 
     public function notify(Request $request)
     {
-        // Log::info('' . $request);
         // check if request contains transaction_id
         if (!$request->cpm_trans_id) {
             abort(403, "transaction_id non transmis");
@@ -272,6 +261,7 @@ class PaiementService
                 'date_debut' => date('Y-m-d H:i:s'),
                 'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
             ]);
+
             // $subscription = $company->abonnements()->create([
             //     'offre_abonnement_id' => $offre_abonnement->id,
             //     'date_debut' => date('Y-m-d H:i:s'),
@@ -325,13 +315,4 @@ class PaiementService
 
         return $id;
     }
-
-    public static function generateSignature($amount, $currency)
-    {
-        $status = 'ACCEPTED';
-        // return sha1(uniqid(mt_rand(), true));
-        $data = $amount . ' ' . $currency . ' ' . $status;
-        return hash_hmac('SHA256', $data, env('CP_SECRET_KEY'));
-    }
-
 }
