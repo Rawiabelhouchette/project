@@ -160,14 +160,9 @@ Route::get('500', function () {
 
 
 
-// route to test mail sending
-Route::get('mail', function () {
-    $user = User::inRandomOrder()->first();
-    $subscription = Abonnement::inRandomOrder()->first();
-    MailingService::sendSuccessSubscriptionMail($user, $subscription);
-})->name('mail');
-
 Route::get('/test', function () {
-    return route('payment.notification');
+    // return route('payment.notification');
+    // send a mail
+    Mail::to('cyberprode14@gmail.com')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '1', '01/01/2021', '01/01/2022'));
 });
 
