@@ -31,7 +31,8 @@
 
             @foreach ($offres as $offre)
                 <div class="col-md-4 col-sm-4">
-                    <form action="{{ route('abonnements.payement.check') }}" method="POST">
+                    {{-- <form action="{{ route('abonnements.payement.check') }}" method="POST"> --}}
+                        <form action="{{ route('abonnements.store') }}" method="POST">
                         @csrf
                         <div class="package-box">
                             <div class="package-header">

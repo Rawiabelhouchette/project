@@ -21,7 +21,7 @@ class PaiementController extends Controller
         $offre = OffreAbonnement::findOrFail($validated['offre_id']);
 
         // prix et id de l'utilisateur
-        $guichet = PaiementService::getGuichet($offre->prix, auth()->user()->id, $validated);
+        $guichet = PaiementService::getGuichet(auth()->user()->id, $validated);
 
         if ($guichet->status == 'success') {
             // dump($guichet->url);

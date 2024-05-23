@@ -158,6 +158,9 @@ Route::get('500', function () {
     return view('errors.500');
 })->name('500');
 
+// Redirection after payment
+Route::get('/payment/return', [\App\Services\Paiement\PaiementService::class, 'redirectionAfterPayment'])->name('payment.redirection');
+
 
 
 Route::get('/test', function () {

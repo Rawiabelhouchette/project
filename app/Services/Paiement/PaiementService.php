@@ -6,7 +6,6 @@ use App\Models\OffreAbonnement;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Services\Paiement\CinetPay;
-use App\Services\Paiement\Commande;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -16,10 +15,17 @@ use Illuminate\Support\Facades\Log;
 
 class PaiementService
 {
-    public static function getGuichet($amount, $user_id, $validated)
+    public static function getGuichet($user_id, $validated)
     {
         $user = User::find($user_id);
         $offre = OffreAbonnement::find($validated['offre_id']);
+        $company = $user->entreprises->first();
+
+        $companyId = null;
+
+        if ($company) {
+            $companyId = $company->id;
+        }
 
         if (!$user) {
             return (object) [
@@ -29,7 +35,6 @@ class PaiementService
             ];
         }
 
-        // La class gère la table "Commande"( A titre d'exemple)
         try {
             $customer_name = $user->prenom;
             $customer_surname = $user->nom;
@@ -72,7 +77,7 @@ class PaiementService
             //
             $formData = array(
                 "transaction_id" => $id_transaction,
-                "amount" => $amount,
+                "amount" => $offre->prix,
                 "currency" => $currency,
                 "customer_surname" => $customer_name,
                 "customer_name" => $customer_surname,
@@ -102,7 +107,7 @@ class PaiementService
 
                 // Création d'une nouvelle commande
                 Transaction::create([
-                    'montant' => $amount,
+                    'montant' => $offre->prix,
                     'trans_id' => $id_transaction,
                     'method' => $channels,
                     'buyer_name' => $customer_name . ' ' . $customer_surname,
@@ -113,6 +118,7 @@ class PaiementService
                     'user_id' => auth()->user()->id,
                     'offre_id' => $validated['offre_id'],
 
+                    'entreprise_id' => $companyId,
                     'entreprise' => $validated['nom_entreprise'],
                     'numero' => $validated['numero_telephone'],
                     'numero_whatsapp' => $validated['numero_whatsapp'],
@@ -138,6 +144,15 @@ class PaiementService
     {
         if (!$request->transaction_id) {//} && !$request->token) {
             abort(403, "transaction_id non transmis");
+        }
+
+        return redirect()->route('payment.redirection');
+    }
+
+    public function redirectionAfterPayment()
+    {
+        if (!auth()->user()->hasRole('Usager')) {
+            return redirect()->route('home');
         }
 
         return redirect()->route('pricing');
@@ -223,64 +238,11 @@ class PaiementService
                 'trans_status' => $check_transaction->data['status'],
             ]);
 
-            // check if company is valid,
-            $company_name = $transaction->entreprise;
-
-            $check_company = Entreprise::where('nom', $company_name)->where('telephone', $transaction->numero)->first();
-
-            // check if company name already exist 
-            if ($check_company) {
-                // update company information
-                $company_name = $company_name . rand(10, 100);
+            if ($transaction->entreprise_id && auth()->user()->hasRole('Professionnel')) {
+                self::reSubscription($transaction);
+            } else {
+                self::subscription($transaction);
             }
-
-            // save company information
-            $company = Entreprise::create([
-                'nom' => $company_name,
-                'telephone' => $transaction->numero,
-                'whatsapp' => $transaction->numero_whatsapp,
-            ]);
-
-            // Get the user
-            $user = User::find($transaction->user_id);
-
-            // set the user entreprise_id
-            $user->entreprises()->attach($company->id, [
-                'is_admin' => true,
-                'is_active' => true,
-                'date_debut' => now(),
-            ]);
-
-
-            // Get offre dabonnement
-            $offre_abonnement = OffreAbonnement::find($transaction->offre_id);
-
-            // Create a new subscription for the company
-            $subscription = $company->abonnements()->create([
-                'offre_abonnement_id' => $offre_abonnement->id,
-                'date_debut' => date('Y-m-d H:i:s'),
-                'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
-            ]);
-
-            // $subscription = $company->abonnements()->create([
-            //     'offre_abonnement_id' => $offre_abonnement->id,
-            //     'date_debut' => date('Y-m-d H:i:s'),
-            //     'date_fin' => date('Y-m-d', strtotime('+' . $offre_abonnement->duree . ' month')) . ' 23:59:59',
-            // ]);
-
-            // link the abonnement to the entreprise
-            $subscription->entreprises()->attach($company->id);
-
-            // remove role Usager
-            $user->removeRole('Usager');
-            $user->assignRole('Professionnel');
-
-            // send email to the company and admin
-
-
-            // logging in subscription channel
-            $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offre_abonnement->libelle . "' (" . $offre_abonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
-            Log::channel('subscription')->info($message);
 
             DB::commit();
 
@@ -314,5 +276,95 @@ class PaiementService
         $id = sprintf('%06d', $id) . $timestamp . mt_rand(100, 9999);
 
         return $id;
+    }
+
+    private static function subscription(Transaction $transaction)
+    {
+        // check if company is valid,
+        $company_name = $transaction->entreprise;
+
+        $check_company = Entreprise::where('nom', $company_name)->where('telephone', $transaction->numero)->first();
+
+        // check if company name already exist 
+        if ($check_company) {
+            // update company information
+            $company_name = $company_name . rand(10, 100);
+        }
+
+        // save company information
+        $company = Entreprise::create([
+            'nom' => $company_name,
+            'telephone' => $transaction->numero,
+            'whatsapp' => $transaction->numero_whatsapp,
+        ]);
+
+        // Get the user
+        $user = User::find($transaction->user_id);
+
+        // set the user entreprise_id
+        $user->entreprises()->attach($company->id, [
+            'is_admin' => true,
+            'is_active' => true,
+            'date_debut' => now(),
+        ]);
+
+
+        // Get offre dabonnement
+        $offre_abonnement = OffreAbonnement::find($transaction->offre_id);
+
+        // Create a new subscription for the company
+        $subscription = $company->abonnements()->create([
+            'offre_abonnement_id' => $offre_abonnement->id,
+            'date_debut' => date('Y-m-d H:i:s'),
+            'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
+        ]);
+
+        // $subscription = $company->abonnements()->create([
+        //     'offre_abonnement_id' => $offre_abonnement->id,
+        //     'date_debut' => date('Y-m-d H:i:s'),
+        //     'date_fin' => date('Y-m-d', strtotime('+' . $offre_abonnement->duree . ' month')) . ' 23:59:59',
+        // ]);
+
+        // link the abonnement to the entreprise
+        $subscription->entreprises()->attach($company->id);
+
+        // remove role Usager
+        $user->removeRole('Usager');
+        $user->assignRole('Professionnel');
+
+        // send email to the company and admin
+
+
+        // logging in subscription channel
+        $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offre_abonnement->libelle . "' (" . $offre_abonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
+        Log::channel('subscription')->info($message);
+    }
+    public static function reSubscription(Transaction $transaction)
+    {
+        $company = Entreprise::find(auth()->user()->entreprises->first()->id);
+        // Get offre dabonnement
+        $offreAbonnement = OffreAbonnement::find($transaction->offre_id);
+
+        // get the last active subscription
+        $lastSubscription = $company->abonnements()->latest()->first();
+
+        $endDate = $lastSubscription->date_fin;
+
+        // Create a new subscription for the company
+        $subscription = $company->abonnements()->create([
+            'offre_abonnement_id' => $offreAbonnement->id,
+            'date_debut' => $endDate,
+            'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offreAbonnement->duree . ' month', strtotime($endDate))),
+        ]);
+
+        // link the abonnement to the entreprise
+        $subscription->entreprises()->attach($company->id);
+
+        // send email to the company and admin
+
+
+        // logging in subscription channel
+        $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offreAbonnement->libelle . "' (" . $offreAbonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
+        Log::channel('subscription')->info($message);
     }
 }
