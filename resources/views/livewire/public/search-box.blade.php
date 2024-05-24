@@ -1,4 +1,8 @@
 <div>
+    @php
+        $defaultColor = '#ff3a72';
+    @endphp
+
     <!-- ================ Start Page Title ======================= -->
     <section class="title-transparent page-title" style="background:url(assets_client/img/banner/image-1.jpg);">
         <div class="container">
@@ -44,7 +48,7 @@
                             <select class="form-control" id="search-type-input" name="type[]" value="{{ $type }}">
                                 <option value="" selected>Tous les types d'annonce</option>
                                 @foreach ($typeAnnonce as $annonce)
-                                    <option value="{{ $annonce }}" {{ $annonce == $type ? 'selected' : '' }} style="hover: #ff3a72;">{{ $annonce }}</option>
+                                    <option value="{{ $annonce }}" {{ $annonce == $type ? 'selected' : '' }} style="hover: {{ $defaultColor }};">{{ $annonce }}</option>
                                 @endforeach
                             </select>
                         </div>

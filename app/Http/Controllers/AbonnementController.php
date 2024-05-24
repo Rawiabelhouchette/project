@@ -15,47 +15,24 @@ use Log;
 
 class AbonnementController extends Controller
 {
-    public function choiceIndex(Request $request)
-    {
-        if (!auth()->check()) {
-            return redirect()->route('connexion');
-        }
-
-        if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
-            // return redirect()->route('accueil');
-            // return back();
-            return redirect()->route('home');
-        }
-
-        // dump($request);
-
-        // if ($request->getMethod() == 'POST') {
-        //     dd($request);
-        //     PaiementService::afterPayment($request);
-        // }
-
-        $offres = OffreAbonnement::active()->get();
-        return view('public.pricing', compact('offres'));
-    }
-
     public function index()
     {
         return view('admin.abonnement.index');
     }
 
-    // operation de validation avant l'abonnement
-    public function checkPayment(StoreOffreAbonnementRequest $request)
+    public function create()
     {
-        $validated = $request->validated();
-        session()->put('abonnement', $validated);
-        return redirect()->route('payments.index');
+        $offres = OffreAbonnement::all();
+        return view('admin.abonnement.create', compact('offres'));
     }
 
     public function store(StoreOffreAbonnementRequest $request)
     {
         // dd(1);
         // UNUSED
-        // $request->validated();
+
+        // TO USE FOR REGISTER A SUBSCRIPTIN IN LOCAL (TEST METHOD)
+        $request->validated();
 
         DB::beginTransaction();
 
@@ -100,6 +77,29 @@ class AbonnementController extends Controller
         }
 
         return redirect()->route('home');
+    }
+
+    // redirection vers la page de choix d'abonnement
+    public function choiceIndex(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('connexion');
+        }
+
+        if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
+            return redirect()->route('abonnements.create');
+        }
+
+        $offres = OffreAbonnement::active()->get();
+        return view('public.pricing', compact('offres'));
+    }
+
+    // operation de validation avant l'abonnement
+    public function checkPayment(StoreOffreAbonnementRequest $request)
+    {
+        $validated = $request->validated();
+        session()->put('abonnement', $validated);
+        return redirect()->route('payments.index');
     }
 
     public function getDataTable()

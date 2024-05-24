@@ -106,8 +106,24 @@
                 </ul>
             </li>
 
-            <li class="@yield('abonnement')">
+            {{-- <li class="@yield('abonnement')">
                 <a href="{{ route('abonnements.index') }}" style="padding-top: 25px;"><i class="fa fa-credit-card" aria-hidden="true"></i>Abonnement</a>
+            </li> --}}
+
+            <li class="@yield('abonnement')">
+                <a href="javascript:void(0)"><i class="fa fa-credit-card" aria-hidden="true"></i>Abonnement<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="{{ route('abonnements.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                            Ajouter
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('abonnements.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                            Recherche
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             @if (auth()->user()->hasRole('Administrateur'))

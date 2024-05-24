@@ -219,7 +219,7 @@ PAIEMENT
 
 
 NOTIFY
-- Creer une table qui va contenir le hash de la notification
+- [notNeed] Creer une table qui va contenir le hash de la notification
 - [envoi] generer le hash a fois qu'il y a paiement et le supprimer (apres 24h)
 - Verifier si le hash existe deja et que ca correspond a l'utilisateur connecte
 
@@ -244,7 +244,7 @@ Payment status
 
 
 ## 18/05/2024
-- Ajouter le montant a la table abonnements car les valeurs d'une offre peuvent changer
+- [ok] Ajouter le montant a la table abonnements car les valeurs d'une offre peuvent changer
 
  - [ok] remove mailingservice
 
@@ -252,5 +252,10 @@ Payment status
  - [ok] Ajouter entreprise_id dans transaction
 
 ## 23/05/2024
-- Ajouter le bouton de reabonnement
+NN : No Need
+- [NN] Ajouter le bouton de reabonnement
 - Ajouter la page de reabonnement
+
+## 24/05/2024
+- Uniformiser les noms des pages (sur les pages : Abonnement / Liste)
+- Cote backoffice, l'icon semble avoir diminue de taille

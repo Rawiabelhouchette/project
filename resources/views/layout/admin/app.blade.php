@@ -134,6 +134,12 @@
 
     @yield('css')
 
+    @include('components.default-value')
+
+    @php
+        $defaultColor = '#ff3a72';
+    @endphp
+
 </head>
 
 <body>
@@ -208,6 +214,8 @@
     <!-- fancybox -->
     <script src="{{ asset('assets_client/plugins/js/jquery.fancybox.js') }}"></script>
 
+    {{-- Default color --}}
+
     <script>
         window.addEventListener('alert:modal', event => {
             alert(event.detail[0].message);
@@ -218,6 +226,7 @@
                 icon: event.detail[0].icon,
                 title: event.detail[0].title,
                 timerProgressBar: true,
+                confirmButtonColor: defaultColor,
                 confirmButtonText: '<span style="font-size: 15px;">OK</span>',
                 timer: 4000,
                 width: '40%',
@@ -233,6 +242,7 @@
                 icon: 'success',
                 title: 'Opération réussie',
                 timerProgressBar: true,
+                confirmButtonColor: defaultColor,
                 confirmButtonText: '<span style="font-size: 15px;">OK</span>',
                 timer: 4000,
                 width: '40%',
@@ -248,6 +258,7 @@
                 icon: 'error',
                 title: 'Oops...',
                 timerProgressBar: true,
+                confirmButtonColor: defaultColor,
                 confirmButtonText: '<span style="font-size: 15px;">OK</span>',
                 timer: 5000,
                 width: '40%',
