@@ -214,14 +214,14 @@ Etape de creation d'un nouvel abonnement
 
 
 PAIEMENT
-- url de notification doit être une chaine cryptee qui doit changer tout les jours
+- [NN] url de notification doit être une chaine cryptee qui doit changer tout les jours
 - 
 
 
 NOTIFY
 - [notNeed] Creer une table qui va contenir le hash de la notification
 - [envoi] generer le hash a fois qu'il y a paiement et le supprimer (apres 24h)
-- Verifier si le hash existe deja et que ca correspond a l'utilisateur connecte
+- [NN]Verifier si le hash existe deja et que ca correspond a l'utilisateur connecte
 
 
 ## [ok] 11/05/2024
@@ -258,4 +258,7 @@ NN : No Need
 
 ## 24/05/2024
 - Uniformiser les noms des pages (sur les pages : Abonnement / Liste)
-- Cote backoffice, l'icon semble avoir diminue de taille
+- [ok] Cote backoffice, l'icon semble avoir diminue de taille
+- Reparcourir toutes les pages
+- Definir les options d'abonnement et les noms
+- 

@@ -109,6 +109,11 @@ class AuthenticationController extends Controller
                 'email' => $request->email,
             ]);
         }
+
+        if (auth()->check()) {
+            return redirect('/');
+        }
+
         return view('reset-password');
     }
 

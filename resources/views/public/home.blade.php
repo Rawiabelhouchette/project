@@ -17,7 +17,7 @@
     @endphp
 
     <!-- Main Banner Section Start -->
-    <div class="banner dark-opacity" style="background-image:url(assets_client/img/banner/image-1.jpg);" data-overlay="8">
+    <div class="banner dark-opacity" id="banner" style="background-image:url(assets_client/img/banner/image-1.jpg);" data-overlay="8">
         <div class="container">
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
