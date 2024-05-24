@@ -261,4 +261,4 @@ NN : No Need
 - [ok] Cote backoffice, l'icon semble avoir diminue de taille
 - Reparcourir toutes les pages
 - Definir les options d'abonnement et les noms
-- 
+- Detacher les recherches de la searchbox (Affichage des elements rechechés)
