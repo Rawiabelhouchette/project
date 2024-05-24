@@ -2,17 +2,17 @@
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     {{-- <form id="pricing-submit-form" action="{{ route('abonnements.payement.check') }}" method="POST"> --}}
-    <form id="pricing-submit-form" action="{{ route('abonnements.store') }}" method="POST">
+    <form class="pricing-submit-form" action="{{ route('abonnements.store') }}" method="POST">
         @csrf
         <div class="package-box">
             <div class="package-header">
                 <i class="fa fa-cog" aria-hidden="true"></i>
                 <h3>{{ $offre->libelle }}</h3>
             </div>
-            <div class="package-price">
-                <h3 class="">{{ number_format($offre->prix, 0, ',', ' ') }} <sup style="font-size: 15px;">F CFA </sup><sub>/ {{ $offre->duree }} Mois</sub></h3>
+            <div class="package-price" style="">
+                <h3 class="mrg-top-0" style="font-family: 'Poppins', sans-serif; font-size: 27px !important; color: #26354e; margin-bottom: .25em; font-weight: bold;">{{ number_format($offre->prix, 0, ',', ' ') }} <sup style="font-size: 15px;">F CFA </sup><sub>/ {{ $offre->duree }} Mois</sub></h3>
             </div>
-            <div class="package-info">
+            <div class="package-info" style="font-family: 'Muli', sans-serif;">
                 <ul>
                     <li>3 Designs</li>
                     <li>3 PSD Designs</li>
@@ -25,7 +25,7 @@
             @if ($withModal)
                 <button type="button" data-toggle="modal" data-target="#abonnement-{{ $offre->id }}" class="btn btn-package">Souscrire</button>
             @else
-                <button type="button" id="pricing-submit-btn" class="btn btn-package">Souscrire</button>
+                <button type="button" class="btn btn-package pricing-submit-btn">Souscrire</button>
             @endif
         </div>
 
