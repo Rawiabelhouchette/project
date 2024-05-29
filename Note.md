@@ -263,3 +263,6 @@ NN : No Need
 - Definir les options d'abonnement et les noms
 - Detacher les recherches de la searchbox (Affichage des elements rechechés)
 - Revoir le message de reinitalisation de mot de passe
+
+## 29/05/2024
+- Empecher le modal de se retirer en pleine connexion ou enregistrement

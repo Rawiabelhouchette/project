@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class PaiementService
 {
+    // Generer le guichet de paiement
     public static function getGuichet($user_id, $validated)
     {
         $user = User::find($user_id);
@@ -161,6 +162,7 @@ class PaiementService
         }
     }
 
+    // Redirection après paiement en cas de reussite comme d'echec via l'api
     public static function afterPayment(Request $request)
     {
         if (!$request->transaction_id) {
@@ -170,6 +172,7 @@ class PaiementService
         return redirect()->route('payment.redirection');
     }
 
+    // Redirection après paiement en cas de reussite comme d'echec via le web
     public function redirectionAfterPayment()
     {
         if (!auth()->user()->hasRole('Usager')) {
@@ -179,6 +182,7 @@ class PaiementService
         return redirect()->route('pricing');
     }
 
+    // Notification de paiement venant de CinetPay
     public function notify(Request $request)
     {
         // check if request contains transaction_id
@@ -268,6 +272,8 @@ class PaiementService
 
             DB::commit();
 
+            session()->flash('success','Paiement effectué avec succès');
+
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -275,6 +281,7 @@ class PaiementService
         }
     }
 
+    // Verifier le paiement
     public static function checkPayment($transaction_id)
     {
         $response = Http::
@@ -290,6 +297,7 @@ class PaiementService
         return (object) $response->json();
     }
 
+    // Generer un id de transaction
     private static function generateTransId(): string
     {
         $timestamp = time();
@@ -300,6 +308,7 @@ class PaiementService
         return $id;
     }
 
+    // Creer un abonnement
     private static function subscription(Transaction $transaction)
     {
         // check if company is valid,
@@ -361,6 +370,8 @@ class PaiementService
         $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offre_abonnement->libelle . "' (" . $offre_abonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
         Log::channel('subscription')->info($message);
     }
+
+    // Reabonnement
     private static function reSubscription(Transaction $transaction)
     {
         $company = Entreprise::find(auth()->user()->entreprises->first()->id);
