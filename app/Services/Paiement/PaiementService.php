@@ -106,23 +106,44 @@ class PaiementService
                 $checStatus = self::checkPayment($id_transaction);
 
                 // Création d'une nouvelle commande
-                Transaction::create([
-                    'montant' => $offre->prix,
-                    'trans_id' => $id_transaction,
-                    'method' => $channels,
-                    'buyer_name' => $customer_name . ' ' . $customer_surname,
-                    'trans_status' => $checStatus->data['status'],
-                    'phone' => $customer_phone_number,
-                    'error_message' => $checStatus->message,
-                    'statut' => '0',
-                    'user_id' => auth()->user()->id,
-                    'offre_id' => $validated['offre_id'],
+                // Transaction::create([
+                //     'montant' => $offre->prix,
+                //     'trans_id' => $id_transaction,
+                //     'method' => $channels,
+                //     'buyer_name' => $customer_name . ' ' . $customer_surname,
+                //     'trans_status' => $checStatus->data['status'],
+                //     'phone' => $customer_phone_number,
+                //     'error_message' => $checStatus->message,
+                //     'statut' => '0',
+                //     'user_id' => auth()->user()->id,
+                //     'offre_id' => $validated['offre_id'],
 
-                    'entreprise_id' => $companyId,
-                    'entreprise' => $validated['nom_entreprise'],
-                    'numero' => $validated['numero_telephone'],
-                    'numero_whatsapp' => $validated['numero_whatsapp'],
-                ]);
+                //     'entreprise_id' => $companyId,
+                //     'entreprise' => $validated['nom_entreprise'],
+                //     'numero' => $validated['numero_telephone'],
+                //     'numero_whatsapp' => $validated['numero_whatsapp'],
+                // ]);
+
+                $transaction = new Transaction;
+
+                $transaction->montant = $offre->prix;
+                $transaction->trans_id = $id_transaction;
+                $transaction->method = $channels;
+                $transaction->buyer_name = $customer_name . ' ' . $customer_surname;
+                $transaction->trans_status = $checStatus->data['status'];
+                $transaction->phone = $customer_phone_number;
+                $transaction->error_message = $checStatus->message;
+                $transaction->statut = '0';
+                $transaction->user_id = auth()->user()->id;
+                $transaction->offre_id = $validated['offre_id'];
+                $transaction->entreprise_id = $companyId;
+                if (auth()->user()->hasRole('Usager')) {
+                    $transaction->entreprise = $validated['nom_entreprise'];
+                    $transaction->numero = $validated['numero_telephone'];
+                    $transaction->numero_whatsapp = $validated['numero_whatsapp'];
+                }
+
+                $transaction->save();
 
                 return (object) [
                     'status' => 'success',
@@ -142,8 +163,8 @@ class PaiementService
 
     public static function afterPayment(Request $request)
     {
-        if (!$request->transaction_id) {//} && !$request->token) {
-            abort(403, "transaction_id non transmis");
+        if (!$request->transaction_id) {
+            abort(403, "ID de transaction non transmis");
         }
 
         return redirect()->route('payment.redirection');
@@ -152,7 +173,7 @@ class PaiementService
     public function redirectionAfterPayment()
     {
         if (!auth()->user()->hasRole('Usager')) {
-            return redirect()->route('home');
+            return redirect()->route('abonnements.index');
         }
 
         return redirect()->route('pricing');
@@ -164,6 +185,7 @@ class PaiementService
         if (!$request->cpm_trans_id) {
             abort(403, "transaction_id non transmis");
         }
+
         Log::info($request);
 
         DB::beginTransaction();
@@ -210,7 +232,7 @@ class PaiementService
                 abort(403, "Transaction non trouvée");
             }
 
-            // TODO : Shall I check from de db first ?
+            // TODO : Shall I check from the db first ?
             if ($transaction->statut == 1) {
                 abort(403, "Transaction déjà effectuée");
             }
@@ -268,7 +290,7 @@ class PaiementService
         return (object) $response->json();
     }
 
-    public static function generateTransId(): string
+    private static function generateTransId(): string
     {
         $timestamp = time();
         $parts = explode(' ', microtime());
@@ -339,7 +361,7 @@ class PaiementService
         $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offre_abonnement->libelle . "' (" . $offre_abonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
         Log::channel('subscription')->info($message);
     }
-    public static function reSubscription(Transaction $transaction)
+    private static function reSubscription(Transaction $transaction)
     {
         $company = Entreprise::find(auth()->user()->entreprises->first()->id);
         // Get offre dabonnement

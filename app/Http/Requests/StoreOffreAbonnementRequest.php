@@ -21,11 +21,12 @@ class StoreOffreAbonnementRequest extends FormRequest
      */
     public function rules(): array
     {
+        $authenticated = auth()->user()->hasRole('Professionnel');
         return [
             'offre_id' => 'required|exists:offre_abonnements,id',
-            'nom_entreprise' => 'required|string|unique:entreprises,nom',
-            'numero_telephone' => 'required|string',
-            'numero_whatsapp' => 'required|string',
+            'nom_entreprise' => $authenticated ? 'nullable' : 'required|string|unique:entreprises,nom',
+            'numero_telephone' => $authenticated ? 'nullable' : 'required|string',
+            'numero_whatsapp' => $authenticated ? 'nullable' : 'required|string',
         ];
     }
 

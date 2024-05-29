@@ -72,7 +72,7 @@ class AbonnementController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error(''. $e->getMessage());
+            Log::error('' . $e->getMessage());
             return back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de votre abonnement');
         }
 

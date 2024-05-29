@@ -259,6 +259,7 @@ NN : No Need
 ## 24/05/2024
 - Uniformiser les noms des pages (sur les pages : Abonnement / Liste)
 - [ok] Cote backoffice, l'icon semble avoir diminue de taille
-- Reparcourir toutes les pages
+- [ok] Reparcourir toutes les pages
 - Definir les options d'abonnement et les noms
 - Detacher les recherches de la searchbox (Affichage des elements rechechés)
+- Revoir le message de reinitalisation de mot de passe
