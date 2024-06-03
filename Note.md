@@ -265,3 +265,7 @@ NN : No Need
 
 ## 29/05/2024
 - Empecher le modal de se retirer en pleine connexion ou enregistrement
+
+
+
+- ajouter la date de l'abonnement a la liste des abonnements
