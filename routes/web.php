@@ -25,6 +25,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
 use App\Models\Abonnement;
+use App\Notifications\ResetPassword;
 use App\Services\Paiement\PaiementService;
 use Illuminate\Support\Facades\Route;
 
@@ -159,17 +160,22 @@ Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'
 Route::get('/test', function () {
     // return route('payment.notification');
     // send a mail
-    // Mail::to('cyberprode14@gmail.com')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '1', '01/01/2021', '01/01/2022'));
+    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '1', '01/01/2021', '01/01/2022'));
     // Mail::send(new App\Mail\SubscriptionInformation('Billal', 'Abonnement', 3000, '1', '01/01/2021', '01/01/2022'));
-    $user = App\Models\User::inRandomOrder()->first();
-    $subscription = Abonnement::inRandomOrder()->first();
+    // $user = App\Models\User::inRandomOrder()->first();
+    // $subscription = Abonnement::inRandomOrder()->first();
 
 
-    Mail::send(new App\Mail\SubscriptionInformation(
-        $user,
-        1,
-        $subscription
-    ));
+    // Mail::send(new App\Mail\SubscriptionInformation(
+    //     $user,
+    //     1,
+    //     $subscription
+    // ));
 
+});
+
+Route::get('/test-notification', function () {
+    $user = \App\Models\User::first(); // Get the first user as an example
+    $user->notify(new ResetPassword('token123')); // Replace 'token123' with your actual token
 });
 

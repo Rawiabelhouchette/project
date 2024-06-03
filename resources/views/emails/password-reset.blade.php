@@ -51,18 +51,18 @@
 
     <div class="email-container">
         <div class="content">
-            <h3>Bonjour {{ $clientName }},</h3>
-            <p>Nous vous remercions de vous être abonné à {{ config('app.name') }}. Votre abonnement a été activé avec succès. Voici les détails de votre abonnement :</p>
-            <ul>
-                <li><strong>Nom de l'offre :</strong> {{ $offerName }}</li>
-                <li><strong>Durée :</strong> {{ $duration }} mois</li>
-                <li><strong>Date de début :</strong> {{ $startDate }}</li>
-                <li><strong>Date de fin :</strong> {{ $endDate }}</li>
-            </ul>
-            <p>Vous pouvez désormais profiter de tous nos services, y compris la possibilité de poster vos propres annonces et d'accéder à une multitude de fonctionnalités dédiées à la gestion de vos publications.</p>
-            <p>Si vous avez des questions ou avez besoin d'assistance, n'hésitez pas à nous contacter à <a href="mailto:contact@midjo.numrod.fr">contact@midjo.numrod.fr</a> ou par téléphone au +228 93 67 35 76.</p>
-            <p>Merci de votre confiance et à bientôt sur {{ config('app.name') }}.</p>
-            <p>Cordialement,<br>L'équipe {{ config('app.name') }}</p>
+            <h3>Bonjour !</h3>
+            <p>Vous avez demandé à réinitialiser votre mot de passe pour votre compte {{ config('app.name') }}. Veuillez cliquer sur le bouton ci-dessous pour réinitialiser votre mot de passe :</p>
+            <p style="text-align: center;">
+                <a href="{{ $resetUrl }}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Réinitialiser le mot de passe</a>
+            </p>
+            <p>Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer cet email. Votre mot de passe ne sera pas modifié.</p>
+            <hr>
+            <p>Si vous rencontrez des difficultés pour cliquer sur le bouton "Réinitialiser", copiez et collez l'URL ci-dessous dans votre navigateur web :</p>
+            <p style="word-break: break-all;">
+                <a href="{{ $resetUrl }}">{{ $resetUrl }}</a>
+            </p>
+            <p>Merci,<br>L'équipe {{ config('app.name') }}</p>
         </div>
         <div class="footer">
             <p>&copy; {{ date('Y') }} Midjo. Tous droits réservés.</p>
