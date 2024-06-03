@@ -5,6 +5,12 @@
 @endsection
 
 @section('content')
+    @include('components.default-value')
+
+    @php
+        $defaultColor = '#ff3a72';
+    @endphp
+
     <style>
         .social-network {
             color: #fff;
@@ -39,13 +45,13 @@
         }
 
         .li-btn:hover {
-            color: #ff3a72;
+            color: {{ $defaultColor }};
         }
 
         .share-button:hover {
-            background: #ff3a72 !important;
+            background: {{ $defaultColor }} !important;
             color: white !important;
-            border: 1px solid #ff3a72 !important;
+            border: 1px solid {{ $defaultColor }} !important;
             border-radius: 4px;
         }
 

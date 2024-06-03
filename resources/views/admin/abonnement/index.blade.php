@@ -99,6 +99,8 @@
                             var date2 = new Date();
                             var diff = date1.getTime() - date2.getTime();
                             var days = diff / (1000 * 3600 * 24);
+                            if (days.toFixed(0) < 0)
+                                return 'Expiré';
                             return days.toFixed(0) + ' jours';
                         }
                     },

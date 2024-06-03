@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Utils\CustomSession;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -47,11 +48,24 @@ class AccountController extends Controller
 
     public function resetPassword(Request $request)
     {
+        // YOU SHOULD NOT TELL TO THE USER IF THE EMAIL EXISTS OR NOT
+        // $request->validate([
+        //     'email' => 'required|email|exists:users,email'
+        // ], [
+        //     'email.exists' => 'Cette adresse email n\'existe pas.'
+        // ]);
+
         $request->validate([
-            'email' => 'required|email|exists:users,email'
+            'email'=> 'required|email',
         ], [
-            'email.exists' => 'Cette adresse email n\'existe pas.'
+            'email'=> 'Veuillez saisir une adresse email valide.',
         ]);
+
+        // check if the email exists
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return redirect()->route('notification.rest-password.success');
+        }
 
         $status = Password::sendResetLink(
             $request->only('email')
@@ -68,6 +82,10 @@ class AccountController extends Controller
 
     public function notificationSuccess()
     {
+        if (auth()->check()) {
+            return redirect('/');
+        }
+
         return view('public.notifications.reset-email-success');
     }
 

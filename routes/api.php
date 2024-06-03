@@ -1,7 +1,6 @@
 <?php
 
 use App\Services\Paiement\PaiementService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*

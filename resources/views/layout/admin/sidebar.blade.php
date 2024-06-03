@@ -23,7 +23,7 @@
                         </li>
                         <li>
                             <a href="{{ route('references.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                                Recherche
+                                Rechercher
                             </a>
                         </li>
                     </ul>
@@ -49,7 +49,7 @@
                         </li>
                         <li>
                             <a href="{{ route('localisations') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                                Recherche
+                                Rechercher
                             </a>
                         </li>
                     </ul>
@@ -60,12 +60,12 @@
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="{{ route('users.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                                Créer un compte
+                                Ajouter
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('users.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                                Recherche
+                                Rechercher
                             </a>
                         </li>
                     </ul>
@@ -78,13 +78,13 @@
                     @if (auth()->user()->hasRole('Administrateur'))
                         <li>
                             <a href="{{ route('entreprises.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                                Ajouter une entreprise
+                                Ajouter
                             </a>
                         </li>
                     @endif
                     <li>
                         <a href="{{ route('entreprises.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                            Recherche
+                            Rechercher
                         </a>
                     </li>
                 </ul>
@@ -95,22 +95,38 @@
                 <ul class="nav nav-second-level">
                     <li>
                         <a href="{{ route('annonces.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                            Ajouter une annonce
+                            Ajouter
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('annonces.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                            Recherche
+                            Rechercher
                         </a>
                     </li>
                 </ul>
             </li>
 
-            <li class="@yield('abonnement')">
+            {{-- <li class="@yield('abonnement')">
                 <a href="{{ route('abonnements.index') }}" style="padding-top: 25px;"><i class="fa fa-credit-card" aria-hidden="true"></i>Abonnement</a>
+            </li> --}}
+
+            <li class="@yield('abonnement')">
+                <a href="javascript:void(0)"><i class="fa fa-credit-card" aria-hidden="true"></i>Abonnement<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="{{ route('abonnements.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                            Ajouter
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('abonnements.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                            Rechercher
+                        </a>
+                    </li>
+                </ul>
             </li>
 
-            @if (auth()->user()->hasRole('Administrateur'))
+            {{-- @if (auth()->user()->hasRole('Administrateur'))
                 <li class="@yield('corbeille')">
                     <a href="javascript:void(0)"><i class="fa fa-trash" aria-hidden="true"></i>Corbeille<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -137,7 +153,7 @@
 
                     </ul>
                 </li>
-            @endif
+            @endif --}}
         </ul>
     </div>
 

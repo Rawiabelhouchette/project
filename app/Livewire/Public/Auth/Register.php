@@ -63,6 +63,8 @@ class Register extends Component
     {
         $this->validate();
 
+        // TODO : check if email is valid 
+
         DB::beginTransaction();
 
         try {
@@ -90,14 +92,14 @@ class Register extends Component
             'remember' => $this->remember,
         ]);
 
-        try {
-            Mail::send('public.email-welcome', ['prenom' => $this->prenom], function ($message) {
-                $message->to($this->email)
-                    ->subject('Bienvenue sur la plateforme de publication des annonces');
-            });
-        } catch (\Exception $e) {
-            Log::error('Erreur lors de l\'envoi du mail de bienvenue : ' . $e->getMessage());
-        }
+        // try {
+        //     Mail::send('public.email-welcome', ['prenom' => $this->prenom], function ($message) {
+        //         $message->to($this->email)
+        //             ->subject('Bienvenue sur la plateforme de publication des annonces');
+        //     });
+        // } catch (\Exception $e) {
+        //     Log::error('Erreur lors de l\'envoi du mail de bienvenue : ' . $e->getMessage());
+        // }
 
         $login = AuthenticationController::loginService($request);
         if (!$login->status) {
