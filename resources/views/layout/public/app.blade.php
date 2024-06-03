@@ -45,6 +45,10 @@
 
 <body class="home-2">
     <div class="wrapper">
+        @php
+            $defaultColor = '#ff3a72';
+        @endphp
+
         <!-- Start Navigation -->
 
         @include('layout.public.navbar')

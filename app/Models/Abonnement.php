@@ -13,6 +13,7 @@ class Abonnement extends Model
         'offre_abonnement_id',
         'date_debut',
         'date_fin',
+        'montant',
         'is_active',
     ];
 

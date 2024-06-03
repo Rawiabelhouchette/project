@@ -113,6 +113,22 @@
         <!-- Custom Js -->
         <script src="{{ asset('assets_client/js/custom.js') }}"></script>
 
+        <!-- Custom Js -->
+        <script src="{{ asset('assets_client/js/custom.js') }}"></script>
+
+        <script>
+            window.addEventListener('page:reload', event => {
+                location.reload();
+            });
+        </script>
+
+        <script>
+            // refresh url
+            window.addEventListener('refresh:url', event => {
+                window.history.replaceState({}, '', event.detail[0].url);
+            });
+        </script>
+
         @livewireScripts
 
         @stack('scripts')

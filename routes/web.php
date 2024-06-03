@@ -24,11 +24,7 @@ use App\Http\Controllers\searchController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
-use App\Models\Abonnement;
-use App\Models\User;
-use App\Services\MailingService;
-use App\Services\Paiement\Commande;
-use App\Services\PaiementService;
+use App\Services\Paiement\PaiementService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -124,13 +120,9 @@ Route::group([
         Route::resource('bars', BarController::class);
 
         Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
-
-
-
-
     });
 
-    Route::match (['GET', 'POST'], 'pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
+    Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
 
     Route::resource('abonnements', AbonnementController::class);
     Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
@@ -158,16 +150,14 @@ Route::get('500', function () {
     return view('errors.500');
 })->name('500');
 
+// Redirection after payment
+Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'])->name('payment.redirection');
 
 
-// route to test mail sending
-Route::get('mail', function () {
-    $user = User::inRandomOrder()->first();
-    $subscription = Abonnement::inRandomOrder()->first();
-    MailingService::sendSuccessSubscriptionMail($user, $subscription);
-})->name('mail');
 
 Route::get('/test', function () {
-    return route('payment.notification');
+    // return route('payment.notification');
+    // send a mail
+    Mail::to('cyberprode14@gmail.com')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '1', '01/01/2021', '01/01/2022'));
 });
 

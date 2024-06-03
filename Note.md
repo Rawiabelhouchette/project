@@ -214,14 +214,14 @@ Etape de creation d'un nouvel abonnement
 
 
 PAIEMENT
-- url de notification doit être une chaine cryptee qui doit changer tout les jours
+- [NN] url de notification doit être une chaine cryptee qui doit changer tout les jours
 - 
 
 
 NOTIFY
-- Creer une table qui va contenir le hash de la notification
+- [notNeed] Creer une table qui va contenir le hash de la notification
 - [envoi] generer le hash a fois qu'il y a paiement et le supprimer (apres 24h)
-- Verifier si le hash existe deja et que ca correspond a l'utilisateur connecte
+- [NN]Verifier si le hash existe deja et que ca correspond a l'utilisateur connecte
 
 
 ## [ok] 11/05/2024
@@ -244,5 +244,25 @@ Payment status
 
 
 ## 18/05/2024
-- Ajouter le montant a la table abonnements car les valeurs d'une offre peuvent changer
+- [ok] Ajouter le montant a la table abonnements car les valeurs d'une offre peuvent changer
 
+ - [ok] remove mailingservice
+
+
+ - [ok] Ajouter entreprise_id dans transaction
+
+## 23/05/2024
+NN : No Need
+- [NN] Ajouter le bouton de reabonnement
+- Ajouter la page de reabonnement
+
+## 24/05/2024
+- Uniformiser les noms des pages (sur les pages : Abonnement / Liste)
+- [ok] Cote backoffice, l'icon semble avoir diminue de taille
+- [ok] Reparcourir toutes les pages
+- Definir les options d'abonnement et les noms
+- Detacher les recherches de la searchbox (Affichage des elements rechechés)
+- Revoir le message de reinitalisation de mot de passe
+
+## 29/05/2024
+- Empecher le modal de se retirer en pleine connexion ou enregistrement

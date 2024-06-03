@@ -11,48 +11,27 @@ use App\Services\Paiement\PaiementService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Log;
 
 class AbonnementController extends Controller
 {
-    public function choiceIndex(Request $request)
-    {
-        if (!auth()->check()) {
-            return redirect()->route('connexion');
-        }
-
-        if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
-            // return redirect()->route('accueil');
-            // return back();
-            return redirect()->route('home');
-        }
-
-        // dump($request);
-
-        // if ($request->getMethod() == 'POST') {
-        //     dd($request);
-        //     PaiementService::afterPayment($request);
-        // }
-
-        $offres = OffreAbonnement::active()->get();
-        return view('public.pricing', compact('offres'));
-    }
-
     public function index()
     {
         return view('admin.abonnement.index');
     }
 
-    // operation de validation avant l'abonnement
-    public function checkPayment(StoreOffreAbonnementRequest $request)
+    public function create()
     {
-        $validated = $request->validated();
-        session()->put('abonnement', $validated);
-        return redirect()->route('payments.index');
+        $offres = OffreAbonnement::all();
+        return view('admin.abonnement.create', compact('offres'));
     }
 
     public function store(StoreOffreAbonnementRequest $request)
     {
+        // dd(1);
         // UNUSED
+
+        // TO USE FOR REGISTER A SUBSCRIPTIN IN LOCAL (TEST METHOD)
         $request->validated();
 
         DB::beginTransaction();
@@ -74,9 +53,10 @@ class AbonnementController extends Controller
 
             // create a new abonnement
             $abonnement = Abonnement::create([
-                'offre_abonnement_id' => $request->offer_id,
+                'offre_abonnement_id' => $request->offre_id,
+                'montant' => OffreAbonnement::find($request->offre_id)->prix,
                 'date_debut' => now(),
-                'date_fin' => now()->addMonths(OffreAbonnement::find($request->offer_id)->duree),
+                'date_fin' => now()->addMonths(OffreAbonnement::find($request->offre_id)->duree),
             ]);
 
             // link the abonnement to the entreprise
@@ -92,10 +72,34 @@ class AbonnementController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('' . $e->getMessage());
             return back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de votre abonnement');
         }
 
         return redirect()->route('home');
+    }
+
+    // redirection vers la page de choix d'abonnement
+    public function choiceIndex(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('connexion');
+        }
+
+        if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
+            return redirect()->route('abonnements.create');
+        }
+
+        $offres = OffreAbonnement::active()->get();
+        return view('public.pricing', compact('offres'));
+    }
+
+    // operation de validation avant l'abonnement
+    public function checkPayment(StoreOffreAbonnementRequest $request)
+    {
+        $validated = $request->validated();
+        session()->put('abonnement', $validated);
+        return redirect()->route('payments.index');
     }
 
     public function getDataTable()
