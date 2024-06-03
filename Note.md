@@ -1,4 +1,3 @@
-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
 - mettre sweet alert en local
 
 

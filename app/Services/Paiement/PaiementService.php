@@ -264,7 +264,9 @@ class PaiementService
                 'trans_status' => $check_transaction->data['status'],
             ]);
 
-            if ($transaction->entreprise_id && auth()->user()->hasRole('Professionnel')) {
+            $user = User::find($transaction->user_id);
+
+            if ($transaction->entreprise_id && $user->hasRole('Professionnel')) {
                 self::reSubscription($transaction);
             } else {
                 self::subscription($transaction);
@@ -374,7 +376,7 @@ class PaiementService
     // Reabonnement
     private static function reSubscription(Transaction $transaction)
     {
-        $company = Entreprise::find(auth()->user()->entreprises->first()->id);
+        $company = Entreprise::find($transaction->entreprise_id);
         // Get offre dabonnement
         $offreAbonnement = OffreAbonnement::find($transaction->offre_id);
 
