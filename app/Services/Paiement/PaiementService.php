@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Paiement;
 
+use App\Mail\SubscriptionInformation;
 use App\Models\Entreprise;
 use App\Models\OffreAbonnement;
 use App\Models\Transaction;
@@ -11,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 
 class PaiementService
@@ -267,12 +269,18 @@ class PaiementService
             $user = User::find($transaction->user_id);
 
             if ($transaction->entreprise_id && $user->hasRole('Professionnel')) {
-                self::reSubscription($transaction);
+                $subscription = self::reSubscription($transaction)
             } else {
-                self::subscription($transaction);
+                $subscription = self::subscription($transaction);
             }
 
             DB::commit();
+
+            Mail::send(new SubscriptionInformation(
+                $user,
+                $transaction->offre_id,
+                $subscription
+            ));
 
             session()->flash('success','Paiement effectué avec succès');
 
@@ -371,6 +379,8 @@ class PaiementService
         // logging in subscription channel
         $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offre_abonnement->libelle . "' (" . $offre_abonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
         Log::channel('subscription')->info($message);
+
+        return $subscription;
     }
 
     // Reabonnement
@@ -401,5 +411,7 @@ class PaiementService
         // logging in subscription channel
         $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offreAbonnement->libelle . "' (" . $offreAbonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
         Log::channel('subscription')->info($message);
+
+        return $subscription;
     }
 }
