@@ -3,8 +3,12 @@
     <div class="sidebar-collapse">
         <ul class="nav" id="main-menu">
 
+            <li>
+                <a href="{{ route('accueil') }}" style="padding-top: 25px;"><i class="fa fa-home" aria-hidden="true"></i>Revenir à l'accueil</a>
+            </li>
+
             <li class="@yield('dashboard')">
-                <a href="{{ route('home') }}" style="padding-top: 25px;"><i class="fa fa-dashboard" aria-hidden="true"></i>Dashboard</a>
+                <a href="{{ route('home') }}" style="padding-top: 25px;"><i class="fa fa-dashboard" aria-hidden="true"></i>Tableau de bord</a>
             </li>
 
             @if (auth()->user()->hasRole('Administrateur'))
