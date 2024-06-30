@@ -69,7 +69,7 @@
                                     Mon compte
                                 </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ route('accounts.favorite.index') }}">
                                     <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
                                     Favoris
@@ -79,7 +79,6 @@
                                 <li>
                                     <a href="{{ route('home') }}" target="_blank">
                                         <i class="fa fa-cog" aria-hidden="true"></i> &nbsp;
-                                        {{-- Mes annonces --}}
                                         Administration
                                     </a>
                                 </li>
@@ -89,7 +88,7 @@
                                         Commentaires
                                     </a>
                                 </li>
-                            @endif
+                            @endif --}}
                             <li>
                                 <a href="{{ route('logout') }}">
                                     <i class="fa fa-power-off" aria-hidden="true"></i> &nbsp;

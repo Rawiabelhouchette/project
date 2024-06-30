@@ -130,6 +130,19 @@
                 </ul>
             </li>
 
+            {{-- 
+            <li>
+                <a href="{{ route('accueil') }}"><i class="fa fa-star" aria-hidden="true"></i>Favoris</a>
+            </li>
+
+            <li>
+                <a href="{{ route('accueil') }}"><i class="fa fa-comment" aria-hidden="true"></i>Commentaires</a>
+            </li> --}}
+
+            <li class="@yield('profil')">
+                <a href="{{ route('accounts.index') }}"><i class="fa fa-user" aria-hidden="true"></i>Profil</a>
+            </li>
+
             {{-- @if (auth()->user()->hasRole('Administrateur'))
                 <li class="@yield('corbeille')">
                     <a href="javascript:void(0)"><i class="fa fa-trash" aria-hidden="true"></i>Corbeille<span class="fa arrow"></span></a>

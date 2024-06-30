@@ -72,9 +72,9 @@ Route::group([
 
     Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-    Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
-    Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
-    Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
+    // Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
+    // Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
+    // Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
 
 
 
@@ -122,6 +122,11 @@ Route::group([
         Route::resource('bars', BarController::class);
 
         Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
+
+
+        Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
+        Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
+        Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
     });
 
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');

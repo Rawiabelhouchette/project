@@ -20,7 +20,7 @@ class AccountController extends Controller
         if (!auth()->check()) {
             return redirect()->route('connexion');
         }
-        return view('public.user.account');
+        return view('admin.profile');
     }
 
     public function indexFavoris()
@@ -31,14 +31,14 @@ class AccountController extends Controller
             return redirect()->route('connexion');
         }
 
-        return view('public..user.favoris');
+        return view('public.user.favoris');
     }
 
     public function indexComment()
     {
         CustomSession::reset();
 
-        return view('public..user.comment');
+        return view('public.user.comment');
     }
 
     public function contact()
