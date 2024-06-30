@@ -3,19 +3,15 @@
 @section('profil', 'active')
 
 @section('content')
-    <!-- ================ Listing Detail Basic Information ======================= -->
-    {{-- @include('public.user.title-banner', ['title' => 'Mon compte']) --}}
-    <!-- ================ End Listing Detail Basic Information ======================= -->
-
-    <section class="show-case">
-        <div class="container">
-            <div class="row">
-
-                {{-- @include('public.user.menu', ['category' => 0]) --}}
-
-                @livewire('admin.profile')
-
-            </div>
+    <div class="row bg-title" style="padding-top: 20px;">
+        <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
+            <ol class="breadcrumb" style="text-align: left;">
+                <li><a href="#">Mon Profil</a></li>
+            </ol>
         </div>
-    </section>
+    </div>
+
+    <div id="page-inner">
+        @livewire('admin.profile')
+    </div>
 @endsection

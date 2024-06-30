@@ -140,7 +140,7 @@
             </li> --}}
 
             <li class="@yield('profil')">
-                <a href="{{ route('accounts.index') }}"><i class="fa fa-user" aria-hidden="true"></i>Profil</a>
+                <a href="{{ route('accounts.index') }}"><i class="fa fa-user" aria-hidden="true"></i>Mon Profil</a>
             </li>
 
             {{-- @if (auth()->user()->hasRole('Administrateur'))

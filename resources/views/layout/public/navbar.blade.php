@@ -58,13 +58,13 @@
             @else
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd dropdown">
-                        <a href="{{ route('accounts.index') }}" class="addlist">
+                        <a href="{{ route('home') }}" class="addlist">
                             <img src="{{ asset('assets_client/img/default-user.svg') }}" class="img-responsive img-circle avater-img" width="50px" height="50px" alt="">
                             <strong id="navbar_username">{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</strong>
                         </a>
                         <ul class="dropdown-menu animated navbar-left fadeOutUp" style="display: none; opacity: 1;">
                             <li>
-                                <a href="{{ route('accounts.index') }}">
+                                <a href="{{ route('home') }}">
                                     <i class="fa fa-user" aria-hidden="true"></i> &nbsp;
                                     Mon compte
                                 </a>

@@ -31,7 +31,7 @@ class Profile extends Component
 
         $this->initialize();
     }
-    
+
     public function initialize()
     {
         $this->user = User::find(auth()->user()->id);
@@ -126,25 +126,33 @@ class Profile extends Component
                 // Add an error message to the password_old field
                 $validator->errors()->add('password_old', 'Le mot de passe actuel est incorrect');
 
+                $this->editPassword = true;
+
                 // Throw a ValidationException with the validator instance
                 throw new \Illuminate\Validation\ValidationException($validator);
             }
         }
 
         $this->user->update($validated);
-        
+
         if ($this->editPass) {
             AuthenticationController::logout(request());
-            return redirect('/');
+            // return redirect('/');
+            return redirect()->route('login');
         }
 
         $this->cancel();
 
-        $this->dispatch('username:changed', [
-            'username' => $this->user->nom . ' ' . $this->user->prenom
-        ]);
+        // $this->dispatch('username:changed', [
+        //     'username' => $this->user->nom . ' ' . $this->user->prenom
+        // ]);
 
-        session()->flash('success', 'Votre compte a été mis à jour avec succès');
+        // session()->flash('success', 'Votre compte a été mis à jour avec succès');
+        $this->dispatch('swal:modal', [
+            'icon' => 'success',
+            'title' => __('Opération réussie'),
+            'message' => __('Profil mis à jour avec succès'),
+        ]);
         return;
     }
 
