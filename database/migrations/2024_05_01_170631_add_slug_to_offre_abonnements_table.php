@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::table('offre_abonnements', function (Blueprint $table) {
 
-            // $table->string('slug')->unique();
-            // $table->unique('libelle');
+            $table->string('slug')->unique();
+            $table->unique('libelle');
 
         });
     }
@@ -24,8 +24,8 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('offre_abonnements', function (Blueprint $table) {
-            // $table->dropColumn('slug');
-            // $table->dropUnique('libelle');
+            $table->dropColumn('slug');
+            $table->dropUnique('libelle');
         });
     }
 };

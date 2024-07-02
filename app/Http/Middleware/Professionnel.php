@@ -15,10 +15,9 @@ class Professionnel
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()->hasRole('Professionnel') || !auth()->user()->hasRole('Administrateur')) {
-            return back()->with('email', 'Vous n\'avez pas accès à cette page.');
+        if (!auth()->user()->hasRole('Professionnel') && !auth()->user()->hasRole('Administrateur')) {
+            return back()->with('error', 'Vous n\'avez pas accès à cette page.');
         }
-
         return $next($request);
     }
 }

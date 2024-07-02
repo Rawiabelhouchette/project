@@ -72,71 +72,67 @@ Route::group([
 
     Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-    // Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
-    // Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
-    // Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
+    Route::prefix('staff')->group(function () {
+        Route::middleware('App\Http\Middleware\Admin')->group(function () {
+            // Une route de ressource pour les références
+            Route::resource('references', ReferenceController::class);
+            Route::get('references/nom/add', [ReferenceController::class, 'create_name'])->name('references.nom.add');
+            Route::get('references/nom/datatable', [ReferenceController::class, 'getNameDataTable'])->name('references.nom.datatable');
+            Route::get('references/ref/datatable', [ReferenceController::class, 'getDataTable'])->name('references.datatable');
+            Route::post('references/nom/post', [ReferenceController::class, 'store_name'])->name('references.nom.post');
+            Route::get('references/nom/{type}', [ReferenceController::class, 'get_name'])->name('references.nom.get');
 
+            Route::resource('pays', PaysController::class);
 
+            Route::resource('villes', VilleController::class);
 
-    Route::prefix('staff')->middleware('App\Http\Middleware\Admin')->group(function () {
-        // Une route de ressource pour les références
-        Route::resource('references', ReferenceController::class);
-        Route::get('references/nom/add', [ReferenceController::class, 'create_name'])->name('references.nom.add');
-        Route::get('references/nom/datatable', [ReferenceController::class, 'getNameDataTable'])->name('references.nom.datatable');
-        Route::get('references/ref/datatable', [ReferenceController::class, 'getDataTable'])->name('references.datatable');
-        Route::post('references/nom/post', [ReferenceController::class, 'store_name'])->name('references.nom.post');
-        Route::get('references/nom/{type}', [ReferenceController::class, 'get_name'])->name('references.nom.get');
+            Route::resource('quartiers', QuartierController::class);
+            Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
 
-        Route::resource('pays', PaysController::class);
+            Route::resource('users', UserController::class);
+            Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
 
-        Route::resource('villes', VilleController::class);
+        });
 
-        Route::resource('quartiers', QuartierController::class);
-        Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
+        Route::middleware('App\Http\Middleware\Professionnel')->group(function () {
 
-        Route::resource('users', UserController::class);
-        Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
+            Route::resource('entreprises', EntrepriseController::class);
 
-    });
+            Route::resource('annonces', AnnonceController::class);
+            Route::get('annonces/list/datatable', [AnnonceController::class, 'getDataTable'])->name('annonces.datatable');
 
-    Route::prefix('staff')->middleware('App\Http\Middleware\Professionnel')->group(function () {
+            Route::resource('auberges', AubergeController::class);
+
+            Route::resource('hotels', HotelController::class);
+
+            Route::resource('location-vehicules', LocationVehiculeController::class);
+
+            Route::resource('location-meublees', LocationMeubleeController::class);
+
+            Route::resource('boite-de-nuits', BoiteDeNuitController::class);
+
+            Route::resource('fast-foods', FastFoodController::class);
+
+            Route::resource('restaurants', RestaurantController::class);
+
+            Route::resource('bars', BarController::class);
+
+            Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
+
+            Route::resource('abonnements', AbonnementController::class);
+            Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
+
+            Route::resource('subscriptions', SubscriptionController::class);
+            Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
+        });
 
         Route::get('dashboard', [AdminController::class, 'home'])->name('home');
 
-        Route::resource('entreprises', EntrepriseController::class);
+        Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
+        Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
+        Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
 
-        Route::resource('annonces', AnnonceController::class);
-        Route::get('annonces/list/datatable', [AnnonceController::class, 'getDataTable'])->name('annonces.datatable');
-
-        Route::resource('auberges', AubergeController::class);
-
-        Route::resource('hotels', HotelController::class);
-
-        Route::resource('location-vehicules', LocationVehiculeController::class);
-
-        Route::resource('location-meublees', LocationMeubleeController::class);
-
-        Route::resource('boite-de-nuits', BoiteDeNuitController::class);
-
-        Route::resource('fast-foods', FastFoodController::class);
-
-        Route::resource('restaurants', RestaurantController::class);
-
-        Route::resource('bars', BarController::class);
-
-        Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
-        
-        Route::resource('abonnements', AbonnementController::class);
-        Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
-        
-        Route::resource('subscriptions', SubscriptionController::class);
-        Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
     });
-
-    Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
-    Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
-    Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
-
 
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
 

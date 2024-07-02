@@ -69,26 +69,6 @@
                                     Mon compte
                                 </a>
                             </li>
-                            {{-- <li>
-                                <a href="{{ route('accounts.favorite.index') }}">
-                                    <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
-                                    Favoris
-                                </a>
-                            </li>
-                            @if (auth()->user()->hasRole('Professionnel'))
-                                <li>
-                                    <a href="{{ route('home') }}" target="_blank">
-                                        <i class="fa fa-cog" aria-hidden="true"></i> &nbsp;
-                                        Administration
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('accounts.comment.index') }}">
-                                        <i class="fa fa-comments" aria-hidden="true"></i> &nbsp;
-                                        Commentaires
-                                    </a>
-                                </li>
-                            @endif --}}
                             <li>
                                 <a href="{{ route('logout') }}">
                                     <i class="fa fa-power-off" aria-hidden="true"></i> &nbsp;

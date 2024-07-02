@@ -78,11 +78,9 @@ class AdminController extends Controller
         //     ];
         //     return view('admin.dashboard', compact('elements'));
 
-        // dd(auth()->user()->roles);
-
-        // if (auth()->user()->hasRole('Usager')) {
-        //     return redirect()->route('accounts.index');
-        // }
+        if (auth()->user()->hasRole('Usager')) {
+            return redirect()->route('accounts.index');
+        }
 
         return view('admin.dashboard');
     }
