@@ -79,9 +79,6 @@ Route::group([
 
 
     Route::prefix('staff')->middleware('App\Http\Middleware\Admin')->group(function () {
-
-        Route::get('dashboard', [AdminController::class, 'home'])->name('home');
-
         // Une route de ressource pour les références
         Route::resource('references', ReferenceController::class);
         Route::get('references/nom/add', [ReferenceController::class, 'create_name'])->name('references.nom.add');
@@ -99,6 +96,12 @@ Route::group([
 
         Route::resource('users', UserController::class);
         Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
+
+    });
+
+    Route::prefix('staff')->middleware('App\Http\Middleware\Professionnel')->group(function () {
+
+        Route::get('dashboard', [AdminController::class, 'home'])->name('home');
 
         Route::resource('entreprises', EntrepriseController::class);
 
@@ -122,25 +125,24 @@ Route::group([
         Route::resource('bars', BarController::class);
 
         Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
-
-
-        Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
-        Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
-        Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
+        
+        Route::resource('abonnements', AbonnementController::class);
+        Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
+        
+        Route::resource('subscriptions', SubscriptionController::class);
+        Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
     });
+
+    Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
+    Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
+    Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
+
 
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
 
-    Route::resource('abonnements', AbonnementController::class);
-    Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
     Route::post('abonnements/payment/check', [AbonnementController::class, 'checkPayment'])->name('abonnements.payement.check');
 
     Route::resource('payments', PaiementController::class);
-
-    Route::resource('subscriptions', SubscriptionController::class);
-    Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
-
-
 });
 
 Route::fallback(function () {
