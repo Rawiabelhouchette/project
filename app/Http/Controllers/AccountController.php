@@ -31,7 +31,8 @@ class AccountController extends Controller
             return redirect()->route('connexion');
         }
 
-        return view('public.user.favoris');
+        // return view('public.user.favoris');
+        return view('admin.favoris');
     }
 
     public function indexComment()

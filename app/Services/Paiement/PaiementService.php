@@ -156,6 +156,7 @@ class PaiementService
 
             }
         } catch (Exception $e) {
+            dd($e->getMessage());
             return (object) [
                 'status' => 'error',
                 'message' => $e->getMessage(),

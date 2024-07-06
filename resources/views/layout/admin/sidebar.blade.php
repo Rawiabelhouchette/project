@@ -143,6 +143,23 @@
                 <a href="{{ route('accounts.index') }}"><i class="fa fa-user" aria-hidden="true"></i>Mon Profil</a>
             </li>
 
+            {{-- favoris --}}
+            <li class="@yield('favoris')">
+                <a href="{{ route('accounts.favorite.index') }}"><i class="fa fa-star" aria-hidden="true"></i>Favoris</a>
+            </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
             {{-- @if (auth()->user()->hasRole('Administrateur'))
                 <li class="@yield('corbeille')">
                     <a href="javascript:void(0)"><i class="fa fa-trash" aria-hidden="true"></i>Corbeille<span class="fa arrow"></span></a>
