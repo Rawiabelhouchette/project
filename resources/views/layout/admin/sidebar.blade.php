@@ -148,6 +148,11 @@
                 <a href="{{ route('accounts.favorite.index') }}"><i class="fa fa-star" aria-hidden="true"></i>Favoris</a>
             </li>
 
+            {{-- comment --}}
+            <li class="@yield('comment')">
+                <a href="{{ route('accounts.comment.index') }}"><i class="fa fa-comment" aria-hidden="true"></i>Commentaires</a>
+            </li>
+
 
 
 
