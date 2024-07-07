@@ -133,7 +133,6 @@
                                                 <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
                                             @endif
                                         </a>
-                                        {{-- <span class="approve-listing"><i class="fa fa-check"></i></span> --}}
                                     </div>
                                     <div class="listing-shot-caption">
                                         <a href="{{ route('show', $annonce->slug) }}">
@@ -141,7 +140,7 @@
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
                                         <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
-                                            <span class="like-listing"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                                            <span class="like-listing style-2"><i class="fa fa-trash" aria-hidden="true"></i></span>
                                         </a>
                                     </div>
                                     <div class="listing-price-info">
