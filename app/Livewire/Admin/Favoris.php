@@ -26,12 +26,13 @@ class Favoris extends Component
         $favorite = \App\Models\Favoris::where('annonce_id', $annonceId)->where('user_id', auth()->user()->id)->first();
         if ($favorite) {
             $favorite->delete();
-        } else {
-            \App\Models\Favoris::create([
-                'annonce_id' => $annonceId,
-                'user_id' => auth()->user()->id
-            ]);
-        }
+        } 
+        // else {
+        //     \App\Models\Favoris::create([
+        //         'annonce_id' => $annonceId,
+        //         'user_id' => auth()->user()->id
+        //     ]);
+        // }
     }
 
     public function render()

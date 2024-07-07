@@ -1,5 +1,54 @@
 @props(['annonce'])
 
+<style>
+    .tp-author-basic-info {
+        margin: 30px 0 0 0;
+        padding: 0 25px;
+        border-top: 1px solid #ebedf1;
+    }
+
+    .tp-author-basic-info ul {
+        width: 100%;
+        display: table;
+    }
+
+    .tp-author-basic-info li {
+        list-style: none;
+        display: inline-block;
+        width: 33.333333%;
+        padding: 15px 0 10px;
+    }
+
+    .tp-author-basic-info li strong {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #384454;
+    }
+
+    .listing-price-info {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: inline-block;
+        border-radius: 50px;
+        font-size: 14px;
+    }
+
+    .listing-price-info span {
+        display: inline-block;
+        /* background: #ffffff; */
+        background: #ff3a72;
+        color: #ffffff !important;
+        padding: 4px 18px;
+        border-radius: 50px;
+        font-size: 14px;
+        margin-right: 15px;
+        color: #505667;
+        box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.2);
+    }
+</style>
+
 <div class="row bott-wid">
 
     <div class="col-md-12 col-sm-12">
@@ -9,7 +58,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-md-4 col-sm-6">
         <div class="listing-shot grid-style">
             <div class="listing-shot-img">
@@ -71,54 +120,7 @@
                     </a> --}}
                 </div>
             </div>
-            <style>
-                .tp-author-basic-info {
-                    margin: 30px 0 0 0;
-                    padding: 0 25px;
-                    border-top: 1px solid #ebedf1;
-                }
 
-                .tp-author-basic-info ul {
-                    width: 100%;
-                    display: table;
-                }
-
-                .tp-author-basic-info li {
-                    list-style: none;
-                    display: inline-block;
-                    width: 33.333333%;
-                    padding: 15px 0 10px;
-                }
-
-                .tp-author-basic-info li strong {
-                    display: block;
-                    font-size: 13px;
-                    font-weight: 600;
-                    color: #384454;
-                }
-
-                .listing-price-info {
-                    position: absolute;
-                    top: 20px;
-                    left: 20px;
-                    display: inline-block;
-                    border-radius: 50px;
-                    font-size: 14px;
-                }
-
-                .listing-price-info span {
-                    display: inline-block;
-                    /* background: #ffffff; */
-                    background: #ff3a72;
-                    color: #ffffff !important;
-                    padding: 4px 18px;
-                    border-radius: 50px;
-                    font-size: 14px;
-                    margin-right: 15px;
-                    color: #505667;
-                    box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.2);
-                }
-            </style>
             <div class="tp-author-basic-info mrg-top-0">
                 <ul>
                     <li class="text-center padd-top-10 padd-bot-0">
