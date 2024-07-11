@@ -13,7 +13,7 @@ class Favoris extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    private $perPage = 1;
+    private $perPage = 8;
     public $search = '';
 
     public function updatingSearch()
@@ -26,13 +26,7 @@ class Favoris extends Component
         $favorite = \App\Models\Favoris::where('annonce_id', $annonceId)->where('user_id', auth()->user()->id)->first();
         if ($favorite) {
             $favorite->delete();
-        } 
-        // else {
-        //     \App\Models\Favoris::create([
-        //         'annonce_id' => $annonceId,
-        //         'user_id' => auth()->user()->id
-        //     ]);
-        // }
+        }
     }
 
     public function render()
@@ -42,8 +36,7 @@ class Favoris extends Component
         $annonces = $user->favorisAnnonces()->where(function ($query) use ($search) {
             $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($search) . '%'])
                 ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
-        })
-            ->paginate($this->perPage);
+        })->paginate($this->perPage);
 
         return view('livewire.admin.favoris', compact('annonces'));
     }

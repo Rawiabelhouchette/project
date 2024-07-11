@@ -97,7 +97,8 @@ class User extends Authenticatable
         return $this
             ->belongsToMany(Annonce::class, 'commentaires', 'user_id', 'annonce_id')
             ->public()
-            ->withPivot('contenu', 'created_at')
+            ->withPivot('contenu', 'created_at', 'deleted_at')
+            ->wherePivotNull('deleted_at')
             ->latest();
     }
 
