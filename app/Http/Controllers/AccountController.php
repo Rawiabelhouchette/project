@@ -39,7 +39,7 @@ class AccountController extends Controller
     {
         CustomSession::reset();
 
-        return view('public.user.comment');
+        return view('admin.comment');
     }
 
     public function contact()

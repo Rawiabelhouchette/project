@@ -195,7 +195,7 @@ class Annonce extends Model
         if (!$this->description) {
             return 'Pas de description';
         }
-        
+
         $description = $this->description;
         $description = strip_tags($description);
         $description = str_replace('&nbsp;', ' ', $description);

@@ -153,46 +153,8 @@
                 <a href="{{ route('accounts.comment.index') }}"><i class="fa fa-comment" aria-hidden="true"></i>Commentaires</a>
             </li>
 
-
-
-
-
-
-
-
-
-
-
-
-
-            {{-- @if (auth()->user()->hasRole('Administrateur'))
-                <li class="@yield('corbeille')">
-                    <a href="javascript:void(0)"><i class="fa fa-trash" aria-hidden="true"></i>Corbeille<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                                Pays
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                                Ville
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                                Quartier
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('pays.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
-                                ...
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-            @endif --}}
+            <br>
+            <br>
         </ul>
     </div>
 
