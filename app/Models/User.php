@@ -111,7 +111,7 @@ class User extends Authenticatable
     public function abonnements()
     {
         $entreprises_id = $this->entreprises->pluck('id');
-        return Abonnement::with('offre','entreprises')->whereHas('entreprises', function ($query) use ($entreprises_id) {
+        return Abonnement::with('offre', 'entreprises')->whereHas('entreprises', function ($query) use ($entreprises_id) {
             $query->whereIn('entreprise_id', $entreprises_id);
         })->latest();
     }
