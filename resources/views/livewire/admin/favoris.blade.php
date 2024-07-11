@@ -68,7 +68,7 @@
                 <div class="small-list-wrapper">
                     <ul id="table">
                         @foreach ($annonces as $annonce)
-                            <div class="col-md-3 col-sm-3">
+                            <div class="col-md-6 col-sm-12 col-lg-4 col-xl-3">
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-img">
                                         <a href="{{ route('show', $annonce->slug) }}">
