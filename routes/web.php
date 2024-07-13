@@ -163,17 +163,9 @@ Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'
 Route::get('/test', function () {
     // return route('payment.notification');
     // send a mail
-    Mail::to('billalisonhouin@gmail.com')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '1', '01/01/2021', '01/01/2022'));
-    // Mail::send(new App\Mail\SubscriptionInformation('Billal', 'Abonnement', 3000, '1', '01/01/2021', '01/01/2022'));
-    // $user = App\Models\User::inRandomOrder()->first();
-    // $subscription = Abonnement::inRandomOrder()->first();
+    // Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '01/01/2021', '01/01/2022', 'SIMTOGO'));
 
-
-    // Mail::send(new App\Mail\SubscriptionInformation(
-    //     $user,
-    //     1,
-    //     $subscription
-    // ));
+    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\RegisterConfirmation(\App\Models\User::first()));
 
 });
 
