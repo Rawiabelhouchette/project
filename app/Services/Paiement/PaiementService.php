@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Paiement;
 
+use App\Mail\SubscriptionConfirmation;
 use App\Mail\SubscriptionInformation;
 use App\Models\Entreprise;
 use App\Models\OffreAbonnement;
@@ -282,6 +283,14 @@ class PaiementService
                 $user,
                 $transaction->offre_id,
                 $subscription
+            ));
+
+            Mail::send(new SubscriptionConfirmation(
+                $user->nom,
+                $subscription->offreAbonnement->libelle,
+                $subscription->date_debut,
+                $subscription->date_fin,
+                $subscription->entreprise->nom
             ));
 
             session()->flash('success','Paiement effectué avec succès');

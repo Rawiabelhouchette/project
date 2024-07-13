@@ -12,7 +12,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class RegisterInformation extends Mailable
+class RegisterConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -48,7 +48,7 @@ class RegisterInformation extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.register.information',
+            view: 'emails.register.confirmation',
         );
     }
 

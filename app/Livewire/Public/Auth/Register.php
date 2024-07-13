@@ -3,6 +3,7 @@
 namespace App\Livewire\Public\Auth;
 
 use App\Http\Controllers\AuthenticationController;
+use App\Mail\RegisterConfirmation;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Http\Request;
@@ -85,6 +86,10 @@ class Register extends Component
             $this->message = 'Erreur lors de l\'enregistrement';
             return;
         }
+
+        Mail::to($this->email)
+            ->send(new RegisterConfirmation($user));
+
 
         $request = new Request([
             'email' => $this->username,
