@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
 <head>
-    <title> Abonnement </title>
+    <title> Confrimation Inscription </title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -106,7 +106,7 @@
                                     <tr>
                                         <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
                                             <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:24px;font-weight:400;line-height:30px;text-align:left;color:#ffffff;">
-                                                <h1 style="margin: 0; font-size: 24px; line-height: normal; font-weight: normal;">Bonjour {{ $clientName }},</h1>
+                                                <h1 style="margin: 0; font-size: 24px; line-height: normal; font-weight: normal;">Bonjour {{ $firstName }},</h1>
                                             </div>
                                         </td>
                                     </tr>
@@ -114,18 +114,17 @@
                                         <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
                                             <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:#ffffff;">
                                                 <p style="margin-bottom: 0;">
-                                                    Merci de vous être abonné à notre service sur <a href="{{ config('app.url') }}"><strong>{{ config('app.name') }}</strong></a>. Nous sommes ravis de vous compter parmi nos abonnés.
+                                                    Nous vous confirmons que votre inscription sur <a href="{{ config('app.url') }}"><strong>{{ config('app.name') }}</strong></a> a été réalisée avec succès.
                                                 </p>
                                                 <p>
-                                                    Détails de votre abonnement :
+                                                    Vos informations de connexion :
                                                 <ul>
-                                                    <li><strong>Entreprise :</strong> {{ $companyName }}</li>
-                                                    <li><strong>Date de début :</strong> {{ $startDate }}</li>
-                                                    <li><strong>Date de renouvellement :</strong> {{ $endDate }}</li>
+                                                    <li><strong>Nom d'utilisateur :</strong> {{ $username }}</li>
+                                                    <li><strong>Adresse e-mail :</strong> {{ $email }}</li>
                                                 </ul>
                                                 </p>
                                                 <p>
-                                                    Vous pouvez accéder à votre espace abonné ici : <a href="{{ route('login') }}" style="color: #2e58ff; text-decoration: none;">Connexion</a>
+                                                    Accédez à votre compte ici ici : <a href="{{ route('login') }}" style="color: #2e58ff; text-decoration: none;">Connexion</a>
                                                 </p>
                                                 <p>
                                                     Pour toute question ou assistance, veuillez nous contacter par
@@ -136,7 +135,7 @@
                                                     </a>.
                                                 </p>
                                                 <p>
-                                                    Nous espérons que vous apprécierez nos services.
+                                                    Bienvenue parmi nous !
                                                 </p>
                                                 <p>Cordialement,</p>
 
@@ -172,8 +171,7 @@
                                             <table role="presentation" style="vertical-align:top;" border="0" cellpadding="0" cellspacing="0" width="100%">
                                                 <tr>
                                                     <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="center">
-                                                        <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:center;color:#93999f;">
-                                                            © {{ date('Y') }} {{ config('app.name') }}, Tous droits réservés <br> Email: <a class="footer-link" href="mailto:{{ env('APP_EMAIL') }}" style="color: #2e58ff; text-decoration: none;">{{ env('APP_EMAIL') }}</a> <br> Web: <a class="footer-link" href="{{ config('app.url') }}" style="color: #2e58ff; text-decoration: none;">{{ config('app.url') }}</a></div>
+                                                        <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:center;color:#93999f;">© {{ date('Y') }} {{ config('app.name') }}, Tous droits réservés <br> Email: <a class="footer-link" href="mailto:{{ env('APP_EMAIL') }}" style="color: #2e58ff; text-decoration: none;">{{ env('APP_EMAIL') }}</a> <br> Web: <a class="footer-link" href="{{ config('app.url') }}" style="color: #2e58ff; text-decoration: none;">{{ config('app.url') }}</a></div>
                                                     </td>
                                                 </tr>
                                             </table>
