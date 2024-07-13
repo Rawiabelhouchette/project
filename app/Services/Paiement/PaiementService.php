@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Paiement;
 
+use App\Mail\ReSubscriptionConfirmation;
 use App\Mail\SubscriptionConfirmation;
 use App\Mail\SubscriptionInformation;
 use App\Models\Entreprise;
@@ -279,21 +280,15 @@ class PaiementService
 
             DB::commit();
 
-            Mail::send(new SubscriptionInformation(
-                $user,
-                $transaction->offre_id,
-                $subscription
-            ));
+            Mail::send(
+                new SubscriptionInformation(
+                    $user,
+                    $transaction->offre_id,
+                    $subscription
+                )
+            );
 
-            Mail::send(new SubscriptionConfirmation(
-                $user->nom,
-                $subscription->offreAbonnement->libelle,
-                $subscription->date_debut,
-                $subscription->date_fin,
-                $subscription->entreprise->nom
-            ));
-
-            session()->flash('success','Paiement effectué avec succès');
+            session()->flash('success', 'Paiement effectué avec succès');
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -391,6 +386,16 @@ class PaiementService
         $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offre_abonnement->libelle . "' (" . $offre_abonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
         Log::channel('subscription')->info($message);
 
+        Mail::send(
+            new SubscriptionConfirmation(
+                $user->nom,
+                $subscription->offreAbonnement->libelle,
+                $subscription->date_debut,
+                $subscription->date_fin,
+                $subscription->entreprise->nom
+            )
+        );
+
         return $subscription;
     }
 
@@ -419,9 +424,21 @@ class PaiementService
         // send email to the company and admin
 
 
+        // Get the user
+        $user = User::find($transaction->user_id);
+
         // logging in subscription channel
         $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offreAbonnement->libelle . "' (" . $offreAbonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
         Log::channel('subscription')->info($message);
+
+        Mail::send(
+            new ReSubscriptionConfirmation(
+                $user->nom,
+                $subscription->date_debut,
+                $subscription->date_fin,
+                $subscription->offreAbonnement->libelle,
+            )
+        );
 
         return $subscription;
     }
