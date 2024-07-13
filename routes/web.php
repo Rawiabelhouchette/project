@@ -165,8 +165,9 @@ Route::get('/test', function () {
     // send a mail
     // Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '01/01/2021', '01/01/2022', 'SIMTOGO'));
 
-    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\RegisterConfirmation(\App\Models\User::first()));
-
+    // Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\RegisterConfirmation(\App\Models\User::first()));
+    
+    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\PasswordReset(\App\Models\User::first(), 'http://localhost:8000/reset-password?token=123456'));
 });
 
 // Route::get('/test-notification', function () {

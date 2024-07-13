@@ -96,8 +96,8 @@
         {{-- <img src="{{ asset('assets/img/logo-vamiyi-by-numrod-white.png') }}" alt="Midjo Logo"> --}}
     </div>
     <div style="background-color:#f3f3f5;">
-        <div style="background:#54595f;background-color:#54595f;margin:0px auto;border-radius:4px 4px 0 0;max-width:600px;">
-            <table role="presentation" style="background:#54595f;background-color:#54595f;width:100%;border-radius:4px 4px 0 0;" align="center" border="0" cellpadding="0" cellspacing="0">
+        <div style="background:#cfd7e1;background-color:#cfd7e1;margin:0px auto;border-radius:4px 4px 0 0;max-width:600px;">
+            <table role="presentation" style="background:#cfd7e1;background-color:#cfd7e1;width:100%;border-radius:4px 4px 0 0;" align="center" border="0" cellpadding="0" cellspacing="0">
                 <tbody>
                     <tr>
                         <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
@@ -105,14 +105,14 @@
                                 <table role="presentation" style="vertical-align:top;" border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
                                         <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
-                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:24px;font-weight:400;line-height:30px;text-align:left;color:#ffffff;">
+                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:24px;font-weight:400;line-height:30px;text-align:left;color:black;">
                                                 <h1 style="margin: 0; font-size: 24px; line-height: normal; font-weight: normal;">Bonjour {{ $clientName }},</h1>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
-                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:#ffffff;">
+                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:black;">
                                                 <p style="margin-bottom: 0;">
                                                     Merci de vous être abonné à notre service sur <a href="{{ config('app.url') }}"><strong>{{ config('app.name') }}</strong></a>. Nous sommes ravis de vous compter parmi nos abonnés.
                                                 </p>
@@ -146,7 +146,7 @@
                                     </tr>
                                     {{-- <tr>
                                         <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
-                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:#ffffff;">
+                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:black;">
                                                 <p style="margin-bottom: 0;">If you have any questions simply reply to this email and we would be more than happy to reply. :)</p>
                                             </div>
                                         </td>
