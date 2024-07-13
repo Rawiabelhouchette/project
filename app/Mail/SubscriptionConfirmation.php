@@ -15,21 +15,21 @@ class SubscriptionConfirmation extends Mailable
 
     public $clientName;
     public $offerName;
-    public $duration;
     public $startDate;
     public $endDate;
+    public $companyName;
 
-    
+
     /**
      * Create a new message instance.
      */
-    public function __construct($clientName, $offerName, $duration, $startDate, $endDate)
+    public function __construct($clientName, $offerName, $startDate, $endDate, $companyName)
     {
         $this->clientName = $clientName;
         $this->offerName = $offerName;
-        $this->duration = $duration;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
+        $this->companyName = $companyName;
     }
 
     /**

@@ -51,6 +51,13 @@
         .listing-location {
             height: 50px !important;
         }
+
+        .img-responsive {
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            height: 100%;
+        }
     </style>
     <div class="card">
         <div class="card-body padd-l-0 padd-r-0">

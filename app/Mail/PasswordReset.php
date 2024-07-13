@@ -17,11 +17,11 @@ class PasswordReset extends Mailable
     public $resetUrl;
     protected $user;
 
-    
+
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user, String $resetUrl)
+    public function __construct(User $user, string $resetUrl)
     {
         $this->resetUrl = $resetUrl;
         $this->user = $user;
