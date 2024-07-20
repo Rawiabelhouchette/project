@@ -1,13 +1,73 @@
-<div class="col-md-9 col-sm-12">
+<div class="col-md-12 col-sm-12">
+
+    <style>
+        .tp-author-basic-info {
+            margin: 30px 0 0 0;
+            padding: 0 25px;
+            border-top: 1px solid #ebedf1;
+        }
+
+        .tp-author-basic-info ul {
+            width: 100%;
+            display: table;
+        }
+
+        .tp-author-basic-info li {
+            list-style: none;
+            display: inline-block;
+            width: 33.333333%;
+            padding: 15px 0 10px;
+        }
+
+        .tp-author-basic-info li strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #384454;
+        }
+
+        .listing-price-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: inline-block;
+            border-radius: 50px;
+            font-size: 14px;
+        }
+
+        .listing-price-info span {
+            display: inline-block;
+            /* background: #ffffff; */
+            background: #ff3a72;
+            color: #ffffff !important;
+            padding: 4px 18px;
+            border-radius: 50px;
+            font-size: 14px;
+            margin-right: 15px;
+            color: #505667;
+            box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        .listing-location {
+            height: 50px !important;
+        }
+
+        .img-responsive {
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
     <div class="card">
         <div class="card-body padd-l-0 padd-r-0">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6" style="margin-top: 10px;">
-                        <span id="nbre-favoris" class="mrg-l-10">{{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} favori(s)</span>
+                        <span class="mrg-l-10" id="nbre-favoris">{{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} favori(s)</span>
                     </div>
                     <div class="col-md-6 text-center">
-                        <input type="text" value="" class="form-control" id="favorite_search" placeholder="Afficher la recherche" style="margin-top: 6px; margin-bottom: 6px; height: 35px;" wire:model.live.debounce.500ms='search'>
+                        <input class="form-control" id="favorite_search" type="text" value="" style="margin-top: 6px; margin-bottom: 6px; height: 35px;" placeholder="Afficher la recherche" wire:model.live.debounce.500ms='search'>
                     </div>
                 </div>
             </div>
@@ -15,14 +75,14 @@
                 <div class="small-list-wrapper">
                     <ul id="table">
                         @foreach ($annonces as $annonce)
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-6 col-sm-12 col-lg-4 col-xl-3">
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-img">
                                         <a href="{{ route('show', $annonce->slug) }}">
                                             @if ($annonce->image)
-                                                <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt="">
+                                                <img class="img-responsive" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="">
                                             @else
-                                                <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
+                                                <img class="img-responsive" src="http://via.placeholder.com/800x800" alt="">
                                             @endif
                                         </a>
                                         {{-- <span class="approve-listing"><i class="fa fa-check"></i></span> --}}
@@ -32,21 +92,9 @@
                                             <h4>{{ $annonce->titre }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
-                                        @if (Auth::check())
-                                            {{-- @if ($annonce->est_favoris)
-                                                <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
-                                                    <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                                </a>
-                                            @else --}}
-                                            <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
-                                                <span class="like-listing @if (!$annonce->est_favoris) alt @endif style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                            </a>
-                                            {{-- @endif --}}
-                                        @else
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" data-toggle="modal" data-target="#signin">
-                                                <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                            </a>
-                                        @endif
+                                        <a href="javascript:void(0)" onclick="if (confirm('Are you sure you want to remove this from favorites?')) @this.call('updateFavoris', {{ $annonce->id }})">
+                                            <span class="like-listing alt style-2"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                                        </a>
                                     </div>
                                     <div class="listing-price-info">
                                         <span class="pricetag">{{ $annonce->type }} </span>
@@ -114,15 +162,3 @@
         </div>
     </div>
 </div>
-
-{{-- @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#favorite_search').change(function() {
-                var url = window.location.href;
-                url = url.split('&page=')[0];
-                window.history.pushState("", "", url);
-            });
-        });
-    </script>
-@endpush --}}

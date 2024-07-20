@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,27 +10,21 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionConfirmation extends Mailable
+class PasswordReset extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $clientName;
-    public $offerName;
-    public $startDate;
-    public $endDate;
-    public $companyName;
+    public $resetUrl;
+    protected $user;
 
 
     /**
      * Create a new message instance.
      */
-    public function __construct($clientName, $offerName, $startDate, $endDate, $companyName)
+    public function __construct(User $user, string $resetUrl)
     {
-        $this->clientName = $clientName;
-        $this->offerName = $offerName;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-        $this->companyName = $companyName;
+        $this->resetUrl = $resetUrl;
+        $this->user = $user;
     }
 
     /**
@@ -38,7 +33,8 @@ class SubscriptionConfirmation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Confirmation de votre abonnement à ' . config('app.name'),
+            subject: 'Réinitialisation de votre mot de passe',
+            to: [$this->user->email],
         );
     }
 
@@ -48,7 +44,7 @@ class SubscriptionConfirmation extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.subscription.confirmation',
+            view: 'emails.password-reset',
         );
     }
 

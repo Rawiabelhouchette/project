@@ -2,6 +2,9 @@
 
 namespace App\Mail;
 
+use App\Models\Abonnement;
+use App\Models\OffreAbonnement;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,27 +12,23 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionConfirmation extends Mailable
+class RegisterConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $clientName;
-    public $offerName;
-    public $startDate;
-    public $endDate;
-    public $companyName;
+    public $firstName;
+    public $username;
+    public $email;
 
-
+    
     /**
      * Create a new message instance.
      */
-    public function __construct($clientName, $offerName, $startDate, $endDate, $companyName)
+    public function __construct(User $user)
     {
-        $this->clientName = $clientName;
-        $this->offerName = $offerName;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-        $this->companyName = $companyName;
+        $this->firstName = $user->prenom;
+        $this->username = $user->username;
+        $this->email = $user->email;
     }
 
     /**
@@ -38,7 +37,8 @@ class SubscriptionConfirmation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Confirmation de votre abonnement à ' . config('app.name'),
+            subject: ' Inscription réussie',
+            to: [$this->email],
         );
     }
 
@@ -48,7 +48,7 @@ class SubscriptionConfirmation extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.subscription.confirmation',
+            view: 'emails.register.confirmation',
         );
     }
 

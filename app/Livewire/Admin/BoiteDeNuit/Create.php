@@ -23,6 +23,8 @@ class Create extends Component
     public $description;
     public $date_validite;
     public $entreprise_id;
+    public $entreprises;
+
 
     public $commodites = [];
     public $list_commodites = [];
@@ -48,6 +50,8 @@ class Create extends Component
         } else {
             $this->entreprises = Entreprise::all();
         }
+
+        // dd($this->entreprises);
 
         $tmp_commodite = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'commodites-hebergement')->first();
         $tmp_commodite ?

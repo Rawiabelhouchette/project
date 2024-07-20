@@ -104,39 +104,50 @@
                             <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                 <table role="presentation" style="vertical-align:top;" border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
-                                        <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
+                                        <td style="font-size:0px;padding:10px 25px;word-break:break-word; padding-bottom: 0 !important;" align="left">
                                             <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:24px;font-weight:400;line-height:30px;text-align:left;color:black;">
-                                                <h1 style="margin: 0; font-size: 20px; line-height: normal; font-weight: normal;">Bonjour {{ $clientName }},</h1>
+                                                <h1 style="margin: 0; font-size: 20px; line-height: normal; font-weight: normal;">
+                                                    Bonjour !
+                                                </h1>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
-                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:black;">
+                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:25px;text-align:left;color:black;">
                                                 <p style="margin-bottom: 0;">
-                                                    Merci de vous être abonné à notre service sur <a href="{{ config('app.url') }}"><strong>{{ config('app.name') }}</strong></a>. Nous sommes ravis de vous compter parmi nos abonnés.
+                                                    Vous recevez cet e-mail car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.
                                                 </p>
-                                                <p>
-                                                    Détails de votre abonnement :
-                                                <ul>
-                                                    <li><strong>Entreprise :</strong> {{ $companyName }}</li>
-                                                    <li><strong>Date de début :</strong> {{ $startDate }}</li>
-                                                    <li><strong>Date de renouvellement :</strong> {{ $endDate }}</li>
-                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:0px;padding:10px 25px;word-break:break-word;padding-bottom: 0 !important;" align="center" vertical-align="middle">
+                                            <table role="presentation" style="border-collapse:separate;line-height:100%;" border="0" cellpadding="0" cellspacing="0">
+                                                <tbody>
+                                                    <tr>
+                                                        <td role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:8px 16px;background:#54595f;" align="center" bgcolor="#54595f" valign="middle">
+                                                            <a href="{{ $resetUrl }}" style="display: inline-block; background: #54595f; color: white; font-family: Roboto, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: normal; line-height: 20px; margin: 0; text-decoration: none; text-transform: none; padding: 8px 16px; mso-padding-alt: 0px; border-radius: 3px;" target="_blank"> Réinitialiser le mot de passe </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
+                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:25px;text-align:left;color:black;">
+                                                <p style="margin-bottom: 0;">
+                                                    Ce lien de réinitialisation de mot de passe expirera dans 60 minutes.
                                                 </p>
-                                                <p>
-                                                    Vous pouvez accéder à votre espace abonné ici : <a href="{{ route('login') }}" style="color: #2e58ff; text-decoration: none;">Connexion</a>
-                                                </p>
-                                                <p>
-                                                    Pour toute question ou assistance, veuillez nous contacter par
-                                                    <a href="https://wa.me/{{ str_replace(' ', '', env('APP_PHONE')) }}" target="_blank">
-                                                        WhatsApp
-                                                        {{-- <img src="https://midjo.numrod.fr/assets/img/logo-vamiyi-by-numrod-small.png" alt="Contactez-nous via WhatsApp" width="100" height="100"> --}}
-                                                        {{-- <img src="{{ asset('assets/img/whatsapp_logo.png') }}" alt="Contactez-nous via WhatsApp"> --}}
-                                                    </a>.
-                                                </p>
-                                                <p>
-                                                    Nous espérons que vous apprécierez nos services.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:0px;padding:10px 25px;word-break:break-word; padding-top: 0 !important;padding-bottom: 0 !important;" align="left">
+                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:25px;text-align:left;color:black;">
+                                                <p style="margin-bottom: 0;">
+                                                    Si vous n'avez pas demandé de réinitialisation de mot de passe, aucune autre action n'est requise.
                                                 </p>
                                                 <p>
                                                     Cordialement, <br>
@@ -145,13 +156,22 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    {{-- <tr>
-                                        <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
-                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:black;">
-                                                <p style="margin-bottom: 0;">If you have any questions simply reply to this email and we would be more than happy to reply. :)</p>
+                                    <tr>
+                                        <td style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                            <p style="border-top:dashed 1px lightgrey;font-size:1px;margin:0px auto;width:100%;">
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:0px;padding:10px 25px;word-break:break-word;padding-top: 0 !important; padding-bottom: 0 !important;" align="left">
+                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:25px;text-align:left;color:black;">
+                                                <p style="margin-bottom: 0;">
+                                                    Si vous rencontrez des difficultés pour cliquer sur le bouton "Réinitialiser", copiez et collez l'URL ci-dessous dans votre navigateur web :
+                                                    <a href="{{ $resetUrl }}">{{ $resetUrl }}</a>
+                                                </p>
                                             </div>
                                         </td>
-                                    </tr> --}}
+                                    </tr>
                                 </table>
                             </div>
                         </td>

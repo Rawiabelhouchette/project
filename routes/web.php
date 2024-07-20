@@ -25,6 +25,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
 use App\Models\Abonnement;
+use App\Notifications\ResetPassword;
 use App\Services\Paiement\PaiementService;
 use Illuminate\Support\Facades\Route;
 
@@ -71,70 +72,73 @@ Route::group([
 
     Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-    Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
-    Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
-    Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
+    Route::prefix('staff')->group(function () {
+        Route::middleware('App\Http\Middleware\Admin')->group(function () {
+            // Une route de ressource pour les références
+            Route::resource('references', ReferenceController::class);
+            Route::get('references/nom/add', [ReferenceController::class, 'create_name'])->name('references.nom.add');
+            Route::get('references/nom/datatable', [ReferenceController::class, 'getNameDataTable'])->name('references.nom.datatable');
+            Route::get('references/ref/datatable', [ReferenceController::class, 'getDataTable'])->name('references.datatable');
+            Route::post('references/nom/post', [ReferenceController::class, 'store_name'])->name('references.nom.post');
+            Route::get('references/nom/{type}', [ReferenceController::class, 'get_name'])->name('references.nom.get');
 
+            Route::resource('pays', PaysController::class);
 
+            Route::resource('villes', VilleController::class);
 
-    Route::prefix('staff')->middleware('App\Http\Middleware\Admin')->group(function () {
+            Route::resource('quartiers', QuartierController::class);
+            Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
+
+            Route::resource('users', UserController::class);
+            Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
+
+        });
+
+        Route::middleware('App\Http\Middleware\Professionnel')->group(function () {
+
+            Route::resource('entreprises', EntrepriseController::class);
+
+            Route::resource('annonces', AnnonceController::class);
+            Route::get('annonces/list/datatable', [AnnonceController::class, 'getDataTable'])->name('annonces.datatable');
+
+            Route::resource('auberges', AubergeController::class);
+
+            Route::resource('hotels', HotelController::class);
+
+            Route::resource('location-vehicules', LocationVehiculeController::class);
+
+            Route::resource('location-meublees', LocationMeubleeController::class);
+
+            Route::resource('boite-de-nuits', BoiteDeNuitController::class);
+
+            Route::resource('fast-foods', FastFoodController::class);
+
+            Route::resource('restaurants', RestaurantController::class);
+
+            Route::resource('bars', BarController::class);
+
+            Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
+
+            Route::resource('abonnements', AbonnementController::class);
+            Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
+
+            Route::resource('subscriptions', SubscriptionController::class);
+            Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
+        });
 
         Route::get('dashboard', [AdminController::class, 'home'])->name('home');
 
-        // Une route de ressource pour les références
-        Route::resource('references', ReferenceController::class);
-        Route::get('references/nom/add', [ReferenceController::class, 'create_name'])->name('references.nom.add');
-        Route::get('references/nom/datatable', [ReferenceController::class, 'getNameDataTable'])->name('references.nom.datatable');
-        Route::get('references/ref/datatable', [ReferenceController::class, 'getDataTable'])->name('references.datatable');
-        Route::post('references/nom/post', [ReferenceController::class, 'store_name'])->name('references.nom.post');
-        Route::get('references/nom/{type}', [ReferenceController::class, 'get_name'])->name('references.nom.get');
+        Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
+        Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
+        Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
 
-        Route::resource('pays', PaysController::class);
-
-        Route::resource('villes', VilleController::class);
-
-        Route::resource('quartiers', QuartierController::class);
-        Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
-
-        Route::resource('users', UserController::class);
-        Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
-
-        Route::resource('entreprises', EntrepriseController::class);
-
-        Route::resource('annonces', AnnonceController::class);
-        Route::get('annonces/list/datatable', [AnnonceController::class, 'getDataTable'])->name('annonces.datatable');
-
-        Route::resource('auberges', AubergeController::class);
-
-        Route::resource('hotels', HotelController::class);
-
-        Route::resource('location-vehicules', LocationVehiculeController::class);
-
-        Route::resource('location-meublees', LocationMeubleeController::class);
-
-        Route::resource('boite-de-nuits', BoiteDeNuitController::class);
-
-        Route::resource('fast-foods', FastFoodController::class);
-
-        Route::resource('restaurants', RestaurantController::class);
-
-        Route::resource('bars', BarController::class);
-
-        Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
     });
 
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
 
-    Route::resource('abonnements', AbonnementController::class);
-    Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');
     Route::post('abonnements/payment/check', [AbonnementController::class, 'checkPayment'])->name('abonnements.payement.check');
 
     Route::resource('payments', PaiementController::class);
-
-    Route::resource('subscriptions', SubscriptionController::class);
-    Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
-
-
 });
 
 Route::fallback(function () {
@@ -159,17 +163,17 @@ Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'
 Route::get('/test', function () {
     // return route('payment.notification');
     // send a mail
-    // Mail::to('cyberprode14@gmail.com')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '1', '01/01/2021', '01/01/2022'));
-    // Mail::send(new App\Mail\SubscriptionInformation('Billal', 'Abonnement', 3000, '1', '01/01/2021', '01/01/2022'));
-    $user = App\Models\User::inRandomOrder()->first();
-    $subscription = Abonnement::inRandomOrder()->first();
+    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '01/01/2021', '01/01/2022', 'SIMTOGO'));
 
-
-    Mail::send(new App\Mail\SubscriptionInformation(
-        $user,
-        1,
-        $subscription
-    ));
-
+    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\RegisterConfirmation(\App\Models\User::first()));
+    
+    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\PasswordReset(\App\Models\User::first(), 'http://localhost:8000/reset-password?token=123456'));
+    
+    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\ReSubscriptionConfirmation('Billal', '01/01/2021', '01/01/2022', 'SIMTOGO'));
 });
+
+// Route::get('/test-notification', function () {
+//     $user = \App\Models\User::first(); // Get the first user as an example
+//     $user->notify(new ResetPassword('token123')); // Replace 'token123' with your actual token
+// });
 
