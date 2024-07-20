@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::table('annonces', function (Blueprint $table) {
             $table->index('titre');
             $table->index('type');
-            $table->index('description');
+            // $table->index('description');
             $table->index('created_at');
         });
     }
@@ -26,7 +26,7 @@ return new class extends Migration {
         Schema::table('annonces', function (Blueprint $table) {
             $table->dropIndex(['titre']);
             $table->dropIndex(['type']);
-            $table->dropIndex(['description']);
+            // $table->dropIndex(['description']);
             $table->dropIndex(['created_at']);
         });
     }

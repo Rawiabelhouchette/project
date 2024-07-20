@@ -9,27 +9,25 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SubscriptionConfirmation extends Mailable
+class ReSubscriptionConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $clientName;
-    public $offerName;
     public $startDate;
     public $endDate;
-    public $companyName;
+    public $service;
 
 
     /**
      * Create a new message instance.
      */
-    public function __construct($clientName, $offerName, $startDate, $endDate, $companyName)
+    public function __construct($clientName, $startDate, $endDate, $service)
     {
         $this->clientName = $clientName;
-        $this->offerName = $offerName;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
-        $this->companyName = $companyName;
+        $this->service = $service;
     }
 
     /**
@@ -38,7 +36,7 @@ class SubscriptionConfirmation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Confirmation de votre abonnement à ' . config('app.name'),
+            subject: 'Confirmation de réabonnement à ' . config('app.name'),
         );
     }
 
@@ -48,7 +46,7 @@ class SubscriptionConfirmation extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.subscription.confirmation',
+            view: 'emails.subscription.re-subscription',
         );
     }
 

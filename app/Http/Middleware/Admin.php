@@ -16,10 +16,10 @@ class Admin
     public function handle(Request $request, Closure $next)
     {
         // return back if user is not authenticated or has no role (Professionnel or Administrateur)
-        if (!auth()->check() || (!auth()->user()->hasRole('Professionnel') && !auth()->user()->hasRole('Administrateur'))) {
+        if (!auth()->user()->hasRole('Administrateur')) {
             return back()->with('email', 'Vous n\'avez pas accès à cette page.');
         }
-        
+
         return $next($request);
     }
 }

@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ route('accueil') }}" target="_blank"><img src="{{ asset('assets/img/logo-vamiyi-by-numrod.png') }}" height="100%" xd alt=""></a>
+                <a class="navbar-brand" href="{{ route('accueil') }}"><img src="{{ asset('assets/img/logo-vamiyi-by-numrod.png') }}" height="100%" alt=""></a>
             </div>
         </div>
     </div>

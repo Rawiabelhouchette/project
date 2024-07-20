@@ -192,6 +192,10 @@ class Annonce extends Model
     // description courte de l'annonce en 70 caractères
     public function getDescriptionCourteAttribute(): string
     {
+        if (!$this->description) {
+            return 'Pas de description';
+        }
+
         $description = $this->description;
         $description = strip_tags($description);
         $description = str_replace('&nbsp;', ' ', $description);

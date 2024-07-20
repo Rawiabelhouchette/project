@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -58,6 +59,11 @@ class User extends Authenticatable
         'telephone' => PurifyHtmlOnGet::class,
     ];
 
+    // public function sendPasswordResetNotification($token)
+    // {
+    //     $this->notify(new ResetPassword($token));
+    // }
+
 
     /**
      * Get the entreprise that owns the user.
@@ -91,7 +97,8 @@ class User extends Authenticatable
         return $this
             ->belongsToMany(Annonce::class, 'commentaires', 'user_id', 'annonce_id')
             ->public()
-            ->withPivot('contenu', 'created_at')
+            ->withPivot('contenu', 'created_at', 'deleted_at')
+            ->wherePivotNull('deleted_at')
             ->latest();
     }
 
@@ -104,7 +111,7 @@ class User extends Authenticatable
     public function abonnements()
     {
         $entreprises_id = $this->entreprises->pluck('id');
-        return Abonnement::with('offre','entreprises')->whereHas('entreprises', function ($query) use ($entreprises_id) {
+        return Abonnement::with('offre', 'entreprises')->whereHas('entreprises', function ($query) use ($entreprises_id) {
             $query->whereIn('entreprise_id', $entreprises_id);
         })->latest();
     }

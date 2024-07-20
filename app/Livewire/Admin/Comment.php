@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Livewire\Public\User;
+namespace App\Livewire\Admin;
+
 
 use App\Models\User;
 use Livewire\Component;
@@ -28,6 +29,6 @@ class Comment extends Component
             $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($search) . '%'])
                 ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
         })->paginate($this->perPage);
-        return view('livewire.public.user.comment', compact('annonces'));
+        return view('livewire.admin.comment', compact('annonces'));
     }
 }

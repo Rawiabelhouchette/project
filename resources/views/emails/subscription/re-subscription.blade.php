@@ -114,44 +114,32 @@
                                         <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
                                             <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:black;">
                                                 <p style="margin-bottom: 0;">
-                                                    Merci de vous être abonné à notre service sur <a href="{{ config('app.url') }}"><strong>{{ config('app.name') }}</strong></a>. Nous sommes ravis de vous compter parmi nos abonnés.
+                                                    Merci pour le renouvellement de votre abonnement à [Nom du service] sur <a href="{{ config('app.url') }}"><strong>{{ config('app.name') }}</strong></a>. Votre réabonnement a été traité avec succès.
                                                 </p>
                                                 <p>
                                                     Détails de votre abonnement :
                                                 <ul>
-                                                    <li><strong>Entreprise :</strong> {{ $companyName }}</li>
-                                                    <li><strong>Date de début :</strong> {{ $startDate }}</li>
-                                                    <li><strong>Date de renouvellement :</strong> {{ $endDate }}</li>
+                                                    <li><strong>Service :</strong> {{ $service }}</li>
+                                                    <li><strong>Nouvelle date de renouvellement :</strong> {{ $startDate }}</li>
+                                                    <li><strong>Date de fin d’abonnement :</strong> {{ $endDate }}</li>
                                                 </ul>
                                                 </p>
                                                 <p>
-                                                    Vous pouvez accéder à votre espace abonné ici : <a href="{{ route('login') }}" style="color: #2e58ff; text-decoration: none;">Connexion</a>
+                                                    Vous pouvez accéder à votre compte ici : <a href="{{ route('login') }}" style="color: #2e58ff; text-decoration: none;">Connexion</a>
                                                 </p>
                                                 <p>
                                                     Pour toute question ou assistance, veuillez nous contacter par
                                                     <a href="https://wa.me/{{ str_replace(' ', '', env('APP_PHONE')) }}" target="_blank">
                                                         WhatsApp
-                                                        {{-- <img src="https://midjo.numrod.fr/assets/img/logo-vamiyi-by-numrod-small.png" alt="Contactez-nous via WhatsApp" width="100" height="100"> --}}
-                                                        {{-- <img src="{{ asset('assets/img/whatsapp_logo.png') }}" alt="Contactez-nous via WhatsApp"> --}}
                                                     </a>.
                                                 </p>
                                                 <p>
-                                                    Nous espérons que vous apprécierez nos services.
+                                                    Merci pour votre fidélité et bienvenue à nouveau !
                                                 </p>
-                                                <p>
-                                                    Cordialement, <br>
-                                                    L'équipe {{ config('app.name') }}
-                                                </p>
+                                                <p>Cordialement, <br>L'équipe {{ config('app.name') }}</p>
                                             </div>
                                         </td>
                                     </tr>
-                                    {{-- <tr>
-                                        <td style="font-size:0px;padding:10px 25px;word-break:break-word;" align="left">
-                                            <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:black;">
-                                                <p style="margin-bottom: 0;">If you have any questions simply reply to this email and we would be more than happy to reply. :)</p>
-                                            </div>
-                                        </td>
-                                    </tr> --}}
                                 </table>
                             </div>
                         </td>

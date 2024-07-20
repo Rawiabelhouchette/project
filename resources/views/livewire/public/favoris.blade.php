@@ -1,4 +1,8 @@
 <div>
+    @php
+        $defaultColor = '#ff3a72';
+    @endphp
+    
     @if (Auth::check())
         <button wire:click='updateFavoris' wire:loading.attr="disabled" class="buttons padd-10 favoris-btn-show" style="background: {{ $isEnabled ? $defaultColor : 'white' }}; border: 1px solid {{ $isEnabled ? $defaultColor : 'grey' }}; color: {{ $isEnabled ? 'white' : 'grey' }};">
             <i class="fa fa-heart"></i>

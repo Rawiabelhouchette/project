@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Public\User;
+namespace App\Livewire\Admin;
 
 use App\Http\Controllers\AuthenticationController;
 use App\Models\User;
@@ -8,8 +8,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-
-class Account extends Component
+class Profile extends Component
 {
     public $user;
     public $editInfo = false;
@@ -32,7 +31,7 @@ class Account extends Component
 
         $this->initialize();
     }
-    
+
     public function initialize()
     {
         $this->user = User::find(auth()->user()->id);
@@ -127,30 +126,38 @@ class Account extends Component
                 // Add an error message to the password_old field
                 $validator->errors()->add('password_old', 'Le mot de passe actuel est incorrect');
 
+                $this->editPassword = true;
+
                 // Throw a ValidationException with the validator instance
                 throw new \Illuminate\Validation\ValidationException($validator);
             }
         }
 
         $this->user->update($validated);
-        
+
         if ($this->editPass) {
             AuthenticationController::logout(request());
-            return redirect('/');
+            // return redirect('/');
+            return redirect()->route('login');
         }
 
         $this->cancel();
 
-        $this->dispatch('username:changed', [
-            'username' => $this->user->nom . ' ' . $this->user->prenom
-        ]);
+        // $this->dispatch('username:changed', [
+        //     'username' => $this->user->nom . ' ' . $this->user->prenom
+        // ]);
 
-        session()->flash('success', 'Votre compte a été mis à jour avec succès');
+        // session()->flash('success', 'Votre compte a été mis à jour avec succès');
+        $this->dispatch('swal:modal', [
+            'icon' => 'success',
+            'title' => __('Opération réussie'),
+            'message' => __('Profil mis à jour avec succès'),
+        ]);
         return;
     }
 
     public function render()
     {
-        return view('livewire.public.user.account');
+        return view('livewire.admin.profile');
     }
 }
