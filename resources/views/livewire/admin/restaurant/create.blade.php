@@ -16,7 +16,7 @@
                                 <label class="">Entreprise
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <select class="select2" wire:model.defer='entreprise_id' required data-nom="entreprise_id">
+                                <select class="select2" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                                     <option value="">-- Sélectionner --</option>
                                     @foreach ($entreprises as $entreprise)
                                         <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
@@ -37,7 +37,7 @@
                                 <label class="">Nom
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="" required wire:model.defer='nom' required>
+                                <input class="form-control" type="text" placeholder="" required wire:model.defer='nom' required>
                                 @error('nom')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -53,7 +53,7 @@
                                 <label class="">Date de validité
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input type="date" class="form-control" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                                <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
                                 @error('date_validite')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -66,213 +66,259 @@
                 <div class="row">
                     <h4 class="text-center">Entrées</h4>
 
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Nom
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="text" class="form-control" placeholder="" required wire:model.defer='e_nom' required>
-                                @error('e_nom')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                    @foreach ($entrees as $key => $entree)
+                        <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Nom
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </label> <br>
+                                    <textarea class="form-control" type="text" placeholder="" required wire:model.defer='entrees.{{ $key }}.nom' required></textarea>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Ingrédients
-                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                </label> <br>
-                                <input type="text" class="form-control" placeholder="" wire:model.defer='e_ingredients'>
-                                @error('e_ingredients')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Ingrédients
+                                        {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                    </label> <br>
+                                    <textarea class="form-control" type="text" placeholder="" wire:model.defer='entrees.{{ $key }}.ingredients'></textarea>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Prix minimum
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="number" class="form-control" value="0" wire:model.defer='e_prix_min' min="0">
-                                @error('e_prix_min')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Prix minimum
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </label> <br>
+                                    <input class="form-control" type="number" wire:model.defer='entrees.{{ $key }}.prix_min'>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Prix maximum
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="number" class="form-control" value="0" placeholder="" wire:model.defer='e_prix_max' min="{{ $this->e_prix_max }}">
-                                @error('e_prix_max')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Prix maximum
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </label> <br>
+                                    <input class="form-control" type="number" placeholder="" wire:model.defer='entrees.{{ $key }}.prix_max'>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
+
+                        <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                            <label class="">&nbsp;</label> <br>
+                            @if ($key == 0)
+                                <button class="btn theme-btn" type="button" style="background-color: green; border-color: green" wire:click="addEntree">
+                                    <i class="fa fa-plus fa-lg text-center" style=""></i>
+                                </button>
+                            @else
+                                <button class="btn theme-btn" type="button" style="background-color: red; border-color: red" wire:click="removeEntree({{ $key }})">
+                                    <i class="fa fa-minus fa-lg text-center" style=""></i>
+                                </button>
+                            @endif
+                        </div>
+
+                        @if ($entrees_error && $key == count($entrees) - 1)
+                            <div class="col-md-12 col-sm-12 text-center">
+                                <span class="text-danger">{{ $entrees_error }}</span>
+                            </div>
+                        @endif
+                    @endforeach
+
                 </div>
 
                 <div class="row">
                     <h4 class="text-center">Plats</h4>
 
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Nom
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="text" class="form-control" placeholder="" required wire:model.defer='p_nom' required>
-                                @error('p_nom')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                    @foreach ($plats as $key => $plat)
+                        <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Nom
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </label> <br>
+                                    <textarea class="form-control" type="text" placeholder="" required wire:model.defer='plats.{{ $key }}.nom' required></textarea>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Ingrédients
-                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                </label> <br>
-                                <input type="text" class="form-control" placeholder="" wire:model.defer='p_ingredients'>
-                                @error('p_ingredients')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        <div class="col-md-2 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Ingrédients
+                                        {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                    </label> <br>
+                                    <textarea class="form-control" type="text" placeholder="" wire:model.defer='plats.{{ $key }}.ingredients'></textarea>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Prix minimum
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="number" class="form-control" value="0" wire:model.defer='p_prix_min' min="0">
-                                @error('p_prix_min')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        <div class="col-md-2 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Accompagnements
+                                        {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                    </label> <br>
+                                    <textarea class="form-control" type="text" placeholder="" wire:model.defer='plats.{{ $key }}.accompagnements'></textarea>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Prix maximum
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="number" class="form-control" value="0" placeholder="" wire:model.defer='p_prix_max' min="{{ $this->p_prix_max }}">
-                                @error('p_prix_max')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Prix minimum
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </label> <br>
+                                    <input class="form-control" type="number" wire:model.defer='plats.{{ $key }}.prix_min'>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
+
+                        <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Prix maximum
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </label> <br>
+                                    <input class="form-control" type="number" placeholder="" wire:model.defer='plats.{{ $key }}.prix_max'>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                            <label class="">&nbsp;</label> <br>
+                            @if ($key == 0)
+                                <button class="btn theme-btn" type="button" style="background-color: green; border-color: green" wire:click="addPlat">
+                                    <i class="fa fa-plus fa-lg text-center" style=""></i>
+                                </button>
+                            @else
+                                <button class="btn theme-btn" type="button" style="background-color: red; border-color: red" wire:click="removePlat({{ $key }})">
+                                    <i class="fa fa-minus fa-lg text-center" style=""></i>
+                                </button>
+                            @endif
+                        </div>
+
+                        @if ($plats_error && $key == count($plats) - 1)
+                            <div class="col-md-12 col-sm-12 text-center">
+                                <span class="text-danger">{{ $plats_error }}</span>
+                            </div>
+                        @endif
+                    @endforeach
+
                 </div>
 
                 <div class="row">
-                    <h4 class="text-center">Plats</h4>
+                    <h4 class="text-center">Desserts</h4>
 
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Nom
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="text" class="form-control" placeholder="" required wire:model.defer='d_nom' required>
-                                @error('d_nom')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                    @foreach ($desserts as $key => $dessert)
+                        <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Nom
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </label> <br>
+                                    <textarea class="form-control" type="text" placeholder="" required wire:model.defer='desserts.{{ $key }}.nom' required></textarea>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Ingrédients
-                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                </label> <br>
-                                <input type="text" class="form-control" placeholder="" wire:model.defer='d_ingredients'>
-                                @error('d_ingredients')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Ingrédients
+                                        {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                    </label> <br>
+                                    <textarea class="form-control" type="text" placeholder="" wire:model.defer='desserts.{{ $key }}.ingredients'></textarea>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Prix minimum
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="number" class="form-control" value="0" wire:model.defer='d_prix_min' min="0">
-                                @error('d_prix_min')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Prix minimum
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </label> <br>
+                                    <input class="form-control" type="number" wire:model.defer='desserts.{{ $key }}.prix_min'>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Prix maximum
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="number" class="form-control" value="0" placeholder="" wire:model.defer='d_prix_max' min="{{ $this->d_prix_max }}">
-                                @error('d_prix_max')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <label class="">Prix maximum
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </label> <br>
+                                    <input class="form-control" type="number" placeholder="" wire:model.defer='desserts.{{ $key }}.prix_max'>
+                                </div>
+                                <div class="col-md-1"></div>
                             </div>
-                            <div class="col-md-1"></div>
                         </div>
-                    </div>
+
+                        <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                            <label class="">&nbsp;</label> <br>
+                            @if ($key == 0)
+                                <button class="btn theme-btn" type="button" style="background-color: green; border-color: green" wire:click="addDessert">
+                                    <i class="fa fa-plus fa-lg text-center" style=""></i>
+                                </button>
+                            @else
+                                <button class="btn theme-btn" type="button" style="background-color: red; border-color: red" wire:click="removeDessert({{ $key }})">
+                                    <i class="fa fa-minus fa-lg text-center" style=""></i>
+                                </button>
+                            @endif
+                        </div>
+
+                        @if ($desserts_error && $key == count($desserts) - 1)
+                            <div class="col-md-12 col-sm-12 text-center">
+                                <span class="text-danger">{{ $desserts_error }}</span>
+                            </div>
+                        @endif
+                    @endforeach
+
                 </div>
+
+
+
 
                 <div class="row">
                     <div class="col-md-12 col-sm-12" style="margin-top: 10px; padding-left: 40px;padding-right: 40px;">
                         <label class="">Description
                             {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                         </label> <br>
-                        <textarea id="description" class="form-control height-100" placeholder="" wire:model.defer='description'></textarea>
+                        <textarea class="form-control height-100" id="description" placeholder="" wire:model.defer='description'></textarea>
                     </div>
                 </div>
 
@@ -304,7 +350,7 @@
                 <div class="row padd-bot-15">
                     <div class="form-group" style="margin-top: 15px;">
                         <div class="col-md-12 col-sm-12 text-right">
-                            <button wire:target='store' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 30px;">
+                            <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='store' wire:loading.attr='disabled'>
                                 <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                                 Enregistrer
                             </button>

@@ -25,20 +25,40 @@ class Create extends Component
     public $date_validite;
     public $entreprise_id;
 
-    public $e_nom;
-    public $e_ingredients;
-    public $e_prix_min = 0;
-    public $e_prix_max = 0;
+    public $entrees_error = '';
+    public $entrees = [
+        [
+            'nom' => '',
+            'ingredients' => '',
+            'prix_min' => '',
+            'prix_max' => ''
+        ],
+    ];
+    public $entrees_count = 1;
 
-    public $p_nom;
-    public $p_ingredients;
-    public $p_prix_min = 0;
-    public $p_prix_max = 0;
+    public $plats_error = '';
+    public $plats = [
+        [
+            'nom' => '',
+            'ingredients' => '',
+            'accompagnements' => '',
+            'prix_min' => '',
+            'prix_max' => ''
+        ],
+    ];
+    public $plats_count = 1;
 
-    public $d_nom;
-    public $d_ingredients;
-    public $d_prix_min = 0;
-    public $d_prix_max = 0;
+    public $desserts_error = '';
+    public $desserts = [
+        [
+            'nom' => '',
+            'ingredients' => '',
+            'prix_min' => '',
+            'prix_max' => ''
+        ],
+    ];
+    public $desserts_count = 1;
+
 
     public $equipements_restauration = [];
     public $list_equipements_restauration = [];
@@ -166,6 +186,133 @@ class Create extends Component
             'galerie.array' => 'La galerie doit être un tableau.',
             'galerie.*.image' => 'La galerie doit contenir des images.',
         ];
+    }
+
+    public function addEntree()
+    {
+        // check if all fields are filled (entrees_count - 1) times
+        $i = $this->entrees_count - 1;
+        if (empty($this->entrees[$i]['nom']) || empty($this->entrees[$i]['ingredients']) || empty($this->entrees[$i]['prix_min']) || empty($this->entrees[$i]['prix_max'])) {
+            $this->entrees_error = 'Veuillez remplir tous les champs de l\'entrée précédente';
+            return;
+        }
+
+        // check if prix_min <= prix_max
+        if ($this->entrees[$i]['prix_min'] > $this->entrees[$i]['prix_max']) {
+            $this->entrees_error = 'Le prix minimum doit être inférieur ou égal au prix maximum';
+            return;
+        }
+
+        // check if nom is unique
+        foreach ($this->entrees as $key => $entree) {
+            if ($key == $i)
+                continue;
+            if ($entree['nom'] == $this->entrees[$i]['nom']) {
+                $this->entrees_error = 'Ce nom d\'entrée existe déjà';
+                return;
+            }
+        }
+
+        $this->entrees_error = '';
+
+        $this->entrees[] = [
+            'nom' => '',
+            'ingredients' => '',
+            'prix_min' => '',
+            'prix_max' => '',
+        ];
+
+        $this->entrees_count++;
+    }
+
+    public function addDessert()
+    {
+        // check if all fields are filled (entrees_count - 1) times
+        $i = $this->desserts_count - 1;
+        if (empty($this->desserts[$i]['nom']) || empty($this->desserts[$i]['ingredients']) || empty($this->plats[$i]['accompagnements']) || empty($this->desserts[$i]['prix_min']) || empty($this->desserts[$i]['prix_max'])) {
+            $this->desserts_error = 'Veuillez remplir tous les champs du dessert précédent';
+            return;
+        }
+
+        // check if prix_min <= prix_max
+        if ($this->desserts[$i]['prix_min'] > $this->desserts[$i]['prix_max']) {
+            $this->desserts_error = 'Le prix minimum doit être inférieur ou égal au prix maximum';
+            return;
+        }
+
+        // check if nom is unique
+        foreach ($this->desserts as $key => $dessert) {
+            if ($key == $i)
+                continue;
+            if ($dessert['nom'] == $this->desserts[$i]['nom']) {
+                $this->desserts_error = 'Ce nom de dessert existe déjà';
+                return;
+            }
+        }
+
+        $this->desserts_error = '';
+
+        $this->desserts[] = [
+            'nom' => '',
+            'ingredients' => '',
+            'accompagnements' => '',
+            'prix_min' => '',
+            'prix_max' => '',
+        ];
+
+        $this->desserts_count++;
+    }
+
+    public function addPlat()
+    {
+        // check if all fields are filled (entrees_count - 1) times
+        $i = $this->plats_count - 1;
+        if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['prix_min']) || empty($this->plats[$i]['prix_max'])) {
+            $this->plats_error = 'Veuillez remplir tous les champs du plat précédent';
+            return;
+        }
+
+        // check if prix_min <= prix_max
+        if ($this->plats[$i]['prix_min'] > $this->plats[$i]['prix_max']) {
+            $this->plats_error = 'Le prix minimum doit être inférieur ou égal au prix maximum';
+            return;
+        }
+
+        // check if nom is unique
+        foreach ($this->plats as $key => $plat) {
+            if ($key == $i)
+                continue;
+            if ($plat['nom'] == $this->plats[$i]['nom']) {
+                $this->plats_error = 'Ce nom de plat existe déjà';
+                return;
+            }
+        }
+
+        $this->plats_error = '';
+
+        $this->plats[] = [
+            'nom' => '',
+            'ingredients' => '',
+            'prix_min' => '',
+            'prix_max' => '',
+        ];
+
+        $this->plats_count++;
+    }
+
+    public function removeEntree($key)
+    {
+        unset($this->entrees[$key]);
+    }
+    
+    public function removeDessert($key)
+    {
+        unset($this->desserts[$key]);
+    }
+
+    public function removePlat($key)
+    {
+        unset($this->plats[$key]);
     }
 
     public function store()
