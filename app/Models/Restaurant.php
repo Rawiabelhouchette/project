@@ -33,6 +33,7 @@ class Restaurant extends Model implements AnnonceInterface
         'd_nom',
         'd_slug',
         'd_ingredients',
+        'd_accompagnements',
         'd_prix_min',
         'd_prix_max',
     ];

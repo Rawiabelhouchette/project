@@ -25,6 +25,23 @@ class Create extends Component
     public $date_validite;
     public $entreprise_id;
 
+    public $e_nom;
+    public $e_ingredients;
+    public $e_prix_min = 0;
+    public $e_prix_max = 0;
+
+    public $p_nom;
+    public $p_ingredients;
+    public $p_accompagnements;
+    public $p_prix_min = 0;
+    public $p_prix_max = 0;
+
+    public $d_nom;
+    public $d_ingredients;
+    public $d_prix_min = 0;
+    public $d_prix_max = 0;
+
+
     public $entrees_error = '';
     public $entrees = [
         [
@@ -108,26 +125,26 @@ class Create extends Component
             'description' => 'nullable|string|min:3',
             'date_validite' => 'required|date',
             'entreprise_id' => 'required|integer|exists:entreprises,id',
-            'e_nom' => 'required|string|min:3',
-            'e_ingredients' => 'nullable|string|min:3',
-            'e_prix_min' => 'nullable|integer|min:0|lte:e_prix_max',
-            'e_prix_max' => 'nullable|integer|min:0',
-            'p_nom' => 'required|string|min:3',
-            'p_ingredients' => 'nullable|string|min:3',
-            'p_prix_min' => 'nullable|integer|min:0|lte:p_prix_max',
-            'p_prix_max' => 'nullable|integer|min:0',
-            'd_nom' => 'required|string|min:3',
-            'd_ingredients' => 'nullable|string|min:3',
-            'd_prix_min' => 'nullable|integer|min:0|lte:d_prix_max',
-            'd_prix_max' => 'nullable|integer|min:0',
-            'equipements_restauration' => 'nullable|array',
-            'equipements_restauration.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'specialites' => 'nullable|array',
-            'specialites.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'carte_consommation' => 'nullable|array',
-            'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'galerie' => 'nullable|array',
-            'galerie.*' => 'nullable|image',
+            // 'e_nom' => 'required|string|min:3',
+            // 'e_ingredients' => 'nullable|string|min:3',
+            // 'e_prix_min' => 'nullable|integer|min:0|lte:e_prix_max',
+            // 'e_prix_max' => 'nullable|integer|min:0',
+            // 'p_nom' => 'required|string|min:3',
+            // 'p_ingredients' => 'nullable|string|min:3',
+            // 'p_prix_min' => 'nullable|integer|min:0|lte:p_prix_max',
+            // 'p_prix_max' => 'nullable|integer|min:0',
+            // 'd_nom' => 'required|string|min:3',
+            // 'd_ingredients' => 'nullable|string|min:3',
+            // 'd_prix_min' => 'nullable|integer|min:0|lte:d_prix_max',
+            // 'd_prix_max' => 'nullable|integer|min:0',
+            // 'equipements_restauration' => 'nullable|array',
+            // 'equipements_restauration.*' => 'nullable|integer|exists:reference_valeurs,id',
+            // 'specialites' => 'nullable|array',
+            // 'specialites.*' => 'nullable|integer|exists:reference_valeurs,id',
+            // 'carte_consommation' => 'nullable|array',
+            // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
+            // 'galerie' => 'nullable|array',
+            // 'galerie.*' => 'nullable|image',
         ];
     }
 
@@ -318,6 +335,33 @@ class Create extends Component
     public function store()
     {
         $this->validate();
+
+        // Put all entrees in the same variable
+        foreach ($this->entrees as $entree) {
+            $this->e_nom .= $entree['nom'] . '&nbsp;';
+            $this->e_ingredients .= $entree['ingredients'] . '&nbsp;';
+            $this->e_prix_min .= $entree['prix_min'] . '&nbsp;';
+            $this->e_prix_max .= $entree['prix_max'] . '&nbsp;';
+        }
+
+        // Put all plats in the same variable
+        foreach ($this->plats as $plat) {
+            $this->p_nom .= $plat['nom'] . '&nbsp;';
+            $this->p_ingredients .= $plat['ingredients'] . '&nbsp;';
+            $this->p_accompagnements .= $plat['accompagnements'] . '&nbsp;';
+            $this->p_prix_min .= $plat['prix_min'] . '&nbsp;';
+            $this->p_prix_max .= $plat['prix_max'] . '&nbsp;';
+        }
+
+        // Put all desserts in the same variable
+        foreach ($this->desserts as $dessert) {
+            $this->d_nom .= $dessert['nom'] . '&nbsp;';
+            $this->d_ingredients .= $dessert['ingredients'] . '&nbsp;';
+            $this->d_prix_min .= $dessert['prix_min'] . '&nbsp;';
+            $this->d_prix_max .= $dessert['prix_max'] . '&nbsp;';
+        }
+
+        dd($this->e_nom, $this->e_ingredients, $this->e_prix_min, $this->e_prix_max, $this->p_nom, $this->p_ingredients, $this->p_accompagnements, $this->p_prix_min, $this->p_prix_max, $this->d_nom, $this->d_ingredients, $this->d_prix_min, $this->d_prix_max);
 
         try {
             DB::beginTransaction();

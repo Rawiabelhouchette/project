@@ -137,6 +137,7 @@
                                 <span class="text-danger">{{ $entrees_error }}</span>
                             </div>
                         @endif
+                        <br>
                     @endforeach
 
                 </div>
@@ -307,7 +308,6 @@
                             </div>
                         @endif
                     @endforeach
-
                 </div>
 
 
