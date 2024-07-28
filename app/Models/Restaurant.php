@@ -82,6 +82,10 @@ class Restaurant extends Model implements AnnonceInterface
         'carte_consommation',
 
         'caracteristiques',
+
+        'entrees',
+        'plats',
+        'desserts',
     ];
 
     public function getShowUrlAttribute(): string
@@ -175,6 +179,58 @@ class Restaurant extends Model implements AnnonceInterface
         return view('components.public.show.restaurant', [
             'caracteristiques' => $attributes,
         ]);
+    }
+
+    public function getShowInformationHeader(): View
+    {
+        return view('components.public.show.restaurant-information-header');
+    }
+
+    public function getShowInformationBody(): View
+    {
+        return view('components.public.show.restaurant-information-body', [
+            'annonce' => $this->annonce,
+        ]);
+    }
+
+    // function to transform string into array using explode '&nbsp;' as separator
+    public function getStringArray($string)
+    {
+        $tmp = explode('&nbsp;', $string);
+        $tmp = array_filter($tmp);
+        return $tmp;
+    }
+
+    public function getEntreesAttribute() //: object
+    {
+        $entrees = [];
+        // $entrees['Nom'] = $this->getStringArray($this->e_nom);
+        // $entrees['Ingrédients'] = $this->getStringArray($this->e_ingredients);
+        // $entrees['Prix minimum'] = $this->getStringArray($this->e_prix_min);
+        // $entrees['Prix maximum'] = $this->getStringArray($this->e_prix_max);
+        // $entrees [] = [
+        //     'Nom',
+        //     'Ingrédients',
+        //     'Prix minimum',
+        //     'Prix maximum'
+        // ];
+
+        $tmp_nom = $this->getStringArray($this->e_nom);
+        $tmp_ingredients = $this->getStringArray($this->e_ingredients);
+        $tmp_prix_min = $this->getStringArray($this->e_prix_min);
+        $tmp_prix_max = $this->getStringArray($this->e_prix_max);
+
+        for ($i = 0; $i < count($tmp_nom); $i++) {
+            $entrees [] = [
+                $tmp_nom[$i],
+                $tmp_ingredients[$i],
+                $tmp_prix_min[$i],
+                $tmp_prix_max[$i]
+            ];
+        }
+        
+        return $entrees;
+        // return (object) $entrees;
     }
 
 }

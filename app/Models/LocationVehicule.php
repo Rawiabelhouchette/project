@@ -125,4 +125,17 @@ class LocationVehicule extends Model implements AnnonceInterface
         ]);
     }
 
+    public function getShowInformationHeader(): View
+    {
+        return view('components.public.show.default-information-header');
+    }
+
+    public function getShowInformationBody(): View
+    {
+        return view('components.public.show.default-information-body', [
+            'annonce' => $this->annonce,
+        ]);
+    }
+
+
 }

@@ -285,12 +285,16 @@
 
                 <div class="tab style-1 mrg-bot-40" role="tabpanel">
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
+                    {{-- <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#information" aria-controls="information" role="tab" data-toggle="tab">Information</a></li>
                         <li role="presentation"><a href="#equipement" aria-controls="equipement" role="tab" data-toggle="tab">Equipements</a></li>
-                    </ul>
+                    </ul> --}}
+                    {{-- @include('components.public.show.information-header') --}}
+                    {{ $annonce->annonceable->getShowInformationHeader() }}
+
+
                     <!-- Tab panes -->
-                    <div class="tab-content tabs">
+                    {{-- <div class="tab-content tabs">
                         <div role="tabpanel" class="tab-pane fade in active" id="information">
                             {{ $annonce->annonceable->caracteristiques }}
                         </div>
@@ -322,7 +326,9 @@
                                 </div>
                             @endforelse
                         </div>
-                    </div>
+                    </div> --}}
+                    {{-- @include('components.public.show.information-body', ['annonce' => $annonce]) --}}
+                    {{ $annonce->annonceable->getShowInformationBody() }}
                 </div>
 
                 @livewire('public.comment', [$annonce])

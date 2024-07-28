@@ -246,7 +246,7 @@ class Create extends Component
     {
         // check if all fields are filled (entrees_count - 1) times
         $i = $this->desserts_count - 1;
-        if (empty($this->desserts[$i]['nom']) || empty($this->desserts[$i]['ingredients']) || empty($this->plats[$i]['accompagnements']) || empty($this->desserts[$i]['prix_min']) || empty($this->desserts[$i]['prix_max'])) {
+        if (empty($this->desserts[$i]['nom']) || empty($this->desserts[$i]['ingredients']) || empty($this->desserts[$i]['prix_min']) || empty($this->desserts[$i]['prix_max'])) {
             $this->desserts_error = 'Veuillez remplir tous les champs du dessert précédent';
             return;
         }
@@ -272,7 +272,6 @@ class Create extends Component
         $this->desserts[] = [
             'nom' => '',
             'ingredients' => '',
-            'accompagnements' => '',
             'prix_min' => '',
             'prix_max' => '',
         ];
@@ -284,7 +283,7 @@ class Create extends Component
     {
         // check if all fields are filled (entrees_count - 1) times
         $i = $this->plats_count - 1;
-        if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['prix_min']) || empty($this->plats[$i]['prix_max'])) {
+        if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['accompagnements']) || empty($this->plats[$i]['prix_min']) || empty($this->plats[$i]['prix_max'])) {
             $this->plats_error = 'Veuillez remplir tous les champs du plat précédent';
             return;
         }
@@ -310,6 +309,7 @@ class Create extends Component
         $this->plats[] = [
             'nom' => '',
             'ingredients' => '',
+            'accompagnements' => '',
             'prix_min' => '',
             'prix_max' => '',
         ];
@@ -320,16 +320,22 @@ class Create extends Component
     public function removeEntree($key)
     {
         unset($this->entrees[$key]);
+        $this->entrees_error = '';
+        $this->entrees_count--;
     }
     
     public function removeDessert($key)
     {
         unset($this->desserts[$key]);
+        $this->desserts_error = '';
+        $this->desserts_count--;
     }
 
     public function removePlat($key)
     {
         unset($this->plats[$key]);
+        $this->plats_error = '';
+        $this->plats_count--;
     }
 
     public function store()
@@ -361,7 +367,7 @@ class Create extends Component
             $this->d_prix_max .= $dessert['prix_max'] . '&nbsp;';
         }
 
-        dd($this->e_nom, $this->e_ingredients, $this->e_prix_min, $this->e_prix_max, $this->p_nom, $this->p_ingredients, $this->p_accompagnements, $this->p_prix_min, $this->p_prix_max, $this->d_nom, $this->d_ingredients, $this->d_prix_min, $this->d_prix_max);
+        // dd($this->e_nom, $this->e_ingredients, $this->e_prix_min, $this->e_prix_max, $this->p_nom, $this->p_ingredients, $this->p_accompagnements, $this->p_prix_min, $this->p_prix_max, $this->d_nom, $this->d_ingredients, $this->d_prix_min, $this->d_prix_max);
 
         try {
             DB::beginTransaction();
