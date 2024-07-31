@@ -323,7 +323,7 @@ class Create extends Component
         $this->entrees_error = '';
         $this->entrees_count--;
     }
-    
+
     public function removeDessert($key)
     {
         unset($this->desserts[$key]);
@@ -344,31 +344,32 @@ class Create extends Component
 
         // Put all entrees in the same variable
         foreach ($this->entrees as $entree) {
-            $this->e_nom .= $entree['nom'] . '&nbsp;';
-            $this->e_ingredients .= $entree['ingredients'] . '&nbsp;';
-            $this->e_prix_min .= $entree['prix_min'] . '&nbsp;';
-            $this->e_prix_max .= $entree['prix_max'] . '&nbsp;';
+            $this->e_nom .= $entree['nom'] . '||||';
+            $this->e_ingredients .= $entree['ingredients'] . '||||';
+            $this->e_prix_min .= $entree['prix_min'] . '||||';
+            $this->e_prix_max .= $entree['prix_max'] . '||||';
         }
 
         // Put all plats in the same variable
         foreach ($this->plats as $plat) {
-            $this->p_nom .= $plat['nom'] . '&nbsp;';
-            $this->p_ingredients .= $plat['ingredients'] . '&nbsp;';
-            $this->p_accompagnements .= $plat['accompagnements'] . '&nbsp;';
-            $this->p_prix_min .= $plat['prix_min'] . '&nbsp;';
-            $this->p_prix_max .= $plat['prix_max'] . '&nbsp;';
+            $this->p_nom .= $plat['nom'] . '||||';
+            $this->p_ingredients .= $plat['ingredients'] . '||||';
+            $this->p_accompagnements .= $plat['accompagnements'] . '||||';
+            $this->p_prix_min .= $plat['prix_min'] . '||||';
+            $this->p_prix_max .= $plat['prix_max'] . '||||';
         }
+
+        // dd($this->p_accompagnements);
 
         // Put all desserts in the same variable
         foreach ($this->desserts as $dessert) {
-            $this->d_nom .= $dessert['nom'] . '&nbsp;';
-            $this->d_ingredients .= $dessert['ingredients'] . '&nbsp;';
-            $this->d_prix_min .= $dessert['prix_min'] . '&nbsp;';
-            $this->d_prix_max .= $dessert['prix_max'] . '&nbsp;';
+            $this->d_nom .= $dessert['nom'] . '||||';
+            $this->d_ingredients .= $dessert['ingredients'] . '||||';
+            $this->d_prix_min .= $dessert['prix_min'] . '||||';
+            $this->d_prix_max .= $dessert['prix_max'] . '||||';
         }
 
-        // dd($this->e_nom, $this->e_ingredients, $this->e_prix_min, $this->e_prix_max, $this->p_nom, $this->p_ingredients, $this->p_accompagnements, $this->p_prix_min, $this->p_prix_max, $this->d_nom, $this->d_ingredients, $this->d_prix_min, $this->d_prix_max);
-
+        
         try {
             DB::beginTransaction();
 
@@ -380,6 +381,7 @@ class Create extends Component
 
                 'p_nom' => $this->p_nom,
                 'p_ingredients' => $this->p_ingredients,
+                'p_accompagnements' => $this->p_accompagnements,
                 'p_prix_min' => $this->p_prix_min,
                 'p_prix_max' => $this->p_prix_max,
 

@@ -99,41 +99,15 @@ class Hotel extends Model implements AnnonceInterface
         return $this->annonce->references('types-hebergement');
     }
 
-    public function getCaracteristiquesAttribute(): View
+    public function getShowInformationHeader(): View
     {
-        $attributes = [];
-        if ($this->nombre_chambre) {
-            $attributes['Nombre de chambre'] = $this->nombre_chambre;
-        }
+        return view('components.public.show.default-information-header');
+    }
 
-        if ($this->nombre_personne) {
-            $attributes['Nombre de personne'] = $this->nombre_personne;
-        }
-
-        if ($this->superficie) {
-            $attributes['Superficie (m²)'] = $this->superficie;
-        }
-
-        if ($this->prix_min) {
-            $attributes['Prix minimim'] = $this->prix_min;
-        }
-
-        if ($this->prix_max) {
-            $attributes['Prix maximum'] = $this->prix_max;
-        }
-
-        if ($this->nombre_salles_bain) {
-            $attributes['Nombre de salle de bain'] = $this->nombre_salles_bain;
-        }
-
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
-        return view('components.public.show.default', [
-            'caracteristiques' => $attributes,
+    public function getShowInformationBody(): View
+    {
+        return view('components.public.show.default-information-body', [
+            'annonce' => $this->annonce,
         ]);
     }
 

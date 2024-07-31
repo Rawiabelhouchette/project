@@ -64,34 +64,15 @@ class Patisserie extends Model implements AnnonceInterface
         return $this->annonce->references('equipements-patisserie');
     }
 
-    public function getCaracteristiquesAttribute(): View
+    public function getShowInformationHeader(): View
     {
-        $attributes = [];
+        return view('components.public.show.default-information-header');
+    }
 
-        if ($this->ingredients) {
-            $attributes['Ingrédients'] = $this->ingredients;
-        }
-
-        if ($this->accompagnement) {
-            $attributes['Accompagnement'] = $this->accompagnement;
-        }
-
-        if ($this->prix_min) {
-            $attributes['Prix minimum'] = $this->prix_min;
-        }
-
-        if ($this->prix_max) {
-            $attributes['Prix maximum'] = $this->prix_max;
-        }
-
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
-        return view('components.public.show.default', [
-            'caracteristiques' => $attributes,
+    public function getShowInformationBody(): View
+    {
+        return view('components.public.show.default-information-body', [
+            'annonce' => $this->annonce,
         ]);
     }
 }

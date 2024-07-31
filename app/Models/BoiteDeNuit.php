@@ -66,18 +66,15 @@ class BoiteDeNuit extends Model implements AnnonceInterface
         return $this->annonce->references('equipements-vie-nocturne');
     }
 
-    public function getCaracteristiquesAttribute(): View
+    public function getShowInformationHeader(): View
     {
-        $attributes = [];
+        return view('components.public.show.default-information-header');
+    }
 
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
-        return view('components.public.show.default', [
-            'caracteristiques' => $attributes,
+    public function getShowInformationBody(): View
+    {
+        return view('components.public.show.default-information-body', [
+            'annonce' => $this->annonce,
         ]);
     }
 

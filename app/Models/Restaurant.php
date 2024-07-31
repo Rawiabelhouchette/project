@@ -27,13 +27,13 @@ class Restaurant extends Model implements AnnonceInterface
         'p_nom',
         'p_slug',
         'p_ingredients',
+        'p_accompagnements',
         'p_prix_min',
         'p_prix_max',
 
         'd_nom',
         'd_slug',
         'd_ingredients',
-        'd_accompagnements',
         'd_prix_min',
         'd_prix_max',
     ];
@@ -118,69 +118,6 @@ class Restaurant extends Model implements AnnonceInterface
         return $this->annonce->references('carte-de-consommation');
     }
 
-    public function getCaracteristiquesAttribute(): View
-    {
-        $attributes = [];
-
-        if ($this->e_nom) {
-            $attributes['Nom'] = $this->e_nom;
-        }
-
-        if ($this->e_ingredients) {
-            $attributes['Ingrédients'] = $this->e_ingredients;
-        }
-
-        if ($this->e_prix_min) {
-            $attributes['Prix minimum'] = $this->e_prix_min;
-        }
-
-        if ($this->e_prix_max) {
-            $attributes['Prix maximum'] = $this->e_prix_max;
-        }
-
-        if ($this->p_nom) {
-            $attributes['Nom '] = $this->p_nom;
-        }
-
-        if ($this->p_ingredients) {
-            $attributes['Ingrédients '] = $this->p_ingredients;
-        }
-
-        if ($this->p_prix_min) {
-            $attributes['Prix minimum '] = $this->p_prix_min;
-        }
-
-        if ($this->p_prix_max) {
-            $attributes['Prix maximum '] = $this->p_prix_max;
-        }
-
-        if ($this->d_nom) {
-            $attributes['Nom  '] = $this->d_nom;
-        }
-
-        if ($this->d_ingredients) {
-            $attributes['Ingrédients  '] = $this->d_ingredients;
-        }
-
-        if ($this->d_prix_min) {
-            $attributes['Prix minimum  '] = $this->d_prix_min;
-        }
-
-        if ($this->d_prix_max) {
-            $attributes['Prix maximum  '] = $this->d_prix_max;
-        }
-
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
-        return view('components.public.show.restaurant', [
-            'caracteristiques' => $attributes,
-        ]);
-    }
-
     public function getShowInformationHeader(): View
     {
         return view('components.public.show.restaurant-information-header');
@@ -196,24 +133,17 @@ class Restaurant extends Model implements AnnonceInterface
     // function to transform string into array using explode '&nbsp;' as separator
     public function getStringArray($string)
     {
-        $tmp = explode('&nbsp;', $string);
+        if (empty($string)) {
+            return [];
+        }
+        $tmp = explode('||||', $string);
         $tmp = array_filter($tmp);
         return $tmp;
     }
 
-    public function getEntreesAttribute() //: object
+    public function getEntreesAttribute()
     {
         $entrees = [];
-        // $entrees['Nom'] = $this->getStringArray($this->e_nom);
-        // $entrees['Ingrédients'] = $this->getStringArray($this->e_ingredients);
-        // $entrees['Prix minimum'] = $this->getStringArray($this->e_prix_min);
-        // $entrees['Prix maximum'] = $this->getStringArray($this->e_prix_max);
-        // $entrees [] = [
-        //     'Nom',
-        //     'Ingrédients',
-        //     'Prix minimum',
-        //     'Prix maximum'
-        // ];
 
         $tmp_nom = $this->getStringArray($this->e_nom);
         $tmp_ingredients = $this->getStringArray($this->e_ingredients);
@@ -221,16 +151,58 @@ class Restaurant extends Model implements AnnonceInterface
         $tmp_prix_max = $this->getStringArray($this->e_prix_max);
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
-            $entrees [] = [
+            $entrees[] = [
                 $tmp_nom[$i],
                 $tmp_ingredients[$i],
                 $tmp_prix_min[$i],
                 $tmp_prix_max[$i]
             ];
         }
-        
+
         return $entrees;
-        // return (object) $entrees;
     }
 
+    public function getPlatsAttribute()
+    {
+        $plats = [];
+
+        $tmp_nom = $this->getStringArray($this->p_nom);
+        $tmp_ingredients = $this->getStringArray($this->p_ingredients);
+        $tmp_accompagnements = $this->getStringArray($this->p_accompagnements);
+        $tmp_prix_min = $this->getStringArray($this->p_prix_min);
+        $tmp_prix_max = $this->getStringArray($this->p_prix_max);
+
+        for ($i = 0; $i < count($tmp_nom); $i++) {
+            $plats[] = [
+                $tmp_nom[$i],
+                $tmp_ingredients[$i],
+                $tmp_accompagnements[$i],
+                $tmp_prix_min[$i],
+                $tmp_prix_max[$i]
+            ];
+        }
+
+        return $plats;
+    }
+
+    public function getDessertsAttribute()
+    {
+        $desserts = [];
+
+        $tmp_nom = $this->getStringArray($this->d_nom);
+        $tmp_ingredients = $this->getStringArray($this->d_ingredients);
+        $tmp_prix_min = $this->getStringArray($this->d_prix_min);
+        $tmp_prix_max = $this->getStringArray($this->d_prix_max);
+
+        for ($i = 0; $i < count($tmp_nom); $i++) {
+            $desserts[] = [
+                $tmp_nom[$i],
+                $tmp_ingredients[$i],
+                $tmp_prix_min[$i],
+                $tmp_prix_max[$i]
+            ];
+        }
+
+        return $desserts;
+    }
 }
