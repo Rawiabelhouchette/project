@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -27,12 +26,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('restaurants', function (Blueprint $table) {
-            $table->integer('e_prix_min')->change();
-            $table->integer('e_prix_max')->change();
-            $table->integer('p_prix_min')->change();
-            $table->integer('p_prix_max')->change();
-            $table->integer('d_prix_min')->change();
-            $table->integer('d_prix_max')->change();
+            $table->integer('e_prix_min')->nullable()->change();
+            $table->integer('e_prix_max')->nullable()->change();
+            $table->integer('p_prix_min')->nullable()->change();
+            $table->integer('p_prix_max')->nullable()->change();
+            $table->integer('d_prix_min')->nullable()->change();
+            $table->integer('d_prix_max')->nullable()->change();
         });
     }
 };

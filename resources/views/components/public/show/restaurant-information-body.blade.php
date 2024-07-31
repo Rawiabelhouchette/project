@@ -68,12 +68,27 @@
             </table> --}}
 
             @foreach ($annonce->annonceable->entrees as $entree)
-                {{-- <div class="col-md-4 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    {{ $entree[0] }} <br>
-                    <strong class="theme-cl">{{ $entree[1] }}</strong>
-                </div> --}}
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Nom ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $entree[0] }}</strong>
+                </div>
 
-                <table class="text-center" style="width: 100%;">
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Ingrédients ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $entree[1] }}</strong>
+                </div>
+
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Prix minimum ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $entree[2] }} FCFA</strong>
+                </div>
+
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Prix maximum ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $entree[3] }} FCFA</strong>
+                </div>
+
+                {{-- <table class="text-center" style="width: 100%;">
                     @if ($loop->iteration == 1)
                         <tr>
                             <td>Nom</td>
@@ -88,7 +103,61 @@
                         <td class="text-center"><strong class="theme-cl">{{ $entree[2] }} FCFA</strong></td>
                         <td class="text-center"><strong class="theme-cl">{{ $entree[3] }} FCFA</strong></td>
                     </tr>
-                </table>
+                </table> --}}
+            @endforeach
+        </div>
+    </div>
+
+    {{-- plats --}}
+    <div class="tab-pane fade" id="plats" role="tabpanel">
+        <div class="row">
+            @foreach ($annonce->annonceable->plats as $plat)
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Nom ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $plat[0] }}</strong>
+                </div>
+
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Ingrédients ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $plat[1] }}</strong>
+                </div>
+
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Prix minimum ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $plat[2] }} FCFA</strong>
+                </div>
+
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Prix maximum ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $plat[3] }} FCFA</strong>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    {{-- desserts --}}
+    <div class="tab-pane fade" id="desserts" role="tabpanel">
+        <div class="row">
+            @foreach ($annonce->annonceable->desserts as $dessert)
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Nom ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $dessert[0] }}</strong>
+                </div>
+
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Ingrédients ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $dessert[1] }}</strong>
+                </div>
+
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Prix minimum ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $dessert[2] }} FCFA</strong>
+                </div>
+
+                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    Prix maximum ({{ $loop->iteration }})<br>
+                    <strong class="theme-cl">{{ $dessert[3] }} FCFA</strong>
+                </div>
             @endforeach
         </div>
     </div>
