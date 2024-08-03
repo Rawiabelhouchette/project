@@ -114,4 +114,37 @@ class LocationMeublee extends Model implements AnnonceInterface
             'annonce' => $this->annonce,
         ]);
     }
+
+    public function getCaracteristiquesAttribute(): array
+    {
+        $attributes = [];
+
+        if ($this->nombre_chambre) {
+            $attributes['Nombre de chambre'] = $this->nombre_chambre;
+        }
+
+        if ($this->nombre_personne) {
+            $attributes['Nombre de personne'] = $this->nombre_personne;
+        }
+
+        if ($this->superficie) {
+            $attributes['Superficie'] = $this->superficie;
+        }
+
+        if ($this->prix_min) {
+            $attributes['Prix minimum'] = $this->prix_min;
+        }
+
+        if ($this->prix_max) {
+            $attributes['Prix maximum'] = $this->prix_max;
+        }
+
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
+        }
+
+        return $attributes;
+    }
 }

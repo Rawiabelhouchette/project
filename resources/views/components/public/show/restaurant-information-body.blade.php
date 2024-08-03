@@ -27,138 +27,134 @@
                 </div>
             @endif
         @empty
-            <div class="col-md-12">
-                Aucun équipement disponible
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    Aucun équipement disponible
+                </div>
             </div>
         @endforelse
     </div>
     {{-- entrees --}}
     <div class="tab-pane fade" id="entrees" role="tabpanel">
         <div class="row">
-            {{-- <div class="col-md-12 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                <strong class="">ENTREE</strong>
-            </div> --}}
-            {{-- @forelse ($annonce->annonceable->caracteristiques as $key => $value)
-                @if ($loop->iteration == 4)
-                    <div class="col-md-12 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                        <strong class="">PLAT</strong>
-                    </div>
-                @elseif ($loop->iteration == 7)
-                    <div class="col-md-12 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                        <strong class="">DESSERT</strong>
-                    </div>
-                @endif
-                <div class="col-md-4 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    {{ $key }} <br>
-                    <strong class="theme-cl">{{ $value }}</strong>
-                </div>
-            @empty
-                <div class="col-md-12">
-                    Aucune information disponible
-                </div>
-            @endforelse --}}
-
-            {{-- <table style="width: 100%;" class="text-center">
+            <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
                 <tr>
+                    <td></td>
                     <td>Nom</td>
                     <td>Ingrédients</td>
                     <td>Prix minimum</td>
                     <td>Prix maximum</td>
                 </tr>
-            </table> --}}
-
-            @foreach ($annonce->annonceable->entrees as $entree)
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Nom ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $entree[0] }}</strong>
-                </div>
-
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Ingrédients ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $entree[1] }}</strong>
-                </div>
-
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Prix minimum ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $entree[2] }} FCFA</strong>
-                </div>
-
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Prix maximum ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $entree[3] }} FCFA</strong>
-                </div>
-
-                {{-- <table class="text-center" style="width: 100%;">
-                    @if ($loop->iteration == 1)
-                        <tr>
-                            <td>Nom</td>
-                            <td>Ingrédients</td>
-                            <td>Prix minimum</td>
-                            <td>Prix maximum</td>
-                        </tr>
-                    @endif
+                @forelse ($annonce->annonceable->entrees as $entree)
                     <tr>
-                        <td class="text-center"><strong class="theme-cl">{{ $entree[0] }}</strong></td>
-                        <td class="text-center"><strong class="theme-cl">{{ $entree[1] }}</strong></td>
-                        <td class="text-center"><strong class="theme-cl">{{ $entree[2] }} FCFA</strong></td>
-                        <td class="text-center"><strong class="theme-cl">{{ $entree[3] }} FCFA</strong></td>
+                        <td>
+                            <strong class="">{{ $loop->iteration }}</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $entree[0] }}</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $entree[1] }}</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $entree[2] }} FCFA</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $entree[3] }} FCFA</strong>
+                        </td>
                     </tr>
-                </table> --}}
-            @endforeach
+                @empty
+                    <tr>
+                        <td colspan="4">
+                            Aucune information disponible
+                        </td>
+                    </tr>
+                @endforelse
+            </table>
         </div>
     </div>
 
     {{-- plats --}}
     <div class="tab-pane fade" id="plats" role="tabpanel">
         <div class="row">
-            @foreach ($annonce->annonceable->plats as $plat)
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Nom ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $plat[0] }}</strong>
-                </div>
-
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Ingrédients ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $plat[1] }}</strong>
-                </div>
-
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Prix minimum ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $plat[2] }} FCFA</strong>
-                </div>
-
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Prix maximum ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $plat[3] }} FCFA</strong>
-                </div>
-            @endforeach
+            <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
+                <tr>
+                    <td></td>
+                    <td>Nom</td>
+                    <td>Ingrédients</td>
+                    <td>Accompagnements</td>
+                    <td>Prix minimum</td>
+                    <td>Prix maximum</td>
+                </tr>
+                @forelse ($annonce->annonceable->plats as $plat)
+                    <tr>
+                        <td>
+                            <strong class="">{{ $loop->iteration }}</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $plat[0] }}</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $plat[1] }}</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $plat[2] }}</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $plat[3] }} FCFA</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $plat[4] }} FCFA</strong>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4">
+                            Aucune information disponible
+                        </td>
+                    </tr>
+                @endforelse
+            </table>
         </div>
     </div>
 
     {{-- desserts --}}
     <div class="tab-pane fade" id="desserts" role="tabpanel">
         <div class="row">
-            @foreach ($annonce->annonceable->desserts as $dessert)
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Nom ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $dessert[0] }}</strong>
-                </div>
-
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Ingrédients ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $dessert[1] }}</strong>
-                </div>
-
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Prix minimum ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $dessert[2] }} FCFA</strong>
-                </div>
-
-                <div class="col-md-3 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    Prix maximum ({{ $loop->iteration }})<br>
-                    <strong class="theme-cl">{{ $dessert[3] }} FCFA</strong>
-                </div>
-            @endforeach
+            <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
+                <tr>
+                    <td></td>
+                    <td>Nom</td>
+                    <td>Ingrédients</td>
+                    <td>Prix minimum</td>
+                    <td>Prix maximum</td>
+                </tr>
+                @forelse ($annonce->annonceable->desserts as $dessert)
+                    <tr>
+                        <td>
+                            <strong class="">{{ $loop->iteration }}</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $dessert[0] }}</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $dessert[1] }}</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $dessert[2] }} FCFA</strong>
+                        </td>
+                        <td>
+                            <strong class="theme-cl">{{ $dessert[3] }} FCFA</strong>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4">
+                            Aucune information disponible
+                        </td>
+                    </tr>
+                @endforelse
+            </table>
         </div>
     </div>
 </div>

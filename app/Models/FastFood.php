@@ -75,4 +75,25 @@ class FastFood extends Model implements AnnonceInterface
             'annonce' => $this->annonce,
         ]);
     }
+
+    public function getCaracteristiquesAttribute(): array
+    {
+        $attributes = [];
+
+        if ($this->prix_min) {
+            $attributes['Prix minimum'] = $this->prix_min;
+        }
+
+        if ($this->prix_max) {
+            $attributes['Prix maximum'] = $this->prix_max;
+        }
+
+        foreach ($attributes as $key => $value) {
+            if (is_numeric($value)) {
+                $attributes[$key] = number_format($value, 0, ',', ' ');
+            }
+        }
+
+        return $attributes;
+    }
 }

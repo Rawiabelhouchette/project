@@ -363,7 +363,7 @@
                 <div class="row padd-bot-15">
                     <div class="form-group" style="margin-top: 15px;">
                         <div class="col-md-12 col-sm-12 text-right">
-                            <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='store' wire:loading.attr='disabled'>
+                            <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='store'>
                                 <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                                 Enregistrer
                             </button>

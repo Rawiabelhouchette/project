@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Utils\AnnonceInterface;
+use App\Utils\Utils;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -81,7 +82,7 @@ class Restaurant extends Model implements AnnonceInterface
         'equipements_restauration',
         'carte_consommation',
 
-        'caracteristiques',
+        //        'caracteristiques',
 
         'entrees',
         'plats',
@@ -130,15 +131,17 @@ class Restaurant extends Model implements AnnonceInterface
         ]);
     }
 
-    // function to transform string into array using explode '&nbsp;' as separator
+    // function to transform string into array using explode
     public function getStringArray($string)
     {
         if (empty($string)) {
             return [];
         }
-        $tmp = explode('||||', $string);
-        $tmp = array_filter($tmp);
-        return $tmp;
+        $tmp = explode(Utils::getRestaurantValueSeparator(), $string);
+        // remove empty values
+        return array_filter($tmp, function ($value) {
+            return !empty($value);
+        });
     }
 
     public function getEntreesAttribute()
@@ -154,8 +157,8 @@ class Restaurant extends Model implements AnnonceInterface
             $entrees[] = [
                 $tmp_nom[$i],
                 $tmp_ingredients[$i],
-                $tmp_prix_min[$i],
-                $tmp_prix_max[$i]
+                (int) $tmp_prix_min[$i],
+                (int) $tmp_prix_max[$i]
             ];
         }
 
@@ -177,8 +180,8 @@ class Restaurant extends Model implements AnnonceInterface
                 $tmp_nom[$i],
                 $tmp_ingredients[$i],
                 $tmp_accompagnements[$i],
-                $tmp_prix_min[$i],
-                $tmp_prix_max[$i]
+                (int) $tmp_prix_min[$i],
+                (int) $tmp_prix_max[$i]
             ];
         }
 
@@ -198,11 +201,19 @@ class Restaurant extends Model implements AnnonceInterface
             $desserts[] = [
                 $tmp_nom[$i],
                 $tmp_ingredients[$i],
-                $tmp_prix_min[$i],
-                $tmp_prix_max[$i]
+                (int) $tmp_prix_min[$i],
+                (int) $tmp_prix_max[$i]
             ];
         }
 
         return $desserts;
     }
+
+    public function getCaracteristiquesAttribute(): array
+    {
+        $attributes = [];
+
+        return $attributes;
+    }
+
 }

@@ -1,10 +1,22 @@
 @props(['annonce'])
 
 <div class="tab-content tabs">
-    <div role="tabpanel" class="tab-pane fade in active" id="information">
-        {{ $annonce->annonceable->caracteristiques }}
+    <div class="tab-pane fade in active" id="information" role="tabpanel">
+        {{-- {{ $annonce->annonceable->caracteristiques }} --}}
+        <div class="row">
+            @forelse ($annonce->annonceable->caracteristiques as $key => $value)
+                <div class="col-md-4 col-xs-12 mrg-bot-5 text-center padd-bot-5">
+                    {{ $key }} <br>
+                    <strong class="theme-cl">{{ $value }}</strong>
+                </div>
+            @empty
+                <div class="col-md-12">
+                    Aucune information disponible
+                </div>
+            @endforelse
+        </div>
     </div>
-    <div role="tabpanel" class="tab-pane fade" id="equipement">
+    <div class="tab-pane fade" id="equipement" role="tabpanel">
         @forelse ($annonce->referenceDisplay() as $key => $value)
             @if (count($value) > 0)
                 <div class="row">

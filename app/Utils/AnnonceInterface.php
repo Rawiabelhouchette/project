@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Utils;
+
 use Illuminate\View\View;
 
 /**
@@ -18,6 +19,8 @@ interface AnnonceInterface
 
     public function getShowInformationBody(): View;
     public function getShowInformationHeader(): View;
+
+    public function getCaracteristiquesAttribute(): array;
 
     // public function getInformationsAttribute(): View;
     // public function getEquipementsAttribute(): View;

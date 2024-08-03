@@ -144,8 +144,9 @@ class Create extends Component
             // 'specialites.*' => 'nullable|integer|exists:reference_valeurs,id',
             // 'carte_consommation' => 'nullable|array',
             // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
-            // 'galerie' => 'nullable|array',
-            // 'galerie.*' => 'nullable|image',
+            'image' => 'required|image',
+            'galerie' => 'nullable|array',
+            'galerie.*' => 'nullable|image',
         ];
     }
 
@@ -230,6 +231,7 @@ class Create extends Component
                 return;
             }
         }
+
 
         $this->entrees_error = '';
 
@@ -343,34 +345,34 @@ class Create extends Component
     {
         $this->validate();
 
+        $separator = Utils::getRestaurantValueSeparator();
+
         // Put all entrees in the same variable
         foreach ($this->entrees as $entree) {
-            $this->e_nom .= $entree['nom'] . Utils::getRestaurantValueSeparator();
-            $this->e_ingredients .= $entree['ingredients'] . Utils::getRestaurantValueSeparator();
-            $this->e_prix_min .= $entree['prix_min'] . Utils::getRestaurantValueSeparator();
-            $this->e_prix_max .= $entree['prix_max'] . Utils::getRestaurantValueSeparator();
+            $this->e_nom .= $entree['nom'] . $separator;
+            $this->e_ingredients .= $entree['ingredients'] . $separator;
+            $this->e_prix_min .= $entree['prix_min'] . $separator;
+            $this->e_prix_max .= $entree['prix_max'] . $separator;
         }
 
         // Put all plats in the same variable
         foreach ($this->plats as $plat) {
-            $this->p_nom .= $plat['nom'] . '||||';
-            $this->p_ingredients .= $plat['ingredients'] . '||||';
-            $this->p_accompagnements .= $plat['accompagnements'] . '||||';
-            $this->p_prix_min .= $plat['prix_min'] . '||||';
-            $this->p_prix_max .= $plat['prix_max'] . '||||';
+            $this->p_nom .= $plat['nom'] . $separator;
+            $this->p_ingredients .= $plat['ingredients'] . $separator;
+            $this->p_accompagnements .= $plat['accompagnements'] . $separator;
+            $this->p_prix_min .= $plat['prix_min'] . $separator;
+            $this->p_prix_max .= $plat['prix_max'] . $separator;
         }
-
-        // dd($this->p_accompagnements);
 
         // Put all desserts in the same variable
         foreach ($this->desserts as $dessert) {
-            $this->d_nom .= $dessert['nom'] . '||||';
-            $this->d_ingredients .= $dessert['ingredients'] . '||||';
-            $this->d_prix_min .= $dessert['prix_min'] . '||||';
-            $this->d_prix_max .= $dessert['prix_max'] . '||||';
+            $this->d_nom .= $dessert['nom'] . $separator;
+            $this->d_ingredients .= $dessert['ingredients'] . $separator;
+            $this->d_prix_min .= $dessert['prix_min'] . $separator;
+            $this->d_prix_max .= $dessert['prix_max'] . $separator;
         }
 
-        
+
         try {
             DB::beginTransaction();
 
