@@ -47,6 +47,17 @@
         color: #505667;
         box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.2);
     }
+
+    .listing-location {
+        height: 50px !important;
+    }
+
+    .img-responsive {
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+    }
 </style>
 
 <div class="row bott-wid">
@@ -64,9 +75,9 @@
             <div class="listing-shot-img">
                 <a href="{{ route('show', $annonce->slug) }}" target="_blank">
                     @if ($annonce->image)
-                        <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt="">
+                        <img class="img-responsive" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="" style="object-fit: cover;">
                     @else
-                        <img src="http://via.placeholder.com/800x800" class="img-responsive" alt="">
+                        <img class="img-responsive" src="http://via.placeholder.com/800x800" alt="">
                     @endif
                 </a>
             </div>

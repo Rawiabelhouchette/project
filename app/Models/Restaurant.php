@@ -155,10 +155,10 @@ class Restaurant extends Model implements AnnonceInterface
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
             $entrees[] = [
-                $tmp_nom[$i],
-                $tmp_ingredients[$i],
-                (int) $tmp_prix_min[$i],
-                (int) $tmp_prix_max[$i]
+                'nom' => $tmp_nom[$i],
+                'ingredients' => $tmp_ingredients[$i],
+                'prix_min' => (int) $tmp_prix_min[$i],
+                'prix_max' => (int) $tmp_prix_max[$i]
             ];
         }
 
@@ -177,11 +177,11 @@ class Restaurant extends Model implements AnnonceInterface
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
             $plats[] = [
-                $tmp_nom[$i],
-                $tmp_ingredients[$i],
-                $tmp_accompagnements[$i],
-                (int) $tmp_prix_min[$i],
-                (int) $tmp_prix_max[$i]
+                'nom' => $tmp_nom[$i],
+                'ingredients' => $tmp_ingredients[$i],
+                'accompagnements' => $tmp_accompagnements[$i],
+                'prix_min' => (int) $tmp_prix_min[$i],
+                'prix_max' => (int) $tmp_prix_max[$i]
             ];
         }
 
@@ -199,10 +199,10 @@ class Restaurant extends Model implements AnnonceInterface
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
             $desserts[] = [
-                $tmp_nom[$i],
-                $tmp_ingredients[$i],
-                (int) $tmp_prix_min[$i],
-                (int) $tmp_prix_max[$i]
+                'nom' => $tmp_nom[$i],
+                'ingredients' => $tmp_ingredients[$i],
+                'prix_min' => (int) $tmp_prix_min[$i],
+                'prix_max' => (int) $tmp_prix_max[$i]
             ];
         }
 

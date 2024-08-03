@@ -62,7 +62,6 @@
                         </div>
                     </div>
                 </div>
-
                 <br>
 
                 <div class="row">
@@ -146,7 +145,6 @@
                     @endforeach
 
                 </div>
-
                 <br>
 
                 <div class="row">
@@ -242,7 +240,6 @@
                         </div>
                     @endforeach
                 </div>
-
                 <br>
 
                 <div class="row">
@@ -370,9 +367,7 @@
                         </div>
                     </div>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>

@@ -37,124 +37,130 @@
     {{-- entrees --}}
     <div class="tab-pane fade" id="entrees" role="tabpanel">
         <div class="row">
-            <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
-                <tr>
-                    <td></td>
-                    <td>Nom</td>
-                    <td>Ingrédients</td>
-                    <td>Prix minimum</td>
-                    <td>Prix maximum</td>
-                </tr>
-                @forelse ($annonce->annonceable->entrees as $entree)
+            <div class="table-responsive" style="padding: 0; border: 0;">
+                <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
                     <tr>
-                        <td>
-                            <strong class="">{{ $loop->iteration }}</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $entree[0] }}</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $entree[1] }}</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $entree[2] }} FCFA</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $entree[3] }} FCFA</strong>
-                        </td>
+                        <td></td>
+                        <td>Nom</td>
+                        <td>Ingrédients</td>
+                        <td>Prix minimum</td>
+                        <td>Prix maximum</td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="4">
-                            Aucune information disponible
-                        </td>
-                    </tr>
-                @endforelse
-            </table>
+                    @forelse ($annonce->annonceable->entrees as $entree)
+                        <tr>
+                            <td>
+                                <strong class="">{{ $loop->iteration }}</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $entree['nom'] }}</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $entree['ingredients'] }}</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $entree['prix_min'] }} FCFA</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $entree['prix_max'] }} FCFA</strong>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4">
+                                Aucune information disponible
+                            </td>
+                        </tr>
+                    @endforelse
+                </table>
+            </div>
         </div>
     </div>
 
     {{-- plats --}}
     <div class="tab-pane fade" id="plats" role="tabpanel">
         <div class="row">
-            <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
-                <tr>
-                    <td></td>
-                    <td>Nom</td>
-                    <td>Ingrédients</td>
-                    <td>Accompagnements</td>
-                    <td>Prix minimum</td>
-                    <td>Prix maximum</td>
-                </tr>
-                @forelse ($annonce->annonceable->plats as $plat)
+            <div class="table-responsive" style="padding: 0; border: 0;">
+                <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
                     <tr>
-                        <td>
-                            <strong class="">{{ $loop->iteration }}</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $plat[0] }}</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $plat[1] }}</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $plat[2] }}</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $plat[3] }} FCFA</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $plat[4] }} FCFA</strong>
-                        </td>
+                        <td></td>
+                        <td>Nom</td>
+                        <td>Ingrédients</td>
+                        <td>Accompagnements</td>
+                        <td>Prix minimum</td>
+                        <td>Prix maximum</td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="4">
-                            Aucune information disponible
-                        </td>
-                    </tr>
-                @endforelse
-            </table>
+                    @forelse ($annonce->annonceable->plats as $plat)
+                        <tr>
+                            <td>
+                                <strong class="">{{ $loop->iteration }}</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $plat['nom'] }}</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $plat['ingredients'] }}</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $plat['accompagnements'] }}</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $plat['prix_min'] }} FCFA</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $plat['prix_max'] }} FCFA</strong>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4">
+                                Aucune information disponible
+                            </td>
+                        </tr>
+                    @endforelse
+                </table>
+            </div>
         </div>
     </div>
 
     {{-- desserts --}}
     <div class="tab-pane fade" id="desserts" role="tabpanel">
         <div class="row">
-            <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
-                <tr>
-                    <td></td>
-                    <td>Nom</td>
-                    <td>Ingrédients</td>
-                    <td>Prix minimum</td>
-                    <td>Prix maximum</td>
-                </tr>
-                @forelse ($annonce->annonceable->desserts as $dessert)
+            <div class="table-responsive" style="padding: 0; border: 0;">
+                <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
                     <tr>
-                        <td>
-                            <strong class="">{{ $loop->iteration }}</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $dessert[0] }}</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $dessert[1] }}</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $dessert[2] }} FCFA</strong>
-                        </td>
-                        <td>
-                            <strong class="theme-cl">{{ $dessert[3] }} FCFA</strong>
-                        </td>
+                        <td></td>
+                        <td>Nom</td>
+                        <td>Ingrédients</td>
+                        <td>Prix minimum</td>
+                        <td>Prix maximum</td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="4">
-                            Aucune information disponible
-                        </td>
-                    </tr>
-                @endforelse
-            </table>
+                    @forelse ($annonce->annonceable->desserts as $dessert)
+                        <tr>
+                            <td>
+                                <strong class="">{{ $loop->iteration }}</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $dessert['nom'] }}</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $dessert['ingredients'] }}</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $dessert['prix_min'] }} FCFA</strong>
+                            </td>
+                            <td>
+                                <strong class="theme-cl">{{ $dessert['prix_max'] }} FCFA</strong>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4">
+                                Aucune information disponible
+                            </td>
+                        </tr>
+                    @endforelse
+                </table>
+            </div>
         </div>
     </div>
 </div>
