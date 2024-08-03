@@ -9,6 +9,7 @@ use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Restaurant;
 use App\Utils\AnnoncesUtils;
+use App\Utils\Utils;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
@@ -344,10 +345,10 @@ class Create extends Component
 
         // Put all entrees in the same variable
         foreach ($this->entrees as $entree) {
-            $this->e_nom .= $entree['nom'] . '||||';
-            $this->e_ingredients .= $entree['ingredients'] . '||||';
-            $this->e_prix_min .= $entree['prix_min'] . '||||';
-            $this->e_prix_max .= $entree['prix_max'] . '||||';
+            $this->e_nom .= $entree['nom'] . Utils::getRestaurantValueSeparator();
+            $this->e_ingredients .= $entree['ingredients'] . Utils::getRestaurantValueSeparator();
+            $this->e_prix_min .= $entree['prix_min'] . Utils::getRestaurantValueSeparator();
+            $this->e_prix_max .= $entree['prix_max'] . Utils::getRestaurantValueSeparator();
         }
 
         // Put all plats in the same variable
