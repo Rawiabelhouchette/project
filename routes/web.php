@@ -49,7 +49,8 @@ Route::get('/login', function () {
 })->name('connexion');
 
 Route::get('/', [publicController::class, 'home'])->name('accueil');
-Route::get('contact', [AccountController::class, 'contact'])->name('accounts.contact');
+Route::get('contact', [AccountController::class, 'contact'])->name('contact');
+Route::post('contact-us', [AccountController::class, 'contactUs'])->name('contact-us');
 Route::get('entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
 Route::get('search', [searchController::class, 'search'])->name('search');
 Route::get('search/{slug}', [searchController::class, 'show'])->name('show');
