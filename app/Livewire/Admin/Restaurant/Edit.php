@@ -7,6 +7,7 @@ use App\Models\Entreprise;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Utils\AnnoncesUtils;
+use App\Utils\Utils;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
@@ -16,14 +17,13 @@ class Edit extends Component
 {
     use WithFileUploads, AnnonceBaseEdit;
 
+    public $restaurant;
+    public $is_active;
     public $nom;
     public $type;
     public $description;
     public $date_validite;
     public $entreprise_id;
-
-    public $restaurant;
-    public $is_active;
 
     public $e_nom;
     public $e_ingredients;
@@ -32,6 +32,7 @@ class Edit extends Component
 
     public $p_nom;
     public $p_ingredients;
+    public $p_accompagnements;
     public $p_prix_min = 0;
     public $p_prix_max = 0;
 
@@ -39,6 +40,42 @@ class Edit extends Component
     public $d_ingredients;
     public $d_prix_min = 0;
     public $d_prix_max = 0;
+
+
+    public $entrees_error = '';
+    public $entrees = [
+        [
+            'nom' => '',
+            'ingredients' => '',
+            'prix_min' => '',
+            'prix_max' => ''
+        ],
+    ];
+    public $entrees_count = 1;
+
+    public $plats_error = '';
+    public $plats = [
+        [
+            'nom' => '',
+            'ingredients' => '',
+            'accompagnements' => '',
+            'prix_min' => '',
+            'prix_max' => ''
+        ],
+    ];
+    public $plats_count = 1;
+
+    public $desserts_error = '';
+    public $desserts = [
+        [
+            'nom' => '',
+            'ingredients' => '',
+            'prix_min' => '',
+            'prix_max' => ''
+        ],
+    ];
+    public $desserts_count = 1;
+
 
     public $equipements_restauration = [];
     public $list_equipements_restauration = [];
@@ -48,6 +85,7 @@ class Edit extends Component
 
     public $carte_consommation = [];
     public $list_carte_consommation = [];
+
 
     public $entreprises = [];
 
@@ -63,20 +101,14 @@ class Edit extends Component
         $this->entreprise_id = $restaurant->annonce->entreprise_id;
         $this->is_active = $restaurant->annonce->is_active;
 
-        $this->e_nom = $restaurant->e_nom;
-        $this->e_ingredients = $restaurant->e_ingredients;
-        $this->e_prix_min = $restaurant->e_prix_min;
-        $this->e_prix_max = $restaurant->e_prix_max;
+        $this->entrees = $restaurant->entrees;
+        $this->entrees_count = count($this->entrees);
 
-        $this->p_nom = $restaurant->p_nom;
-        $this->p_ingredients = $restaurant->p_ingredients;
-        $this->p_prix_min = $restaurant->p_prix_min;
-        $this->p_prix_max = $restaurant->p_prix_max;
+        $this->plats = $restaurant->plats;
+        $this->plats_count = count($this->plats);
 
-        $this->d_nom = $restaurant->d_nom;
-        $this->d_ingredients = $restaurant->d_ingredients;
-        $this->d_prix_min = $restaurant->d_prix_min;
-        $this->d_prix_max = $restaurant->d_prix_max;
+        $this->desserts = $restaurant->desserts;
+        $this->desserts_count = count($this->desserts);
 
         $this->equipements_restauration = $restaurant->annonce->references('equipements-restauration')->pluck('id')->toArray();
         $this->specialites = $restaurant->annonce->references('specialites')->pluck('id')->toArray();
@@ -118,18 +150,18 @@ class Edit extends Component
             'description' => 'nullable|string|min:3',
             'date_validite' => 'required|date',
             'is_active' => 'required|boolean',
-            'e_nom' => 'required|string|min:3',
-            'e_ingredients' => 'nullable|string|min:3',
-            'e_prix_min' => 'nullable|integer|min:0|lte:e_prix_max',
-            'e_prix_max' => 'nullable|integer|min:0',
-            'p_nom' => 'required|string|min:3',
-            'p_ingredients' => 'nullable|string|min:3',
-            'p_prix_min' => 'nullable|integer|min:0|lte:p_prix_max',
-            'p_prix_max' => 'nullable|integer|min:0',
-            'd_nom' => 'required|string|min:3',
-            'd_ingredients' => 'nullable|string|min:3',
-            'd_prix_min' => 'nullable|integer|min:0|lte:d_prix_max',
-            'd_prix_max' => 'nullable|integer|min:0',
+            // 'e_nom' => 'required|string|min:3',
+            // 'e_ingredients' => 'nullable|string|min:3',
+            // 'e_prix_min' => 'nullable|integer|min:0|lte:e_prix_max',
+            // 'e_prix_max' => 'nullable|integer|min:0',
+            // 'p_nom' => 'required|string|min:3',
+            // 'p_ingredients' => 'nullable|string|min:3',
+            // 'p_prix_min' => 'nullable|integer|min:0|lte:p_prix_max',
+            // 'p_prix_max' => 'nullable|integer|min:0',
+            // 'd_nom' => 'required|string|min:3',
+            // 'd_ingredients' => 'nullable|string|min:3',
+            // 'd_prix_min' => 'nullable|integer|min:0|lte:d_prix_max',
+            // 'd_prix_max' => 'nullable|integer|min:0',
             'equipements_restauration' => 'nullable|array',
             'equipements_restauration.*' => 'nullable|integer|exists:reference_valeurs,id',
             'specialites' => 'nullable|array',
@@ -201,6 +233,140 @@ class Edit extends Component
         ];
     }
 
+    public function addEntree()
+    {
+        // check if all fields are filled (entrees_count - 1) times
+        $i = $this->entrees_count - 1;
+        if (empty($this->entrees[$i]['nom']) || empty($this->entrees[$i]['ingredients']) || empty($this->entrees[$i]['prix_min']) || empty($this->entrees[$i]['prix_max'])) {
+            $this->entrees_error = 'Veuillez remplir tous les champs de l\'entrée précédente';
+            return;
+        }
+
+        // check if prix_min <= prix_max
+        if ($this->entrees[$i]['prix_min'] > $this->entrees[$i]['prix_max']) {
+            $this->entrees_error = 'Le prix minimum doit être inférieur ou égal au prix maximum';
+            return;
+        }
+
+        // check if nom is unique
+        foreach ($this->entrees as $key => $entree) {
+            if ($key == $i)
+                continue;
+            if ($entree['nom'] == $this->entrees[$i]['nom']) {
+                $this->entrees_error = 'Ce nom d\'entrée existe déjà';
+                return;
+            }
+        }
+
+
+        $this->entrees_error = '';
+
+        $this->entrees[] = [
+            'nom' => '',
+            'ingredients' => '',
+            'prix_min' => '',
+            'prix_max' => '',
+        ];
+
+        $this->entrees_count++;
+    }
+
+    public function addDessert()
+    {
+        // check if all fields are filled (entrees_count - 1) times
+        $i = $this->desserts_count - 1;
+        if (empty($this->desserts[$i]['nom']) || empty($this->desserts[$i]['ingredients']) || empty($this->desserts[$i]['prix_min']) || empty($this->desserts[$i]['prix_max'])) {
+            $this->desserts_error = 'Veuillez remplir tous les champs du dessert précédent';
+            return;
+        }
+
+        // check if prix_min <= prix_max
+        if ($this->desserts[$i]['prix_min'] > $this->desserts[$i]['prix_max']) {
+            $this->desserts_error = 'Le prix minimum doit être inférieur ou égal au prix maximum';
+            return;
+        }
+
+        // check if nom is unique
+        foreach ($this->desserts as $key => $dessert) {
+            if ($key == $i)
+                continue;
+            if ($dessert['nom'] == $this->desserts[$i]['nom']) {
+                $this->desserts_error = 'Ce nom de dessert existe déjà';
+                return;
+            }
+        }
+
+        $this->desserts_error = '';
+
+        $this->desserts[] = [
+            'nom' => '',
+            'ingredients' => '',
+            'prix_min' => '',
+            'prix_max' => '',
+        ];
+
+        $this->desserts_count++;
+    }
+
+    public function addPlat()
+    {
+        // check if all fields are filled (entrees_count - 1) times
+        $i = $this->plats_count - 1;
+        if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['accompagnements']) || empty($this->plats[$i]['prix_min']) || empty($this->plats[$i]['prix_max'])) {
+            $this->plats_error = 'Veuillez remplir tous les champs du plat précédent';
+            return;
+        }
+
+        // check if prix_min <= prix_max
+        if ($this->plats[$i]['prix_min'] > $this->plats[$i]['prix_max']) {
+            $this->plats_error = 'Le prix minimum doit être inférieur ou égal au prix maximum';
+            return;
+        }
+
+        // check if nom is unique
+        foreach ($this->plats as $key => $plat) {
+            if ($key == $i)
+                continue;
+            if ($plat['nom'] == $this->plats[$i]['nom']) {
+                $this->plats_error = 'Ce nom de plat existe déjà';
+                return;
+            }
+        }
+
+        $this->plats_error = '';
+
+        $this->plats[] = [
+            'nom' => '',
+            'ingredients' => '',
+            'accompagnements' => '',
+            'prix_min' => '',
+            'prix_max' => '',
+        ];
+
+        $this->plats_count++;
+    }
+
+    public function removeEntree($key)
+    {
+        unset($this->entrees[$key]);
+        $this->entrees_error = '';
+        $this->entrees_count--;
+    }
+
+    public function removeDessert($key)
+    {
+        unset($this->desserts[$key]);
+        $this->desserts_error = '';
+        $this->desserts_count--;
+    }
+
+    public function removePlat($key)
+    {
+        unset($this->plats[$key]);
+        $this->plats_error = '';
+        $this->plats_count--;
+    }
+
     public function update()
     {
         $this->validate();
@@ -212,6 +378,33 @@ class Edit extends Component
                 'message' => __('La date de validité doit être supérieure à la date du jour'),
             ]);
             return;
+        }
+
+        $separator = Utils::getRestaurantValueSeparator();
+
+        // Put all entrees in the same variable
+        foreach ($this->entrees as $entree) {
+            $this->e_nom .= $entree['nom'] . $separator;
+            $this->e_ingredients .= $entree['ingredients'] . $separator;
+            $this->e_prix_min .= $entree['prix_min'] . $separator;
+            $this->e_prix_max .= $entree['prix_max'] . $separator;
+        }
+
+        // Put all plats in the same variable
+        foreach ($this->plats as $plat) {
+            $this->p_nom .= $plat['nom'] . $separator;
+            $this->p_ingredients .= $plat['ingredients'] . $separator;
+            $this->p_accompagnements .= $plat['accompagnements'] . $separator;
+            $this->p_prix_min .= $plat['prix_min'] . $separator;
+            $this->p_prix_max .= $plat['prix_max'] . $separator;
+        }
+
+        // Put all desserts in the same variable
+        foreach ($this->desserts as $dessert) {
+            $this->d_nom .= $dessert['nom'] . $separator;
+            $this->d_ingredients .= $dessert['ingredients'] . $separator;
+            $this->d_prix_min .= $dessert['prix_min'] . $separator;
+            $this->d_prix_max .= $dessert['prix_max'] . $separator;
         }
 
         try {

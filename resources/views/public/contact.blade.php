@@ -1,7 +1,7 @@
 @extends('layout.public.app')
 
 @section('css')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 @endsection
 
 @section('content')
@@ -26,17 +26,15 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="detail-wrapper text-center padd-top-40 mrg-bot-10 padd-bot-40 light-bg">
                         <i class="theme-cl font-30 ti-location-pin"></i>
-                        <h4>India Office</h4>
-                        Sco 52, Sector 48, Near Gurudwara<br>
-                        Chandigarh (258458)
+                        <h4>Bureau du Togo</h4>
+                        Lomé-Adidogomé
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <div class="detail-wrapper text-center padd-top-40 mrg-bot-10 padd-bot-40 light-bg">
-                        <i class="theme-cl font-30 ti-location-pin"></i>
-                        <h4>Uk Office</h4>
-                        Sco 52, Sector 48, Near Gurudwara<br>
-                        Chandigarh (258458)
+                        <i class="theme-cl font-30 ti-email"></i>
+                        <h4>contact@numrod.fr</h4>
+                        contact@numrod.fr
                     </div>
                 </div>
             </div>
@@ -46,18 +44,23 @@
     <section class="padd-top-0">
         <div class="container">
             <div class="col-md-6 col-sm-6">
-                <form>
+                <form action="{{ route('contact-us') }}" method="post">
+                    @csrf
                     <div class="form-group">
-                        <label>Name:</label>
-                        <input type="text" class="form-control" placeholder="Name">
+                        <label>Nom:</label>
+                        <input class="form-control" name="name" type="text" placeholder="Nom" required>
                     </div>
                     <div class="form-group">
                         <label>Email:</label>
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input class="form-control" name="email" type="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Objet:</label>
+                        <input class="form-control" name="objet" type="text" placeholder="Objet" required>
                     </div>
                     <div class="form-group">
                         <label>Message:</label>
-                        <textarea class="form-control height-120" placeholder="Message"></textarea>
+                        <textarea class="form-control" name="message" placeholder="Message" required></textarea>
                     </div>
                     <div class="form-group">
                         <button class="btn theme-btn" name="submit">Envoyer</button>

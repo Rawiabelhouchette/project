@@ -49,7 +49,8 @@ Route::get('/login', function () {
 })->name('connexion');
 
 Route::get('/', [publicController::class, 'home'])->name('accueil');
-Route::get('contact', [AccountController::class, 'contact'])->name('accounts.contact');
+Route::get('contact', [AccountController::class, 'contact'])->name('contact');
+Route::post('contact-us', [AccountController::class, 'contactUs'])->name('contact-us');
 Route::get('entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
 Route::get('search', [searchController::class, 'search'])->name('search');
 Route::get('search/{slug}', [searchController::class, 'show'])->name('show');
@@ -145,6 +146,7 @@ Route::fallback(function () {
     return view('errors.404');
 });
 
+
 // route for 404
 Route::get('404', function () {
     return view('errors.404');
@@ -160,17 +162,17 @@ Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'
 
 
 
-Route::get('/test', function () {
-    // return route('payment.notification');
-    // send a mail
-    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '01/01/2021', '01/01/2022', 'SIMTOGO'));
+// Route::get('/test', function () {
+//     // return route('payment.notification');
+//     // send a mail
+//     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '01/01/2021', '01/01/2022', 'SIMTOGO'));
 
-    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\RegisterConfirmation(\App\Models\User::first()));
+//     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\RegisterConfirmation(\App\Models\User::first()));
     
-    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\PasswordReset(\App\Models\User::first(), 'http://localhost:8000/reset-password?token=123456'));
+//     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\PasswordReset(\App\Models\User::first(), 'http://localhost:8000/reset-password?token=123456'));
     
-    Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\ReSubscriptionConfirmation('Billal', '01/01/2021', '01/01/2022', 'SIMTOGO'));
-});
+//     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\ReSubscriptionConfirmation('Billal', '01/01/2021', '01/01/2022', 'SIMTOGO'));
+// });
 
 // Route::get('/test-notification', function () {
 //     $user = \App\Models\User::first(); // Get the first user as an example
