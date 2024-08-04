@@ -23,7 +23,6 @@ class Kernel extends ConsoleKernel
                 $this->clearLivewireTmp();
             })->hourly();
 
-
             $schedule->call(function () {
                 $this->deactivateSubscription();
             })->daily();

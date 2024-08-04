@@ -78,8 +78,8 @@
             #banner-alt {
                 min-height: 320px !important;
                 height: 320px !important;
-                /* min-height: 10% !important;
-                                    height: 10% !important; */
+                /* min-height: 10% !important; */
+                /* height: 10% !important; */
             }
         }
 
@@ -151,14 +151,14 @@
                 </div>
                 <div class="col-md-6 col-sm-12 nav-div" style="text-align: right">
                     <h5>
-                        <a class="btn-default" href="{{ $pagination->previous }}">
+                        <a class="" href="{{ $pagination->previous }}">
                             <i class="fa fa-fw fa-angle-left"></i>
                             Précédent
                         </a>
                         <span class="padd-l-10 padd-r-10 theme-cl">
                             {{ $pagination->position }}
                         </span>
-                        <a class="btn-default" href="{{ $pagination->next }}">
+                        <a class="" href="{{ $pagination->next }}">
                             Suivant
                             <i class="fa fa-fw fa-angle-right"></i>
                         </a>

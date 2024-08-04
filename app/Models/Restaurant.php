@@ -142,6 +142,14 @@ class Restaurant extends Model implements AnnonceInterface
         });
     }
 
+    public function formatPrice($price)
+    {
+        if (is_numeric($price)) {
+            $price = number_format((int) $price, 0, ',', ' ');
+        }
+        return $price;
+    }
+
     public function getEntreesAttribute()
     {
         $entrees = [];
@@ -155,8 +163,8 @@ class Restaurant extends Model implements AnnonceInterface
             $entrees[] = [
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
-                'prix_min' => (int) $tmp_prix_min[$i],
-                'prix_max' => (int) $tmp_prix_max[$i]
+                'prix_min' => $this->formatPrice($tmp_prix_min[$i]),
+                'prix_max' => $this->formatPrice($tmp_prix_max[$i])
             ];
         }
 
@@ -178,8 +186,8 @@ class Restaurant extends Model implements AnnonceInterface
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
                 'accompagnements' => $tmp_accompagnements[$i],
-                'prix_min' => (int) $tmp_prix_min[$i],
-                'prix_max' => (int) $tmp_prix_max[$i]
+                'prix_min' => $this->formatPrice($tmp_prix_min[$i]),
+                'prix_max' => $this->formatPrice($tmp_prix_max[$i])
             ];
         }
 
@@ -199,8 +207,8 @@ class Restaurant extends Model implements AnnonceInterface
             $desserts[] = [
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
-                'prix_min' => (int) $tmp_prix_min[$i],
-                'prix_max' => (int) $tmp_prix_max[$i]
+                'prix_min' => $this->formatPrice($tmp_prix_min[$i]),
+                'prix_max' => $this->formatPrice($tmp_prix_max[$i])
             ];
         }
 
