@@ -106,7 +106,7 @@
                             <div class="image" style="height: 200px important">
                                 <a class="listing-thumb" href="{{ route('show', $annonce->slug) }}">
                                     @if ($annonce->image)
-                                        <img class="img-responsive" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" style="object-fit: cover; object-position: center; width: 100%; height: 100%;">
+                                        <img class="img-responsive" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" style="object-fit: cover; object-position: center; width: 100%; height: 100%; object-fit: cover; object-position: center;">
                                     @else
                                         <img class="img-responsive" src="http://via.placeholder.com/1200x800" alt="latest property">
                                     @endif
@@ -119,7 +119,7 @@
                             <div class="proerty_content">
                                 <div class="author-avater">
                                     @if ($annonce->image)
-                                        <img class="author-avater-img" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" style="width: 70px; height: 70px;">
+                                        <img class="author-avater-img" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" style="width: 70px; height: 70px; object-fit: cover; object-position: center;">
                                     @else
                                         <img class="author-avater-img" src="http://via.placeholder.com/120x120" alt="">
                                     @endif
