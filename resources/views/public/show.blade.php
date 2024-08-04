@@ -1,7 +1,7 @@
 @extends('layout.public.app')
 
 @section('css')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 @endsection
 
 @section('content')
@@ -72,29 +72,50 @@
         .pulse {
             animation: pulse 1s infinite;
         }
+
+        /* if not mobile */
+        @media (min-width: 768px) {
+            #banner-alt {
+                min-height: 320px !important;
+                height: 320px !important;
+                /* min-height: 10% !important;
+                                    height: 10% !important; */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-div {
+                text-align: center !important;
+            }
+
+            .nav-div-1 {
+                padding-bottom: 20px !important;
+            }
+        }
     </style>
+
     <!-- ================ Listing Detail Basic Information ======================= -->
-    <div class="banner dark-opacity" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); height: 300px !important; min-height: 300px !important;" data-overlay="8">
+    <div class="banner dark-opacity" id="banner-alt" data-overlay="8" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }});">
         <div class="container">
             <div class="banner-caption">
                 <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                    <input type="hidden" value="1" name="form_request">
+                    <input name="form_request" type="hidden" value="1">
                     <div class="col-md-4 col-sm-4 no-padd">
                         <i class="banner-icon icon-pencil"></i>
-                        <input type="text" class="form-control left-radius right-br" placeholder="Mot clé..." name="key">
+                        <input class="form-control left-radius right-br" name="key" type="text" placeholder="Mot clé...">
                     </div>
                     <div class="col-md-3 col-sm-3 no-padd">
                         <div class="form-box">
                             <i class="banner-icon icon-map-pin"></i>
-                            <input id="myInput" type="text" class="form-control right-br" placeholder="Localisation..." name="location">
-                            <div id="autocomplete-results" class="autocomplete-items"></div>
+                            <input class="form-control right-br" id="myInput" name="location" type="text" placeholder="Localisation...">
+                            <div class="autocomplete-items" id="autocomplete-results"></div>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-3 no-padd">
                         <div class="form-box">
                             <i class="banner-icon icon-layers"></i>
                             <select class="form-control" name="type[]">
-                                <option value="" selected data-placeholder="{{ __('Tous les types d\'annonce') }}" class="chosen-select">{{ __('Tous les type d\'annonce') }}</option>
+                                <option class="chosen-select" data-placeholder="{{ __('Tous les types d\'annonce') }}" value="" selected>{{ __('Tous les type d\'annonce') }}</option>
                                 @foreach ($typeAnnonce as $type)
                                     <option value="{{ $type }}">{{ $type }}</option>
                                 @endforeach
@@ -104,7 +125,7 @@
 
                     <div class="col-md-2 col-sm-3 no-padd">
                         <div class="form-box">
-                            <button type="submit" class="btn theme-btn btn-default">
+                            <button class="btn theme-btn btn-default" type="submit">
                                 {{-- <i class="ti-search"></i> --}}
                                 {{ __('Rechercher') }}
                             </button>
@@ -120,7 +141,7 @@
     <section class="list-detail padd-bot-10 padd-top-30">
         <div class="container">
             <div class="row mrg-bot-40">
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-12 nav-div nav-div-1">
                     <h5>
                         <a href="{{ route('search') }}" title="Revenir à la recherche">
                             <i class="fa fa-fw fa-arrow-left" aria-hidden="true"></i>
@@ -128,16 +149,16 @@
                         </a>
                     </h5>
                 </div>
-                <div class="col-md-6 col-sm-6" style="text-align: right">
+                <div class="col-md-6 col-sm-12 nav-div" style="text-align: right">
                     <h5>
-                        <a href="{{ $pagination->previous }}" class="btn-default">
+                        <a class="btn-default" href="{{ $pagination->previous }}">
                             <i class="fa fa-fw fa-angle-left"></i>
                             Précédent
                         </a>
                         <span class="padd-l-10 padd-r-10 theme-cl">
                             {{ $pagination->position }}
                         </span>
-                        <a href="{{ $pagination->next }}" class="btn-default">
+                        <a class="btn-default" href="{{ $pagination->next }}">
                             Suivant
                             <i class="fa fa-fw fa-angle-right"></i>
                         </a>
@@ -177,27 +198,27 @@
 
                                     <div class="cover-buttons mrg-top-15" style="float: left;">
                                         <ul>
-                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                            <li class="mrg-r-10" style="padding-left: 0;">
                                                 <span class="buttons li-btn view padd-10">
                                                     <i class="fa fa-eye hidden-xs"></i>
                                                     <span class="">{{ $annonce->nb_vue }} vue(s)</span>
                                                 </span>
                                             </li>
-                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                            <li class="mrg-r-10" style="padding-left: 0;">
                                                 <span class="buttons li-btn view padd-10">
                                                     <i class="fa fa-comment-o hidden-xs"></i>
                                                     <span class="" id="annonce-commentaire">{{ $annonce->commentaires->count() }}</span> commentaire(s)
                                                 </span>
                                             </li>
-                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                            <li class="mrg-r-10" style="padding-left: 0;">
                                                 <div class="inside-rating buttons listing-rating theme-btn button-plain" style="padd-0 !important; line-height: 0.5; -webkit-user-select: none;">
                                                     <span class="value" id="annonce-note">{{ $annonce->note }}</span> <sup class="out-of">/ 5</sup>
                                                 </div>
                                             </li>
-                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                            <li class="mrg-r-10" style="padding-left: 0;">
                                                 @livewire('public.favoris', [$annonce])
                                             </li>
-                                            <li style="padding-left: 0;" class="mrg-r-10">
+                                            <li class="mrg-r-10" style="padding-left: 0;">
                                                 <button class="buttons padd-10 share-button" data-toggle="modal" data-target="#share" style="background: white; border: 1px solid grey; color: grey;">
                                                     <i class="fa fa-share"></i>
                                                     <span class="hidden-xs">Partager</span>
@@ -206,17 +227,17 @@
                                             <br><br>
                                             @if ($annonce->entreprise->instagram)
                                                 <li style="padding-left: 0; padding-right: 5px;">
-                                                    <a href="{{ $annonce->entreprise->instagram }}" class="social-network" target="_blank" style="background-color: #FF3A72"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;Instagram</a>
+                                                    <a class="social-network" href="{{ $annonce->entreprise->instagram }}" style="background-color: #FF3A72" target="_blank"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;Instagram</a>
                                                 </li>
                                             @endif
                                             @if ($annonce->entreprise->facebook)
                                                 <li style="padding-left: 0; padding-right: 5px;">
-                                                    <a href="{{ $annonce->entreprise->facebook }}" class="social-network" target="_blank" style="background-color: #0866FF"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> &nbsp;Facebook</a>
+                                                    <a class="social-network" href="{{ $annonce->entreprise->facebook }}" style="background-color: #0866FF" target="_blank"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> &nbsp;Facebook</a>
                                                 </li>
                                             @endif
                                             @if ($annonce->entreprise->whatsapp)
                                                 <li style="padding-left: 0; padding-right: 5px;">
-                                                    <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" class="social-network" target="_blank" style="background-color: #00A884"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</a>
+                                                    <a class="social-network" href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" style="background-color: #00A884" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</a>
                                                 </li>
                                             @endif
                                         </ul>
@@ -234,7 +255,7 @@
                         <div class="widget-boxed-body padd-top-0">
                             <div class="side-list no-border gallery-box">
                                 <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
-                                    <div data-toggle="modal" data-id="{{ $annonce->imagePrincipale->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-12 padd-0 image-preview" style="margin-bottom: -20px !important; margin-top: -10px !important; padding-left : 3px; padding-right : 3px;">
+                                    <div class="col-xs-12 col-md-12 padd-0 image-preview" data-toggle="modal" data-id="{{ $annonce->imagePrincipale->id }}" data-target="#modal-gallery" style="margin-bottom: -20px !important; margin-top: -10px !important; padding-left : 3px; padding-right : 3px;">
                                         <div class="listing-shot grid-style">
                                             <div class="" style="display: flex; justify-content: center; align-items: center; height: 220px; background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;">
                                             </div>
@@ -242,14 +263,14 @@
                                     </div>
                                     @foreach ($annonce->galerie as $key => $image)
                                         @if ($key < 3)
-                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-3 padd-0 padd-3 image-preview">
+                                            <div class="col-xs-12 col-md-3 padd-0 padd-3 image-preview" data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery">
                                                 <div class="listing-shot grid-style">
                                                     <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
                                                     </div>
                                                 </div>
                                             </div>
                                         @elseif ($key == 3)
-                                            <div data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery" class="col-xs-12 col-md-3 padd-0 padd-3 image-preview">
+                                            <div class="col-xs-12 col-md-3 padd-0 padd-3 image-preview" data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery">
                                                 <div class="listing-shot grid-style">
                                                     <div style="position: relative; display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
                                                         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
@@ -291,7 +312,6 @@
                     </ul> --}}
                     {{-- @include('components.public.show.information-header') --}}
                     {{ $annonce->annonceable->getShowInformationHeader() }}
-
 
                     <!-- Tab panes -->
                     {{-- <div class="tab-content tabs">
@@ -351,7 +371,7 @@
                                     <li>Ville : <strong>{{ $annonce->entreprise->quartier->ville->nom ?? '-' }} </strong></li>
                                     <li>Quartier : <strong>{{ $annonce->entreprise->quartier->nom ?? '-' }} </strong></li>
                                     <li>
-                                        <div id="map" class="full-width" style="height:200px;"></div>
+                                        <div class="full-width" id="map" style="height:200px;"></div>
                                     </li>
                                 </ul>
                             </div>

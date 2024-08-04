@@ -39,6 +39,21 @@ class Restaurant extends Model implements AnnonceInterface
         'd_prix_max',
     ];
 
+    protected $appends = [
+        'show_url',
+        'edit_url',
+
+        'specialites',
+        'equipements_restauration',
+        'carte_consommation',
+
+        'caracteristiques',
+
+        'entrees',
+        'plats',
+        'desserts',
+    ];
+
     public static function boot()
     {
         parent::boot();
@@ -56,7 +71,6 @@ class Restaurant extends Model implements AnnonceInterface
         });
     }
 
-
     protected $casts = [
         'e_nom' => PurifyHtmlOnGet::class,
         'e_ingredients' => PurifyHtmlOnGet::class,
@@ -72,21 +86,6 @@ class Restaurant extends Model implements AnnonceInterface
         'd_ingredients' => PurifyHtmlOnGet::class,
         'd_prix_min' => PurifyHtmlOnGet::class,
         'd_prix_max' => PurifyHtmlOnGet::class,
-    ];
-
-    protected $appends = [
-        'show_url',
-        'edit_url',
-
-        'specialites',
-        'equipements_restauration',
-        'carte_consommation',
-
-        //        'caracteristiques',
-
-        'entrees',
-        'plats',
-        'desserts',
     ];
 
     public function getShowUrlAttribute(): string
@@ -138,7 +137,6 @@ class Restaurant extends Model implements AnnonceInterface
             return [];
         }
         $tmp = explode(Utils::getRestaurantValueSeparator(), $string);
-        // remove empty values
         return array_filter($tmp, function ($value) {
             return !empty($value);
         });
@@ -211,9 +209,6 @@ class Restaurant extends Model implements AnnonceInterface
 
     public function getCaracteristiquesAttribute(): array
     {
-        $attributes = [];
-
-        return $attributes;
+        return [];
     }
-
 }

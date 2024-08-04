@@ -17,30 +17,30 @@
     @endphp
 
     <!-- Main Banner Section Start -->
-    <div class="banner dark-opacity" id="banner" style="background-image:url(assets_client/img/banner/image-1.jpg);" data-overlay="8">
+    <div class="banner dark-opacity" id="banner" data-overlay="8" style="background-image:url(assets_client/img/banner/image-1.jpg);">
         <div class="container">
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
                     <h1 style="font-size: 50px; ">Vamiyi, l'aventure commence ici</h1>
                     <p>Explorez les meilleurs endroits, des restaurants et plus encore...</p>
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                        <input type="hidden" value="1" name="form_request">
+                        <input name="form_request" type="hidden" value="1">
                         <div class="col-md-4 col-sm-4 no-padd">
                             <i class="banner-icon icon-pencil"></i>
-                            <input type="text" class="form-control left-radius right-br" placeholder="Mot clé..." name="key">
+                            <input class="form-control left-radius right-br" name="key" type="text" placeholder="Mot clé...">
                         </div>
                         <div class="col-md-3 col-sm-3 no-padd">
                             <div class="form-box">
                                 <i class="banner-icon icon-map-pin"></i>
-                                <input id="myInput" type="text" class="form-control right-br" placeholder="Localisation..." name="location">
-                                <div id="autocomplete-results" class="autocomplete-items"></div>
+                                <input class="form-control right-br" id="myInput" name="location" type="text" placeholder="Localisation...">
+                                <div class="autocomplete-items" id="autocomplete-results"></div>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-3 no-padd">
                             <div class="form-box">
                                 <i class="banner-icon icon-layers"></i>
                                 <select class="form-control" name="type[]">
-                                    <option value="" selected data-placeholder="{{ __('Tous les types d\'annonce') }}" class="chosen-select">{{ __('Tous les type d\'annonce') }}</option>
+                                    <option class="chosen-select" data-placeholder="{{ __('Tous les types d\'annonce') }}" value="" selected>{{ __('Tous les type d\'annonce') }}</option>
                                     @foreach ($typeAnnonce as $annonce)
                                         <option value="{{ $annonce }}">{{ $annonce }}</option>
                                     @endforeach
@@ -50,7 +50,7 @@
 
                         <div class="col-md-2 col-sm-3 no-padd">
                             <div class="form-box">
-                                <button type="submit" class="btn theme-btn btn-default">
+                                <button class="btn theme-btn btn-default" type="submit">
                                     {{-- <i class="ti-search"></i> --}}
                                     {{ __('Rechercher') }}
                                 </button>
@@ -104,11 +104,11 @@
                     <div class="col-lg-4 col-md-6 col-sm-12">
                         <div class="property_item classical-list">
                             <div class="image" style="height: 200px important">
-                                <a href="{{ route('show', $annonce->slug) }}" class="listing-thumb">
+                                <a class="listing-thumb" href="{{ route('show', $annonce->slug) }}">
                                     @if ($annonce->image)
-                                        <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" class="img-responsive" style="object-fit: cover; object-position: center; width: 100%; height: 100%;">
+                                        <img class="img-responsive" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" style="object-fit: cover; object-position: center; width: 100%; height: 100%;">
                                     @else
-                                        <img src="http://via.placeholder.com/1200x800" alt="latest property" class="img-responsive">
+                                        <img class="img-responsive" src="http://via.placeholder.com/1200x800" alt="latest property">
                                     @endif
                                 </a>
                                 {{-- <div class="listing-price-info">
@@ -119,9 +119,9 @@
                             <div class="proerty_content">
                                 <div class="author-avater">
                                     @if ($annonce->image)
-                                        <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" class="author-avater-img" style="width: 70px; height: 70px;">
+                                        <img class="author-avater-img" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="latest property" style="width: 70px; height: 70px;">
                                     @else
-                                        <img src="http://via.placeholder.com/120x120" class="author-avater-img" alt="">
+                                        <img class="author-avater-img" src="http://via.placeholder.com/120x120" alt="">
                                     @endif
                                 </div>
                                 <div class="proerty_text">
@@ -136,12 +136,12 @@
                                 <div class="property_meta">
                                     <div class="list-fx-features">
                                         <div class="listing-card-info-icon">
-                                            <span class="inc-fleat inc-add mrg-0 ">
+                                            <span class="inc-fleat inc-add mrg-0">
                                                 {{ $annonce->entreprise->adresse_complete }}
                                             </span>
                                         </div>
                                         <div class="listing-card-info-icon">
-                                            <span class="inc-fleat inc-call">
+                                            <span class="inc-fleat inc-call mrg-0">
                                                 <a href="tel:{{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
                                                     {{ $annonce->entreprise->quartier->ville->pays->indicatif }} {{ $annonce->entreprise->telephone }}
                                                 </a>
@@ -153,7 +153,7 @@
 
                             <div class="listing-footer-info">
                                 <div class="listing-cat">
-                                    <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}" class=" cl-1">
+                                    <a class=" cl-1" href="{{ route('entreprise.show', $annonce->entreprise->slug) }}">
                                         <span class="more-cat mrg-l-0" style="">
                                             <i class="fas fa-building"></i>
                                         </span> &nbsp;
@@ -177,7 +177,7 @@
     <!-- End Listings Section -->
 
     <!-- Category Section -->
-    <section class="bg-image" style="background:url(assets_client/img/image-stat.JPEG);" data-overlay="6">
+    <section class="bg-image" data-overlay="6" style="background:url(assets_client/img/image-stat.JPEG);">
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
@@ -198,7 +198,7 @@
                                 </div>
                                 <div class="cat-box-name">
                                     <h4>{{ $list->libelle }}</h4>
-                                    <a href="{{ route('search.key.type', ['', $list->nom]) }}" class="btn-btn-wrowse">Parcourir</a>
+                                    <a class="btn-btn-wrowse" href="{{ route('search.key.type', ['', $list->nom]) }}">Parcourir</a>
                                 </div>
                             </div>
                         </div>
@@ -228,7 +228,7 @@
                     @break
                 @endif
                 <div class="col-md-{{ $key % 4 == 0 || $key % 4 == 3 ? '4' : '8' }} col-sm-{{ $key % 4 == 0 || $key % 4 == 3 ? '5' : '7' }}">
-                    <a href="{{ route('search.key.type', ['', $stat->type]) }}" class="place-box">
+                    <a class="place-box" href="{{ route('search.key.type', ['', $stat->type]) }}">
                         <span class="listing-count">
                             <strong> {{ $stat->count }} Annonce(s) </strong>
                         </span>
