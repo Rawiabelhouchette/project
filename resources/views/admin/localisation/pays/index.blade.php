@@ -20,7 +20,7 @@
 
                     <div class="card-header" style="text-align: left !important;">
                         <div class="col-6">
-                            <h4>Liste des référence</h4>
+                            <h4>Liste des pays</h4>
                         </div>
                         <div class="col-6">
                             <a href="{{ route('pays.create') }}" class="btn btn-primary" style="padding-top: 5px;padding-bottom: 5px;height: auto;">Ajouter</a>
