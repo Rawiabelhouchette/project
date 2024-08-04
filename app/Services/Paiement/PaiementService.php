@@ -272,7 +272,7 @@ class PaiementService
             $user = User::find($transaction->user_id);
 
             if ($transaction->entreprise_id && $user->hasRole('Professionnel')) {
-                $subscription = self::reSubscription($transaction)
+                $subscription = self::reSubscription($transaction);
             } else {
                 $subscription = self::subscription($transaction);
             }

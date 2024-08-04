@@ -21,7 +21,7 @@
 
                     <div class="card-header">
                         <h4>Détails du restaurant</h4>
-                        <a href="{{ route('restaurants.edit', $restaurant->id) }}" type="button" class="btn theme-btn text-right">
+                        <a class="btn theme-btn text-right" type="button" href="{{ route('restaurants.edit', $restaurant->id) }}">
                             <i class="fa fa-edit fa-lg" style=""></i>
                         </a>
                     </div>
@@ -36,30 +36,124 @@
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Entrée</td>
                                         <td>
-                                            <span style="font-weight: bold;"> Nom : </span> {{ $restaurant->e_nom }} <br>
-                                            <span style="font-weight: bold;"> Ingredients : </span> {{ $restaurant->e_ingredients }} <br>
-                                            <span style="font-weight: bold;"> Prix minimum : </span> {{ $restaurant->e_prix_min }} <br>
-                                            <span style="font-weight: bold;"> Prix maximum : </span> {{ $restaurant->e_prix_max }} 
+                                            <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Nom</td>
+                                                    <td>Ingrédients</td>
+                                                    <td>Prix minimum</td>
+                                                    <td>Prix maximum</td>
+                                                </tr>
+                                                @forelse ($restaurant->entrees as $entree)
+                                                    <tr>
+                                                        <td>
+                                                            <strong class="">{{ $loop->iteration }}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $entree['nom'] }}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $entree['ingredients'] }}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $entree['prix_min'] }} FCFA</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $entree['prix_max'] }} FCFA</strong>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            Aucune information disponible
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </table>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Plat</td>
                                         <td>
-                                            <span style="font-weight: bold;"> Nom : </span> {{ $restaurant->p_nom }} <br>
-                                            <span style="font-weight: bold;"> Ingredients : </span> {{ $restaurant->p_ingredients }} <br>
-                                            <span style="font-weight: bold;"> Prix minimum : </span> {{ $restaurant->p_prix_min }} <br>
-                                            <span style="font-weight: bold;"> Prix maximum : </span> {{ $restaurant->p_prix_max }} 
+                                            <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Nom</td>
+                                                    <td>Ingrédients</td>
+                                                    <td>Accompagnements</td>
+                                                    <td>Prix minimum</td>
+                                                    <td>Prix maximum</td>
+                                                </tr>
+                                                @forelse ($restaurant->plats as $plat)
+                                                    <tr>
+                                                        <td>
+                                                            <strong class="">{{ $loop->iteration }}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $plat['nom'] }}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $plat['ingredients'] }}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $plat['accompagnements'] }}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $plat['prix_min'] }} FCFA</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $plat['prix_max'] }} FCFA</strong>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            Aucune information disponible
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </table>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">Dessert</td>
                                         <td>
-                                            <span style="font-weight: bold;"> Nom : </span> {{ $restaurant->d_nom }} <br>
-                                            <span style="font-weight: bold;"> Ingredients : </span> {{ $restaurant->d_ingredients }} <br>
-                                            <span style="font-weight: bold;"> Prix minimum : </span> {{ $restaurant->d_prix_min }} <br>
-                                            <span style="font-weight: bold;"> Prix maximum : </span> {{ $restaurant->d_prix_max }} 
+                                            <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Nom</td>
+                                                    <td>Ingrédients</td>
+                                                    <td>Prix minimum</td>
+                                                    <td>Prix maximum</td>
+                                                </tr>
+                                                @forelse ($restaurant->desserts as $dessert)
+                                                    <tr>
+                                                        <td>
+                                                            <strong class="">{{ $loop->iteration }}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $dessert['nom'] }}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $dessert['ingredients'] }}</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $dessert['prix_min'] }} FCFA</strong>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="theme-cl">{{ $dessert['prix_max'] }} FCFA</strong>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            Aucune information disponible
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </table>
                                         </td>
                                     </tr>
 

@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('accounts.contact') }}">
+                    <a href="{{ route('contact') }}">
                         Contactez-nous
                     </a>
                 </li>
