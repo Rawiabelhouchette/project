@@ -26,7 +26,7 @@
 <footer class="main-footer" id="footer-div" style="z-index: 1;">
     <div class="row">
         <div class="col-md-6 col-sm-12" style="text-align: left !important;">
-            <strong>&copy; Copyright {{ date('Y') }} <a href="{{ route('home') }}" style="color: #ff3a72;">Numrod</a> </strong> Tous droits réservés.
+            <strong>&copy; Copyright {{ date('Y') }} <a href="{{ route('accueil') }}" style="color: #ff3a72;">Numrod</a> </strong> Tous droits réservés.
         </div>
 
         <div class="col-md-6 col-sm-12" style="text-align: right !important;">
@@ -38,7 +38,7 @@
 <footer class="main-footer" id="footer-div-sm" style="z-index: 1; display: none;">
     <div class="row">
         <div class="col-12 text-center">
-            <strong>&copy; Copyright {{ date('Y') }} <a href="{{ route('home') }}" style="color: #ff3a72;">Numrod</a> </strong> Tous droits réservés.
+            <strong>&copy; Copyright {{ date('Y') }} <a href="{{ route('accueil') }}" style="color: #ff3a72;">Numrod</a> </strong> Tous droits réservés.
         </div>
 
         <div class="col-12 text-center" style="padding-top: 13px;">
