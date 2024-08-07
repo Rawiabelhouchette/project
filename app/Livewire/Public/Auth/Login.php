@@ -33,6 +33,7 @@ class Login extends Component
         $login = AuthenticationController::loginService($request);
         if (!$login->status) {
             $this->error = true;
+            $this->password = '';
             $this->message = $login->message;
             return;
         }
