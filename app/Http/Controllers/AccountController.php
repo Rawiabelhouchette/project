@@ -52,13 +52,7 @@ class AccountController extends Controller
     public function resetPassword(Request $request)
     {
         // YOU SHOULD NOT TELL TO THE USER IF THE EMAIL EXISTS OR NOT
-        // $request->validate([
-        //     'email' => 'required|email|exists:users,email'
-        // ], [
-        //     'email.exists' => 'Cette adresse email n\'existe pas.'
-        // ]);
-
-        $request->validate([
+$request->validate([
             'email' => 'required|email',
         ], [
             'email' => 'Veuillez saisir une adresse email valide.',
@@ -145,5 +139,17 @@ class AccountController extends Controller
     public function editPassword()
     {
         return view('new-password');
+    }
+
+    public function contactUs(Request $request)
+    {
+        $validated = $request->validate([
+            'nom' => 'required|string',
+            'email' => 'required|email',
+            'objet' => 'required|string',
+            'message' => 'required|string'
+        ]);
+
+        return back()->with('success', 'Votre message a été envoyé avec succès');
     }
 }
