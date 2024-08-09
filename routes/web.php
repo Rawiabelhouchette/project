@@ -16,7 +16,7 @@ use App\Http\Controllers\LocationVehiculeController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PatisserieController;
 use App\Http\Controllers\PaysController;
-use App\Http\Controllers\publicController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\QuartierController;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\RestaurantController;
@@ -24,8 +24,6 @@ use App\Http\Controllers\searchController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
-use App\Models\Abonnement;
-use App\Notifications\ResetPassword;
 use App\Services\Paiement\PaiementService;
 use Illuminate\Support\Facades\Route;
 
@@ -48,10 +46,10 @@ Route::get('/login', function () {
     return view('login');
 })->name('connexion');
 
-Route::get('/', [publicController::class, 'home'])->name('accueil');
+Route::get('/', [PublicController::class, 'home'])->name('accueil');
 Route::get('contact', [AccountController::class, 'contact'])->name('contact');
 Route::post('contact-us', [AccountController::class, 'contactUs'])->name('contact-us');
-Route::get('entreprise/{slug}', [publicController::class, 'showEntreprise'])->name('entreprise.show');
+Route::get('entreprise/{slug}', [PublicController::class, 'showEntreprise'])->name('entreprise.show');
 Route::get('search', [searchController::class, 'search'])->name('search');
 Route::get('search/{slug}', [searchController::class, 'show'])->name('show');
 Route::get('search?key={key}&type={type}', [searchController::class, 'search'])->name('search.key.type');
@@ -168,9 +166,9 @@ Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'
 //     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '01/01/2021', '01/01/2022', 'SIMTOGO'));
 
 //     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\RegisterConfirmation(\App\Models\User::first()));
-    
+
 //     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\PasswordReset(\App\Models\User::first(), 'http://localhost:8000/reset-password?token=123456'));
-    
+
 //     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\ReSubscriptionConfirmation('Billal', '01/01/2021', '01/01/2022', 'SIMTOGO'));
 // });
 

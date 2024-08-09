@@ -8,7 +8,7 @@ use App\Models\Quartier;
 use App\Utils\AnnoncesUtils;
 use App\Utils\CustomSession;
 
-class publicController extends Controller
+class PublicController extends Controller
 {
     public function home()
     {
