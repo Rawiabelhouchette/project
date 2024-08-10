@@ -72,8 +72,8 @@ $request->validate([
         $resetLink = url(config('app.url') . route('password.reset', ['token' => $token, 'email' => $request->email], false));
 
         // Envoyer l'email de réinitialisation
-        Mail::send(new \App\Mail\PasswordReset($user, $resetLink));
-        // SendPasswordResetEmail::dispatch($user, $resetLink);
+        // Mail::send(new \App\Mail\PasswordReset($user, $resetLink));
+        SendPasswordResetEmail::dispatch($user, $resetLink);
 
         return redirect()->route('notification.rest-password.success');
     }

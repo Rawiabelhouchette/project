@@ -10,31 +10,31 @@
             </ol>
         </div>
     </div>
-    <div id="page-inner" class="mrg-top-0 padd-top-0" style="margin-top: 0px !important; padding-top: 0px !important;">
-        <div class="bott-wid">
-            <div class="listing-shot mrg-bot-20">
+    <div class="mrg-top-0 padd-top-0" id="page-inner" style="margin-top: 0px !important; padding-top: 0px !important;">
+        <div class="bott-wid mrg-top-20">
+            {{-- <div class="listing-shot mrg-bot-20">
                 <div class="listing-shot-info">
                     <span class="text-center font-16 text-justify">
-                        {{-- Bonjour {{ auth()->user()->username }}, bienvenue sur votre tableau de bord. Retrouvez ici les statistiques sur le nombre d'élèments crées et les taux de consultation de la recherche et connexion --}}
+                        Bonjour {{ auth()->user()->username }}, bienvenue sur votre tableau de bord. Retrouvez ici les statistiques sur le nombre d'élèments crées et les taux de consultation de la recherche et connexion
                     </span>
                 </div>
-            </div>
-            {{-- @foreach ($elements as $element)
+            </div> --}}
+            @foreach ($elements as $element)
                 <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="listing-shot grid-style" style="background-color: {{ $element['couleur'] }};">
+                    <div class="listing-shot grid-style padd-bot-25" style="background-color: {{ $element['couleur'] }};">
                         <div class="row">
                             <div class="col-md-12" style="margin-left: 10px;">
-                                <h5 style="font-size: 30px; color: white;" id="{{ $element['id'] }}">{{ $element['nombre'] }}</h5>
+                                <h5 id="{{ $element['id'] }}" style="font-size: 30px; color: white;">{{ $element['nombre'] }}</h5>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 @if ($element['lien'] != '')
-                                    <a href="{{ route($element['lien']) }}" class="">
+                                    <a class="" href="#">
                                         <i class="{{ $element['icon'] }}" style="font-size: 50px; color: white;"></i>
                                     </a>
                                 @else
-                                    <a href="javascript:void(0)" class="">
+                                    <a class="" href="javascript:void(0)">
                                         <i class="{{ $element['icon'] }}" style="font-size: 50px; color: white;"></i>
                                     </a>
                                 @endif
@@ -43,44 +43,27 @@
                         <div class="listing-shot-info">
                             <div class="extra">
                                 <div class="listing-detail-info">
-                                    @if ($element['lien'] != '')
-                                        <a href="{{ route($element['lien']) }}" class="">
-                                            <span class="text-center font-30" style="color: white;">
-                                                {{ $element['nom'] }}
-                                            </span>
-                                        </a>
-                                    @else
-                                        <a href="javascript:void(0)" class="">
-                                            <span class="text-center font-30" style="color: white;">
-                                                {{ $element['nom'] }}
-                                            </span>
-                                        </a>
-                                    @endif
+                                    <a class="" href="#">
+                                        <span class="text-center font-30" style="color: white;">
+                                            {{ $element['nom'] }}
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="listing-shot-info rating">
-                            {{-- <div class="row">
-                                @if ($element['lien'] != '')
-                                    <a href="{{ route($element['lien']) }}" class="">
-                                        <div class="col-md-12 col-sm-12 col-xs-12 text-center text" style="color: white;">
-                                            Voir le detail &nbsp;&nbsp;
-                                            <i class="fa-solid fa-right-to-bracket" style="color: white;"></i>
-                                        </div>
-                                    </a>
-                                @else
-                                    <a href="javascript:void(0)" class="">
-                                        <div class="col-md-12 col-sm-12 col-xs-12 text-center text" style="color: white;">
-                                            Voir le detail &nbsp;&nbsp;
-                                            <i class="fa-solid fa-right-to-bracket" style="color: white;"></i>
-                                        </div>
-                                    </a>
-                                @endif
+                        {{-- <div class="listing-shot-info rating">
+                            <div class="row">
+                                <a class="" href="#">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center text" style="color: white;">
+                                        Voir le detail &nbsp;&nbsp;
+                                        <i class="fa-solid fa-right-to-bracket" style="color: white;"></i>
+                                    </div>
+                                </a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
-            @endforeach --}}
+            @endforeach
         </div>
     </div>
     {{-- <input type="hidden" id="metaData" data-connexion="{{ route('staff.active-users.get')}}" data-consultation="{{ route('staff.consultation.get')}}"> --}}
