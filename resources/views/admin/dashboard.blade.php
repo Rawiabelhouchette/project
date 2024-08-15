@@ -24,7 +24,7 @@
                     <div class="listing-shot grid-style padd-bot-25" style="background-color: {{ $element['couleur'] }};">
                         <div class="row">
                             <div class="col-md-12" style="margin-left: 10px;">
-                                <h5 id="{{ $element['id'] }}" style="font-size: 30px; color: white;">{{ $element['nombre'] }}</h5>
+                                <h5 id="{{ $element['id'] }}" style="font-size: 30px; color: white;">{!! $element['nombre'] !!}</h5>
                             </div>
                         </div>
                         <div class="row">

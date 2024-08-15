@@ -27,7 +27,7 @@
                             <table id="dataTable" class="table table-striped table-2 table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
+                                        <th>N°</th>
                                         <th>Offre</th>
                                         <th>Durée (mois)</th>
                                         <th>Entreprise</th>
@@ -82,6 +82,7 @@
                     },
                     {
                         data: 'entreprises.0.nom',
+                        // data: 'id',
                     },
                     {
                         data: 'date_debut',

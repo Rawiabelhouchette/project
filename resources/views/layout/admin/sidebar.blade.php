@@ -130,15 +130,6 @@
                 </li>
             @endif
 
-            {{-- 
-            <li>
-                <a href="{{ route('accueil') }}"><i class="fa fa-star" aria-hidden="true"></i>Favoris</a>
-            </li>
-
-            <li>
-                <a href="{{ route('accueil') }}"><i class="fa fa-comment" aria-hidden="true"></i>Commentaires</a>
-            </li> --}}
-
             <li class="@yield('profil')">
                 <a href="{{ route('accounts.index') }}"><i class="fa fa-user" aria-hidden="true"></i>Mon Profil</a>
             </li>

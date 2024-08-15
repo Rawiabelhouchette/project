@@ -28,6 +28,26 @@ class AdminController extends Controller
 
         if (Auth::user()->hasRole('Professionnel')) {
             $annonces = Auth::user()->annonces();
+            $lastDateAbonnement = Auth::user()->abonnements()->orderBy('date_fin', 'desc')->first();
+
+            $elements = [
+                [
+                    'id' => 'annonce',
+                    'nombre' => $annonces->public()->count(),
+                    'nom' => 'Annonces',
+                    'lien' => route('annonces.index'),
+                    'icon' => 'fa-solid fa-book',
+                    'couleur' => '#3390FF'
+                ],
+                [
+                    'id' => 'fin-abonnement',
+                    'nombre' => "<span style='font-size: 25px;'>" . date('d/m/Y', strtotime($lastDateAbonnement->date_fin)) . "</span>",
+                    'nom' => 'Fin aboonnement',
+                    'lien' => route('abonnements.index'),
+                    'icon' => 'fa-solid fa-calendar',
+                    'couleur' => strtotime($lastDateAbonnement->date_fin) > time() ? '#33FF57' : '#FF8733' // Couleur verte si l'abonnement est actif, rouge sinon
+                ]
+            ];
         }
 
         if (Auth::user()->hasRole('Administrateur')) {
