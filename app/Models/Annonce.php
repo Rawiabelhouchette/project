@@ -299,4 +299,9 @@ class Annonce extends Model
             // check if the annonce is still valid
             ->whereDate('date_validite', '>=', date('Y-m-d'));
     }
+
+    // public function scopeAll(Builder $query): void
+    // {
+    //     $query->
+    // }
 }

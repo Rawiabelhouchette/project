@@ -1,7 +1,5 @@
 @php
-    $typeAnnonce = App\Models\Annonce::pluck('type')
-        ->unique()
-        ->toArray();
+    $typeAnnonce = App\Models\Annonce::pluck('type')->unique()->toArray();
 @endphp
 
 <footer class="footer dark-footer dark-bg">
@@ -111,67 +109,67 @@
                     <ul class="footer-navigation sinlge">
                         @foreach ($typeAnnonce as $type)
                             <li><a href="javascript:void(0)">{{ $type }}</a></li>
-                        @endforeach
-                    </ul>
-                </div>
+                            @if ($loop->iteration == 4)
+                                {{-- <li><a href="javascript:void(0)">...</a></li> --}}
+                            @break
+                        @endif
+                    @endforeach
+                </ul>
             </div>
+        </div>
 
-            <div class="col-md-3 col-sm-6">
-                <div class="footer-widget">
-                    <div class="textwidget">
-                        <h3 class="widgettitle widget-title">Nous retrouver</h3>
-                        <div class="address-box">
-                            <div class="sing-add">
-                                <a style="color: #7f90a7;" href="https://goo.gl/maps/MBJGNz6obPGrMjjH6" target="_blank">
-                                    <i class="ti-location-pin"></i>Lomé-Adidogomé
-                                </a>
-                            </div>
-                            <div class="sing-add">
-                                <a style="color: #7f90a7;" href="mailto:contact@numrod.fr">
-                                    <i class="ti-email"></i>contact@numrod.fr
-                                </a>
-                            </div>
-                            <div class="sing-add">
-                                <a style="color: #7f90a7;" href="tel:+22890454591">
-                                    <i class="ti-mobile"></i>+228 90 45 45 91
-                                </a>
-                            </div>
-                            <div class="sing-add">
-                                <a style="color: #7f90a7;" href="http://numdoc.numrod.fr/" target="_blank">
-                                    <i class="ti-world"></i>www.numrod.com
-                                </a>
-                            </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="footer-widget">
+                <div class="textwidget">
+                    <h3 class="widgettitle widget-title">Nous retrouver</h3>
+                    <div class="address-box">
+                        <div class="sing-add">
+                            <a href="https://goo.gl/maps/MBJGNz6obPGrMjjH6" style="color: #7f90a7;" target="_blank">
+                                <i class="ti-location-pin"></i>Lomé-Adidogomé
+                            </a>
                         </div>
-                        <!--<ul class="footer-social">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                        </ul>-->
+                        <div class="sing-add">
+                            <a href="mailto:contact@numrod.fr" style="color: #7f90a7;">
+                                <i class="ti-email"></i>contact@numrod.fr
+                            </a>
+                        </div>
+                        <div class="sing-add">
+                            <a href="tel:+22890454591" style="color: #7f90a7;">
+                                <i class="ti-mobile"></i>+228 90 45 45 91
+                            </a>
+                        </div>
+                        <div class="sing-add">
+                            <a href="http://numdoc.numrod.fr/" style="color: #7f90a7;" target="_blank">
+                                <i class="ti-world"></i>www.numrod.com
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6">
-                <div class="footer-widget">
-                    <h3 class="widgettitle widget-title">Nous contacter</h3>
-                    <p>Les professionnels restent disponible pour toute demande</p>
-
-                    {{-- <form class="sup-form" >
-                        <input type="email" class="form-control sigmup-me" placeholder="Your Email Address" required="required">
-                        <button type="submit" class="btn" value="Get Started"><svg class="svg-inline--fa fa-location-arrow fa-w-16" aria-hidden="true" data-prefix="fa" data-icon="location-arrow" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M443.683 4.529L27.818 196.418C-18.702 217.889-3.39 288 47.933 288H224v175.993c0 51.727 70.161 66.526 91.582 20.115L507.38 68.225c18.905-40.961-23.752-82.133-63.697-63.696z"></path></svg><!-- <i class="fa fa-location-arrow"></i> --></button>
-                    </form> --}}
+                    <!--<ul class="footer-social">
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+            </ul>-->
                 </div>
             </div>
         </div>
 
+        <div class="col-md-3 col-sm-6">
+            <div class="footer-widget">
+                <h3 class="widgettitle widget-title">Nous contacter</h3>
+                <p>Les professionnels restent disponible pour toute demande</p>
+
+                {{-- <form class="sup-form" >
+                        <input type="email" class="form-control sigmup-me" placeholder="Your Email Address" required="required">
+                        <button type="submit" class="btn" value="Get Started"><svg class="svg-inline--fa fa-location-arrow fa-w-16" aria-hidden="true" data-prefix="fa" data-icon="location-arrow" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M443.683 4.529L27.818 196.418C-18.702 217.889-3.39 288 47.933 288H224v175.993c0 51.727 70.161 66.526 91.582 20.115L507.38 68.225c18.905-40.961-23.752-82.133-63.697-63.696z"></path></svg><!-- <i class="fa fa-location-arrow"></i> --></button>
+                    </form> --}}
+            </div>
+        </div>
     </div>
-    <div class="footer-copyright">
-        <p>Copyright@
-            @php
-                echo date('Y');
-            @endphp
-            propulsé par Numrod <a href="http://www.numrod.com/" title="Numrod" target="_blank">Numrod</a></p>
-    </div>
+
+</div>
+<div class="footer-copyright">
+    <p>Copyright &copy; {{ date('Y') }} propulsé par Numrod <a href="http://www.numrod.com/" title="Numrod" target="_blank">Numrod</a></p>
+</div>
 </footer>

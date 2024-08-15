@@ -30,11 +30,11 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 @if ($element['lien'] != '')
-                                    <a class="" href="#">
+                                    <a href="{{ $element['lien'] }}">
                                         <i class="{{ $element['icon'] }}" style="font-size: 50px; color: white;"></i>
                                     </a>
                                 @else
-                                    <a class="" href="javascript:void(0)">
+                                    <a href="javascript:void(0)">
                                         <i class="{{ $element['icon'] }}" style="font-size: 50px; color: white;"></i>
                                     </a>
                                 @endif
@@ -43,7 +43,7 @@
                         <div class="listing-shot-info">
                             <div class="extra">
                                 <div class="listing-detail-info">
-                                    <a class="" href="#">
+                                    <a class="" href="{{ $element['lien'] ?? 'javascript:void(0)' }}">
                                         <span class="text-center font-30" style="color: white;">
                                             {{ $element['nom'] }}
                                         </span>

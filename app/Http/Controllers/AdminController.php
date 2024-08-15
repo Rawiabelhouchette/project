@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Abonnement;
 use App\Models\Annonce;
-use App\Models\Compte;
 use App\Models\Document;
+use App\Models\Entreprise;
 use App\Models\Message;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
-use App\Models\Session as ModelsSession;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -22,38 +23,74 @@ class AdminController extends Controller
 
     public function home()
     {
+        $annonces = [];
+        $elements = [];
+
         if (Auth::user()->hasRole('Professionnel')) {
-            $annonces = Auth::user()->annonces()->count();
-        } else {
-            $annonces = Annonce::with('entreprise', 'annonceable')->count();
+            $annonces = Auth::user()->annonces();
         }
 
-        $elements = [
-            [
-                'id' => 'annonce',
-                'nombre' => $annonces,
-                'nom' => 'Annonces',
-                'lien' => 'documents.index',
-                'icon' => 'fa-solid fa-book',
-                'couleur' => '#3390FF'
-            ],
-            // [
-            //     'id' => 'comptes',
-            //     'nombre' => 0,
-            //     'nom' => 'Comptes',
-            //     'lien' => 'comptes.index',
-            //     'icon' => 'fa-solid fa-users',
-            //     'couleur' => '#33FFA8'
-            // ],
-            // [
-            //     'id' => 'references',
-            //     'nombre' => 0,
-            //     'nom' => 'Références',
-            //     'lien' => 'references.index',
-            //     'icon' => 'fa-solid fa-asterisk',
-            //     'couleur' => '#FF3383'
-            // ],
-        ];
+        if (Auth::user()->hasRole('Administrateur')) {
+            $annonces = Annonce::with('entreprise', 'annonceable');
+
+            $elements = [
+                [
+                    'id' => 'annonce',
+                    'nombre' => $annonces->public()->count(),
+                    'nom' => 'Annonces',
+                    'lien' => route('annonces.index'),
+                    'icon' => 'fa-solid fa-book',
+                    'couleur' => '#3390FF'
+                ],
+                [
+                    'id' => 'abonnements',
+                    'nombre' => Abonnement::where('is_active', true)->count(),
+                    'nom' => 'Abonnements actifs',
+                    'lien' => route('abonnements.index'),
+                    'icon' => 'fa-solid fa-calendar',
+                    'couleur' => '#FF8733'
+                ],
+                [
+                    'id' => 'entreprises',
+                    'nombre' => Entreprise::count(),
+                    'nom' => 'Entreprises',
+                    'lien' => route('entreprises.index'),
+                    'icon' => 'fa-solid fa-building',
+                    'couleur' => '#33A1FF'
+                ],
+                [
+                    'id' => 'comptes-usagers',
+                    'nombre' => User::whereHas('roles', function ($query) {
+                        $query->where('name', 'Usager');
+                    })->count(),
+                    'nom' => 'Comptes Usagers',
+                    'lien' => route('users.index'),
+                    'icon' => 'fa-solid fa-user',
+                    'couleur' => '#33FF57'
+                ],
+                [
+                    'id' => 'comptes-professionnels',
+                    'nombre' => User::whereHas('roles', function ($query) {
+                        $query->where('name', 'Professionnel');
+                    })->count(),
+                    'nom' => 'Comptes Professionnels',
+                    'lien' => route('users.index'),
+                    'icon' => 'fa-solid fa-users',
+                    'couleur' => '#FF5733'
+                ],
+                [
+                    // nombre de comptes professionnels
+                    'id' => 'comptes-administrateurs',
+                    'nombre' => User::whereHas('roles', function ($query) {
+                        $query->where('name', 'Administrateur');
+                    })->count(),
+                    'nom' => 'Comptes Admin',
+                    'lien' => route('users.index'),
+                    'icon' => 'fa-solid fa-user-shield',
+                    'couleur' => '#FF33A1'
+                ],
+            ];
+        }
 
         if (auth()->user()->hasRole('Usager')) {
             return redirect()->route('accounts.index');
