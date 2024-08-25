@@ -19,5 +19,4 @@ yarn-error.log
 /.vscode
 composer.lock
 /lang
-.env
 token.md
