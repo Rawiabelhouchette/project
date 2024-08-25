@@ -2,7 +2,6 @@
 
 <div class="tab-content tabs">
     <div class="tab-pane fade in active" id="information" role="tabpanel">
-        {{-- {{ $annonce->annonceable->caracteristiques }} --}}
         <div class="row">
             @forelse ($annonce->annonceable->caracteristiques as $key => $value)
                 <div class="col-md-4 col-xs-12 mrg-bot-5 text-center padd-bot-5">

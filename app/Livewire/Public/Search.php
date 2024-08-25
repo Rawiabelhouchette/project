@@ -138,6 +138,9 @@ class Search extends Component
 
     public function changeTypeName()
     {
+        if (!$this->type) {
+            $this->type = [];
+        }
         // change vehicule to Location vehicule
         // check if type contains Véhicule if yes replace it with Location Véhicule
         if (in_array('Véhicule', $this->type)) {

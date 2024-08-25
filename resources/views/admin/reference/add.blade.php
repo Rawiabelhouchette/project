@@ -123,6 +123,9 @@
                     },
                     {
                         render: function(data, type, row) {
+                            if (!row.user) {
+                                return '-';
+                            }
                             return row.user.nom + ' ' + row.user.prenom;
                         }
                     },

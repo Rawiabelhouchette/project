@@ -115,9 +115,10 @@
                                 </label> <br>
                                 <select id="type" class="form-control" required wire:model.lazy='role'>
                                     <option value="" selected disabled>Choisir ...</option>
-                                    @foreach ($roles as $role)
+                                    <option value="Administrateur">Administrateur</option>
+                                    {{-- @foreach ($roles as $role)
                                         <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                    @endforeach
+                                    @endforeach --}}
 
                                 </select>
                             </div>

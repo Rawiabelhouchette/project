@@ -78,7 +78,7 @@
                 </li>
             @endif
 
-            @if (auth()->user()->hasRole('Administrateur') || auth()->user()->hasRole('Professionnel'))
+            @if (auth()->user()->hasRole('Administrateur'))
                 <li class="@yield('entreprise')">
                     <a href="javascript:void(0)"><i class="fa fa-city" aria-hidden="true"></i>Entreprise <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -130,14 +130,27 @@
                 </li>
             @endif
 
-            {{-- 
-            <li>
-                <a href="{{ route('accueil') }}"><i class="fa fa-star" aria-hidden="true"></i>Favoris</a>
-            </li>
+            @if (auth()->user()->hasRole('Professionnel'))
+                <li class="@yield('entreprise')">
+                    <a href="{{ route('entreprises.show', auth()->user()->entreprises->first()->id) }}"><i class="fa fa-building" aria-hidden="true"></i>Entreprise</a>
+                </li>
 
-            <li>
-                <a href="{{ route('accueil') }}"><i class="fa fa-comment" aria-hidden="true"></i>Commentaires</a>
-            </li> --}}
+                <li class="@yield('abonnement')">
+                    <a href="javascript:void(0)"><i class="fa fa-credit-card" aria-hidden="true"></i>Abonnement<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{{ route('abonnements.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                                Ajouter
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('abonnements.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                                Rechercher
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
 
             <li class="@yield('profil')">
                 <a href="{{ route('accounts.index') }}"><i class="fa fa-user" aria-hidden="true"></i>Mon Profil</a>

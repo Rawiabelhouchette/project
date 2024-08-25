@@ -32,7 +32,7 @@
                                 <b style="color: red;">*</b>
                             </label>
                             <div class="col-md-8 col-sm-4 col-xl-3">
-                                <input type="text" class="form-control" placeholder="{{ _('Nom de la ville') }}" required wire:model.defer='nom'>
+                                <input type="text" class="form-control" placeholder="{{ __('Nom de la ville') }}" required wire:model.defer='nom'>
                                 @error('nom')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

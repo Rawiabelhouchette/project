@@ -58,10 +58,10 @@
                                 <strong class="theme-cl">{{ $entree['ingredients'] }}</strong>
                             </td>
                             <td>
-                                <strong class="theme-cl">{{ $entree['prix_min'] }} FCFA</strong>
+                                <strong class="theme-cl">{{ number_format($entree['prix_min'], 0, ',', ' ') }} FCFA</strong>
                             </td>
                             <td>
-                                <strong class="theme-cl">{{ $entree['prix_max'] }} FCFA</strong>
+                                <strong class="theme-cl">{{ number_format($entree['prix_max'], 0, ',', ' ') }} FCFA</strong>
                             </td>
                         </tr>
                     @empty
@@ -104,10 +104,10 @@
                                 <strong class="theme-cl">{{ $plat['accompagnements'] }}</strong>
                             </td>
                             <td>
-                                <strong class="theme-cl">{{ $plat['prix_min'] }} FCFA</strong>
+                                <strong class="theme-cl">{{ number_format($plat['prix_min'], 0, ',', ' ') }} FCFA</strong>
                             </td>
                             <td>
-                                <strong class="theme-cl">{{ $plat['prix_max'] }} FCFA</strong>
+                                <strong class="theme-cl">{{ number_format($plat['prix_max'], 0, ',', ' ') }} FCFA</strong>
                             </td>
                         </tr>
                     @empty
@@ -146,10 +146,10 @@
                                 <strong class="theme-cl">{{ $dessert['ingredients'] }}</strong>
                             </td>
                             <td>
-                                <strong class="theme-cl">{{ $dessert['prix_min'] }} FCFA</strong>
+                                <strong class="theme-cl">{{ number_format($dessert['prix_min'], 0, ',', ' ') }} FCFA</strong>
                             </td>
                             <td>
-                                <strong class="theme-cl">{{ $dessert['prix_max'] }} FCFA</strong>
+                                <strong class="theme-cl">{{ number_format($dessert['prix_max'], 0, ',', ' ') }} FCFA</strong>
                             </td>
                         </tr>
                     @empty
