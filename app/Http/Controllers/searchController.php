@@ -7,7 +7,7 @@ use App\Models\StatistiqueAnnonce;
 use App\Utils\CustomSession;
 use Illuminate\Http\Request;
 
-class searchController extends Controller
+class SearchController extends Controller
 {
     public function search(Request $request)
     {
