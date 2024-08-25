@@ -18,13 +18,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        \Log::info('Schedule is running');
-        
         try {
             $schedule->call(function () {
                 $this->clearLivewireTmp();
             })->hourly();
-
 
             $schedule->call(function () {
                 $this->deactivateSubscription();

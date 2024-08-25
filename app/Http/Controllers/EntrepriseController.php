@@ -15,7 +15,7 @@ class EntrepriseController extends Controller
     public function index()
     {
         if (Auth::user()->hasRole('Professionnel')) {
-            $entreprises = Auth::user()->entreprises;
+            return redirect()->route('entreprises.show', Auth::user()->entreprises->first());
         } else {
             $entreprises = Entreprise::with('quartier', 'quartier.ville', 'quartier.ville.pays')->get();
         }
@@ -56,6 +56,10 @@ class EntrepriseController extends Controller
      */
     public function edit(Entreprise $entreprise)
     {
+        // check if the user is the owner of the entreprise
+        if (!Auth::user()->hasRole('Administrateur') && !Auth::user()->entreprises->contains($entreprise)) {
+            return redirect()->route('home');
+        }
         return view('admin.entreprise.edit', compact('entreprise'));
     }
 

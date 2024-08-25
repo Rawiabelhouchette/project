@@ -173,24 +173,7 @@
 
             @yield('content')
 
-            <!-- /. PAGE WRAPPER  -->
-
-            <footer class="main-footer" style="z-index: 1;">
-                <div class="row">
-                    <div class="col-md-6 col-xm-12" style="text-align: left !important;">
-                        <strong>
-                            @php
-                                $date = date('Y');
-                                echo '©Copyright ' . $date . ' Numrod';
-                            @endphp
-                        </strong>Tous droits réservés.
-                    </div>
-
-                    <div class="col-md-6 col-xm-12" style="text-align: right !important;">
-                        <strong>Version Janvier 2023</strong>
-                    </div>
-                </div>
-            </footer>
+            @include('layout.admin.footer')
         </div>
 
         <!-- FOOT -->

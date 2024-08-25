@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Compte;
+use App\Models\Abonnement;
+use App\Models\Annonce;
 use App\Models\Document;
+use App\Models\Entreprise;
 use App\Models\Message;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
-use App\Models\Session as ModelsSession;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -20,68 +23,99 @@ class AdminController extends Controller
 
     public function home()
     {
-        //     $documents = Document::all()->count();
-        //     $comptes = Compte::all()->count();
-        //     $references = ReferenceValeur::all()->count();
-        //     $messages = Message::where('repondu', false)->count();
-        //     $activeUserKeys = ModelsSession::where('last_activity', '>=', now()->subMinutes(5)->timestamp)->where('is_public', 1)->count();
-        //     $consultations = Document::where('is_public', 1)->sum('nbre_consultation');
-        //     $elements = [
-        //         [
-        //             'id' => 'documents',
-        //             'nombre' => $documents,
-        //             'nom' => 'Documents',
-        //             'lien' => 'documents.index',
-        //             'icon' => 'fa-solid fa-book',
-        //             'couleur' => '#3390FF'
-        //         ],
-        //         [
-        //             'id' => 'comptes',
-        //             'nombre' => $comptes,
-        //             'nom' => 'Comptes',
-        //             'lien' => 'comptes.index',
-        //             'icon' => 'fa-solid fa-users',
-        //             'couleur' => '#33FFA8'
-        //         ],
-        //         [
-        //             'id' => 'references',
-        //             'nombre' => $references,
-        //             'nom' => 'Références',
-        //             'lien' => 'references.index',
-        //             'icon' => 'fa-solid fa-asterisk',
-        //             'couleur' => '#FF3383'
-        //         ],
-        //         [
-        //             'id' => 'connexions',
-        //             'nombre' => $activeUserKeys,
-        //             'nom' => 'Connexions publiques',
-        //             'lien' => '',
-        //             'icon' => 'fa-solid fa-right-to-bracket',
-        //             'couleur' => '#EBC855'
-        //         ],
-        //         [
-        //             'id' => 'messages',
-        //             'nombre' => $messages,
-        //             'nom' => 'Messages',
-        //             'lien' => 'staff.messages.index',
-        //             'icon' => 'fa-solid fa-envelope',
-        //             'couleur' => '#E291EC'
-        //         ],
-        //         [
-        //             'id' => 'consultations',
-        //             'nombre' => $consultations,
-        //             'nom' => 'Consultations',
-        //             'lien' => '',
-        //             'icon' => 'fa-solid fa-eye',
-        //             'couleur' => '#374259'
-        //         ],
-        //     ];
-        //     return view('admin.dashboard', compact('elements'));
+        $annonces = [];
+        $elements = [];
+
+        if (Auth::user()->hasRole('Professionnel')) {
+            $annonces = Auth::user()->annonces();
+            $lastDateAbonnement = Auth::user()->abonnements()->orderBy('date_fin', 'desc')->first();
+
+            $elements = [
+                [
+                    'id' => 'annonce',
+                    'nombre' => $annonces->public()->count(),
+                    'nom' => 'Annonces',
+                    'lien' => route('annonces.index'),
+                    'icon' => 'fa-solid fa-book',
+                    'couleur' => '#3390FF'
+                ],
+                [
+                    'id' => 'fin-abonnement',
+                    'nombre' => "<span style='font-size: 25px;'>" . date('d/m/Y', strtotime($lastDateAbonnement->date_fin)) . "</span>",
+                    'nom' => 'Fin aboonnement',
+                    'lien' => route('abonnements.index'),
+                    'icon' => 'fa-solid fa-calendar',
+                    'couleur' => strtotime($lastDateAbonnement->date_fin) > time() ? '#33FF57' : '#FF8733' // Couleur verte si l'abonnement est actif, rouge sinon
+                ]
+            ];
+        }
+
+        if (Auth::user()->hasRole('Administrateur')) {
+            $annonces = Annonce::with('entreprise', 'annonceable');
+
+            $elements = [
+                [
+                    'id' => 'annonce',
+                    'nombre' => $annonces->public()->count(),
+                    'nom' => 'Annonces',
+                    'lien' => route('annonces.index'),
+                    'icon' => 'fa-solid fa-book',
+                    'couleur' => '#3390FF'
+                ],
+                [
+                    'id' => 'abonnements',
+                    'nombre' => Abonnement::where('is_active', true)->count(),
+                    'nom' => 'Abonnements actifs',
+                    'lien' => route('abonnements.index'),
+                    'icon' => 'fa-solid fa-calendar',
+                    'couleur' => '#FF8733'
+                ],
+                [
+                    'id' => 'entreprises',
+                    'nombre' => Entreprise::count(),
+                    'nom' => 'Entreprises',
+                    'lien' => route('entreprises.index'),
+                    'icon' => 'fa-solid fa-building',
+                    'couleur' => '#33A1FF'
+                ],
+                [
+                    'id' => 'comptes-usagers',
+                    'nombre' => User::whereHas('roles', function ($query) {
+                        $query->where('name', 'Usager');
+                    })->count(),
+                    'nom' => 'Comptes Usagers',
+                    'lien' => route('users.index'),
+                    'icon' => 'fa-solid fa-user',
+                    'couleur' => '#33FF57'
+                ],
+                [
+                    'id' => 'comptes-professionnels',
+                    'nombre' => User::whereHas('roles', function ($query) {
+                        $query->where('name', 'Professionnel');
+                    })->count(),
+                    'nom' => 'Comptes Professionnels',
+                    'lien' => route('users.index'),
+                    'icon' => 'fa-solid fa-users',
+                    'couleur' => '#FF5733'
+                ],
+                [
+                    // nombre de comptes professionnels
+                    'id' => 'comptes-administrateurs',
+                    'nombre' => User::whereHas('roles', function ($query) {
+                        $query->where('name', 'Administrateur');
+                    })->count(),
+                    'nom' => 'Comptes Admin',
+                    'lien' => route('users.index'),
+                    'icon' => 'fa-solid fa-user-shield',
+                    'couleur' => '#FF33A1'
+                ],
+            ];
+        }
 
         if (auth()->user()->hasRole('Usager')) {
             return redirect()->route('accounts.index');
         }
 
-        return view('admin.dashboard');
+        return view('admin.dashboard', compact('elements'));
     }
 }

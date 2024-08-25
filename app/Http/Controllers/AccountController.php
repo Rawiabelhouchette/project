@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use App\Jobs\SendPasswordResetEmail;
 
 class AccountController extends Controller
 {
@@ -52,13 +53,7 @@ class AccountController extends Controller
     public function resetPassword(Request $request)
     {
         // YOU SHOULD NOT TELL TO THE USER IF THE EMAIL EXISTS OR NOT
-        // $request->validate([
-        //     'email' => 'required|email|exists:users,email'
-        // ], [
-        //     'email.exists' => 'Cette adresse email n\'existe pas.'
-        // ]);
-
-        $request->validate([
+$request->validate([
             'email' => 'required|email',
         ], [
             'email' => 'Veuillez saisir une adresse email valide.',
@@ -70,30 +65,15 @@ class AccountController extends Controller
             return redirect()->route('notification.rest-password.success');
         }
 
-        // $status = Password::sendResetLink(
-        //     $request->only('email')
-        // );
-
-        // $status === Password::RESET_LINK_SENT;
-
-        // if (!$status) {
-        //     return back()->withErrors(['email' => __($status)]);
-        // }
-
         // Create a new token to be used for the password reset link
         $token = Password::createToken($user);
 
         // Create the password reset link
         $resetLink = url(config('app.url') . route('password.reset', ['token' => $token, 'email' => $request->email], false));
 
-        // DB::table('password_resets')->insert([
-        //     'email' => $user->email,
-        //     'token' => $token,
-        //     'created_at' => now(),
-        // ]);
-
         // Envoyer l'email de réinitialisation
-        Mail::send(new \App\Mail\PasswordReset($user, $resetLink));
+        // Mail::send(new \App\Mail\PasswordReset($user, $resetLink));
+        SendPasswordResetEmail::dispatch($user, $resetLink);
 
         return redirect()->route('notification.rest-password.success');
     }
@@ -145,5 +125,17 @@ class AccountController extends Controller
     public function editPassword()
     {
         return view('new-password');
+    }
+
+    public function contactUs(Request $request)
+    {
+        $validated = $request->validate([
+            'nom' => 'required|string',
+            'email' => 'required|email',
+            'objet' => 'required|string',
+            'message' => 'required|string'
+        ]);
+
+        return back()->with('success', 'Votre message a été envoyé avec succès');
     }
 }

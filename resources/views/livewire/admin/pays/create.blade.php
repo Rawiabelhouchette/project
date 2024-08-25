@@ -25,7 +25,7 @@
                         <div class="row form-group">
                             <label class="col-md-3 col-sm-3 col-xl-2 required">Nom </label>
                             <div class="col-md-8 col-sm-4 col-xl-3">
-                                <input type="text" class="form-control" placeholder="{{ _('Nom du pays')}}" required wire:model.defer='nom'>
+                                <input type="text" class="form-control" placeholder="{{ __('Nom du pays')}}" required wire:model.defer='nom'>
                                 @error('nom') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>

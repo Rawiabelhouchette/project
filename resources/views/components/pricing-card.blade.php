@@ -48,7 +48,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Nom de l'entreprise</label>
+                                <label>Nom de votre entreprise</label>
                                 <input type="text" name="nom_entreprise" class="form-control" placeholder="" required>
                             </div>
 

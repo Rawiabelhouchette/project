@@ -8,7 +8,7 @@ use App\Models\Quartier;
 use App\Utils\AnnoncesUtils;
 use App\Utils\CustomSession;
 
-class publicController extends Controller
+class PublicController extends Controller
 {
     public function home()
     {
@@ -51,17 +51,4 @@ class publicController extends Controller
         $annonces = Annonce::public()->with('annonceable', 'entreprise')->where('entreprise_id', $entreprise->id)->take(4)->get();
         return view('public.company', compact('entreprise', 'annonces'));
     }
-
-    public function contactUs(Request $request)
-    {
-        $validated = $request->validate([
-            'nom' => 'required|string',
-            'email' => 'required|email',
-            'objet' => 'required|string',
-            'message' => 'required|string'
-        ]);
-
-        return back()->with('success', 'Votre message a été envoyé avec succès');
-    }
-
 }
