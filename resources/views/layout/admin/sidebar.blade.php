@@ -78,7 +78,7 @@
                 </li>
             @endif
 
-            @if (auth()->user()->hasRole('Administrateur'))
+            @if (auth()->user()->hasRole('Administrateur') || auth()->user()->hasRole('Professionnel'))
                 <li class="@yield('entreprise')">
                     <a href="javascript:void(0)"><i class="fa fa-city" aria-hidden="true"></i>Entreprise <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
