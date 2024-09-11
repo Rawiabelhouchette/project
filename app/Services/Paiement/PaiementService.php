@@ -110,27 +110,7 @@ class PaiementService
 
                 $checStatus = self::checkPayment($id_transaction);
 
-                // Création d'une nouvelle commande
-                // Transaction::create([
-                //     'montant' => $offre->prix,
-                //     'trans_id' => $id_transaction,
-                //     'method' => $channels,
-                //     'buyer_name' => $customer_name . ' ' . $customer_surname,
-                //     'trans_status' => $checStatus->data['status'],
-                //     'phone' => $customer_phone_number,
-                //     'error_message' => $checStatus->message,
-                //     'statut' => '0',
-                //     'user_id' => auth()->user()->id,
-                //     'offre_id' => $validated['offre_id'],
-
-                //     'entreprise_id' => $companyId,
-                //     'entreprise' => $validated['nom_entreprise'],
-                //     'numero' => $validated['numero_telephone'],
-                //     'numero_whatsapp' => $validated['numero_whatsapp'],
-                // ]);
-
                 $transaction = new Transaction;
-
                 $transaction->montant = $offre->prix;
                 $transaction->trans_id = $id_transaction;
                 $transaction->method = $channels;
@@ -158,7 +138,6 @@ class PaiementService
 
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
             return (object) [
                 'status' => 'error',
                 'message' => $e->getMessage(),
