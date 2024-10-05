@@ -174,8 +174,6 @@ class PaiementService
             abort(403, "transaction_id non transmis");
         }
 
-        Log::info($request);
-
         DB::beginTransaction();
 
         try {
@@ -283,9 +281,9 @@ class PaiementService
                 'Content-Type' => 'application/json'
             ])
             ->post('https://api-checkout.cinetpay.com/v2/payment/check', [
-                'transaction_id' => $transaction_id,
-                'site_id' => env('CP_SITE_ID'),
                 'apikey' => env('CP_API_KEY'),
+                'site_id' => env('CP_SITE_ID'),
+                'transaction_id' => $transaction_id,
             ]);
 
         return (object) $response->json();
