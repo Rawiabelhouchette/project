@@ -26,9 +26,9 @@
         <input id="upload-image" type="file" wire:model="image" accept="image/*" style="display: none;" required> <br>
         <div class="text-center gallery-box">
             <div class="row">
-                <div class="col-md-4 padd-bot-0">
+                <div class="col-md-3 padd-bot-0">
                     @if ($image)
-                        <div class="listing-shot grid-style">
+                        <div class="listing-shot grid-style padd-0">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
                                     <img class="listing-shot-img" src="{{ $image->temporaryUrl() }}" class="img-responsive" alt="">
@@ -90,14 +90,14 @@
             <div class="text-center gallery-box mrg-top-15">
                 @foreach ($galerie as $index => $image)
                     <div class="col-xs-12 col-md-4 col-lg-3">
-                        <div class="listing-shot grid-style">
+                        <div class="listing-shot grid-style padd-0">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
                                     <img class="listing-shot-img" src="{{ $image->temporaryUrl() }}" class="img-responsive" alt="">
                                 </a>
                                 <span class="approve-listing" style="background-color: red;">
                                     <a href="javascript:void(0)" style="color: white;" wire:click='removeImage("{{ $index }}")'>
-                                        <i class="fa fa-trash"></i>
+                                        <i class="fa fa-trash" style="font-size: 10px;"></i>
                                     </a>
                                 </span>
                             </div>

@@ -27,7 +27,7 @@
         <div class="text-center gallery-box">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="listing-shot grid-style mrg-bot-15">
+                    <div class="listing-shot grid-style mrg-bot-15 padd-0">
                         @if ($image)
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
@@ -101,14 +101,14 @@
                     @endif
 
                     <div class="col-xs-12 col-md-4 col-lg-3">
-                        <div class="listing-shot grid-style">
+                        <div class="listing-shot grid-style padd-0">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ asset('storage/' . $image->chemin) }}">
                                     <img class="listing-shot-img" class="img-responsive" src="{{ asset('storage/' . $image->chemin) }}" alt="">
                                 </a>
                                 <span class="approve-listing" style="background-color: red;">
                                     <a href="javascript:void(0)" style="color: white;" wire:click='removeImage("old_galerie", "{{ $image->id }}")'>
-                                        <i class="fa fa-trash"></i>
+                                        <i class="fa fa-trash" style="font-size: 10px;"></i>
                                     </a>
                                 </span>
                             </div>
