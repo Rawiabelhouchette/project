@@ -19,8 +19,8 @@
                 <livewire:Admin.Reference.add />
             </div>
 
-            <div class="col-md-12 col-sm-12">
-                <div class="card">
+            <div class="">
+                <div class="card card-list">
 
                     <div class="card-header">
                         <h4>Liste des noms de référence</h4>
@@ -55,8 +55,6 @@
         $(document).ready(function() {
             let headers = document.querySelectorAll("#dataTable th");
             headers.forEach(header => {
-                header.style.border = "1px solid black";
-                header.style.backgroundColor = "lightblue";
             });
 
 

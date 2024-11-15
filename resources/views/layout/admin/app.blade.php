@@ -73,7 +73,7 @@
         }
 
         .card-body {
-            background-color: #e0e0e0;
+           /* background-color: #e0e0e0;*/
         }
 
         input::-webkit-input-placeholder {
@@ -124,11 +124,19 @@
         }
 
         #dataTable {
-            border: 1px solid black;
+            width: 100% !important;
         }
 
         #dataTable td {
-            border: 1px solid black;
+            height: 35px;
+        }
+        
+        #dataTable th {
+            background: #203769 !important;
+            height: 35px;
+            border: none !important;
+            color: #fff;
+            font-weight: 400;
         }
     </style>
 

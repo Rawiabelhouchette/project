@@ -21,42 +21,42 @@
             </div> --}}
             @foreach ($elements as $element)
                 <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="listing-shot grid-style padd-bot-25" style="background-color: {{ $element['couleur'] }};">
+                    <div class="listing-shot grid-style">
                         <div class="row">
-                            <div class="col-md-12" style="margin-left: 10px;">
-                                <h5 id="{{ $element['id'] }}" style="font-size: 30px; color: white;">{!! $element['nombre'] !!}</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 text-center">
+                            <div class="col-md-12">
                                 @if ($element['lien'] != '')
                                     <a href="{{ $element['lien'] }}">
-                                        <i class="{{ $element['icon'] }}" style="font-size: 50px; color: white;"></i>
+                                        <i class="{{ $element['icon'] }}"></i>
                                     </a>
                                 @else
                                     <a href="javascript:void(0)">
-                                        <i class="{{ $element['icon'] }}" style="font-size: 50px; color: white;"></i>
+                                        <i class="{{ $element['icon'] }}"></i>
                                     </a>
                                 @endif
                             </div>
                         </div>
+                        <div class="row">
                         <div class="listing-shot-info">
                             <div class="extra">
                                 <div class="listing-detail-info">
                                     <a class="" href="{{ $element['lien'] ?? 'javascript:void(0)' }}">
-                                        <span class="text-center font-30" style="color: white;">
+                                        <span>
                                             {{ $element['nom'] }}
                                         </span>
                                     </a>
                                 </div>
                             </div>
                         </div>
+                            <div class="col-md-12">
+                                <h5 id="{{ $element['id'] }}">{!! $element['nombre'] !!}</h5>
+                            </div>
+                        </div>
                         {{-- <div class="listing-shot-info rating">
                             <div class="row">
                                 <a class="" href="#">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center text" style="color: white;">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
                                         Voir le detail &nbsp;&nbsp;
-                                        <i class="fa-solid fa-right-to-bracket" style="color: white;"></i>
+                                        <i class="fa-solid fa-right-to-bracket"></i>
                                     </div>
                                 </a>
                             </div>

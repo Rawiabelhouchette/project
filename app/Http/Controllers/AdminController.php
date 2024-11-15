@@ -36,8 +36,7 @@ class AdminController extends Controller
                     'nombre' => $annonces->public()->count(),
                     'nom' => 'Annonces',
                     'lien' => route('annonces.index'),
-                    'icon' => 'fa-solid fa-book',
-                    'couleur' => '#3390FF'
+                    'icon' => 'fa-solid fa-book'
                 ],
                 [
                     'id' => 'fin-abonnement',
@@ -67,16 +66,14 @@ class AdminController extends Controller
                     'nombre' => Abonnement::where('is_active', true)->count(),
                     'nom' => 'Abonnements actifs',
                     'lien' => route('abonnements.index'),
-                    'icon' => 'fa-solid fa-calendar',
-                    'couleur' => '#FF8733'
+                    'icon' => 'fa-solid fa-calendar'
                 ],
                 [
                     'id' => 'entreprises',
                     'nombre' => Entreprise::count(),
                     'nom' => 'Entreprises',
                     'lien' => route('entreprises.index'),
-                    'icon' => 'fa-solid fa-building',
-                    'couleur' => '#33A1FF'
+                    'icon' => 'fa-solid fa-building'
                 ],
                 [
                     'id' => 'comptes-usagers',
@@ -85,8 +82,7 @@ class AdminController extends Controller
                     })->count(),
                     'nom' => 'Comptes Usagers',
                     'lien' => route('users.index'),
-                    'icon' => 'fa-solid fa-user',
-                    'couleur' => '#33FF57'
+                    'icon' => 'fa-solid fa-user'
                 ],
                 [
                     'id' => 'comptes-professionnels',
@@ -95,8 +91,7 @@ class AdminController extends Controller
                     })->count(),
                     'nom' => 'Comptes Professionnels',
                     'lien' => route('users.index'),
-                    'icon' => 'fa-solid fa-users',
-                    'couleur' => '#FF5733'
+                    'icon' => 'fa-solid fa-users'
                 ],
                 [
                     // nombre de comptes professionnels
@@ -106,8 +101,7 @@ class AdminController extends Controller
                     })->count(),
                     'nom' => 'Comptes Admin',
                     'lien' => route('users.index'),
-                    'icon' => 'fa-solid fa-user-shield',
-                    'couleur' => '#FF33A1'
+                    'icon' => 'fa-solid fa-user-shield'
                 ],
             ];
         }
