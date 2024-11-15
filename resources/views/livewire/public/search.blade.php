@@ -177,15 +177,15 @@
                                             <ul>
                                                 <li class="text-center padd-top-10 padd-bot-0">
                                                     <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                                    {{ $annonce->nb_vue }}
+                                                    {{ $annonce->view_count }}
                                                 </li>
                                                 <li class="text-center padd-top-10 padd-bot-0">
                                                     <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
-                                                    {{ $annonce->nb_favoris }}
+                                                    {{ $annonce->favorite_count }}
                                                 </li>
                                                 <li class="text-center padd-top-10 padd-bot-0">
                                                     <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
-                                                    {{ $annonce->nb_commentaire }}
+                                                    {{ $annonce->comment_count }}
                                                 </li>
                                             </ul>
                                         </div>

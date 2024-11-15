@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Annonce;
-use App\Models\StatistiqueAnnonce;
 use App\Utils\CustomSession;
 use Illuminate\Http\Request;
 use App\Models\View;
@@ -12,7 +11,6 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        // dd($request->all());
         $hasSessionValue = false;
 
         $session = new CustomSession();
@@ -37,8 +35,6 @@ class SearchController extends Controller
         $annonces = Annonce::public()->where('type', $annonce->type)->latest()->take(4)->get();
         $type = $annonce->type;
         $key = '';
-        // increement statistiqueAnnonce nb_vue
-        StatistiqueAnnonce::where('annonce_id', $annonce->id)->first()->increment('nb_vue');
 
         View::createView($annonce->id, request()->ip());
 
