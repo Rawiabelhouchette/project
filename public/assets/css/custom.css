@@ -34,9 +34,9 @@ Fonts
 GENERAL  STYLES    
 =============================================*/
 body {
-    font-family: 'Raleway', sans-serif;
-    font-size: 15px;
-    color: #62748F;
+    font-family: 'PolySans', sans-serif;
+    font-size: 14px;
+    color: #191919;
 }
 
 a:hover,
@@ -62,14 +62,19 @@ a:focus {
     font-size: 15px;
     height: 40px;
     box-shadow: none;
-    border-radius: 2px;
+    border-radius: 8px;
     border: 1px solid #e8eef1;
+    background: #fff;
 }
+label {
+    font-weight: 300;
+}
+
 
 #wrapper {
     width: 100%;
     background: #ffffff;
-    margin-top: 50px;
+    margin-top: 70px;
 }
 
 #page-wrapper {
@@ -145,10 +150,10 @@ a:focus {
 
 #main-menu i.fa {
     margin-right: 15px !important;
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     border-radius: 50%;
-    color: #91b1c3;
+    color: #d1e0ff;
 }
 
 .navbar-inverse {
@@ -157,8 +162,12 @@ a:focus {
     box-shadow: 0px 1px 0px 0 rgba(19, 24, 33, 0.05);
 }
 
+.navbar {
+    min-height: 70px;
+}
+
 .navbar a:hover {
-    color: 596780 !important;
+    color: #596780 !important;
 }
 
 .arrow {
@@ -176,8 +185,8 @@ a:focus {
 
 .navbar-brand {
     float: left;
-    height: 50px;
-    padding: 7px 0px;
+    height: 70px;
+    padding: 10px 0px;
     font-size: 18px;
     line-height: 20px;
 }
@@ -225,24 +234,25 @@ a:focus {
 }
 
 .sidebar-collapse .nav>li>a {
-    background: #1d293e;
+    background: #08193e;
     text-shadow: none;
-    color: #91b1c3;
+    color: #d1e0ff;
     text-transform: capitalize !important;
 }
 
 .sidebar-collapse>.nav>li>a {
-    padding: 17px 10px;
+    padding: 18px;
 }
 
 .sidebar-collapse>.nav>li {
-    border-bottom: 1px dashed #24324a !important;
+    border-bottom: 1px dashed #203769 !important;
 }
 
 .sidebar-collapse .nav>li.active>a {
-    background: #24324a;
+    background: #203769;
     color: #e61b55;
     outline: 0;
+    font-size: 15px;
 }
 
 .sidebar-collapse #main-menu>li.active>a>i.fa {
@@ -251,8 +261,8 @@ a:focus {
 
 .sidebar-collapse .nav>li>a:hover,
 .sidebar-collapse .nav>li>a:focus {
-    background: #24324a;
-    color: #e61b55;
+    background: #203769;
+    color: #e61b55 !important;
     outline: 0;
 }
 
@@ -282,7 +292,7 @@ a:focus {
 
 .navbar-side {
     border: none;
-    background-color: #1d293e;
+    background-color: #08193e;
 
 }
 
@@ -300,7 +310,7 @@ ul.nav.navbar-top-links.navbar-right {
     background: transparent;
     position: relative;
     color: #a7bdca;
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 2px;
     width: 44px;
     height: 40px;
@@ -308,10 +318,21 @@ ul.nav.navbar-top-links.navbar-right {
     padding: 0;
     text-align: center;
 }
+@media(max-width:768px) {
+    .navbar-top-links a.dropdown-toggle,
+    .navbar-top-links a.dropdown-toggle:hover,
+    .navbar-top-links a.dropdown-toggle:focus {
+        margin-bottom: 10px;
+    }
+    .dropdown-menu.dropdown-user {
+        right: 0;
+        left: auto;
+    }
+}
 
 .navbar-top-links .dropdown-menu li a div {
     white-space: normal;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .navbar-top-links .dropdown-menu li {
@@ -440,7 +461,7 @@ Page Title STYLES
 }
 
 .row.bg-title .breadcrumb>.active {
-    color: #62748F;
+    color: #626a70;
 }
 
 /*=======================================
@@ -459,12 +480,13 @@ Dashboard Page Style
     -webkit-box-shadow: 0px 0px 9px 0px rgba(64, 65, 67, 0.05);
     -moz-box-shadow: 0px 0px 9px 0px rgba(64, 65, 67, 0.05);
     box-shadow: 0px 0px 9px 0px rgba(64, 65, 67, 0.05);
+    border-radius: 16px;
 }
 
 .widget .widget-detail h3 {
     margin-bottom: 4px;
-    line-height: 1;
-    font-size: 27px;
+    line-height: 1.3;
+    font-size: 20px;
     margin-top: 0;
 }
 
@@ -491,10 +513,14 @@ Dashboard Page Style
 .widget .widget-detail {
     width: 100%;
     display: inline-block;
-    border-left: 1px solid #eceef3;
-    padding-left: 15px;
 }
+.widget-detail span {
+    opacity: 0.6;
+} 
 
+.widget .widget-caption .col-xs-8 {
+    border-left: 1px solid lightgrey;
+}
 .simple-widget .widget-line {
     margin: 10px 10px 0px 10px;
 }
@@ -508,9 +534,6 @@ Dashboard Page Style
 }
 
 .widget.unique-widget .widget-detail {
-    text-align: right;
-    padding-left: 0;
-    padding-right: 12px;
 }
 
 .widget.unique-widget i.icon {
@@ -565,7 +588,6 @@ Dashboard Page Style
     padding: 0;
     margin: 0;
 }
-
 /*=======================================
 Chatting STYLES
 =============================================*/
@@ -759,7 +781,7 @@ strong {
     background: #ffffff none repeat scroll 0 0;
     border-bottom: 1px solid #e8eef1;
     float: left;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     padding: 18px 10px;
     width: 100%;
@@ -848,7 +870,7 @@ a.pull-left.upload_btn i {
 
 .chat_bottom {
     float: left;
-    margin-top: 13px;
+    margin-top: 14px;
     width: 100%;
 }
 
@@ -904,13 +926,13 @@ Inbox Message Style
 .inbox-message .message-body {
     margin-left: 85px;
     font-size: 15px;
-    color: #62748F;
+    color: #626a70;
 }
 
 .message-body-heading h5 {
     font-weight: 600;
     display: inline-block;
-    color: #62748F;
+    color: #626a70;
     margin: 0 0 7px 0;
     padding: 0;
 }
@@ -940,7 +962,7 @@ Inbox Message Style
 
 .message-body-heading span {
     float: right;
-    color: #62748F;
+    color: #626a70;
     font-size: 14px;
 }
 
@@ -1027,7 +1049,7 @@ Log Off Style
 
 .log-box .form-control {
     margin-bottom: 15px;
-    background: #24324a;
+    background: #203769;
     border: 1px solid #2e3e5a;
     height: 50px;
     color: #8b9ebf;
@@ -1074,7 +1096,7 @@ table.table tr td {
     border-color: #eaeff5;
     padding: 15px 15px;
     vertical-align: middle;
-    font-size: 13.5px;
+    font-size: 14px;
 }
 
 table.table tr th,
@@ -1082,7 +1104,7 @@ table.table tr td {
     border-color: #eaeff5;
     padding: 12px 15px;
     vertical-align: middle;
-    font-size: 13.5px;
+    font-size: 14px;
 }
 
 table.table .avatar {
@@ -1092,13 +1114,13 @@ table.table .avatar {
 }
 
 a.edit i {
-    font-size: 16px;
+    font-size: 14px;
     color: #ff9800;
     padding: 0 4px;
 }
 
 a.delete i {
-    font-size: 16px;
+    font-size: 14px;
     color: #e91e63;
     padding: 0 4px;
 }
@@ -1208,14 +1230,14 @@ MEDIA QUERIES
 
 @media(min-width:768px) {
     #page-wrapper {
-        margin: 0 0 0 260px;
+        margin: 0 0 0 200px;
         padding: 0;
     }
 
     .navbar-side {
         z-index: 1;
-        width: 260px;
-        height: 100vh;
+        width: 200px;
+        height: calc(100vh - 50px);
         overflow: hidden;
         position: fixed;
     }
@@ -1224,9 +1246,7 @@ MEDIA QUERIES
         overflow-y: scroll;
         height: calc(100vh - 50px);
         min-height: 300px;
-        max-height: calc(100vh - 50px);
-        /* max-height: 600px; */
-        width: calc(100% + 17px);
+        max-height: calc(100vh - 50px);   
     }
 
     #page-inner {
@@ -1394,7 +1414,7 @@ body.fancybox-iosfix {
 .fancybox-infobar {
     top: 0;
     left: 0;
-    font-size: 13px;
+    font-size: 14px;
     padding: 0 10px;
     height: 44px;
     min-width: 44px;
@@ -1612,7 +1632,7 @@ body.fancybox-iosfix {
     margin: 0;
     padding: 0;
     color: #444;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 20px
 }
 
@@ -1990,7 +2010,7 @@ body.fancybox-iosfix {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .16);
     background: #fff;
     white-space: nowrap;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 23px;
     -webkit-user-select: none;
     -moz-user-select: none;

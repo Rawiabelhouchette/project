@@ -1,5 +1,5 @@
 <div>
-    <div class="card">
+    <div class="card add">
 
         <div class="card-header">
             <h4>{{ $libelle }}</h4>
@@ -8,12 +8,12 @@
         <div class="card-body">
             <form wire:submit="store()">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="row form-group">
-                            <label class="col-md-2 col-sm-3 col-xl-2 required">Type </label>
+                            <label class="col-md-3 col-sm-3 col-xl-2 required">Catégorie</label>
                             <div class="col-md-8 col-sm-9 col-xl-3">
                                 <select class="form-control" name="type" required wire:model.lazy='type' @if ($isEdit) disabled @endif>
-                                    <option value="" selected disabled>Type de référence</option>
+                                    <option value="" selected disabled>Sélectionnez une catégorie</option>
                                     @foreach ($typeList as $type)
                                         <option value="{{ $type }}">{{ $type }}</option>
                                     @endforeach
@@ -22,12 +22,12 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="row form-group">
-                            <label class="col-md-3 col-sm-3 col-xl-2 required">Nom </label>
-                            <div class="col-md-8 col-sm-4 col-xl-3">
+                            <label class="col-md-3 col-sm-3 col-xl-2 required">Référence</label>
+                            <div class="col-md-8 col-sm-9 col-xl-3">
                                 <select class="form-control" name="type" required wire:model.lazy='nom' @if ($isEdit) disabled @endif>
-                                    <option value="" selected disabled>Nom de référence</option>
+                                    <option value="" selected disabled>Sélectionnez une référence</option>
                                     @foreach ($nomList as $nom)
                                         <option value="{{ $nom }}">{{ $nom }}</option>
                                     @endforeach
@@ -36,21 +36,19 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="row">
                     <div class="col-md-12">
                         <div class="row form-group">
-                            <div class="col-md-2"></div>
-                            <label class="col-md-2 col-sm-3 required">Valeur </label>
-                            <div class="col-md-4 col-sm-4">
-                                <input type="text" class="form-control" placeholder="Ajouter une valeur" required wire:model.defer='valeur'>
+                            <div class="col-md-3 col-sm-3 col-xl-2 required">
+                            <label>Valeur </label></div>
+                            <div class="col-md-8 col-sm-9 col-xl-3">
+                                <input type="text" class="form-control" placeholder="Saisissez un nom" required wire:model.defer='valeur'>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-12 col-sm-12  col-xl-2 text-right">
-                        <div class="form-group" style="">
+                </div>
+
+
                             @if ($isEdit)
                                 <button wire:click='resetForm' class="btn btn-danger" style="margin-right: 15px;">
                                     <i class="fa fa-cancel fa-lg" style="margin-right: 10px;"></i> Annuler
@@ -60,8 +58,6 @@
                                 <i class="fa fa-{{ $formIcon }} fa-lg" style="margin-right: 10px;"></i>
                                 {{ $buttonLibelle }}
                             </button>
-                        </div>
-                    </div>
                 </div>
             </form>
         </div>

@@ -23,7 +23,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h4>Liste des référence</h4>
+                        <h4>Liste des références</h4>
                     </div>
 
                     <div class="card-body">
@@ -54,8 +54,7 @@
         $(document).ready(function() {
             let headers = document.querySelectorAll("#dataTable th");
             headers.forEach(header => {
-                header.style.border = "1px solid black";
-                header.style.backgroundColor = "lightblue";
+                header.style.backgroundColor = "#F3F5F7";
             });
 
 

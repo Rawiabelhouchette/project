@@ -111,8 +111,6 @@
         $(document).ready(function() {
             let headers = document.querySelectorAll("#dataTable th");
             headers.forEach(header => {
-                header.style.border = "1px solid black";
-                header.style.backgroundColor = "lightblue";
             });
 
 
