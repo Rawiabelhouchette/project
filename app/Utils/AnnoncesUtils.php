@@ -130,7 +130,7 @@ class AnnoncesUtils
             (object) [
                 'nom' => 'Restaurant',
                 'libelle' => 'Restaurant',
-                'icon' => 'fa fa-burger',
+                'icon' => 'fa fa-utensils',
                 'route' => '',
                 'color' => 'cl-success',
                 'bg' => 'd',
@@ -148,7 +148,7 @@ class AnnoncesUtils
             (object) [
                 'nom' => 'Fast-Food',
                 'libelle' => 'Fast-Food',
-                'icon' => 'fa fa-utensils',
+                'icon' => 'fa fa-burger',
                 'route' => '',
                 'color' => 'cl-info',
                 'bg' => 'f',

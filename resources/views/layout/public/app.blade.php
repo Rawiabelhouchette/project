@@ -17,8 +17,8 @@
     <meta name="keywords" content="job, nob board, job portal, job listing">
     <meta name="robots" content="index,follow">' --}}
 
-    <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
+    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" rel="icon">
+    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" rel="shortcut icon">
 
     <title>Vamiyi</title>
 
@@ -39,6 +39,16 @@
       <script src="js/html5shiv.min.js') }}"></script>
       <script src="js/respond.min.js') }}"></script>
     <![endif]-->
+
+    {{-- cookies --}}
+    <link href="{{ asset('assets_client/cookies/cookies.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets_client/cookies/iframemanager.css') }}" rel="stylesheet">
+
+    <script defer src="{{ asset('assets_client/cookies/cookieconsent.umd.js') }}"></script>
+    <script defer src="{{ asset('assets_client/cookies/iframemanager.js') }}"></script>
+    <script defer src="{{ asset('assets_client/cookies/index.js') }}"></script>
+    {{-- end cookies --}}
+
     @yield('css')
 
 </head>
@@ -66,7 +76,7 @@
         @include('layout.public.connexion')
         <!-- ===================== End Login & Sign Up Window =========================== -->
 
-        <a id="back2Top" class="theme-bg" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+        <a class="theme-bg" id="back2Top" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
 
         <!-- START JAVASCRIPT -->
         <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>
@@ -134,7 +144,7 @@
         {{-- <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script> --}}
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         @livewireScripts
 

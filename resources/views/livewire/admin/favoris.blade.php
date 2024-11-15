@@ -125,9 +125,9 @@
                                                     <i class="fa fa-share-alt" aria-hidden="true"></i>
                                                 </a> {{ $annonce->nb_partage }}
                                                 &nbsp;&nbsp;
-                                                <i class="fa fa-eye" aria-hidden="true"></i> {{ $annonce->nb_vue }}
+                                                <i class="fa fa-eye" aria-hidden="true"></i> {{ $annonce->view_count }}
                                                 &nbsp;&nbsp;
-                                                <i class="fa fa-comment" aria-hidden="true"></i> {{ $annonce->nb_commentaire }}
+                                                <i class="fa fa-comment" aria-hidden="true"></i> {{ $annonce->comment_count }}
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -135,7 +135,7 @@
                                                         <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
                                                     @endfor
                                                     &nbsp;&nbsp;
-                                                    {{ $annonce->nb_notation }}
+                                                    {{ $annonce->notation_count }}
                                                 </div>
                                             </div>
                                         </div>

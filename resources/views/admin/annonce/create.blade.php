@@ -24,7 +24,7 @@
                                     <i class="icon {{ $type->icon }}"></i>
                                 </div>
                                 <a href="{{ route($type->route) }}">
-                                    <div class="col-xs-8 no-pad">
+                                    <div class="col-xs-8">
                                         <div class="widget-detail">
                                             <h3>{{ $type->nom }}</h3>
                                             <span>{{ $type->nom }}</span>
