@@ -24,7 +24,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="dataTable" class="table table-striped table-2 table-hover">
+                            <table class="table table-striped table-2 table-hover" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th>N°</th>
@@ -32,6 +32,9 @@
                                         <th>Entreprise</th>
                                         <th>Titre</th>
                                         <th>Etat</th>
+                                        <th>Vues</th>
+                                        <th>Favoris</th>
+                                        <th>Commentaires</th>
                                         <th>Date validité</th>
                                         <th>Crée le</th>
                                         <th>Actions</th>
@@ -92,6 +95,18 @@
                                 return '<span class="label label-danger">Inactif</span>';
                             }
                         }
+                    },
+                    {
+                        className: "text-center",
+                        data: 'view_count',
+                    },
+                    {
+                        className: "text-center",
+                        data: 'favorite_count',
+                    },
+                    {
+                        className: "text-center",
+                        data: 'comment_count',
                     },
                     {
                         className: "text-center",

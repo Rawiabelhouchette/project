@@ -34,18 +34,13 @@ class Annonce extends Model
     protected $appends = [
         'jour_restant',
         'description_courte',
-        // 'note',
+        'note',
         'est_favoris',
 
-        // stat
-        'nb_vue',
-        'nb_vue_par_jour',
-        'nb_vue_par_semaine',
-        'nb_vue_par_mois',
-        'nb_partage',
-        'nb_favoris',
-        'nb_commentaire',
-        'nb_notation',
+        'view_count',
+        'favorite_count',
+        'comment_count',
+        'notation_count',
     ];
 
     protected $casts = [
@@ -67,18 +62,6 @@ class Annonce extends Model
 
         static::updating(function ($model) {
             $model->slug = Str::slug($model->titre);
-        });
-
-        static::created(function ($model) {
-            $model->statistique()->create([
-                'nb_vue' => 0,
-                'nb_vue_par_jour' => 0,
-                'nb_vue_par_semaine' => 0,
-                'nb_vue_par_mois' => 0,
-                'nb_partage' => 0,
-                'nb_favoris' => 0,
-                'nb_commentaire' => 0,
-            ]);
         });
     }
 
@@ -130,14 +113,14 @@ class Annonce extends Model
         return $this->hasMany(Commentaire::class);
     }
 
-    public function statistique()
-    {
-        return $this->hasOne(StatistiqueAnnonce::class);
-    }
-
     public function notation()
     {
         return $this->hasMany(Notation::class);
+    }
+
+    public function views()
+    {
+        return $this->hasMany(View::class);
     }
 
 
@@ -240,45 +223,24 @@ class Annonce extends Model
         return $this->favoris()->where('user_id', auth()->user()->id)->exists();
     }
 
-    public function getNbVueAttribute(): string
+    public function getViewCountAttribute(): int
     {
-        return $this->formatNumber($this->statistique->nb_vue);
+        return $this->views()->count();
     }
 
-    public function getNbVueParJourAttribute(): string
+    public function getFavoriteCountAttribute(): int
     {
-        return $this->formatNumber($this->statistique->nb_vue_par_jour);
+        return $this->favoris()->count();
     }
 
-    public function getNbVueParSemaineAttribute(): string
+    public function getCommentCountAttribute(): int
     {
-        return $this->formatNumber($this->statistique->nb_vue_par_semaine);
+        return $this->commentaires()->count();
     }
 
-    public function getNbVueParMoisAttribute(): string
+    public function getNotationCountAttribute(): int
     {
-        return $this->formatNumber($this->statistique->nb_vue_par_mois);
-    }
-
-    public function getNbPartageAttribute(): string
-    {
-        return $this->formatNumber($this->statistique->nb_partage);
-    }
-
-    public function getNbFavorisAttribute(): string
-    {
-        return $this->formatNumber($this->statistique->nb_favoris);
-    }
-
-    public function getNbCommentaireAttribute(): string
-    {
-        // return $this->formatNumber($this->statistique->nb_commentaire);
-        return $this->formatNumber($this->commentaires()->count());
-    }
-
-    public function getNbNotationAttribute(): string
-    {
-        return $this->formatNumber($this->statistique->nb_notation);
+        return $this->notation()->count();
     }
 
 

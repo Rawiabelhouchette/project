@@ -201,13 +201,13 @@
                                             <li class="mrg-r-10" style="padding-left: 0;">
                                                 <span class="buttons li-btn view padd-10">
                                                     <i class="fa fa-eye hidden-xs"></i>
-                                                    <span class="">{{ $annonce->nb_vue }} vue(s)</span>
+                                                    <span class="">{{ $annonce->view_count }} vue(s)</span>
                                                 </span>
                                             </li>
                                             <li class="mrg-r-10" style="padding-left: 0;">
                                                 <span class="buttons li-btn view padd-10">
                                                     <i class="fa fa-comment-o hidden-xs"></i>
-                                                    <span class="" id="annonce-commentaire">{{ $annonce->commentaires->count() }}</span> commentaire(s)
+                                                    <span class="" id="annonce-commentaire">{{ $annonce->comment_count }}</span> commentaire(s)
                                                 </span>
                                             </li>
                                             <li class="mrg-r-10" style="padding-left: 0;">

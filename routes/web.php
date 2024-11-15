@@ -140,10 +140,6 @@ Route::group([
     Route::resource('payments', PaiementController::class);
 });
 
-Route::fallback(function () {
-    return view('errors.404');
-});
-
 
 // route for 404
 Route::get('404', function () {
