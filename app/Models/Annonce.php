@@ -36,6 +36,8 @@ class Annonce extends Model
         'description_courte',
         // 'note',
         'est_favoris',
+        // nombre de vue
+        'view_count',
 
         // stat
         'nb_vue',
@@ -138,6 +140,11 @@ class Annonce extends Model
     public function notation()
     {
         return $this->hasMany(Notation::class);
+    }
+
+    public function views()
+    {
+        return $this->hasMany(View::class);
     }
 
 
@@ -279,6 +286,11 @@ class Annonce extends Model
     public function getNbNotationAttribute(): string
     {
         return $this->formatNumber($this->statistique->nb_notation);
+    }
+
+    public function getViewCountAttribute()
+    {
+        return $this->views()->count();
     }
 
 

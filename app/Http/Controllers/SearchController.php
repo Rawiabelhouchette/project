@@ -6,6 +6,7 @@ use App\Models\Annonce;
 use App\Models\StatistiqueAnnonce;
 use App\Utils\CustomSession;
 use Illuminate\Http\Request;
+use App\Models\View;
 
 class SearchController extends Controller
 {
@@ -38,6 +39,8 @@ class SearchController extends Controller
         $key = '';
         // increement statistiqueAnnonce nb_vue
         StatistiqueAnnonce::where('annonce_id', $annonce->id)->first()->increment('nb_vue');
+
+        View::createView($annonce->id, request()->ip());
 
         $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
 
