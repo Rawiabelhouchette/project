@@ -81,9 +81,9 @@
     --cc-btn-primary-hover-bg: #000;
     --cc-btn-primary-hover-color: #fff;
     --cc-btn-primary-hover-border-color: var(--cc-btn-primary-hover-bg);
-    --cc-btn-secondary-bg: #eaeff2;
-    --cc-btn-secondary-color: var(--cc-primary-color);
-    --cc-btn-secondary-border-color: var(--cc-btn-secondary-bg);
+    --cc-btn-secondary-bg: red;
+    --cc-btn-secondary-color: white;
+    --cc-btn-secondary-border-color: red;
     --cc-btn-secondary-hover-bg: #d4dae0;
     --cc-btn-secondary-hover-color: #000;
     --cc-btn-secondary-hover-border-color: #d4dae0;
@@ -392,8 +392,8 @@ html.disable--interaction.show--consent body {
 }
 
 #cc-main .cm__btn {
-    background: #ff3a72;
-    border: 1px solid #ff3a72;
+    background: green;
+    border: 1px solid green;
     border-radius: var(--cc-btn-border-radius);
     color: var(--cc-btn-primary-color);
     font-size: .82em;
