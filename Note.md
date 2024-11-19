@@ -273,3 +273,4 @@ NN : No Need
 
 ## 19/11/2024
 - Pourvoir suppimer une reference valeur
+- Dans l'affichage detaillé d'une annonce, quand on clique sur whatsapp ou facebook , il faut y ajouter le lien de l'annonce ainsi que le titre de l'annonce
