@@ -245,7 +245,7 @@ html.disable--interaction.show--consent body {
     box-shadow: 0 .625em 1.875em rgba(0, 0, 2, .3);
     display: flex;
     flex-direction: column;
-    max-width: 24rem;
+    max-width: 37rem;
     opacity: 0;
     overflow: hidden;
     position: fixed;
