@@ -269,3 +269,7 @@ NN : No Need
 
 
 - ajouter la date de l'abonnement a la liste des abonnements
+
+
+## 19/11/2024
+- Pourvoir suppimer une reference valeur
