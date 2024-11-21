@@ -74,7 +74,7 @@ Route::group([
     Route::prefix('staff')->group(function () {
         Route::middleware('App\Http\Middleware\Admin')->group(function () {
             // Une route de ressource pour les références
-            Route::resource('references', ReferenceController::class);
+            Route::resource('references', ReferenceController::class)->except(['create']);
             Route::get('references/nom/add', [ReferenceController::class, 'create_name'])->name('references.nom.add');
             Route::get('references/nom/datatable', [ReferenceController::class, 'getNameDataTable'])->name('references.nom.datatable');
             Route::get('references/ref/datatable', [ReferenceController::class, 'getDataTable'])->name('references.datatable');
