@@ -6,6 +6,7 @@ use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Utils\Reference as UtilsReference;
 use App\Utils\References;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
@@ -18,9 +19,7 @@ class ReferenceController extends Controller
      */
     public function index()
     {
-        // Afficher toutes les references
-        $reference_valeurs = ReferenceValeur::all();
-        return view('admin.reference.list', compact('reference_valeurs'));
+        return view('admin.reference.add');
     }
 
     /**
@@ -30,7 +29,9 @@ class ReferenceController extends Controller
      */
     public function create()
     {
-        return view('admin.reference.add');
+        // return view('admin.reference.add');
+        // $reference_valeurs = ReferenceValeur::all();
+        // return view('admin.reference.list', compact('reference_valeurs'));
     }
 
     /**
@@ -75,7 +76,7 @@ class ReferenceController extends Controller
         $referenceValeur->valeur = $request->valeur;
         $referenceValeur->reference_id = $reference->id;
         $referenceValeur->save();
-        
+
         return back()->with('success', 'La référence a été ajoutée avec succès.');
     }
 
@@ -192,36 +193,64 @@ class ReferenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function get_name($type)
+    public function get_name($type): array|Collection
     {
         // Récupérer les données correspondantes à la valeur envoyée
         $references = Reference::where('type', $type)->get();
         return $references;
     }
 
-    public function getNameDataTable() {
+    public function getNameDataTable()
+    {
         $perPage = request()->input('length') ?? 30;
-        $references = Reference::latest();
-        $columns = Schema::getColumnListing('references');
+        $references = Reference::with('user');
 
+        $searchableColumns = [
+            'id',
+            'type',
+            'nom',
+            'created_at',
+        ];
 
-        if(request()->input('search')) {
+        if (request()->input('search')) {
             $search = request()->input('search');
-            $references = $references->where(function ($query) use ($search, $columns) {
-                foreach ($columns as $column) {
+            $references = $references->where(function ($query) use ($search, $searchableColumns) {
+                foreach ($searchableColumns as $column) {
                     $query->orWhere($column, 'like', '%' . $search . '%');
                 }
             })
-            ->orderBy('id', 'asc');
+                ->orderBy('id', 'asc');
         }
 
-        // if (request()->input('order.0.column')) {
-        //     $orderColumn = request()->input('order.0.column');
-        //     $orderDirection = request()->input('order.0.dir');
-        //     $references = $references->orderBy($columns[$orderColumn], $orderDirection);
-        // }
-        
-        $references = $references->with('user')->paginate($perPage);
+
+        $sortableColumns = [
+            'id',
+            'slug_type',
+            'slug_nom',
+            'created_by',
+            'created_at',
+        ];
+
+        // Tri
+        if (request()->input('order')) {
+            $orders = request()->input('order');
+            foreach ($orders as $order) {
+                $columnIndex = $order['column']; // Index de la colonne à trier
+                $sortBy = $sortableColumns[$columnIndex]; // Nom de la colonne à trier
+                $sortOrder = $order['dir']; // Ordre de tri (asc ou desc)
+
+                // Vérifiez si la colonne est autorisée pour le tri
+                if (in_array($sortBy, $sortableColumns)) {
+                    // Appliquez le tri à la requête
+                    $references = $references->orderBy($sortBy, $sortOrder);
+                }
+            }
+        } else {
+            // Tri par défaut
+            $references = $references->orderBy('id', 'asc');
+        }
+
+        $references = $references->paginate($perPage);
 
         return response()->json(
             [
@@ -242,24 +271,25 @@ class ReferenceController extends Controller
         );
     }
 
-    public function getDataTable() {
+    public function getDataTable()
+    {
         $perPage = request()->input('length') ?? 30;
         $references = ReferenceValeur::latest();
         $columns = Schema::getColumnListing('reference_valeurs');
 
 
-        if(request()->input('search')) {
+        if (request()->input('search')) {
             $search = request()->input('search');
             $references = $references->where(function ($query) use ($search, $columns) {
                 foreach ($columns as $column) {
                     $query->orWhere($column, 'like', '%' . $search . '%');
                 }
             })
-            ->orWhereHas('reference', function ($query) use ($search) {
-                $query->where('type', 'like', '%' . $search . '%');
-                $query->orWhere('nom', 'like', '%' . $search . '%');
-            })
-            ->orderBy('id', 'asc');
+                ->orWhereHas('reference', function ($query) use ($search) {
+                    $query->where('type', 'like', '%' . $search . '%');
+                    $query->orWhere('nom', 'like', '%' . $search . '%');
+                })
+                ->orderBy('id', 'asc');
         }
 
         // if (request()->input('order.0.column')) {
