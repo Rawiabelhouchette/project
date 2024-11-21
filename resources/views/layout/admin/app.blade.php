@@ -73,7 +73,7 @@
         }
 
         .card-body {
-           /* background-color: #e0e0e0;*/
+            /* background-color: #e0e0e0;*/
         }
 
         input::-webkit-input-placeholder {
@@ -130,7 +130,7 @@
         #dataTable td {
             height: 35px;
         }
-        
+
         #dataTable th {
             background: #203769 !important;
             height: 35px;
@@ -154,6 +154,12 @@
 
         .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
             background-color: #ff3a72 !important;
+        }
+    </style>
+
+    <style>
+        .pointer-cursor {
+            cursor: pointer;
         }
     </style>
 
@@ -350,6 +356,64 @@
                 }
 
                 let mask = IMask(this, maskOptions);
+            });
+        }
+    </script>
+
+    <script>
+        const initDataTable = ({
+            tableId,
+            url,
+            columns,
+            order = [0, "desc"],
+        }) => {
+            return $('#dataTable').DataTable({
+
+                order: [
+                    [0, "desc"]
+                ],
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+                pageLength: 25,
+                oLanguage: {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ éléments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    }
+                },
+                Processing: true,
+                serverSide: true,
+                ajax: {
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: function(d) {
+                        d.page = d.start / d.length + 1;
+                        d.search = d.search.value;
+                        d.length = d.length;
+                        return d;
+                    },
+                },
+                columns: columns,
             });
         }
     </script>
