@@ -372,3 +372,12 @@ INSERT INTO reference_valeurs (valeur, reference_id, created_at, updated_at, cre
 ('Ancienneté de 2 ans de permis', 11, NOW(), NOW(), 1, 1),
 ('Ancienneté de plus de 3 ans de permis', 11, NOW(), NOW(), 1, 1),
 ('Ne doit pas traverser une frontière', 11, NOW(), NOW(), 1, 1);
+
+
+
+
+
+
+
+## 22/11/2024
+- Erreur lors de : Filtre + tri
