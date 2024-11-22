@@ -279,13 +279,11 @@ class ReferenceController extends Controller
     public function getDataTable()
     {
         $perPage = request()->input('length') ?? 30;
-        $references = ReferenceValeur::latest();
-        $columns = Schema::getColumnListing('reference_valeurs');
-
+        $references = ReferenceValeur::with('reference', 'user');
         $searchableColumns = [
             'id',
-            'type',
-            'nom',
+            // 'type',
+            // 'nom',
             'valeur',
         ];
 
@@ -308,7 +306,50 @@ class ReferenceController extends Controller
             }
         }
 
-        $references = $references->with('reference', 'user');
+        $sortableColumns = [
+            'id',
+            'type',
+            'nom',
+            'valeur',
+            'created_at',
+        ];
+
+        // Tri
+        if (request()->input('order')) {
+            $orders = request()->input('order');
+            foreach ($orders as $order) {
+                switch ($order['column']) {
+                    case 1:
+                        $sortBy = 'slug_type';
+                        $references = $references->join('references', 'reference_valeurs.reference_id', '=', 'references.id')
+                            ->orderBy('references.slug_type', $order['dir']);
+                        break;
+                    case 2:
+                        $sortBy = 'slug_nom';
+                        $references = $references->join('references', 'reference_valeurs.reference_id', '=', 'references.id')
+                            ->orderBy('references.slug_nom', $order['dir']);
+                        break;
+                    default:
+                        $columnIndex = $order['column']; // Index de la colonne à trier
+                        if (!in_array($columnIndex, [0, 3, 4])) {
+                            break;
+                        }
+
+                        $sortBy = $sortableColumns[$columnIndex]; // Nom de la colonne à trier
+                        $sortOrder = $order['dir']; // Ordre de tri (asc ou desc)
+
+                        if (in_array($sortBy, $sortableColumns)) {
+                            // Appliquez le tri à la requête
+                            $references = $references->orderBy($sortBy, $sortOrder);
+                        }
+                        break;
+                }
+            }
+        } else {
+            // Tri par défaut
+            $references = $references->orderBy('id', 'asc');
+        }
+
         $references = $references->paginate($perPage);
 
         return response()->json(
