@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
-use App\Utils\Reference as UtilsReference;
-use App\Utils\References;
+use App\Utils\Utils;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
@@ -214,12 +213,18 @@ class ReferenceController extends Controller
 
         if (request()->input('search')) {
             $search = request()->input('search');
-            $references = $references->where(function ($query) use ($search, $searchableColumns) {
-                foreach ($searchableColumns as $column) {
-                    $query->orWhere($column, 'like', '%' . $search . '%');
-                }
-            })
-                ->orderBy('id', 'asc');
+            $searchDate = Utils::getStartAndEndOfDay($search);
+
+            if ($searchDate[0] && $searchDate[1]) {
+                $references = $references->whereBetween('created_at', $searchDate);
+            } else {
+                $references = $references->where(function ($query) use ($search, $searchableColumns) {
+                    foreach ($searchableColumns as $column) {
+                        $query->orWhere($column, 'like', '%' . $search . '%');
+                    }
+                })
+                    ->orderBy('id', 'asc');
+            }
         }
 
 
@@ -277,26 +282,32 @@ class ReferenceController extends Controller
         $references = ReferenceValeur::latest();
         $columns = Schema::getColumnListing('reference_valeurs');
 
+        $searchableColumns = [
+            'id',
+            'type',
+            'nom',
+            'valeur',
+        ];
 
         if (request()->input('search')) {
             $search = request()->input('search');
-            $references = $references->where(function ($query) use ($search, $columns) {
-                foreach ($columns as $column) {
-                    $query->orWhere($column, 'like', '%' . $search . '%');
-                }
-            })
-                ->orWhereHas('reference', function ($query) use ($search) {
-                    $query->where('type', 'like', '%' . $search . '%');
-                    $query->orWhere('nom', 'like', '%' . $search . '%');
+            $searchDate = Utils::getStartAndEndOfDay($search);
+
+            if ($searchDate[0] && $searchDate[1]) {
+                $references = $references->whereBetween('created_at', $searchDate);
+            } else {
+                $references = $references->where(function ($query) use ($search, $searchableColumns) {
+                    foreach ($searchableColumns as $column) {
+                        $query->orWhere($column, 'like', '%' . $search . '%');
+                    }
                 })
-                ->orderBy('id', 'asc');
+                    ->orWhereHas('reference', function ($query) use ($search) {
+                        $query->where('type', 'like', '%' . $search . '%');
+                        $query->orWhere('nom', 'like', '%' . $search . '%');
+                    });
+            }
         }
 
-        // if (request()->input('order.0.column')) {
-        //     $orderColumn = request()->input('order.0.column');
-        //     $orderDirection = request()->input('order.0.dir');
-        //     $references = $references->orderBy($columns[$orderColumn], $orderDirection);
-        // }
         $references = $references->with('reference', 'user');
         $references = $references->paginate($perPage);
 
