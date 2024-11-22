@@ -29,6 +29,7 @@ class Add extends Component
 
     protected $listeners = [
         'editReference' => 'editReference',
+        'deleteReference' => 'deleteReference',
     ];
 
     public function updatedType($value)
@@ -54,6 +55,18 @@ class Add extends Component
         $this->isEdit = true;
 
         $this->formIcon = 'edit';
+    }
+
+    public function deleteReference(ReferenceValeur $ref)
+    {
+        $ref->delete();
+        $this->dispatch('swal:modal', [
+            'icon' => 'success',
+            'title'   => __('Opération réussie'),
+            'message' => __('Référence supprimée avec succès'),
+        ]);
+
+        $this->dispatch('relaod:dataTable');
     }
 
     protected $rules = [
