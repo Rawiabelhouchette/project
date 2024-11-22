@@ -361,6 +361,7 @@
     </script>
 
     <script>
+        // Datatable
         const initDataTable = ({
             tableId,
             url,
@@ -415,6 +416,19 @@
                 },
                 columns: columns,
             });
+        }
+
+        // convert date to d-m-Y H:i:s format
+        const formatDateToDMY = (inputDate) => {
+            var date = new Date(inputDate);
+            var day = ('0' + date.getDate()).slice(-2);
+            var month = ('0' + (date.getMonth() + 1)).slice(-2);
+            var year = date.getFullYear();
+            var hours = ('0' + date.getHours()).slice(-2);
+            var minutes = ('0' + date.getMinutes()).slice(-2);
+            var seconds = ('0' + date.getSeconds()).slice(-2);
+            var formattedDate = day + '-' + month + '-' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+            return formattedDate;
         }
     </script>
 

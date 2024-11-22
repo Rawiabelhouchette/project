@@ -66,8 +66,8 @@
                     title: 'Date de création',
                     name: 'created_at',
                     render: function(data, type, row) {
-                        var date = new Date(row.created_at);
-                        return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
+
+                        return formatDateToDMY(row.created_at);
                     },
                 },
                 {

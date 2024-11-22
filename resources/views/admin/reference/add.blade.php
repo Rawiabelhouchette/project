@@ -28,19 +28,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="dataTable" class="table table-striped table-2 table-hover">
-                                <thead>
-                                    <tr>
-                                        <th><span class="custom-checkbox"></span></th>
-                                        <th>Type </th>
-                                        <th>Nom de référence</th>
-                                        <th>Valeur</th>
-                                        <th>Créer par</th>
-                                        <th>Date de création </th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            <table class="table table-striped table-2 table-hover" id="dataTable"></table>
                         </div>
                     </div>
 
@@ -54,8 +42,7 @@
     <script>
         $(document).ready(function() {
             let headers = document.querySelectorAll("#dataTable th");
-            headers.forEach(header => {
-            });
+            headers.forEach(header => {});
 
 
             var datatable = $('#dataTable').DataTable({
@@ -105,21 +92,34 @@
                     },
                 },
                 columns: [{
+                        title: 'N°',
                         data: null,
                         render: function(data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
                     {
+                        title: 'Type',
                         data: 'reference.type',
                     },
                     {
+                        title: 'Nom de référence',
                         data: 'reference.nom',
                     },
                     {
+                        title: 'Valeur',
                         data: 'valeur'
                     },
                     {
+                        title: 'Date de création',
+                        data: 'created_at',
+                        render: function(data, type, row) {
+                            return formatDateToDMY(row.created_at);
+                        },
+                    },
+                    {
+                        title: 'Créer par',
+                        sortable: false,
                         render: function(data, type, row) {
                             if (!row.user) {
                                 return '-';
@@ -128,12 +128,8 @@
                         }
                     },
                     {
-                        render: function(data, type, row) {
-                            var date = new Date(row.created_at);
-                            return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
-                        },
-                    },
-                    {
+                        title: 'Action',
+                        sortable: false,
                         className: "text-center",
                         render: function(data, type, row) {
                             return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
