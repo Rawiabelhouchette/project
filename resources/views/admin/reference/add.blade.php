@@ -132,7 +132,10 @@
                         sortable: false,
                         className: "text-center",
                         render: function(data, type, row) {
-                            return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
+                            return `
+                                <a href="javascript:void(0)" data-id="` + row.id + `" class="edit"><i class="fa fa-pencil"></i></a>
+                                <a href="javascript:void(0)" data-id="` + row.id + `" class="delete"><i class="fa fa-trash"></i></a>
+                                `;
                         }
                     }
                 ],
@@ -148,6 +151,17 @@
                     scrollTop: 0
                 }, 'slow');
                 Livewire.dispatch('editReference', [$(this).data('id')]);
+            });
+
+            $(document).on('click', '.delete', function(e) {
+                const data = {
+                    message: 'Voulez-vous vraiment supprimer cette référence valeur ?',
+                    onConfirm: () => {
+                        Livewire.dispatch('deleteReference', [$(this).data('id')]);
+                    }
+                }
+
+                showConfirmationNotification(data);
             });
         });
     </script>

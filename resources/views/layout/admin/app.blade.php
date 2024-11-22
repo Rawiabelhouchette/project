@@ -236,64 +236,52 @@
         });
 
         window.addEventListener('swal:modal', event => {
-            Swal.fire({
+            const data = {
                 icon: event.detail[0].icon,
                 title: event.detail[0].title,
-                timerProgressBar: true,
-                confirmButtonColor: defaultColor,
-                confirmButtonText: '<span style="font-size: 15px;">OK</span>',
-                timer: 4000,
-                width: '40%',
-                height: '40%',
-                html: "<p style='font-size: 17px'>" + event.detail[0].message + "</p>",
-            });
+                message: event.detail[0].message,
+            };
+
+            showNotification(data);
         });
     </script>
 
     @if (session()->has('success'))
         <script>
-            Swal.fire({
+            const data = {
                 icon: 'success',
                 title: 'Opération réussie',
-                timerProgressBar: true,
-                confirmButtonColor: defaultColor,
-                confirmButtonText: '<span style="font-size: 15px;">OK</span>',
+                message: "{{ session()->get('success') }}",
                 timer: 4000,
-                width: '40%',
-                height: '40%',
-                html: "<p style='font-size: 17px'>{{ session()->get('success') }}</p>",
-            });
+            };
+
+            showNotification(data);
         </script>
     @endif
 
     @if (session()->has('error'))
         <script>
-            Swal.fire({
+            const data = {
                 icon: 'error',
                 title: 'Oops...',
-                timerProgressBar: true,
-                confirmButtonColor: defaultColor,
-                confirmButtonText: '<span style="font-size: 15px;">OK</span>',
-                timer: 5000,
-                width: '40%',
-                height: '40%',
-                html: "<p style='font-size: 17px'>{{ session()->get('error') }}</p>",
-            });
+                message: "{{ session()->get('error') }}",
+                timer: 4000,
+            };
+
+            showNotification(data);
         </script>
     @endif
 
     @if (session()->has('info'))
         <script>
-            Swal.fire({
+            const data = {
                 icon: 'info',
                 title: 'Information',
-                timerProgressBar: true,
-                confirmButtonText: '<span style="font-size: 15px;">OK</span>',
-                timer: 5000,
-                width: '40%',
-                height: '40%',
-                html: "<p style='font-size: 17px'>{{ session()->get('info') }}</p>",
-            });
+                message: "{{ session()->get('info') }}",
+                timer: 4000,
+            };
+
+            showNotification(data);
         </script>
     @endif
 
@@ -337,6 +325,8 @@
             let mask = IMask(elements[i], maskOptions);
         }
     </script> --}}
+
+
     <script>
         // take cpuntry name as parameter
         function applyMask(country = 'Togo') {
@@ -358,9 +348,7 @@
                 let mask = IMask(this, maskOptions);
             });
         }
-    </script>
-
-    <script>
+        
         // Datatable
         const initDataTable = ({
             tableId,
@@ -429,6 +417,64 @@
             var seconds = ('0' + date.getSeconds()).slice(-2);
             var formattedDate = day + '-' + month + '-' + year + ' ' + hours + ':' + minutes + ':' + seconds;
             return formattedDate;
+        }
+        
+        // show confirmation notification
+        const showConfirmationNotification = ({
+            message,
+            icon = 'warning',
+            confirmButtonText = 'Oui, je confirme',
+            cancelButtonText = 'Annuler',
+            onConfirm = () => {},
+            onCancel = () => {},
+            onDismiss = () => {},
+        }) => {
+            Swal.fire({
+                icon: icon,
+                title: 'Êtes-vous sûr ?',
+                showCancelButton: true,
+                confirmButtonColor: 'red',
+                cancelButtonColor: 'gray',
+                html: "<p style='font-size: 17px'>" + message + "</p>",
+                confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
+                cancelButtonText: '<span style="font-size: 15px;">' + cancelButtonText + '</span>',
+                width: '40%',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    onConfirm();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    onCancel();
+                } else {
+                    onDismiss();
+                }
+            });
+        }
+
+        // show notification
+        const showNotification = ({
+            message,
+            icon,
+            timer = 5000,
+            title,
+            timerProgressBar = true,
+            confirmButtonText = 'OK',
+            onConfirm = () => {},
+        }) => {
+            Swal.fire({
+                icon: icon,
+                title: title,
+                confirmButtonColor: 'green',
+                html: "<p style='font-size: 17px'>" + message + "</p>",
+                confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
+                width: '40%',
+                timerProgressBar: timerProgressBar,
+                timer: timer,
+                confirmButtonColor: defaultColor,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    onConfirm();
+                }
+            });
         }
     </script>
 
