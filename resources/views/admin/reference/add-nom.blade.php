@@ -41,10 +41,10 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            let headers = document.querySelectorAll("#dataTable th");
-            headers.forEach(header => {
-                header.style.backgroundColor = "#F3F5F7";
-            });
+            // let headers = document.querySelectorAll("#dataTable th");
+            // headers.forEach(header => {
+            //     header.style.backgroundColor = "#F3F5F7";
+            // });
 
             const columns = [{
                     title: 'N°',
@@ -85,11 +85,8 @@
                 // }
             ];
 
-            const link = "{{ route('references.nom.datatable') }}";
-
             const params = {
-                tableId: 'dataTable',
-                url: link,
+                url: "{{ route('references.nom.datatable') }}",
                 columns: columns,
             };
 
