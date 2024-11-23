@@ -82,6 +82,7 @@ Route::group([
             Route::get('references/nom/{type}', [ReferenceController::class, 'get_name'])->name('references.nom.get');
 
             Route::resource('pays', PaysController::class);
+            Route::get('pays/list/datatable', [PaysController::class, 'getDataTable'])->name('pays.datatable');
 
             Route::resource('villes', VilleController::class);
 
