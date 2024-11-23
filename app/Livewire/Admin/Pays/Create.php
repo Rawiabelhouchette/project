@@ -14,9 +14,9 @@ class Create extends Component
     public $langue;
 
     protected $rules = [
-        'nom' => ['required', 'string','min:3', 'max:255', 'unique:pays'],
-        'code' => ['required', 'string','min:2', 'max:255', 'unique:pays'],
-        'indicatif' => ['required', 'string','min:3', 'max:255', 'unique:pays'],
+        'nom' => ['required', 'string', 'min:3', 'max:255', 'unique:pays'],
+        'code' => ['required', 'string', 'min:2', 'max:255', 'unique:pays'],
+        'indicatif' => ['required', 'string', 'min:3', 'max:255', 'unique:pays'],
         'langue' => ['required', 'string', 'max:255'],
     ];
 
@@ -44,9 +44,11 @@ class Create extends Component
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',
-            'title'   => __('Opération réussie'),
+            'title' => __('Opération réussie'),
             'message' => __('Pays ajouté avec succès'),
         ]);
+
+        $this->dispatch('relaod:dataTable');
 
         $this->reset();
     }

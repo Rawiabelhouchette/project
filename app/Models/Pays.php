@@ -31,6 +31,10 @@ class Pays extends Model
         static::creating(function ($pays) {
             $pays->slug = Str::slug($pays->nom);
         });
+
+        static::updating(function ($pays) {
+            $pays->slug = Str::slug($pays->nom);
+        });
     }
 
     protected $casts = [

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pays;
 use App\Http\Requests\StorePaysRequest;
 use App\Http\Requests\UpdatePaysRequest;
+use App\Utils\Utils;
 
 class PaysController extends Controller
 {
@@ -30,7 +31,7 @@ class PaysController extends Controller
      */
     public function store(StorePaysRequest $request)
     {
-        
+
     }
 
     /**
@@ -65,5 +66,75 @@ class PaysController extends Controller
     public function destroy(Pays $pays)
     {
         //
+    }
+
+    /**
+     * Get the data for the datatable
+     */
+    public function getDataTable()
+    {
+        $perPage = request()->input('length') ?? 30;
+        $pays = Pays::query();
+
+        $searchableColumns = [
+            'id',
+            'indicatif',
+            'nom',
+            'code',
+            'langue',
+        ];
+
+        if (request()->input('search')) {
+            $search = request()->input('search');
+            $searchDate = Utils::getStartAndEndOfDay($search);
+
+            if ($searchDate[0] && $searchDate[1]) {
+                $pays = $pays->whereBetween('created_at', $searchDate);
+            } else {
+                $pays = $pays->where(function ($query) use ($search, $searchableColumns) {
+                    foreach ($searchableColumns as $column) {
+                        $query->orWhere($column, 'like', '%' . $search . '%');
+                    }
+                });
+            }
+        }
+
+        $sortableColumns = [
+            'id',
+            'indicatif',
+            'slug',
+            'code',
+            'langue',
+            'created_at',
+        ];
+
+        // Tri
+        if (request()->input('order')) {
+            $orders = request()->input('order');
+            foreach ($orders as $order) {
+                $columnIndex = $order['column']; // Index de la colonne à trier
+                $sortBy = $sortableColumns[$columnIndex]; // Nom de la colonne à trier
+                $sortOrder = $order['dir']; // Ordre de tri (asc ou desc)
+
+                if (in_array($sortBy, $sortableColumns)) {
+                    // Appliquez le tri à la requête
+                    $pays = $pays->orderBy($sortBy, $sortOrder);
+                }
+            }
+        } else {
+            // Tri par défaut
+            $pays = $pays->orderBy('id', 'asc');
+        }
+
+        $pays = $pays->paginate($perPage);
+
+        return response()->json(
+            [
+                'recordsTotal' => $pays->total(),
+                'recordsFiltered' => $pays->total(),
+                'data' => $pays->items(),
+            ],
+            200
+        );
     }
 }
