@@ -351,7 +351,7 @@
         
         // Datatable
         const initDataTable = ({
-            tableId,
+            tableId = 'dataTable',
             url,
             columns,
             order = [0, "desc"],
