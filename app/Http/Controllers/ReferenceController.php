@@ -222,8 +222,8 @@ class ReferenceController extends Controller
                     foreach ($searchableColumns as $column) {
                         $query->orWhere($column, 'like', '%' . $search . '%');
                     }
-                })
-                    ->orderBy('id', 'asc');
+                });
+                // ->orderBy('id', 'asc');
             }
         }
 
@@ -279,12 +279,14 @@ class ReferenceController extends Controller
     public function getDataTable()
     {
         $perPage = request()->input('length') ?? 30;
-        $references = ReferenceValeur::with('reference', 'user');
+        $references = ReferenceValeur::with('reference', 'user')
+            ->join('references', 'reference_valeurs.reference_id', '=', 'references.id');
+
         $searchableColumns = [
-            'id',
+            'reference_valeurs.id',
             // 'type',
             // 'nom',
-            'valeur',
+            'reference_valeurs.valeur',
         ];
 
         if (request()->input('search')) {
@@ -307,11 +309,11 @@ class ReferenceController extends Controller
         }
 
         $sortableColumns = [
-            'id',
-            'type',
-            'nom',
-            'valeur',
-            'created_at',
+            'reference_valeurs.id',
+            'references.type',
+            'references.nom',
+            'reference_valeurs.valeur',
+            'reference_valeurs.created_at',
         ];
 
         // Tri
@@ -321,13 +323,11 @@ class ReferenceController extends Controller
                 switch ($order['column']) {
                     case 1:
                         $sortBy = 'slug_type';
-                        $references = $references->join('references', 'reference_valeurs.reference_id', '=', 'references.id')
-                            ->orderBy('references.slug_type', $order['dir']);
+                        $references = $references->orderBy('references.slug_type', $order['dir']);
                         break;
                     case 2:
                         $sortBy = 'slug_nom';
-                        $references = $references->join('references', 'reference_valeurs.reference_id', '=', 'references.id')
-                            ->orderBy('references.slug_nom', $order['dir']);
+                        $references = $references->orderBy('references.slug_nom', $order['dir']);
                         break;
                     default:
                         $columnIndex = $order['column']; // Index de la colonne à trier
@@ -347,7 +347,7 @@ class ReferenceController extends Controller
             }
         } else {
             // Tri par défaut
-            $references = $references->orderBy('id', 'asc');
+            $references = $references->orderBy('references.id', 'asc');
         }
 
         $references = $references->paginate($perPage);
