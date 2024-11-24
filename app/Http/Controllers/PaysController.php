@@ -39,8 +39,6 @@ class PaysController extends Controller
      */
     public function show(Pays $pays)
     {
-        dd('show');
-        dd($pays->id);
         return view('admin.localisation.pays.edit', compact('pays'));
     }
 
