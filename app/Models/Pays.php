@@ -48,4 +48,9 @@ class Pays extends Model
     {
         return $this->hasMany(Ville::class);
     }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

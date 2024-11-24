@@ -74,7 +74,7 @@ class PaysController extends Controller
     public function getDataTable()
     {
         $perPage = request()->input('length') ?? 30;
-        $pays = Pays::query();
+        $pays = Pays::with('creator');
 
         $searchableColumns = [
             'id',
