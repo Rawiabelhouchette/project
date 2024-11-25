@@ -49,6 +49,14 @@ class Create extends Component
         $this->langue = $this->pays->langue;
     }
 
+    public function exitEdit()
+    {
+        $this->isEdit = false;
+        $this->libelle = 'Enregistrer un pays';
+        $this->buttonLibelle = 'Enregistrer';
+        $this->reset();
+    }
+
     protected function rules()
     {
         $uniqueRule = $this->isEdit ? '' : '|unique:pays';
