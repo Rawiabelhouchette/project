@@ -7,7 +7,7 @@
         <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
                 <li><a href="#">Localisation</a></li>
-                <li class="active">Liste des pays</li>
+                <li class="active">Gestion des pays</li>
             </ol>
         </div>
         <!-- /.col-lg-12 -->
@@ -15,7 +15,7 @@
     <!-- /. ROW  -->
     <div id="page-inner">
         <div class="row bott-wid">
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-6 col-sm-12">
                 @livewire('admin.pays.create')
             </div>
         </div>
