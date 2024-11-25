@@ -15,26 +15,27 @@
     <!-- /. ROW  -->
     <div id="page-inner">
         <div class="row bott-wid">
-            <div class="col-md-12 col-sm-12">
+            <div class="col-md-6 col-sm-6">
                 @livewire('admin.pays.create')
             </div>
+        </div>
 
-            <div class="">
-                <div class="card card-list">
+        <div class="">
+            <div class="card card-list">
 
-                    <div class="card-header" style="text-align: left !important;">
-                        <h4>Liste des pays</h4>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-2 table-hover" id="dataTable"></table>
-                        </div>
-                    </div>
-
+                <div class="card-header" style="text-align: left !important;">
+                    <h4>Liste des pays</h4>
                 </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-2 table-hover" id="dataTable"></table>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </div>
     </div>
 @endsection
 
@@ -84,7 +85,7 @@
                     orderable: false,
                     title: 'Actions',
                     render: function(data, type, row) {
-                        return `<a class="edit" href="javascript:void(0)"><i class="fa fa-pencil"></i></a>`;
+                        return `<a class="edit" data-id="${row.id}" href="javascript:void(0)"><i class="fa fa-pencil"></i></a>`;
                     }
                 }
             ];
@@ -105,7 +106,7 @@
                 $('html, body').animate({
                     scrollTop: 0
                 }, 'slow');
-                // Livewire.dispatch('editReference', [$(this).data('id')]);
+                Livewire.dispatch('editPays', [$(this).data('id')]);
             });
         });
     </script>

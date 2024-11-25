@@ -12,13 +12,53 @@ class Create extends Component
     public $code;
     public $indicatif;
     public $langue;
+    public $isEdit = false;
+    public $pays;
 
-    protected $rules = [
-        'nom' => ['required', 'string', 'min:3', 'max:255', 'unique:pays'],
-        'code' => ['required', 'string', 'min:2', 'max:255', 'unique:pays'],
-        'indicatif' => ['required', 'string', 'min:3', 'max:255', 'unique:pays'],
-        'langue' => ['required', 'string', 'max:255'],
+    public $libelle = 'Enregistrer un pays';
+    public $buttonLibelle = 'Enregistrer';
+
+    public function mount($paysId = null)
+    {
+        if ($paysId) {
+            $this->loadPays($paysId);
+        } else {
+            $this->isEdit = false;
+        }
+    }
+
+    protected $listeners = [
+        'editPays' => 'editPays',
     ];
+
+    public function editPays($paysId)
+    {
+        $this->loadPays($paysId);
+        $this->isEdit = true;
+        $this->libelle = 'Modifier un pays';
+        $this->buttonLibelle = 'Modifier';
+    }
+
+    public function loadPays($paysId)
+    {
+        $this->isEdit = true;
+        $this->pays = Pays::findOrFail($paysId);
+        $this->nom = $this->pays->nom;
+        $this->code = $this->pays->code;
+        $this->indicatif = $this->pays->indicatif;
+        $this->langue = $this->pays->langue;
+    }
+
+    protected function rules()
+    {
+        $uniqueRule = $this->isEdit ? '' : '|unique:pays';
+        return [
+            'nom' => 'required|string|min:3|max:255' . $uniqueRule,
+            'code' => 'required|string|min:2|max:255' . $uniqueRule,
+            'indicatif' => 'required|string|min:3|max:255' . $uniqueRule,
+            'langue' => 'required|string|max:255',
+        ];
+    }
 
     protected $messages = [
         'nom.required' => 'Le nom du pays est obligatoire.',
@@ -51,6 +91,24 @@ class Create extends Component
         $this->dispatch('relaod:dataTable');
 
         $this->reset();
+    }
+
+    public function update()
+    {
+        $validated = $this->validate();
+
+        $validated['slug'] = Str::slug($validated['nom']);
+        $validated['code'] = strtoupper($validated['code']);
+
+        $this->pays->update($validated);
+
+        $this->dispatch('swal:modal', [
+            'icon' => 'success',
+            'title' => __('Opération réussie'),
+            'message' => __('Pays modifié avec succès'),
+        ]);
+
+        return redirect()->route('pays.index');
     }
 
     public function render()

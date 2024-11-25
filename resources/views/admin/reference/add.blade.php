@@ -18,23 +18,24 @@
             <div class="col-md-12 col-sm-12">
                 <livewire:Admin.Reference.add />
             </div>
+        </div>
 
-            <div class="">
-                <div class="card card-list">
+        <div class="">
+            <div class="card card-list">
 
-                    <div class="card-header">
-                        <h4>Liste des noms de référence</h4>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-2 table-hover" id="dataTable"></table>
-                        </div>
-                    </div>
-
+                <div class="card-header">
+                    <h4>Liste des noms de référence</h4>
                 </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-2 table-hover" id="dataTable"></table>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </div>
     </div>
 @endsection
 
