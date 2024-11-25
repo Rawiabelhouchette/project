@@ -85,7 +85,10 @@
                     orderable: false,
                     title: 'Actions',
                     render: function(data, type, row) {
-                        return `<a class="edit" data-id="${row.id}" href="javascript:void(0)"><i class="fa fa-pencil"></i></a>`;
+                        return `
+                            <a class="edit" data-id="${row.id}" href="javascript:void(0)"><i class="fa fa-pencil"></i></a>
+                            <a class="delete" data-id="${row.id}" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                        `;
                     }
                 }
             ];
@@ -108,6 +111,23 @@
                 }, 'slow');
                 Livewire.dispatch('editPays', [$(this).data('id')]);
             });
+
+            $(document).on('click', '.delete', function(e) {
+                const id = $(this).data('id');
+
+                const params = {
+                    'message': 'La suppression de ce pays entrainera la suppression de toutes les villes et quartiers associés. Voulez-vous continuer ?',
+                    onConfirm: function() {
+                        if (confirm('Voulez-vous vraiment continuer ?')) {
+                            // Livewire.dispatch('deletePays', [$(this).data('id')]);
+                            console.log('delete', id);
+                        }
+                    }
+                }
+
+                showConfirmationNotification(params);
+            });
+
         });
     </script>
 @endsection

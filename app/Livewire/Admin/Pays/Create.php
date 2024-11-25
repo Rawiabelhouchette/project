@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Pays;
 
+use DB;
 use Livewire\Component;
 use App\Models\Pays;
 use Illuminate\Support\Str;
@@ -29,6 +30,7 @@ class Create extends Component
 
     protected $listeners = [
         'editPays' => 'editPays',
+        'deletePays' => 'delete',
     ];
 
     public function editPays($paysId)
@@ -117,6 +119,42 @@ class Create extends Component
         ]);
 
         return redirect()->route('pays.index');
+    }
+
+
+    public function delete($paysId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $pays = Pays::findOrFail($paysId);
+            $pays->villes->each(function ($ville) {
+                $ville->quartiers->each(function ($quartier) {
+                    $quartier->delete();
+                });
+                $ville->delete();
+            });
+
+            $pays->delete();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error($e->getMessage());
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Erreur'),
+                'message' => __('Une erreur s\'est produite lors de la suppression du pays'),
+            ]);
+        }
+
+        $this->dispatch('swal:modal', [
+            'icon' => 'success',
+            'title' => __('Opération réussie'),
+            'message' => __('Pays supprimé avec succès'),
+        ]);
+
+        $this->dispatch('relaod:dataTable');
     }
 
     public function render()
