@@ -61,4 +61,9 @@ class Ville extends Model
         })->count();
         return $count;
     }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

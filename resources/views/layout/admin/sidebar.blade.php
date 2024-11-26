@@ -53,11 +53,11 @@
                                 Quartier
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('localisations') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Rechercher
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
 

@@ -84,10 +84,13 @@ Route::group([
             Route::resource('pays', PaysController::class)->only(['index']);
             Route::get('pays/list/datatable', [PaysController::class, 'getDataTable'])->name('pays.datatable');
 
-            Route::resource('villes', VilleController::class);
+            Route::resource('villes', VilleController::class)->only(['index']);
+            Route::get('villes/list/datatable', [VilleController::class, 'getDataTable'])->name('villes.datatable');
 
-            Route::resource('quartiers', QuartierController::class);
-            Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
+            Route::resource('quartiers', QuartierController::class)->only(['index']);
+            Route::get('quartiers/list/datatable', [QuartierController::class, 'getDataTable'])->name('quartiers.datatable');
+
+            // Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
 
             Route::resource('users', UserController::class);
             Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
