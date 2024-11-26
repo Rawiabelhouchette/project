@@ -61,11 +61,18 @@ class Create extends Component
 
     protected function rules()
     {
-        $uniqueRule = !$this->isEdit ? '' : $this->pays->id;
+        if ($this->isEdit) {
+            return [
+                'nom' => 'required|string|min:3|unique:pays,nom,' . $this->pays->id,
+                'code' => 'required|string|unique:pays,code,' . $this->pays->id,
+                'indicatif' => 'required|string|min:3|unique:pays,indicatif,' . $this->pays->id,
+                'langue' => 'required|string|min:3',
+            ];
+        }
         return [
-            'nom' => 'required|string|min:3|max:255|unique:pays' . $uniqueRule,
-            'code' => 'required|string|min:2|max:255|unique:pays' . $uniqueRule,
-            'indicatif' => 'required|string|min:3|max:255|unique:pays' . $uniqueRule,
+            'nom' => 'required|string|min:3|max:255|unique:pays',
+            'code' => 'required|string|min:2|max:255|unique:pays',
+            'indicatif' => 'required|string|min:3|max:255|unique:pays',
             'langue' => 'required|string|max:255',
         ];
     }
@@ -73,22 +80,29 @@ class Create extends Component
     protected $messages = [
         'nom.required' => 'Le nom du pays est obligatoire.',
         'nom.unique' => 'Le nom du pays existe déjà.',
+        'nom.min' => 'Le nom du pays doit contenir au moins :min caractères.',
 
         'code.required' => 'Le code du pays est obligatoire.',
         'code.unique' => 'Le code du pays existe déjà.',
+        'code.min' => 'Le code du pays doit contenir au moins :min caractères.',
 
         'indicatif.required' => 'L\'indicatif du pays est obligatoire.',
         'indicatif.unique' => 'L\'indicatif du pays existe déjà.',
+        'indicatif.min' => 'L\'indicatif du pays doit contenir au moins :min caractères.',
 
         'langue.required' => 'La langue du pays est obligatoire.',
+        'langue.min' => 'La langue du pays doit contenir au moins :min caractères.',
+
     ];
 
     public function store()
     {
-        $validated = $this->validate();
+        if ($this->isEdit) {
+            $this->update();
+            return;
+        }
 
-        $validated['slug'] = Str::slug($validated['nom']);
-        $validated['code'] = strtoupper($validated['code']);
+        $validated = $this->validate();
 
         Pays::create($validated);
 
@@ -105,7 +119,6 @@ class Create extends Component
 
     public function update()
     {
-        dd($this->pays);
         $validated = $this->validate();
 
         $this->pays->update($validated);
@@ -116,7 +129,9 @@ class Create extends Component
             'message' => __('Pays modifié avec succès'),
         ]);
 
-        return redirect()->route('pays.index');
+        $this->dispatch('relaod:dataTable');
+
+        $this->exitEdit();
     }
 
 
