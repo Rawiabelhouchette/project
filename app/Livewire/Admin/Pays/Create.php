@@ -29,11 +29,11 @@ class Create extends Component
     }
 
     protected $listeners = [
-        'editPays' => 'editPays',
+        'editPays' => 'edit',
         'deletePays' => 'delete',
     ];
 
-    public function editPays($paysId)
+    public function edit($paysId)
     {
         $this->loadPays($paysId);
         $this->isEdit = true;
@@ -61,11 +61,11 @@ class Create extends Component
 
     protected function rules()
     {
-        $uniqueRule = $this->isEdit ? '' : '|unique:pays';
+        $uniqueRule = !$this->isEdit ? '' : $this->pays->id;
         return [
-            'nom' => 'required|string|min:3|max:255' . $uniqueRule,
-            'code' => 'required|string|min:2|max:255' . $uniqueRule,
-            'indicatif' => 'required|string|min:3|max:255' . $uniqueRule,
+            'nom' => 'required|string|min:3|max:255|unique:pays' . $uniqueRule,
+            'code' => 'required|string|min:2|max:255|unique:pays' . $uniqueRule,
+            'indicatif' => 'required|string|min:3|max:255|unique:pays' . $uniqueRule,
             'langue' => 'required|string|max:255',
         ];
     }
@@ -105,10 +105,8 @@ class Create extends Component
 
     public function update()
     {
+        dd($this->pays);
         $validated = $this->validate();
-
-        $validated['slug'] = Str::slug($validated['nom']);
-        $validated['code'] = strtoupper($validated['code']);
 
         $this->pays->update($validated);
 

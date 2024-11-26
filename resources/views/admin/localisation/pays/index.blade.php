@@ -119,8 +119,7 @@
                     'message': 'La suppression de ce pays entrainera la suppression de toutes les villes et quartiers associés. Voulez-vous continuer ?',
                     onConfirm: function() {
                         if (confirm('Voulez-vous vraiment continuer ?')) {
-                            // Livewire.dispatch('deletePays', [$(this).data('id')]);
-                            console.log('delete', id);
+                            Livewire.dispatch('deletePays', [id]);
                         }
                     }
                 }
