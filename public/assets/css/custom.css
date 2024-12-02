@@ -64,7 +64,7 @@ a:focus {
     box-shadow: none;
     border-radius: 8px;
     border: 1px solid #e8eef1;
-    background: #fff;
+    background: #fbfdff;
 }
 label {
     font-weight: 300;
@@ -80,14 +80,13 @@ label {
 #page-wrapper {
     padding: 15px 15px;
     min-height: 600px;
-    background: #fafcfd;
-    border-left: 1px solid #eff1f5;
+    background: #fff;
 }
 
 #page-inner {
     width: 100%;
     margin: 10px 20px 10px 0px;
-    background-color: #fafcfd !important;
+    background-color: #fff !important;
     padding: 10px;
 }
 
@@ -176,7 +175,8 @@ label {
 }
 
 .fa.arrow:before {
-    content: "\f104";
+    content: "\f105";
+    line-height: 1.6;
 }
 
 .active>a>.fa.arrow:before {
@@ -234,7 +234,7 @@ label {
 }
 
 .sidebar-collapse .nav>li>a {
-    background: #08193e;
+    background: #0c556e;
     text-shadow: none;
     color: #d1e0ff;
     text-transform: capitalize !important;
@@ -243,27 +243,36 @@ label {
 .sidebar-collapse>.nav>li>a {
     padding: 18px;
 }
-
 .sidebar-collapse>.nav>li {
-    border-bottom: 1px dashed #203769 !important;
+    border-bottom: 1px dashed #0c556e !important;
+}
+.sidebar-collapse .nav>li.active a {
+    background: #fff;
+    color: #0c556e;
 }
 
 .sidebar-collapse .nav>li.active>a {
-    background: #203769;
-    color: #e61b55;
+    background: #fff;
+    color: #0c556e;
     outline: 0;
     font-size: 15px;
 }
-
-.sidebar-collapse #main-menu>li.active>a>i.fa {
-    color: #e61b55;
+.sidebar-collapse #main-menu>li.active>a>i.fa,
+.sidebar-collapse #main-menu>li.active>a>i.fa:before,
+.sidebar-collapse #main-menu>li.active a>i.fa,
+.sidebar-collapse #main-menu>li.active a>i.fa:before {
+    color: #0c556e;
 }
-
+.sidebar-collapse #main-menu>li.active>a:hover>i.fa:before, 
+.sidebar-collapse #main-menu>li.active a:hover>i.fa:before {
+    color: #fff !important;
+}
 .sidebar-collapse .nav>li>a:hover,
 .sidebar-collapse .nav>li>a:focus {
-    background: #203769;
-    color: #e61b55 !important;
+    background: #0c556e;
+    color: #fff !important;
     outline: 0;
+    opacity: 1;
 }
 
 .sidebar-collapse .nav>li>ul>li>a>.arrow {
@@ -272,7 +281,7 @@ label {
 
 .sidebar-collapse .nav>li>a:hover i.fa,
 .sidebar-collapse .nav>li>a:focus i.fa {
-    color: #e61b55 !important;
+     color: #fff !important;
 }
 
 .sidebar-collapse .nav>li.log-off>a:hover i.fa,
@@ -292,7 +301,7 @@ label {
 
 .navbar-side {
     border: none;
-    background-color: #08193e;
+    background-color: #0c556e;
 
 }
 
@@ -436,6 +445,35 @@ span.count-notification.green {
 /*====================================
 Page Title STYLES
 =======================================*/
+/*.page-name.row {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: stretch;
+}*/
+.page-name.row .col-md-6 {
+    flex: 1 1 auto;
+    padding-bottom: 20px;
+}
+
+.page-name.row .card {
+    height: 100%;
+}
+
+.page-name.row .card.title {
+    background: transparent;
+    border: none;
+}
+
+.page-name.row .card.title .card-header {
+    padding: 0;
+    border: none;
+}
+
+.page-name.row .card.title .card-header h4 {
+    font-size: 24px;
+}
+
 .row.bg-title {
     background: #ffffff;
     margin: 0;
@@ -457,11 +495,11 @@ Page Title STYLES
 }
 
 .row.bg-title .breadcrumb a {
-    color: #e61b55;
+    color: #0c556e;
 }
 
 .row.bg-title .breadcrumb>.active {
-    color: #626a70;
+    color: #0c556e;
 }
 
 /*=======================================
@@ -926,13 +964,13 @@ Inbox Message Style
 .inbox-message .message-body {
     margin-left: 85px;
     font-size: 15px;
-    color: #626a70;
+    color: #0c556e;
 }
 
 .message-body-heading h5 {
     font-weight: 600;
     display: inline-block;
-    color: #626a70;
+    color: #0c556e;
     margin: 0 0 7px 0;
     padding: 0;
 }
@@ -962,7 +1000,7 @@ Inbox Message Style
 
 .message-body-heading span {
     float: right;
-    color: #626a70;
+    color: #0c556e;
     font-size: 14px;
 }
 
@@ -972,7 +1010,12 @@ Inbox Message Style
     line-height: 27px;
     font-size: 15px;
 }
-
+.theme-btn.btnAdd {
+    text-transform: none;
+    float: right;
+    background-color: #3c763d;
+    border-color: green;
+}
 /*====================================
 My Profile STYLES
 =======================================*/
@@ -1049,7 +1092,7 @@ Log Off Style
 
 .log-box .form-control {
     margin-bottom: 15px;
-    background: #203769;
+    background: #0c556e;
     border: 1px solid #2e3e5a;
     height: 50px;
     color: #8b9ebf;
@@ -1252,7 +1295,7 @@ MEDIA QUERIES
     #page-inner {
         width: 100%;
         margin: 10px 20px 10px 0px;
-        background-color: #fafcfd !important;
+        background-color: #fff !important;
         padding: 15px 25px;
     }
 
@@ -1308,7 +1351,7 @@ MEDIA QUERIES
     }
 
     #page-wrapper {
-        margin-top: 36px;
+        margin-top: 46px;
     }
 
     .log-off-wrap {

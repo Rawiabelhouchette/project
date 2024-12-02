@@ -132,7 +132,7 @@
         }
         
         #dataTable th {
-            background: #203769 !important;
+            background: #0c556e !important;
             height: 35px;
             border: none !important;
             color: #fff;
