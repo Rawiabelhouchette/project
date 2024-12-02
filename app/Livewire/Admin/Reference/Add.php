@@ -41,20 +41,15 @@ class Add extends Component
 
     public function editReference(ReferenceValeur $ref)
     {
-        // dump($ref->id);
-        // dump($ref->reference->type);
-        // dd($ref);
         $this->libelle = 'Modifier une référence';
         $this->buttonLibelle = 'Modifier';
-        
+
         $this->id = $ref->id;
         $this->type = $ref->reference->type;
-        
-        $this->nom = $ref->reference->nom;
-        $this->nomList = Reference::where('type', $ref->reference->type)->pluck('nom')->toArray();
-        // dump($this->nomList);
-        // dd($ref->reference->nom);
 
+        $this->nom = $ref->reference->nom;
+        $this->typeList = [$ref->reference->type];
+        $this->nomList = Reference::where('type', $ref->reference->type)->pluck('nom')->toArray();
 
         $this->valeur = $ref->valeur;
 
@@ -148,12 +143,13 @@ class Add extends Component
         $this->reset();
     }
 
-    public function resetForm()
+    public function exitEdit()
     {
-        $this->reset();
         $this->isEdit = false;
+        $this->libelle = 'Enregistrer une référence';
+        $this->buttonLibelle = 'Enregistrer';
+        $this->reset();
         $this->typeList = References::getList();
-
     }
 
     public function render()

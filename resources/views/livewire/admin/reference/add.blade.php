@@ -6,7 +6,7 @@
                 <h3>{{ $libelle }}</h3>
                 <p>Créez et modifiez les données de votre référentiel projet</p>
             </div>
-            <form>
+            <form wire:submit="store()">
                 <div class="row mrg-r-10 mrg-l-10">
                     <div class="col-sm-6">
                         <label class="required">Catégorie</label>
@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-sm-6">
                         <label class="required">Type</label>
-                        <select class="form-control" name="type" required wire:model.lazy='nom' @if ($isEdit) disabled @endif>
+                        <select class="form-control" name="type" required wire:model.lazy='nom'>
                             <option value="" selected disabled>Sélectionnez un type référence</option>
                             @foreach ($nomList as $nom)
                                 <option value="{{ $nom }}">{{ $nom }}</option>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-sm-12 padd-top-25">
                         @if ($isEdit)
-                            <button class="btn" style="margin-right: 15px;" wire:click='resetForm'>
+                            <button class="btn" type="button" style="margin-right: 15px;" wire:click='exitEdit'>
                                 <i class="fa fa-cancel fa-lg" style="margin-right: 10px;"></i> Annuler
                             </button>
                         @endif
