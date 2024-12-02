@@ -1,142 +1,205 @@
-<div>
-    <div class="card">
-
+<div class="page-name restaurant row">
+    
+    <div class="col-md-12">
+    <div class="card title">
         <div class="card-header">
             <h4>Ajouter un restaurant</h4>
         </div>
+        </div>
+        </div>
+    <div class="col-md-12 col-xs-12">
+						<div class="panel-group style-1" id="accordion" role="tablist" aria-multiselectable="true">
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="designing">
+									<h4 class="panel-title">
+										<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+											Restaurant
+										</a>
+									</h4>
+								</div>
+								<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="designing">
+									<div class="panel-body">
+                                        <div class="col-md-12">
+                                                <form wire:submit="store()">
+                                                    @csrf
+                                                    <div class="row">
+                                                         <div class="col-md-6 col-sm-12" style="margin-top: 15px;" wire:ignore>
+                                                            <div class="row">
+                                                                
+                                                                <div class="col-md-12">
+                                                                    <label class="">Entreprise
+                                                                        <b style="color: red; font-size: 100%;">*</b>
+                                                                    </label>
+                                                                    <select class="select2" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
+                                                                        <option value="">-- Sélectionner --</option>
+                                                                        @foreach ($entreprises as $entreprise)
+                                                                            <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    @error('entreprise_id')
+                                                                        <span class="text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                    
+                                                        <div class="col-md-6 col-sm-12" style="margin-top: 15px;">
+                                                            <div class="row">
+                                                                
+                                                                <div class="col-md-12">
+                                                                    <label class="required">Nom
+                                                                        <b style="color: red; font-size: 100%;">*</b>
+                                                                    </label> 
+                                                                    <input class="form-control" type="text" placeholder="" required wire:model.defer='nom' required>
+                                                                    @error('nom')
+                                                                        <span class="text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                    
+                                                        <div class="col-md-6 col-xs-12" style="margin-top: 15px;">
+                                                            <div class="row">
+                                                                
+                                                                <div class="col-md-12">
+                                                                    <label class="">Date de validité
+                                                                        <b style="color: red; font-size: 100%;">*</b>
+                                                                    </label> 
+                                                                    <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                                                                    @error('date_validite')
+                                                                        <span class="text-danger">{{ $message }}</span>
+                                                                    @enderror
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-xs-12">
+                                                            <label class="">Description
+                                                                {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                                            </label>
+                                                            <textarea class="form-control height-100" id="description" placeholder="" wire:model.defer='description'></textarea>
+                                                        </div>
+                                                        
+                                                        
+                                                            <div class="col-md-12">
+                                    
+                                                        @include('admin.annonce.reference-select-component', [
+                                                            'title' => 'Spécialités',
+                                                            'name' => 'specialites',
+                                                            'options' => $list_specialites,
+                                                        ])
+                                    
+                                                        @include('admin.annonce.reference-select-component', [
+                                                            'title' => 'Equipements',
+                                                            'name' => 'equipements_restauration',
+                                                            'options' => $list_equipements_restauration,
+                                                        ])
+                                    
+                                                        @include('admin.annonce.reference-select-component', [
+                                                            'title' => 'Carte de consommation',
+                                                            'name' => 'carte_consommation',
+                                                            'options' => $list_carte_consommation,
+                                                        ])
+                                    
+                                                    </div>
+                                    
+                                                    @include('admin.annonce.create-galery-component', [
+                                                        'galery' => $galerie,
+                                                    ])
+                                    
+                                                    </div>
+                                    </div>
+            									</div>
+								</div>
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="entrees">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+											Entrées ({{ count($entrees) }})
+										</a>
+									</h4>
+								</div>
+								<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="entrees">
+									<div class="panel-body">
+    <div class="">
 
-        <div class="card-body">
-            <form wire:submit="store()">
-                @csrf
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Entreprise
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <select class="select2" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
-                                    <option value="">-- Sélectionner --</option>
-                                    @foreach ($entreprises as $entreprise)
-                                        <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
-                                    @endforeach
-                                </select>
-                                @error('entreprise_id')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Nom
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input class="form-control" type="text" placeholder="" required wire:model.defer='nom' required>
-                                @error('nom')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Date de validité
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
-                                @error('date_validite')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-
-                <div class="row">
-                    <h4 class="text-center">Entrées ({{ count($entrees) }})</h4>
-
+ <div class="card-body">
                     @foreach ($entrees as $key => $entree)
-                        <div class="col-md-12">
+                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-sm-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Nom
                                                 <b style="color: red; font-size: 100%;">*</b>
-                                            </label> <br>
+                                            </label> 
                                             <textarea class="form-control" type="text" placeholder="" required wire:model.defer='entrees.{{ $key }}.nom' required></textarea>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-sm-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Ingrédients
                                                 {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                            </label> <br>
+                                            </label> 
                                             <textarea class="form-control" type="text" placeholder="" wire:model.defer='entrees.{{ $key }}.ingredients'></textarea>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-xs-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Prix minimum
                                                 <b style="color: red; font-size: 100%;">*</b>
-                                            </label> <br>
+                                            </label> 
                                             <input class="form-control" type="number" wire:model.defer='entrees.{{ $key }}.prix_min'>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-xs-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        <div class="col-md-12">
                                             <label class="">Prix maximum
                                                 <b style="color: red; font-size: 100%;">*</b>
-                                            </label> <br>
+                                            </label> 
                                             <input class="form-control" type="number" placeholder="" wire:model.defer='entrees.{{ $key }}.prix_max'>
                                         </div>
-                                        <div class="col-md-1"></div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                                    <label class="">&nbsp;</label> <br>
-                                    @if ($key == 0)
-                                        <button class="btn theme-btn" type="button" style="background-color: green; border-color: green" wire:click="addEntree">
-                                            <i class="fa fa-plus fa-lg text-center" style=""></i>
-                                        </button>
-                                    @else
-                                        <button class="btn theme-btn" type="button" style="background-color: red; border-color: red" wire:click="removeEntree({{ $key }})">
-                                            <i class="fa fa-minus fa-lg text-center" style=""></i>
-                                        </button>
-                                    @endif
+                                <div class="col-md-6 col-xs-12" style="margin-top: 15px;">
+                                    <div class="row">
+                                        
+                                        <div class="col-md-12">
+                                        @if ($key == 0)
+                                            <button class="btn theme-btn btnAdd" type="button" style="background-color: green; border-color: green" wire:click="addEntree">
+                                                <i class="fa fa-plus fa-lg text-center" style=""></i>
+                                                Ajouter une entrée
+                                            </button>
+                                        @else
+                                            <button class="btn theme-btn" type="button" style="background-color: red; border-color: red" wire:click="removeEntree({{ $key }})">
+                                                <i class="fa fa-minus fa-lg text-center" style=""></i>
+                                                Ajouter une entrée
+                                            </button>
+                                        @endif
+                                    </div>
                                 </div>
+                                    </div>
 
                                 @if ($entrees_error && $key == count($entrees) - 1)
-                                    <div class="col-md-12 col-sm-12 text-center">
+                                    <div class="col-md-6 col-xs-12 text-center">
                                         <span class="text-danger">{{ $entrees_error }}</span>
                                     </div>
                                 @endif
@@ -145,81 +208,91 @@
                     @endforeach
 
                 </div>
-                <br>
-
-                <div class="row">
-                    <h4 class="text-center">Plats ({{ count($plats) }})</h4>
+                </div>									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="plats">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+											Plats ({{ count($plats) }})
+										</a>
+									</h4>
+								</div>
+								<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="plats">
+									<div class="panel-body">
+    <div class="">
 
                     @foreach ($plats as $key => $plat)
-                        <div class="col-md-12">
+                        <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-sm-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Nom
                                                 <b style="color: red; font-size: 100%;">*</b>
-                                            </label> <br>
+                                            </label> 
                                             <textarea class="form-control" type="text" placeholder="" required wire:model.defer='plats.{{ $key }}.nom' required></textarea>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-sm-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Ingrédients
                                                 {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                            </label> <br>
+                                            </label> 
                                             <textarea class="form-control" type="text" placeholder="" wire:model.defer='plats.{{ $key }}.ingredients'></textarea>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-sm-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Accompagnements
                                                 {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                            </label> <br>
+                                            </label> 
                                             <textarea class="form-control" type="text" placeholder="" wire:model.defer='plats.{{ $key }}.accompagnements'></textarea>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-xs-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Prix minimum
                                                 <b style="color: red; font-size: 100%;">*</b>
-                                            </label> <br>
+                                            </label> 
                                             <input class="form-control" type="number" wire:model.defer='plats.{{ $key }}.prix_min'>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-xs-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Prix maximum
                                                 <b style="color: red; font-size: 100%;">*</b>
-                                            </label> <br>
+                                            </label> 
                                             <input class="form-control" type="number" placeholder="" wire:model.defer='plats.{{ $key }}.prix_max'>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-1 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                                    <label class="">&nbsp;</label> <br>
+                                <div class="col-md-1 col-sm-4 col-xl-12" style="margin-top: 15px;">
+                                    <label class="">&nbsp;</label> 
                                     @if ($key == 0)
                                         <button class="btn theme-btn" type="button" style="background-color: green; border-color: green" wire:click="addPlat">
                                             <i class="fa fa-plus fa-lg text-center" style=""></i>
@@ -232,76 +305,86 @@
                                 </div>
 
                                 @if ($plats_error && $key == count($plats) - 1)
-                                    <div class="col-md-12 col-sm-12 text-center">
+                                    <div class="col-md-6 col-xs-12 text-center">
                                         <span class="text-danger">{{ $plats_error }}</span>
                                     </div>
                                 @endif
                             </div>
                         </div>
                     @endforeach
-                </div>
-                <br>
-
-                <div class="row">
-                    <h4 class="text-center">Desserts ({{ count($desserts) }})</h4>
+ 
+                        </div>									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="desserts">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+											Desserts ({{ count($desserts) }})
+										</a>
+									</h4>
+								</div>
+								<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="desserts">
+									<div class="panel-body">
+    <div class="">
 
                     @foreach ($desserts as $key => $dessert)
-                        <div class="col-md-12">
+                        <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-sm-12 col-xl-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Nom
                                                 <b style="color: red; font-size: 100%;">*</b>
-                                            </label> <br>
+                                            </label> 
                                             <textarea class="form-control" type="text" placeholder="" required wire:model.defer='desserts.{{ $key }}.nom' required></textarea>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-sm-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Ingrédients
                                                 {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                            </label> <br>
+                                            </label> 
                                             <textarea class="form-control" type="text" placeholder="" wire:model.defer='desserts.{{ $key }}.ingredients'></textarea>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-xs-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Prix minimum
                                                 <b style="color: red; font-size: 100%;">*</b>
-                                            </label> <br>
+                                            </label> 
                                             <input class="form-control" type="number" wire:model.defer='desserts.{{ $key }}.prix_min'>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
+                                <div class="col-md-6 col-xs-12" style="margin-top: 15px;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-10">
+                                        
+                                        <div class="col-md-12">
                                             <label class="">Prix maximum
                                                 <b style="color: red; font-size: 100%;">*</b>
-                                            </label> <br>
+                                            </label> 
                                             <input class="form-control" type="number" placeholder="" wire:model.defer='desserts.{{ $key }}.prix_max'>
                                         </div>
-                                        <div class="col-md-1"></div>
+                                        
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                                    <label class="">&nbsp;</label> <br>
+                                <div class="col-md-6 col-xs-12" style="margin-top: 15px;">
+                                    <label class="">&nbsp;</label> 
                                     @if ($key == 0)
                                         <button class="btn theme-btn" type="button" style="background-color: green; border-color: green" wire:click="addDessert">
                                             <i class="fa fa-plus fa-lg text-center" style=""></i>
@@ -314,55 +397,26 @@
                                 </div>
 
                                 @if ($desserts_error && $key == count($desserts) - 1)
-                                    <div class="col-md-12 col-sm-12 text-center">
+                                    <div class="col-md-6 col-xs-12 text-center">
                                         <span class="text-danger">{{ $desserts_error }}</span>
                                     </div>
                                 @endif
                             </div>
                         </div>
                     @endforeach
-                </div>
+                </div>								</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-                <div class="row">
-                    <div class="col-md-12 col-sm-12" style="margin-top: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Description
-                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                        </label> <br>
-                        <textarea class="form-control height-100" id="description" placeholder="" wire:model.defer='description'></textarea>
-                    </div>
-                </div>
-
-                <div class="row" style="padding-left: 10px; padding-right: 10px;">
-                    @include('admin.annonce.reference-select-component', [
-                        'title' => 'Spécialités',
-                        'name' => 'specialites',
-                        'options' => $list_specialites,
-                    ])
-
-                    @include('admin.annonce.reference-select-component', [
-                        'title' => 'Equipements',
-                        'name' => 'equipements_restauration',
-                        'options' => $list_equipements_restauration,
-                    ])
-
-                    @include('admin.annonce.reference-select-component', [
-                        'title' => 'Carte de consommation',
-                        'name' => 'carte_consommation',
-                        'options' => $list_carte_consommation,
-                    ])
-
-                </div>
-
-                @include('admin.annonce.create-galery-component', [
-                    'galery' => $galerie,
-                ])
 
                 <div class="row padd-bot-15">
                     <div class="form-group" style="margin-top: 15px;">
-                        <div class="col-md-12 col-sm-12 text-right">
-                            <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='store'>
-                                <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
-                                Enregistrer
+                        <div class="col-md-6 col-xs-12 text-right">
+                            <button class="btn theme-btn btnAdd" type="submit" style="margin-right: 30px;" wire:target='store'>
+                                <i class="fa fa-add fa-lg" style="margin-right: 10px;"></i>
+                                Enregistrer le restaurant
                             </button>
                         </div>
                     </div>
@@ -370,6 +424,8 @@
             </form>
         </div>
     </div>
+                        </div>
+
 </div>
 
 @push('scripts')
