@@ -350,6 +350,8 @@ class ReferenceController extends Controller
             $references = $references->orderBy('references.id', 'asc');
         }
 
+        $references = $references->select('reference_valeurs.*');
+
         $references = $references->paginate($perPage);
 
         return response()->json(

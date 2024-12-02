@@ -25,7 +25,7 @@
                     <div class="row form-group">
                         <label class="col-md-3 col-sm-3 col-xl-2 required">Référence</label>
                         <div class="col-md-8 col-sm-9 col-xl-3">
-                            <select class="form-control" name="type" required wire:model.lazy='nom' @if ($isEdit) disabled @endif>
+                            <select class="form-control" name="type" required wire:model.lazy='nom'>
                                 <option value="" selected disabled>Sélectionnez une référence</option>
                                 @foreach ($nomList as $nom)
                                     <option value="{{ $nom }}">{{ $nom }}</option>
