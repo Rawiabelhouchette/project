@@ -18,6 +18,7 @@ class Create extends Component
     public $pays_id;
     public $libelle = 'Enregistrer une ville';
     public $buttonLibelle = 'Enregistrer';
+    public $formIcon = 'save';
 
     public function mount($villeId = null)
     {
@@ -36,10 +37,12 @@ class Create extends Component
 
     public function edit($villeId)
     {
+        $this->resetErrorBag();
         $this->loadVille($villeId);
         $this->isEdit = true;
         $this->libelle = 'Modifier une ville';
         $this->buttonLibelle = 'Modifier';
+        $this->formIcon = 'edit';
     }
 
     public function loadVille($villeId)
