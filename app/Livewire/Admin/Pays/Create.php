@@ -15,6 +15,7 @@ class Create extends Component
     public $langue;
     public $isEdit = false;
     public $pays;
+    public $formIcon = 'save';
 
     public $libelle = 'Enregistrer un pays';
     public $buttonLibelle = 'Enregistrer';
@@ -39,6 +40,7 @@ class Create extends Component
         $this->isEdit = true;
         $this->libelle = 'Modifier un pays';
         $this->buttonLibelle = 'Modifier';
+        $this->formIcon = 'edit';
     }
 
     public function loadPays($paysId)
