@@ -381,3 +381,7 @@ INSERT INTO reference_valeurs (valeur, reference_id, created_at, updated_at, cre
 
 ## 22/11/2024
 - Erreur lors de : Filtre + tri
+
+
+## 08/12/2024
+- Mettre des attributs dans Search.php de sorte qu'en mettant "se loger dans la sesstion" que le filtre selon les types lies se fasse
