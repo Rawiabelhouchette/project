@@ -80,37 +80,39 @@
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="nav navbar-nav header-menu-zone" data-in="fadeInDown" data-out="fadeOutUp">
                 <li>
-                    <a href="#">
+                    <a href="{{ route('search') }}">
                         Se loger
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('search') }}">
                         Se restaurer
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('search') }}">
                         Sortir
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('search') }}">
                         Louer une voiture
                     </a>
                 </li>
+                @if (auth()->check() && auth()->user()->hasRole('Professionnel'))
+                    <li>
+                        <a href="{{ route('search') }}">
+                            Mon entreprise
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('search') }}">
+                            Mes annonces
+                        </a>
+                    </li>
+                @endif
                 <li>
-                    <a href="#">
-                        Mon entreprise
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Mes annonces
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
+                    <a href="{{ route('contact') }}">
                         Contact
                     </a>
                 </li>
@@ -118,9 +120,15 @@
 
             <ul class="nav navbar-nav" data-in="fadeInDown" data-out="fadeOutUp" style="float: right; margin-right: 167px !important">
                 <li class="btn-deposer-annonce-li" style="padding-right: 0px !important">
-                    <a class="add-annonce" id="btn-deposer-annonce" href="#">
-                        Déposer une annonce
-                    </a>
+                    @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
+                        <a class="add-annonce" id="btn-deposer-annonce" href="{{ route('annonces.create') }}">
+                            Déposer une annonce
+                        </a>
+                    @else
+                        <a class="add-annonce" id="btn-deposer-annonce" data-toggle="modal" data-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
+                            Déposer une annonce
+                        </a>
+                    @endif
                 </li>
             </ul>
 
@@ -129,7 +137,8 @@
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd">
                         <a class="addlist" data-toggle="modal" data-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
-                            <i class="ti-user" aria-hidden="true"></i>Connexion
+                            <i class="ti-user" aria-hidden="true"></i>
+                            Se connecter
                         </a>
                     </li>
                 </ul>
@@ -139,8 +148,7 @@
                         <a class="addlist" href="{{ route('home') }}">
                             <img class="img-responsive img-circle avater-img" src="{{ asset('assets_client/img/default-user.svg') }}" alt="" width="50px" height="50px">
                             <strong id="navbar_username">
-                                {{-- &nbsp; --}}
-                                {{-- {{ auth()->user()->prenom }} --}}
+                                {{-- {{ auth()->user()->nom }} {{ auth()->user()->prenom }} --}}
                                 Connecté
                             </strong>
                         </a>
@@ -151,10 +159,24 @@
                                     Mon compte
                                 </a>
                             </li>
+                            {{-- favoris --}}
+                            <li>
+                                <a href="{{ route('home') }}">
+                                    <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
+                                    Mes favoris
+                                </a>
+                            </li>
+                            {{-- Mes commentaires --}}
+                            <li>
+                                <a href="{{ route('home') }}">
+                                    <i class="fa fa-comment" aria-hidden="true"></i> &nbsp;
+                                    Mes commentaires
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ route('logout') }}">
                                     <i class="fa fa-power-off" aria-hidden="true"></i> &nbsp;
-                                    Déconnexion
+                                    Me déconnecter
                                 </a>
                             </li>
                         </ul>
