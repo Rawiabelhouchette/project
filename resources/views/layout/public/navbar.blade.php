@@ -154,21 +154,21 @@
                         </a>
                         <ul class="dropdown-menu animated navbar-left fadeOutUp" style="display: none; opacity: 1;">
                             <li>
-                                <a href="{{ route('home') }}">
+                                <a href="{{ route('accounts.index') }}">
                                     <i class="fa fa-user" aria-hidden="true"></i> &nbsp;
                                     Mon compte
                                 </a>
                             </li>
                             {{-- favoris --}}
                             <li>
-                                <a href="{{ route('home') }}">
+                                <a href="{{ route('accounts.favorite.index') }}">
                                     <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
                                     Mes favoris
                                 </a>
                             </li>
                             {{-- Mes commentaires --}}
                             <li>
-                                <a href="{{ route('home') }}">
+                                <a href="{{ route('accounts.comment.index') }}">
                                     <i class="fa fa-comment" aria-hidden="true"></i> &nbsp;
                                     Mes commentaires
                                 </a>
