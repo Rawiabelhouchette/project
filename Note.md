@@ -385,3 +385,29 @@ INSERT INTO reference_valeurs (valeur, reference_id, created_at, updated_at, cre
 
 ## 08/12/2024
 - Mettre des attributs dans Search.php de sorte qu'en mettant "se loger dans la sesstion" que le filtre selon les types lies se fasse
+
+
+
+## 10/12/2024
+Code pour generer les noms et types de references
+```php
+private function generateCode($name)
+{
+    // Découper les mots du nom
+    $words = preg_split('/\s+/', $name);
+    
+    // Prendre les initiales des mots (au moins 3 caractères)
+    $code = strtoupper(implode('', array_map(fn($word) => $word[0], $words)));
+    
+    // Si le code généré est inférieur à 3 caractères, compléter avec des lettres des mots
+    if (strlen($code) < 3) {
+        foreach ($words as $word) {
+            $code .= strtoupper(substr($word, 1, 1)); // Ajouter la deuxième lettre de chaque mot
+            if (strlen($code) >= 3) break; // Stop si le code atteint 3 caractères
+        }
+    }
+
+    // Limiter à 5 caractères maximum
+    return substr($code, 0, 5);
+}
+```
