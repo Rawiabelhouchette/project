@@ -50,7 +50,7 @@ class Quartier extends Model
 
     // All quartiers with their ville and their pays ex : "Avedji, Lome, Togo"
     // return array of string
-    public static function getAllQuartiers() : array
+    public static function getAllQuartiers(): array
     {
         $quartiers = Quartier::with('ville.pays')->get();
         $quartiersArray = [];
@@ -69,5 +69,8 @@ class Quartier extends Model
         return $count;
     }
 
-    
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

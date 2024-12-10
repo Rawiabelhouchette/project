@@ -1,71 +1,62 @@
-<div>
-    <div class="card">
-
-        {{-- 
-            // TODO : Ajouter les etoiles du required
-        --}}
-        <div class="card-header">
-            <h4>Enregistrer un pays</h4>
+<div class="row">
+    <div class="add-listing-box general-info mrg-bot-25 padd-bot-30 padd-top-25 mrg-l-15 mrg-r-15">
+        <div class="listing-box-header">
+            <i class="fa-files theme-cl"></i>
+            <h3>{{ $libelle }}</h3>
+            <p>Gérez les informations de vos pays</p>
         </div>
 
-        <div class="card-body">
-            <form wire:submit="store()">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row form-group">
-                            <label class="col-md-3 col-sm-3 col-xl-2 required">Indicatif </label>
-                            <div class="col-md-8 col-sm-4 col-xl-3">
-                                <input type="text" class="form-control" placeholder="{{ __('Indicatif du pays (ex: +228)') }}" required wire:model.defer='indicatif'>
-                                @error('indicatif') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="row form-group">
-                            <label class="col-md-3 col-sm-3 col-xl-2 required">Nom </label>
-                            <div class="col-md-8 col-sm-4 col-xl-3">
-                                <input type="text" class="form-control" placeholder="{{ __('Nom du pays')}}" required wire:model.defer='nom'>
-                                @error('nom') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <br>
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row form-group">
-                            <label class="col-md-3 col-sm-3 col-xl-2 required">Code </label>
-                            <div class="col-md-8 col-sm-4 col-xl-3">
-                                <input type="text" class="form-control" placeholder="{{ __('Coed du pays (ex: TG)') }}" required wire:model.defer='code'>
-                                @error('code') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="row form-group">
-                            <label class="col-md-3 col-sm-3 col-xl-2 required">Langue </label>
-                            <div class="col-md-8 col-sm-4 col-xl-3">
-                                <input type="text" class="form-control" placeholder="{{ __('Langue du pays') }}" required wire:model.defer='langue'>
-                                @error('langue') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-                    </div>
+        <form wire:submit="store()">
+            <div class="row mrg-r-10 mrg-l-10">
+                <div class="col-sm-6">
+                    <label class="required">Indicatif </label>
+                    <input class="form-control" type="text" placeholder="{{ __('Indicatif du pays (ex: +228)') }}" required wire:model.defer='indicatif'>
+                    @error('indicatif')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                    <div class="col-md-12 col-sm-12  col-xl-2 text-right">
-                        <div class="form-group" style="">
-                            <button wire:target='store' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 15px;">
-                                <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
-                                Enregistrer
-                            </button>
-                        </div>
-                    </div>
+                <div class="col-sm-6">
+                    <label class="required">Nom </label>
+                    <input class="form-control" type="text" placeholder="{{ __('Nom du pays') }}" required wire:model.defer='nom'>
+                    @error('nom')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
-            </form>
-        </div>
+            </div>
+
+            <div class="row mrg-r-10 mrg-l-10">
+                <div class="col-sm-6">
+                    <label class="required">Code </label>
+                    <input class="form-control" type="text" placeholder="{{ __('Coed du pays (ex: TG)') }}" required wire:model.defer='code'>
+                    @error('code')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+
+                </div>
+
+                <div class="col-sm-6">
+                    <label class="required">Langue </label>
+                    <input class="form-control" type="text" placeholder="{{ __('Langue du pays') }}" required wire:model.defer='langue'>
+                    @error('langue')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="row mrg-r-10 mrg-l-10">
+                <div class="col-sm-12 padd-top-25">
+                    @if ($isEdit)
+                        <button class="btn" type="button" style="margin-right: 15px;" wire:click='exitEdit'>
+                            <i class="fa fa-cancel fa-lg" style="margin-right: 10px;"></i> Annuler
+                        </button>
+                    @endif
+                    <button class="btn theme-btn btnAdd" type="submit" style="margin-right: 15px;" wire:target='store' wire:loading.attr='disabled'>
+                        <i class="fa fa-{{ $formIcon }} fa-lg" style="margin-right: 10px;"></i>
+                        {{ $buttonLibelle }}
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

@@ -23,15 +23,15 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('references.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                            <a href="{{ route('references.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Valeur
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('references.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Rechercher
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
 
@@ -53,11 +53,11 @@
                                 Quartier
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('localisations') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Rechercher
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
 

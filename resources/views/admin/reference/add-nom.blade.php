@@ -28,18 +28,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="dataTable" class="table table-striped table-2 table-hover">
-                                <thead>
-                                    <tr>
-                                        <th><span class="custom-checkbox"></span></th>
-                                        <th>Type </th>
-                                        <th>Nom de référence</th>
-                                        <th>Créer par</th>
-                                        <th>Date de création </th>
-                                        {{-- <th>Action</th> --}}
-                                    </tr>
-                                </thead>
-                            </table>
+                            <table class="table table-striped table-2 table-hover" id="dataTable"></table>
                         </div>
                     </div>
 
@@ -52,89 +41,56 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            let headers = document.querySelectorAll("#dataTable th");
-            headers.forEach(header => {
-                header.style.backgroundColor = "#F3F5F7";
-            });
+            // let headers = document.querySelectorAll("#dataTable th");
+            // headers.forEach(header => {
+            //     header.style.backgroundColor = "#F3F5F7";
+            // });
 
-
-            var datatable = $('#dataTable').DataTable({
-
-                order: [
-                    [0, "desc"]
-                ],
-                lengthMenu: [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, "All"]
-                ],
-                pageLength: 50,
-                oLanguage: {
-                    "sProcessing": "Traitement en cours...",
-                    "sSearch": "Rechercher&nbsp;:",
-                    "sLengthMenu": "Afficher _MENU_ éléments",
-                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-                    "sInfoPostFix": "",
-                    "sLoadingRecords": "Chargement en cours...",
-                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
-                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
-                    "oPaginate": {
-                        "sFirst": "Premier",
-                        "sPrevious": "Pr&eacute;c&eacute;dent",
-                        "sNext": "Suivant",
-                        "sLast": "Dernier"
-                    },
-
-                    "oAria": {
-                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
-                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            const columns = [{
+                    title: 'N°',
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                Processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('references.nom.datatable') }}",
-                    type: 'GET',
-                    dataType: 'json',
-                    data: function(d) {
-                        d.page = d.start / d.length + 1;
-                        d.search = d.search.value;
-                        d.length = d.length;
-                        return d;
+                {
+                    title: 'Type',
+                    name: 'type',
+                    data: 'type',
+                },
+                {
+                    title: 'Nom de référence',
+                    name: 'nom',
+                    data: 'nom',
+                },
+                {
+                    title: 'Date de création',
+                    name: 'created_at',
+                    render: function(data, type, row) {
+
+                        return formatDateToDMY(row.created_at);
                     },
                 },
-                columns: [{
-                        data: null,
-                        render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
+                {
+                    title: 'Créé par',
+                    orderable: false,
+                    render: function(data, type, row) {
+                        return row.user.nom + ' ' + row.user.prenom;
                     },
-                    {
-                        data: 'type',
-                    },
-                    {
-                        data: 'nom',
-                    },
-                    {
-                        render: function(data, type, row) {
-                            return row.user.nom + ' ' + row.user.prenom;
-                        },
-                    },
-                    {
-                        render: function(data, type, row) {
-                            var date = new Date(row.created_at);
-                            return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
-                        },
-                    },
-                    // {
-                    //     className: "text-center",
-                    //     render: function(data, type, row) {
-                    //         return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
-                    //     }
-                    // }
-                ],
-            });
+                },
+                // {
+                //     className: "text-center",
+                //     render: function(data, type, row) {
+                //         return '<a href="javascript:void(0)" data-id="' + row.id + '" class="edit"><i class="fa fa-pencil"></i></a>';
+                //     }
+                // }
+            ];
+
+            const params = {
+                url: "{{ route('references.nom.datatable') }}",
+                columns: columns,
+            };
+
+            const dataTable = initDataTable(params);
 
             window.addEventListener('relaod:dataTable', event => {
                 datatable.ajax.reload();

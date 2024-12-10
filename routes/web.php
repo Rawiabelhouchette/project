@@ -74,19 +74,23 @@ Route::group([
     Route::prefix('staff')->group(function () {
         Route::middleware('App\Http\Middleware\Admin')->group(function () {
             // Une route de ressource pour les références
-            Route::resource('references', ReferenceController::class);
+            Route::resource('references', ReferenceController::class)->except(['create']);
             Route::get('references/nom/add', [ReferenceController::class, 'create_name'])->name('references.nom.add');
             Route::get('references/nom/datatable', [ReferenceController::class, 'getNameDataTable'])->name('references.nom.datatable');
             Route::get('references/ref/datatable', [ReferenceController::class, 'getDataTable'])->name('references.datatable');
             Route::post('references/nom/post', [ReferenceController::class, 'store_name'])->name('references.nom.post');
             Route::get('references/nom/{type}', [ReferenceController::class, 'get_name'])->name('references.nom.get');
 
-            Route::resource('pays', PaysController::class);
+            Route::resource('pays', PaysController::class)->only(['index']);
+            Route::get('pays/list/datatable', [PaysController::class, 'getDataTable'])->name('pays.datatable');
 
-            Route::resource('villes', VilleController::class);
+            Route::resource('villes', VilleController::class)->only(['index']);
+            Route::get('villes/list/datatable', [VilleController::class, 'getDataTable'])->name('villes.datatable');
 
-            Route::resource('quartiers', QuartierController::class);
-            Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
+            Route::resource('quartiers', QuartierController::class)->only(['index']);
+            Route::get('quartiers/list/datatable', [QuartierController::class, 'getDataTable'])->name('quartiers.datatable');
+
+            // Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
 
             Route::resource('users', UserController::class);
             Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');

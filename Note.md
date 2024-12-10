@@ -269,3 +269,119 @@ NN : No Need
 
 
 - ajouter la date de l'abonnement a la liste des abonnements
+
+
+## 19/11/2024
+- Pourvoir suppimer une reference valeur
+- Dans l'affichage detaillé d'une annonce, quand on clique sur whatsapp ou facebook , il faut y ajouter le lien de l'annonce ainsi que le titre de l'annonce
+
+SET FOREIGN_KEY_CHECKS=0;
+TRUNCATE TABLE reference_valeurs;
+INSERT INTO reference_valeurs (valeur, reference_id, created_at, updated_at, created_by, updated_by) VALUES
+('Piscine', 1, NOW(), NOW(), 1, 1),
+('Salle de sport', 1, NOW(), NOW(), 1, 1),
+('Balcon/terrasse', 1, NOW(), NOW(), 1, 1),
+('Jardin ou barbecue', 1, NOW(), NOW(), 1, 1),
+('Jeux et divertissements', 1, NOW(), NOW(), 1, 1),
+('Nettoyage d''entrée/sortie', 2, NOW(), NOW(), 1, 1),
+('Conciergerie', 2, NOW(), NOW(), 1, 1),
+('Gardiennage', 2, NOW(), NOW(), 1, 1),
+('Petit déjeuner compris', 2, NOW(), NOW(), 1, 1),
+('Lit simple', 3, NOW(), NOW(), 1, 1),
+('Lit double', 3, NOW(), NOW(), 1, 1),
+('Queen size', 3, NOW(), NOW(), 1, 1),
+('Lit bébé', 3, NOW(), NOW(), 1, 1),
+('Lits superposés', 3, NOW(), NOW(), 1, 1),
+('Placards, commodes, armoires', 4, NOW(), NOW(), 1, 1),
+('Système de sécurité (caméras, alarmes)', 4, NOW(), NOW(), 1, 1),
+('Connexion internet', 4, NOW(), NOW(), 1, 1),
+('Détecteurs de fumée et de monoxyde de carbone', 4, NOW(), NOW(), 1, 1),
+('Aspirateur ', 4, NOW(), NOW(), 1, 1),
+('Multiprises et chargeurs', 4, NOW(), NOW(), 1, 1),
+('Canapé', 4, NOW(), NOW(), 1, 1),
+('Lave-linge.', 4, NOW(), NOW(), 1, 1),
+('Sèche-linge (ou étendoir)', 4, NOW(), NOW(), 1, 1),
+('Table et fer à repasser', 4, NOW(), NOW(), 1, 1),
+('Kit de premiers secours', 4, NOW(), NOW(), 1, 1),
+('Jeux ou jouets', 4, NOW(), NOW(), 1, 1),
+('Climatisée', 4, NOW(), NOW(), 1, 1),
+('Ventilée', 4, NOW(), NOW(), 1, 1),
+('Téléviseur', 4, NOW(), NOW(), 1, 1),
+('Imprimante', 4, NOW(), NOW(), 1, 1),
+('Ordinateur', 4, NOW(), NOW(), 1, 1),
+('Lavabo ou Vasque', 5, NOW(), NOW(), 1, 1),
+('Cabine de douche', 5, NOW(), NOW(), 1, 1),
+('Baignoire', 5, NOW(), NOW(), 1, 1),
+('WC intégré salle de bain', 5, NOW(), NOW(), 1, 1),
+('WC séparé', 5, NOW(), NOW(), 1, 1),
+('Panier à linge', 5, NOW(), NOW(), 1, 1),
+('Armoire de toilette', 5, NOW(), NOW(), 1, 1),
+('Colonnes de rangement', 5, NOW(), NOW(), 1, 1),
+('Eau chaude', 5, NOW(), NOW(), 1, 1),
+('Tapis de bain', 5, NOW(), NOW(), 1, 1),
+('Four', 6, NOW(), NOW(), 1, 1),
+('Plaques de cuissons', 6, NOW(), NOW(), 1, 1),
+('Plan de travail', 6, NOW(), NOW(), 1, 1),
+('Réfrigérateur', 6, NOW(), NOW(), 1, 1),
+('Lave-vaisselle', 6, NOW(), NOW(), 1, 1),
+('Hotte aspirante', 6, NOW(), NOW(), 1, 1),
+('Poubelle intégrée', 6, NOW(), NOW(), 1, 1),
+('Micro-ondes', 6, NOW(), NOW(), 1, 1),
+('Bouilloire', 6, NOW(), NOW(), 1, 1),
+('Blendeur/mixeur', 6, NOW(), NOW(), 1, 1),
+('Machine à café', 6, NOW(), NOW(), 1, 1),
+('Grille-pain', 6, NOW(), NOW(), 1, 1),
+('Friteuse', 6, NOW(), NOW(), 1, 1),
+('Verres à vin', 6, NOW(), NOW(), 1, 1),
+('Couverts', 6, NOW(), NOW(), 1, 1),
+('Maison T4 (3 chambres salon)', 7, NOW(), NOW(), 1, 1),
+('Maison T3 (2 chambres salon)', 7, NOW(), NOW(), 1, 1),
+('Maison T2 (chambre salon)', 7, NOW(), NOW(), 1, 1),
+('T1 ou Studio', 7, NOW(), NOW(), 1, 1),
+('Appartement T4 (3 chambres)', 7, NOW(), NOW(), 1, 1),
+('Appartement T3 (2 chambres)', 7, NOW(), NOW(), 1, 1),
+('Appartement T2 (Chambre salon)', 7, NOW(), NOW(), 1, 1),
+('Utilitaire ( Camion )', 8, NOW(), NOW(), 1, 1),
+('Citadine', 8, NOW(), NOW(), 1, 1),
+('Berline', 8, NOW(), NOW(), 1, 1),
+('Familiale ( 7 places ) ', 8, NOW(), NOW(), 1, 1),
+('4x4', 8, NOW(), NOW(), 1, 1),
+('SUV', 8, NOW(), NOW(), 1, 1),
+('Minibus', 8, NOW(), NOW(), 1 , 1),
+('Climatisation', 9, NOW(), NOW(), 1, 1),
+('Sièges réglables ', 9, NOW(), NOW(), 1, 1),
+('Accoudoir central', 9, NOW(), NOW(), 1, 1),
+('Pare-soleil avec miroir éclairé', 9, NOW(), NOW(), 1, 1),
+('Airbags (frontaux, latéraux, rideaux)', 9, NOW(), NOW(), 1, 1),
+('Caméra de recul', 9, NOW(), NOW(), 1, 1),
+('Freinage automatique d’urgence', 9, NOW(), NOW(), 1, 1),
+('Navigation GPS', 9, NOW(), NOW(), 1, 1),
+('Commandes vocales', 9, NOW(), NOW(), 1, 1),
+('Connectivité Bluetooth et USB', 9, NOW(), NOW(), 1, 1),
+('Apple CarPlay / Android Auto', 9, NOW(), NOW(), 1, 1),
+('Pare-soleil intégrés', 9, NOW(), NOW(), 1, 1),
+('Régulateur de vitesse', 9, NOW(), NOW(), 1, 1),
+('Limiteur de vitesse', 9, NOW(), NOW(), 1, 1),
+('Caméra 360°', 9, NOW(), NOW(), 1, 1),
+('Toit ouvrant ou panoramique', 9, NOW(), NOW(), 1, 1),
+('Feux antibrouillard', 9, NOW(), NOW(), 1, 1),
+('Siège bébé ou fixation ISOFIX', 9, NOW(), NOW(), 1, 1),
+('Espace de rangement sous le coffre', 9, NOW(), NOW(), 1, 1),
+('Minimum 3 jours', 11, NOW(), NOW(), 1, 1),
+('18 ans minimum', 11, NOW(), NOW(), 1, 1),
+('Ancienneté de 2 ans de permis', 11, NOW(), NOW(), 1, 1),
+('Ancienneté de plus de 3 ans de permis', 11, NOW(), NOW(), 1, 1),
+('Ne doit pas traverser une frontière', 11, NOW(), NOW(), 1, 1);
+
+
+
+
+
+
+
+## 22/11/2024
+- Erreur lors de : Filtre + tri
+
+
+## 08/12/2024
+- Mettre des attributs dans Search.php de sorte qu'en mettant "se loger dans la sesstion" que le filtre selon les types lies se fasse

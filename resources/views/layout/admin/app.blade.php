@@ -73,7 +73,7 @@
         }
 
         .card-body {
-           /* background-color: #e0e0e0;*/
+            /* background-color: #e0e0e0;*/
         }
 
         input::-webkit-input-placeholder {
@@ -130,7 +130,7 @@
         #dataTable td {
             height: 35px;
         }
-        
+
         #dataTable th {
             background: #0c556e !important;
             height: 35px;
@@ -154,6 +154,12 @@
 
         .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
             background-color: #ff3a72 !important;
+        }
+    </style>
+
+    <style>
+        .pointer-cursor {
+            cursor: pointer;
         }
     </style>
 
@@ -230,64 +236,52 @@
         });
 
         window.addEventListener('swal:modal', event => {
-            Swal.fire({
+            const data = {
                 icon: event.detail[0].icon,
                 title: event.detail[0].title,
-                timerProgressBar: true,
-                confirmButtonColor: defaultColor,
-                confirmButtonText: '<span style="font-size: 15px;">OK</span>',
-                timer: 4000,
-                width: '40%',
-                height: '40%',
-                html: "<p style='font-size: 17px'>" + event.detail[0].message + "</p>",
-            });
+                message: event.detail[0].message,
+            };
+
+            showNotification(data);
         });
     </script>
 
     @if (session()->has('success'))
         <script>
-            Swal.fire({
+            const data = {
                 icon: 'success',
                 title: 'Opération réussie',
-                timerProgressBar: true,
-                confirmButtonColor: defaultColor,
-                confirmButtonText: '<span style="font-size: 15px;">OK</span>',
+                message: "{{ session()->get('success') }}",
                 timer: 4000,
-                width: '40%',
-                height: '40%',
-                html: "<p style='font-size: 17px'>{{ session()->get('success') }}</p>",
-            });
+            };
+
+            showNotification(data);
         </script>
     @endif
 
     @if (session()->has('error'))
         <script>
-            Swal.fire({
+            const data = {
                 icon: 'error',
                 title: 'Oops...',
-                timerProgressBar: true,
-                confirmButtonColor: defaultColor,
-                confirmButtonText: '<span style="font-size: 15px;">OK</span>',
-                timer: 5000,
-                width: '40%',
-                height: '40%',
-                html: "<p style='font-size: 17px'>{{ session()->get('error') }}</p>",
-            });
+                message: "{{ session()->get('error') }}",
+                timer: 4000,
+            };
+
+            showNotification(data);
         </script>
     @endif
 
     @if (session()->has('info'))
         <script>
-            Swal.fire({
+            const data = {
                 icon: 'info',
                 title: 'Information',
-                timerProgressBar: true,
-                confirmButtonText: '<span style="font-size: 15px;">OK</span>',
-                timer: 5000,
-                width: '40%',
-                height: '40%',
-                html: "<p style='font-size: 17px'>{{ session()->get('info') }}</p>",
-            });
+                message: "{{ session()->get('info') }}",
+                timer: 4000,
+            };
+
+            showNotification(data);
         </script>
     @endif
 
@@ -331,6 +325,8 @@
             let mask = IMask(elements[i], maskOptions);
         }
     </script> --}}
+
+
     <script>
         // take cpuntry name as parameter
         function applyMask(country = 'Togo') {
@@ -350,6 +346,134 @@
                 }
 
                 let mask = IMask(this, maskOptions);
+            });
+        }
+        
+        // Datatable
+        const initDataTable = ({
+            tableId = 'dataTable',
+            url,
+            columns,
+            order = [0, "desc"],
+        }) => {
+            return $('#dataTable').DataTable({
+
+                order: [
+                    [0, "desc"]
+                ],
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+                pageLength: 25,
+                oLanguage: {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ éléments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    }
+                },
+                Processing: true,
+                serverSide: true,
+                ajax: {
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: function(d) {
+                        d.page = d.start / d.length + 1;
+                        d.search = d.search.value;
+                        d.length = d.length;
+                        return d;
+                    },
+                },
+                columns: columns,
+            });
+        }
+
+        // convert date to d-m-Y H:i:s format
+        const formatDateToDMY = (inputDate) => {
+            var date = new Date(inputDate);
+            var day = ('0' + date.getDate()).slice(-2);
+            var month = ('0' + (date.getMonth() + 1)).slice(-2);
+            var year = date.getFullYear();
+            var hours = ('0' + date.getHours()).slice(-2);
+            var minutes = ('0' + date.getMinutes()).slice(-2);
+            var seconds = ('0' + date.getSeconds()).slice(-2);
+            var formattedDate = day + '-' + month + '-' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+            return formattedDate;
+        }
+        
+        // show confirmation notification
+        const showConfirmationNotification = ({
+            message,
+            icon = 'warning',
+            confirmButtonText = 'Oui, je confirme',
+            cancelButtonText = 'Annuler',
+            onConfirm = () => {},
+            onCancel = () => {},
+            onDismiss = () => {},
+        }) => {
+            Swal.fire({
+                icon: icon,
+                title: 'Êtes-vous sûr ?',
+                showCancelButton: true,
+                confirmButtonColor: 'red',
+                cancelButtonColor: 'gray',
+                html: "<p style='font-size: 17px'>" + message + "</p>",
+                confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
+                cancelButtonText: '<span style="font-size: 15px;">' + cancelButtonText + '</span>',
+                width: '40%',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    onConfirm();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    onCancel();
+                } else {
+                    onDismiss();
+                }
+            });
+        }
+
+        // show notification
+        const showNotification = ({
+            message,
+            icon,
+            timer = 5000,
+            title,
+            timerProgressBar = true,
+            confirmButtonText = 'OK',
+            onConfirm = () => {},
+        }) => {
+            Swal.fire({
+                icon: icon,
+                title: title,
+                confirmButtonColor: 'green',
+                html: "<p style='font-size: 17px'>" + message + "</p>",
+                confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
+                width: '40%',
+                timerProgressBar: timerProgressBar,
+                timer: timer,
+                confirmButtonColor: defaultColor,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    onConfirm();
+                }
             });
         }
     </script>
