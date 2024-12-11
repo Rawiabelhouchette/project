@@ -60,7 +60,10 @@ class Add extends Component
 
     public function deleteReference(ReferenceValeur $ref)
     {
-        $ref->delete();
+        $reference = ReferenceValeur::find($ref->id);
+        $reference->annonceReferences()->delete();
+        $reference->delete();
+        
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
