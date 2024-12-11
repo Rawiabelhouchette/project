@@ -121,7 +121,7 @@
             <ul class="nav navbar-nav" data-in="fadeInDown" data-out="fadeOutUp" style="float: right; margin-right: 167px !important">
                 <li class="btn-deposer-annonce-li" style="padding-right: 0px !important">
                     @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
-                        <a class="add-annonce" id="btn-deposer-annonce" href="{{ route('annonces.create') }}">
+                        <a class="add-annonce" id="btn-deposer-annonce" href="{{ route('public.annonces.create') }}">
                             Déposer une annonce
                         </a>
                     @else

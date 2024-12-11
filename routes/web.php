@@ -127,6 +127,8 @@ Route::group([
 
             Route::resource('subscriptions', SubscriptionController::class);
             Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
+
+
         });
 
         Route::get('dashboard', [AdminController::class, 'home'])->name('home');
@@ -135,6 +137,12 @@ Route::group([
         Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
         Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
 
+    });
+
+    // 
+    Route::middleware('App\Http\Middleware\Professionnel')->group(function () {
+        // Partie publique
+        Route::get('annonces/new', [PublicController::class, 'createAnnonce'])->name('public.annonces.create');
     });
 
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
