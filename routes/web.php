@@ -142,7 +142,7 @@ Route::group([
     // 
     Route::middleware('App\Http\Middleware\Professionnel')->group(function () {
         // Partie publique
-        Route::get('annonces/new', [PublicController::class, 'createAnnonce'])->name('public.annonces.create');
+        Route::get('adverts/new', [PublicController::class, 'createAnnonce'])->name('public.annonces.create');
     });
 
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
