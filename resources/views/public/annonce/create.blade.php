@@ -105,7 +105,7 @@
             <div class="row mrg-bot-40">
                 <div class="col-md-6 col-sm-12 nav-div nav-div-1">
                     <h5>
-                        <a href="{{ route('home') }}" title="Revenir à la recherche" style="text-decoration: underline;">
+                        <a href="{{ route('accueil') }}" title="Revenir à la recherche" style="text-decoration: underline;">
                             Accueil
                         </a> &nbsp;
                         &gt; &nbsp;
@@ -136,8 +136,6 @@
                     border-radius: 4px;
                     margin-bottom: 10px;
                     padding: 12px 0;
-                    /* -webkit-box-shadow: 0px 0px 9px 0px rgba(64, 65, 67, 0.05);
-                                                            -moz-box-shadow: 0px 0px 9px 0px rgba(64, 65, 67, 0.05); */
                     box-shadow: 0px 0px 9px 0px rgba(64, 65, 67, 0.05);
                 }
 
