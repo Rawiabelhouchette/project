@@ -229,7 +229,7 @@ a.btn.call-btn {
 .heading h2{
 	font-weight:600;
 	margin-top:0;
-	text-transform:capitalize;
+	/* text-transform:capitalize; */
 }
 .heading.light h2, .heading.light p{
 	color:#ffffff;
@@ -1687,12 +1687,12 @@ nav.navbar.bootsnav.no-background.white ul.nav > li > a{
 	color:#677782;
 	font-weight:500;
     font-family: 'Nunito', sans-serif;
-	text-transform:capitalize;
+	/* text-transform:capitalize; */
 }
 nav.navbar.bootsnav ul.nav > li > a{
     color:#677782;
 	font-size:15px;
-	text-transform:capitalize;
+	/* text-transform:capitalize; */
     background-color: transparent !important;
 	font-weight:500;
     font-family: 'Nunito', sans-serif;
@@ -1914,7 +1914,7 @@ color:#ff3a72;
 	opacity: 0.8;
 	font-weight:300;
 	font-size:20px;
-	text-transform:capitalize;
+	/* text-transform:capitalize; */
 	line-height: 1.8;
 }
 .banner .no-padd{
@@ -2949,7 +2949,7 @@ listing Category Style
     font-size: 24px;
     padding: 5px 0;
     margin: 0;
-	text-transform:capitalize;
+	/* text-transform:capitalize; */
 }
 
 .category-box-content span {
@@ -3003,7 +3003,7 @@ listing Category Style
 	color:#ffffff;
 	font-weight:500;
 	font-size:22px;
-	text-transform:capitalize;
+	/* text-transform:capitalize; */
 }
 /*----------- listing Category Style 3 -----------*/
 .category-full-widget {
@@ -3281,7 +3281,7 @@ Testimonial Styles
     font-weight:600;
     margin: 0;
     color: #ff3a72;
-    text-transform:capitalize;
+    /* text-transform:capitalize; */
 }
 
 .testimonials-2 .testimonial-detail .post {
