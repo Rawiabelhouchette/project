@@ -82,18 +82,6 @@
             animation: pulse 1s infinite;
         }
 
-        /* if not mobile */
-        @media (min-width: 768px) {
-            #banner-alt-2 {
-
-                /* min-height: 62px !important;
-                height: 62px !important; */
-
-                /* min-height: 10% !important; */
-                /* height: 10% !important; */
-            }
-        }
-
         @media (max-width: 768px) {
             .nav-div {
                 text-align: center !important;
