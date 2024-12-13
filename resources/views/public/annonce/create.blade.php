@@ -192,6 +192,10 @@
                 .widget .widget-caption .col-xs-8 {
                     border-left: 1px solid lightgrey;
                 }
+
+                .widget-caption .col-xs-4.no-pad {
+                    padding-right: 0;
+                }
             </style>
 
             <div class="row">
