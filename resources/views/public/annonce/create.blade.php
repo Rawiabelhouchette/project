@@ -1,7 +1,16 @@
 @extends('layout.public.app-2')
 
-@section('css')
-    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+@section('navbar-2')
+    <li>
+        <a href="{{ route('search') }}">
+            Mon entreprise
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('search') }}">
+            Mes annonces
+        </a>
+    </li>
 @endsection
 
 @section('content')
@@ -9,7 +18,6 @@
 
     @php
         $defaultColor = '#ff3a72';
-        $annonce = \App\Models\Annonce::find(1);
     @endphp
 
     <style>
@@ -77,8 +85,10 @@
         /* if not mobile */
         @media (min-width: 768px) {
             #banner-alt-2 {
-                min-height: 58px !important;
-                height: 58px !important;
+
+                /* min-height: 62px !important;
+                height: 62px !important; */
+
                 /* min-height: 10% !important; */
                 /* height: 10% !important; */
             }
@@ -96,11 +106,11 @@
     </style>
 
     <!-- ================ Listing Detail Basic Information ======================= -->
-    <div class="dark-opacity" id="banner-alt-2" data-overlay="8"></div>
+    {{-- <div class="dark-opacity" id="banner-alt-2" data-overlay="8"></div> --}}
     <!-- ================ End Listing Detail Basic Information ======================= -->
 
     <!-- ================ Listing Detail Full Information ======================= -->
-    <section class="list-detail padd-bot-10 padd-top-30">
+    <section class="list-detail padd-bot-10 padd-top-30" style="margin-top: 65px !important;">
         <div class="container">
             <div class="row mrg-bot-40">
                 <div class="col-md-6 col-sm-12 nav-div nav-div-1">

@@ -61,7 +61,7 @@
 
         <!-- Start Navigation -->
 
-        @include('layout.public.navbar')
+        @include('layout.public.navbar-2')
 
         <!-- End Navigation -->
         <div class="clearfix"></div>
