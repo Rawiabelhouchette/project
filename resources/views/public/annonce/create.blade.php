@@ -1,18 +1,5 @@
 @extends('layout.public.app-2')
 
-@section('navbar-2')
-    <li>
-        <a href="{{ route('search') }}">
-            Mon entreprise
-        </a>
-    </li>
-    <li>
-        <a href="{{ route('search') }}">
-            Mes annonces
-        </a>
-    </li>
-@endsection
-
 @section('content')
     @include('components.default-value')
 

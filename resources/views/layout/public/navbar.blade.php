@@ -124,6 +124,10 @@
                         <a class="add-annonce" id="btn-deposer-annonce" href="{{ route('public.annonces.create') }}">
                             Déposer une annonce
                         </a>
+                    @elseif (auth()->check() && auth()->user()->hasRole('Usager'))
+                        <a class="add-annonce" id="btn-deposer-annonce" href="{{ route('pricing') }}">
+                            Déposer une annonce
+                        </a>
                     @else
                         <a class="add-annonce" id="btn-deposer-annonce" data-toggle="modal" data-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
                             Déposer une annonce
