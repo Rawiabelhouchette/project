@@ -116,6 +116,13 @@
                         Contact
                     </a>
                 </li>
+                @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
+                    <li>
+                        <a href="{{ route('home') }}">
+                            Espace administrateur
+                        </a>
+                    </li>
+                @endif
             </ul>
 
             <ul class="nav navbar-nav" data-in="fadeInDown" data-out="fadeOutUp" style="float: right; margin-right: 167px !important">
@@ -149,7 +156,7 @@
             @else
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="no-pd dropdown">
-                        <a class="addlist" href="{{ route('home') }}">
+                        <a class="addlist" href="#">
                             <img class="img-responsive img-circle avater-img" src="{{ asset('assets_client/img/default-user.svg') }}" alt="" width="50px" height="50px">
                             <strong id="navbar_username">
                                 {{-- {{ auth()->user()->nom }} {{ auth()->user()->prenom }} --}}
