@@ -9,6 +9,6 @@ class AubergeController extends Controller
 {
     public function create()
     {
-        return view('public.annonce.create.auberge');
+        return view('public.user.annonce.create.auberge');
     }
 }

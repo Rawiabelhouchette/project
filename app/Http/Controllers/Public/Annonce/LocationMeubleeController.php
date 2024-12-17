@@ -9,6 +9,6 @@ class LocationMeubleeController extends Controller
 {
     public function create()
     {
-        return view('public.annonce.create.location-meublee');
+        return view('public.user.annonce.create.location-meublee');
     }
 }

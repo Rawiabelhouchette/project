@@ -9,6 +9,6 @@ class BarController extends Controller
 {
     public function create()
     {
-        return view('public.annonce.create.bar');
+        return view('public.user.annonce.create.bar');
     }
 }

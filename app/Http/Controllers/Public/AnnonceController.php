@@ -29,11 +29,11 @@ class AnnonceController extends Controller
         }
 
         $typeAnnonces = AnnoncesUtils::getAnnonceListAlt();
-        return view('public.annonce.create', compact('typeAnnonces'));
+        return view('public.user.annonce.create', compact('typeAnnonces'));
     }
 
     public function listAnnonces()
     {
-        return view('public.annonce.index');
+        return view('public.user.annonce.index');
     }
 }

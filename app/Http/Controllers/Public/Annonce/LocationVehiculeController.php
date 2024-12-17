@@ -9,6 +9,6 @@ class LocationVehiculeController extends Controller
 {
     public function create()
     {
-        return view('public.annonce.create.location-vehicule');
+        return view('public.user.annonce.create.location-vehicule');
     }
 }

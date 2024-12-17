@@ -9,6 +9,6 @@ class HotelController extends Controller
 {
     public function create()
     {
-        return view('public.annonce.create.hotel');
+        return view('public.user.annonce.create.hotel');
     }
 }

@@ -9,6 +9,6 @@ class RestaurantController extends Controller
 {
     public function create()
     {
-        return view('public.annonce.create.restaurant');
+        return view('public.user.annonce.create.restaurant');
     }
 }

@@ -9,6 +9,6 @@ class BoiteDeNuitController extends Controller
 {
     public function create()
     {
-        return view('public.annonce.create.boite-de-nuit');
+        return view('public.user.annonce.create.boite-de-nuit');
     }
 }

@@ -95,11 +95,11 @@
                     </li>
                 {{-- @endif --}}
 
-                <li>
+                {{-- <li>
                     <a href="{{ route('contact') }}">
                         Contact
                     </a>
-                </li>
+                </li> --}}
             </ul>
 
             <ul class="nav navbar-nav" data-in="fadeInDown" data-out="fadeOutUp" style="float: right;">
