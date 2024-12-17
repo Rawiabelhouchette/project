@@ -1,4 +1,4 @@
-@extends('public.template')
+@extends('layout.public.template')
 
 @section('breadcrumb')
     <h5>

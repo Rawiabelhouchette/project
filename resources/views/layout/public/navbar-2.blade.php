@@ -89,7 +89,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('search') }}">
+                        <a href="{{ route('public.annonces.list') }}">
                             Mes annonces
                         </a>
                     </li>

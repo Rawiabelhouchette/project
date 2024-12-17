@@ -210,6 +210,9 @@ Route::group([
             ]
         ]);
 
+        // annonces
+        Route::get('adverts', [PublicAnnonceController::class, 'listAnnonces'])->name('public.annonces.list');
+
 
 
 
