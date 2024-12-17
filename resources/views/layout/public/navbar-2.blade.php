@@ -82,7 +82,7 @@
 
                 @yield('navbar-2')
 
-                @if (auth()->check() && auth()->user()->hasRole('Professionnel'))
+                {{-- @if (auth()->check() && auth()->user()->hasRole('Professionnel') && auth()->user()->hasRole('Administrateur')) --}}
                     <li>
                         <a href="{{ route('search') }}">
                             Mon entreprise
@@ -93,7 +93,8 @@
                             Mes annonces
                         </a>
                     </li>
-                @endif
+                {{-- @endif --}}
+
                 <li>
                     <a href="{{ route('contact') }}">
                         Contact

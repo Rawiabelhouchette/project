@@ -69,6 +69,66 @@ class AnnoncesUtils
         ]);
     }
 
+    public static function getAnnonceListAlt(): object
+    {
+        return collect([
+            (object) [
+                'nom' => 'Auberge',
+                'icon' => 'fas fa-hotel',
+                'route' => 'public.hostels.create',
+                'color' => 'info'
+            ],
+            (object) [
+                'nom' => 'Hôtel',
+                'icon' => 'fas fa-hotel',
+                'route' => 'hotels.create',
+                'color' => 'sucess'
+            ],
+            (object) [
+                'nom' => 'Location de véhicule',
+                'icon' => 'fas fa-car',
+                'route' => 'location-vehicules.create',
+                'color' => 'warning'
+            ],
+            (object) [
+                'nom' => 'Location meublée',
+                'icon' => 'fas fa-home',
+                'route' => 'location-meublees.create',
+                'color' => 'info'
+            ],
+            (object) [
+                'nom' => 'Boite de nuit',
+                'icon' => 'fas fa-glass-cheers',
+                'route' => 'boite-de-nuits.create',
+                'color' => 'danger'
+            ],
+            (object) [
+                'nom' => 'Fast-food',
+                'icon' => 'fas fa-utensils',
+                'route' => 'fast-foods.create',
+                'color' => 'info'
+            ],
+            (object) [
+                'nom' => 'Restaurant',
+                'icon' => 'fas fa-burger',
+                'route' => 'restaurants.create',
+                'color' => 'sucess'
+            ],
+            (object) [
+                'nom' => 'Patisserie',
+                'icon' => 'fas fa-birthday-cake',
+                'route' => 'patisseries.create',
+                'color' => 'warning'
+            ],
+            (object) [
+                'nom' => 'Bar & Rooftop',
+                'icon' => 'fas fa-glass-martini-alt',
+                'route' => 'bars.create',
+                'color' => 'info'
+            ]
+        ]);
+    }
+
     public static function getPublicAnnonceList(): object
     {
         $img_path = 'assets_client/img/type-annonce/';

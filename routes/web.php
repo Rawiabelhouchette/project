@@ -4,7 +4,9 @@ use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
+use App\Http\Controllers\Public\AnnonceController as PublicAnnonceController;
 use App\Http\Controllers\AubergeController;
+use App\Http\Controllers\Public\Annonce\AubergeController as PublicAubergeController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BarController;
 use App\Http\Controllers\BoiteDeNuitController;
@@ -142,7 +144,15 @@ Route::group([
     // 
     Route::middleware('App\Http\Middleware\Professionnel')->group(function () {
         // Partie publique
-        Route::get('adverts/new', [PublicController::class, 'createAnnonce'])->name('public.annonces.create');
+        Route::get('adverts/new', [PublicAnnonceController::class, 'createAnnonce'])->name('public.annonces.create');
+
+        Route::get('adverts/hostel/new', [PublicController::class, 'createHostel'])->name('public.hostels.create');
+
+        Route::resource('adverts/hostels', PublicAubergeController::class, [
+            'names' => [
+                'create' => 'public.hostels.create',
+            ]
+        ]);
     });
 
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
