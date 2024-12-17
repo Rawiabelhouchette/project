@@ -7,6 +7,14 @@ use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\Public\AnnonceController as PublicAnnonceController;
 use App\Http\Controllers\AubergeController;
 use App\Http\Controllers\Public\Annonce\AubergeController as PublicAubergeController;
+use App\Http\Controllers\Public\Annonce\HotelController as PublicHotelController;
+use App\Http\Controllers\Public\Annonce\LocationVehiculeController as PublicLocationVehiculeController;
+use App\Http\Controllers\Public\Annonce\LocationMeubleeController as PublicLocationMeubleeController;
+use App\Http\Controllers\Public\Annonce\BoiteDeNuitController as PublicBoiteDeNuitController;
+use App\Http\Controllers\Public\Annonce\FastFoodController as PublicFastFoodController;
+use App\Http\Controllers\Public\Annonce\RestaurantController as PublicRestaurantController;
+use App\Http\Controllers\Public\Annonce\BarController as PublicBarController;
+use App\Http\Controllers\Public\Annonce\PatisserieController as PublicPatisserieController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BarController;
 use App\Http\Controllers\BoiteDeNuitController;
@@ -153,6 +161,60 @@ Route::group([
                 'create' => 'public.hostels.create',
             ]
         ]);
+
+        Route::resource('adverts/hotels', PublicHotelController::class, [
+            'names' => [
+                'create' => 'public.hotels.create',
+            ]
+        ]);
+
+        Route::resource('adverts/vehicle-rentals', PublicLocationVehiculeController::class, [
+            'names' => [
+                'create' => 'public.vehicle-rentals.create',
+            ]
+        ]);
+
+        Route::resource('adverts/furnished-rentals', PublicLocationMeubleeController::class, [
+            'names' => [
+                'create' => 'public.furnished-rentals.create',
+            ]
+        ]);
+
+        Route::resource('adverts/night-clubs', PublicBoiteDeNuitController::class, [
+            'names' => [
+                'create' => 'public.night-clubs.create',
+            ]
+        ]);
+
+        Route::resource('adverts/fast-foods', PublicFastFoodController::class, [
+            'names' => [
+                'create' => 'public.fast-foods.create',
+            ]
+        ]);
+
+        Route::resource('adverts/restaurants', PublicRestaurantController::class, [
+            'names' => [
+                'create' => 'public.restaurants.create',
+            ]
+        ]);
+
+        Route::resource('adverts/bars', PublicBarController::class, [
+            'names' => [
+                'create' => 'public.bars.create',
+            ]
+        ]);
+
+        Route::resource('adverts/pastry-shops', PublicPatisserieController::class, [
+            'names' => [
+                'create' => 'public.pastry-shops.create',
+            ]
+        ]);
+
+
+
+
+
+
     });
 
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');

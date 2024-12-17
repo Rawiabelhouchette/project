@@ -7,7 +7,7 @@
         <a href="{{ route('public.annonces.create') }}" class="text-underlined" title="Revenir à la recherche">Déposer une annonce</a> &nbsp;
         &gt; &nbsp;
         <a href="javascript:void(0)">
-            Pâtisserie
+            Bar & RoofTop
         </a>
     </h5>
 @endsection

@@ -81,49 +81,49 @@ class AnnoncesUtils
             (object) [
                 'nom' => 'Hôtel',
                 'icon' => 'fas fa-hotel',
-                'route' => 'hotels.create',
+                'route' => 'public.hotels.create',
                 'color' => 'sucess'
             ],
             (object) [
                 'nom' => 'Location de véhicule',
                 'icon' => 'fas fa-car',
-                'route' => 'location-vehicules.create',
+                'route' => 'public.vehicle-rentals.create',
                 'color' => 'warning'
             ],
             (object) [
                 'nom' => 'Location meublée',
                 'icon' => 'fas fa-home',
-                'route' => 'location-meublees.create',
+                'route' => 'public.furnished-rentals.create',
                 'color' => 'info'
             ],
             (object) [
                 'nom' => 'Boite de nuit',
                 'icon' => 'fas fa-glass-cheers',
-                'route' => 'boite-de-nuits.create',
+                'route' => 'public.night-clubs.create',
                 'color' => 'danger'
             ],
             (object) [
                 'nom' => 'Fast-food',
                 'icon' => 'fas fa-utensils',
-                'route' => 'fast-foods.create',
+                'route' => 'public.fast-foods.create',
                 'color' => 'info'
             ],
             (object) [
                 'nom' => 'Restaurant',
                 'icon' => 'fas fa-burger',
-                'route' => 'restaurants.create',
+                'route' => 'public.restaurants.create',
                 'color' => 'sucess'
             ],
             (object) [
                 'nom' => 'Patisserie',
                 'icon' => 'fas fa-birthday-cake',
-                'route' => 'patisseries.create',
+                'route' => 'public.pastry-shops.create',
                 'color' => 'warning'
             ],
             (object) [
                 'nom' => 'Bar & Rooftop',
                 'icon' => 'fas fa-glass-martini-alt',
-                'route' => 'bars.create',
+                'route' => 'public.bars.create',
                 'color' => 'info'
             ]
         ]);
