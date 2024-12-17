@@ -7,6 +7,7 @@ use App\Models\Entreprise;
 use App\Models\Quartier;
 use App\Utils\AnnoncesUtils;
 use App\Utils\CustomSession;
+use Auth;
 
 class PublicController extends Controller
 {
@@ -44,6 +45,8 @@ class PublicController extends Controller
             )
         );
     }
+
+    
 
     public function showEntreprise($slug)
     {

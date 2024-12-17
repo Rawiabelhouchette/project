@@ -13,8 +13,6 @@ class ReferenceController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -23,8 +21,6 @@ class ReferenceController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -35,8 +31,6 @@ class ReferenceController extends Controller
 
     /**
      * Afficher le formulaire pour ajouter un nouveau nom de référence.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create_name()
     {
@@ -45,9 +39,6 @@ class ReferenceController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -81,9 +72,6 @@ class ReferenceController extends Controller
 
     /**
      * Enregistrer un nouveau nom de référence.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store_name(Request $request)
     {
@@ -110,9 +98,6 @@ class ReferenceController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -121,9 +106,6 @@ class ReferenceController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -134,10 +116,6 @@ class ReferenceController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -176,9 +154,6 @@ class ReferenceController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -188,9 +163,6 @@ class ReferenceController extends Controller
 
     /**
      * Recuperer un nom de référence en fonction de son type
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function get_name($type): array|Collection
     {

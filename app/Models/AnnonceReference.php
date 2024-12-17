@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
 use Illuminate\Support\Str;
 class AnnonceReference extends Model
 {
-    use HasFactory, SoftDeletes, Userstamps;
+    use HasFactory, Userstamps;
+
+    protected $table = 'annonce_reference_valeur';
 
     protected $fillable = [
         'titre',

@@ -4,7 +4,18 @@ use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
+use App\Http\Controllers\Public\AnnonceController as PublicAnnonceController;
 use App\Http\Controllers\AubergeController;
+use App\Http\Controllers\Public\Annonce\AubergeController as PublicAubergeController;
+use App\Http\Controllers\Public\Annonce\HotelController as PublicHotelController;
+use App\Http\Controllers\Public\Annonce\LocationVehiculeController as PublicLocationVehiculeController;
+use App\Http\Controllers\Public\Annonce\LocationMeubleeController as PublicLocationMeubleeController;
+use App\Http\Controllers\Public\Annonce\BoiteDeNuitController as PublicBoiteDeNuitController;
+use App\Http\Controllers\Public\Annonce\FastFoodController as PublicFastFoodController;
+use App\Http\Controllers\Public\Annonce\RestaurantController as PublicRestaurantController;
+use App\Http\Controllers\Public\Annonce\BarController as PublicBarController;
+use App\Http\Controllers\Public\Annonce\PatisserieController as PublicPatisserieController;
+use App\Http\Controllers\Public\UserController as PublicUserController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BarController;
 use App\Http\Controllers\BoiteDeNuitController;
@@ -127,6 +138,8 @@ Route::group([
 
             Route::resource('subscriptions', SubscriptionController::class);
             Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
+
+
         });
 
         Route::get('dashboard', [AdminController::class, 'home'])->name('home');
@@ -134,6 +147,88 @@ Route::group([
         Route::get('accounts', [AccountController::class, 'index'])->name('accounts.index');
         Route::get('favorites', [AccountController::class, 'indexFavoris'])->name('accounts.favorite.index');
         Route::get('comments', [AccountController::class, 'indexComment'])->name('accounts.comment.index');
+
+    });
+
+    // 
+    Route::middleware('App\Http\Middleware\Professionnel')->group(function () {
+        // Partie publique
+        Route::get('adverts/new', [PublicAnnonceController::class, 'createAnnonce'])->name('public.annonces.create');
+
+        Route::get('adverts/hostel/new', [PublicController::class, 'createHostel'])->name('public.hostels.create');
+
+        Route::resource('adverts/hostels', PublicAubergeController::class, [
+            'names' => [
+                'create' => 'public.hostels.create',
+            ]
+        ]);
+
+        Route::resource('adverts/hotels', PublicHotelController::class, [
+            'names' => [
+                'create' => 'public.hotels.create',
+            ]
+        ]);
+
+        Route::resource('adverts/vehicle-rentals', PublicLocationVehiculeController::class, [
+            'names' => [
+                'create' => 'public.vehicle-rentals.create',
+            ]
+        ]);
+
+        Route::resource('adverts/furnished-rentals', PublicLocationMeubleeController::class, [
+            'names' => [
+                'create' => 'public.furnished-rentals.create',
+            ]
+        ]);
+
+        Route::resource('adverts/night-clubs', PublicBoiteDeNuitController::class, [
+            'names' => [
+                'create' => 'public.night-clubs.create',
+            ]
+        ]);
+
+        Route::resource('adverts/fast-foods', PublicFastFoodController::class, [
+            'names' => [
+                'create' => 'public.fast-foods.create',
+            ]
+        ]);
+
+        Route::resource('adverts/restaurants', PublicRestaurantController::class, [
+            'names' => [
+                'create' => 'public.restaurants.create',
+            ]
+        ]);
+
+        Route::resource('adverts/bars', PublicBarController::class, [
+            'names' => [
+                'create' => 'public.bars.create',
+            ]
+        ]);
+
+        Route::resource('adverts/pastry-shops', PublicPatisserieController::class, [
+            'names' => [
+                'create' => 'public.pastry-shops.create',
+            ]
+        ]);
+
+        // annonces
+        Route::get('adverts', [PublicAnnonceController::class, 'listAnnonces'])->name('public.annonces.list');
+
+        // Mon entreprise
+        Route::get('business', [PublicUserController::class, 'myBusiness'])->name('public.my-business');
+
+
+        // Mon compte
+        Route::get('accounts', [PublicUserController::class, 'myAccount'])->name('public.my-account');
+
+        // Mes commentaires
+        Route::get('comments', [PublicUserController::class, 'myComments'])->name('public.my-comments');
+
+        // Mes favoris
+        Route::get('favorites', [PublicUserController::class, 'myFavorites'])->name('public.my-favorites');
+
+
+
 
     });
 
