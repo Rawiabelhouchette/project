@@ -15,6 +15,7 @@ use App\Http\Controllers\Public\Annonce\FastFoodController as PublicFastFoodCont
 use App\Http\Controllers\Public\Annonce\RestaurantController as PublicRestaurantController;
 use App\Http\Controllers\Public\Annonce\BarController as PublicBarController;
 use App\Http\Controllers\Public\Annonce\PatisserieController as PublicPatisserieController;
+use App\Http\Controllers\Public\UserController as PublicUserController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BarController;
 use App\Http\Controllers\BoiteDeNuitController;
@@ -213,7 +214,18 @@ Route::group([
         // annonces
         Route::get('adverts', [PublicAnnonceController::class, 'listAnnonces'])->name('public.annonces.list');
 
+        // Mon entreprise
+        Route::get('business', [PublicUserController::class, 'myBusiness'])->name('public.my-business');
 
+
+        // Mon compte
+        Route::get('accounts', [PublicUserController::class, 'myAccount'])->name('public.my-account');
+
+        // Mes commentaires
+        Route::get('comments', [PublicUserController::class, 'myComments'])->name('public.my-comments');
+
+        // Mes favoris
+        Route::get('favorites', [PublicUserController::class, 'myFavorites'])->name('public.my-favorites');
 
 
 

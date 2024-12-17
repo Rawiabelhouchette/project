@@ -83,16 +83,16 @@
                 @yield('navbar-2')
 
                 {{-- @if (auth()->check() && auth()->user()->hasRole('Professionnel') && auth()->user()->hasRole('Administrateur')) --}}
-                    <li>
-                        <a href="{{ route('search') }}">
-                            Mon entreprise
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('public.annonces.list') }}">
-                            Mes annonces
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ route('public.my-business') }}">
+                        Mon entreprise
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('public.annonces.list') }}">
+                        Mes annonces
+                    </a>
+                </li>
                 {{-- @endif --}}
 
                 {{-- <li>
@@ -158,19 +158,19 @@
 
                         <ul class="dropdown-menu animated navbar-left dropdown-menu-zone fadeOutUp" style="display: none; opacity: 1;">
                             <li>
-                                <a href="{{ route('accounts.index') }}">
+                                <a href="{{ route('public.my-account') }}">
                                     <i class="fa fa-user" aria-hidden="true"></i> &nbsp;
                                     Mon compte
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('accounts.favorite.index') }}">
+                                <a href="{{ route('public.my-favorites') }}">
                                     <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
                                     Mes favoris
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('accounts.comment.index') }}">
+                                <a href="{{ route('public.my-comments') }}">
                                     <i class="fa fa-comment" aria-hidden="true"></i> &nbsp;
                                     Mes commentaires
                                 </a>
