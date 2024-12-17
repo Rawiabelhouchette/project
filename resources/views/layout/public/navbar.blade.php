@@ -165,21 +165,21 @@
                         </a>
                         <ul class="dropdown-menu animated navbar-left fadeOutUp" style="display: none; opacity: 1;">
                             <li>
-                                <a href="{{ route('accounts.index') }}">
+                                <a href="{{ route('public.my-account') }}">
                                     <i class="fa fa-user" aria-hidden="true"></i> &nbsp;
                                     Mon compte
                                 </a>
                             </li>
                             {{-- favoris --}}
                             <li>
-                                <a href="{{ route('accounts.favorite.index') }}">
+                                <a href="{{ route('public.my-favorites') }}">
                                     <i class="fa fa-heart" aria-hidden="true"></i> &nbsp;
                                     Mes favoris
                                 </a>
                             </li>
                             {{-- Mes commentaires --}}
                             <li>
-                                <a href="{{ route('accounts.comment.index') }}">
+                                <a href="{{ route('public.my-comments') }}">
                                     <i class="fa fa-comment" aria-hidden="true"></i> &nbsp;
                                     Mes commentaires
                                 </a>
