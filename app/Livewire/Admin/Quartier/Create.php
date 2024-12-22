@@ -60,6 +60,9 @@ class Create extends Component
         $this->quartier = Quartier::findOrFail($quartierId);
         $this->nom = $this->quartier->nom;
         $this->ville_id = $this->quartier->ville_id;
+        $this->pays_id = $this->quartier->ville->pays_id;
+        $this->villes = Ville::where('id', $this->ville_id)->get();
+        $this->pays = Pays::where('id', $this->pays_id)->get();
     }
 
     public function exitEdit()
