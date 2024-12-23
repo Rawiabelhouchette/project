@@ -266,7 +266,7 @@ class ReferenceController extends Controller
             $searchDate = Utils::getStartAndEndOfDay($search);
 
             if ($searchDate[0] && $searchDate[1]) {
-                $references = $references->whereBetween('created_at', $searchDate);
+                $references = $references->whereBetween('reference_valeurs.created_at', $searchDate);
             } else {
                 $references = $references->where(function ($query) use ($search, $searchableColumns) {
                     foreach ($searchableColumns as $column) {
