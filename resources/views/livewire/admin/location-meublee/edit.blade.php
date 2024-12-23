@@ -212,14 +212,14 @@
                 ])
 
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Commodités',
+                    'title' => 'Commodités hébergement',
                     'name' => 'commodites',
                     'options' => $list_commodites,
                 ])
 
                 {{-- service --}}
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Services',
+                    'title' => 'Services proposés',
                     'name' => 'services',
                     'options' => $list_services,
                 ])
