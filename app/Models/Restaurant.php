@@ -115,7 +115,7 @@ class Restaurant extends Model implements AnnonceInterface
 
     public function getCarteConsommationAttribute()
     {
-        return $this->annonce->references('carte-de-consommation');
+        return $this->annonce->references('Boissons disponibles');
     }
 
     public function getShowInformationHeader(): View

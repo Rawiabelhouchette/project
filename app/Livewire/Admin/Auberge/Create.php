@@ -73,7 +73,7 @@ class Create extends Component
                 ->get())
             : ($this->list_types_lit = []);
 
-        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services')->first();
+        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services-proposees')->first();
         $tmp_services
             ? ($this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)
                 ->select('valeur', 'id')
@@ -94,7 +94,7 @@ class Create extends Component
                 ->get())
             : ($this->list_equipements_salle_bain = []);
 
-        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'equipements-cuisine')->first();
+        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'accessoires-cuisine')->first();
         $tmp_equipements_cuisine
             ? ($this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)
                 ->select('valeur', 'id')

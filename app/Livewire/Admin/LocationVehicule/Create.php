@@ -62,12 +62,12 @@ class Create extends Component
             $this->entreprises = Entreprise::all();
         }
 
-        $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-vehicule')->first();
+        $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where(column: 'slug_nom', 'types-de-voiture')->first();
         $tmp_type_vehicule ?
             $this->list_types_vehicule = ReferenceValeur::where('reference_id', $tmp_type_vehicule->id)->select('valeur', 'id')->get() :
             $this->list_types_vehicule = [];
 
-        $tmp_equipement_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'equipements-vehicule')->first();
+        $tmp_equipement_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'options-accessoires')->first();
         $tmp_equipement_vehicule ?
             $this->list_equipements_vehicule = ReferenceValeur::where('reference_id', $tmp_equipement_vehicule->id)->select('valeur', 'id')->get() :
             $this->list_equipements_vehicule = [];
@@ -87,7 +87,7 @@ class Create extends Component
             $this->list_marques = ReferenceValeur::where('reference_id', $tmp_marque->id)->select('valeur', 'id')->get() :
             $this->list_marques = [];
 
-        $tmp_type_carburant = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-carburant')->first();
+        $tmp_type_carburant = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-moteur')->first();
         $tmp_type_carburant ?
             $this->list_types_carburant = ReferenceValeur::where('reference_id', $tmp_type_carburant->id)->select('valeur', 'id')->get() :
             $this->list_types_carburant = [];
