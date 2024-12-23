@@ -62,7 +62,7 @@ class Create extends Component
             $this->entreprises = Entreprise::all();
         }
 
-        $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where(column: 'slug_nom', 'types-de-voiture')->first();
+        $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-voiture')->first();
         $tmp_type_vehicule ?
             $this->list_types_vehicule = ReferenceValeur::where('reference_id', $tmp_type_vehicule->id)->select('valeur', 'id')->get() :
             $this->list_types_vehicule = [];
