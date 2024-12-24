@@ -1,20 +1,5 @@
 <div class="page-name restaurant row">
 
-    <div>
-        <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" type="button" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button>
-
-        <div class="offcanvas offcanvas-start" id="offcanvasWithBothOptions" data-bs-scroll="true" aria-labelledby="offcanvasWithBothOptionsLabel" tabindex="-1">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdroped with scrolling</h5>
-                <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <p>Try scrolling the rest of the page to see this option in action.</p>
-            </div>
-        </div>
-    </div>
-
-    -------------------------
     <div class="col-md-12">
         <div class="card title">
             <div class="card-header">

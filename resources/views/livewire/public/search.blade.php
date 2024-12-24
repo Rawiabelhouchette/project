@@ -1,16 +1,12 @@
 <div>
-    <style>
-        .theme-cl-blue {
-            color: #006ce4 !important;
-        }
-    </style>
+
     <!-- ================ Listing In Grid Style ======================= -->
-    <section class="padd-top-20">
+    <section>
         <div class="container">
             <div class="row">
                 <!-- Start Sidebar -->
                 <div class="col-md-4 col-sm-12">
-                    <h4 class="text-center mrg-bot-15 theme-cl-blue">Filtrer vos recherches</h4>
+                    <h4 class="text-center mrg-bot-15">Filtrer vos recherches</h4>
 
                     @if ($type || $ville || $quartier || $entreprise)
                         <p class="text-center" id="reset-filters">

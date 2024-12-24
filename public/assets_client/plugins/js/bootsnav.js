@@ -18,7 +18,7 @@
             // ------------------------------------------------------------------------------ //
             // Navbar Sticky 
             // ------------------------------------------------------------------------------ //
-            var navSticky = getNav.hasClass("navbar-sticky");
+            var navSticky = getNav.hasClass("nav-sticky");
             if( navSticky ){
                 // Wraped navigation
                 getNav.wrap("<div class='wrap-sticky'></div>");
@@ -143,10 +143,10 @@
             if( getNav.hasClass("navbar-transparent")){
                 $(window).on("scroll", function(){
                     var scrollTop = $(window).scrollTop();
-                    if(scrollTop >34){
-                        $(".navbar-fixed").removeClass("navbar-transparent");
+                    if(scrollTop >63){
+                        $(".fixed-top").removeClass("navbar-transparent");
                     }else {
-                        $(".navbar-fixed").addClass("navbar-transparent");
+                        $(".fixed-top").addClass("navbar-transparent");
                     }
                 });
             }

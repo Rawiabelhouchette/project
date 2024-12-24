@@ -71,7 +71,7 @@ body {
 	font-family: 'Montserrat', sans-serif;
 	font-weight:400;
 	position: relative;
-	font-size:14px;
+	font-size:16px;
 	color:#8995a2;
 	line-height:24px;
 }
@@ -280,6 +280,8 @@ label.btn-bs-file.btn {
 	font-size:17px;
 }
 
+
+
 /*--------- General: Form and Button ------------*/
 button:hover, input:hover, input:focus, button:focus{
 	outline:none;
@@ -385,6 +387,8 @@ button:hover, input:hover, input:focus, button:focus{
 	margin-bottom:10px;
     border: 1px solid #dde6ef;
 }
+
+/*form*/
 .form-control:hover, .form-control:focus{
 	border: 1px solid #0177a9;
 	-webkit-box-shadow:0 1px 1px rgba(7,177,7,.075);
@@ -397,6 +401,8 @@ button:hover, input:hover, input:focus, button:focus{
 	box-shadow:none;
 	outline:none;
 }
+/*---------------------*/
+
 span.input-group-addon {
     color: #8995a2;
     border-color:#dde6ef;
