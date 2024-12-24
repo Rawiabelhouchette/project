@@ -85,6 +85,8 @@ class Edit extends Component
 
     public $carte_consommation = [];
     public $list_carte_consommation = [];
+    public $services = [];
+    public $list_services = [];
 
 
     public $entreprises = [];
@@ -110,6 +112,7 @@ class Edit extends Component
         $this->desserts = $restaurant->desserts;
         $this->desserts_count = count($this->desserts);
 
+        $this->services = $restaurant->annonce->references('services-proposes')->pluck('id')->toArray();
         $this->equipements_restauration = $restaurant->annonce->references('equipements-restauration')->pluck('id')->toArray();
         $this->specialites = $restaurant->annonce->references('specialites')->pluck('id')->toArray();
         $this->carte_consommation = $restaurant->annonce->references('Boissons disponibles')->pluck('id')->toArray();
