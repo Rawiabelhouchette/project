@@ -250,7 +250,7 @@
                     <!-- Start: Listing Gallery -->
                     <div class="widget-boxed padd-bot-10">
                         <div class="widget-boxed-header">
-                            <h4><i class="ti-gallery padd-r-10"></i>Galérie</h4>
+                            <h4><i class="ti-gallery padd-r-10"></i>Galerie</h4>
                         </div>
                         <div class="widget-boxed-body padd-top-0">
                             <div class="side-list no-border gallery-box">

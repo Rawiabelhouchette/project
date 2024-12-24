@@ -1,15 +1,10 @@
-@extends('layout.public.app-2')
+@extends('layout.public.app')
 
 @section('content')
     @php
         $defaultColor = '#ff3a72';
     @endphp
 
-    <style>
-        .text-underlined {
-            text-decoration: underline !important;
-        }
-    </style>
 
     <style>
         .social-network {
@@ -158,18 +153,10 @@
     </style>
 
     <!-- ================ Listing Detail Full Information ======================= -->
-    <section class="list-detail padd-bot-10 padd-top-30" style="margin-top: 65px !important;">
+    <section class="page">
         <div class="container">
-            <div class="row mrg-bot-40">
-                <div class="col-md-12 col-sm-12 nav-div nav-div-1">
-                    @yield('breadcrumb')
-                </div>
-            </div>
-
-            <div class="row">
                 @yield('page-content')
             </div>
-        </div>
     </section>
     <!-- ================ Listing Detail Full Information ======================= -->
 @endsection
