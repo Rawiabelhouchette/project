@@ -224,14 +224,14 @@
 
                 <div class="row" style="padding-left: 10px; padding-right: 10px;">
                     @include('admin.annonce.reference-select-component', [
-                        'title' => 'Type de véhicule',
+                        'title' => 'Type de voiture',
                         'name' => 'types_vehicule',
                         'options' => $list_types_vehicule,
                         'required' => true,
                     ])
 
                     @include('admin.annonce.reference-select-component', [
-                        'title' => 'Équipements',
+                        'title' => 'Options et accessoires',
                         'name' => 'equipements_vehicule',
                         'options' => $list_equipements_vehicule,
                     ])
