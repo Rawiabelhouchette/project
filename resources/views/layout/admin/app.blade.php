@@ -12,7 +12,7 @@
     <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" rel="icon">
     <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" rel="shortcut icon">
 
-    <title>Vamiyi</title>
+    <title>Vamiyi @yield('title')</title>
 
     @livewireStyles
 
@@ -231,6 +231,33 @@
     {{-- Default color --}}
 
     <script>
+        // show notification
+        const showNotification = ({
+            message,
+            icon,
+            timer = 5000,
+            title,
+            timerProgressBar = true,
+            confirmButtonText = 'OK',
+            onConfirm = () => {},
+        }) => {
+            Swal.fire({
+                icon: icon,
+                title: title,
+                confirmButtonColor: 'green',
+                html: "<p style='font-size: 17px'>" + message + "</p>",
+                confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
+                width: '40%',
+                timerProgressBar: timerProgressBar,
+                timer: timer,
+                confirmButtonColor: defaultColor,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    onConfirm();
+                }
+            });
+        }
+
         window.addEventListener('alert:modal', event => {
             alert(event.detail[0].message);
         });
@@ -248,6 +275,7 @@
 
     @if (session()->has('success'))
         <script>
+            console.log("{{ session()->get('success') }}");
             const data = {
                 icon: 'success',
                 title: 'Opération réussie',
@@ -326,7 +354,6 @@
         }
     </script> --}}
 
-
     <script>
         // take cpuntry name as parameter
         function applyMask(country = 'Togo') {
@@ -348,7 +375,7 @@
                 let mask = IMask(this, maskOptions);
             });
         }
-        
+
         // Datatable
         const initDataTable = ({
             tableId = 'dataTable',
@@ -418,7 +445,7 @@
             var formattedDate = day + '-' + month + '-' + year + ' ' + hours + ':' + minutes + ':' + seconds;
             return formattedDate;
         }
-        
+
         // show confirmation notification
         const showConfirmationNotification = ({
             message,
@@ -446,33 +473,6 @@
                     onCancel();
                 } else {
                     onDismiss();
-                }
-            });
-        }
-
-        // show notification
-        const showNotification = ({
-            message,
-            icon,
-            timer = 5000,
-            title,
-            timerProgressBar = true,
-            confirmButtonText = 'OK',
-            onConfirm = () => {},
-        }) => {
-            Swal.fire({
-                icon: icon,
-                title: title,
-                confirmButtonColor: 'green',
-                html: "<p style='font-size: 17px'>" + message + "</p>",
-                confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
-                width: '40%',
-                timerProgressBar: timerProgressBar,
-                timer: timer,
-                confirmButtonColor: defaultColor,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    onConfirm();
                 }
             });
         }

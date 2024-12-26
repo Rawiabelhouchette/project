@@ -187,7 +187,15 @@ class Create extends Component
 
             $auberge->annonce()->save($annonce);
 
-            $references = [['Types de lit', $this->types_lit], ['Commodités hébergement', $this->commodites], ['Services', $this->services], ['Equipements hébergement', $this->equipements_herbegement], ['Equipements salle de bain', $this->equipements_salle_bain], ['Equipements cuisine', $this->equipements_cuisine], ['Types hébergement', $this->types_hebergement]];
+            $references = [
+                ['Types de lit', $this->types_lit],
+                ['Commodités hébergement', $this->commodites],
+                ['Services proposés', $this->services],
+                ['Equipements hébergement', $this->equipements_herbegement],
+                ['Equipements salle de bain', $this->equipements_salle_bain],
+                ['Accessoires de cuisines', $this->equipements_cuisine],
+                ['Types hébergement', $this->types_hebergement]
+            ];
 
             AnnoncesUtils::createManyReference($annonce, $references);
 

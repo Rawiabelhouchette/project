@@ -157,7 +157,7 @@ class Edit extends Component
                 ['Types de musique', $this->types_musique],
                 ['Equipements vie nocturne', $this->equipements_vie_nocturne],
                 ['Commodités hébergement', $this->commodites],
-                ['Services', $this->services],
+                ['Services proposés', $this->services],
             ];
 
             AnnoncesUtils::updateManyReference($this->boiteDeNuit->annonce, $references);
