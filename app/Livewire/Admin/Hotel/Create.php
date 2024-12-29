@@ -172,10 +172,10 @@ class Create extends Component
             $references = [
                 ['Types de lit', $this->types_lit],
                 ['Commodités hébergement', $this->commodites],
-                ['Services', $this->services],
+                ['Services proposés', $this->services],
                 ['Equipements hébergement', $this->equipements_herbegement],
                 ['Equipements salle de bain', $this->equipements_salle_bain],
-                ['Equipements cuisine', $this->equipements_cuisine],
+                ['Accessoires de cuisines', $this->equipements_cuisine],
                 ['Types hébergement', $this->types_hebergement],
             ];
 

@@ -196,8 +196,8 @@ class Create extends Component
             $locationVehicule->annonce()->save($annonce);
 
             $references = [
-                ['Types de véhicule', $this->types_vehicule],
-                ['Equipements véhicule', $this->equipements_vehicule],
+                ['Types de voiture', $this->types_vehicule],
+                ['Options et accessoires', $this->equipements_vehicule],
                 ['Conditions de location', $this->conditions_location],
             ];
 

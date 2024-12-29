@@ -151,7 +151,7 @@ class Create extends Component
             // 'specialites.*' => 'nullable|integer|exists:reference_valeurs,id',
             // 'carte_consommation' => 'nullable|array',
             // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
-            
+
             'services' => 'nullable',
             'image' => 'required|image',
             'galerie' => 'nullable|array',
@@ -416,7 +416,7 @@ class Create extends Component
             $references = [
                 ['Equipements restauration', $this->equipements_restauration],
                 ['Specialités', $this->specialites],
-                ['Services', $this->services],
+                ['Services proposés', $this->services],
                 ['Carte de consommation', $this->carte_consommation],
             ];
 

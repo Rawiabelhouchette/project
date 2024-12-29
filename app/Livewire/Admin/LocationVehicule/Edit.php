@@ -69,6 +69,7 @@ class Edit extends Component
 
         $this->types_vehicule = $locationVehicule->annonce->references('types-de-voiture')->pluck('id')->toArray();
         $this->equipements_vehicule = $locationVehicule->annonce->references('options-accessoires')->pluck('id')->toArray();
+        dd($locationVehicule->annonce->references('options-accessoires')->pluck('id')->toArray());
         $this->conditions_location = $locationVehicule->annonce->references('conditions-de-location')->pluck('id')->toArray();
 
         $this->old_galerie = $locationVehicule->annonce->galerie()->get();
@@ -223,8 +224,8 @@ class Edit extends Component
             ]);
 
             $references = [
-                ['Types de véhicule', $this->types_vehicule],
-                ['Equipements véhicule', $this->equipements_vehicule],
+                ['Types de voiture', $this->types_vehicule],
+                ['Options et accessoires', $this->equipements_vehicule],
                 ['Conditions de location', $this->conditions_location],
             ];
 

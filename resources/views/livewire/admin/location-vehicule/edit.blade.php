@@ -158,7 +158,7 @@
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <label class="" for="carburant">Type de carburant
+                                <label class="" for="carburant">Type de moteur
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
                                 <select id="carburant" class="select2" wire:model.defer='carburant' required data-nom="carburant">

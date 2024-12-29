@@ -117,21 +117,30 @@ class Add extends Component
         $hasOneNewValue = false;
         $hasOneValideValue = false;
 
-        // les valeurs sont stockées séparément par des virgules
-        $valeurs = array_filter(array_map('trim', explode(',', $this->valeur)));
+        try {
+            // les valeurs sont stockées séparément par des virgules
+            $valeurs = array_filter(array_map('trim', explode(',', $this->valeur)));
 
-        foreach ($valeurs as $valeur) {
-            $hasOneValideValue = true;
-            $referenceValeur = ReferenceValeur::where('valeur', $valeur)->where('reference_id', $reference->id)->first();
-            if ($referenceValeur) {
-                $existingValues .= $valeur . ', ';
-                continue;
+            foreach ($valeurs as $valeur) {
+                $hasOneValideValue = true;
+                $referenceValeur = ReferenceValeur::where('valeur', $valeur)->where('reference_id', $reference->id)->first();
+                if ($referenceValeur) {
+                    $existingValues .= $valeur . ', ';
+                    continue;
+                }
+                $hasOneNewValue = true;
+                ReferenceValeur::create([
+                    'reference_id' => $reference->id,
+                    'valeur' => $valeur,
+                ]);
             }
-            $hasOneNewValue = true;
-            ReferenceValeur::create([
-                'reference_id' => $reference->id,
-                'valeur' => $valeur,
+        } catch (\Throwable $th) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue lors de l\'enregistrement de la référence'),
             ]);
+            return;
         }
 
         if (!$hasOneValideValue) {
