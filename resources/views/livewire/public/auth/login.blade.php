@@ -1,10 +1,10 @@
-<div wire:ignore.self id="signin" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true"  data-backdrop="static">
+<div class="modal fade" id="signin" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" tabindex="-1" wire:ignore.self>
     <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h4 id="modalLabel2" class="modal-title">{{ __('Connectez-vous à votre compte') }}</h4>
-                <button type="button" class="m-close" data-dismiss="modal" aria-label="Close">
+                <h4 class="modal-title" id="modalLabel2">{{ __('Connectez-vous à votre compte') }}</h4>
+                <button class="m-close" data-dismiss="modal" type="button" aria-label="Close">
                     <i class="ti-close"></i>
                 </button>
             </div>
@@ -18,17 +18,17 @@
                 @if ($error)
                     <div class="alert-group">
                         <div class="alert alert-danger alert-dismissable" style="text-align: center;">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <button class="close" data-dismiss="alert" type="button" aria-hidden="true">×</button>
                             {{ $message }}
                         </div>
                     </div>
                 @endif
 
-                <form wire:submit="login()">
+                <form id="demo-form" wire:submit="login()">
                     @csrf
                     <div class="form-group">
                         <label>{{ __('Identifiant') }}</label>
-                        <input type="text" minlength="4" name="email" class="form-control form-control-sm" placeholder="Username" wire:model='email' required>
+                        <input class="form-control form-control-sm" name="email" type="text" minlength="4" placeholder="Username" wire:model='email' required>
                         @error('email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -36,7 +36,10 @@
 
                     <div class="form-group">
                         <label>{{ __('Mot de passe') }}</label>
-                        <input type="password" name="password" class="form-control" placeholder="*******" wire:model='password' required>
+                        <input class="form-control" name="password" type="password" placeholder="*******" wire:model='password' required>
+                    </div>
+
+                    <div class="form-group g-recaptcha" data-sitekey="6Lcu0KgqAAAAAJWCA-yj93pHbZWKgLqX9wvKhX5X">
                     </div>
 
                     @if (Route::has('password.reset'))
@@ -48,14 +51,14 @@
                     @endif
 
                     <span class="custom-checkbox d-block">
-                        <input id="remember" type="checkbox" name="remember" wire:model='remember'>
+                        <input id="remember" name="remember" type="checkbox" wire:model='remember'>
                         <label for="remember" style="font-weight: normal;">
                             {{ __('Se souvenir de moi') }}
                         </label>
                     </span>
 
                     <div class="center">
-                        <button type="submit" wire:target='login' wire:loading.attr='disabled' class="btn btn-midium theme-btn btn-radius width-200">
+                        <button class="btn btn-midium theme-btn btn-radius width-200" type="submit" wire:target='login' wire:loading.attr='disabled'>
                             <span wire:loading>
                                 @include('components.public.loader', ['withText' => false, 'color' => '#fff'])
                             </span>
@@ -70,7 +73,7 @@
 
             <div class="center mrg-top-5">
                 <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
-                <a id="btn-register" href="javascript:void(0)" class="theme-cl">{{ __('Créer un compte') }}</a>
+                <a class="theme-cl" id="btn-register" href="javascript:void(0)">{{ __('Créer un compte') }}</a>
             </div>
 
         </div>
