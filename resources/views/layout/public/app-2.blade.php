@@ -82,7 +82,8 @@
         <a class="theme-bg" id="back2Top" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
 
         <!-- START JAVASCRIPT -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="{{ asset('assets_client/plugins/js/bootstrap-slider.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/bootstrap-touch-slider-min.js.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/jquery.touchSwipe.min.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/chosen.jquery.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/datedropper.min.js') }}"></script>
@@ -96,6 +97,8 @@
         <script src="{{ asset('assets_client/plugins/js/slick.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/timedropper.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/waypoints.min.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 
         <!-- Custom Js -->
         <script src="{{ asset('assets_client/js/custom.js') }}"></script>
@@ -138,7 +141,7 @@
             }
         </script>
 
-        <!-- FONTAWSOME -->
+        <!-- FONTAWSOME -->l
         {{-- <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script> --}}
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}

@@ -1,10 +1,17 @@
-@extends('layout.public.template')
+@extends('layout.public.app')
 
+
+@section('content')
+    @include('components.default-value')
+
+    @php
+        $defaultColor = '#ff3a72';
+    @endphp
 
     <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-1.jpg') }})">
         <div class="container">
             <div class="title-content">
-                <h1>Restaurant</h1>
+                <h1>Ajouter un restaurant</h1>
                 <div class="breadcrumbs">
                     <a href="{{ route('accueil') }}">Accueil</a>
                     <span class="gt3_breadcrumb_divider"></span>
@@ -16,16 +23,15 @@
         </div>
     </section>
 
-@section('page-content')
 <div class="page-name restaurant row">
     <div class="container text-left">
       <div class="row align-items-start">
         <div class="col entreprise">
-            <h3>Mon entreprise</h3>
-            <h4>Saisissez les entreprise du lieu</h4>
+            <h3>Établissement</h3>
+            <h4>Saisissez les coordonnées de l'établissement</h4>
             <div class="form-group">
                 <div>
-                    <button class="btn btn-form" type="button" data-bs-toggle="offcanvas" data-bs-target="#entreprise" aria-controls="entreprise-1">Mon entreprise<i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-form" type="button" data-bs-toggle="offcanvas" data-bs-target="#entreprise" aria-controls="entreprise-1">Mon établissement<i class="fa fa-pencil"></i></button>
                 </div>
             </div>
             <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="entreprise" aria-labelledby="entreprise">
@@ -35,161 +41,102 @@
               </div>
               <div class="offcanvas-body">
                  <form>
-                     
-                <div class="row">
-                    <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Nom
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="col-md-1"></div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                        <input type="text" class="form-control" id="name" aria-describedby="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="number" class="form-label">Téléphone<b style="color: red; font-size: 100%;">*</b></label>
+                        <input type="text" class="form-control telephone" id="name" aria-describedby="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ets-email" class="form-label">Email<b style="color: red; font-size: 100%;">*</b></label>
+                        <input type="email" class="form-control" id="ets-email" aria-describedby="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea type="text" class="form-control" id="description" aria-describedby="description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="whatsapp" class="form-label">Whatsapp</label>
+                        <input type="number" class="form-control" id="whatsapp" aria-describedby="whatsapp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="facebook" class="form-label">Facebook</label>
+                        <input type="url" class="form-control" id="facebook" aria-describedby="facebook">
+                    </div>
+                    <div class="mb-3">
+                        <label for="instagram" class="form-label">Instagram</label>
+                        <input type="url" class="form-control" id="instagram" aria-describedby="instagram">
+                    </div>
+                    <div class="mb-3">
+                        <label for="website" class="form-label">Site web</label>
+                        <input type="url" class="form-control" id="website" aria-describedby="website">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="country">Pays</label>
+                            <select class="form-control" id="country">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                            </select>
                         </div>
                     </div>
-
-                    <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Téléphone
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="text" class="form-control telephone">
-                            </div>
-                            <div class="col-md-1"></div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="city">Ville</label>
+                            <select class="form-control" id="city">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                            </select>
                         </div>
                     </div>
-
-
-                    <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Email
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="email" class="form-control">
-                            </div>
-                            <div class="col-md-1"></div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="location">Quartier</label>
+                            <select class="form-control" id="location">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                            </select>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    
-                    <div class="col-md-12 col-sm-12" style="margin-top: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Description
-                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                        </label> <br>
-                        <textarea class="form-control height-100"></textarea>
+                    <div class="mb-3">
+                        <label for="longitude" class="form-label">Longitude</label>
+                        <input type="number" class="form-control" id="longitude" aria-describedby="longitude">
                     </div>
-                </div>
-
-
-
-                <div class="row">
-                    <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Whatsapp
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="text" class="form-control telephone" id="telephone">
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="latitude" class="form-label">Latitude</label>
+                        <input type="number" class="form-control" id="latitude" aria-describedby="latitude">
                     </div>
-
-
-                    <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Facebook
-                                </label> <br>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-       
-                    <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Instagram
-                                </label> <br>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                   
-                   
-                    <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Site web
-                                </label> <br>
-                                <input type="text" class="form-control">
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Longitude
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input id="longitude" type="text" class="form-control">
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                   
-                    <div class="col-md-4 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Latitude
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input id="latitude" type="text" class="form-control">
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 col-sm-12" style="margin-top: 10px; padding-left: 40px;padding-right: 40px;">
+                    <div class="mb-3">
                         <div id="map" style="width: 100%; height: 400px; z-index: 1;"></div>
                     </div>
-                </div>
 
-                <br>
-                <h5 class="text-center">
-                    <label class="">Heure d'ouverture et de fermeture</label>
-                </h5>
-                <br>
-                    <div class="form-group">
-                        <textarea class="form-control" id="description" rows="3"></textarea>
-                     </div>
-                    <button type="submit" class="btn btn-sucess mb-2">Enregistrer</button>
-                    <button type="submit" class="btn btn-danger mb-2">Supprimer</button>
+                    <div class="mb-3">
+                        <h6 class="text-center">Heure d'ouverture et de fermeture</h6>
+                        <div class="form-group">
+                            <label for="horaire">Tableau des horaires à intégrer une fois le code prêt</label>
+                            <select class="form-control" id="horaire">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                
+                <button type="submit" class="btn btn-sucess mb-2">Enregistrer</button>
+                <button type="submit" class="btn btn-danger mb-2">Supprimer</button>
                 </form>
             </div>
         </div>
@@ -224,7 +171,7 @@
                 </form>
             </div>
         </div>
-            <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+            <button type="button" class="btn btn-success btn-square"><i class="fa fa-plus"></i></button>
         </div>
         <div class="col consomations">
             <h3>Boissons</h3>
@@ -262,11 +209,10 @@
                 </form>
             </div>
         </div>
-            <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+            <button type="button" class="btn btn-success btn-square"><i class="fa fa-plus"></i></button>
         </div>
     </div>
     
-    <div class="container text-left">
       <div class="row align-items-start">
         <div class="col entrees">
             <h3>Entrées</h3>
@@ -304,7 +250,7 @@
                 </form>
             </div>
         </div>
-            <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+            <button type="button" class="btn btn-success btn-square"><i class="fa fa-plus"></i></button>
         </div>
         <div class="col plats">
             <h3>Plats</h3>
@@ -342,7 +288,7 @@
                 </form>
             </div>
         </div>
-            <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+            <button type="button" class="btn btn-success btn-square"><i class="fa fa-plus"></i></button>
         </div>
         <div class="col desserts">
             <h3>Desserts</h3>
@@ -380,12 +326,47 @@
                 </form>
             </div>
         </div>
-            <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+            <button type="button" class="btn btn-success btn-square"><i class="fa fa-plus"></i></button>
 
           </div>
         </div>
+    <div class="row align-items-end">
+        <button type="submit" class="btn btn-danger mb-2">Supprimer l'annonce</button>
+        <button type="submit" class="btn btn-success mb-2">Sauvegarder l'annonce</button>
     </div>
 </div>
 
+</div>
+@endsection
+
+@section('js')
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        var mymap = L.map('map').setView([8.6195, 0.8248], 6);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(mymap);
+
+        var marker;
+
+        mymap.on('click', function(e) {
+            if (marker) {
+                mymap.removeLayer(marker); // Supprimez le marqueur existant s'il y en a un.
+            }
+
+            marker = L.marker(e.latlng).addTo(mymap);
+            var lat = e.latlng.lat;
+            var lon = e.latlng.lng;
+
+
+
+            Livewire.dispatch('setLocation', [{
+                lon,
+                lat
+            }]);
+        });
+    </script>
 
 @endsection

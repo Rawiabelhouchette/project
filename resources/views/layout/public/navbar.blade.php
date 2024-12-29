@@ -52,13 +52,13 @@
             {{-- if user is not connected or hasrole Administrateur --}}
             @if (!auth()->check())
                 <li class="">
-                    <a class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
+                    <a class="btn theme-btn" data-bs-toggle="modal" data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
                         <i class="ti-user" aria-hidden="true"></i> <span>Connexion</span>
                     </a>
                 </li>
             @else
             <li class="dropdown">
-                <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="btn theme-btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{-- {{ auth()->user()->nom }} {{ auth()->user()->prenom }} --}}
                         <i class="fa fa-user" aria-hidden="true"></i> <span>Connecté</span>
                 </a>
