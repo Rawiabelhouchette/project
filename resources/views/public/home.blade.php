@@ -40,7 +40,7 @@
                             <div class="form-box">
                                 <i class="banner-icon icon-layers"></i>
                                 <select class="form-control" name="type[]">
-                                    <option class="chosen-select" data-placeholder="{{ __('Tous les types d\'annonce') }}" value="" selected>{{ __('Tous les type d\'annonce') }}</option>
+                                    <option class="chosen-select" data-placeholder="{{ __('Types d\'annonce') }}" value="" selected>{{ __('Types d\'annonce') }}</option>
                                     @foreach ($typeAnnonce as $annonce)
                                         <option value="{{ $annonce }}">{{ $annonce }}</option>
                                     @endforeach
