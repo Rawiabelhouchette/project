@@ -39,8 +39,8 @@
                         <input class="form-control" name="password" type="password" placeholder="*******" wire:model='password' required>
                     </div>
 
-                    <div class="form-group g-recaptcha" data-sitekey="6Lcu0KgqAAAAAJWCA-yj93pHbZWKgLqX9wvKhX5X">
-                    </div>
+                    {{-- <div class="form-group g-recaptcha" data-sitekey="6Lcu0KgqAAAAAJWCA-yj93pHbZWKgLqX9wvKhX5X">
+                    </div> --}}
 
                     @if (Route::has('password.reset'))
                         <div class="text-right">
