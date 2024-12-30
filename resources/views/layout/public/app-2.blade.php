@@ -13,16 +13,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- <meta name="description" content="Best Responsive job portal template build on Latest Bootstrap.">
+    {{-- <meta name="description" content="Les meilleurs bars, restaurants, boites de nuit, location de voiture et hébergements du Togo">
     <meta name="keywords" content="job, nob board, job portal, job listing">
     <meta name="robots" content="index,follow">' --}}
 
     <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" rel="icon">
     <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" rel="shortcut icon">
 
-    <title>Vamiyi</title>
+    <title>Vamiyi @yield('title')</title>
 
     @livewireStyles
+
+    <!-- Bootstrap 5 style -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- All plugins -->
     <link href="{{ asset('assets_client/plugins/css/plugins.css') }}" rel="stylesheet">
@@ -79,11 +82,8 @@
         <a class="theme-bg" id="back2Top" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
 
         <!-- START JAVASCRIPT -->
-        <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootsnav.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootstrap-select.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootstrap-touch-slider-min.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/bootstrap-slider.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/bootstrap-touch-slider-min.js.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/jquery.touchSwipe.min.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/chosen.jquery.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/datedropper.min.js') }}"></script>
@@ -97,7 +97,7 @@
         <script src="{{ asset('assets_client/plugins/js/slick.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/timedropper.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/waypoints.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootstrap-slider.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
         <!-- Custom Js -->
         <script src="{{ asset('assets_client/js/custom.js') }}"></script>
@@ -140,7 +140,7 @@
             }
         </script>
 
-        <!-- FONTAWSOME -->
+        <!-- FONTAWSOME -->l
         {{-- <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script> --}}
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}

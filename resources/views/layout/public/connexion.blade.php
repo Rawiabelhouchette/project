@@ -3,6 +3,7 @@
 @livewire('public.auth.register')
 
 @push('scripts')
+
     <script>
         $(document).ready(function() {
             $('#btn-register').click(function() {

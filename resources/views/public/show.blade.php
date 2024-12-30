@@ -1,8 +1,5 @@
 @extends('layout.public.app')
 
-@section('css')
-    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-@endsection
 
 @section('content')
     @include('components.default-value')
@@ -10,132 +7,22 @@
     @php
         $defaultColor = '#ff3a72';
     @endphp
-
-    <style>
-        .social-network {
-            color: #fff;
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 6px 15px;
-            border-radius: 4px;
-            margin-right: 3px;
-            margin-bottom: 15px;
-            border: 1px solid transparent;
-        }
-
-        .social-network:hover {
-            color: #fff;
-        }
-
-        .social-network:visited {
-            color: #fff;
-        }
-
-        .li-btn {
-            background: white;
-            color: grey;
-            border: 1px solid grey;
-            border-radius: 4px;
-            -webkit-user-select: none;
-        }
-
-        .li-btn.view:hover {
-            color: gray;
-        }
-
-        .li-btn:hover {
-            color: {{ $defaultColor }};
-        }
-
-        .share-button:hover {
-            background: {{ $defaultColor }} !important;
-            color: white !important;
-            border: 1px solid {{ $defaultColor }} !important;
-            border-radius: 4px;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(0.9);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .pulse {
-            animation: pulse 1s infinite;
-        }
-
-        /* if not mobile */
-        @media (min-width: 768px) {
-            #banner-alt {
-                min-height: 320px !important;
-                height: 320px !important;
-                /* min-height: 10% !important; */
-                /* height: 10% !important; */
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-div {
-                text-align: center !important;
-            }
-
-            .nav-div-1 {
-                padding-bottom: 20px !important;
-            }
-        }
-    </style>
-
-    <!-- ================ Listing Detail Basic Information ======================= -->
-    <div class="banner dark-opacity" id="banner-alt" data-overlay="8" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }});">
+    <section class="title-transparent page-title" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }});">
         <div class="container">
-            <div class="banner-caption">
-                <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                    <input name="form_request" type="hidden" value="1">
-                    <div class="col-md-4 col-sm-4 no-padd">
-                        <i class="banner-icon icon-pencil"></i>
-                        <input class="form-control left-radius right-br" name="key" type="text" placeholder="Mot clé...">
-                    </div>
-                    <div class="col-md-3 col-sm-3 no-padd">
-                        <div class="form-box">
-                            <i class="banner-icon icon-map-pin"></i>
-                            <input class="form-control right-br" id="myInput" name="location" type="text" placeholder="Localisation...">
-                            <div class="autocomplete-items" id="autocomplete-results"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 no-padd">
-                        <div class="form-box">
-                            <i class="banner-icon icon-layers"></i>
-                            <select class="form-control" name="type[]">
-                                <option class="chosen-select" data-placeholder="{{ __('Tous les types d\'annonce') }}" value="" selected>{{ __('Tous les type d\'annonce') }}</option>
-                                @foreach ($typeAnnonce as $type)
-                                    <option value="{{ $type }}">{{ $type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 col-sm-3 no-padd">
-                        <div class="form-box">
-                            <button class="btn theme-btn btn-default" type="submit">
-                                {{-- <i class="ti-search"></i> --}}
-                                {{ __('Rechercher') }}
-                            </button>
-                        </div>
-                    </div>
-                </form>
+            <div class="title-content">
+                <h1>{{ $annonce->titre }}</h1>
+                <div class="breadcrumbs">
+                    <a href="{{ route('accueil') }}">Accueil</a>
+                    <span class="gt3_breadcrumb_divider"></span>
+                    <a href="{{ route('search') }}">{{ $annonce->type }}</a>
+                    <span class="gt3_breadcrumb_divider"></span>
+                    <span class="current">{{ $annonce->titre }}</span>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- ================ End Listing Detail Basic Information ======================= -->
+    </section>
+
+<div class="page-name annonce-detail row">
 
     <!-- ================ Listing Detail Full Information ======================= -->
     <section class="list-detail padd-bot-10 padd-top-30">
@@ -167,158 +54,80 @@
             </div>
 
             <div class="row">
-                <!-- Start: Listing Detail Wrapper -->
-                <div class="col-md-8 col-sm-8">
-                    <div class="detail-wrapper">
-                        <div class="detail-wrapper-body">
-                            <div class="listing-title-bar">
-                                {{-- <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3> --}}
-                                <h3> {{ $annonce->titre }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3>
-                                <div>
-                                    <a href="javascript:void(0)">
-                                        <i class="fa fa-building fa-lg" style="color: #ff3a72;"></i>&nbsp;&nbsp;
-                                        {{ $annonce->entreprise->nom }}
-                                    </a><br>
-                                    @if ($annonce->entreprise->site_web)
-                                        <a href="{{ $annonce->entreprise->site_web }}" target="_blank">
-                                            <i class="ti-world" style="color: #ff3a72;"></i>&nbsp;
-                                            {{ $annonce->entreprise->site_web }}
-                                        </a>
-                                        <br>
-                                    @endif
+                <div class="col-md-12 col-sm-12">
+                                        <!-- Listing galery -->
+                <div class="widget-boxed padd-bot-10">
+                    <div class="widget-boxed-header"> <div class="listing-title-bar">
+                        {{-- <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3> --}}
+                        <h3> {{ $annonce->titre }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3>
+                        <div class="annonces">
+                            <a href="javascript:void(0)">
+                                <i class="fa fa-building fa-lg" ></i>
+                                {{ $annonce->entreprise->nom }}
+                            </a>
+                            @if ($annonce->entreprise->site_web)
+                                <a href="{{ $annonce->entreprise->site_web }}" target="_blank">
+                                    <i class="ti-world" ></i>{{ $annonce->entreprise->site_web }}
+                                </a>
+                                
+                            @endif
 
-                                    @if ($annonce->entreprise->email)
-                                        {{-- <a href="mailto:{{ $annonce->entreprise->email }}"> --}}
-                                        <a href="javascript:void(0)">
-                                            <i class="ti-email" style="color: #ff3a72;"></i>&nbsp;
-                                            {{ $annonce->entreprise->email }}
-                                        </a>
-                                        <br>
-                                    @endif
-
-                                    <div class="cover-buttons mrg-top-15" style="float: left;">
-                                        <ul>
-                                            <li class="mrg-r-10" style="padding-left: 0;">
-                                                <span class="buttons li-btn view padd-10">
-                                                    <i class="fa fa-eye hidden-xs"></i>
-                                                    <span class="">{{ $annonce->view_count }} vue(s)</span>
-                                                </span>
-                                            </li>
-                                            <li class="mrg-r-10" style="padding-left: 0;">
-                                                <span class="buttons li-btn view padd-10">
-                                                    <i class="fa fa-comment-o hidden-xs"></i>
-                                                    <span class="" id="annonce-commentaire">{{ $annonce->comment_count }}</span> commentaire(s)
-                                                </span>
-                                            </li>
-                                            <li class="mrg-r-10" style="padding-left: 0;">
-                                                <div class="inside-rating buttons listing-rating theme-btn button-plain" style="padd-0 !important; line-height: 0.5; -webkit-user-select: none;">
-                                                    <span class="value" id="annonce-note">{{ $annonce->note }}</span> <sup class="out-of">/ 5</sup>
-                                                </div>
-                                            </li>
-                                            <li class="mrg-r-10" style="padding-left: 0;">
-                                                @livewire('public.favoris', [$annonce])
-                                            </li>
-                                            <li class="mrg-r-10" style="padding-left: 0;">
-                                                <button class="buttons padd-10 share-button" data-toggle="modal" data-target="#share" style="background: white; border: 1px solid grey; color: grey;">
-                                                    <i class="fa fa-share"></i>
-                                                    <span class="hidden-xs">Partager</span>
-                                                </button>
-                                            </li>
-                                            <br><br>
-                                            @if ($annonce->entreprise->instagram)
-                                                <li style="padding-left: 0; padding-right: 5px;">
-                                                    <a class="social-network" href="{{ $annonce->entreprise->instagram }}" style="background-color: #FF3A72" target="_blank"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> &nbsp;Instagram</a>
-                                                </li>
-                                            @endif
-                                            @if ($annonce->entreprise->facebook)
-                                                <li style="padding-left: 0; padding-right: 5px;">
-                                                    <a class="social-network" href="{{ $annonce->entreprise->facebook }}" style="background-color: #0866FF" target="_blank"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> &nbsp;Facebook</a>
-                                                </li>
-                                            @endif
-                                            @if ($annonce->entreprise->whatsapp)
-                                                <li style="padding-left: 0; padding-right: 5px;">
-                                                    <a class="social-network" href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" style="background-color: #00A884" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> &nbsp;Whatsapp</a>
-                                                </li>
-                                            @endif
-                                        </ul>
-                                    </div>
-                                    <br>
+                            @if ($annonce->entreprise->email)
+                                {{-- <a href="mailto:{{ $annonce->entreprise->email }}"> --}}
+                                <a href="javascript:void(0)">
+                                    <i class="ti-email" ></i>
+                                    {{ $annonce->entreprise->email }}
+                                </a>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
-                    <!-- Start: Listing Gallery -->
-                    <div class="widget-boxed padd-bot-10">
-                        <div class="widget-boxed-header">
-                            <h4><i class="ti-gallery padd-r-10"></i>Galérie</h4>
-                        </div>
-                        <div class="widget-boxed-body padd-top-0">
-                            <div class="side-list no-border gallery-box">
-                                <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
-                                    <div class="col-xs-12 col-md-12 padd-0 image-preview" data-toggle="modal" data-id="{{ $annonce->imagePrincipale->id }}" data-target="#modal-gallery" style="margin-bottom: -20px !important; margin-top: -10px !important; padding-left : 3px; padding-right : 3px;">
-                                        <div class="listing-shot grid-style">
-                                            <div class="" style="display: flex; justify-content: center; align-items: center; height: 220px; background:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }}); background-size: cover; background-position: center;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @foreach ($annonce->galerie as $key => $image)
-                                        @if ($key < 3)
-                                            <div class="col-xs-12 col-md-3 padd-0 padd-3 image-preview" data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery">
-                                                <div class="listing-shot grid-style">
-                                                    <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @elseif ($key == 3)
-                                            <div class="col-xs-12 col-md-3 padd-0 padd-3 image-preview" data-toggle="modal" data-id="{{ $image->id }}" data-target="#modal-gallery">
-                                                <div class="listing-shot grid-style">
-                                                    <div style="position: relative; display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;">
-                                                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
-                                                            {{-- <div class="" style="display: flex; justify-content: center; align-items: center; height: 120px; background:url({{ asset('storage/' . $image->chemin) }}); background-size: cover; background-position: center;"> --}}
-                                                            <div style="color: white; font-size: 20px;">
-                                                                +{{ count($annonce->galerie) - 4 }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @else
-                                        @break
-                                    @endif
-                                @endforeach
-                            </div>
-                        </div>
+                    <div class="widget-boxed-body padd-top-0">
+                        <div class="side-list no-border gallery-box">
+                            <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
+                                <div class="col-xs-12 col-md-12 padd-0">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                
+                  <div class="carousel-inner">
+                                          @foreach ($annonce->galerie as $key => $image)
+                    <div class="carousel-item {{ $key == 0 ? ' active' : ''  }}">
+                      <img src="{{ asset('storage/' . $image->chemin) }}" class="d-block w-100" alt="...">
                     </div>
+                                        @endforeach
+                  </div>
+                  <div class="carousel-indicators">
+                                          @foreach ($annonce->galerie as $key => $image)
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" class="active thumbnail" aria-current="true" aria-label="Slide 1">
+                      <img src="{{ asset('storage/' . $image->chemin) }}" class="d-block w-100" alt="...">
+                    </button>
+                                        @endforeach
+                  </div>
                 </div>
-                <!-- End: Listing Gallery -->
-
-                <div class="detail-wrapper">
-                    <div class="detail-wrapper-header">
-                        <h4><i class="ti-info-alt padd-r-10"></i>Description
-                        </h4>
+                 </div> 
+                </div> 
+                            </div> 
+                        </div> 
                     </div>
-                    <div class="detail-wrapper-body">
-                        <p>
-                            {{ $annonce->description ?? 'Aucune description disponible' }}
-                        </p>
-                    </div>
-                </div>
-
+                <!-- End: Listing Gallery --> 
                 <div class="tab style-1 mrg-bot-40" role="tabpanel">
                     <!-- Nav tabs -->
-                    {{-- <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#information" aria-controls="information" role="tab" data-toggle="tab">Information</a></li>
-                        <li role="presentation"><a href="#equipement" aria-controls="equipement" role="tab" data-toggle="tab">Equipements</a></li>
+                    {{-- <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">                        
+                            <button class="nav-link active" id="information-tab" data-bs-toggle="tab" data-bs-target="#information" type="button" role="tab" aria-controls="information" aria-selected="true">Détail</button>
+                        </li>
+                        <li class="nav-item" role="presentation">                        
+                            <button class="nav-link" id="information-tab" data-bs-toggle="tab" data-bs-target="#equipement" type="button" role="tab" aria-controls="equipement" aria-selected="true">Équipements</button>
+                        </li>
                     </ul> --}}
                     {{-- @include('components.public.show.information-header') --}}
                     {{ $annonce->annonceable->getShowInformationHeader() }}
 
                     <!-- Tab panes -->
-                    {{-- <div class="tab-content tabs">
-                        <div role="tabpanel" class="tab-pane fade in active" id="information">
-                            {{ $annonce->annonceable->caracteristiques }}
+                    {{-- <div class="tab-content mt-3" id="myTabContent">
+                        <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="information-tab">
+                            <h2 class="mb-3">{{ $annonce->annonceable->caracteristiques }}</h2>
                         </div>
-                        <div role="tabpanel" class="tab-pane fade" id="equipement">
+                        <div role="tabpanel" class="tab-pane fade" id="equipement"labelledby="equipement-tab">
                             @forelse ($annonce->referenceDisplay() as $key => $value)
                                 @if (count($value) > 0)
                                     <div class="row">
@@ -350,26 +159,89 @@
                     {{-- @include('components.public.show.information-body', ['annonce' => $annonce]) --}}
                     {{ $annonce->annonceable->getShowInformationBody() }}
                 </div>
+                </div>
+                <!-- Start: Listing Detail Wrapper -->
+                <div class="col-md-8 col-sm-8">     
+
+                
 
                 @livewire('public.comment', [$annonce])
 
-            </div>
+            </div> 
             <!-- End: Listing Detail Wrapper -->
-
+    
             <!-- Sidebar Start -->
             <div class="col-md-4 col-sm-12">
                 <div class="sidebar">
+                                   
+                    
+                    <div class="widget-boxed padd-bot-10">
+                        <div class="widget-boxed-header">
+                            <h4><i class="ti-location-pin padd-r-10"></i>Informations</h4>
+                        </div>
+                        <div class="widget-boxed-body padd-top-5">
+                            <div class="coordonnees">
+                                <div class="cover-buttons mrg-top-15">
+                                            <ul>
+                                                <li class="mrg-r-10" style="padding-left: 0;">
+                                                    <span class="buttons li-btn view padd-10">
+                                                        <i class="fa fa-eye hidden-xs"></i>
+                                                        <span class="">{{ $annonce->view_count }} vue(s)</span>
+                                                    </span>
+                                                </li>
+                                                <li class="mrg-r-10">
+                                                    <span class="buttons li-btn view padd-10">
+                                                        <i class="fa fa-comment-o hidden-xs"></i>
+                                                        <span class="" id="annonce-commentaire">{{ $annonce->comment_count }}</span> commentaire(s)
+                                                    </span>
+                                                </li>
+                                                <li class="mrg-r-10">
+                                                    <div class="inside-rating listing-rating theme-btn li-btn">
+                                                        <span class="value" id="annonce-note">{{ $annonce->note }}</span> <sup class="out-of">/ 5</sup>
+                                                    </div>
+                                                </li>
+                                                <li class="mrg-r-10 ">
+                                                    @livewire('public.favoris', [$annonce])
+                                                </li>
+                                                <li class="mrg-r-10">
+                                                    <button class="buttons padd-10 li-btn share-button" data-toggle="modal" data-target="#share">
+                                                        <i class="fa fa-share"></i>
+                                                        <span class="hidden-xs">Partager</span>
+                                                    </button>
+                                                </li>
+                                                @if ($annonce->entreprise->instagram)
+                                                    <li>
+                                                        <a class="social-network" href="{{ $annonce->entreprise->instagram }}" style="background-color: #FF3A72" target="_blank"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> Instagram</a>
+                                                    </li>
+                                                @endif
+                                                @if ($annonce->entreprise->facebook)
+                                                    <li>
+                                                        <a class="social-network" href="{{ $annonce->entreprise->facebook }}" style="background-color: #0866FF" target="_blank"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> Facebook</a>
+                                                    </li>
+                                                @endif
+                                                @if ($annonce->entreprise->whatsapp)
+                                                    <li>
+                                                        <a class="social-network" href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" style="background-color: #00A884" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> Whatsapp</a>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    
                     <!-- Start: Listing Location -->
                     <div class="widget-boxed padd-bot-10">
                         <div class="widget-boxed-header">
                             <h4><i class="ti-location-pin padd-r-10"></i>Localisation</h4>
                         </div>
                         <div class="widget-boxed-body padd-top-5">
-                            <div class="side-list no-border">
+                            <div class="side-list">
                                 <ul>
-                                    <li>Pays : <strong>{{ $annonce->entreprise->quartier->ville->pays->nom ?? '-' }} </strong></li>
-                                    <li>Ville : <strong>{{ $annonce->entreprise->quartier->ville->nom ?? '-' }} </strong></li>
-                                    <li>Quartier : <strong>{{ $annonce->entreprise->quartier->nom ?? '-' }} </strong></li>
+                                    <li>Pays<span>{{ $annonce->entreprise->quartier->ville->pays->nom ?? '-' }} </span></li>
+                                    <li>Ville<span>{{ $annonce->entreprise->quartier->ville->nom ?? '-' }} </span></li>
+                                    <li>Quartier<span>{{ $annonce->entreprise->quartier->nom ?? '-' }} </span></li>
                                     <li>
                                         <div class="full-width" id="map" style="height:200px;"></div>
                                     </li>
