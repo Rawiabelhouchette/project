@@ -12,4 +12,8 @@
     <li class="nav-item" role="menu">                        
         <button class="nav-link" id="menu-tab" data-bs-toggle="tab" data-bs-target="#menu" type="button" role="tab" aria-controls="menu" aria-selected="true">Menu</button>
     </li>
+     {{-- Commentaires --}}
+    <li class="nav-item" role="comments">                        
+        <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button" role="tab" aria-controls="comments" aria-selected="true">Commentaires</button>
+    </li>
 </ul>

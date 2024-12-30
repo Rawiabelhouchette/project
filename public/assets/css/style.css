@@ -401,6 +401,50 @@ button:hover, input:hover, input:focus, button:focus{
 	box-shadow:none;
 	outline:none;
 }
+.form-control, .form-control-plaintext, .btn.btn-form, .form-select,
+.select2-container {
+    height:50px;
+    border: 1px solid #dde6ef;
+	margin-bottom:10px;
+    box-shadow: none;
+    border-radius: 0;
+    background: #fbfdff;
+    font-size: 15px;
+	color:#445461;
+    font-weight: 400;
+    width: 100%;
+    text-align: left;
+    text-transform: none;
+    line-height: 1;
+    padding: 15px;
+}
+.select2-container {
+    height:auto;
+}
+.select2-container--default .select2-selection--single, 
+.select2-container--default .select2-selection--multiple {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    display: inline;
+}
+li.select2-selection__choice {
+    display: inline-block;
+    margin-right: 8px;
+    border: 1px solid #007a7a;
+    border-radius: 32px;
+    color: #fff;
+    padding: 1rem;
+    background: #007a7a;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+span.select2-selection__choice__remove {
+    margin-right: 8px;
+    border-right: 1px solid #fff;
+    padding-right: 8px;
+}
+
 /*---------------------*/
 
 span.input-group-addon {

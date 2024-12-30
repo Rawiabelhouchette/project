@@ -31,10 +31,6 @@
 		margin: 0 auto;
 	}
 	
-	body.home-2 .banner p{
-		max-width:85%;
-	}
-	
 	.banner-caption .form-control.left-radius{
 	border-radius:5px 0px 0px 5px ;
 	}

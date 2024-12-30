@@ -1,12 +1,6 @@
 <div>
-    <div class="card">
-
-        <div class="card-header">
-            <h4>Ajouter une boite de nuit</h4>
-        </div>
-
-        <div class="card-body">
-            <form wire:submit="store()">
+   <div class="nightclub-template">
+        <form wire:submit="store()">
                 @csrf
                 <div class="row">
                     <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
@@ -131,8 +125,6 @@
                     </div>
                 </div>
             </form>
-
-        </div>
     </div>
 </div>
 

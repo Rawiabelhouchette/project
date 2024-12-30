@@ -88,7 +88,7 @@
                         </div>
                         <div class="col-md-1" style="">
                             <a href="javascript:void(0)" data-toggle="modal" data-target="#share" onclick="sharePage()">
-                                <i class="fa fa-share fa-lg" aria-hidden="true"></i>
+                                <i class="fa fa-share-nodes fa-lg" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
@@ -162,19 +162,14 @@
                                                 @for ($i = 1; $i <= 5; $i++)
                                                     <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
                                                 @endfor
-
-                                                <a href="javascript:void(0)" data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}', '{{ $annonce->type }}')" class="theme-cl annonce-share" style="float: right;">
-                                                    <i class="fa fa-share theme-cl" aria-hidden="true"></i>
-                                                    Partager
-                                                </a>
                                             </div>
                                         </div>
                                         <div class="tp-author-basic-info mrg-top-0">
                                             <ul>
-                                                <li class="text-center padd-top-10 padd-bot-0">
+                                                <!--<li class="text-center padd-top-10 padd-bot-0">
                                                     <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                                    {{ $annonce->view_count }}
-                                                </li>
+                                                    {{ $annonce->view_count }} 
+                                                </li> -->
                                                 <li class="text-center padd-top-10 padd-bot-0">
                                                     <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
                                                     {{ $annonce->favorite_count }}
@@ -182,6 +177,12 @@
                                                 <li class="text-center padd-top-10 padd-bot-0">
                                                     <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
                                                     {{ $annonce->comment_count }}
+                                                </li>
+
+                                                <li class="text-center padd-top-10 padd-bot-0">
+                                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}', '{{ $annonce->type }}')" class="theme-cl annonce-share">
+                                                        <i class="fa fa-share-nodes theme-cl" aria-hidden="true"></i>
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </div>

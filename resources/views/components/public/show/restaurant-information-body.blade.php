@@ -3,12 +3,12 @@
 <div class="tab-content mt-3" id="myTabContent">
     <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
         <div class="side-list">
-                    <ul>
-                        <li>
-                            {{ $annonce->description ?? 'Aucune description disponible' }}                        
-                        </li>
-                    </ul>
-                </div>
+            <ul>
+                <li>
+                    {{ $annonce->description ?? 'Aucune description disponible' }}                        
+                </li>
+            </ul>
+        </div>
         </div>
     <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
         <div class="side-list">
@@ -140,5 +140,8 @@
                 @endforelse
             </div>
         </div>
+    <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+        @livewire('public.comment', [$annonce])
     </div>
+</div>
 
