@@ -58,8 +58,14 @@
                                         <!-- Listing galery -->
                 <div class="widget-boxed padd-bot-10">
                     <div class="widget-boxed-header"> <div class="listing-title-bar">
-                        {{-- <h3> {{ $annonce->entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3> --}}
-                        <h3> {{ $annonce->titre }} <span class="mrg-l-5 category-tag">{{ $annonce->type }}</span></h3>
+                        <h3> {{ $annonce->titre }} 
+                            <span class="listing-shot-info rating padd-0">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
+                                @endfor
+
+                            </span>
+                        </h3>
                         <div class="annonces">
                             <a href="javascript:void(0)">
                                 <i class="fa fa-building fa-lg" ></i>
@@ -78,37 +84,59 @@
                                     <i class="ti-email" ></i>
                                     {{ $annonce->entreprise->email }}
                                 </a>
-                                </div>
+                            @endif
+                            @if ($annonce->entreprise->instagram)
+                                <a class="social-network" href="{{ $annonce->entreprise->instagram }}" target="_blank"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> Instagram</a>
+                            @endif
+                            @if ($annonce->entreprise->facebook)
+                                <a class="social-network" href="{{ $annonce->entreprise->facebook }}" target="_blank"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> Facebook</a>
+                            @endif
+                            @if ($annonce->entreprise->whatsapp)
+                                    <a class="social-network" href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> Whatsapp</a>
                             @endif
                         </div>
                     </div>
-                    <div class="widget-boxed-body padd-top-0">
-                        <div class="side-list no-border gallery-box">
+                </div>
+                <div class="widget-boxed-body padd-top-0">
+                    <div class="side-list no-border gallery-box">
                             <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
                                 <div class="col-xs-12 col-md-12 padd-0">
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                
-                  <div class="carousel-inner">
-                                          @foreach ($annonce->galerie as $key => $image)
-                    <div class="carousel-item {{ $key == 0 ? ' active' : ''  }}">
-                      <img src="{{ asset('storage/' . $image->chemin) }}" class="d-block w-100" alt="...">
+                                     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    
+                      <div class="carousel-inner">
+                                              @foreach ($annonce->galerie as $key => $image)
+                        <div class="carousel-item {{ $key == 0 ? ' active' : ''  }}">
+                          <img src="{{ asset('storage/' . $image->chemin) }}" class="d-block w-100" alt="...">
+                        </div>
+                                            @endforeach
+                      </div>
+                      <div class="carousel-indicators">
+                                              @foreach ($annonce->galerie as $key => $image)
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" class="active thumbnail" aria-current="true" aria-label="Slide 1">
+                          <img src="{{ asset('storage/' . $image->chemin) }}" class="d-block w-100" alt="...">
+                        </button>
+                                            @endforeach
+                      </div>
                     </div>
-                                        @endforeach
-                  </div>
-                  <div class="carousel-indicators">
-                                          @foreach ($annonce->galerie as $key => $image)
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" class="active thumbnail" aria-current="true" aria-label="Slide 1">
-                      <img src="{{ asset('storage/' . $image->chemin) }}" class="d-block w-100" alt="...">
-                    </button>
-                                        @endforeach
-                  </div>
-                </div>
-                 </div> 
-                </div> 
+                                </div> 
                             </div> 
                         </div> 
-                    </div>
+                    <div class="side-list share-buttons">
+                            <div class="mrg-r-10">
+                                <button class="buttons padd-10 btn-default share-button" data-toggle="modal" data-target="#share">
+                                    <i class="fa fa-share-nodes"></i>
+                                    <!-- <span class="hidden-xs">Partager</span> -->
+                                </button>
+                            </div>           
+                            <div class="mrg-r-10">
+                                @livewire('public.favoris', [$annonce])
+                            </div>
+                        </div>
+                    </div> 
+                </div>
                 <!-- End: Listing Gallery --> 
+                <!-- Start: Listing Detail Wrapper -->
+                <!-- Tabs -->
                 <div class="tab style-1 mrg-bot-40" role="tabpanel">
                     <!-- Nav tabs -->
                     {{-- <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -160,77 +188,14 @@
                     {{ $annonce->annonceable->getShowInformationBody() }}
                 </div>
                 </div>
-                <!-- Start: Listing Detail Wrapper -->
-                <div class="col-md-8 col-sm-8">     
-
-                
-
-                @livewire('public.comment', [$annonce])
-
-            </div> 
-            <!-- End: Listing Detail Wrapper -->
-    
-            <!-- Sidebar Start -->
-            <div class="col-md-4 col-sm-12">
-                <div class="sidebar">
-                                   
-                    
-                    <div class="widget-boxed padd-bot-10">
-                        <div class="widget-boxed-header">
-                            <h4><i class="ti-location-pin padd-r-10"></i>Informations</h4>
-                        </div>
-                        <div class="widget-boxed-body padd-top-5">
-                            <div class="coordonnees">
-                                <div class="cover-buttons mrg-top-15">
-                                            <ul>
-                                                <li class="mrg-r-10" style="padding-left: 0;">
-                                                    <span class="buttons li-btn view padd-10">
-                                                        <i class="fa fa-eye hidden-xs"></i>
-                                                        <span class="">{{ $annonce->view_count }} vue(s)</span>
-                                                    </span>
-                                                </li>
-                                                <li class="mrg-r-10">
-                                                    <span class="buttons li-btn view padd-10">
-                                                        <i class="fa fa-comment-o hidden-xs"></i>
-                                                        <span class="" id="annonce-commentaire">{{ $annonce->comment_count }}</span> commentaire(s)
-                                                    </span>
-                                                </li>
-                                                <li class="mrg-r-10">
-                                                    <div class="inside-rating listing-rating theme-btn li-btn">
-                                                        <span class="value" id="annonce-note">{{ $annonce->note }}</span> <sup class="out-of">/ 5</sup>
-                                                    </div>
-                                                </li>
-                                                <li class="mrg-r-10 ">
-                                                    @livewire('public.favoris', [$annonce])
-                                                </li>
-                                                <li class="mrg-r-10">
-                                                    <button class="buttons padd-10 li-btn share-button" data-toggle="modal" data-target="#share">
-                                                        <i class="fa fa-share"></i>
-                                                        <span class="hidden-xs">Partager</span>
-                                                    </button>
-                                                </li>
-                                                @if ($annonce->entreprise->instagram)
-                                                    <li>
-                                                        <a class="social-network" href="{{ $annonce->entreprise->instagram }}" style="background-color: #FF3A72" target="_blank"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> Instagram</a>
-                                                    </li>
-                                                @endif
-                                                @if ($annonce->entreprise->facebook)
-                                                    <li>
-                                                        <a class="social-network" href="{{ $annonce->entreprise->facebook }}" style="background-color: #0866FF" target="_blank"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> Facebook</a>
-                                                    </li>
-                                                @endif
-                                                @if ($annonce->entreprise->whatsapp)
-                                                    <li>
-                                                        <a class="social-network" href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" style="background-color: #00A884" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> Whatsapp</a>
-                                                    </li>
-                                                @endif
-                                            </ul>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                   
-                    
+                <!-- <li class="mrg-r-10" style="padding-left: 0;">
+                    <span class="buttons btn-default view padd-10">
+                        <i class="fa fa-eye hidden-xs"></i>
+                        <span class="">{{ $annonce->view_count }} vue(s)</span>
+                    </span>
+                </li> -->
+            <div class="col-md-12 col-sm-12">
+                <div class="col-md-8 col-sm-12">
                     <!-- Start: Listing Location -->
                     <div class="widget-boxed padd-bot-10">
                         <div class="widget-boxed-header">
@@ -239,9 +204,7 @@
                         <div class="widget-boxed-body padd-top-5">
                             <div class="side-list">
                                 <ul>
-                                    <li>Pays<span>{{ $annonce->entreprise->quartier->ville->pays->nom ?? '-' }} </span></li>
-                                    <li>Ville<span>{{ $annonce->entreprise->quartier->ville->nom ?? '-' }} </span></li>
-                                    <li>Quartier<span>{{ $annonce->entreprise->quartier->nom ?? '-' }} </span></li>
+                                    <li>{{ $annonce->entreprise->quartier->ville->pays->nom ?? '-' }} - {{ $annonce->entreprise->quartier->ville->nom ?? '-' }}, {{ $annonce->entreprise->quartier->nom ?? '-' }}</li>
                                     <li>
                                         <div class="full-width" id="map" style="height:200px;"></div>
                                     </li>
@@ -250,7 +213,8 @@
                         </div>
                     </div>
                     <!-- End: Listing Location -->
-
+                </div> 
+                <div class="col-md-4 col-sm-12">
                     <!-- Start: Opening hour -->
                     <div class="widget-boxed padd-bot-10">
                         <div class="widget-boxed-header">
@@ -273,7 +237,7 @@
                     <!-- End: Opening hour -->
                 </div>
             </div>
-            <!-- End: Sidebar Start -->
+            <!-- End: Listing Detail Wrapper -->
         </div>
     </div>
 

@@ -13,7 +13,7 @@
     @include('components.default-value')
 
     @php
-        $defaultColor = '#ff3a72';
+        $defaultColor = '#de6600';
     @endphp
 
     <!-- Main Banner Section Start -->
@@ -21,42 +21,47 @@
         <div class="container">
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
-                    <h1 style="font-size: 50px; ">Vamiyi, l'aventure commence ici</h1>
-                    <p>Explorez les meilleurs endroits, des restaurants et plus encore...</p>
-                    <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                        <input name="form_request" type="hidden" value="1">
-                        <div class="col-md-4 col-sm-4 no-padd">
-                            <i class="banner-icon icon-pencil"></i>
-                            <input class="form-control left-radius right-br" name="key" type="text" placeholder="Mot clé...">
-                        </div>
-                        <div class="col-md-3 col-sm-3 no-padd">
-                            <div class="form-box">
-                                <i class="banner-icon icon-map-pin"></i>
-                                <input class="form-control right-br" id="myInput" name="location" type="text" placeholder="Localisation...">
-                                <div class="autocomplete-items" id="autocomplete-results"></div>
+                    <div class="logo-home col-md-4" style="background-image:url(assets/img/logo-vamiyi-vacances-white.svg);"></div>
+                    
+                    <div class="search-home col-md-12">
+                        <!-- <h1>Vamiyi</h1> -->
+                        <h2>L'aventure commence ici</h2>
+                        <p>Explorez les meilleurs hébergements, des restaurants et plus encore...</p>
+                    </div>
+                    <div class="form-home col-md-12"><form class="form-verticle" method="GET" action="{{ route('search') }}">
+                            <input name="form_request" type="hidden" value="1">
+                            <div class="col-md-4 col-sm-4 no-padd">
+                                <i class="banner-icon icon-pencil"></i>
+                                <input class="form-control left-radius right-br" name="key" type="text" placeholder="Mot clé...">
                             </div>
-                        </div>
-                        <div class="col-md-3 col-sm-3 no-padd">
-                            <div class="form-box">
-                                <i class="banner-icon icon-layers"></i>
-                                <select class="form-control" name="type[]">
-                                    <option class="chosen-select" data-placeholder="{{ __('Types d\'annonce') }}" value="" selected>{{ __('Types d\'annonce') }}</option>
-                                    @foreach ($typeAnnonce as $annonce)
-                                        <option value="{{ $annonce }}">{{ $annonce }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="col-md-3 col-sm-3 no-padd">
+                                <div class="form-box">
+                                    <i class="banner-icon icon-map-pin"></i>
+                                    <input class="form-control right-br" id="myInput" name="location" type="text" placeholder="Localisation...">
+                                    <div class="autocomplete-items" id="autocomplete-results"></div>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-2 col-sm-3 no-padd">
-                            <div class="form-box">
-                                <button class="btn theme-btn btn-default" type="submit">
-                                    {{-- <i class="ti-search"></i> --}}
-                                    {{ __('Rechercher') }}
-                                </button>
+                            <div class="col-md-3 col-sm-3 no-padd">
+                                <div class="form-box">
+                                    <i class="banner-icon icon-layers"></i>
+                                    <select class="form-control" name="type[]">
+                                        <option class="chosen-select" data-placeholder="{{ __('Types d\'annonce') }}" value="" selected>{{ __('Types d\'annonce') }}</option>
+                                        @foreach ($typeAnnonce as $annonce)
+                                            <option value="{{ $annonce }}">{{ $annonce }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+    
+                            <div class="col-md-2 col-sm-3 no-padd">
+                                <div class="form-box">
+                                    <button class="btn theme-btn btn-default" type="submit">
+                                        {{-- <i class="ti-search"></i> --}}
+                                        {{ __('Rechercher') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form></div>
 
                     {{-- <div class="popular-categories">
                         <ul class="popular-categories-list">
@@ -88,11 +93,11 @@
         <div class="container">
 
             <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-10">
                     <div class="heading">
                         {{-- <h2>Top & Popular <span>Listings</span></h2> --}}
-                        <h2>Top & Populaire <span>Annonces</span></h2>
-                        <p>Explorez les meilleurs endroits, des restaurants , des hôtels, des auberges et plus encore...</p>
+                        <h2>Top <span>Annonces</span></h2>
+                        <p>Les plus populaires</p>
                     </div>
                 </div>
             </div>
@@ -177,13 +182,13 @@
     <!-- End Listings Section -->
 
     <!-- Category Section -->
-    <section class="bg-image" data-overlay="6" style="background:url(assets_client/img/image-stat.JPEG);">
+  <section class="bg-image" data-overlay="6" style="background:url(assets_client/img/image-stat.JPEG);">
         <div class="container">
             <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-10">
                     <div class="heading light">
-                        <h2>Les types <span>d'annonce </span></h2>
-                        <p>Les types d'annonce que les gens visitent le plus, les plus populaires</p>
+                        <h2>Top <span>Catégories</span></h2>
+                        <p>Les plus populaires</p>
                     </div>
                 </div>
             </div>
@@ -211,46 +216,45 @@
     <!-- End Category Section -->
 
     <!-- Top Places Listing -->
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="heading">
-                        <h2>Les types d'annonce</h2>
-                        <p>La liste des types d'annonce</p>
+  <!--  <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="heading">
+                            <h2>Les types d'annonce</h2>
+                            <p>La liste des types d'annonce</p>
+                        </div>
                     </div>
                 </div>
+                <div class="row">
+                    @forelse ($statsAnnonce as $key => $stat)
+                        @if ($key > 5)
+                        @break
+                    @endif
+                    <div class="col-md-{{ $key % 4 == 0 || $key % 4 == 3 ? '4' : '8' }} col-sm-{{ $key % 4 == 0 || $key % 4 == 3 ? '5' : '7' }}">
+                        <a class="place-box" href="{{ route('search.key.type', ['', $stat->type]) }}">
+                            <span class="listing-count">
+                                <strong> {{ $stat->count }} Annonce(s) </strong>
+                            </span>
+                            <div class="place-box-content">
+                                <h4>{{ $stat->type }}</h4>
+                                <span>Voir les annonces</span>
+                            </div>
+                            @foreach ($listAnnonce as $type)
+                                @if (Str::slug($type->nom) == Str::slug($stat->type) || Str::slug($type->libelle) == Str::slug($stat->type))
+                                    <div class="place-box-bg" style="background-image: url({{ $type->image }});"></div>
+                                @endif
+                            @endforeach
+                        </a>
+                    </div>
+                @empty
+                    <div class="col-md-12">
+                        <p class="text-center">Aucune annonce n'est disponible pour le moment</p>
+                    </div>
+                @endforelse
             </div>
-
-            <div class="row">
-                @forelse ($statsAnnonce as $key => $stat)
-                    @if ($key > 5)
-                    @break
-                @endif
-                <div class="col-md-{{ $key % 4 == 0 || $key % 4 == 3 ? '4' : '8' }} col-sm-{{ $key % 4 == 0 || $key % 4 == 3 ? '5' : '7' }}">
-                    <a class="place-box" href="{{ route('search.key.type', ['', $stat->type]) }}">
-                        <span class="listing-count">
-                            <strong> {{ $stat->count }} Annonce(s) </strong>
-                        </span>
-                        <div class="place-box-content">
-                            <h4>{{ $stat->type }}</h4>
-                            <span>Voir les annonces</span>
-                        </div>
-                        @foreach ($listAnnonce as $type)
-                            @if (Str::slug($type->nom) == Str::slug($stat->type) || Str::slug($type->libelle) == Str::slug($stat->type))
-                                <div class="place-box-bg" style="background-image: url({{ $type->image }});"></div>
-                            @endif
-                        @endforeach
-                    </a>
-                </div>
-            @empty
-                <div class="col-md-12">
-                    <p class="text-center">Aucune annonce n'est disponible pour le moment</p>
-                </div>
-            @endforelse
-        </div>
-
-</section>
+            </div>
+        </section> -->
 
 <section class="company-state theme-overlap" style="background:url(assets_client/img/image-stat.JPEG);">
     <div class="container-fluid">

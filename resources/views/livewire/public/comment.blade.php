@@ -17,7 +17,7 @@
                                         <div class="review-info">
                                             <div class="review-comment">
                                                 <div class="review-author">
-                                                    <h5 style="font-size: 18px !important;">{{ $commentaire->auteur->nom }} {{ $commentaire->auteur->prenom }}</h5>
+                                                    <h5>{{ $commentaire->auteur->nom }} {{ $commentaire->auteur->prenom }}</h5>
                                                 </div>
                                                 <div class="review-comment-stars">
                                                     @for ($i = 0; $i < $commentaire->note; $i++)

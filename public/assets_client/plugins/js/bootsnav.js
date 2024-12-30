@@ -143,7 +143,7 @@
             if( getNav.hasClass("navbar-transparent")){
                 $(window).on("scroll", function(){
                     var scrollTop = $(window).scrollTop();
-                    if(scrollTop >63){
+                    if(scrollTop >32){
                         $(".fixed-top").removeClass("navbar-transparent");
                     }else {
                         $(".fixed-top").addClass("navbar-transparent");

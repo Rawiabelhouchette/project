@@ -1,12 +1,6 @@
 <div>
-    <div class="card">
-
-        <div class="card-header">
-            <h4>Ajouter une location de véhicule</h4>
-        </div>
-
-        <div class="card-body">
-            <form wire:submit="store()">
+   <div class="hebergement-template">
+        <form wire:submit="store()">
                 @csrf
                 <div class="row">
                     <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
@@ -259,8 +253,6 @@
                     </div>
                 </div>
             </form>
-
-        </div>
     </div>
 </div>
 

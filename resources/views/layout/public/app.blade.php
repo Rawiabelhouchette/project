@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}') }}" rel="icon">
-    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}') }}" rel="shortcut icon">
+    <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" type="image/x-icon">
 
     <title>Vamiyi</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,8 +17,8 @@
     <meta name="keywords" content="restaurants, bars, Togo, boîtes de nuit, location de voiture, hébergements, logements">
     <meta name="robots" content="index,follow">
 
-    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" rel="icon">
-    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" rel="shortcut icon">
+    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}" rel="icon">
+    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}" rel="shortcut icon">
 
     <title>Vamiyi</title>
 
@@ -29,20 +29,25 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
     <link
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-    <!-- MDB -->
-    <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.1.0/mdb.min.css" rel="stylesheet" />
-
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1..1000&display=swap" rel="stylesheet">
+    
     <!-- Bootstrap 5 style -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
     <!-- All plugins -->
     <link href="{{ asset('assets_client/plugins/css/plugins.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
+    
     <!-- Custom style -->
     <link href="{{ asset('assets_client/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('assets_client/css/responsiveness.css') }}" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- FONTAWESOME STYLES-->
     <link href="{{ asset('assets/css/font-awesome.css') }}" rel="stylesheet" />
@@ -52,8 +57,7 @@
       <script src="js/html5shiv.min.js') }}"></script>
       <script src="js/respond.min.js') }}"></script>
     <![endif]-->
-
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
 
     {{-- cookies --}}
     <link href="{{ asset('assets_client/cookies/cookies.css') }}" rel="stylesheet">
@@ -82,7 +86,6 @@
         <div class="clearfix"></div>
 
         @yield('content')
-
         <!-- ================ Start Footer ======================= -->
         @include('layout.public.footer')
         <!-- ================ End Footer Section ======================= -->
@@ -92,10 +95,11 @@
         <!-- ===================== End Login & Sign Up Window =========================== -->
 
         <a class="theme-bg" id="back2Top" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
-
-        <!-- START JAVASCRIPT -->
-        <!-- MDB -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.1.0/mdb.umd.min.js"></script>
+  
+      <!-- START JAVASCRIPT --> 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        
+         <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
         <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/bootsnav.js') }}"></script>
 
