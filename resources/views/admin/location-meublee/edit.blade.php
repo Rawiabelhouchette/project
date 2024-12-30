@@ -16,7 +16,7 @@
     <div id="page-inner">
         <div class="row bott-wid">
             <div class="col-md-12 col-sm-12">
-                @livewire('admin.location-meublee.edit', ['LocationMeublee' => $LocationMeublee])
+                @livewire('admin.location-meublee.edit', ['LocationMeublee' => $locationMeublee])
             </div>
         </div>
     </div>
