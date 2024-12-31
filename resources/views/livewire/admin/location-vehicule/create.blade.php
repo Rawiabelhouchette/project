@@ -152,7 +152,7 @@
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
-                                <label class="" for="carburant">Type de carburant
+                                <label class="" for="carburant">Type de moteur
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
                                 <select id="carburant" class="select2" wire:model.defer='carburant' required data-nom="carburant">
@@ -218,14 +218,14 @@
 
                 <div class="row" style="padding-left: 10px; padding-right: 10px;">
                     @include('admin.annonce.reference-select-component', [
-                        'title' => 'Type de véhicule',
+                        'title' => 'Type de voiture',
                         'name' => 'types_vehicule',
                         'options' => $list_types_vehicule,
                         'required' => true,
                     ])
 
                     @include('admin.annonce.reference-select-component', [
-                        'title' => 'Équipements',
+                        'title' => 'Options et accessoires',
                         'name' => 'equipements_vehicule',
                         'options' => $list_equipements_vehicule,
                     ])

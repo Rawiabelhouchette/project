@@ -106,9 +106,10 @@ Route::group([
             Route::resource('users', UserController::class);
             Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
 
-        });
 
-        Route::middleware('App\Http\Middleware\Professionnel')->group(function () {
+
+
+            // Route::middleware('App\Http\Middleware\Professionnel')->group(function () {
 
             Route::resource('entreprises', EntrepriseController::class);
 
@@ -140,7 +141,11 @@ Route::group([
             Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
 
 
+            // });
+
         });
+
+
 
         Route::get('dashboard', [AdminController::class, 'home'])->name('home');
 
@@ -150,7 +155,7 @@ Route::group([
 
     });
 
-    // 
+    // Les Routes pour les professionnels
     Route::middleware('App\Http\Middleware\Professionnel')->group(function () {
         // Partie publique
         Route::get('adverts/new', [PublicAnnonceController::class, 'createAnnonce'])->name('public.annonces.create');

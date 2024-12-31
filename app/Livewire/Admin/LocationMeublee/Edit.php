@@ -44,32 +44,32 @@ class Edit extends Component
     public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
-    public $LocationMeublee;
+    public $locationMeublee;
 
-    public function mount($LocationMeublee)
+    public function mount($locationMeublee)
     {
         $this->initialization();
-        $this->LocationMeublee = $LocationMeublee;
-        $this->entreprise_id = $LocationMeublee->annonce->entreprise_id;
-        $this->nom = $LocationMeublee->annonce->titre;
-        $this->is_active = $LocationMeublee->annonce->is_active;
-        $this->description = $LocationMeublee->annonce->description;
-        $this->nombre_chambre = $LocationMeublee->nombre_chambre;
-        $this->nombre_personne = $LocationMeublee->nombre_personne;
-        $this->nombre_salles_bain = $LocationMeublee->nombre_salles_bain;
-        $this->superficie = $LocationMeublee->superficie;
-        $this->prix_min = $LocationMeublee->prix_min;
-        $this->prix_max = $LocationMeublee->prix_max;
-        $this->date_validite = date('Y-m-d', strtotime($LocationMeublee->annonce->date_validite));
-        $this->types_lit = $LocationMeublee->annonce->references('types-de-lit')->pluck('id')->toArray();
-        $this->commodites = $LocationMeublee->annonce->references('commodites-hebergement')->pluck('id')->toArray();
-        $this->services = $LocationMeublee->annonce->references('services')->pluck('id')->toArray();
-        $this->equipements_herbegement = $LocationMeublee->annonce->references('equipements-hebergement')->pluck('id')->toArray();
-        $this->equipements_salle_bain = $LocationMeublee->annonce->references('equipements-salle-de-bain')->pluck('id')->toArray();
-        $this->equipements_cuisine = $LocationMeublee->annonce->references('equipements-cuisine')->pluck('id')->toArray();
-        $this->types_hebergement = $LocationMeublee->annonce->references('types-hebergement')->pluck('id')->toArray();
-        $this->old_galerie = $LocationMeublee->annonce->galerie()->get();
-        $this->old_image = $LocationMeublee->annonce->imagePrincipale;
+        $this->locationMeublee = $locationMeublee;
+        $this->entreprise_id = $locationMeublee->annonce->entreprise_id;
+        $this->nom = $locationMeublee->annonce->titre;
+        $this->is_active = $locationMeublee->annonce->is_active;
+        $this->description = $locationMeublee->annonce->description;
+        $this->nombre_chambre = $locationMeublee->nombre_chambre;
+        $this->nombre_personne = $locationMeublee->nombre_personne;
+        $this->nombre_salles_bain = $locationMeublee->nombre_salles_bain;
+        $this->superficie = $locationMeublee->superficie;
+        $this->prix_min = $locationMeublee->prix_min;
+        $this->prix_max = $locationMeublee->prix_max;
+        $this->date_validite = date('Y-m-d', strtotime($locationMeublee->annonce->date_validite));
+        $this->types_lit = $locationMeublee->annonce->references('types-de-lit')->pluck('id')->toArray();
+        $this->commodites = $locationMeublee->annonce->references('commodites-hebergement')->pluck('id')->toArray();
+        $this->services = $locationMeublee->annonce->references('services-proposes')->pluck('id')->toArray();
+        $this->equipements_herbegement = $locationMeublee->annonce->references('equipements-hebergement')->pluck('id')->toArray();
+        $this->equipements_salle_bain = $locationMeublee->annonce->references('equipements-salle-de-bain')->pluck('id')->toArray();
+        $this->equipements_cuisine = $locationMeublee->annonce->references('accessoires-cuisine')->pluck('id')->toArray();
+        $this->types_hebergement = $locationMeublee->annonce->references('types-hebergement')->pluck('id')->toArray();
+        $this->old_galerie = $locationMeublee->annonce->galerie()->get();
+        $this->old_image = $locationMeublee->annonce->imagePrincipale;
     }
 
     private function initialization()
@@ -90,7 +90,7 @@ class Edit extends Component
             $this->list_types_lit = ReferenceValeur::where('reference_id', $tmp_types_lit->id)->select('valeur', 'id')->get() :
             $this->list_types_lit = [];
 
-        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services')->first();
+        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services-proposes')->first();
         $tmp_services ?
             $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
             $this->list_services = [];
@@ -105,7 +105,7 @@ class Edit extends Component
             $this->list_equipements_salle_bain = ReferenceValeur::where('reference_id', $tmp_equipements_salle_bain->id)->select('valeur', 'id')->get() :
             $this->list_equipements_salle_bain = [];
 
-        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'equipements-cuisine')->first();
+        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'accessoires-cuisine')->first();
         $tmp_equipements_cuisine ?
             $this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)->select('valeur', 'id')->get() :
             $this->list_equipements_cuisine = [];
@@ -120,7 +120,7 @@ class Edit extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->LocationMeublee->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
+            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->locationMeublee->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
 
             // 'entreprise_id' => 'required|exists:entreprises,id',
             // // 'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id', update
@@ -198,7 +198,7 @@ class Edit extends Component
         try {
             DB::beginTransaction();
 
-            $this->LocationMeublee->annonce->update([
+            $this->locationMeublee->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
@@ -207,7 +207,7 @@ class Edit extends Component
             ]);
 
 
-            $this->LocationMeublee->update([
+            $this->locationMeublee->update([
                 'nombre_chambre' => $this->nombre_chambre,
                 'nombre_personne' => $this->nombre_personne,
                 'superficie' => $this->superficie,
@@ -219,16 +219,16 @@ class Edit extends Component
             $references = [
                 ['Types de lit', $this->types_lit],
                 ['Commodités hébergement', $this->commodites],
-                ['Services', $this->services],
+                ['Services proposés', $this->services],
                 ['Equipements hébergement', $this->equipements_herbegement],
                 ['Equipements salle de bain', $this->equipements_salle_bain],
-                ['Equipements cuisine', $this->equipements_cuisine],
+                ['Accessoires de cuisines', $this->equipements_cuisine],
                 ['Types hébergement', $this->types_hebergement],
             ];
 
-            AnnoncesUtils::updateManyReference($this->LocationMeublee->annonce, $references);
+            AnnoncesUtils::updateManyReference($this->locationMeublee->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->LocationMeublee->annonce, $this->galerie, $this->deleted_old_galerie, 'location-meublees');
+            AnnoncesUtils::updateGalerie($this->image, $this->locationMeublee->annonce, $this->galerie, $this->deleted_old_galerie, 'location-meublees');
 
             DB::commit();
         } catch (\Throwable $th) {

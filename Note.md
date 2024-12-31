@@ -412,3 +412,6 @@ private function generateCode($name)
 }
 ```
 
+## 26/12/2024
+dev-2, c'est mes modifications avant de faire un merge avec la branche design
+

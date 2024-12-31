@@ -63,7 +63,7 @@ class Add extends Component
         $reference = ReferenceValeur::find($ref->id);
         $reference->annonceReferences()->delete();
         $reference->delete();
-        
+
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
@@ -92,35 +92,84 @@ class Add extends Component
             ]);
         }
 
-        $referenceValeur = ReferenceValeur::where('valeur', $this->valeur)->where('reference_id', $reference->id)->first();
-        if ($referenceValeur) {
-            $this->dispatch('swal:modal', [
-                'icon' => 'error',
-                'title' => __('Opération échouée'),
-                'message' => __('Cette référence existe déjà.'),
-            ]);
-            return;
-        }
-
         if ($this->isEdit) {
+            $referenceValeur = ReferenceValeur::where('valeur', $this->valeur)->where('reference_id', $reference->id)->first();
+            if ($referenceValeur) {
+                $this->dispatch('swal:modal', [
+                    'icon' => 'error',
+                    'title' => __('Opération échouée'),
+                    'message' => __('Cette référence existe déjà.'),
+                ]);
+                return;
+            }
+
             $ref = ReferenceValeur::find($this->id);
             $validated = [
                 'reference_id' => $reference->id,
                 'valeur' => $this->valeur,
             ];
             $this->update($ref, $validated);
+            $this->typeList = References::getList();
             return;
         }
 
-        ReferenceValeur::create([
-            'reference_id' => $reference->id,
-            'valeur' => $this->valeur,
-        ]);
+        $existingValues = '';
+        $hasOneNewValue = false;
+        $hasOneValideValue = false;
+
+        try {
+            // les valeurs sont stockées séparément par des virgules
+            $valeurs = array_filter(array_map('trim', explode(',', $this->valeur)));
+
+            foreach ($valeurs as $valeur) {
+                $hasOneValideValue = true;
+                $referenceValeur = ReferenceValeur::where('valeur', $valeur)->where('reference_id', $reference->id)->first();
+                if ($referenceValeur) {
+                    $existingValues .= $valeur . ', ';
+                    continue;
+                }
+                $hasOneNewValue = true;
+                ReferenceValeur::create([
+                    'reference_id' => $reference->id,
+                    'valeur' => $valeur,
+                ]);
+            }
+        } catch (\Throwable $th) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue lors de l\'enregistrement de la référence'),
+            ]);
+            return;
+        }
+
+        if (!$hasOneValideValue) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Veuillez saisir une valeur valide.'),
+            ]);
+            return;
+        }
+
+        if (!$hasOneNewValue) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ')),
+            ]);
+            return;
+        }
+
+        $message = 'Référence(s) ajoutée(s) avec succès';
+        if ($existingValues) {
+            $message .= ' <br>Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ');
+        }
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
-            'message' => __('Référence ajoutée avec succès'),
+            'message' => __($message),
         ]);
 
         $this->dispatch('relaod:dataTable');

@@ -90,24 +90,51 @@ class Create extends Component
             $this->update();
             return;
         }
+        
+        $this->validate();
 
-        $validated = $this->validate();
+        $existingValues = '';
+        $hasOneNewValue = false;
+        $hasOneValideValue = false;
 
-        // check if the ville already exists
-        $ville = Ville::where('nom', $this->nom)->where('pays_id', $this->pays_id)->first();
+        // les valeurs sont stockées séparément par des virgules
+        $noms = array_filter(array_map('trim', explode(',', $this->nom)));
 
-        if ($ville) {
-            throw ValidationException::withMessages([
-                'nom' => __('La ville de ce pays existe déjà'),
+        foreach ($noms as $nom) {
+            $hasOneValideValue = true;
+            $ville = Ville::where('nom', $nom)->where('pays_id', $this->pays_id)->first();
+            if ($ville) {
+                $existingValues .= $nom . ', ';
+                continue;
+            }
+            $hasOneNewValue = true;
+            Ville::create([
+                'nom' => $nom,
+                'pays_id' => $this->pays_id,
             ]);
         }
 
-        Ville::create($validated);
+        if (!$hasOneValideValue) {
+            throw ValidationException::withMessages([
+                'nom' => __('Veuillez saisir une valeur valide.'),
+            ]);
+        }
+
+        if (!$hasOneNewValue) {
+            throw ValidationException::withMessages([
+                'nom' => __('Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ')),
+            ]);
+        }
+
+        $message = 'Ville(s) ajoutée(s) avec succès';
+        if ($existingValues) {
+            $message .= ' <br>Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ');
+        }
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
-            'message' => __('Ville ajouté avec succès'),
+            'message' => __($message),
         ]);
 
         $this->dispatch('relaod:dataTable');

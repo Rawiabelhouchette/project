@@ -154,13 +154,13 @@
 
                 <div class="row" style="padding-left: 10px; padding-right: 10px;">
                     @include('admin.annonce.reference-select-component', [
-                        'title' => 'Equipements',
+                        'title' => 'Equipements vie nocturne',
                         'name' => 'equipements_vie_nocturne',
                         'options' => $list_equipements_vie_nocturne,
                     ])
 
                     @include('admin.annonce.reference-select-component', [
-                        'title' => 'Commodités',
+                        'title' => 'Commodités vie nocturne',
                         'name' => 'commodites_vie_nocturne',
                         'options' => $list_commodites_vie_nocturne,
                     ])

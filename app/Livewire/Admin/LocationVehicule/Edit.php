@@ -67,8 +67,8 @@ class Edit extends Component
         $this->nombre_portes = $locationVehicule->nombre_portes;
         $this->nombre_places = $locationVehicule->nombre_places;
 
-        $this->types_vehicule = $locationVehicule->annonce->references('types-de-vehicule')->pluck('id')->toArray();
-        $this->equipements_vehicule = $locationVehicule->annonce->references('equipements-vehicule')->pluck('id')->toArray();
+        $this->types_vehicule = $locationVehicule->annonce->references('types-de-voiture')->pluck('id')->toArray();
+        $this->equipements_vehicule = $locationVehicule->annonce->references('options-accessoires')->pluck('id')->toArray();
         $this->conditions_location = $locationVehicule->annonce->references('conditions-de-location')->pluck('id')->toArray();
 
         $this->old_galerie = $locationVehicule->annonce->galerie()->get();
@@ -83,12 +83,12 @@ class Edit extends Component
             $this->entreprises = Entreprise::all();
         }
 
-        $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-vehicule')->first();
+        $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-voiture')->first();
         $tmp_type_vehicule ?
             $this->list_types_vehicule = ReferenceValeur::where('reference_id', $tmp_type_vehicule->id)->select('valeur', 'id')->get() :
             $this->list_types_vehicule = [];
 
-        $tmp_equipement_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'equipements-vehicule')->first();
+        $tmp_equipement_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'options-accessoires')->first();
         $tmp_equipement_vehicule ?
             $this->list_equipements_vehicule = ReferenceValeur::where('reference_id', $tmp_equipement_vehicule->id)->select('valeur', 'id')->get() :
             $this->list_equipements_vehicule = [];
@@ -108,7 +108,7 @@ class Edit extends Component
             $this->list_marques = ReferenceValeur::where('reference_id', $tmp_marque->id)->select('valeur', 'id')->get() :
             $this->list_marques = [];
 
-        $tmp_type_carburant = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-carburant')->first();
+        $tmp_type_carburant = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-moteur')->first();
         $tmp_type_carburant ?
             $this->list_types_carburant = ReferenceValeur::where('reference_id', $tmp_type_carburant->id)->select('valeur', 'id')->get() :
             $this->list_types_carburant = [];
@@ -223,8 +223,8 @@ class Edit extends Component
             ]);
 
             $references = [
-                ['Types de véhicule', $this->types_vehicule],
-                ['Equipements véhicule', $this->equipements_vehicule],
+                ['Types de voiture', $this->types_vehicule],
+                ['Options et accessoires', $this->equipements_vehicule],
                 ['Conditions de location', $this->conditions_location],
             ];
 

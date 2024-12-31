@@ -85,6 +85,8 @@ class Edit extends Component
 
     public $carte_consommation = [];
     public $list_carte_consommation = [];
+    public $services = [];
+    public $list_services = [];
 
 
     public $entreprises = [];
@@ -110,9 +112,10 @@ class Edit extends Component
         $this->desserts = $restaurant->desserts;
         $this->desserts_count = count($this->desserts);
 
+        $this->services = $restaurant->annonce->references('services-proposes')->pluck('id')->toArray();
         $this->equipements_restauration = $restaurant->annonce->references('equipements-restauration')->pluck('id')->toArray();
         $this->specialites = $restaurant->annonce->references('specialites')->pluck('id')->toArray();
-        $this->carte_consommation = $restaurant->annonce->references('carte-de-consommation')->pluck('id')->toArray();
+        $this->carte_consommation = $restaurant->annonce->references('Boissons disponibles')->pluck('id')->toArray();
 
         $this->old_galerie = $restaurant->annonce->galerie()->get();
         $this->old_image = $restaurant->annonce->imagePrincipale;
@@ -136,7 +139,7 @@ class Edit extends Component
             $this->list_specialites = ReferenceValeur::where('reference_id', $tmp_specialite->id)->select('valeur', 'id')->get() :
             $this->list_specialites = [];
 
-        $tmp_carte_consommation = Reference::where('slug_type', 'restauration')->where('slug_nom', 'carte-de-consommation')->first();
+        $tmp_carte_consommation = Reference::where('slug_type', 'restauration')->where('slug_nom', 'Boissons disponibles')->first();
         $tmp_carte_consommation ?
             $this->list_carte_consommation = ReferenceValeur::where('reference_id', $tmp_carte_consommation->id)->select('valeur', 'id')->get() :
             $this->list_carte_consommation = [];

@@ -92,7 +92,7 @@ class Auberge extends Model implements AnnonceInterface
 
     public function getEquipementsCuisineAttribute()
     {
-        return $this->annonce->references('equipements-cuisine');
+        return $this->annonce->references('accessoires-cuisine');
     }
 
     public function getTypesHebergementAttribute()

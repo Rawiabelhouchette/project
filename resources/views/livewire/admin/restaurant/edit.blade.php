@@ -356,21 +356,27 @@
 
                 <div class="row" style="padding-left: 10px; padding-right: 10px;">
                     @include('admin.annonce.reference-select-component', [
-                        'title' => 'Spécialités',
+                        'title' => 'Type de cuisine',
                         'name' => 'specialites',
                         'options' => $list_specialites,
                     ])
 
                     @include('admin.annonce.reference-select-component', [
-                        'title' => 'Equipements',
+                        'title' => 'Equipements restaurant',
                         'name' => 'equipements_restauration',
                         'options' => $list_equipements_restauration,
                     ])
 
                     @include('admin.annonce.reference-select-component', [
-                        'title' => 'Carte de consommation',
+                        'title' => 'Boissons disponibles',
                         'name' => 'carte_consommation',
                         'options' => $list_carte_consommation,
+                    ])
+
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Services proposés',
+                        'name' => 'services',
+                        'options' => $list_services,
                     ])
 
                 </div>

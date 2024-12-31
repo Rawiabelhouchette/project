@@ -58,7 +58,7 @@ class Create extends Component
             $this->list_commodites = ReferenceValeur::where('reference_id', $tmp_commodite->id)->select('valeur', 'id')->get() :
             $this->list_commodites = [];
 
-        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services')->first();
+        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services-proposes')->first();
         $tmp_services ?
             $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
             $this->list_services = [];
@@ -142,7 +142,7 @@ class Create extends Component
                 ['Types de musique', $this->types_musique],
                 ['Equipements vie nocturne', $this->equipements_vie_nocturne],
                 ['Commodités hébergement', $this->commodites],
-                ['Services', $this->services],
+                ['Services proposés', $this->services],
             ];
 
             AnnoncesUtils::createManyReference($annonce, $references);

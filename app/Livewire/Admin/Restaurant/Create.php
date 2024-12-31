@@ -86,6 +86,8 @@ class Create extends Component
 
     public $carte_consommation = [];
     public $list_carte_consommation = [];
+    public $services = [];
+    public $list_services = [];
 
 
     public $entreprises = [];
@@ -113,7 +115,12 @@ class Create extends Component
             $this->list_specialites = ReferenceValeur::where('reference_id', $tmp_specialite->id)->select('valeur', 'id')->get() :
             $this->list_specialites = [];
 
-        $tmp_carte_consommation = Reference::where('slug_type', 'restauration')->where('slug_nom', 'carte-de-consommation')->first();
+        $tmp_services = Reference::where('slug_type', 'restauration')->where('slug_nom', 'services-proposes')->first();
+        $tmp_services ?
+            $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
+            $this->list_services = [];
+
+        $tmp_carte_consommation = Reference::where('slug_type', 'restauration')->where('slug_nom', 'Boissons disponibles')->first();
         $tmp_carte_consommation ?
             $this->list_carte_consommation = ReferenceValeur::where('reference_id', $tmp_carte_consommation->id)->select('valeur', 'id')->get() :
             $this->list_carte_consommation = [];
@@ -144,6 +151,8 @@ class Create extends Component
             // 'specialites.*' => 'nullable|integer|exists:reference_valeurs,id',
             // 'carte_consommation' => 'nullable|array',
             // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
+
+            'services' => 'nullable',
             'image' => 'required|image',
             'galerie' => 'nullable|array',
             'galerie.*' => 'nullable|image',
@@ -407,6 +416,7 @@ class Create extends Component
             $references = [
                 ['Equipements restauration', $this->equipements_restauration],
                 ['Specialités', $this->specialites],
+                ['Services proposés', $this->services],
                 ['Carte de consommation', $this->carte_consommation],
             ];
 

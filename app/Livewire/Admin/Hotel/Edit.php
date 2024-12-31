@@ -66,7 +66,7 @@ class Edit extends Component
         $this->services = $hotel->annonce->references('services')->pluck('id')->toArray();
         $this->equipements_herbegement = $hotel->annonce->references('equipements-hebergement')->pluck('id')->toArray();
         $this->equipements_salle_bain = $hotel->annonce->references('equipements-salle-de-bain')->pluck('id')->toArray();
-        $this->equipements_cuisine = $hotel->annonce->references('equipements-cuisine')->pluck('id')->toArray();
+        $this->equipements_cuisine = $hotel->annonce->references('accessoires-cuisine')->pluck('id')->toArray();
         $this->types_hebergement = $hotel->annonce->references('types-hebergement')->pluck('id')->toArray();
         $this->old_galerie = $hotel->annonce->galerie()->get();
         $this->old_image = $hotel->annonce->imagePrincipale;
@@ -90,7 +90,7 @@ class Edit extends Component
             $this->list_types_lit = ReferenceValeur::where('reference_id', $tmp_types_lit->id)->select('valeur', 'id')->get() :
             $this->list_types_lit = [];
 
-        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services')->first();
+        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services-proposes')->first();
         $tmp_services ?
             $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
             $this->list_services = [];
@@ -105,7 +105,7 @@ class Edit extends Component
             $this->list_equipements_salle_bain = ReferenceValeur::where('reference_id', $tmp_equipements_salle_bain->id)->select('valeur', 'id')->get() :
             $this->list_equipements_salle_bain = [];
 
-        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'equipements-cuisine')->first();
+        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'accessoires-cuisine')->first();
         $tmp_equipements_cuisine ?
             $this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)->select('valeur', 'id')->get() :
             $this->list_equipements_cuisine = [];
@@ -209,10 +209,10 @@ class Edit extends Component
             $references = [
                 ['Types de lit', $this->types_lit],
                 ['Commodités hébergement', $this->commodites],
-                ['Services', $this->services],
+                ['Services proposés', $this->services],
                 ['Equipements hébergement', $this->equipements_herbegement],
                 ['Equipements salle de bain', $this->equipements_salle_bain],
-                ['Equipements cuisine', $this->equipements_cuisine],
+                ['Accessoires de cuisines', $this->equipements_cuisine],
                 ['Types hébergement', $this->types_hebergement],
             ];
 

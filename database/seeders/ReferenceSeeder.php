@@ -75,7 +75,7 @@ class ReferenceSeeder extends Seeder
             'type' => 'Hébergement',
             'nom' => 'Equipements cuisine',
             'slug_type' => 'hebergement',
-            'slug_nom' => 'equipements-cuisine',
+            'slug_nom' => 'accessoires-cuisine',
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);
@@ -95,7 +95,7 @@ class ReferenceSeeder extends Seeder
             'type' => 'Location de véhicule',
             'nom' => 'Types de véhicule',
             'slug_type' => 'location-de-vehicule',
-            'slug_nom' => 'types-de-vehicule',
+            'slug_nom' => 'types-de-voiture',
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);
@@ -105,7 +105,7 @@ class ReferenceSeeder extends Seeder
             'type' => 'Location de véhicule',
             'nom' => 'Equipements véhicule',
             'slug_type' => 'location-de-vehicule',
-            'slug_nom' => 'equipements-vehicule',
+            'slug_nom' => 'options-accessoires',
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);
@@ -115,7 +115,7 @@ class ReferenceSeeder extends Seeder
             'type' => 'Restauration',
             'nom' => 'Carte de consommation',
             'slug_type' => 'restauration',
-            'slug_nom' => 'carte-de-consommation',
+            'slug_nom' => 'Boissons disponibles',
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);
@@ -196,7 +196,7 @@ class ReferenceSeeder extends Seeder
             'type' => 'Location de véhicule',
             'nom' => 'Types de carburant',
             'slug_type' => 'location-de-vehicule',
-            'slug_nom' => 'types-de-carburant',
+            'slug_nom' => 'types-moteur',
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);

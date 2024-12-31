@@ -187,7 +187,7 @@
                 ])
     
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Commodités',
+                    'title' => 'Commodités hébergement',
                     'name' => 'commodites',
                     'options' => $list_commodites,
                 ])
@@ -196,7 +196,7 @@
             <div class="row align-items-start">
                 {{-- service --}}
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Services',
+                    'title' => 'Services proposés',
                     'name' => 'services',
                     'options' => $list_services,
                 ])
@@ -210,7 +210,7 @@
     
                 {{-- equipements_cuisine --}}
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Equipements de cuisine',
+                    'title' => 'Accessoires de cuisines',
                     'name' => 'equipements_cuisine',
                     'options' => $list_equipements_cuisine,
                     'required' => true,
