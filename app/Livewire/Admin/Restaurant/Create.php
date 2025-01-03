@@ -51,12 +51,6 @@ class Create extends Component
             'prix_min' => '',
             'prix_max' => ''
         ],
-        [
-            'nom' => '',
-            'ingredients' => '',
-            'prix_min' => '',
-            'prix_max' => ''
-        ],
     ];
     public $entrees_count = 1;
 
