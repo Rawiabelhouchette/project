@@ -164,6 +164,9 @@
             }
         </script>
 
+        <!-- SWEET ALERT -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -173,6 +176,120 @@
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <script>
+            // show notification
+            const showNotification = ({
+                message,
+                icon,
+                timer = 5000,
+                title,
+                timerProgressBar = true,
+                confirmButtonText = 'OK',
+                onConfirm = () => {},
+            }) => {
+                Swal.fire({
+                    icon: icon,
+                    title: title,
+                    confirmButtonColor: 'green',
+                    html: "<p style='font-size: 17px'>" + message + "</p>",
+                    confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
+                    width: '40%',
+                    timerProgressBar: timerProgressBar,
+                    timer: timer,
+                    confirmButtonColor: defaultColor,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        onConfirm();
+                    }
+                });
+            }
+
+            // show confirmation notification
+            const showConfirmationNotification = ({
+                message,
+                icon = 'warning',
+                confirmButtonText = 'Oui, je confirme',
+                cancelButtonText = 'Annuler',
+                onConfirm = () => {},
+                onCancel = () => {},
+                onDismiss = () => {},
+            }) => {
+                Swal.fire({
+                    icon: icon,
+                    title: 'Êtes-vous sûr ?',
+                    showCancelButton: true,
+                    confirmButtonColor: 'red',
+                    cancelButtonColor: 'gray',
+                    html: "<p style='font-size: 17px'>" + message + "</p>",
+                    confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
+                    cancelButtonText: '<span style="font-size: 15px;">' + cancelButtonText + '</span>',
+                    width: '40%',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        onConfirm();
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        onCancel();
+                    } else {
+                        onDismiss();
+                    }
+                });
+            }
+
+            window.addEventListener('alert:modal', event => {
+                alert(event.detail[0].message);
+            });
+
+            window.addEventListener('swal:modal', event => {
+                const data = {
+                    icon: event.detail[0].icon,
+                    title: event.detail[0].title,
+                    message: event.detail[0].message,
+                };
+
+                showNotification(data);
+            });
+        </script>
+
+        @if (session()->has('success'))
+            <script>
+                console.log("{{ session()->get('success') }}");
+                const data = {
+                    icon: 'success',
+                    title: 'Opération réussie',
+                    message: "{{ session()->get('success') }}",
+                    timer: 4000,
+                };
+
+                showNotification(data);
+            </script>
+        @endif
+
+        @if (session()->has('error'))
+            <script>
+                const data = {
+                    icon: 'error',
+                    title: 'Oops...',
+                    message: "{{ session()->get('error') }}",
+                    timer: 4000,
+                };
+
+                showNotification(data);
+            </script>
+        @endif
+
+        @if (session()->has('info'))
+            <script>
+                const data = {
+                    icon: 'info',
+                    title: 'Information',
+                    message: "{{ session()->get('info') }}",
+                    timer: 4000,
+                };
+
+                showNotification(data);
+            </script>
+        @endif
 
         @livewireScripts
 

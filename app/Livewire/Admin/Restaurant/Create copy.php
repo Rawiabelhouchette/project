@@ -51,12 +51,6 @@ class Create extends Component
             'prix_min' => '',
             'prix_max' => ''
         ],
-        [
-            'nom' => '',
-            'ingredients' => '',
-            'prix_min' => '',
-            'prix_max' => ''
-        ],
     ];
     public $entrees_count = 1;
 
@@ -228,11 +222,8 @@ class Create extends Component
     {
         // dd($this->entrees);
         // check if all fields are filled (entrees_count - 1) times
-        // dd($this->entrees);
+        dd($this->entrees);
         $i = $this->entrees_count - 1;
-
-        $this->entrees[$i]['prix_max'] = $this->entrees[$i]['prix_min'];
-
         if (empty($this->entrees[$i]['nom']) || empty($this->entrees[$i]['ingredients']) || empty($this->entrees[$i]['prix_min']) || empty($this->entrees[$i]['prix_max'])) {
             $this->entrees_error = 'Veuillez remplir tous les champs de l\'entrée précédente';
             return;
