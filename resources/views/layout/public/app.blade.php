@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" type="image/x-icon">
+    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="icon">
+    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="shortcut icon">
 
     <title>Vamiyi</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,20 +29,18 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1..1000&display=swap" rel="stylesheet">
-    
+
     <!-- Bootstrap 5 style -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
     <!-- All plugins -->
     <link href="{{ asset('assets_client/plugins/css/plugins.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
-    
+    <link type="text/css" href="css/bootstrap-multiselect.css" rel="stylesheet" />
+
     <!-- Custom style -->
     <link href="{{ asset('assets_client/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('assets_client/css/responsiveness.css') }}" rel="stylesheet">
@@ -57,7 +55,6 @@
       <script src="js/html5shiv.min.js') }}"></script>
       <script src="js/respond.min.js') }}"></script>
     <![endif]-->
-    
 
     {{-- cookies --}}
     <link href="{{ asset('assets_client/cookies/cookies.css') }}" rel="stylesheet">
@@ -95,11 +92,11 @@
         <!-- ===================== End Login & Sign Up Window =========================== -->
 
         <a class="theme-bg" id="back2Top" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
-  
-      <!-- START JAVASCRIPT --> 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        
-         <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+
+        <!-- START JAVASCRIPT -->
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
         <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>
         <script src="{{ asset('assets_client/plugins/js/bootsnav.js') }}"></script>
 
@@ -166,6 +163,10 @@
                 });
             }
         </script>
+
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <!-- FONTAWSOME -->
         {{-- <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script> --}}
