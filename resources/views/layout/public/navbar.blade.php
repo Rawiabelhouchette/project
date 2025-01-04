@@ -39,7 +39,7 @@
                         <i class="fa-solid fa-plus"></i>Déposer une annonce
                     </a>
                 @else
-                    <a class="btn add-annonce" id="btn-deposer-annonce" data-toggle="modal" data-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
+                    <a class="btn add-annonce" id="btn-deposer-annonce" data-bs-toggle="modal" data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
                         <i class="fa-solid fa-plus"></i>Déposer une annonce
                     </a>
                 @endif
