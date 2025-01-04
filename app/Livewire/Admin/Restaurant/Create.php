@@ -342,6 +342,7 @@ class Create extends Component
     public function removeEntree($key)
     {
         unset($this->entrees[$key]);
+        $this->entrees = array_values($this->entrees); // Réindexe le tableau
         $this->entrees_error = '';
         $this->entrees_count--;
     }
@@ -362,7 +363,7 @@ class Create extends Component
 
     public function store()
     {
-        dd($this->entrees);
+        // dd($this->entrees);
         $this->validate();
 
         $separator = Utils::getRestaurantValueSeparator();
