@@ -205,10 +205,8 @@
                                         <input class="form-control-file" id="form-img-1" type="file">
                                     </div>
 
-                                    @if ($key == 0)
-                                        <button class="btn btn-sucess mb-2" data-bs-dismiss="offcanvas" type="button" type="button" aria-label="Close">Enregistrer</button>
-                                    @else
-                                        <button class="btn btn-sucess mb-2" data-bs-dismiss="offcanvas" type="button" type="button" aria-label="Close">Enregistrer</button>
+                                    <button class="btn btn-sucess mb-2" data-bs-dismiss="offcanvas" type="button" type="button" aria-label="Close" wire:click="checkInputs('entree', {{ $key }})">Enregistrer</button>
+                                    @if ($entrees_count > 1)
                                         <button class="btn btn-danger mb-2" data-bs-dismiss="offcanvas" type="buttom" type="button" aria-label="Close" wire:click="removeEntree({{ $key }})">Supprimer</button>
                                     @endif
                                 </div>

@@ -231,7 +231,7 @@ class Create extends Component
         $this->entrees[$i]['prix_max'] = $this->entrees[$i]['prix_min'];
 
         if (empty($this->entrees[$i]['nom']) || empty($this->entrees[$i]['ingredients']) || empty($this->entrees[$i]['prix_min']) || empty($this->entrees[$i]['prix_max'])) {
-            $this->entrees_error = 'Veuillez remplir tous les champs de l\'entrée précédente';
+            $this->entrees_error = 'Veuillez remplir tous les champs de l\'entrée ' . ($i + 1);
             return;
         }
 
@@ -262,6 +262,30 @@ class Create extends Component
         ];
 
         $this->entrees_count++;
+    }
+
+    public function checkInputs($array, $key)
+    {
+        dd($array);
+        if (empty($array[$key]['nom']) || empty($array[$key]['ingredients']) || empty($array[$key]['prix_min']) || empty($array[$key]['prix_max'])) {
+            return false;
+        }
+
+        switch ($key) {
+            case 'entrees':
+                $this->entrees_error = '';
+                break;
+            case 'plats':
+                $this->plats_error = '';
+                break;
+            case 'desserts':
+                $this->desserts_error = '';
+                break;
+            default:
+                # code...
+                break;
+        }
+        return true;
     }
 
     public function addDessert()
