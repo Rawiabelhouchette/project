@@ -15,7 +15,7 @@ use Illuminate\View\View;
 interface AnnonceInterface
 {
     public function getShowUrlAttribute(): string;
-    public function getEditUrlAttribute(): string;
+    // public function getEditUrlAttribute(): string;
 
     public function getShowInformationBody(): View;
     public function getShowInformationHeader(): View;

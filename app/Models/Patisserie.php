@@ -31,7 +31,7 @@ class Patisserie extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        'edit_url',
+        // 'edit_url',
 
         'produits_patissiers',
         'equipements_patisserie',
@@ -49,10 +49,10 @@ class Patisserie extends Model implements AnnonceInterface
         return route('patisseries.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('patisseries.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('patisseries.edit', $this);
+    // }
 
     public function getProduitsPatissiersAttribute()
     {

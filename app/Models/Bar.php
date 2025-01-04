@@ -32,7 +32,7 @@ class Bar extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        'edit_url',
+        // 'edit_url',
 
         'equipements_vie_nocturne',
         'commodites_vie_nocturne',
@@ -50,10 +50,10 @@ class Bar extends Model implements AnnonceInterface
         return route('bars.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('bars.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('bars.edit', $this);
+    // }
 
     public function getEquipementsVieNocturneAttribute()
     {
@@ -77,7 +77,7 @@ class Bar extends Model implements AnnonceInterface
         ]);
     }
 
-    
+
     public function getCaracteristiquesAttribute(): array
     {
         $attributes = [];

@@ -132,7 +132,7 @@ Route::group([
 
             Route::resource('bars', BarController::class)->only(['show']);
 
-            Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
+            Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie'])->only(['show']);
 
             Route::resource('abonnements', AbonnementController::class);
             Route::get('abonnements/list/datatable', [AbonnementController::class, 'getDataTable'])->name('abonnements.datatable');

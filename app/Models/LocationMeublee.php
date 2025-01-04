@@ -36,7 +36,7 @@ class LocationMeublee extends Model implements AnnonceInterface
     protected $appends = [
         // common
         'show_url',
-        'edit_url',
+        // 'edit_url',
         'caracteristiques',
         // 'informations',
         // 'equipements',
@@ -58,10 +58,10 @@ class LocationMeublee extends Model implements AnnonceInterface
         return route('location-meublees.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('location-meublees.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('location-meublees.edit', $this);
+    // }
 
     public function annonce(): MorphOne
     {
