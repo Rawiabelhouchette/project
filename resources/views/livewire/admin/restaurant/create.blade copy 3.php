@@ -17,102 +17,104 @@
                                 <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body">
-                                <div class="mb-3">
-                                    <label class="form-label" for="name">Nom<b style="color: red; font-size: 100%;">*</b></label>
-                                    <input class="form-control" id="name" type="text" aria-describedby="name">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="number">Téléphone<b style="color: red; font-size: 100%;">*</b></label>
-                                    <input class="form-control telephone" id="name" type="text" aria-describedby="name">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="ets-email">Email<b style="color: red; font-size: 100%;">*</b></label>
-                                    <input class="form-control" id="ets-email" type="email" aria-describedby="email">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="description">Description</label>
-                                    <textarea class="form-control" id="description" type="text" aria-describedby="description"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="whatsapp">Whatsapp</label>
-                                    <input class="form-control" id="whatsapp" type="number" aria-describedby="whatsapp">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="facebook">Facebook</label>
-                                    <input class="form-control" id="facebook" type="url" aria-describedby="facebook">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="instagram">Instagram</label>
-                                    <input class="form-control" id="instagram" type="url" aria-describedby="instagram">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="website">Site web</label>
-                                    <input class="form-control" id="website" type="url" aria-describedby="website">
-                                </div>
-                                <div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="country">Pays</label>
-                                        <select class="form-control" id="country">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="name">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                                        <input class="form-control" id="name" type="text" aria-describedby="name">
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="city">Ville</label>
-                                        <select class="form-control" id="city">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="number">Téléphone<b style="color: red; font-size: 100%;">*</b></label>
+                                        <input class="form-control telephone" id="name" type="text" aria-describedby="name">
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="location">Quartier</label>
-                                        <select class="form-control" id="location">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="ets-email">Email<b style="color: red; font-size: 100%;">*</b></label>
+                                        <input class="form-control" id="ets-email" type="email" aria-describedby="email">
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="longitude">Longitude</label>
-                                    <input class="form-control" id="longitude" type="number" aria-describedby="longitude">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="latitude">Latitude</label>
-                                    <input class="form-control" id="latitude" type="number" aria-describedby="latitude">
-                                </div>
-                                <div class="mb-3">
-                                    <div id="map" style="width: 100%; height: 400px; z-index: 1;"></div>
-                                </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="description">Description</label>
+                                        <textarea class="form-control" id="description" type="text" aria-describedby="description"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="whatsapp">Whatsapp</label>
+                                        <input class="form-control" id="whatsapp" type="number" aria-describedby="whatsapp">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="facebook">Facebook</label>
+                                        <input class="form-control" id="facebook" type="url" aria-describedby="facebook">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="instagram">Instagram</label>
+                                        <input class="form-control" id="instagram" type="url" aria-describedby="instagram">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="website">Site web</label>
+                                        <input class="form-control" id="website" type="url" aria-describedby="website">
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="country">Pays</label>
+                                            <select class="form-control" id="country">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="city">Ville</label>
+                                            <select class="form-control" id="city">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label for="location">Quartier</label>
+                                            <select class="form-control" id="location">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="longitude">Longitude</label>
+                                        <input class="form-control" id="longitude" type="number" aria-describedby="longitude">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="latitude">Latitude</label>
+                                        <input class="form-control" id="latitude" type="number" aria-describedby="latitude">
+                                    </div>
+                                    <div class="mb-3">
+                                        <div id="map" style="width: 100%; height: 400px; z-index: 1;"></div>
+                                    </div>
 
-                                <div class="mb-3">
-                                    <h6 class="text-center">Heure d'ouverture et de fermeture</h6>
-                                    <div class="form-group">
-                                        <label for="horaire">Tableau des horaires à intégrer une fois le code prêt</label>
-                                        <select class="form-control" id="horaire">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                    <div class="mb-3">
+                                        <h6 class="text-center">Heure d'ouverture et de fermeture</h6>
+                                        <div class="form-group">
+                                            <label for="horaire">Tableau des horaires à intégrer une fois le code prêt</label>
+                                            <select class="form-control" id="horaire">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <button class="btn btn-sucess mb-2" type="button">Enregistrer</button>
-                                <button class="btn btn-danger mb-2" type="button">Supprimer</button>
+                                    <button class="btn btn-sucess mb-2" type="submit">Enregistrer</button>
+                                    <button class="btn btn-danger mb-2" type="submit">Supprimer</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -122,7 +124,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez le nom de votre restaurant</h4>
-                        <input class="form-control" type="text" placeholder="" wire:model.defer='nom'>
+                        <input class="form-control" type="text" placeholder="" required wire:model.defer='nom' required>
                         @error('nom')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -133,7 +135,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez la date d'expiration</h4>
-                        <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite'>
+                        <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
                         @error('date_validite')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -179,6 +181,38 @@
                             </div>
                         </div>
 
+                        @foreach ($entrees as $key => $entree)
+                            <div class="offcanvas offcanvas-end" id="entree-{{ $key }}" data-bs-scroll="true" aria-labelledby="entree-{{ $key }}" tabindex="-1">
+                                <div class="offcanvas-header">
+                                    <h5 class="offcanvas-title" id="entree-{{ $key }}">Entrée {{ $key + 1 }}</h5>
+                                    <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body">
+                                    <div class="form-group">
+                                        <label for="name-1">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                                        <input class="form-control" id="name-1" type="text" wire:model.defer='entrees.{{ $key }}.nom' required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
+                                        <textarea class="form-control" id="description" rows="3" wire:model.defer='entrees.{{ $key }}.ingredients' required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price-1">Prix<b style="color: red; font-size: 100%;">*</b></label>
+                                        <input class="form-control" id="price-1" type="number" wire:model.defer='entrees.{{ $key }}.prix_min' required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="form-img-1">Image à la Une</label>
+                                        <input class="form-control-file" id="form-img-1" type="file">
+                                    </div>
+
+                                    <button class="btn btn-sucess mb-2" data-bs-dismiss="offcanvas" type="button" type="button" aria-label="Close" wire:click="checkInputs('entree', {{ $key }})">Enregistrer</button>
+                                    @if ($entrees_count > 1)
+                                        <button class="btn btn-danger mb-2" data-bs-dismiss="offcanvas" type="buttom" type="button" aria-label="Close" wire:click="removeEntree({{ $key }})">Supprimer</button>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+
                         <button class="btn btn-success btn-square" type="button" wire:click="addEntree"><i class="fa fa-plus"></i></button>
                     </div>
                     {{-- <div class="col plats">
@@ -195,6 +229,7 @@
                                 <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body">
+                                <form>
                                     <div class="form-group">
                                         <label for="name-1">Nom</label>
                                         <input class="form-control" id="name-1" type="text">
@@ -211,8 +246,9 @@
                                         <label for="form-img-1">Image à la Une</label>
                                         <input class="form-control-file" id="form-img-1" type="file">
                                     </div>
-                                    <button class="btn btn-sucess mb-2" type="button">Enregistrer</button>
-                                    <button class="btn btn-danger mb-2" type="button">Supprimer</button>
+                                    <button class="btn btn-sucess mb-2" type="submit">Enregistrer</button>
+                                    <button class="btn btn-danger mb-2" type="submit">Supprimer</button>
+                                </form>
                             </div>
                         </div>
                         <button class="btn btn-success btn-square" type="button"><i class="fa fa-plus"></i></button>
@@ -276,24 +312,26 @@
                                 <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body">
-                                <div class="form-group">
-                                    <label for="name-1">Nom</label>
-                                    <input class="form-control" id="name-1" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Ingrédients</label>
-                                    <textarea class="form-control" id="description" rows="3"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="price-1">Prix</label>
-                                    <input class="form-control" id="price-1" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <label for="form-img-1">Image à la Une</label>
-                                    <input class="form-control-file" id="form-img-1" type="file">
-                                </div>
-                                <button class="btn btn-sucess mb-2" type="button">Enregistrer</button>
-                                <button class="btn btn-danger mb-2" type="button">Supprimer</button>
+                                <form>
+                                    <div class="form-group">
+                                        <label for="name-1">Nom</label>
+                                        <input class="form-control" id="name-1" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Ingrédients</label>
+                                        <textarea class="form-control" id="description" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price-1">Prix</label>
+                                        <input class="form-control" id="price-1" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="form-img-1">Image à la Une</label>
+                                        <input class="form-control-file" id="form-img-1" type="file">
+                                    </div>
+                                    <button class="btn btn-sucess mb-2" type="submit">Enregistrer</button>
+                                    <button class="btn btn-danger mb-2" type="submit">Supprimer</button>
+                                </form>
                             </div>
                         </div>
                         <button class="btn btn-success btn-square" type="button"><i class="fa fa-plus"></i></button>
@@ -302,11 +340,14 @@
                 </div>
                 <div class="row align-items-end">
                     {{-- <button class="btn btn-danger mb-2" type="reset">Supprimer l'annonce</button> --}}
-                    <button class="btn btn-success mb-2" id="restaurant-form-submit" type="submit" wire:target='store'>Sauvegarder l'annonce</button>
+                    <button class="btn btn-success mb-2" type="submit" wire:target='store'>Sauvegarder l'annonce</button>
                 </div>
             </div>
         </form>
     </div>
+</div>
+
+</div>
 </div>
 
 @push('scripts')
@@ -495,47 +536,13 @@
                     // Fermer le offcanvas après enregistrement
                     $(`#plat-${platId}`).offcanvas('hide');
                     $('#plat-error-message').text(''); // Réinitialiser le message d'erreur
-                    // collectPlats(); // Collecter les plats et les envoyer
                 } else {
                     // alert(`Veuillez remplir tous les champs obligatoires pour le plat ${platId}.`);
                 }
             });
 
-
-
-            // Collecter les plats et envoyer
-            function collectPlats() {
-                let platsData = [];
-
-                $('.plat-item').each(function() {
-                    const platId = $(this).attr('id').split('-')[2]; // Extraire l'ID du plat
-                    const name = $(`#name-${platId}`).val();
-                    const description = $(`#description-${platId}`).val();
-                    const price = $(`#price-${platId}`).val();
-                    const image = $(`#form-img-${platId}`).val(); // Si une image est incluse, vous pourrez la gérer ici
-
-                    // if (validateFields(platId)) {
-                    platsData.push({
-                        name: name,
-                        description: description,
-                        price: price,
-                        image: image // Si image est définie, elle sera envoyée
-                    });
-                    // }
-                });
-
-                return platsData;
-            }
-
-
-
             // Événement pour le bouton "Ajouter"
             addPlatBtn.on('click', addPlat);
-
-            $('#restaurant-form-submit').on('click', function() {
-                const plats = collectPlats();
-                @this.set('plats_data', plats);
-            });
         });
     </script>
 @endpush

@@ -415,3 +415,8 @@ private function generateCode($name)
 ## 26/12/2024
 dev-2, c'est mes modifications avant de faire un merge avec la branche design
 
+
+## 07/01/2025 
+Restaurant partie publique
+Il serait bien que quand on clique sur le bouton le off-canvas sorte
+
