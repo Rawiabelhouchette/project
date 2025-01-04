@@ -267,7 +267,7 @@
                                 <div class="offcanvas offcanvas-end" id="plat-1" data-bs-scroll="true" aria-labelledby="plat-1" tabindex="-1">
                                     <div class="offcanvas-header">
                                         <h5 class="offcanvas-title">Plat 1</h5>
-                                        <button class="btn-close text-reset" id="plats-close-1" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
+                                        <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
                                     </div>
                                     <div class="offcanvas-body">
                                         <form>
@@ -382,25 +382,25 @@
                 <div class="offcanvas offcanvas-end" id="plat-${platId}" data-bs-scroll="true" tabindex="-1" aria-labelledby="plat-${platId}">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title">Plat ${platId}</h5>
-                        <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" id="plats-close-${platId}" aria-label="Close"></button>
+                        <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <form>
                             <div class="form-group">
                                 <label for="name-${platId}">Nom</label>
-                                <input class="form-control required-field" id="name-${platId}" type="text" data-plat-id="${platId}">
+                                <input class="form-control" id="name-${platId}" type="text">
                             </div>
                             <div class="form-group">
                                 <label for="description-${platId}">Ingrédients</label>
-                                <textarea class="form-control required-field" id="description-${platId}" rows="3" data-plat-id="${platId}"></textarea>
+                                <textarea class="form-control" id="description-${platId}" rows="3"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="price-${platId}">Prix</label>
-                                <input class="form-control required-field" id="price-${platId}" type="text" data-plat-id="${platId}">
+                                <input class="form-control" id="price-${platId}" type="text">
                             </div>
                             <div class="form-group">
                                 <label for="form-img-${platId}">Image à la Une</label>
-                                <input class="form-control-file" id="form-img-${platId}" type="file" data-plat-id="${platId}">
+                                <input class="form-control-file" id="form-img-${platId}" type="file">
                             </div>
                             <button class="btn btn-success mb-2 save-plat-btn" type="button" data-plat-id="${platId}">Enregistrer</button>
                             <button class="btn btn-danger mb-2 delete-plat-btn" type="button" data-plat-id="${platId}">Supprimer</button>
@@ -411,62 +411,8 @@
         `;
             }
 
-            // Valider les champs obligatoires et l'unicité du nom
-            function validateFields(platId) {
-                let isValid = true;
-                const platName = $(`#name-${platId}`).val();
-
-                // Vérifier si tous les champs obligatoires sont remplis
-                $(`#plat-item-${platId} .required-field`).each(function() {
-                    if (!$(this).val()) {
-                        isValid = false;
-                        $(this).addClass('is-invalid'); // Ajouter une classe pour marquer le champ comme invalide
-                    } else {
-                        $(this).removeClass('is-invalid'); // Enlever la classe si valide
-                    }
-                });
-
-                // Vérifier l'unicité du nom
-                if (!isValid) {
-                    return false; // Si un champ est manquant, on retourne false
-                }
-
-                // Vérifier que le nom du plat est unique
-                if (!isPlatNameUnique(platName, platId)) {
-                    alert(`Le plat "${platName}" existe déjà. Veuillez choisir un autre nom.`);
-                    return false;
-                }
-
-                return isValid;
-            }
-
-            // Vérifier si le nom du plat est unique
-            function isPlatNameUnique(platName, platId) {
-                let isUnique = true;
-                $('.required-field').each(function() {
-                    const currentId = $(this).data('plat-id');
-                    const currentName = $(`#name-${currentId}`).val();
-
-                    // Si le nom est déjà pris et ce n'est pas le même plat
-                    if (currentName === platName && currentId !== platId) {
-                        isUnique = false;
-                        return false; // Sortir de la boucle dès qu'un doublon est trouvé
-                    }
-                });
-                return isUnique;
-            }
-
-            // Ajouter un nouveau plat (avec validation)
+            // Ajouter un nouveau plat
             function addPlat() {
-                const lastPlatId = platCounter - 1;
-
-                // Valider les champs du dernier plat avant d'ajouter un nouveau
-                if (!validateFields(lastPlatId)) {
-                    alert(`Veuillez remplir tous les champs obligatoires pour le plat ${lastPlatId} avant d'ajouter un nouveau plat.`);
-                    return; // Stopper l'ajout si les champs ne sont pas valides
-                }
-
-                // Ajouter un nouveau plat
                 const newPlatHTML = createPlat(platCounter);
                 platsContainer.append(newPlatHTML);
                 platCounter++;
@@ -477,6 +423,7 @@
                 platsContainer.children('.plat-item').each(function(index) {
                     const newIndex = index + 1; // Nouvel index (commence à 1)
                     const platItem = $(this);
+                    const oldId = platItem.attr('id').split('-')[2]; // Ancien ID du plat
 
                     // Mettre à jour le conteneur principal
                     platItem.attr('id', `plat-item-${newIndex}`);
@@ -522,21 +469,14 @@
             // Enregistrer un plat (vous pouvez personnaliser selon vos besoins)
             $(document).on('click', '.save-plat-btn', function() {
                 const platId = $(this).data('plat-id');
-                if (validateFields(platId)) {
-                    const platName = $(`#name-${platId}`).val();
-                    const platIngredients = $(`#description-${platId}`).val();
-                    const platPrice = $(`#price-${platId}`).val();
+                const platName = $(`#name-${platId}`).val();
+                const platIngredients = $(`#description-${platId}`).val();
+                const platPrice = $(`#price-${platId}`).val();
 
-                    //         alert(`Plat ${platId} enregistré avec les données suivantes :
-                // - Nom : ${platName}
-                // - Ingrédients : ${platIngredients}
-                // - Prix : ${platPrice}`);
-
-                    // Fermer le offcanvas après enregistrement
-                    $(`#plat-${platId}`).offcanvas('hide');
-                } else {
-                    // alert(`Veuillez remplir tous les champs obligatoires pour le plat ${platId}.`);
-                }
+                alert(`Plat ${platId} enregistré avec les données suivantes :
+        - Nom : ${platName}
+        - Ingrédients : ${platIngredients}
+        - Prix : ${platPrice}`);
             });
 
             // Événement pour le bouton "Ajouter"
