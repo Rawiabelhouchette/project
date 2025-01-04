@@ -188,32 +188,29 @@
                                     <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
                                 </div>
                                 <div class="offcanvas-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="name-1">Nom<b style="color: red; font-size: 100%;">*</b></label>
-                                            <input class="form-control" id="name-1" type="text" required wire:model.defer='entrees.{{ $key }}.nom'>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description">Ingrédients</label>
-                                            <textarea class="form-control" id="description" rows="3" wire:model.defer='entrees.{{ $key }}.ingredients'></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="price-1">Prix<b style="color: red; font-size: 100%;">*</b></label>
-                                            <input class="form-control" id="price-1" type="number" wire:model.defer='entrees.{{ $key }}.prix_min' required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="form-img-1">Image à la Une</label>
-                                            <input class="form-control-file" id="form-img-1" type="file">
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="name-1">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                                        <input class="form-control" id="name-1" type="text" wire:model.defer='entrees.{{ $key }}.nom' required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
+                                        <textarea class="form-control" id="description" rows="3" wire:model.defer='entrees.{{ $key }}.ingredients' required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price-1">Prix<b style="color: red; font-size: 100%;">*</b></label>
+                                        <input class="form-control" id="price-1" type="number" wire:model.defer='entrees.{{ $key }}.prix_min' required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="form-img-1">Image à la Une</label>
+                                        <input class="form-control-file" id="form-img-1" type="file">
+                                    </div>
 
-                                        @if ($key == 0)
-                                            <button class="btn btn-sucess mb-2" data-bs-dismiss="offcanvas" type="button" type="button" aria-label="Close">Enregistrer</button>
-                                        @else
-                                            <button class="btn btn-sucess mb-2" data-bs-dismiss="offcanvas" type="button" type="button" aria-label="Close">Enregistrer</button>
-                                            <button class="btn btn-danger mb-2" data-bs-dismiss="offcanvas" type="buttom" type="button" aria-label="Close" wire:click="removeEntree({{ $key }})">Supprimer</button>
-                                        @endif
-
-                                    </form>
+                                    @if ($key == 0)
+                                        <button class="btn btn-sucess mb-2" data-bs-dismiss="offcanvas" type="button" type="button" aria-label="Close">Enregistrer</button>
+                                    @else
+                                        <button class="btn btn-sucess mb-2" data-bs-dismiss="offcanvas" type="button" type="button" aria-label="Close">Enregistrer</button>
+                                        <button class="btn btn-danger mb-2" data-bs-dismiss="offcanvas" type="buttom" type="button" aria-label="Close" wire:click="removeEntree({{ $key }})">Supprimer</button>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach

@@ -49,7 +49,8 @@ class Create extends Component
             'nom' => '',
             'ingredients' => '',
             'prix_min' => '',
-            'prix_max' => ''
+            'prix_max' => '',
+            'image' => '',
         ],
     ];
     public $entrees_count = 1;
@@ -61,7 +62,8 @@ class Create extends Component
             'ingredients' => '',
             'accompagnements' => '',
             'prix_min' => '',
-            'prix_max' => ''
+            'prix_max' => '',
+            'image' => '',
         ],
     ];
     public $plats_count = 1;
@@ -72,7 +74,8 @@ class Create extends Component
             'nom' => '',
             'ingredients' => '',
             'prix_min' => '',
-            'prix_max' => ''
+            'prix_max' => '',
+            'image' => '',
         ],
     ];
     public $desserts_count = 1;
@@ -359,6 +362,7 @@ class Create extends Component
 
     public function store()
     {
+        dd($this->entrees);
         $this->validate();
 
         $separator = Utils::getRestaurantValueSeparator();
