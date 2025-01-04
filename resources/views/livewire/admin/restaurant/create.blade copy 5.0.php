@@ -165,10 +165,48 @@
                     <div class="col entrees">
                         <h3>Entrées</h3>
                         <h4>Carte des entrées</h4>
-                        <div class="form-group">
+                        <div id="entrees-container">
+                            <!-- Entrée 1 par défaut -->
+                            <div class="form-group entree-item" id="entree-item-1">
+                                <div>
+                                    <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#entree-1" type="button" aria-controls="entree-1">
+                                        Entrée 1 <i class="fa fa-pencil"></i>
+                                    </button>
+                                    <div class="col-md-12 col-sm-12 text-center">
+                                        <span class="text-danger" id="entree-error-message"></span>
+                                    </div>
+                                </div>
+                                <div class="offcanvas offcanvas-end" id="entree-1" data-bs-scroll="true" aria-labelledby="entree-1" tabindex="-1">
+                                    <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title">Entrée 1</h5>
+                                        <button class="btn-close text-reset" id="entrees-close-1" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
+                                    </div>
+                                    <div class="offcanvas-body">
+                                        <div class="form-group">
+                                            <label for="name-entree-1">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control required-field" id="name-entree-1" data-entree-id="1" type="text">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description-entree-1">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
+                                            <textarea class="form-control required-field" id="description-entree-1" data-entree-id="1" rows="3"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="price-entree-1">Prix<b style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control required-field" id="price-entree-1" data-entree-id="1" type="number">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-img-entree-1">Image à la Une</label>
+                                            <input class="form-control-file" id="form-img-entree-1" data-entree-id="1" type="file">
+                                        </div>
+                                        <button class="btn btn-success mb-2 save-entree-btn" data-entree-id="1" type="button">Enregistrer</button>
+                                        <button class="btn btn-danger mb-2 delete-entree-btn" data-entree-id="1" type="button">Supprimer</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
+                        <button class="btn btn-success btn-square" id="add-entree-btn" type="button"><i class="fa fa-plus"></i></button>
                     </div>
+
                     <div class="col plats">
                         <h3>Plats</h3>
                         <h4>Carte des plats</h4>
@@ -217,40 +255,48 @@
                     <div class="col desserts">
                         <h3>Desserts</h3>
                         <h4>Carte des desserts</h4>
-                        <div class="form-group">
-                            <div>
-                                <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#dessert-1" type="button" aria-controls="dessert-1">Dessert 1<i class="fa fa-pencil"></i></button>
+                        <div id="desserts-container">
+                            <!-- Dessert 1 par défaut -->
+                            <div class="form-group dessert-item" id="dessert-item-1">
+                                <div>
+                                    <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#dessert-1" type="button" aria-controls="dessert-1">
+                                        Dessert 1 <i class="fa fa-pencil"></i>
+                                    </button>
+                                    <div class="col-md-12 col-sm-12 text-center">
+                                        <span class="text-danger" id="dessert-error-message"></span>
+                                    </div>
+                                </div>
+                                <div class="offcanvas offcanvas-end" id="dessert-1" data-bs-scroll="true" aria-labelledby="dessert-1" tabindex="-1">
+                                    <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title">Dessert 1</h5>
+                                        <button class="btn-close text-reset" id="desserts-close-1" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
+                                    </div>
+                                    <div class="offcanvas-body">
+                                        <div class="form-group">
+                                            <label for="name-dessert-1">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control required-field" id="name-dessert-1" data-dessert-id="1" type="text">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description-dessert-1">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
+                                            <textarea class="form-control required-field" id="description-dessert-1" data-dessert-id="1" rows="3"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="price-dessert-1">Prix<b style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control required-field" id="price-dessert-1" data-dessert-id="1" type="number">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-img-dessert-1">Image à la Une</label>
+                                            <input class="form-control-file" id="form-img-dessert-1" data-dessert-id="1" type="file">
+                                        </div>
+                                        <button class="btn btn-success mb-2 save-dessert-btn" data-dessert-id="1" type="button">Enregistrer</button>
+                                        <button class="btn btn-danger mb-2 delete-dessert-btn" data-dessert-id="1" type="button">Supprimer</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="offcanvas offcanvas-end" id="dessert-1" data-bs-scroll="true" aria-labelledby="dessert-1" tabindex="-1">
-                            <div class="offcanvas-header">
-                                <h5 class="offcanvas-title" id="dessert-1">Dessert 1</h5>
-                                <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
-                            </div>
-                            <div class="offcanvas-body">
-                                <div class="form-group">
-                                    <label for="name-1">Nom</label>
-                                    <input class="form-control" id="name-1" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Ingrédients</label>
-                                    <textarea class="form-control" id="description" rows="3"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="price-1">Prix</label>
-                                    <input class="form-control" id="price-1" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <label for="form-img-1">Image à la Une</label>
-                                    <input class="form-control-file" id="form-img-1" type="file">
-                                </div>
-                                <button class="btn btn-sucess mb-2" type="button">Enregistrer</button>
-                                <button class="btn btn-danger mb-2" type="button">Supprimer</button>
-                            </div>
-                        </div>
-                        <button class="btn btn-success btn-square" type="button"><i class="fa fa-plus"></i></button>
-
+                        <button class="btn btn-success btn-square" id="add-dessert-btn" type="button"><i class="fa fa-plus"></i></button>
                     </div>
+
                 </div>
                 <div class="row align-items-end">
                     {{-- <button class="btn btn-danger mb-2" type="reset">Supprimer l'annonce</button> --}}
@@ -278,222 +324,134 @@
 
     <script>
         $(document).ready(function() {
-            const platsContainer = $('#plats-container');
-            const entreesContainer = $('#entrees-container');
-            const dessertsContainer = $('#desserts-container');
-            const addPlatBtn = $('#add-plat-btn');
-            const addEntreeBtn = $('#add-entree-btn');
-            const addDessertBtn = $('#add-dessert-btn');
-            let platCounter = 2; // Compteur pour générer des IDs uniques
-            let entreeCounter = 2; // Compteur pour générer des IDs uniques
-            let dessertCounter = 2; // Compteur pour générer des IDs uniques
+            let platCounter = 2; // Compteur pour les plats
+            let entreeCounter = 2; // Compteur pour les entrées
+            let dessertCounter = 2; // Compteur pour les desserts
 
-            // Fonction pour créer un nouveau plat
-            function createPlat(platId) {
+            // Fonction générique pour créer un plat, une entrée ou un dessert
+            function createItem(type, itemId) {
                 return `
-            <div class="form-group plat-item" id="plat-item-${platId}">
-                <div>
-                    <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#plat-${platId}" type="button" aria-controls="plat-${platId}">
-                        Plat ${platId} <i class="fa fa-pencil"></i>
-                    </button>
+        <div class="form-group ${type}-item" id="${type}-item-${itemId}">
+            <div>
+                <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#${type}-${itemId}" type="button" aria-controls="${type}-${itemId}">
+                    ${capitalizeFirstLetter(type)} ${itemId} <i class="fa fa-pencil"></i>
+                </button>
+            </div>
+            <div class="offcanvas offcanvas-end" id="${type}-${itemId}" data-bs-scroll="true" tabindex="-1" aria-labelledby="${type}-${itemId}">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title">${capitalizeFirstLetter(type)} ${itemId}</h5>
+                    <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" id="${type}-close-${itemId}" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas offcanvas-end" id="plat-${platId}" data-bs-scroll="true" tabindex="-1" aria-labelledby="plat-${platId}">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title">Plat ${platId}</h5>
-                        <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" id="plats-close-${platId}" aria-label="Close"></button>
+                <div class="offcanvas-body">
+                    <div class="form-group">
+                        <label for="name-${type}-${itemId}">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                        <input class="form-control required-field" id="name-${type}-${itemId}" type="text" data-item-id="${itemId}" data-type="${type}">
                     </div>
-                    <div class="offcanvas-body">
-                        <div class="form-group">
-                            <label for="name-${platId}">Nom<b style="color: red; font-size: 100%;">*</b></label>
-                            <input class="form-control required-field" id="name-${platId}" type="text" data-plat-id="${platId}">
-                        </div>
-                        <div class="form-group">
-                            <label for="description-${platId}">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
-                            <textarea class="form-control required-field" id="description-${platId}" rows="3" data-plat-id="${platId}"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="price-${platId}">Prix<b style="color: red; font-size: 100%;">*</b></label>
-                            <input class="form-control required-field" id="price-${platId}" type="number" data-plat-id="${platId}">
-                        </div>
-                        <div class="form-group">
-                            <label for="form-img-${platId}">Image à la Une</label>
-                            <input class="form-control-file" id="form-img-${platId}" type="file" data-plat-id="${platId}">
-                        </div>
-                        <button class="btn btn-success mb-2 save-plat-btn" type="button" data-plat-id="${platId}">Enregistrer</button>
-                        <button class="btn btn-danger mb-2 delete-plat-btn" type="button" data-plat-id="${platId}">Supprimer</button>
+                    <div class="form-group">
+                        <label for="description-${type}-${itemId}">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
+                        <textarea class="form-control required-field" id="description-${type}-${itemId}" rows="3" data-item-id="${itemId}" data-type="${type}"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="price-${type}-${itemId}">Prix<b style="color: red; font-size: 100%;">*</b></label>
+                        <input class="form-control required-field" id="price-${type}-${itemId}" type="number" data-item-id="${itemId}" data-type="${type}">
+                    </div>
+                    <div class="form-group">
+                        <label for="form-img-${type}-${itemId}">Image à la Une</label>
+                        <input class="form-control-file" id="form-img-${type}-${itemId}" type="file" data-item-id="${itemId}" data-type="${type}">
+                    </div>
+                    <button class="btn btn-success mb-2 save-item-btn" type="button" data-item-id="${itemId}" data-type="${type}">Enregistrer</button>
+                    <button class="btn btn-danger mb-2 delete-item-btn" type="button" data-item-id="${itemId}" data-type="${type}">Supprimer</button>
                 </div>
             </div>
+        </div>
         `;
             }
 
-            // Valider les champs obligatoires et l'unicité du nom
-            function validateFields(platId) {
-                let isValid = true;
-                const platName = $(`#name-${platId}`).val();
+            // Capitaliser la première lettre d'un mot (utile pour les titres)
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
 
-                // Vérifier si tous les champs obligatoires sont remplis
-                $(`#plat-item-${platId} .required-field`).each(function() {
-                    if (!$(this).val()) {
-                        isValid = false;
-                        $(this).addClass('is-invalid'); // Ajouter une classe pour marquer le champ comme invalide
-                    } else {
-                        $(this).removeClass('is-invalid'); // Enlever la classe si valide
-                    }
-                });
-
-                // Vérifier l'unicité du nom
-                if (!isValid) {
-                    return false; // Si un champ est manquant, on retourne false
+            // Fonction pour ajouter un item (plat, entrée, dessert)
+            function addItem(type) {
+                let counter = 0;
+                if (type === 'plat') {
+                    counter = platCounter;
+                    platCounter++;
+                } else if (type === 'entree') {
+                    counter = entreeCounter;
+                    entreeCounter++;
+                } else if (type === 'dessert') {
+                    counter = dessertCounter;
+                    dessertCounter++;
                 }
 
-                // Vérifier que le nom du plat est unique
-                if (!isPlatNameUnique(platName, platId)) {
-                    alert(`Le plat "${platName}" existe déjà. Veuillez choisir un autre nom.`);
-                    return false;
+                const newItemHTML = createItem(type, counter);
+
+                if (type === 'plat') {
+                    $('#plats-container').append(newItemHTML);
+                } else if (type === 'entree') {
+                    $('#entrees-container').append(newItemHTML);
+                } else if (type === 'dessert') {
+                    $('#desserts-container').append(newItemHTML);
                 }
-
-                return isValid;
             }
 
-            // Vérifier si le nom du plat est unique
-            function isPlatNameUnique(platName, platId) {
-                let isUnique = true;
-                $('.required-field').each(function() {
-                    const currentId = $(this).data('plat-id');
-                    const currentName = $(`#name-${currentId}`).val();
-
-                    // Si le nom est déjà pris et ce n'est pas le même plat
-                    if (currentName === platName && currentId !== platId) {
-                        isUnique = false;
-                        return false; // Sortir de la boucle dès qu'un doublon est trouvé
-                    }
-                });
-                return isUnique;
-            }
-
-            // Ajouter un nouveau plat (avec validation)
-            function addPlat() {
-                const lastPlatId = platCounter - 1;
-
-                // Valider les champs du dernier plat avant d'ajouter un nouveau
-                if (!validateFields(lastPlatId)) {
-                    // alert(`Veuillez remplir tous les champs obligatoires pour le plat ${lastPlatId} avant d'ajouter un nouveau plat.`);
-                    // Veuillez remplir tous les champs de l\'entrée
-                    $('#plat-error-message').text(`Veuillez remplir tous les champs obligatoires du plat ${lastPlatId}.`);
-                    return; // Stopper l'ajout si les champs ne sont pas valides
-                }
-
-                // Ajouter un nouveau plat
-                const newPlatHTML = createPlat(platCounter);
-                platsContainer.append(newPlatHTML);
-                platCounter++;
-            }
-
-            // Réordonner les plats après suppression
-            function reorderPlats() {
-                platsContainer.children('.plat-item').each(function(index) {
-                    const newIndex = index + 1; // Nouvel index (commence à 1)
-                    const platItem = $(this);
-
-                    // Mettre à jour le conteneur principal
-                    platItem.attr('id', `plat-item-${newIndex}`);
-
-                    // Mettre à jour le bouton
-                    const button = platItem.find('.btn-form');
-                    button.text(`Plat ${newIndex}`);
-                    button.attr('data-bs-target', `#plat-${newIndex}`);
-                    button.attr('aria-controls', `plat-${newIndex}`);
-
-                    // Mettre à jour la zone offcanvas
-                    const offcanvas = platItem.find('.offcanvas');
-                    offcanvas.attr('id', `plat-${newIndex}`);
-                    offcanvas.attr('aria-labelledby', `plat-${newIndex}`);
-                    offcanvas.find('.offcanvas-title').text(`Plat ${newIndex}`);
-
-                    // Mettre à jour les champs dans le formulaire
-                    platItem.find('label[for^="name"]').attr('for', `name-${newIndex}`);
-                    platItem.find('label[for^="description"]').attr('for', `description-${newIndex}`);
-                    platItem.find('label[for^="price"]').attr('for', `price-${newIndex}`);
-                    platItem.find('label[for^="form-img"]').attr('for', `form-img-${newIndex}`);
-                    platItem.find('input[id^="name"]').attr('id', `name-${newIndex}`);
-                    platItem.find('textarea[id^="description"]').attr('id', `description-${newIndex}`);
-                    platItem.find('input[id^="price"]').attr('id', `price-${newIndex}`);
-                    platItem.find('input[id^="form-img"]').attr('id', `form-img-${newIndex}`);
-
-                    // Mettre à jour les boutons
-                    platItem.find('.save-plat-btn').attr('data-plat-id', newIndex);
-                    platItem.find('.delete-plat-btn').attr('data-plat-id', newIndex);
-                });
-
-                // Réinitialiser le compteur au dernier index + 1
-                platCounter = platsContainer.children('.plat-item').length + 1;
-            }
-
-            // Supprimer un plat
-            $(document).on('click', '.delete-plat-btn', function() {
-                const platId = $(this).data('plat-id');
-                $(`#plat-item-${platId}`).remove();
-                reorderPlats(); // Réordonner après suppression
+            // Ajouter un plat
+            $('#add-plat-btn').on('click', function() {
+                addItem('plat');
             });
 
-            // Enregistrer un plat (vous pouvez personnaliser selon vos besoins)
-            $(document).on('click', '.save-plat-btn', function() {
-                const platId = $(this).data('plat-id');
-                if (validateFields(platId)) {
-                    const platName = $(`#name-${platId}`).val();
-                    const platIngredients = $(`#description-${platId}`).val();
-                    const platPrice = $(`#price-${platId}`).val();
+            // Ajouter une entrée
+            $('#add-entree-btn').on('click', function() {
+                addItem('entree');
+            });
 
-                    //         alert(`Plat ${platId} enregistré avec les données suivantes :
-                // - Nom : ${platName}
-                // - Ingrédients : ${platIngredients}
-                // - Prix : ${platPrice}`);
+            // Ajouter un dessert
+            $('#add-dessert-btn').on('click', function() {
+                addItem('dessert');
+            });
+
+            // Validation et enregistrement de l'élément (plat, entrée, dessert)
+            $(document).on('click', '.save-item-btn', function() {
+                const itemId = $(this).data('item-id');
+                const type = $(this).data('type');
+
+                if (validateFields(type, itemId)) {
+                    const name = $(`#name-${type}-${itemId}`).val();
+                    const description = $(`#description-${type}-${itemId}`).val();
+                    const price = $(`#price-${type}-${itemId}`).val();
+
+                    // Enregistrez l'élément ici (par exemple, envoyer les données via AJAX)
+                    alert(`${capitalizeFirstLetter(type)} ${itemId} enregistré`);
 
                     // Fermer le offcanvas après enregistrement
-                    $(`#plat-${platId}`).offcanvas('hide');
-                    $('#plat-error-message').text(''); // Réinitialiser le message d'erreur
-                    // collectPlats(); // Collecter les plats et les envoyer
+                    $(`#${type}-${itemId}`).offcanvas('hide');
                 } else {
-                    // alert(`Veuillez remplir tous les champs obligatoires pour le plat ${platId}.`);
+                    alert('Veuillez remplir tous les champs obligatoires.');
                 }
             });
 
-
-
-            // Collecter les plats et envoyer
-            function collectPlats() {
-                let platsData = [];
-
-                $('.plat-item').each(function() {
-                    const platId = $(this).attr('id').split('-')[2]; // Extraire l'ID du plat
-                    const name = $(`#name-${platId}`).val();
-                    const description = $(`#description-${platId}`).val();
-                    const price = $(`#price-${platId}`).val();
-                    const image = $(`#form-img-${platId}`).val(); // Si une image est incluse, vous pourrez la gérer ici
-
-                    // if (validateFields(platId)) {
-                    platsData.push({
-                        nom: name,
-                        ingredients: description,
-                        prix: price,
-                        image: image // Si image est définie, elle sera envoyée
-                    });
-                    // }
-                });
-
-                return platsData;
-            }
-
-            // Événement pour le bouton "Ajouter"
-            addPlatBtn.on('click', addPlat);
-
-            $('#restaurant-form-submit').on('click', function() {
-                const plats = collectPlats();
-                // verifier et enlever les plats vides
-                // en suite s'assurer qu'il y a au moins un plat
-                @this.set('plats', plats);
+            // Supprimer un plat, une entrée ou un dessert
+            $(document).on('click', '.delete-item-btn', function() {
+                const itemId = $(this).data('item-id');
+                const type = $(this).data('type');
+                $(`#${type}-item-${itemId}`).remove();
             });
+
+            // Fonction pour valider les champs d'un plat, entrée ou dessert
+            function validateFields(type, itemId) {
+                let isValid = true;
+                $(`#${type}-item-${itemId} .required-field`).each(function() {
+                    if (!$(this).val()) {
+                        isValid = false;
+                        $(this).addClass('is-invalid');
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                });
+                return isValid;
+            }
         });
     </script>
 @endpush

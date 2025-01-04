@@ -26,61 +26,13 @@ class Create extends Component
     public $date_validite;
     public $entreprise_id;
 
-    public $e_nom;
-    public $e_ingredients;
-    public $e_prix_min = 0;
-    public $e_prix_max = 0;
-
-    public $p_nom;
-    public $p_ingredients;
-    public $p_accompagnements;
-    public $p_prix_min = 0;
-    public $p_prix_max = 0;
-
-    public $d_nom;
-    public $d_ingredients;
-    public $d_prix_min = 0;
-    public $d_prix_max = 0;
-
-    public $plats_data;
+    public $entrees;
+    public $plats;
+    public $desserts;
 
     public $entrees_error = '';
-    public $entrees = [
-        [
-            'nom' => '',
-            'ingredients' => '',
-            'prix_min' => '',
-            'prix_max' => '',
-            'image' => '',
-        ],
-    ];
-    public $entrees_count = 1;
-
     public $plats_error = '';
-    public $plats = [
-        [
-            'nom' => '',
-            'ingredients' => '',
-            'accompagnements' => '',
-            'prix_min' => '',
-            'prix_max' => '',
-            'image' => '',
-        ],
-    ];
-    public $plats_count = 1;
-
     public $desserts_error = '';
-    public $desserts = [
-        [
-            'nom' => '',
-            'ingredients' => '',
-            'prix_min' => '',
-            'prix_max' => '',
-            'image' => '',
-        ],
-    ];
-    public $desserts_count = 1;
-
 
     public $equipements_restauration = [];
     public $list_equipements_restauration = [];
@@ -388,7 +340,8 @@ class Create extends Component
 
     public function store()
     {
-        dd($this->plats_data);
+
+        dd($this->entrees, $this->plats, $this->desserts);
         $this->validate();
 
         $separator = Utils::getRestaurantValueSeparator();
