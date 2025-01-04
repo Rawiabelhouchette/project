@@ -116,21 +116,21 @@ Route::group([
             Route::resource('annonces', AnnonceController::class);
             Route::get('annonces/list/datatable', [AnnonceController::class, 'getDataTable'])->name('annonces.datatable');
 
-            Route::resource('auberges', AubergeController::class);
+            Route::resource('auberges', AubergeController::class)->only(['show']);
 
-            Route::resource('hotels', HotelController::class);
+            Route::resource('hotels', HotelController::class)->only(['show']);
 
-            Route::resource('location-vehicules', LocationVehiculeController::class);
+            Route::resource('location-vehicules', LocationVehiculeController::class)->only(['show']);
 
-            Route::resource('location-meublees', LocationMeubleeController::class);
+            Route::resource('location-meublees', LocationMeubleeController::class)->only(['show']);
 
-            Route::resource('boite-de-nuits', BoiteDeNuitController::class);
+            Route::resource('boite-de-nuits', BoiteDeNuitController::class)->only(['show']);
 
-            Route::resource('fast-foods', FastFoodController::class);
+            Route::resource('fast-foods', FastFoodController::class)->only(['show']);
 
-            Route::resource('restaurants', RestaurantController::class);
+            Route::resource('restaurants', RestaurantController::class)->only(['show']);
 
-            Route::resource('bars', BarController::class);
+            Route::resource('bars', BarController::class)->only(['show']);
 
             Route::resource('patisseries', PatisserieController::class)->parameters(['patisseries' => 'patisserie']);
 
