@@ -340,6 +340,7 @@ class Create extends Component
 
     public function store()
     {
+        dd($this->plats, $this->entrees);
 
         dd($this->entrees, $this->plats, $this->desserts);
         $this->validate();

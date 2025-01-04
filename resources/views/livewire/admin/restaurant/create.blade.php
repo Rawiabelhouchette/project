@@ -162,6 +162,51 @@
                 </div>
 
                 <div class="row align-items-start">
+                    <div class="col entrees">
+                        <h3>Entrées</h3>
+                        <h4>Carte des entrées</h4>
+                        <div id="entrees-container">
+                            <!-- Plat 1 par défaut -->
+                            <div class="form-group entree-item" id="entree-item-1">
+                                <div>
+                                    <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#entree-1" type="button" aria-controls="entree-1">
+                                        Entrée 1 <i class="fa fa-pencil"></i>
+                                    </button>
+                                </div>
+                                <div class="offcanvas offcanvas-end" id="entree-1" data-bs-scroll="true" aria-labelledby="entree-1" tabindex="-1">
+                                    <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title">Entrée 1</h5>
+                                        <button class="btn-close text-reset" id="entrees-close-1" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
+                                    </div>
+                                    <div class="offcanvas-body">
+                                        <div class="form-group">
+                                            <label for="entree-name-1">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control required-field" id="entree-name-1" data-entree-id="1" type="text">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="entree-description-1">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
+                                            <textarea class="form-control required-field" id="entree-description-1" data-entree-id="1" rows="3"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="entree-price-1">Prix<b style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control required-field" id="entree-price-1" data-entree-id="1" type="number">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-img-1">Image à la Une</label>
+                                            <input class="form-control-file" id="form-img-entree-1" data-entree-id="1" type="file">
+                                        </div>
+                                        <button class="btn btn-success mb-2 save-entree-btn" data-entree-id="1" type="button">Enregistrer</button>
+                                        <button class="btn btn-danger mb-2 delete-entree-btn" data-entree-id="1" type="button">Supprimer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 text-center">
+                            <span class="text-danger" id="entree-error-message"></span>
+                        </div>
+                        <button class="btn btn-success btn-square" id="add-entree-btn" type="button"><i class="fa fa-plus"></i></button>
+                    </div>
                     <div class="col plats">
                         <h3>Plats</h3>
                         <h4>Carte des plats</h4>
@@ -172,9 +217,6 @@
                                     <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#plat-1" type="button" aria-controls="plat-1">
                                         Plat 1 <i class="fa fa-pencil"></i>
                                     </button>
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger" id="plat-error-message"></span>
-                                    </div>
                                 </div>
                                 <div class="offcanvas offcanvas-end" id="plat-1" data-bs-scroll="true" aria-labelledby="plat-1" tabindex="-1">
                                     <div class="offcanvas-header">
@@ -183,26 +225,30 @@
                                     </div>
                                     <div class="offcanvas-body">
                                         <div class="form-group">
-                                            <label for="name-1">Nom<b style="color: red; font-size: 100%;">*</b></label>
-                                            <input class="form-control required-field" id="name-1" data-plat-id="1" type="text">
+                                            <label for="plat-name-1">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control required-field" id="plat-name-1" data-plat-id="1" type="text">
                                         </div>
                                         <div class="form-group">
-                                            <label for="description-1">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
-                                            <textarea class="form-control required-field" id="description-1" data-plat-id="1" rows="3"></textarea>
+                                            <label for="plat-description-1">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
+                                            <textarea class="form-control required-field" id="plat-description-1" data-plat-id="1" rows="3"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label for="price-1">Prix<b style="color: red; font-size: 100%;">*</b></label>
-                                            <input class="form-control required-field" id="price-1" data-plat-id="1" type="number">
+                                            <label for="plat-price-1">Prix<b style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control required-field" id="plat-price-1" data-plat-id="1" type="number">
                                         </div>
                                         <div class="form-group">
-                                            <label for="form-img-1">Image à la Une</label>
-                                            <input class="form-control-file" id="form-img-1" data-plat-id="1" type="file">
+                                            <label for="form-img-plat-1">Image à la Une</label>
+                                            <input class="form-control-file" id="form-img-plat-1" data-plat-id="1" type="file">
                                         </div>
                                         <button class="btn btn-success mb-2 save-plat-btn" data-plat-id="1" type="button">Enregistrer</button>
                                         <button class="btn btn-danger mb-2 delete-plat-btn" data-plat-id="1" type="button">Supprimer</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 text-center">
+                            <span class="text-danger" id="plat-error-message"></span>
                         </div>
                         <button class="btn btn-success btn-square" id="add-plat-btn" type="button"><i class="fa fa-plus"></i></button>
                     </div>
@@ -379,11 +425,11 @@
                     return false; // Si un champ est manquant, on retourne false
                 }
 
-                // Vérifier que le nom du plat est unique
-                if (!isPlatNameUnique(elementName, id)) {
-                    alert(`Le plat "${elementName}" existe déjà. Veuillez choisir un autre nom.`);
-                    return false;
-                }
+                // // Vérifier que le nom du plat est unique
+                // if (!isPlatNameUnique(elementName, id)) {
+                //     alert(`Le plat "${elementName}" existe déjà. Veuillez choisir un autre nom.`);
+                //     return false;
+                // }
 
                 return isValid;
             }
@@ -431,6 +477,8 @@
                     $('#entree-error-message').text(`Veuillez remplir tous les champs obligatoires de l'entrée ${lastEntreeId}.`);
                     return; // Stopper l'ajout si les champs ne sont pas valides
                 }
+
+                console.log('Ajout d\'une nouvelle entrée');
 
                 // Ajouter une nouvelle entrée
                 const newEntreeHTML = createEntree(entreeCounter);
@@ -575,6 +623,7 @@
             // Supprimer un plat
             $(document).on('click', '.delete-plat-btn', function() {
                 const platId = $(this).data('plat-id');
+                $('#plat-error-message').text(''); // Réinitialiser le message d'erreur
                 $(`#plat-item-${platId}`).remove();
                 reorderPlats(); // Réordonner après suppression
             });
@@ -582,6 +631,7 @@
             // Supprimer une entrée
             $(document).on('click', '.delete-entree-btn', function() {
                 const entreeId = $(this).data('entree-id');
+                $('#entree-error-message').text(''); // Réinitialiser le message d'erreur
                 $(`#entree-item-${entreeId}`).remove();
                 reorderEntrees(); // Réordonner après suppression
             });
@@ -589,6 +639,7 @@
             // Supprimer un dessert
             $(document).on('click', '.delete-dessert-btn', function() {
                 const dessertId = $(this).data('dessert-id');
+                $('#dessert-error-message').text(''); // Réinitialiser le message d'erreur
                 $(`#dessert-item-${dessertId}`).remove();
                 reorderDesserts(); // Réordonner après suppression
             });
@@ -667,10 +718,10 @@
 
                 $('.plat-item').each(function() {
                     const platId = $(this).attr('id').split('-')[2]; // Extraire l'ID du plat
-                    const name = $(`#name-${platId}`).val();
-                    const description = $(`#description-${platId}`).val();
-                    const price = $(`#price-${platId}`).val();
-                    const image = $(`#form-img-${platId}`).val(); // Si une image est incluse, vous pourrez la gérer ici
+                    const name = $(`#plat-name-${platId}`).val();
+                    const description = $(`#plat-description-${platId}`).val();
+                    const price = $(`#plat-price-${platId}`).val();
+                    const image = $(`#form-img-plat-${platId}`).val(); // Si une image est incluse, vous pourrez la gérer ici
 
                     // if (validateFields(platId)) {
                     platsData.push({
@@ -731,6 +782,11 @@
                 return dessertsData;
             }
 
+            function clearData(objets) {
+                // remove empty objects
+                
+            }
+
             // Événement pour le bouton "Ajouter"
             addPlatBtn.on('click', addPlat);
 
@@ -744,11 +800,13 @@
                 const plats = collectPlats();
                 const entrees = collectEntrees();
                 const desserts = collectDesserts();
+                console.log(plats);
+                console.log(entrees);
                 // verifier et enlever les plats vides
                 // en suite s'assurer qu'il y a au moins un plat
                 @this.set('plats', plats);
                 @this.set('entrees', entrees);
-                @this.set('desserts', desserts);
+                // @this.set('desserts', desserts);
             });
         });
     </script>
