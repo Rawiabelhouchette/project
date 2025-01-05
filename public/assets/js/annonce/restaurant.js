@@ -61,7 +61,7 @@
                     </div>
                     <div class="offcanvas offcanvas-end" id="entree-${entreeId}" data-bs-scroll="true" tabindex="-1" aria-labelledby="entree-${entreeId}">
                         <div class="offcanvas-header">
-                            <h5 class="offcanvas-title">Plat ${entreeId}</h5>
+                            <h5 class="offcanvas-title">Entrée ${entreeId}</h5>
                             <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" id="entrees-close-${entreeId}" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
@@ -99,7 +99,7 @@
                     </div>
                     <div class="offcanvas offcanvas-end" id="dessert-${dessertId}" data-bs-scroll="true" tabindex="-1" aria-labelledby="dessert-${dessertId}">
                         <div class="offcanvas-header">
-                            <h5 class="offcanvas-title">Plat ${dessertId}</h5>
+                            <h5 class="offcanvas-title">Dessert ${dessertId}</h5>
                             <button class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" id="desserts-close-${dessertId}" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
@@ -148,11 +148,11 @@
                 return false; // Si un champ est manquant, on retourne false
             }
     
-            // Vérifier que le nom du plat est unique
-            if (!isPlatNameUnique(elementName, id)) {
-                alert(`Le plat "${elementName}" existe déjà. Veuillez choisir un autre nom.`);
-                return false;
-            }
+            // // Vérifier que le nom du plat est unique
+            // if (!isPlatNameUnique(elementName, id)) {
+            //     alert(`Le plat "${elementName}" existe déjà. Veuillez choisir un autre nom.`);
+            //     return false;
+            // }
     
             return isValid;
         }
@@ -463,7 +463,7 @@
                 // }
             });
     
-            return platsData;
+            return clearData(platsData);
         }
     
         function collectEntrees() {
@@ -486,7 +486,7 @@
                 // }
             });
     
-            return entreesData;
+            return clearData(entreesData);
         }
     
         function collectDesserts() {
@@ -509,12 +509,13 @@
                 // }
             });
     
-            return dessertsData;
+            return clearData(dessertsData);
         }
     
-        function clearData(objets) {
-            // remove empty objects
-    
+        const clearData = (objets) => {
+            return objets.filter(objet => {
+                return Object.values(objet).some(value => value !== null && value !== '');
+            });
         }
     
         // Événement pour le bouton "Ajouter"

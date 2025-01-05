@@ -163,7 +163,7 @@
 
                 <div class="row align-items-start">
                     <div class="col entrees">
-                        <h3>Entrées</h3>
+                        <h3>Entrées <b style="color: red; font-size: 100%;">*</b></h3>
                         <h4>Carte des entrées</h4>
                         <div id="entrees-container">
                             <!-- Plat 1 par défaut -->
@@ -208,7 +208,7 @@
                         <button class="btn btn-success btn-square" id="add-entree-btn" type="button"><i class="fa fa-plus"></i></button>
                     </div>
                     <div class="col plats">
-                        <h3>Plats</h3>
+                        <h3>Plats <b style="color: red; font-size: 100%;">*</b></h3>
                         <h4>Carte des plats</h4>
                         <div id="plats-container">
                             <!-- Plat 1 par défaut -->
@@ -253,7 +253,7 @@
                         <button class="btn btn-success btn-square" id="add-plat-btn" type="button"><i class="fa fa-plus"></i></button>
                     </div>
                     <div class="col desserts">
-                        <h3>Desserts</h3>
+                        <h3>Desserts <b style="color: red; font-size: 100%;">*</b></h3>
                         <h4>Carte des desserts</h4>
                         <div id="desserts-container">
                             <!-- Plat 1 par défaut -->
@@ -329,9 +329,45 @@
             const plats = collectPlats();
             const entrees = collectEntrees();
             const desserts = collectDesserts();
-            console.log(plats);
-            console.log(entrees);
-            console.log(desserts);
+            // console.log(entrees);
+            // console.log(plats);
+            // console.log(desserts);
+
+            const lastEntreeId = entreeCounter - 1;
+            const lastPlatId = platCounter - 1;
+            const lastDessertId = dessertCounter - 1;
+
+            function validateAndShowError(type, lastId, items, errorMessageSelector, emptyMessage, invalidMessage) {
+                if (lastId > 0 && !validateFields(type, lastId)) {
+                    $(errorMessageSelector).text(invalidMessage.replace('{id}', lastId));
+                    return false;
+                }
+
+                if (items.length === 0) {
+                    $(errorMessageSelector).text(emptyMessage);
+                    return false;
+                }
+
+                return true;
+            }
+
+            // Valider les champs du dernier entrée avant d'ajouter un nouveau
+            if (!validateAndShowError('entree', lastEntreeId, entrees, '#entree-error-message', 'Veuillez ajouter au moins une entrée', 'Veuillez remplir tous les champs obligatoires de l\'entrée {id}.')) {
+                return false;
+            }
+
+            // Valider les champs du dernier plat avant d'ajouter un nouveau
+            if (!validateAndShowError('plat', lastPlatId, plats, '#plat-error-message', 'Veuillez ajouter au moins un plat', 'Veuillez remplir tous les champs obligatoires du plat {id}.')) {
+                return false;
+            }
+
+            // Valider les champs du dernier dessert avant d'ajouter un nouveau
+            if (!validateAndShowError('dessert', lastDessertId, desserts, '#dessert-error-message', 'Veuillez ajouter au moins un dessert', 'Veuillez remplir tous les champs obligatoires du dessert {id}.')) {
+                return false;
+            }
+
+
+
             // verifier et enlever les plats vides
             // en suite s'assurer qu'il y a au moins un plat
             @this.set('entrees', entrees);
