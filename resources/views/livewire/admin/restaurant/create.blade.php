@@ -334,9 +334,12 @@
             console.log(desserts);
             // verifier et enlever les plats vides
             // en suite s'assurer qu'il y a au moins un plat
-            @this.set('plats', plats);
             @this.set('entrees', entrees);
+            @this.set('plats', plats);
             @this.set('desserts', desserts);
+
+            // prevent form submission
+            // return false;
         });
     </script>
 @endpush
