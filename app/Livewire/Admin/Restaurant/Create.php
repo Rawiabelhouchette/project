@@ -84,104 +84,50 @@ class Create extends Component
             $this->list_carte_consommation = [];
     }
 
-    // public function rules()
-    // {
-    //     return [
-    //         'nom' => 'required|string|min:3',
-    //         'description' => 'nullable|string|min:3',
-    //         'date_validite' => 'required|date',
-    //         'entreprise_id' => 'required|integer|exists:entreprises,id',
-    //         // 'e_nom' => 'required|string|min:3',
-    //         // 'e_ingredients' => 'nullable|string|min:3',
-    //         // 'e_prix_min' => 'nullable|integer|min:0|lte:e_prix_max',
-    //         // 'e_prix_max' => 'nullable|integer|min:0',
-    //         // 'p_nom' => 'required|string|min:3',
-    //         // 'p_ingredients' => 'nullable|string|min:3',
-    //         // 'p_prix_min' => 'nullable|integer|min:0|lte:p_prix_max',
-    //         // 'p_prix_max' => 'nullable|integer|min:0',
-    //         // 'd_nom' => 'required|string|min:3',
-    //         // 'd_ingredients' => 'nullable|string|min:3',
-    //         // 'd_prix_min' => 'nullable|integer|min:0|lte:d_prix_max',
-    //         // 'd_prix_max' => 'nullable|integer|min:0',
-    //         // 'equipements_restauration' => 'nullable|array',
-    //         // 'equipements_restauration.*' => 'nullable|integer|exists:reference_valeurs,id',
-    //         // 'specialites' => 'nullable|array',
-    //         // 'specialites.*' => 'nullable|integer|exists:reference_valeurs,id',
-    //         // 'carte_consommation' => 'nullable|array',
-    //         // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
+    public function rules()
+    {
+        return [
+            'nom' => 'required|string|min:3',
+            'description' => 'nullable|string|min:3',
+            'date_validite' => 'required|date',
+            // 'entreprise_id' => 'required|integer|exists:entreprises,id',
 
-    //         'services' => 'nullable',
-    //         'image' => 'required|image',
-    //         'galerie' => 'nullable|array',
-    //         'galerie.*' => 'nullable|image',
-    //     ];
-    // }
+            'entrees' => 'required|array|min:1',
+            'entrees.*.nom' => 'required|string|min:3',
+            'entrees.*.ingredients' => 'nullable|string|min:3',
+            'entrees.*.prix = ' => 'requried|integer|min:0',
+            'entrees.*.image' => 'nullable|image',
 
-    // public function messages()
-    // {
-    //     return [
-    //         'nom.required' => 'Le nom est obligatoire.',
-    //         'nom.string' => 'Le nom doit être une chaîne de caractères.',
-    //         'nom.min' => 'Le nom doit contenir au moins :min caractères.',
-    //         'description.string' => 'La description doit être une chaîne de caractères.',
-    //         'description.min' => 'La description doit contenir au moins :min caractères.',
-    //         'date_validite.required' => 'La date de validité est obligatoire.',
-    //         'date_validite.date' => 'La date de validité doit être une date.',
-    //         'entreprise_id.required' => 'L\'entreprise est obligatoire.',
-    //         'entreprise_id.integer' => 'L\'entreprise doit être un entier.',
-    //         'entreprise_id.exists' => 'L\'entreprise sélectionnée n\'existe pas.',
-    //         'e_nom.required' => 'Le nom de l\'entrée est obligatoire.',
-    //         'e_nom.string' => 'Le nom de l\'entrée doit être une chaîne de caractères.',
-    //         'e_nom.min' => 'Le nom de l\'entrée doit contenir au moins :min caractères.',
-    //         'e_ingredients.string' => 'Les ingrédients de l\'entrée doivent être une chaîne de caractères.',
-    //         'e_ingredients.min' => 'Les ingrédients de l\'entrée doivent contenir au moins :min caractères.',
-    //         'e_prix_min.integer' => 'Le prix minimum de l\'entrée doit être un entier.',
-    //         'e_prix_min.min' => 'Le prix minimum de l\'entrée doit être au moins :min.',
-    //         'e_prix_min.lte' => 'Le prix minimum de l\'entrée doit être inférieur ou égal au prix maximum.',
-    //         'e_prix_max.integer' => 'Le prix maximum de l\'entrée doit être un entier.',
-    //         'e_prix_max.min' => 'Le prix maximum de l\'entrée doit être au moins :min.',
-    //         'p_nom.required' => 'Le nom du plat est obligatoire.',
-    //         'p_nom.string' => 'Le nom du plat doit être une chaîne de caractères.',
-    //         'p_nom.min' => 'Le nom du plat doit contenir au moins :min caractères.',
-    //         'p_ingredients.string' => 'Les ingrédients du plat doivent être une chaîne de caractères.',
-    //         'p_ingredients.min' => 'Les ingrédients du plat doivent contenir au moins :min caractères.',
-    //         'p_prix_min.integer' => 'Le prix minimum du plat doit être un entier.',
-    //         'p_prix_min.min' => 'Le prix minimum du plat doit être au moins :min.',
-    //         'p_prix_min.lte' => 'Le prix minimum du plat doit être inférieur ou égal au prix maximum.',
-    //         'p_prix_max.integer' => 'Le prix maximum du plat doit être un entier.',
-    //         'p_prix_max.min' => 'Le prix maximum du plat doit être au moins :min.',
-    //         'd_nom.required' => 'Le nom du dessert est obligatoire.',
-    //         'd_nom.string' => 'Le nom du dessert doit être une chaîne de caractères.',
-    //         'd_nom.min' => 'Le nom du dessert doit contenir au moins :min caractères.',
-    //         'd_ingredients.string' => 'Les ingrédients du dessert doivent être une chaîne de caractères.',
-    //         'd_ingredients.min' => 'Les ingrédients du dessert doivent contenir au moins :min caractères.',
-    //         'd_prix_min.integer' => 'Le prix minimum du dessert doit être un entier.',
-    //         'd_prix_min.min' => 'Le prix minimum du dessert doit être au moins :min.',
-    //         'd_prix_min.lte' => 'Le prix minimum du dessert doit être inférieur ou égal au prix maximum.',
-    //         'd_prix_max.integer' => 'Le prix maximum du dessert doit être un entier.',
-    //         'd_prix_max.min' => 'Le prix maximum du dessert doit être au moins :min.',
-    //         'equipements_restauration.array' => 'Les équipements de restauration doivent être un tableau.',
-    //         'equipements_restauration.*.integer' => 'Les équipements de restauration doivent être des entiers.',
-    //         'equipements_restauration.*.exists' => 'Les équipements de restauration sélectionnés sont invalides.',
-    //         'specialites.array' => 'Les spécialités doivent être un tableau.',
-    //         'specialites.*.integer' => 'Les spécialités doivent être des entiers.',
-    //         'specialites.*.exists' => 'Les spécialités sélectionnées sont invalides.',
-    //         'carte_consommation.array' => 'La carte de consommation doit être un tableau.',
-    //         'carte_consommation.*.integer' => 'La carte de consommation doit être des entiers.',
-    //         'carte_consommation.*.exists' => 'La carte de consommation sélectionnée est invalide.',
-    //         'galerie.array' => 'La galerie doit être un tableau.',
-    //         'galerie.*.image' => 'La galerie doit contenir des images.',
-    //     ];
-    // }
+            'plats' => 'required|array|min:1',
+            'plats.*.nom' => 'required|string|min:3',
+            'plats.*.ingredients' => 'nullable|string|min:3',
+            'plats.*.accompagnements' => 'nullable|string|min:3',
+            'plats.*.prix = ' => 'requried|integer|min:0',
+            'plats.*.image' => 'nullable|image',
 
-    
+            'desserts' => 'required|array|min:1',
+            'desserts.*.nom' => 'required|string|min:3',
+            'desserts.*.ingredients' => 'nullable|string|min:3',
+            'desserts.*.prix = ' => 'requried|integer|min:0',
+            'desserts.*.image' => 'nullable|image',
+
+            // // 'carte_consommation' => 'nullable|array',
+            // // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
+
+            // 'services' => 'nullable',
+            // 'image' => 'required|image',
+            // 'galerie' => 'nullable|array',
+            // 'galerie.*' => 'nullable|image',
+        ];
+    }
+
 
     public function store()
     {
-        // dd($this->plats, $this->entrees);
+        dd($this->plats, $this->entrees);
 
-        dd($this->entrees, $this->plats, $this->desserts);
         $this->validate();
+        dd($this->entrees, $this->plats, $this->desserts);
 
         $separator = Utils::getRestaurantValueSeparator();
 

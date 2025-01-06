@@ -204,6 +204,9 @@
 
                         <div class="col-md-12 col-sm-12 text-center">
                             <span class="text-danger" id="entree-error-message"></span>
+                            @error('entrees')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <button class="btn btn-success btn-square" id="add-entree-btn" type="button"><i class="fa fa-plus"></i></button>
                     </div>
@@ -249,6 +252,9 @@
 
                         <div class="col-md-12 col-sm-12 text-center">
                             <span class="text-danger" id="plat-error-message"></span>
+                            @error('plats')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <button class="btn btn-success btn-square" id="add-plat-btn" type="button"><i class="fa fa-plus"></i></button>
                     </div>
@@ -294,6 +300,9 @@
 
                         <div class="col-md-12 col-sm-12 text-center">
                             <span class="text-danger" id="dessert-error-message"></span>
+                            @error('desserts')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <button class="btn btn-success btn-square" id="add-dessert-btn" type="button"><i class="fa fa-plus"></i></button>
                     </div>
@@ -326,6 +335,10 @@
 
     <script>
         $('#restaurant-form-submit').on('click', function() {
+            //  check if all required fields are filled : I dont want a function
+
+
+
             const plats = collectPlats();
             const entrees = collectEntrees();
             const desserts = collectDesserts();
