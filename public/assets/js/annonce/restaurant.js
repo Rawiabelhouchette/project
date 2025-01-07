@@ -381,12 +381,7 @@
                 const platName = $(`#plat-name-${platId}`).val();
                 const platIngredients = $(`#plat-description-${platId}`).val();
                 const platPrice = $(`#plat-price-${platId}`).val();
-    
-                //         alert(`Plat ${platId} enregistré avec les données suivantes :
-                // - Nom : ${platName}
-                // - Ingrédients : ${platIngredients}
-                // - Prix : ${platPrice}`);
-    
+
                 // Fermer le offcanvas après enregistrement
                 $(`#plat-${platId}`).offcanvas('hide');
                 $('#plat-error-message').text(''); // Réinitialiser le message d'erreur
@@ -404,11 +399,6 @@
                 const entreeIngredients = $(`#entree-description-${entreeId}`).val();
                 const entreePrice = $(`#entree-price-${entreeId}`).val();
     
-                //         alert(`Entrée ${entreeId} enregistrée avec les données suivantes :
-                // - Nom : ${entreeName}
-                // - Ingrédients : ${entreeIngredients}
-                // - Prix : ${entreePrice}`);
-    
                 // Fermer le offcanvas après enregistrement
                 $(`#entree-${entreeId}`).offcanvas('hide');
                 $('#entree-error-message').text(''); // Réinitialiser le message d'erreur
@@ -425,11 +415,6 @@
                 const dessertName = $(`#dessert-name-${dessertId}`).val();
                 const dessertIngredients = $(`#dessert-description-${dessertId}`).val();
                 const dessertPrice = $(`#dessert-price-${dessertId}`).val();
-    
-                //         alert(`Dessert ${dessertId} enregistré avec les données suivantes :
-                // - Nom : ${dessertName}
-                // - Ingrédients : ${dessertIngredients}
-                // - Prix : ${dessertPrice}`);
     
                 // Fermer le offcanvas après enregistrement
                 $(`#dessert-${dessertId}`).offcanvas('hide');

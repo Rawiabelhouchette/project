@@ -177,7 +177,6 @@ class Restaurant extends Model implements AnnonceInterface
             $plats[] = [
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
-                'accompagnements' => $tmp_accompagnements[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
                 'prix_max' => (int) $tmp_prix_max[$i]
             ];

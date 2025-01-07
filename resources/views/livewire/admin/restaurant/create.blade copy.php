@@ -3,25 +3,7 @@
         <form wire:submit="store()">
             <div class="container text-left">
                 <div class="row align-items-start">
-                    <div class="col entreprise" wire:ignore>
-                        <div>
-                            <h3>Entreprise
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3>
-                            <h4>Sélectionnez l'entreprise</h4>
-                            <select class="select2" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
-                                <option value="">-- Sélectionner --</option>
-                                @foreach ($entreprises as $entreprise)
-                                    <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
-                                @endforeach
-                            </select>
-                            @error('entreprise_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    {{-- <div class="col entreprise">
+                    <div class="col entreprise">
                         <h3>Établissement</h3>
                         <h4>Saisissez les coordonnées de l'établissement</h4>
                         <div class="form-group">
@@ -133,7 +115,7 @@
                                 <button class="btn btn-danger mb-2" type="button">Supprimer</button>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <div class="col restaurant">
                         <h3>Nom
@@ -325,14 +307,6 @@
                         <button class="btn btn-success btn-square" id="add-dessert-btn" type="button"><i class="fa fa-plus"></i></button>
                     </div>
                 </div>
-
-                <div class="row align-items-start">
-
-                    @include('admin.annonce.create-galery-component', [
-                        'galery' => $galerie,
-                    ])
-                </div>
-
                 <div class="row align-items-end">
                     {{-- <button class="btn btn-danger mb-2" type="reset">Supprimer l'annonce</button> --}}
                     <button class="btn btn-success mb-2" id="restaurant-form-submit" type="submit" wire:target='store'>Sauvegarder l'annonce</button>

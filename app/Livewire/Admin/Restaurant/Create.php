@@ -89,27 +89,26 @@ class Create extends Component
         return [
             'nom' => 'required|string|min:3',
             'description' => 'nullable|string|min:3',
-            'date_validite' => 'required|date',
-            // 'entreprise_id' => 'required|integer|exists:entreprises,id',
+            'date_validite' => 'required|date|after_or_equal:today',
+            'entreprise_id' => 'required|integer|exists:entreprises,id',
 
-            'entrees' => 'required|array|min:1',
-            'entrees.*.nom' => 'required|string|min:3',
-            'entrees.*.ingredients' => 'nullable|string|min:3',
-            'entrees.*.prix = ' => 'requried|integer|min:0',
-            'entrees.*.image' => 'nullable|image',
+            // 'entrees' => 'required|array|min:1',
+            // 'entrees.*.nom' => 'required|string|min:3',
+            // 'entrees.*.ingredients' => 'nullable|string|min:3',
+            // 'entrees.*.prix = ' => 'requried|integer|min:0',
+            // 'entrees.*.image' => 'nullable|image',
 
-            'plats' => 'required|array|min:1',
-            'plats.*.nom' => 'required|string|min:3',
-            'plats.*.ingredients' => 'nullable|string|min:3',
-            'plats.*.accompagnements' => 'nullable|string|min:3',
-            'plats.*.prix = ' => 'requried|integer|min:0',
-            'plats.*.image' => 'nullable|image',
+            // 'plats' => 'required|array|min:1',
+            // 'plats.*.nom' => 'required|string|min:3',
+            // 'plats.*.ingredients' => 'nullable|string|min:3',
+            // 'plats.*.prix = ' => 'requried|integer|min:0',
+            // 'plats.*.image' => 'nullable|image',
 
-            'desserts' => 'required|array|min:1',
-            'desserts.*.nom' => 'required|string|min:3',
-            'desserts.*.ingredients' => 'nullable|string|min:3',
-            'desserts.*.prix = ' => 'requried|integer|min:0',
-            'desserts.*.image' => 'nullable|image',
+            // 'desserts' => 'required|array|min:1',
+            // 'desserts.*.nom' => 'required|string|min:3',
+            // 'desserts.*.ingredients' => 'nullable|string|min:3',
+            // 'desserts.*.prix = ' => 'requried|integer|min:0',
+            // 'desserts.*.image' => 'nullable|image',
 
             // // 'carte_consommation' => 'nullable|array',
             // // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
@@ -124,36 +123,52 @@ class Create extends Component
 
     public function store()
     {
-        dd($this->plats, $this->entrees);
+        // dd($this->entrees);
 
         $this->validate();
-        dd($this->entrees, $this->plats, $this->desserts);
+        // dd($this->entrees, $this->plats, $this->desserts);
 
         $separator = Utils::getRestaurantValueSeparator();
 
+        $e_nom = '';
+        $e_ingredients = '';
+        $e_prix_min = '';
+        $e_prix_max = '';
+
+        $p_nom = '';
+        $p_ingredients = '';
+        $p_ingredients = '';
+        $p_prix_min = '';
+        $p_prix_max = '';
+
+        $d_nom = '';
+        $d_ingredients = '';
+        $d_prix_min = '';
+        $d_prix_max = '';
+
         // Put all entrees in the same variable
         foreach ($this->entrees as $entree) {
-            $this->e_nom .= $entree['nom'] . $separator;
-            $this->e_ingredients .= $entree['ingredients'] . $separator;
-            $this->e_prix_min .= $entree['prix_min'] . $separator;
-            $this->e_prix_max .= $entree['prix_max'] . $separator;
+            $e_nom .= $entree['nom'] . $separator;
+            $e_ingredients .= $entree['ingredients'] . $separator;
+            $e_prix_min .= $entree['prix'] . $separator;
+            $e_prix_max .= $entree['prix'] . $separator;
         }
+        // dd($e_nom, $e_ingredients, $e_prix_min, $e_prix_max);
 
         // Put all plats in the same variable
         foreach ($this->plats as $plat) {
-            $this->p_nom .= $plat['nom'] . $separator;
-            $this->p_ingredients .= $plat['ingredients'] . $separator;
-            $this->p_accompagnements .= $plat['accompagnements'] . $separator;
-            $this->p_prix_min .= $plat['prix_min'] . $separator;
-            $this->p_prix_max .= $plat['prix_max'] . $separator;
+            $p_nom .= $plat['nom'] . $separator;
+            $p_ingredients .= $plat['ingredients'] . $separator;
+            $p_prix_min .= $plat['prix'] . $separator;
+            $p_prix_max .= $plat['prix'] . $separator;
         }
 
         // Put all desserts in the same variable
         foreach ($this->desserts as $dessert) {
-            $this->d_nom .= $dessert['nom'] . $separator;
-            $this->d_ingredients .= $dessert['ingredients'] . $separator;
-            $this->d_prix_min .= $dessert['prix_min'] . $separator;
-            $this->d_prix_max .= $dessert['prix_max'] . $separator;
+            $d_nom .= $dessert['nom'] . $separator;
+            $d_ingredients .= $dessert['ingredients'] . $separator;
+            $d_prix_min .= $dessert['prix'] . $separator;
+            $d_prix_max .= $dessert['prix'] . $separator;
         }
 
 
@@ -161,21 +176,20 @@ class Create extends Component
             DB::beginTransaction();
 
             $restaurant = Restaurant::create([
-                'e_nom' => $this->e_nom,
-                'e_ingredients' => $this->e_ingredients,
-                'e_prix_min' => $this->e_prix_min,
-                'e_prix_max' => $this->e_prix_max,
+                'e_nom' => $e_nom,
+                'e_ingredients' => $e_ingredients,
+                'e_prix_min' => $e_prix_min,
+                'e_prix_max' => $e_prix_max,
 
-                'p_nom' => $this->p_nom,
-                'p_ingredients' => $this->p_ingredients,
-                'p_accompagnements' => $this->p_accompagnements,
-                'p_prix_min' => $this->p_prix_min,
-                'p_prix_max' => $this->p_prix_max,
+                'p_nom' => $p_nom,
+                'p_ingredients' => $p_ingredients,
+                'p_prix_min' => $p_prix_min,
+                'p_prix_max' => $p_prix_max,
 
-                'd_nom' => $this->d_nom,
-                'd_ingredients' => $this->d_ingredients,
-                'd_prix_min' => $this->d_prix_min,
-                'd_prix_max' => $this->d_prix_max,
+                'd_nom' => $d_nom,
+                'd_ingredients' => $d_ingredients,
+                'd_prix_min' => $d_prix_min,
+                'd_prix_max' => $d_prix_max,
             ]);
 
             $annonce = new Annonce([
@@ -202,6 +216,7 @@ class Create extends Component
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
+            dd($th);
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Opération réussie'),
@@ -212,7 +227,7 @@ class Create extends Component
         }
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
-        return redirect()->route('restaurants.create');
+        return redirect()->route('public.restaurants.create');
     }
 
 
