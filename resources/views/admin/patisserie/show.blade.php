@@ -21,9 +21,9 @@
 
                     <div class="card-header">
                         <h4>Détails de la patisserie</h4>
-                        <a href="{{ route('patisseries.edit', $patisserie->id) }}" type="button" class="btn theme-btn text-right">
+                        {{-- <a href="{{ route('patisseries.edit', $patisserie->id) }}" type="button" class="btn theme-btn text-right">
                             <i class="fa fa-edit fa-lg" style=""></i>
-                        </a>
+                        </a> --}}
                     </div>
 
                     <div class="card-body" style="background-color: white;">

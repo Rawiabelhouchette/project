@@ -98,6 +98,10 @@
                 </li>
 
                 <li class="@yield('annonce')">
+                    <a href="{{ route('annonces.index') }}"><i class="fa fa-clone" aria-hidden="true"></i>Gestion annonce</a>
+                </li>
+
+                {{-- <li class="@yield('annonce')">
                     <a href="javascript:void(0)"><i class="fa fa-clone" aria-hidden="true"></i>Gestion annonce<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
@@ -111,7 +115,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
                 <li class="@yield('abonnement')">
                     <a href="javascript:void(0)"><i class="fa fa-credit-card" aria-hidden="true"></i>Abonnement<span class="fa arrow"></span></a>

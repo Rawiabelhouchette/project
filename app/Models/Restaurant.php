@@ -41,7 +41,7 @@ class Restaurant extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        'edit_url',
+        // 'edit_url',
 
         'specialites',
         'equipements_restauration',
@@ -93,10 +93,10 @@ class Restaurant extends Model implements AnnonceInterface
         return route('restaurants.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('restaurants.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('restaurants.edit', $this);
+    // }
 
     public function annonce(): MorphOne
     {
@@ -177,7 +177,6 @@ class Restaurant extends Model implements AnnonceInterface
             $plats[] = [
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
-                'accompagnements' => $tmp_accompagnements[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
                 'prix_max' => (int) $tmp_prix_max[$i]
             ];

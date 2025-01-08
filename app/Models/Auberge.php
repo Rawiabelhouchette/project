@@ -35,7 +35,7 @@ class Auberge extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        'edit_url',
+        // 'edit_url',
 
         'types_lit',
         'commodites',
@@ -55,10 +55,10 @@ class Auberge extends Model implements AnnonceInterface
         return route('auberges.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('auberges.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('auberges.edit', $this);
+    // }
 
     public function annonce(): MorphOne
     {

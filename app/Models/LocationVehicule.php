@@ -39,7 +39,7 @@ class LocationVehicule extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        'edit_url',
+        // 'edit_url',
 
         'types_vehicule',
         'equipements_vehicule',
@@ -53,10 +53,10 @@ class LocationVehicule extends Model implements AnnonceInterface
         return route('location-vehicules.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('location-vehicules.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('location-vehicules.edit', $this);
+    // }
 
     public function annonce(): MorphOne
     {

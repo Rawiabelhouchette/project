@@ -1,6 +1,5 @@
 @extends('layout.public.app')
 
-
 @section('content')
     @include('components.default-value')
 
@@ -23,11 +22,11 @@
         </div>
     </section>
 
-<div class="page-name restaurant row">
-    <div class="container text-left">
-        @livewire('admin.restaurant.create')
+    <div class="page-name auberge row">
+        <div class="container text-left">
+            @livewire('admin.restaurant.create')
+        </div>
     </div>
-</div>
 @endsection
 
 @section('js')
@@ -59,14 +58,4 @@
             }]);
         });
     </script>
-    
-    <script>
-        $('.select2').each(function () {
-    $(this).select2({
-        theme: 'bootstrap-5',
-        dropdownParent: $(this).parent(),
-    });
-});
-    </script>
-
 @endsection

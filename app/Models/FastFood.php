@@ -31,7 +31,7 @@ class FastFood extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        'edit_url',
+        // 'edit_url',
 
         'equipements_restauration',
         'produits_fast_food',
@@ -49,10 +49,10 @@ class FastFood extends Model implements AnnonceInterface
         return route('fast-foods.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('fast-foods.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('fast-foods.edit', $this);
+    // }
 
     public function getEquipementsRestaurationAttribute(): array
     {
