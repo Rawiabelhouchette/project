@@ -123,7 +123,7 @@ class Create extends Component
 
     public function store()
     {
-        dd($this->entrees);
+        // dd($this->entrees);
 
         $this->validate();
         // dd($this->entrees, $this->plats, $this->desserts);
