@@ -114,16 +114,16 @@ class Create extends Component
             // // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
 
             // 'services' => 'nullable',
-            // 'image' => 'required|image',
-            // 'galerie' => 'nullable|array',
-            // 'galerie.*' => 'nullable|image',
+            'image' => 'required|image',
+            'galerie' => 'nullable|array',
+            'galerie.*' => 'nullable|image',
         ];
     }
 
 
     public function store()
     {
-        // dd($this->entrees);
+        dd($this->entrees);
 
         $this->validate();
         // dd($this->entrees, $this->plats, $this->desserts);

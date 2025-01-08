@@ -420,3 +420,6 @@ dev-2, c'est mes modifications avant de faire un merge avec la branche design
 Restaurant partie publique
 Il serait bien que quand on clique sur le bouton le off-canvas sorte
 
+## 08/01/2025
+- Apres un echec de validation, les entrees generees automiquement disparraissent
+
