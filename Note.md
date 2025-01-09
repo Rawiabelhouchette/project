@@ -423,3 +423,6 @@ Il serait bien que quand on clique sur le bouton le off-canvas sorte
 ## 08/01/2025
 - Apres un echec de validation, les entrees generees automiquement disparraissent
 
+## 09/01/2025
+https://www.youtube.com/watch?v=Zs0BVTmT9AY&t=120s&ab_channel=WebTechKnowledge
+
