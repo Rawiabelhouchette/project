@@ -39,6 +39,14 @@
                         <input class="form-control" name="password" type="password" placeholder="*******" wire:model='password' required>
                     </div>
 
+                    <div class="form-group">
+                        {{-- <div class="form-group" wire:ignore> --}}
+                        {!! htmlFormSnippet() !!}
+                        @if ($errors->has('g-recaptcha-response'))
+                            <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                        @enderror
+                    </div>
+
                     {{-- <div class="form-group g-recaptcha" data-sitekey="6Lcu0KgqAAAAAJWCA-yj93pHbZWKgLqX9wvKhX5X">
                     </div> --}}
 

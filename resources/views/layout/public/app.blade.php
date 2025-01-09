@@ -65,6 +65,9 @@
     <script defer src="{{ asset('assets_client/cookies/index.js') }}"></script>
     {{-- end cookies --}}
 
+    {!! htmlScriptTagJsApi() !!}
+
+
     @yield('css')
 
 </head>
