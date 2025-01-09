@@ -159,6 +159,47 @@ a.btn.call-btn {
 	margin-bottom:30px;
 }
 
+/*------------col-------------*/
+.row.align-items-start {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+}
+.col {
+    padding: 1rem 3rem;
+}
+.col h4 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+    opacity: 0.5;
+    padding: 1rem 0 3rem 0;
+}
+.btn-form i.fa.fa-pencil {
+    margin-left: 10px;
+    opacity: 0.5;
+}
+.page-name>.container {
+    padding: 5rem 2rem;
+}
+.select2-container:not(.select2-container--below) {
+    height: 50px;
+}
+body>.select2-container.select2-container--default.select2-container--open {
+    background: transparent;
+    border: transparent;
+    max-width: 0;
+}
+.dropdown-wrapper:after {
+    content: "\f078";
+    font-family: 'FontAwesome';
+    font-weight: 900;
+    float: right;
+    position: absolute;
+    right: 10px;
+}
+/*---------------------*/
+
 
 .card.add {
     padding: 16px;

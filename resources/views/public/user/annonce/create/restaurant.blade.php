@@ -7,7 +7,7 @@
         $defaultColor = '#ff3a72';
     @endphp
 
-    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-1.jpg') }})">
+    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
         <div class="container">
             <div class="title-content">
                 <h1>Ajouter un restaurant</h1>
@@ -31,7 +31,7 @@
 
 @section('js')
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
     <script>
         var mymap = L.map('map').setView([8.6195, 0.8248], 6);
 

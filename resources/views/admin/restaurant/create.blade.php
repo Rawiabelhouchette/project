@@ -14,6 +14,14 @@
     </div>
     <!-- /. ROW  -->
     <div id="page-inner">
+
+    <div class="col-md-12">
+        <div class="card title">
+            <div class="card-header">
+                <h4>Ajouter un restaurant</h4>
+            </div>
+        </div>
+    </div>
         <div class="row bott-wid">
             <div class="col-md-12 col-sm-12">
                 @livewire('admin.restaurant.create')

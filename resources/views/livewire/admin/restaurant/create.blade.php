@@ -217,7 +217,10 @@
                                         <button class="btn btn-danger mb-2 delete-entree-btn" data-entree-id="1" type="button">Supprimer</button>
                                     </div>
                                 </div>
-                            </div>
+                            
+                            <button class="btn btn-sucess mb-2">Enregistrer</button>
+                            <button type="submit" class="btn btn-danger mb-2">Supprimer</button>
+                            </form>
                         </div>
 
                         <div class="col-md-12 col-sm-12 text-center">
