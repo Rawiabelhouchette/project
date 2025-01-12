@@ -62,25 +62,7 @@ class Search extends Component
 
     public function mount($hasSessionValue)
     {
-        // dd(session()->all());
-
-        if (session()->has('se_loger') && session()->get('se_loger')) {
-            $this->seLoger();
-        }
-
-        if (session()->has('se_restaurer') && session()->get('se_restaurer')) {
-            $this->seRestaurer();
-        }
-
-        if (session()->has('sortir') && session()->get('sortir')) {
-            $this->sortir();
-        }
-
-        if (session()->has('louer_voiture') && session()->get('louer_voiture')) {
-            $this->louerUneVoiture();
-        }
-
-
+        $this->loadNavLinks();
 
         if ($hasSessionValue) {
             $session = new CustomSession();
@@ -537,29 +519,28 @@ class Search extends Component
         ];
     }
 
-    private function seLoger()
-    {
-        $this->type = AnnoncesUtils::getSeLogerList();
-        session(['se_loger' => '']);
-    }
 
-    private function seRestaurer()
+    private function loadNavLinks()
     {
-        $this->type = AnnoncesUtils::getSeRestaurerList();
-        dd($this->type);
-        session(['se_restaurer' => '']);
-    }
+        if (session()->has('se_loger') && session()->get('se_loger')) {
+            $this->type = AnnoncesUtils::getSeLogerList();
+            session(['se_loger' => '']);
+        }
 
-    private function sortir()
-    {
-        $this->type = AnnoncesUtils::getSortirList();
-        session(['sortir' => '']);
-    }
+        if (session()->has('se_restaurer') && session()->get('se_restaurer')) {
+            $this->type = AnnoncesUtils::getSeRestaurerList();
+            session(['se_restaurer' => '']);
+        }
 
-    private function louerUneVoiture()
-    {
-        $this->type = AnnoncesUtils::getLouerUneVoitureList();
-        session(['louer_voiture' => '']);
+        if (session()->has('sortir') && session()->get('sortir')) {
+            $this->type = AnnoncesUtils::getSortirList();
+            session(['sortir' => '']);
+        }
+
+        if (session()->has('louer_voiture') && session()->get('louer_voiture')) {
+            $this->type = AnnoncesUtils::getLouerUneVoitureList();
+            session(['louer_voiture' => '']);
+        }
     }
 
     public function render()
@@ -587,6 +568,8 @@ class Search extends Component
         $annonces = $this->search()->paginate($this->perPage);
 
         $this->saveVariableToSession();
+
+        CustomSession::reset();
 
         return view('livewire.public.search', [
             'annonces' => $annonces,

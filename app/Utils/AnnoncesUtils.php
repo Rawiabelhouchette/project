@@ -75,6 +75,7 @@ class AnnoncesUtils
             'Auberge',
             'Hôtel',
             'Location meublée',
+            'Bar'
         ];
     }
 

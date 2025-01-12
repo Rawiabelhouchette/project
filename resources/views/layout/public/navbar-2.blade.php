@@ -20,13 +20,13 @@
                         <a class="nav-link" href="{{ route('search', ['se_loger' => 1]) }}">Se loger</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('search') }}">Se restaurer</a>
+                        <a class="nav-link" href="{{ route('search', ['se_restaurer' => 1]) }}">Se restaurer</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('search') }}">Sortir</a>
+                        <a class="nav-link" href="{{ route('search', ['sortir' => 1]) }}">Sortir</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('search') }}">Louer une voiture</a>
+                        <a class="nav-link" href="{{ route('search', ['louer_voiture' => 1]) }}">Louer une voiture</a>
                     </li>
                 </ul>
             </div>
