@@ -48,7 +48,11 @@ class SearchController extends Controller
 
     public function show($slug)
     {
-        $annonce = Annonce::public()->where('slug', $slug)->where('is_active', true)->first();
+        $annonce = Annonce::with(['galerie', 'entreprise', 'commentaires', 'favoris'])
+            ->public()
+            ->where('slug', $slug)
+            ->where('is_active', true)
+            ->first();
         if (!$annonce) {
             return view('errors.404');
         }
