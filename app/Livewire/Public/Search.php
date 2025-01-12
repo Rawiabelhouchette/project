@@ -569,7 +569,11 @@ class Search extends Component
 
         $this->saveVariableToSession();
 
-        CustomSession::reset();
+        // $tmpSeachAnnonce = session()->get('search_annonces');
+        // dd(session()->all());
+
+        // CustomSession::reset();
+        // session(['search_annonces' => $tmpSeachAnnonce]);
 
         return view('livewire.public.search', [
             'annonces' => $annonces,
