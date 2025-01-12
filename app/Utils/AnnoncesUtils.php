@@ -69,6 +69,38 @@ class AnnoncesUtils
         ]);
     }
 
+    public static function getSeLogerList(): array
+    {
+        return [
+            'Auberge',
+            'Hôtel',
+            'Location meublée',
+        ];
+    }
+
+    public static function getSortirList(): array
+    {
+        return [
+            'Boite de nuit',
+        ];
+    }
+
+    public static function getSeRestaurerList(): array
+    {
+        return [
+            'Fast-food',
+            'Restaurant',
+            'Patisserie',
+        ];
+    }
+
+    public static function getLouerUneVoitureList(): array
+    {
+        return [
+            'Location de véhicule',
+        ];
+    }
+
     public static function getAnnonceListAlt(): object
     {
         return collect([

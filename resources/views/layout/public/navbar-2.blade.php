@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="navbar-list">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('search') }}">Se loger</a>
+                        <a class="nav-link" href="{{ route('search', ['se_loger' => 1]) }}">Se loger</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('search') }}">Se restaurer</a>

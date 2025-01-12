@@ -11,12 +11,32 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
+        // dd($request->all());
         $hasSessionValue = false;
 
         $session = new CustomSession();
         if ($session->annonces) {
             $hasSessionValue = true;
         }
+
+        if ($request->input('se_loger') && $request->input('se_loger') == true) {
+            session(['se_loger' => true]);
+        }
+
+        // se_restaurer , sortir, louer_voiture
+        if ($request->input('se_restaurer') && $request->input('se_restaurer') == true) {
+            session(['se_restaurer' => true]);
+        }
+
+        if ($request->input('sortir') && $request->input('sortir') == true) {
+            session(['sortir' => true]);
+        }
+
+        if ($request->input('louer_voiture') && $request->input('louer_voiture') == true) {
+            session(['louer_voiture' => true]);
+        }
+
+        $session->save();
 
         $form_request = $request->input('form_request', null);
 

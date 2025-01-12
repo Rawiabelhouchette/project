@@ -7,6 +7,7 @@ use App\Models\Entreprise;
 use App\Models\Favoris;
 use App\Models\Quartier;
 use App\Models\Ville;
+use App\Utils\AnnoncesUtils;
 use App\Utils\CustomSession;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -61,6 +62,26 @@ class Search extends Component
 
     public function mount($hasSessionValue)
     {
+        // dd(session()->all());
+
+        if (session()->has('se_loger') && session()->get('se_loger')) {
+            $this->seLoger();
+        }
+
+        if (session()->has('se_restaurer') && session()->get('se_restaurer')) {
+            $this->seRestaurer();
+        }
+
+        if (session()->has('sortir') && session()->get('sortir')) {
+            $this->sortir();
+        }
+
+        if (session()->has('louer_voiture') && session()->get('louer_voiture')) {
+            $this->louerUneVoiture();
+        }
+
+
+
         if ($hasSessionValue) {
             $session = new CustomSession();
             $this->key = $session->key;
@@ -514,6 +535,31 @@ class Search extends Component
                 'filterModel' => 'entrepriseFilterValue',
             ],
         ];
+    }
+
+    private function seLoger()
+    {
+        $this->type = AnnoncesUtils::getSeLogerList();
+        session(['se_loger' => '']);
+    }
+
+    private function seRestaurer()
+    {
+        $this->type = AnnoncesUtils::getSeRestaurerList();
+        dd($this->type);
+        session(['se_restaurer' => '']);
+    }
+
+    private function sortir()
+    {
+        $this->type = AnnoncesUtils::getSortirList();
+        session(['sortir' => '']);
+    }
+
+    private function louerUneVoiture()
+    {
+        $this->type = AnnoncesUtils::getLouerUneVoitureList();
+        session(['louer_voiture' => '']);
     }
 
     public function render()
