@@ -5,7 +5,6 @@ namespace App\Livewire\Public\Auth;
 use App\Http\Controllers\AuthenticationController;
 use Illuminate\Http\Request;
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 
 class Login extends Component
 {
@@ -18,7 +17,6 @@ class Login extends Component
 
     public function login()
     {
-        // dd($this->recaptcha);
         $this->dispatch('recaptcha:reset');
         $validated = $this->validate(
             [

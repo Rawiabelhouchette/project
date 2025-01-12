@@ -83,7 +83,7 @@
 
             <div class="center mrg-top-5">
                 <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
-                <a class="theme-cl" id="btn-register" href="javascript:void(0)">{{ __('Créer un compte') }}</a>
+                <a class="theme-cl" href="{{ route('register') }}">{{ __('Créer un compte') }}</a>
             </div>
 
         </div>

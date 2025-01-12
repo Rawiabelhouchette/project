@@ -57,6 +57,14 @@ Route::get('/login', function () {
     return view('login');
 })->name('connexion');
 
+Route::get('/register', function () {
+    if (auth()->check()) {
+        // return back();
+        return redirect('/');
+    }
+    return view('register');
+})->name('register');
+
 Route::get('/', [PublicController::class, 'home'])->name('accueil');
 Route::get('contact', [AccountController::class, 'contact'])->name('contact');
 Route::post('contact-us', [AccountController::class, 'contactUs'])->name('contact-us');
