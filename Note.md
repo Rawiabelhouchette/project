@@ -426,3 +426,6 @@ Il serait bien que quand on clique sur le bouton le off-canvas sorte
 ## 09/01/2025
 https://www.youtube.com/watch?v=Zs0BVTmT9AY&t=120s&ab_channel=WebTechKnowledge
 
+
+## 12/01/2025
+- Redesigner la page d'enregistrement

@@ -143,7 +143,7 @@
     <style>
         /* SELECT 2 : CUSTOM */
         .select2-container .select2-selection--single {
-            height: 40px !important;
+            height: 37px !important;
             padding-top: 5px !important;
             padding-bottom: 5px !important;
         }

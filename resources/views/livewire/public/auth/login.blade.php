@@ -24,7 +24,7 @@
                     </div>
                 @endif
 
-                <form id="demo-form" wire:submit="login()">
+                <form id="demo-form" wire:submit.prevent="login">
                     @csrf
                     <div class="form-group">
                         <label>{{ __('Identifiant') }}</label>
@@ -39,8 +39,18 @@
                         <input class="form-control" name="password" type="password" placeholder="*******" wire:model='password' required>
                     </div>
 
-                    {{-- <div class="form-group g-recaptcha" data-sitekey="6Lcu0KgqAAAAAJWCA-yj93pHbZWKgLqX9wvKhX5X">
-                    </div> --}}
+                    <div class="form-group">
+                        <div wire:ignore>
+                            {!! htmlFormSnippet([
+                                'callback' => 'recaptchaCallback',
+                                'expired-callback' => 'expiredCallbackFunction',
+                            ]) !!}
+                        </div>
+
+                        @error('recaptcha')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
 
                     @if (Route::has('password.reset'))
                         <div class="text-right">
@@ -58,7 +68,7 @@
                     </span>
 
                     <div class="center">
-                        <button class="btn btn-midium theme-btn btn-radius width-200" type="submit" wire:target='login' wire:loading.attr='disabled'>
+                        <button class="btn btn-midium theme-btn btn-radius width-200" type="submit" wire:loading.attr='disabled'>
                             <span wire:loading>
                                 @include('components.public.loader', ['withText' => false, 'color' => '#fff'])
                             </span>
@@ -73,9 +83,28 @@
 
             <div class="center mrg-top-5">
                 <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
-                <a class="theme-cl" id="btn-register" href="javascript:void(0)">{{ __('Créer un compte') }}</a>
+                <a class="theme-cl" href="{{ route('register') }}">{{ __('Créer un compte') }}</a>
             </div>
 
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        function recaptchaCallback() {
+            // console.log('Captcha resolved');
+            @this.set('recaptcha', grecaptcha.getResponse());
+        }
+
+        function expiredCallbackFunction() {
+            // console.log('Captcha expired');
+            grecaptcha.reset();
+            @this.set('recaptcha', '');
+        }
+
+        window.addEventListener('recaptcha:reset', event => {
+            expiredCallbackFunction();
+        });
+    </script>
+@endpush

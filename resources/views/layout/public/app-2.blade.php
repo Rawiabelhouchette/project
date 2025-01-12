@@ -10,7 +10,7 @@
     <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="shortcut icon">
 
     <title>@yield('title', 'Vamiyi')</title>
-    
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,7 +78,7 @@
 
         <!-- Start Navigation -->
 
-        @include('layout.public.navbar')
+        @include('layout.public.navbar-2')
 
         <!-- End Navigation -->
         <div class="clearfix"></div>
@@ -87,10 +87,6 @@
         <!-- ================ Start Footer ======================= -->
         @include('layout.public.footer')
         <!-- ================ End Footer Section ======================= -->
-
-        <!-- ================== Login & Sign Up Window ================== -->
-        @include('layout.public.connexion')
-        <!-- ===================== End Login & Sign Up Window =========================== -->
 
         <a class="theme-bg" id="back2Top" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
 
