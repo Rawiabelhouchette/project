@@ -64,6 +64,15 @@
                                 <input class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="password" placeholder="Mot de Passe" required autocomplete="current-password">
                             </div>
 
+                            <div class="form-group">
+                                {!! htmlFormSnippet([
+                                    'expired-callback' => 'expiredCallbackFunction',
+                                ]) !!}
+                                @if ($errors->has('g-recaptcha-response'))
+                                    <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                                @endif
+                            </div>
+
                             @if (Route::has('password.reset'))
                                 <div class="text-right">
                                     <a class="btn-link theme-cl" href="{{ route('password.reset') }}">
@@ -72,81 +81,83 @@
                                 </div>
                             @endif
 
-                        <span class="custom-checkbox d-block">
-                            <input id="remember" name="remember" type="checkbox">
-                            <label for="remember"></label>
-                            {{ __('Se souvenir de moi') }}
-                        </span>
+                            <span class="custom-checkbox d-block">
+                                <input id="remember" name="remember" type="checkbox">
+                                <label for="remember"></label>
+                                {{ __('Se souvenir de moi') }}
+                            </span>
 
-                            <div class="form-group">
-                                {{-- <div class="form-group" wire:ignore> --}}
-                                {!! htmlFormSnippet() !!}
-                                @if ($errors->has('g-recaptcha-response'))
-                                    <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
-                                @enderror
-                        </div>
+                            <div class="text-center mrg-bot-20">
+                                <button class="btn theme-btn width-200 btn-radius" type="submit">
+                                    {{ __('Connexion') }}
+                                </button>
+                            </div>
 
-                        <div class="text-center mrg-bot-20">
-                            <button class="btn theme-btn width-200 btn-radius" type="submit">
-                                {{ __('Connexion') }}
-                            </button>
-                        </div>
+                            <div class="center mrg-top-5">
+                                <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
+                                <a class="theme-cl" data-toggle="modal" data-target="#register" href="javascript:void(0)">{{ __('Créer un compte') }}</a>
+                            </div>
+                        </form>
 
-                        <div class="center mrg-top-5">
-                            <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
-                            <a class="theme-cl" data-toggle="modal" data-target="#register" href="javascript:void(0)">{{ __('Créer un compte') }}</a>
-                        </div>
-                    </form>
-
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- End Login Section -->
+        </section>
+        <!-- End Login Section -->
 
-    <!-- ================ Start Footer ======================= -->
-    @include('layout.public.footer')
-    <!-- ================ End Footer Section ======================= -->
+        <!-- ================ Start Footer ======================= -->
+        @include('layout.public.footer')
+        <!-- ================ End Footer Section ======================= -->
 
-    <!-- ================== Login & Sign Up Window ================== -->
-    @include('layout.public.connexion')
-    <!-- ===================== End Login & Sign Up Window =========================== -->
+        <!-- ================== Login & Sign Up Window ================== -->
+        @include('layout.public.connexion')
+        <!-- ===================== End Login & Sign Up Window =========================== -->
 
-    <!-- START JAVASCRIPT -->
-    <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/bootsnav.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/bootstrap-touch-slider-min.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/jquery.touchSwipe.min.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/chosen.jquery.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/datedropper.min.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/dropzone.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/jquery.fancybox.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/jquery.nice-select.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/fastclick.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/jqueryadd-count.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/jquery-rating.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/slick.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/timedropper.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/waypoints.min.js') }}"></script>
-    <script src="{{ asset('assets_client/plugins/js/bootstrap-slider.js') }}"></script>
+        <!-- START JAVASCRIPT -->
+        <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/bootsnav.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/bootstrap-select.min.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/bootstrap-touch-slider-min.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/jquery.touchSwipe.min.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/chosen.jquery.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/datedropper.min.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/dropzone.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/jquery.counterup.min.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/jquery.fancybox.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/jquery.nice-select.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/fastclick.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/jqueryadd-count.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/jquery-rating.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/slick.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/timedropper.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/waypoints.min.js') }}"></script>
+        <script src="{{ asset('assets_client/plugins/js/bootstrap-slider.js') }}"></script>
 
-    <!-- Custom Js -->
-    <script src="{{ asset('assets_client/js/custom.js') }}"></script>
+        <!-- Custom Js -->
+        <script src="{{ asset('assets_client/js/custom.js') }}"></script>
 
-    <script>
-        window.addEventListener('page:reload', event => {
-            location.reload();
-        });
-    </script>
+        <script>
+            window.addEventListener('page:reload', event => {
+                location.reload();
+            });
+        </script>
 
-    @livewireScripts
+        <script>
+            function expiredCallbackFunction() {
+                grecaptcha.reset();
+            }
 
-    @stack('scripts')
+            window.addEventListener('recaptcha:reset', event => {
+                expiredCallbackFunction();
+            });
+        </script>
 
-</div>
+        @livewireScripts
+
+        @stack('scripts')
+
+    </div>
 </body>
 
 </html>

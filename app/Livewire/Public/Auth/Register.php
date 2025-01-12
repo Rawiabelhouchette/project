@@ -26,6 +26,7 @@ class Register extends Component
     public $password;
     public $password_confirmation;
     public $remember = false;
+    public $recaptcha;
 
     public function rules()
     {
@@ -38,6 +39,7 @@ class Register extends Component
             'password' => 'required',
             'password_confirmation' => 'required|same:password',
             'remember' => 'boolean',
+            'recaptcha' => 'required|recaptcha',
         ];
     }
 
@@ -57,11 +59,15 @@ class Register extends Component
             'password.required' => 'Le mot de passe est obligatoire',
             'password_confirmation.required' => 'La confirmation du mot de passe est obligatoire',
             'password_confirmation.same' => 'Les mots de passe ne sont pas identiques',
+            'recaptcha.required' => 'Le champ recaptcha est obligatoire',
+            'recaptcha.recaptcha' => 'Le champ recaptcha est invalide',
         ];
     }
 
     public function register()
     {
+        dd($this->recaptcha);
+        $this->dispatch('recaptcha:reset');
         $this->validate();
 
         // TODO : check if email is valid 

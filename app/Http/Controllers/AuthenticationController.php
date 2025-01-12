@@ -58,7 +58,6 @@ class AuthenticationController extends Controller
 
     public static function login(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'email' => 'required',
             'password' => 'required',
