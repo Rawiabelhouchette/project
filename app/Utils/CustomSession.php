@@ -70,6 +70,10 @@ class CustomSession
         session()->forget('entreprise');
         session()->forget('sortOrder');
         session()->forget('page');
+        session()->forget('se_loger');
+        session()->forget('se_restaurer');
+        session()->forget('sortir');
+        session()->forget('louer_voiture');
     }
 
     public static function forget($key)
@@ -79,17 +83,20 @@ class CustomSession
 
     public static function reset()
     {
-        self::create([
-            'annonces' => [],
-            'type' => [],
-            'key' => '',
-            'location' => '',
-            'column' => '',
-            'direction' => '',
-            'ville' => [],
-            'quartier' => [],
-            'entreprise' => [],
-            'sortOrder' => ''
-        ]);
+        // self::create([
+        //     'annonces' => [],
+        //     'type' => [],
+        //     'key' => '',
+        //     'location' => '',
+        //     'column' => '',
+        //     'direction' => '',
+        //     'ville' => [],
+        //     'quartier' => [],
+        //     'entreprise' => [],
+        //     'sortOrder' => '',
+        //     'page' => 1,
+            
+        // ]);
+        self::clear();
     }
 }

@@ -67,7 +67,6 @@ class SearchController extends Controller
             ]);
         }
 
-
         $result = $this->findElement($sessAnnonces, $annonce->id);
 
         $previousSlug = 'javascript:void(0)';
