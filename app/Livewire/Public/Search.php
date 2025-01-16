@@ -62,7 +62,8 @@ class Search extends Component
 
     public function mount($hasSessionValue)
     {
-        // Charger les valeurs de la session
+        $this->loadNavLinks();
+
         if ($hasSessionValue) {
             $session = new CustomSession();
             $this->key = $session->key;
@@ -77,17 +78,12 @@ class Search extends Component
             // $this->setPage($session->page);
         }
 
-        // Quand on clique sur un lien de la navbar (se loger, se restaurer, sortir, louer une voiture)
-        $this->loadNavLinks();
-
         if (is_string($this->type)) {
             $this->type = [$this->type];
         }
 
-        // Changer le nom de type vehicule en Location vehicule
         $this->changeTypeName();
 
-        // Supprimer les valeurs vides
         $this->type = array_filter($this->type ?? []);
         $this->ville = array_filter($this->ville ?? []);
         $this->quartier = array_filter($this->quartier ?? []);
@@ -528,18 +524,22 @@ class Search extends Component
     {
         if (session()->has('se_loger') && session()->get('se_loger')) {
             $this->type = AnnoncesUtils::getSeLogerList();
+            session(['se_loger' => '']);
         }
 
         if (session()->has('se_restaurer') && session()->get('se_restaurer')) {
             $this->type = AnnoncesUtils::getSeRestaurerList();
+            session(['se_restaurer' => '']);
         }
 
         if (session()->has('sortir') && session()->get('sortir')) {
             $this->type = AnnoncesUtils::getSortirList();
+            session(['sortir' => '']);
         }
 
         if (session()->has('louer_voiture') && session()->get('louer_voiture')) {
             $this->type = AnnoncesUtils::getLouerUneVoitureList();
+            session(['louer_voiture' => '']);
         }
     }
 
@@ -567,24 +567,7 @@ class Search extends Component
 
         $annonces = $this->search()->paginate($this->perPage);
 
-        // $hasLink = false;
-
-        // $searchTypes = ['se_loger', 'se_restaurer', 'sortir', 'louer_voiture'];
-
-        // foreach ($searchTypes as $type) {
-        //     if (session()->has($type) && session()->get($type)) {
-        //         CustomSession::reset();
-        //         // session([$type => true]);
-        //     }
-        // }
-
-
-        // if (session()->get('se_loger') || session()->get('se_restaurer') || session()->get('sortir') || session()->get('louer_voiture')) {
-        //     CustomSession::reset();
-        //     dd(session()->all());
-        // } else {
         $this->saveVariableToSession();
-        // }
 
         // $tmpSeachAnnonce = session()->get('search_annonces');
         // dd(session()->all());
