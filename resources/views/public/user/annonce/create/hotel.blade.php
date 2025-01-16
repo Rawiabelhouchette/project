@@ -1,6 +1,5 @@
 @extends('layout.public.app')
 
-
 @section('content')
     @include('components.default-value')
 
@@ -15,7 +14,7 @@
                 <div class="breadcrumbs">
                     <a href="{{ route('accueil') }}">Accueil</a>
                     <span class="gt3_breadcrumb_divider"></span>
-                    <a href="{{ route('public.annonces.create') }}">D¨¦poser une annonce</a>
+                    <a href="{{ route('public.annonces.create') }}">Deposer une annonce</a>
                     <span class="gt3_breadcrumb_divider"></span>
                     <span class="current">Hotel</span>
                 </div>
@@ -23,11 +22,11 @@
         </div>
     </section>
 
-<div class="page-name auberge row">
-    <div class="container text-left">
-        @livewire('admin.hotel.create')
+    <div class="page-name auberge row">
+        <div class="container text-left">
+            @livewire('admin.hotel.create')
+        </div>
     </div>
-</div>
 @endsection
 
 @section('js')
@@ -59,14 +58,13 @@
             }]);
         });
     </script>
-    
-    <script>
-        $('.select2').each(function () {
-    $(this).select2({
-        theme: 'bootstrap-5',
-        dropdownParent: $(this).parent(),
-    });
-});
-    </script>
 
+    <script>
+        $('.select2').each(function() {
+            $(this).select2({
+                theme: 'bootstrap-5',
+                dropdownParent: $(this).parent(),
+            });
+        });
+    </script>
 @endsection

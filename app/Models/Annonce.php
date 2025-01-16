@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Stevebauman\Purify\Facades\Purify;
 use Wildside\Userstamps\Userstamps;
 use Illuminate\Support\Str;
 
@@ -57,6 +58,12 @@ class Annonce extends Model
         'date_validite' => PurifyHtmlOnGet::class,
         'type' => PurifyHtmlOnGet::class,
     ];
+
+    public function getContentAttribute($value)
+    {
+        $config = ['HTML.Allowed' => 'div,b,a[href]'];
+        return Purify::clean($value, $config);
+    }
 
     public static function boot()
     {

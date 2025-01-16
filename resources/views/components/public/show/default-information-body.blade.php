@@ -3,27 +3,29 @@
 <div class="tab-content mt-3" id="myTabContent">
     <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
         <div class="side-list">
-                    <ul>
-                        <li>
-                            {{ $annonce->description ?? 'Aucune description disponible' }}                        
-                        </li>
-                    </ul>
-                </div>
+            <ul>
+                <li>
+                    <div>
+                        {!! $annonce->description ?? 'Aucune description disponible' !!}
+                    </div>
+                </li>
+            </ul>
         </div>
-    
+    </div>
+
     <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
         <div class="side-list">
             <ul>
-            @forelse ($annonce->annonceable->caracteristiques as $key => $value)
-                <li>
-                    {{ $key }}
-                    <span>{{ $value }}</span>
-                </li>
-            @empty
-                <li>
-                    Aucune information disponible
-                </li>
-            @endforelse
+                @forelse ($annonce->annonceable->caracteristiques as $key => $value)
+                    <li>
+                        {{ $key }}
+                        <span>{{ $value }}</span>
+                    </li>
+                @empty
+                    <li>
+                        Aucune information disponible
+                    </li>
+                @endforelse
             </ul>
         </div>
     </div>
@@ -38,7 +40,7 @@
                         <li class="detail-wrapper-body padd-bot-10">
                             <ul class="detail-check">
                                 @forelse ($value as $equipement)
-                                        <li>{{ $equipement }}</li>
+                                    <li>{{ $equipement }}</li>
                                 @empty
                                     <span class="text-center">
                                         Aucun équipement disponible

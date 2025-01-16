@@ -23,7 +23,7 @@
                 </label>
             </div>
         </div>
-        <input id="upload-image" type="file" style="display: none;" wire:model="image" accept="image/*" required> <br>
+        <input id="upload-image" type="file" style="display: none;" wire:model="image" accept="image/*" name="image" required> <br>
         <div class="text-center gallery-box">
             <div class="row">
                 <div class="col-md-3 padd-bot-0">
@@ -63,7 +63,7 @@
                     @endif
                     &nbsp; &nbsp;
                 </label>
-                <input id="upload" type="file" style="display: none;" wire:model="selected_images" accept="image/*" multiple> <br>
+                <input id="upload" type="file" style="display: none;" wire:model="selected_images" name="images" accept="image/*" multiple> <br>
             </div>
             <div class="col-md-4">
                 @if (count($galerie) != 0)
