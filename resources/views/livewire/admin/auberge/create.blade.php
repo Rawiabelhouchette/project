@@ -5,25 +5,18 @@
             <div class="row align-items-start">
                 <div class="col entreprise" wire:ignore>
                     <div>
-                        {{-- 
-                         // TODO : Add id form h3 and link it to input
-                        --}}
-
-                        <div>
-                            <h3>Entreprise
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3>
-                            <select class="select2" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
-                                <option value="">-- Sélectionner --</option>
-                                @foreach ($entreprises as $entreprise)
-                                    <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
-                                @endforeach
-                            </select>
-                            @error('entreprise_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
+                        <h3>Entreprise
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <select class="select2" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
+                            <option value="">-- Sélectionner --</option>
+                            @foreach ($entreprises as $entreprise)
+                                <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
+                            @endforeach
+                        </select>
+                        @error('entreprise_id')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
                 <div class="col nom">
@@ -38,27 +31,6 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col room">
-                    <div class="row">
-
-                        <div>
-                            <h3>Nombre de chambre
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3>
-                            <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_chambre' required>
-                        </div>
-
-                    </div>
-                </div>
-                {{-- <div class="col">
-                        <div>
-                            <h3>Type d'hébergement
-                            </h3> 
-                            <input type="text" class="form-control" placeholder="" wire:model.defer='types_hebergement'>
-                        </div>
-                         
-                    </div>
-                </div> --}}
             </div>
 
             {{--   <div class="">
@@ -79,10 +51,11 @@
                     <div class="row">
 
                         <div>
-                            <h3>Nombre de personnes
-                                {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                            </h3>
-                            <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_personne'>
+                            <h3 class="required">Date de validité</h3>
+                            <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                            @error('date_validite')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                     </div>
@@ -106,9 +79,7 @@
                     <div class="row">
 
                         <div>
-                            <h3>Prix maximum
-                                {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                            </h3>
+                            <h3>Prix maximum</h3>
                             <input class="form-control" type="number" placeholder="" wire:model.defer='prix_max'>
                             @error('prix_max')
                                 <span class="text-danger">{{ $message }}</span>
@@ -120,55 +91,35 @@
             </div>
             <div class="row align-items-start">
                 <div class="col">
-                    <div class="row">
-
-                        <div>
-                            <h3>Nombre de salle de bain
-                                {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                            </h3>
-                            <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_salles_bain'>
-                        </div>
-
+                    <div>
+                        <h3>Nombre de salle de bain</h3>
+                        <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_salles_bain'>
                     </div>
                 </div>
 
                 <div class="col">
-                    <div class="row">
-
-                        <div>
-                            <h3>Date de validité
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3>
-                            <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
-                            @error('date_validite')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
+                    <div>
+                        <h3>Nombre de personnes
+                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                        </h3>
+                        <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_personne'>
                     </div>
                 </div>
-
-                {{-- <div class="col">
-                    <div class="row">
-                        
-                        <div>
-                            <h3>Heure de validité
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3> 
-                            <input type="time" class="form-control" placeholder="" wire:model.defer='heure_validite' required>
-                            @error('heure_validite')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        
-                    </div>
-                </div> --}}
-
                 <div class="col">
-                    <h3>Description
-                        {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                    </h3>
-                    <textarea class="form-control height-100" id="description" placeholder="" wire:model.defer='description'></textarea>
+                    <div>
+                        <h3>Nombre de chambre
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_chambre' required>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row align-items-start">
+                <div class="col">
+                    <h3>Description</h3>
+                    <textarea class="form-control height-100 editor" id="description" placeholder="" wire:model.defer='description'></textarea>
                 </div>
             </div>
 
@@ -224,7 +175,15 @@
                     'name' => 'equipements_salle_bain',
                     'options' => $list_equipements_salle_bain,
                 ])
+            </div>
 
+            @include('admin.annonce.location-template', [
+                'pays' => $pays,
+                'villes' => $villes,
+                'quartiers' => $quartiers,
+            ])
+
+            <div class="row align-items-start">
                 @include('admin.annonce.create-galery-component', [
                     'galery' => $galerie,
                 ])
@@ -251,6 +210,7 @@
                 height: '25px',
                 width: '100%',
             });
+            
             $('.select2').on('change', function(e) {
                 var data = $(this).val();
                 var nom = $(this).data('nom');

@@ -10,7 +10,7 @@
     <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="shortcut icon">
 
     <title>@yield('title', 'Vamiyi')</title>
-    
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,6 +65,8 @@
     {{-- end cookies --}}
 
     {!! htmlScriptTagJsApi() !!}
+
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 
     @yield('css')
 
@@ -291,6 +293,22 @@
                 showNotification(data);
             </script>
         @endif
+
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+        <script>
+            const quill = new Quill('.editor', {
+                theme: 'snow',
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('.required').each(function() {
+                    $(this).append(' <b style="color: red; font-size: 100%;">*</b>');
+                });
+            });
+        </script>
 
         @livewireScripts
 

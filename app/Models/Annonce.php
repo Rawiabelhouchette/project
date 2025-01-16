@@ -33,6 +33,7 @@ class Annonce extends Model
         'longitude',
         'latitude',
         'quartier_id',
+        'ville_id',
     ];
 
     protected $appends = [
@@ -141,6 +142,11 @@ class Annonce extends Model
     public function quartier()
     {
         return $this->belongsTo(Quartier::class, 'quartier_id');
+    }
+
+    public function ville()
+    {
+        return $this->belongsTo(Ville::class, 'ville_id');
     }
 
 
@@ -263,12 +269,16 @@ class Annonce extends Model
         return $this->notation()->count();
     }
 
-    public function getAdresseCompleteAttribute()
+    public function getAdresseCompleteAttribute(): array
     {
         $quartier = $this->quartier->nom ?? '';
         $ville = $this->quartier->ville->nom ?? '';
         $pays = $this->quartier->ville->pays->nom ?? '';
-        return $pays . ', ' . $ville . ', ' . $quartier;
+        return [
+            'quartier' => $quartier,
+            'ville' => $ville,
+            'pays' => $pays,
+        ];
     }
 
 
