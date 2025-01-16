@@ -62,7 +62,6 @@ class Search extends Component
 
     public function mount($hasSessionValue)
     {
-        $this->loadNavLinks();
 
         if ($hasSessionValue) {
             $session = new CustomSession();
@@ -77,6 +76,8 @@ class Search extends Component
             $this->sortOrder = $session->sortOrder;
             // $this->setPage($session->page);
         }
+
+        $this->loadNavLinks();
 
         if (is_string($this->type)) {
             $this->type = [$this->type];
