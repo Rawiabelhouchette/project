@@ -62,7 +62,6 @@ class Search extends Component
 
     public function mount($hasSessionValue)
     {
-
         if ($hasSessionValue) {
             $session = new CustomSession();
             $this->key = $session->key;
