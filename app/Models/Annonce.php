@@ -30,6 +30,9 @@ class Annonce extends Model
         'annonceable_id',
         'type',
         'image',
+        'longitude',
+        'latitude',
+        'quartier_id',
     ];
 
     protected $appends = [
@@ -42,6 +45,8 @@ class Annonce extends Model
         'favorite_count',
         'comment_count',
         'notation_count',
+
+        'adresse_complete',
     ];
 
     protected $casts = [
@@ -131,6 +136,11 @@ class Annonce extends Model
     public function views()
     {
         return $this->hasMany(View::class);
+    }
+
+    public function quartier()
+    {
+        return $this->belongsTo(Quartier::class, 'quartier_id');
     }
 
 
@@ -251,6 +261,14 @@ class Annonce extends Model
     public function getNotationCountAttribute(): int
     {
         return $this->notation()->count();
+    }
+
+    public function getAdresseCompleteAttribute()
+    {
+        $quartier = $this->quartier->nom ?? '';
+        $ville = $this->quartier->ville->nom ?? '';
+        $pays = $this->quartier->ville->pays->nom ?? '';
+        return $pays . ', ' . $ville . ', ' . $quartier;
     }
 
 
