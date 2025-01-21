@@ -256,7 +256,7 @@ class Create extends Component
         }
 
         session()->flash('success', __('Annonce enregistrée avec succès'));
-        return redirect()->route('location-vehicules.create');
+        return redirect()->route('public.annonces.list');
     }
 
 

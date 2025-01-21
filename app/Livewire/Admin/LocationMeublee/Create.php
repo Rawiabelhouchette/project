@@ -247,7 +247,7 @@ class Create extends Component
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
-        return redirect()->route('location-meublees.create');
+        return redirect()->route('public.annonces.list');
     }
 
 

@@ -215,7 +215,7 @@ class Create extends Component
         }
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
-        return redirect()->route('bars.create');
+        return redirect()->route('public.annonces.list');
     }
 
     public function render()

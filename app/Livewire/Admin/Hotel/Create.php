@@ -222,7 +222,7 @@ class Create extends Component
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', 'L\'hôtel a bien été ajoutée');
-        return redirect()->route('hotels.create');
+        return redirect()->route('public.annonces.list');
     }
 
 

@@ -257,7 +257,7 @@ class Create extends Component
         }
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
-        return redirect()->route('public.restaurants.create');
+        return redirect()->route('public.annonces.list');
     }
 
 
