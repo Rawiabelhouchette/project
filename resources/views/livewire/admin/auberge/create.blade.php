@@ -209,9 +209,7 @@
         $(document).ready(function() {
             $('#submit-btn').click(function() {
                 var description = $('.ql-editor').html();
-                console.log(description);
-                console.log(JSON.stringify(quill.getContents().ops));
-                @this.set('description', JSON.stringify(quill.getContents().ops));
+                @this.set('description', description);
             });
 
             $('.select2').select2({

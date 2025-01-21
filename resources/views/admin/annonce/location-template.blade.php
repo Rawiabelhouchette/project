@@ -3,7 +3,7 @@
 <div class="row align-items-start">
     <div class="col">
         <div>
-            <h3 class="required">Pays</h3>
+            <h3 class="">Pays <b style="color: red; font-size: 100%;">*</b></h3>
             <h4>Sélectionnez un élément dans la liste</h4>
             <select class="form-control" data-nom="pays_id" wire:model.lazy='pays_id' required>
                 <option value="">Sélectionnez un pays</option>
@@ -16,7 +16,7 @@
 
     <div class="col">
         <div>
-            <h3 class="required">Ville</h3>
+            <h3 class="">Ville <b style="color: red; font-size: 100%;">*</b></h3>
             <h4>Sélectionnez un élément dans la liste</h4>
             <select class="form-control" data-nom="ville_id" wire:model.lazy='ville_id' required>
                 <option value="">Sélectionnez une ville</option>
