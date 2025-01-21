@@ -6,8 +6,11 @@ use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\BoiteDeNuit;
 use App\Models\Entreprise;
+use App\Models\Pays;
+use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +40,15 @@ class Create extends Component
 
     public $equipements_vie_nocturne = [];
     public $list_equipements_vie_nocturne = [];
+
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
 
     public function mount()
     {
@@ -73,6 +85,8 @@ class Create extends Component
             $this->list_equipements_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_equipements_vie_nocturne->id)->select('valeur', 'id')->get() :
             $this->list_equipements_vie_nocturne = [];
 
+        $this->pays = Pays::all();
+
     }
 
     public function rules()
@@ -88,6 +102,9 @@ class Create extends Component
             'date_validite' => 'required|date|after:today',
             'types_musique' => 'nullable',
             'equipements_vie_nocturne' => 'nullable',
+            'pays_id' => 'required|exists:pays,id',
+            'ville_id' => 'required|exists:villes,id',
+            'quartier_id' => 'nullable|exists:quartiers,id',
         ];
     }
 
@@ -116,7 +133,25 @@ class Create extends Component
             'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
             'types_musique.array' => 'Les types de musique doivent être un tableau',
             'equipements_vie_nocturne.array' => 'Les équipements de vie nocturne doivent être un tableau',
+            'pays_id.required' => 'Le pays est obligatoire',
+            'pays_id.exists' => 'Le pays n\'existe pas',
+            'ville_id.required' => 'La ville est obligatoire',
+            'ville_id.exists' => 'La ville n\'existe pas',
+            'quartier_id.exists' => 'Le quartier n\'existe pas',
         ];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
     }
 
     public function store()
@@ -134,6 +169,9 @@ class Create extends Component
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
+
+                'ville_id' => $this->ville_id,
+                'quartier_id' => $this->quartier_id,
             ]);
 
             $boiteDeNuit->annonce()->save($annonce);
@@ -164,7 +202,7 @@ class Create extends Component
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
-        return redirect()->route('boite-de-nuits.create');
+        return redirect()->route('public.annonces.list');
     }
 
 

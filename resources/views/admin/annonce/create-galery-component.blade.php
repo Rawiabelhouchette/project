@@ -11,7 +11,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <label for="upload-image" class="btn btn-sm theme-btn" style="padding: 6px">
+                <label class="btn btn-sm theme-btn" for="upload-image" style="padding: 6px">
                     <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
                     &nbsp; &nbsp; &nbsp;
                     @if ($image)
@@ -23,7 +23,7 @@
                 </label>
             </div>
         </div>
-        <input id="upload-image" type="file" wire:model="image" accept="image/*" style="display: none;" required> <br>
+        <input id="upload-image" type="file" style="display: none;" wire:model="image" accept="image/*" name="image" required> <br>
         <div class="text-center gallery-box">
             <div class="row">
                 <div class="col-md-3 padd-bot-0">
@@ -31,7 +31,7 @@
                         <div class="listing-shot grid-style padd-0">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
-                                    <img class="listing-shot-img" src="{{ $image->temporaryUrl() }}" class="img-responsive" alt="">
+                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}" alt="">
                                 </a>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                 </label>
             </div>
             <div class="col-md-4">
-                <label for="upload" class="btn btn-sm theme-btn" style="padding: 6px">
+                <label class="btn btn-sm theme-btn" for="upload" style="padding: 6px">
                     <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
                     &nbsp; &nbsp; &nbsp;
                     @if ($galerie)
@@ -63,12 +63,11 @@
                     @endif
                     &nbsp; &nbsp;
                 </label>
-                <input id="upload" type="file" wire:model="selected_images" accept="image/*" multiple style="display: none;"> <br>
+                <input id="upload" type="file" style="display: none;" wire:model="selected_images" name="images" accept="image/*" multiple> <br>
             </div>
             <div class="col-md-4">
                 @if (count($galerie) != 0)
-                    <a href="javascript:void(0)" wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?"
-                       class="btn btn-sm theme-btn-outlined" wire:click="removeAllImages" style="padding: 6px">
+                    <a class="btn btn-sm theme-btn-outlined" href="javascript:void(0)" style="padding: 6px" wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?" wire:click="removeAllImages">
                         <i class="fa fa-trash fa-lg" style="margin-left: 10px;"></i>
                         &nbsp; &nbsp; &nbsp;
                         Supprimer toutes les images
@@ -93,7 +92,7 @@
                         <div class="listing-shot grid-style padd-0">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
-                                    <img class="listing-shot-img" src="{{ $image->temporaryUrl() }}" class="img-responsive" alt="">
+                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}" alt="">
                                 </a>
                                 <span class="approve-listing" style="background-color: red;">
                                     <a href="javascript:void(0)" style="color: white;" wire:click='removeImage("{{ $index }}")'>

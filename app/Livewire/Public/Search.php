@@ -7,6 +7,7 @@ use App\Models\Entreprise;
 use App\Models\Favoris;
 use App\Models\Quartier;
 use App\Models\Ville;
+use App\Utils\AnnoncesUtils;
 use App\Utils\CustomSession;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -74,6 +75,8 @@ class Search extends Component
             $this->sortOrder = $session->sortOrder;
             // $this->setPage($session->page);
         }
+
+        $this->loadNavLinks();
 
         if (is_string($this->type)) {
             $this->type = [$this->type];
@@ -516,6 +519,30 @@ class Search extends Component
         ];
     }
 
+
+    private function loadNavLinks()
+    {
+        if (session()->has('se_loger') && session()->get('se_loger')) {
+            $this->type = AnnoncesUtils::getSeLogerList();
+            session(['se_loger' => '']);
+        }
+
+        if (session()->has('se_restaurer') && session()->get('se_restaurer')) {
+            $this->type = AnnoncesUtils::getSeRestaurerList();
+            session(['se_restaurer' => '']);
+        }
+
+        if (session()->has('sortir') && session()->get('sortir')) {
+            $this->type = AnnoncesUtils::getSortirList();
+            session(['sortir' => '']);
+        }
+
+        if (session()->has('louer_voiture') && session()->get('louer_voiture')) {
+            $this->type = AnnoncesUtils::getLouerUneVoitureList();
+            session(['louer_voiture' => '']);
+        }
+    }
+
     public function render()
     {
         $this->typeAnnonces = Annonce::public()
@@ -541,6 +568,12 @@ class Search extends Component
         $annonces = $this->search()->paginate($this->perPage);
 
         $this->saveVariableToSession();
+
+        // $tmpSeachAnnonce = session()->get('search_annonces');
+        // dd(session()->all());
+
+        // CustomSession::reset();
+        // session(['search_annonces' => $tmpSeachAnnonce]);
 
         return view('livewire.public.search', [
             'annonces' => $annonces,

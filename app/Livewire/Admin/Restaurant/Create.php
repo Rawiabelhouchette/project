@@ -5,9 +5,12 @@ namespace App\Livewire\Admin\Restaurant;
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Entreprise;
+use App\Models\Pays;
+use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Restaurant;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use App\Utils\Utils;
 use Livewire\Component;
@@ -48,6 +51,15 @@ class Create extends Component
 
     public $entreprises = [];
 
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
+
     public function mount()
     {
         $this->initialization();
@@ -82,6 +94,8 @@ class Create extends Component
         $tmp_carte_consommation ?
             $this->list_carte_consommation = ReferenceValeur::where('reference_id', $tmp_carte_consommation->id)->select('valeur', 'id')->get() :
             $this->list_carte_consommation = [];
+
+        $this->pays = Pays::all();
     }
 
     public function rules()
@@ -117,16 +131,30 @@ class Create extends Component
             'image' => 'required|image',
             'galerie' => 'nullable|array',
             'galerie.*' => 'nullable|image',
+            
+            'pays_id' => 'required|exists:pays,id',
+            'ville_id' => 'required|exists:villes,id',
+            'quartier_id' => 'nullable|exists:quartiers,id',
         ];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
     }
 
 
     public function store()
     {
-        // dd($this->entrees);
-
         $this->validate();
-        // dd($this->entrees, $this->plats, $this->desserts);
 
         $separator = Utils::getRestaurantValueSeparator();
 
@@ -153,7 +181,6 @@ class Create extends Component
             $e_prix_min .= $entree['prix'] . $separator;
             $e_prix_max .= $entree['prix'] . $separator;
         }
-        // dd($e_nom, $e_ingredients, $e_prix_min, $e_prix_max);
 
         // Put all plats in the same variable
         foreach ($this->plats as $plat) {
@@ -198,6 +225,9 @@ class Create extends Component
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
+
+                'ville_id' => $this->ville_id,
+                'quartier_id' => $this->quartier_id,
             ]);
 
             $restaurant->annonce()->save($annonce);
@@ -227,7 +257,7 @@ class Create extends Component
         }
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
-        return redirect()->route('public.restaurants.create');
+        return redirect()->route('public.annonces.list');
     }
 
 

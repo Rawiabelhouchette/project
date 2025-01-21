@@ -66,8 +66,6 @@
 
     {!! htmlScriptTagJsApi() !!}
 
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
-
     @yield('css')
 
 </head>
@@ -80,7 +78,7 @@
 
         <!-- Start Navigation -->
 
-        @include('layout.public.navbar')
+        @include('layout.public.navbar-2')
 
         <!-- End Navigation -->
         <div class="clearfix"></div>
@@ -89,10 +87,6 @@
         <!-- ================ Start Footer ======================= -->
         @include('layout.public.footer')
         <!-- ================ End Footer Section ======================= -->
-
-        <!-- ================== Login & Sign Up Window ================== -->
-        @include('layout.public.connexion')
-        <!-- ===================== End Login & Sign Up Window =========================== -->
 
         <a class="theme-bg" id="back2Top" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
 
@@ -293,22 +287,6 @@
                 showNotification(data);
             </script>
         @endif
-
-        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-
-        <script>
-            const quill = new Quill('.editor', {
-                theme: 'snow',
-            });
-        </script>
-
-        <script>
-            $(document).ready(function() {
-                $('.required').each(function() {
-                    $(this).append(' <b style="color: red; font-size: 100%;">*</b>');
-                });
-            });
-        </script>
 
         @livewireScripts
 

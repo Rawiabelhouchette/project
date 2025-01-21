@@ -6,8 +6,11 @@ use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Entreprise;
 use App\Models\LocationMeublee;
+use App\Models\Pays;
+use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -45,6 +48,15 @@ class Create extends Component
     public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
+
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
 
     public function mount()
     {
@@ -94,6 +106,8 @@ class Create extends Component
             $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
             $this->list_types_hebergement = [];
 
+        $this->pays = Pays::all();
+
     }
 
     public function rules()
@@ -118,6 +132,10 @@ class Create extends Component
             // 'heure_validite' => 'required|date_format:H:i',
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
+
+            'pays_id' => 'required|exists:pays,id',
+            'ville_id' => 'required|exists:villes,id',
+            'quartier_id' => 'nullable|exists:quartiers,id',
         ];
     }
 
@@ -148,7 +166,26 @@ class Create extends Component
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.gt' => 'Le prix maximum doit être supérieur au prix minimum',
+
+            'pays_id.required' => 'Le pays est obligatoire',
+            'pays_id.exists' => 'Le pays n\'existe pas',
+            'ville_id.required' => 'La ville est obligatoire',
+            'ville_id.exists' => 'La ville n\'existe pas',
+            'quartier_id.exists' => 'Le quartier n\'existe pas',
         ];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
     }
 
     public function store()
@@ -157,8 +194,6 @@ class Create extends Component
 
         try {
             DB::beginTransaction();
-
-            $date_validite = $this->date_validite . ' ' . $this->heure_validite;
 
             $hotel = LocationMeublee::create([
                 'nombre_chambre' => $this->nombre_chambre,
@@ -175,6 +210,9 @@ class Create extends Component
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
+
+                'ville_id' => $this->ville_id,
+                'quartier_id' => $this->quartier_id,
             ]);
 
             $hotel->annonce()->save($annonce);
@@ -209,7 +247,7 @@ class Create extends Component
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
-        return redirect()->route('location-meublees.create');
+        return redirect()->route('public.annonces.list');
     }
 
 

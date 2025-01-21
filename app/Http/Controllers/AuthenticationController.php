@@ -61,6 +61,12 @@ class AuthenticationController extends Controller
         $request->validate([
             'email' => 'required',
             'password' => 'required',
+            'g-recaptcha-response' => 'required|recaptcha',
+        ], [
+            'email.required' => 'Le champ email est obligatoire.',
+            'password.required' => 'Le champ mot de passe est obligatoire.',
+            'g-recaptcha-response.required' => 'Veuillez cocher la case "Je ne suis pas un robot".',
+            'g-recaptcha-response.recaptcha' => 'Veuillez cocher la case "Je ne suis pas un robot".',
         ]);
 
         $login = AuthenticationController::loginService($request);

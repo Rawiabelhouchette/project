@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Stevebauman\Purify\Facades\Purify;
 use Wildside\Userstamps\Userstamps;
 use Illuminate\Support\Str;
 
@@ -29,6 +31,10 @@ class Annonce extends Model
         'annonceable_id',
         'type',
         'image',
+        'longitude',
+        'latitude',
+        'quartier_id',
+        'ville_id',
     ];
 
     protected $appends = [
@@ -41,6 +47,8 @@ class Annonce extends Model
         'favorite_count',
         'comment_count',
         'notation_count',
+
+        'adresse_complete',
     ];
 
     protected $casts = [
@@ -50,6 +58,12 @@ class Annonce extends Model
         'date_validite' => PurifyHtmlOnGet::class,
         'type' => PurifyHtmlOnGet::class,
     ];
+
+    public function getContentAttribute($value)
+    {
+        $config = ['HTML.Allowed' => 'div,b,a[href]'];
+        return Purify::clean($value, $config);
+    }
 
     public static function boot()
     {
@@ -82,6 +96,15 @@ class Annonce extends Model
     public function imagePrincipale(): BelongsTo
     {
         return $this->belongsTo(Fichier::class, 'image');
+    }
+
+    public function galerieAvecImagePrincipale(): Collection
+    {
+        $galerie = $this->galerie()->get();
+        if ($this->imagePrincipale) {
+            $galerie->prepend($this->imagePrincipale);
+        }
+        return $galerie;
     }
 
     public function annonceable(): MorphTo
@@ -121,6 +144,16 @@ class Annonce extends Model
     public function views()
     {
         return $this->hasMany(View::class);
+    }
+
+    public function quartier()
+    {
+        return $this->belongsTo(Quartier::class, 'quartier_id');
+    }
+
+    public function ville()
+    {
+        return $this->belongsTo(Ville::class, 'ville_id');
     }
 
 
@@ -241,6 +274,18 @@ class Annonce extends Model
     public function getNotationCountAttribute(): int
     {
         return $this->notation()->count();
+    }
+
+    public function getAdresseCompleteAttribute(): array
+    {
+        $quartier = $this->quartier->nom ?? '';
+        $ville = $this->quartier->ville->nom ?? '';
+        $pays = $this->quartier->ville->pays->nom ?? '';
+        return [
+            'quartier' => $quartier,
+            'ville' => $ville,
+            'pays' => $pays,
+        ];
     }
 
 
