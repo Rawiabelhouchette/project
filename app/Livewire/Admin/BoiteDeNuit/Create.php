@@ -6,6 +6,7 @@ use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\BoiteDeNuit;
 use App\Models\Entreprise;
+use App\Models\Pays;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Utils\AnnoncesUtils;
@@ -37,6 +38,15 @@ class Create extends Component
 
     public $equipements_vie_nocturne = [];
     public $list_equipements_vie_nocturne = [];
+
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
 
     public function mount()
     {
@@ -72,6 +82,8 @@ class Create extends Component
         $tmp_equipements_vie_nocturne ?
             $this->list_equipements_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_equipements_vie_nocturne->id)->select('valeur', 'id')->get() :
             $this->list_equipements_vie_nocturne = [];
+
+        $this->pays = Pays::all();
 
     }
 

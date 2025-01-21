@@ -6,6 +6,7 @@ use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Entreprise;
 use App\Models\LocationMeublee;
+use App\Models\Pays;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Utils\AnnoncesUtils;
@@ -45,6 +46,15 @@ class Create extends Component
     public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
+
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
 
     public function mount()
     {
@@ -93,6 +103,8 @@ class Create extends Component
         $tmp_types_hebergement ?
             $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
             $this->list_types_hebergement = [];
+
+        $this->pays = Pays::all();
 
     }
 

@@ -6,6 +6,7 @@ use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\FastFood;
 use App\Models\Entreprise;
+use App\Models\Pays;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Utils\AnnoncesUtils;
@@ -36,6 +37,15 @@ class Create extends Component
 
     public $entreprises = [];
 
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
+
     public function mount()
     {
         $this->initialization();
@@ -58,6 +68,8 @@ class Create extends Component
         $tmp_equipement_restauration ?
             $this->list_equipements_restauration = ReferenceValeur::where('reference_id', $tmp_equipement_restauration->id)->select('valeur', 'id')->get() :
             $this->list_equipements_restauration = [];
+
+        $this->pays = Pays::all();
 
     }
 

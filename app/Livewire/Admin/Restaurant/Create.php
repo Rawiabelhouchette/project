@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Restaurant;
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Entreprise;
+use App\Models\Pays;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Restaurant;
@@ -48,6 +49,15 @@ class Create extends Component
 
     public $entreprises = [];
 
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
+
     public function mount()
     {
         $this->initialization();
@@ -82,6 +92,8 @@ class Create extends Component
         $tmp_carte_consommation ?
             $this->list_carte_consommation = ReferenceValeur::where('reference_id', $tmp_carte_consommation->id)->select('valeur', 'id')->get() :
             $this->list_carte_consommation = [];
+
+        $this->pays = Pays::all();
     }
 
     public function rules()
