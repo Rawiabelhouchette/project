@@ -1,6 +1,6 @@
 <div>
     <div class="nightclub-template">
-        <form wire:submit="store()">
+        <form wire:submit.prevent="store">
             @csrf
             <div class="row align-items-start">
                 <div class="col entreprise" wire:ignore>

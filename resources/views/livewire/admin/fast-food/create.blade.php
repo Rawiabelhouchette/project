@@ -6,7 +6,7 @@
         </div>
 
         <div class="card-body">
-            <form wire:submit="store()">
+            <form wire:submit.prevent="store">
                 @csrf
                 <div class="row">
                     <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
@@ -19,7 +19,7 @@
                                 <label class="">Entreprise
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <select class="select2" wire:model.defer='entreprise_id' required data-nom="entreprise_id">
+                                <select class="select2" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                                     <option value="">-- Sélectionner --</option>
                                     @foreach ($entreprises as $entreprise)
                                         <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
@@ -40,7 +40,7 @@
                                 <label class="">Nom du fast-food
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input type="text" class="form-control" placeholder="" required wire:model.defer='nom' required>
+                                <input class="form-control" type="text" placeholder="" required wire:model.defer='nom' required>
                                 @error('nom')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -69,7 +69,7 @@
                                 <label class="">Prix minimum
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="number" class="form-control" value="0" wire:model.defer='prix_min' min="0">
+                                <input class="form-control" type="number" value="0" wire:model.defer='prix_min' min="0">
                                 @error('prix_min')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -85,7 +85,7 @@
                                 <label class="">Prix maximum
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input type="number" class="form-control" value="0" placeholder="" wire:model.defer='prix_max' min="{{ $this->prix_max }}">
+                                <input class="form-control" type="number" value="0" placeholder="" wire:model.defer='prix_max' min="{{ $this->prix_max }}">
                                 @error('prix_max')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -101,7 +101,7 @@
                                 <label class="">Date de validité
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input type="date" class="form-control" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                                <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
                                 @error('date_validite')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -116,7 +116,7 @@
                         <label class="">Description
                             {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                         </label> <br>
-                        <textarea id="description" class="form-control height-100" placeholder="" wire:model.defer='description'></textarea>
+                        <textarea class="form-control height-100" id="description" placeholder="" wire:model.defer='description'></textarea>
                     </div>
                 </div>
 
@@ -142,7 +142,7 @@
                 <div class="row padd-bot-15">
                     <div class="form-group" style="margin-top: 15px;">
                         <div class="col-md-12 col-sm-12 text-right">
-                            <button wire:target='store' wire:loading.attr='disabled' type="submit" class="btn theme-btn" style="margin-right: 30px;">
+                            <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='store' wire:loading.attr='disabled'>
                                 <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                                 Enregistrer
                             </button>

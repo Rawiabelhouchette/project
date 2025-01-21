@@ -5,7 +5,7 @@
             <h3>{{ $libelle }}</h3>
             <p>Gérez les informations de vos quartiers</p>
         </div>
-        <form wire:submit="store()">
+        <form wire:submit.prevent="store">
             <div class="row mrg-r-10 mrg-l-10">
                 <div class="col-sm-6">
                     <label class="required">Pays</label>

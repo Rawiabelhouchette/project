@@ -1,6 +1,6 @@
 <div>
     <div class="hebergement-template">
-        <form wire:submit="store()">
+        <form wire:submit.prevent="store">
             @csrf
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
