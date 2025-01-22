@@ -1873,7 +1873,9 @@ ol.check-listing > li:before, ul.check-listing > li:before {
 	margin-right: 7px;
     color: #de6600;
 }
-
+.card {
+  border: none;
+}
 .quote-card {
   background: #fff;
   padding: 20px;
@@ -1910,6 +1912,9 @@ ol.check-listing > li:before, ul.check-listing > li:before {
 /* ==========================================================================
     Navigation
 ========================================================================== */
+.listing-price-info span {
+    background: #de6600;
+}
 /*----------- Default Navigation -----------*/
 .navbar {
 	background-image: none;
@@ -3081,7 +3086,7 @@ span.like-listing.alt i {
 }
 p.listing-location {
     margin-bottom: 0;
-    /* height: 50px !important; */
+    height: 50px !important;
     color: initial;
     font-size: 14px;
     opacity: 0.6;
@@ -5677,7 +5682,9 @@ ul.side-list-inline.social-side li a :hover, ul.side-list-inline.social-side li 
 .listing-list-info h5 {
     margin: 0;
 }
-
+.leaflet-control span {
+    float: none !important;
+}
 .help-support i{
 	display:inline-block;
 }

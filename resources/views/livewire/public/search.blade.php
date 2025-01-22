@@ -78,7 +78,7 @@
                         </div>
                         <div class="col-md-1"></div>
                         <div class="col-md-4">
-                            <select id="select-order" class="form-control" style="height: 35px !important; margin-bottom: 0px;" tabindex="-98" wire:model.lazy='sortOrder'>
+                            <select id="select-order" class="form-control" tabindex="-98" wire:model.lazy='sortOrder'>
                                 <option value="" disabled>Trier</option>
                                 <option value="titre|asc">Titre: A à Z</option>
                                 <option value="titre|desc">Titre: Z à A</option>
