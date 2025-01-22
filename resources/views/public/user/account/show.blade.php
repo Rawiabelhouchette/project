@@ -1,14 +1,30 @@
-@extends('layout.public.template')
+@extends('layout.public.app')
 
-@section('breadcrumb')
-    <h5>
-        <a class="text-underlined" href="{{ route('accueil') }}" title="Revenir à l'accueil">Accueil</a> &nbsp;
-        &gt; &nbsp;
-        <a href="javascript:void(0)">
-            Mon compte
-        </a>
-    </h5>
-@endsection
+@section('profil', 'active')
 
-@section('page-content')
+@section('content')
+    @include('components.default-value')
+
+    @php
+        $defaultColor = '#ff3a72';
+    @endphp
+
+    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
+        <div class="container">
+            <div class="title-content">
+                <h1>Mon profil</h1>
+                <div class="breadcrumbs">
+                    <a href="{{ route('accueil') }}">Accueil</a>
+                    <span class="gt3_breadcrumb_divider"></span>
+                    <span class="current">Profil</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="page-name auberge row">
+        <div class="container text-left">
+        @livewire('admin.profile')
+        </div>
+    </div>
 @endsection

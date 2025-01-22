@@ -1,1 +1,0 @@
-- Check if description does not contain "script" tag

@@ -217,9 +217,6 @@
                                         <button class="btn btn-danger mb-2 delete-entree-btn" data-entree-id="1" type="button">Supprimer</button>
                                     </div>
                                 </div>
-
-                                <button class="btn btn-sucess mb-2">Enregistrer</button>
-                                <button class="btn btn-danger mb-2" type="submit">Supprimer</button>
         </form>
     </div>
 
@@ -231,6 +228,7 @@
     </div>
     <button class="btn btn-success btn-square" id="add-entree-btn" type="button"><i class="fa fa-plus"></i></button>
 </div>
+                </div>
 <div class="col plats">
     <h3>Plats <b style="color: red; font-size: 100%;">*</b></h3>
     <h4>Carte des plats</h4>
@@ -328,6 +326,13 @@
     <button class="btn btn-success btn-square" id="add-dessert-btn" type="button"><i class="fa fa-plus"></i></button>
 </div>
 </div>
+
+
+@include('admin.annonce.location-template', [
+    'pays' => $pays,
+    'villes' => $villes,
+    'quartiers' => $quartiers,
+])
 
 <div class="row align-items-start">
 
