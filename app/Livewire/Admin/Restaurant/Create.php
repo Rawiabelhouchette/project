@@ -52,7 +52,8 @@ class Create extends Component
             'nom' => '',
             'ingredients' => '',
             'prix_min' => '',
-            'prix_max' => ''
+            'prix_max' => '',
+            'image' => null,
         ],
     ];
     public $entrees_count = 1;
@@ -64,7 +65,8 @@ class Create extends Component
             'ingredients' => '',
             'accompagnements' => '',
             'prix_min' => '',
-            'prix_max' => ''
+            'prix_max' => '',
+            'image' => null,
         ],
     ];
     public $plats_count = 1;
@@ -75,7 +77,8 @@ class Create extends Component
             'nom' => '',
             'ingredients' => '',
             'prix_min' => '',
-            'prix_max' => ''
+            'prix_max' => '',
+            'image' => null,
         ],
     ];
     public $desserts_count = 1;
@@ -166,6 +169,14 @@ class Create extends Component
             // 'carte_consommation' => 'nullable|array',
             // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
 
+            'entrees' => 'required|array|min:1',
+            'entrees.*.nom' => 'required|string|min:3',
+            'entrees.*.ingredients' => 'nullable|string|min:3',
+            'entrees.*.prix_min' => 'required|integer|min:0',
+            'entrees.*.prix_max' => 'required|integer|min:0',
+            'entrees.*.image' => 'required|image',
+
+
             'services' => 'nullable',
             'image' => 'required|image',
             'galerie' => 'nullable|array',
@@ -227,6 +238,24 @@ class Create extends Component
             'carte_consommation.*.exists' => 'La carte de consommation sélectionnée est invalide.',
             'galerie.array' => 'La galerie doit être un tableau.',
             'galerie.*.image' => 'La galerie doit contenir des images.',
+
+            'entrees.required' => 'Les entrées sont obligatoires.',
+            'entrees.array' => 'Les entrées doivent être un tableau.',
+            'entrees.min' => 'Les entrées doivent contenir au moins une entrée.',
+            'entrees.*.nom.required' => 'Le nom de l\'entrée est obligatoire.',
+            'entrees.*.nom.string' => 'Le nom de l\'entrée doit être une chaîne de caractères.',
+            'entrees.*.nom.min' => 'Le nom de l\'entrée doit contenir au moins :min caractères.',
+            'entrees.*.ingredients.string' => 'Les ingrédients de l\'entrée doivent être une chaîne de caractères.',
+            'entrees.*.ingredients.min' => 'Les ingrédients de l\'entrée doivent contenir au moins :min caractères.',
+            'entrees.*.prix_min.required' => 'Le prix minimum de l\'entrée est obligatoire.',
+            'entrees.*.prix_min.integer' => 'Le prix minimum de l\'entrée doit être un entier.',
+            'entrees.*.prix_min.min' => 'Le prix minimum de l\'entrée doit être au moins :min.',
+            'entrees.*.prix_max.required' => 'Le prix maximum de l\'entrée est obligatoire.',
+            'entrees.*.prix_max.integer' => 'Le prix maximum de l\'entrée doit être un entier.',
+            'entrees.*.prix_max.min' => 'Le prix maximum de l\'entrée doit être au moins :min.',
+            'entrees.*.image.required' => 'L\'image de l\'entrée est obligatoire.',
+            'entrees.*.image.image' => 'L\'image de l\'entrée doit être une image.',
+            
         ];
     }
 
@@ -246,26 +275,26 @@ class Create extends Component
 
     public function addEntree()
     {
-        // check if all fields are filled (entrees_count - 1) times
-        $i = $this->entrees_count - 1;
-        if (empty($this->entrees[$i]['nom']) || empty($this->entrees[$i]['ingredients']) || empty($this->entrees[$i]['prix_min']) || empty($this->entrees[$i]['prix_max'])) {
-            $this->entrees_error = 'Veuillez remplir tous les champs de l\'entrée précédente';
-            return;
-        }
+        $length = count($this->entrees);
+        if ($length != 0) {
 
-        // check if prix_min <= prix_max
-        if ($this->entrees[$i]['prix_min'] > $this->entrees[$i]['prix_max']) {
-            $this->entrees_error = 'Le prix minimum doit être inférieur ou égal au prix maximum';
-            return;
-        }
-
-        // check if nom is unique
-        foreach ($this->entrees as $key => $entree) {
-            if ($key == $i)
-                continue;
-            if ($entree['nom'] == $this->entrees[$i]['nom']) {
-                $this->entrees_error = 'Ce nom d\'entrée existe déjà';
+            // check if all fields are filled (entrees_count - 1) times
+            $i = $this->entrees_count - 1;
+            if (empty($this->entrees[$i]['nom']) || empty($this->entrees[$i]['ingredients']) || empty($this->entrees[$i]['prix_min']) || empty($this->entrees[$i]['image'])) {
+                $this->entrees_error = 'Veuillez remplir tous les champs de l\'entrée précédente';
                 return;
+            }
+
+            $this->entrees[$i]['prix_max'] = $this->entrees[$i]['prix_min'];
+
+            // check if nom is unique
+            foreach ($this->entrees as $key => $entree) {
+                if ($key == $i)
+                    continue;
+                if ($entree['nom'] == $this->entrees[$i]['nom']) {
+                    $this->entrees_error = 'Ce nom d\'entrée existe déjà';
+                    return;
+                }
             }
         }
 
@@ -284,18 +313,14 @@ class Create extends Component
 
     public function addDessert()
     {
-        // check if all fields are filled (entrees_count - 1) times
+        // check if all fields are filled (desserts_count - 1) times
         $i = $this->desserts_count - 1;
-        if (empty($this->desserts[$i]['nom']) || empty($this->desserts[$i]['ingredients']) || empty($this->desserts[$i]['prix_min']) || empty($this->desserts[$i]['prix_max'])) {
+        if (empty($this->desserts[$i]['nom']) || empty($this->desserts[$i]['ingredients']) || empty($this->desserts[$i]['prix_min'])) {
             $this->desserts_error = 'Veuillez remplir tous les champs du dessert précédent';
             return;
         }
 
-        // check if prix_min <= prix_max
-        if ($this->desserts[$i]['prix_min'] > $this->desserts[$i]['prix_max']) {
-            $this->desserts_error = 'Le prix minimum doit être inférieur ou égal au prix maximum';
-            return;
-        }
+        $this->desserts[$i]['prix_max'] = $this->desserts[$i]['prix_min'];
 
         // check if nom is unique
         foreach ($this->desserts as $key => $dessert) {
@@ -323,16 +348,12 @@ class Create extends Component
     {
         // check if all fields are filled (entrees_count - 1) times
         $i = $this->plats_count - 1;
-        if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['accompagnements']) || empty($this->plats[$i]['prix_min']) || empty($this->plats[$i]['prix_max'])) {
+        if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['accompagnements']) || empty($this->plats[$i]['prix_min'])) {
             $this->plats_error = 'Veuillez remplir tous les champs du plat précédent';
             return;
         }
 
-        // check if prix_min <= prix_max
-        if ($this->plats[$i]['prix_min'] > $this->plats[$i]['prix_max']) {
-            $this->plats_error = 'Le prix minimum doit être inférieur ou égal au prix maximum';
-            return;
-        }
+        $this->plats[$i]['prix_max'] = $this->plats[$i]['prix_min'];
 
         // check if nom is unique
         foreach ($this->plats as $key => $plat) {
@@ -360,6 +381,7 @@ class Create extends Component
     public function removeEntree($key)
     {
         unset($this->entrees[$key]);
+        $this->entrees = array_values($this->entrees);
         $this->entrees_error = '';
         $this->entrees_count--;
     }
@@ -367,6 +389,7 @@ class Create extends Component
     public function removeDessert($key)
     {
         unset($this->desserts[$key]);
+        $this->desserts = array_values($this->desserts);
         $this->desserts_error = '';
         $this->desserts_count--;
     }
@@ -374,12 +397,14 @@ class Create extends Component
     public function removePlat($key)
     {
         unset($this->plats[$key]);
+        $this->plats = array_values($this->plats);
         $this->plats_error = '';
         $this->plats_count--;
     }
 
     public function store()
     {
+        // dd($this->entrees);
         $this->validate();
 
         $separator = Utils::getRestaurantValueSeparator();
@@ -390,6 +415,13 @@ class Create extends Component
             $this->e_ingredients .= $entree['ingredients'] . $separator;
             $this->e_prix_min .= $entree['prix_min'] . $separator;
             $this->e_prix_max .= $entree['prix_max'] . $separator;
+
+            // dump($this->entrees);
+            // dd($entree['image']);
+
+            // upload image
+            [$id, $path] = AnnoncesUtils::storeImage($entree['image'], 'restaurants');
+            $this->e_image .= $id . $separator;
         }
 
         // Put all plats in the same variable
@@ -468,7 +500,7 @@ class Create extends Component
         }
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
-        return redirect()->route('restaurants.create');
+        return redirect()->route('public.annonces.list');
     }
 
     public function render()

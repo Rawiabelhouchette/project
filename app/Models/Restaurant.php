@@ -141,7 +141,7 @@ class Restaurant extends Model implements AnnonceInterface
         }
         $tmp = explode(Utils::getRestaurantValueSeparator(), $string);
         return array_filter($tmp, function ($value) {
-            return !empty($value);
+            return $value !== null && $value !== '';
         });
     }
 
