@@ -157,6 +157,14 @@
                         @enderror
                     </div>
 
+                    <div class="col restaurant">
+                        <h3>Image du restaurant</h3>
+                        <input class="form-control-file" type="file" wire:model.defer='restaurant_image'>
+                        @error('restaurant_image')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                 </div>
 
                 <div class="row align-items-start">
@@ -366,6 +374,87 @@
                 var nom = $(this).data('nom');
                 @this.set(nom, data);
             });
+        });
+    </script>
+
+    <script src="{{ asset('assets/js/annonce/restaurant.js') }}"></script>
+
+    <script>
+        $('#restaurant-form-submit').on('click', function() {
+            //  check if all required fields are filled : I dont want a function
+
+            const plats = collectPlats();
+            const entrees = collectEntrees();
+            const desserts = collectDesserts();
+            // console.log(entrees);
+            // console.log(plats);
+            // console.log(desserts);
+
+            const lastEntreeId = entreeCounter - 1;
+            const lastPlatId = platCounter - 1;
+            const lastDessertId = dessertCounter - 1;
+
+            function validateAndShowError(type, lastId, items, errorMessageSelector, emptyMessage, invalidMessage) {
+                if (lastId > 0 && !validateFields(type, lastId)) {
+                    $(errorMessageSelector).text(invalidMessage.replace('{id}', lastId));
+                    return false;
+                }
+
+                if (items.length === 0) {
+                    $(errorMessageSelector).text(emptyMessage);
+                    return false;
+                }
+
+                return true;
+            }
+
+            // Valider les champs du dernier entrée avant d'ajouter un nouveau
+            if (!validateAndShowError('entree', lastEntreeId, entrees, '#entree-error-message', 'Veuillez ajouter au moins une entrée', 'Veuillez remplir tous les champs obligatoires de l\'entrée {id}.')) {
+                return false;
+            }
+
+            // Valider les champs du dernier plat avant d'ajouter un nouveau
+            if (!validateAndShowError('plat', lastPlatId, plats, '#plat-error-message', 'Veuillez ajouter au moins un plat', 'Veuillez remplir tous les champs obligatoires du plat {id}.')) {
+                return false;
+            }
+
+            // Valider les champs du dernier dessert avant d'ajouter un nouveau
+            if (!validateAndShowError('dessert', lastDessertId, desserts, '#dessert-error-message', 'Veuillez ajouter au moins un dessert', 'Veuillez remplir tous les champs obligatoires du dessert {id}.')) {
+                return false;
+            }
+
+            // verifier et enlever les plats vides
+            // en suite s'assurer qu'il y a au moins un plat
+
+            console.log('entrees', entrees);
+            console.log('plats', plats);
+            console.log('desserts', desserts);
+            alert('Form submitted');
+
+            @this.set('entrees', entrees);
+            @this.set('plats', plats);
+            @this.set('desserts', desserts);
+
+            return;
+
+            // prevent form submission
+            // return false;
+        });
+
+        // Add dynamic image upload functionality
+        $(document).on('change', '.form-control-file', function(e) {
+            var fileInput = $(this);
+            var file = fileInput[0].files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var imgPreview = $('<img>').attr('src', e.target.result).css({
+                    'max-width': '100%',
+                    'height': 'auto',
+                    'margin-top': '10px'
+                });
+                fileInput.after(imgPreview);
+            };
+            reader.readAsDataURL(file);
         });
     </script>
 @endpush
