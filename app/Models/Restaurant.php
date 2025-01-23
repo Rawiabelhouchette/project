@@ -24,6 +24,7 @@ class Restaurant extends Model implements AnnonceInterface
         'e_ingredients',
         'e_prix_min',
         'e_prix_max',
+        'e_image',
 
         'p_nom',
         'p_slug',
@@ -31,12 +32,14 @@ class Restaurant extends Model implements AnnonceInterface
         'p_accompagnements',
         'p_prix_min',
         'p_prix_max',
+        'p_image',
 
         'd_nom',
         'd_slug',
         'd_ingredients',
         'd_prix_min',
         'd_prix_max',
+        'd_image',
     ];
 
     protected $appends = [

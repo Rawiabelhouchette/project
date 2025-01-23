@@ -131,7 +131,7 @@ class Create extends Component
             'image' => 'required|image',
             'galerie' => 'nullable|array',
             'galerie.*' => 'nullable|image',
-            
+
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
             'quartier_id' => 'nullable|exists:quartiers,id',
@@ -154,25 +154,30 @@ class Create extends Component
 
     public function store()
     {
+        // dd($this->entrees);
         $this->validate();
 
         $separator = Utils::getRestaurantValueSeparator();
+        $separator2 = ',';
 
         $e_nom = '';
         $e_ingredients = '';
         $e_prix_min = '';
         $e_prix_max = '';
+        $e_image = '';
 
         $p_nom = '';
         $p_ingredients = '';
         $p_ingredients = '';
         $p_prix_min = '';
         $p_prix_max = '';
+        $p_image = '';
 
         $d_nom = '';
         $d_ingredients = '';
         $d_prix_min = '';
         $d_prix_max = '';
+        $d_image = '';
 
         // Put all entrees in the same variable
         foreach ($this->entrees as $entree) {
@@ -180,6 +185,10 @@ class Create extends Component
             $e_ingredients .= $entree['ingredients'] . $separator;
             $e_prix_min .= $entree['prix'] . $separator;
             $e_prix_max .= $entree['prix'] . $separator;
+
+            // upload image
+            [$id, $path] = AnnoncesUtils::storeImage($entree['image'], 'restaurants');
+            $e_image .= $id . $separator2;
         }
 
         // Put all plats in the same variable
@@ -188,6 +197,10 @@ class Create extends Component
             $p_ingredients .= $plat['ingredients'] . $separator;
             $p_prix_min .= $plat['prix'] . $separator;
             $p_prix_max .= $plat['prix'] . $separator;
+
+            // upload image
+            [$id, $path] = AnnoncesUtils::storeImage($plat['image'], 'restaurants');
+            $p_image .= $id . $separator2;
         }
 
         // Put all desserts in the same variable
@@ -196,6 +209,10 @@ class Create extends Component
             $d_ingredients .= $dessert['ingredients'] . $separator;
             $d_prix_min .= $dessert['prix'] . $separator;
             $d_prix_max .= $dessert['prix'] . $separator;
+
+            // upload image
+            [$id, $path] = AnnoncesUtils::storeImage($dessert['image'], 'restaurants');
+            $d_image .= $id . $separator2;
         }
 
 
