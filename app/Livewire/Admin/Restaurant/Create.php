@@ -255,7 +255,7 @@ class Create extends Component
             'entrees.*.prix_max.min' => 'Le prix maximum de l\'entrée doit être au moins :min.',
             'entrees.*.image.required' => 'L\'image de l\'entrée est obligatoire.',
             'entrees.*.image.image' => 'L\'image de l\'entrée doit être une image.',
-            
+
         ];
     }
 
@@ -402,8 +402,32 @@ class Create extends Component
         $this->plats_count--;
     }
 
+    public function checkEntries()
+    {
+        // dd($this->entrees);
+        $cEntrees = count($this->entrees) - 1;
+        $cPlats = count($this->plats) - 1;
+        $cDesserts = count($this->desserts) - 1;
+
+        if (empty($this->entrees[$cEntrees]['nom']) || empty($this->entrees[$cEntrees]['ingredients']) || empty($this->entrees[$cEntrees]['prix_min']) || empty($this->entrees[$cEntrees]['image'])) {
+            $this->addError('entrees_error', 'Veuillez remplir tous les champs de l\'entrée précédente');
+            // return;
+        }
+
+        if (empty($this->plats[$cPlats]['nom']) || empty($this->plats[$cPlats]['ingredients']) || empty($this->plats[$cPlats]['accompagnements']) || empty($this->plats[$cPlats]['prix_min'])) {
+            $this->addError('plats_error', 'Veuillez remplir tous les champs du plat précédent');
+            // return;
+        }
+
+        if (empty($this->desserts[$cDesserts]['nom']) || empty($this->desserts[$cDesserts]['ingredients']) || empty($this->desserts[$cDesserts]['prix_min'])) {
+            $this->addError('desserts_error', 'Veuillez remplir tous les champs du dessert précédent');
+            // return;
+        }
+    }
+
     public function store()
     {
+        // $this->checkEntries();
         // dd($this->entrees);
         $this->validate();
 
@@ -450,17 +474,20 @@ class Create extends Component
                 'e_ingredients' => $this->e_ingredients,
                 'e_prix_min' => $this->e_prix_min,
                 'e_prix_max' => $this->e_prix_max,
+                'e_image' => $this->e_image,
 
                 'p_nom' => $this->p_nom,
                 'p_ingredients' => $this->p_ingredients,
                 'p_accompagnements' => $this->p_accompagnements,
                 'p_prix_min' => $this->p_prix_min,
                 'p_prix_max' => $this->p_prix_max,
+                'p_image' => $this->p_image,
 
                 'd_nom' => $this->d_nom,
                 'd_ingredients' => $this->d_ingredients,
                 'd_prix_min' => $this->d_prix_min,
                 'd_prix_max' => $this->d_prix_max,
+                'd_image' => $this->d_image,
             ]);
 
             $annonce = new Annonce([
