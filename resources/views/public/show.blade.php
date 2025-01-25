@@ -222,7 +222,7 @@
             }
 
             marker = L.marker([lat, lon]).addTo(mymap);
-            mymap.setView([lat, lon], 12);
+            mymap.setView([lat, lon], 10);
         </script>
 
         <script>

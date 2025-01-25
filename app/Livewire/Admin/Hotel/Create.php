@@ -7,11 +7,14 @@ use App\Models\Annonce;
 use App\Models\Hotel;
 use App\Models\Entreprise;
 use App\Models\Pays;
+use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -170,6 +173,25 @@ class Create extends Component
         ];
     }
 
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+    
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
+    }
     public function store()
     {
         $this->validate();
@@ -233,7 +255,6 @@ class Create extends Component
         session()->flash('success', 'L\'hôtel a bien été ajoutée');
         return redirect()->route('public.annonces.list');
     }
-
 
     public function render()
     {
