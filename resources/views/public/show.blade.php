@@ -137,62 +137,12 @@
                         <!-- Start: Listing Detail Wrapper -->
                         <!-- Tabs -->
                         <div class="tab style-1 mrg-bot-40" role="tabpanel">
-                            <!-- Nav tabs -->
-                            {{-- <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">                        
-                            <button class="nav-link active" id="information-tab" data-bs-toggle="tab" data-bs-target="#information" type="button" role="tab" aria-controls="information" aria-selected="true">Détail</button>
-                        </li>
-                        <li class="nav-item" role="presentation">                        
-                            <button class="nav-link" id="information-tab" data-bs-toggle="tab" data-bs-target="#equipement" type="button" role="tab" aria-controls="equipement" aria-selected="true">Équipements</button>
-                        </li>
-                    </ul> --}}
-                            {{-- @include('components.public.show.information-header') --}}
                             {{ $annonce->annonceable->getShowInformationHeader() }}
 
-                            <!-- Tab panes -->
-                            {{-- <div class="tab-content mt-3" id="myTabContent">
-                        <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="information-tab">
-                            <h2 class="mb-3">{{ $annonce->annonceable->caracteristiques }}</h2>
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade" id="equipement"labelledby="equipement-tab">
-                            @forelse ($annonce->referenceDisplay() as $key => $value)
-                                @if (count($value) > 0)
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <strong class="" style="text-transform: uppercase;">{{ $key }}</strong>
-                                        </div>
-                                        <div class="detail-wrapper-body padd-bot-10">
-                                            <ul class="detail-check">
-                                                @forelse ($value as $equipement)
-                                                    <div class="col-xs-12 col-md-4 padd-l-0">
-                                                        <li style="width: 100%;">{{ $equipement }}</li>
-                                                    </div>
-                                                @empty
-                                                    <span class="text-center">
-                                                        Aucun équipement disponible
-                                                    </span>
-                                                @endforelse
-                                            </ul>
-                                        </div>
-                                    </div>
-                                @endif
-                            @empty
-                                <div class="col-md-12">
-                                    Aucun équipement disponible
-                                </div>
-                            @endforelse
-                        </div>
-                    </div> --}}
-                            {{-- @include('components.public.show.information-body', ['annonce' => $annonce]) --}}
                             {{ $annonce->annonceable->getShowInformationBody() }}
                         </div>
                     </div>
-                    <!-- <li class="mrg-r-10" style="padding-left: 0;">
-                                <span class="buttons btn-default view padd-10">
-                                    <i class="fa fa-eye hidden-xs"></i>
-                                    <span class="">{{ $annonce->view_count }} vue(s)</span>
-                                </span>
-                            </li> -->
+
                     <div class="col-md-12 col-sm-12">
                         <div class="col-md-8 col-sm-12">
                             <!-- Start: Listing Location -->
@@ -203,7 +153,7 @@
                                 <div class="widget-boxed-body padd-top-5">
                                     <div class="side-list">
                                         <ul>
-                                            <li>{{ $annonce->entreprise->quartier->ville->pays->nom ?? '-' }} - {{ $annonce->entreprise->quartier->ville->nom ?? '-' }}, {{ $annonce->entreprise->quartier->nom ?? '-' }}</li>
+                                            <li>{{ $annonce->adresse_complete->pays ?? '-' }} - {{ $annonce->adresse_complete->ville ?? '-' }}, {{ $annonce->adresse_complete->quartier ?? '-' }}</li>
                                             <li>
                                                 <div class="full-width" id="map" style="height:200px;"></div>
                                             </li>
@@ -255,10 +205,9 @@
     @endsection
 
     @section('js')
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
         <script>
-            var mymap = L.map('map').setView([8.6195, 0.8248], 6);
+            var latlng = L.latLng({{ $annonce->latitude }}, {{ $annonce->longitude }});
+            var mymap = L.map('map').setView(latlng, 13);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19
@@ -266,14 +215,14 @@
 
             var marker;
 
-            var lon = {{ $annonce->entreprise->longitude }};
-            var lat = {{ $annonce->entreprise->latitude }};
+            var lon = {{ $annonce->longitude }};
+            var lat = {{ $annonce->latitude }};
             if (marker) {
                 mymap.removeLayer(marker);
             }
 
             marker = L.marker([lat, lon]).addTo(mymap);
-            mymap.setView([lat, lon], 12);
+            mymap.setView([lat, lon], 10);
         </script>
 
         <script>

@@ -41,6 +41,8 @@
 
         var marker;
 
+        // locateMe();
+
         mymap.on('click', function(e) {
             if (marker) {
                 mymap.removeLayer(marker); // Supprimez le marqueur existant s'il y en a un.
@@ -57,5 +59,7 @@
                 lat
             }]);
         });
+
+
     </script>
 @endsection

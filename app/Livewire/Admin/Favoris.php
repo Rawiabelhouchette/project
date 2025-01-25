@@ -13,7 +13,7 @@ class Favoris extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    private $perPage = 8;
+    private $perPage = 9;
     public $search = '';
 
     public function updatingSearch()

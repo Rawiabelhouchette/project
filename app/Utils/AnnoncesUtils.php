@@ -75,7 +75,6 @@ class AnnoncesUtils
             'Auberge',
             'Hôtel',
             'Location meublée',
-            'Bar'
         ];
     }
 
@@ -83,6 +82,7 @@ class AnnoncesUtils
     {
         return [
             'Boite de nuit',
+            'Bar',
         ];
     }
 
@@ -383,6 +383,28 @@ class AnnoncesUtils
         }
 
         return (object) $params;
+    }
+
+    /**
+     * Function to store an image and return the file path
+     *
+     * @param \Illuminate\Http\UploadedFile $image
+     * @param string $folder_name
+     * @return object
+     */
+    public static function storeImage($image, $folder_name): object
+    {
+        $image->store('public/' . $folder_name);
+        $fichier = Fichier::create([
+            'nom' => $image->hashName(),
+            'chemin' => $folder_name . '/' . $image->hashName(),
+            'extension' => $image->extension(),
+        ]);
+
+        return (object) [
+            'id' => $fichier->id,
+            'path' => $fichier->chemin,
+        ];
     }
 }
 
