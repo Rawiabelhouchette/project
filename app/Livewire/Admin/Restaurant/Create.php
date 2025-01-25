@@ -13,6 +13,7 @@ use App\Models\Restaurant;
 use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use App\Utils\Utils;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
@@ -109,6 +110,9 @@ class Create extends Component
     public $quartiers = [];
     public $quartier_id;
 
+    public $latitude;
+    public $longitude;
+
     public function mount()
     {
         $this->initialization();
@@ -184,6 +188,9 @@ class Create extends Component
             'image' => 'required|image',
             'galerie' => 'nullable|array',
             'galerie.*' => 'nullable|image',
+
+            'longitude' => 'required|string',
+            'latitude' => 'required|string',
         ];
     }
 
@@ -259,10 +266,17 @@ class Create extends Component
             'entrees.*.image.required' => 'L\'image de l\'entrée est obligatoire.',
             'entrees.*.image.image' => 'L\'image de l\'entrée doit être une image.',
 
+            'longitude.required' => 'La localisation est obligatoire.',
+
         ];
     }
 
-
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
     public function updatedPaysId($pays_id)
     {
         $this->ville_id = null;
@@ -506,6 +520,9 @@ class Create extends Component
 
                 'ville_id' => $this->ville_id,
                 'quartier_id' => $this->quartier_id,
+
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
             ]);
 
             $restaurant->annonce()->save($annonce);
