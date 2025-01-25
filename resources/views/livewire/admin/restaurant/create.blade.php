@@ -304,7 +304,7 @@
                 <div class="row padd-bot-15">
                     <div class="form-group">
                         <div class="col text-right">
-                            <button class="btn theme-btn" id="restaurant-form-submit" type="submit" style="margin-right: 30px;">
+                            <button class="btn theme-btn" id="restaurant-form-submit" type="submit" style="margin-right: 30px;" wire:loading.attr="disabled">
                                 <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                                 Enregistrer
                             </button>
