@@ -12,6 +12,7 @@ use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
@@ -49,6 +50,9 @@ class Create extends Component
 
     public $quartiers = [];
     public $quartier_id;
+
+    public $latitude;
+    public $longitude;
 
 
     public function mount()
@@ -94,10 +98,13 @@ class Create extends Component
             'galerie.*' => 'nullable|image',
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
-            
+
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
             'quartier_id' => 'nullable|exists:quartiers,id',
+
+            'longitude' => 'required|string',
+            'latitude' => 'required|string',
         ];
     }
 
@@ -128,13 +135,22 @@ class Create extends Component
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
-            
+
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
             'ville_id.required' => 'La ville est obligatoire',
             'ville_id.exists' => 'La ville n\'existe pas',
             'quartier_id.exists' => 'Le quartier n\'existe pas',
+
+            'longitude.required' => 'La localisation est obligatoire.',
         ];
+    }
+
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -173,6 +189,9 @@ class Create extends Component
 
                 'ville_id' => $this->ville_id,
                 'quartier_id' => $this->quartier_id,
+
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
             ]);
 
             $patisserie->annonce()->save($annonce);
