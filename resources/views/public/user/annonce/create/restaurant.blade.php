@@ -43,36 +43,6 @@
 
         // locateMe();
 
-        function locateMe() {
-            // Get current location
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
-                    var latlng = L.latLng(lat, lon);
-
-                    mymap.setView(latlng, 13); // Set map view to current location
-
-                    if (marker) {
-                        mymap.removeLayer(marker); // Supprimez le marqueur existant s'il y en a un.
-                    }
-
-                    marker = L.marker(latlng).addTo(mymap);
-                    var lat = latlng.lat;
-                    var lon = latlng.lng;
-
-                    Livewire.dispatch('setLocation', [{
-                        lon,
-                        lat
-                    }]);
-                }, function(error) {
-                    console.error("Error getting location: " + error.message);
-                });
-            } else {
-                console.error("Geolocation is not supported by this browser.");
-            }
-        }
-
         mymap.on('click', function(e) {
             if (marker) {
                 mymap.removeLayer(marker); // Supprimez le marqueur existant s'il y en a un.
@@ -91,10 +61,5 @@
         });
 
 
-        $(document).ready(function() {
-            $('.locate-me').click(function() {
-                locateMe();
-            });
-        });
     </script>
 @endsection

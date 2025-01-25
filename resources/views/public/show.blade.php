@@ -138,11 +138,11 @@
                         <!-- Tabs -->
                         <div class="tab style-1 mrg-bot-40" role="tabpanel">
                             {{ $annonce->annonceable->getShowInformationHeader() }}
-                            
+
                             {{ $annonce->annonceable->getShowInformationBody() }}
                         </div>
                     </div>
-                    
+
                     <div class="col-md-12 col-sm-12">
                         <div class="col-md-8 col-sm-12">
                             <!-- Start: Listing Location -->
@@ -205,10 +205,9 @@
     @endsection
 
     @section('js')
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
         <script>
-            var mymap = L.map('map').setView([8.6195, 0.8248], 6);
+            var latlng = L.latLng({{ $annonce->latitude }}, {{ $annonce->longitude }});
+            var mymap = L.map('map').setView(latlng, 13);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19
