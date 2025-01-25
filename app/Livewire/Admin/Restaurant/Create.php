@@ -281,7 +281,7 @@ class Create extends Component
             // check if all fields are filled (entrees_count - 1) times
             $i = $this->entrees_count - 1;
             if (empty($this->entrees[$i]['nom']) || empty($this->entrees[$i]['ingredients']) || empty($this->entrees[$i]['prix_min']) || empty($this->entrees[$i]['image'])) {
-                $this->entrees_error = 'Veuillez remplir tous les champs de l\'entrée précédente';
+                // $this->entrees_error = 'Veuillez remplir tous les champs de l\'entrée précédente';
                 return;
             }
 
@@ -427,7 +427,8 @@ class Create extends Component
 
     public function store()
     {
-        // $this->checkEntries();
+        dd($this->entrees);
+        $this->checkEntries();
         // dd($this->entrees);
         $this->validate();
 

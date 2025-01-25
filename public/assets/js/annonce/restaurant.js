@@ -191,8 +191,9 @@ function addEntree() {
     }
 
     // Ajouter une nouvelle entrée
-    const newEntreeHTML = createEntree(entreeCounter);
-    entreesContainer.append(newEntreeHTML);
+    // const newEntreeHTML = createEntree(entreeCounter);
+    // entreesContainer.append(newEntreeHTML);
+    
     entreeCounter++;
 
     // click sur le bouton pour ouvrir le formulaire (canvas)
