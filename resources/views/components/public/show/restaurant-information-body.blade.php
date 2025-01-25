@@ -96,7 +96,7 @@
                         <div class="small-listing-box">
                             <div class="small-list-img">
                                 @if ($plat['image'])
-                                    <img class="img-responsive" src="{{ asset('storage/' . $entree['image']) }}" alt="">
+                                    <img class="img-responsive" src="{{ asset('storage/' . $plat['image']) }}" alt="">
                                 @else
                                     <img class="img-responsive" src="{{ asset('assets/img/placeholder.svg') }}" alt="">
                                 @endif
@@ -128,7 +128,7 @@
                         <div class="small-listing-box">
                             <div class="small-list-img">
                                 @if ($dessert['image'])
-                                    <img class="img-responsive" src="{{ asset('storage/' . $entree['image']) }}" alt="">
+                                    <img class="img-responsive" src="{{ asset('storage/' . $dessert['image']) }}" alt="">
                                 @else
                                     <img class="img-responsive" src="{{ asset('assets/img/placeholder.svg') }}" alt="">
                                 @endif

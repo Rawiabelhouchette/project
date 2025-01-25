@@ -296,7 +296,6 @@
                 ])
 
                 <div class="row align-items-start">
-
                     @include('admin.annonce.create-galery-component', [
                         'galery' => $galerie,
                     ])
@@ -305,7 +304,7 @@
                 <div class="row padd-bot-15">
                     <div class="form-group">
                         <div class="col text-right">
-                            <button class="btn theme-btn" id="restaurant-form-submit" type="submit" style="margin-right: 30px;" wire:loading.attr='disabled'>
+                            <button class="btn theme-btn" id="restaurant-form-submit" type="submit" style="margin-right: 30px;">
                                 <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                                 Enregistrer
                             </button>
@@ -377,40 +376,23 @@
             if (!validateAndShowError('dessert', lastDessertId, desserts, '#dessert-error-message', 'Veuillez ajouter au moins un dessert', 'Veuillez remplir tous les champs obligatoires du dessert {id}.')) {
                 return false;
             }
-
-            // verifier et enlever les plats vides
-            // en suite s'assurer qu'il y a au moins un plat
-
-            // console.log('entrees', entrees);
-            // console.log('plats', plats);
-            // console.log('desserts', desserts);
-            // alert('Form submitted');
-
-            // @this.set('entrees', entrees);
-            // @this.set('plats', plats);
-            // @this.set('desserts', desserts);
-
-            // return;
-
-            // prevent form submission
-            // return false;
         });
 
         // Add dynamic image upload functionality
-        $(document).on('change', '.form-control-file', function(e) {
-            var fileInput = $(this);
-            var file = fileInput[0].files[0];
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var imgPreview = $('<img>').attr('src', e.target.result).css({
-                    'max-width': '100%',
-                    'height': 'auto',
-                    'margin-top': '10px'
-                });
-                fileInput.after(imgPreview);
-            };
-            reader.readAsDataURL(file);
-        });
+        // $(document).on('change', '.form-control-file', function(e) {
+        //     var fileInput = $(this);
+        //     var file = fileInput[0].files[0];
+        //     var reader = new FileReader();
+        //     reader.onload = function(e) {
+        //         var imgPreview = $('<img>').attr('src', e.target.result).css({
+        //             'max-width': '100%',
+        //             'height': 'auto',
+        //             'margin-top': '10px'
+        //         });
+        //         fileInput.after(imgPreview);
+        //     };
+        //     reader.readAsDataURL(file);
+        // });
     </script>
 
     <script type="text/javascript">
