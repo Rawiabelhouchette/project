@@ -153,7 +153,7 @@
                                 <div class="widget-boxed-body padd-top-5">
                                     <div class="side-list">
                                         <ul>
-                                            <li>{{ $annonce->entreprise->quartier->ville->pays->nom ?? '-' }} - {{ $annonce->entreprise->quartier->ville->nom ?? '-' }}, {{ $annonce->entreprise->quartier->nom ?? '-' }}</li>
+                                            <li>{{ $annonce->adresse_complete->pays ?? '-' }} - {{ $annonce->adresse_complete->ville ?? '-' }}, {{ $annonce->adresse_complete->quartier ?? '-' }}</li>
                                             <li>
                                                 <div class="full-width" id="map" style="height:200px;"></div>
                                             </li>
@@ -216,8 +216,8 @@
 
             var marker;
 
-            var lon = {{ $annonce->entreprise->longitude }};
-            var lat = {{ $annonce->entreprise->latitude }};
+            var lon = {{ $annonce->longitude }};
+            var lat = {{ $annonce->latitude }};
             if (marker) {
                 mymap.removeLayer(marker);
             }

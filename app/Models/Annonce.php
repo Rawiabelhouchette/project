@@ -276,15 +276,16 @@ class Annonce extends Model
         return $this->notation()->count();
     }
 
-    public function getAdresseCompleteAttribute(): array
+    public function getAdresseCompleteAttribute(): object
     {
-        $quartier = $this->quartier->nom ?? '';
-        $ville = $this->quartier->ville->nom ?? '';
-        $pays = $this->quartier->ville->pays->nom ?? '';
-        return [
-            'quartier' => $quartier,
-            'ville' => $ville,
-            'pays' => $pays,
+        $quartier = $this->quartier()->first();
+        $ville = $quartier ? $quartier->ville()->first() : $this->ville()->first();
+        $pays = $ville ? $ville->pays()->first() : null;
+
+        return (object) [
+            'quartier' => $quartier ? $quartier->nom : '',
+            'ville' => $ville ? $ville->nom : '',
+            'pays' => $pays ? $pays->nom : '',
         ];
     }
 
