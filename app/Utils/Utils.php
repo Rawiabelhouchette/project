@@ -11,6 +11,11 @@ class Utils
         return '|||';
     }
 
+    public static function getRestaurantImageSeparator()
+    {
+        return ',';
+    }
+
     // function that take 22/11/2024 09:57:27 or 22/11/2024 09:57:27 and return the datetime start and end of the day
     public static function getStartAndEndOfDay($date)
     {

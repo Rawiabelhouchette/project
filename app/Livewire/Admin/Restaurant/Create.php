@@ -33,17 +33,20 @@ class Create extends Component
     public $e_ingredients;
     public $e_prix_min = 0;
     public $e_prix_max = 0;
+    public $e_image;
 
     public $p_nom;
     public $p_ingredients;
     public $p_accompagnements;
     public $p_prix_min = 0;
     public $p_prix_max = 0;
+    public $p_image;
 
     public $d_nom;
     public $d_ingredients;
     public $d_prix_min = 0;
     public $d_prix_max = 0;
+    public $d_image;
 
 
     public $entrees_error = '';
@@ -170,11 +173,11 @@ class Create extends Component
             // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
 
             'entrees' => 'required|array|min:1',
-            'entrees.*.nom' => 'required|string|min:3',
-            'entrees.*.ingredients' => 'nullable|string|min:3',
-            'entrees.*.prix_min' => 'required|integer|min:0',
-            'entrees.*.prix_max' => 'required|integer|min:0',
-            'entrees.*.image' => 'required|image',
+            // 'entrees.*.nom' => 'required|string|min:3',
+            // 'entrees.*.ingredients' => 'nullable|string|min:3',
+            // 'entrees.*.prix_min' => 'required|integer|min:0',
+            // 'entrees.*.prix_max' => 'required|integer|min:0',
+            // 'entrees.*.image' => 'required|image',
 
 
             'services' => 'nullable',
@@ -427,29 +430,27 @@ class Create extends Component
 
     public function store()
     {
-        dump($this->entrees);
-        dump($this->plats);
-        dump($this->desserts);
-        dd(1);
-        $this->checkEntries();
+        // dump($this->entrees);
+        // dump($this->plats);
+        // dump($this->desserts);
+        // dd(1);
+        // $this->checkEntries();
         // dd($this->entrees);
         $this->validate();
 
         $separator = Utils::getRestaurantValueSeparator();
+        $separator2 = Utils::getRestaurantImageSeparator();
 
         // Put all entrees in the same variable
         foreach ($this->entrees as $entree) {
             $this->e_nom .= $entree['nom'] . $separator;
             $this->e_ingredients .= $entree['ingredients'] . $separator;
             $this->e_prix_min .= $entree['prix_min'] . $separator;
-            $this->e_prix_max .= $entree['prix_max'] . $separator;
-
-            // dump($this->entrees);
-            // dd($entree['image']);
+            $this->e_prix_max .= $entree['prix_min'] . $separator;
 
             // upload image
-            [$id, $path] = AnnoncesUtils::storeImage($entree['image'], 'restaurants');
-            $this->e_image .= $id . $separator;
+            $uploadResult = AnnoncesUtils::storeImage($entree['image'], 'restaurants');
+            $this->e_image .= $uploadResult->id . $separator2;
         }
 
         // Put all plats in the same variable
@@ -458,7 +459,11 @@ class Create extends Component
             $this->p_ingredients .= $plat['ingredients'] . $separator;
             $this->p_accompagnements .= $plat['accompagnements'] . $separator;
             $this->p_prix_min .= $plat['prix_min'] . $separator;
-            $this->p_prix_max .= $plat['prix_max'] . $separator;
+            $this->p_prix_max .= $plat['prix_min'] . $separator;
+
+            // upload image
+            $uploadResult = AnnoncesUtils::storeImage($plat['image'], 'restaurants');
+            $this->p_image .= $uploadResult->id . $separator2;
         }
 
         // Put all desserts in the same variable
@@ -466,7 +471,11 @@ class Create extends Component
             $this->d_nom .= $dessert['nom'] . $separator;
             $this->d_ingredients .= $dessert['ingredients'] . $separator;
             $this->d_prix_min .= $dessert['prix_min'] . $separator;
-            $this->d_prix_max .= $dessert['prix_max'] . $separator;
+            $this->d_prix_max .= $dessert['prix_min'] . $separator;
+
+            // upload image
+            $uploadResult = AnnoncesUtils::storeImage($dessert['image'], 'restaurants');
+            $this->d_image .= $uploadResult->id . $separator2;
         }
 
 

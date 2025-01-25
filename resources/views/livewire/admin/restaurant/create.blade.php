@@ -2,6 +2,68 @@
     <div class="page-name restaurant row">
         <form wire:submit.prevent="store" enctype="multipart/form-data">
             <div class="container text-left">
+                <div class="row align-items-start">
+                    <div class="col entreprise" wire:ignore>
+                        <div>
+                            <h3>Entreprise
+                                <b style="color: red; font-size: 100%;">*</b>
+                            </h3>
+                            <h4>Sélectionnez l'entreprise</h4>
+                            <select class="select2" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
+                                <option value="">-- Sélectionner --</option>
+                                @foreach ($entreprises as $entreprise)
+                                    <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
+                                @endforeach
+                            </select>
+                            @error('entreprise_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col restaurant">
+                        <h3>Nom
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Indiquez le nom de votre restaurant</h4>
+                        <input class="form-control" type="text" placeholder="" wire:model.defer='nom' required>
+                        @error('nom')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col restaurant">
+                        <h3>Date de validité
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Indiquez la date d'expiration</h4>
+                        <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                        @error('date_validite')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="row align-items-start">
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Equipements',
+                        'name' => 'equipements_restauration',
+                        'options' => $list_equipements_restauration,
+                    ])
+
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Boissons disponibles',
+                        'name' => 'carte_consommation',
+                        'options' => $list_carte_consommation,
+                    ])
+
+                    @include('admin.annonce.reference-select-component', [
+                        'title' => 'Services proposés',
+                        'name' => 'services',
+                        'options' => $list_services,
+                    ])
+                </div>
 
                 <div class="row align-items-start">
                     <div class="col entrees">
@@ -227,6 +289,19 @@
                     </div>
                 </div>
 
+                @include('admin.annonce.location-template', [
+                    'pays' => $pays,
+                    'villes' => $villes,
+                    'quartiers' => $quartiers,
+                ])
+
+                <div class="row align-items-start">
+
+                    @include('admin.annonce.create-galery-component', [
+                        'galery' => $galerie,
+                    ])
+                </div>
+
                 <div class="row padd-bot-15">
                     <div class="form-group">
                         <div class="col text-right">
@@ -322,23 +397,20 @@
         });
 
         // Add dynamic image upload functionality
-        // $(document).on('change', '.form-control-file', function(e) {
-        //     var fileInput = $(this);
-        //     var file = fileInput[0].files[0];
-        //     var reader = new FileReader();
-        //     var id = fileInput.data('id');
-        //     // show canvas
-        //     $('#entree-' + id).offcanvas('show');
-        //     reader.onload = function(e) {
-        //         var imgPreview = $('<img>').attr('src', e.target.result).css({
-        //             'max-width': '100%',
-        //             'height': 'auto',
-        //             'margin-top': '10px'
-        //         });
-        //         fileInput.after(imgPreview);
-        //     };
-        //     reader.readAsDataURL(file);
-        // });
+        $(document).on('change', '.form-control-file', function(e) {
+            var fileInput = $(this);
+            var file = fileInput[0].files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var imgPreview = $('<img>').attr('src', e.target.result).css({
+                    'max-width': '100%',
+                    'height': 'auto',
+                    'margin-top': '10px'
+                });
+                fileInput.after(imgPreview);
+            };
+            reader.readAsDataURL(file);
+        });
     </script>
 
     <script type="text/javascript">
