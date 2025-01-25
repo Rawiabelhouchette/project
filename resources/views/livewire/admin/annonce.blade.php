@@ -92,6 +92,9 @@
                                             <h4>{{ $annonce->titre }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
+                                        <a href="#">
+                                            <span class="like-listing alt style-2"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                        </a>
                                     </div>
                                     <div class="listing-price-info">
                                         <span class="pricetag">{{ $annonce->type }} </span>
