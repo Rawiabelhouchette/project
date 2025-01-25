@@ -137,62 +137,12 @@
                         <!-- Start: Listing Detail Wrapper -->
                         <!-- Tabs -->
                         <div class="tab style-1 mrg-bot-40" role="tabpanel">
-                            <!-- Nav tabs -->
-                            {{-- <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">                        
-                            <button class="nav-link active" id="information-tab" data-bs-toggle="tab" data-bs-target="#information" type="button" role="tab" aria-controls="information" aria-selected="true">Détail</button>
-                        </li>
-                        <li class="nav-item" role="presentation">                        
-                            <button class="nav-link" id="information-tab" data-bs-toggle="tab" data-bs-target="#equipement" type="button" role="tab" aria-controls="equipement" aria-selected="true">Équipements</button>
-                        </li>
-                    </ul> --}}
-                            {{-- @include('components.public.show.information-header') --}}
                             {{ $annonce->annonceable->getShowInformationHeader() }}
-
-                            <!-- Tab panes -->
-                            {{-- <div class="tab-content mt-3" id="myTabContent">
-                        <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="information-tab">
-                            <h2 class="mb-3">{{ $annonce->annonceable->caracteristiques }}</h2>
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade" id="equipement"labelledby="equipement-tab">
-                            @forelse ($annonce->referenceDisplay() as $key => $value)
-                                @if (count($value) > 0)
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <strong class="" style="text-transform: uppercase;">{{ $key }}</strong>
-                                        </div>
-                                        <div class="detail-wrapper-body padd-bot-10">
-                                            <ul class="detail-check">
-                                                @forelse ($value as $equipement)
-                                                    <div class="col-xs-12 col-md-4 padd-l-0">
-                                                        <li style="width: 100%;">{{ $equipement }}</li>
-                                                    </div>
-                                                @empty
-                                                    <span class="text-center">
-                                                        Aucun équipement disponible
-                                                    </span>
-                                                @endforelse
-                                            </ul>
-                                        </div>
-                                    </div>
-                                @endif
-                            @empty
-                                <div class="col-md-12">
-                                    Aucun équipement disponible
-                                </div>
-                            @endforelse
-                        </div>
-                    </div> --}}
-                            {{-- @include('components.public.show.information-body', ['annonce' => $annonce]) --}}
+                            
                             {{ $annonce->annonceable->getShowInformationBody() }}
                         </div>
                     </div>
-                    <!-- <li class="mrg-r-10" style="padding-left: 0;">
-                                <span class="buttons btn-default view padd-10">
-                                    <i class="fa fa-eye hidden-xs"></i>
-                                    <span class="">{{ $annonce->view_count }} vue(s)</span>
-                                </span>
-                            </li> -->
+                    
                     <div class="col-md-12 col-sm-12">
                         <div class="col-md-8 col-sm-12">
                             <!-- Start: Listing Location -->

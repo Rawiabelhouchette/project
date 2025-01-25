@@ -134,12 +134,16 @@ class Restaurant extends Model implements AnnonceInterface
     }
 
     // function to transform string into array using explode
-    public function getStringArray($string)
+    public function getStringArray($string, $separator = null)
     {
+        if ($separator === null) {
+            $separator = Utils::getRestaurantValueSeparator();
+        }
+
         if (empty($string)) {
             return [];
         }
-        $tmp = explode(Utils::getRestaurantValueSeparator(), $string);
+        $tmp = explode($separator, $string);
         return array_filter($tmp, function ($value) {
             return $value !== null && $value !== '';
         });
@@ -153,13 +157,16 @@ class Restaurant extends Model implements AnnonceInterface
         $tmp_ingredients = $this->getStringArray($this->e_ingredients);
         $tmp_prix_min = $this->getStringArray($this->e_prix_min);
         $tmp_prix_max = $this->getStringArray($this->e_prix_max);
+        $tmp_image = $this->getStringArray($this->e_image, Utils::getRestaurantImageSeparator());
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
+            $image = Fichier::find($tmp_image[$i]);
             $entrees[] = [
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
-                'prix_max' => (int) $tmp_prix_max[$i]
+                'prix_max' => (int) $tmp_prix_max[$i],
+                'image' => $image ? $image->chemin : null,
             ];
         }
 
@@ -172,16 +179,18 @@ class Restaurant extends Model implements AnnonceInterface
 
         $tmp_nom = $this->getStringArray($this->p_nom);
         $tmp_ingredients = $this->getStringArray($this->p_ingredients);
-        $tmp_accompagnements = $this->getStringArray($this->p_accompagnements);
         $tmp_prix_min = $this->getStringArray($this->p_prix_min);
         $tmp_prix_max = $this->getStringArray($this->p_prix_max);
+        $tmp_image = $this->getStringArray($this->p_image, Utils::getRestaurantImageSeparator());
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
+            $image = Fichier::find($tmp_image[$i]);
             $plats[] = [
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
-                'prix_max' => (int) $tmp_prix_max[$i]
+                'prix_max' => (int) $tmp_prix_max[$i],
+                'image' => $image ? $image->chemin : null,
             ];
         }
 
@@ -196,13 +205,16 @@ class Restaurant extends Model implements AnnonceInterface
         $tmp_ingredients = $this->getStringArray($this->d_ingredients);
         $tmp_prix_min = $this->getStringArray($this->d_prix_min);
         $tmp_prix_max = $this->getStringArray($this->d_prix_max);
+        $tmp_image = $this->getStringArray($this->d_image, Utils::getRestaurantImageSeparator());
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
+            $image = Fichier::find($tmp_image[$i]);
             $desserts[] = [
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
-                'prix_max' => (int) $tmp_prix_max[$i]
+                'prix_max' => (int) $tmp_prix_max[$i],
+                'image' => $image ? $image->chemin : null,
             ];
         }
 
