@@ -75,7 +75,6 @@ class AnnoncesUtils
             'Auberge',
             'Hôtel',
             'Location meublée',
-            'Bar'
         ];
     }
 
@@ -83,6 +82,7 @@ class AnnoncesUtils
     {
         return [
             'Boite de nuit',
+            'Bar',
         ];
     }
 
