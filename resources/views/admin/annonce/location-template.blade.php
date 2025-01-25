@@ -52,7 +52,7 @@
             </div>
         </div>
         @error('longitude')
-            <span class="text-center text-danger">{{ $message }}</span>
+            <span class="text-center text-danger pt-3">{{ $message }}</span>
         @enderror
     </div>
 </div>
