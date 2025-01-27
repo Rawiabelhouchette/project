@@ -139,7 +139,7 @@ class Edit extends Component
             $this->list_specialites = ReferenceValeur::where('reference_id', $tmp_specialite->id)->select('valeur', 'id')->get() :
             $this->list_specialites = [];
 
-        $tmp_carte_consommation = Reference::where('slug_type', 'restauration')->where('slug_nom', 'Boissons disponibles')->first();
+        $tmp_carte_consommation = Reference::where('slug_type', 'restauration')->where('slug_nom', 'boissons-disponibles')->first();
         $tmp_carte_consommation ?
             $this->list_carte_consommation = ReferenceValeur::where('reference_id', $tmp_carte_consommation->id)->select('valeur', 'id')->get() :
             $this->list_carte_consommation = [];
