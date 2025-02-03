@@ -1864,16 +1864,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.48.26",
+            "version": "v10.48.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "4c04a91442cad2433cddb1d376e40d0a43ec9571"
+                "reference": "eb0be33e4b806b92f396357b99ffcb2d3ef67957"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/4c04a91442cad2433cddb1d376e40d0a43ec9571",
-                "reference": "4c04a91442cad2433cddb1d376e40d0a43ec9571",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/eb0be33e4b806b92f396357b99ffcb2d3ef67957",
+                "reference": "eb0be33e4b806b92f396357b99ffcb2d3ef67957",
                 "shasum": ""
             },
             "require": {
@@ -2067,7 +2067,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-01-21T16:07:37+00:00"
+            "time": "2025-01-24T16:17:36+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -4145,16 +4145,16 @@
         },
         {
             "name": "spatie/laravel-package-tools",
-            "version": "1.18.2",
+            "version": "1.18.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-package-tools.git",
-                "reference": "d41c44a7eab604c3eb0cad93210612d4c1429c20"
+                "reference": "ba67eee37d86ed775dab7dad58a7cbaf9a6cfe78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/d41c44a7eab604c3eb0cad93210612d4c1429c20",
-                "reference": "d41c44a7eab604c3eb0cad93210612d4c1429c20",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/ba67eee37d86ed775dab7dad58a7cbaf9a6cfe78",
+                "reference": "ba67eee37d86ed775dab7dad58a7cbaf9a6cfe78",
                 "shasum": ""
             },
             "require": {
@@ -4193,7 +4193,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-package-tools/issues",
-                "source": "https://github.com/spatie/laravel-package-tools/tree/1.18.2"
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.18.3"
             },
             "funding": [
                 {
@@ -4201,7 +4201,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-20T14:14:17+00:00"
+            "time": "2025-01-22T08:51:18+00:00"
         },
         {
             "name": "spatie/laravel-permission",
@@ -7137,16 +7137,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.16.0",
+            "version": "2.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "befcdc0e5dce67252aa6322d82424be928214fa2"
+                "reference": "075bc0c26631110584175de6523ab3f1652eb28e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/befcdc0e5dce67252aa6322d82424be928214fa2",
-                "reference": "befcdc0e5dce67252aa6322d82424be928214fa2",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/075bc0c26631110584175de6523ab3f1652eb28e",
+                "reference": "075bc0c26631110584175de6523ab3f1652eb28e",
                 "shasum": ""
             },
             "require": {
@@ -7196,7 +7196,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.16.0"
+                "source": "https://github.com/filp/whoops/tree/2.17.0"
             },
             "funding": [
                 {
@@ -7204,7 +7204,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-25T12:00:00+00:00"
+            "time": "2025-01-25T12:00:00+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
