@@ -9,7 +9,7 @@
             <div class="row mrg-r-10 mrg-l-10">
                 <div class="col-sm-6">
                     <label class="required">Pays</label>
-                    <select class="form-control" required wire:model.defer='pays_id'>
+                    <select class="form-control" required wire:model.live='pays_id'>
                         <option value="">-- {{ __('Choisir un pays') }} --</option>
                         @foreach ($pays as $item)
                             <option value="{{ $item->id }}">{{ $item->nom }}</option>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-sm-6">
                     <label class="required">Ville</label>
-                    <select class="form-control" required wire:model.defer='ville_id'>
+                    <select class="form-control" required wire:model.live='ville_id'>
                         <option value="">-- {{ __('Choisir une ville') }} --</option>
                         @foreach ($villes as $item)
                             <option value="{{ $item->id }}">{{ $item->nom }}</option>
