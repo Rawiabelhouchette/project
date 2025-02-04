@@ -4,6 +4,8 @@ use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
+use App\Http\Controllers\MarqueController;
+use App\Http\Controllers\ModeleController;
 use App\Http\Controllers\Public\AnnonceController as PublicAnnonceController;
 use App\Http\Controllers\AubergeController;
 use App\Http\Controllers\Public\Annonce\AubergeController as PublicAubergeController;
@@ -108,6 +110,12 @@ Route::group([
 
             Route::resource('quartiers', QuartierController::class)->only(['index']);
             Route::get('quartiers/list/datatable', [QuartierController::class, 'getDataTable'])->name('quartiers.datatable');
+
+            Route::resource('marques', MarqueController::class)->only(['index']);
+            Route::get('marques/list/datatable', [MarqueController::class, 'getDataTable'])->name('marques.datatable');
+
+            Route::resource('modeles', ModeleController::class)->only(['index']);
+            Route::get('modeles/list/datatable', [ModeleController::class, 'getDataTable'])->name('modeles.datatable');
 
             // Route::get('localisations', [QuartierController::class, 'localisation'])->name('localisations');
 

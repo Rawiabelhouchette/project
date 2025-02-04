@@ -27,6 +27,16 @@
                                 Valeur
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('marques.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                                Marque
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('modeles.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                                Modèle
+                            </a>
+                        </li>
                         {{-- <li>
                             <a href="{{ route('references.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Rechercher
