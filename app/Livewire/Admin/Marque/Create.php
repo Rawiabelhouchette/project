@@ -63,14 +63,12 @@ class Create extends Component
             ];
         }
         return [
-            'nom' => 'required|string|min:3|max:255|unique:marques',
+            'nom' => 'required',
         ];
     }
 
     protected $messages = [
         'nom.required' => 'Le nom de la marque est obligatoire.',
-        'nom.unique' => 'Le nom de la marque existe déjà.',
-        'nom.min' => 'Le nom de la marque doit contenir au moins :min caractères.',
     ];
 
     public function store()
@@ -80,14 +78,64 @@ class Create extends Component
             return;
         }
 
-        $validated = $this->validate();
+        $this->validate();
 
-        Marque::create($validated);
+        $existingValues = '';
+        $hasOneNewValue = false;
+        $hasOneValideValue = false;
+
+        try {
+            // les valeurs sont stockées séparément par des virgules
+            $valeurs = array_filter(array_map('trim', explode(',', $this->nom)));
+
+            foreach ($valeurs as $valeur) {
+                $hasOneValideValue = true;
+                $marque = Marque::where('nom', $valeur)->first();
+                if ($marque) {
+                    $existingValues .= $valeur . ', ';
+                    continue;
+                }
+                $hasOneNewValue = true;
+                Marque::create([
+                    'nom' => $valeur,
+                ]);
+            }
+        } catch (\Throwable $th) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue lors de l\'enregistrement de la marque'),
+            ]);
+            return;
+        }
+
+        if (!$hasOneValideValue) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Veuillez saisir une valeur valide.'),
+            ]);
+            return;
+        }
+
+        if (!$hasOneNewValue) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ')),
+            ]);
+            return;
+        }
+
+        $message = 'Marque(s) ajoutée(s) avec succès';
+        if ($existingValues) {
+            $message .= ' <br>Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ');
+        }
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
-            'message' => __('Marque ajoutée avec succès'),
+            'message' => __($message),
         ]);
 
         $this->dispatch('relaod:dataTable');

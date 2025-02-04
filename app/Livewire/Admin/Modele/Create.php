@@ -4,97 +4,83 @@ namespace App\Livewire\Admin\Modele;
 
 use DB;
 use Livewire\Component;
-use App\Models\Pays;
+use App\Models\Modele;
+use App\Models\Marque;
 use Illuminate\Support\Str;
 
 class Create extends Component
 {
     public $nom;
-    public $code;
-    public $indicatif;
-    public $langue;
+    public $marque_id;
     public $isEdit = false;
-    public $pays;
+    public $modele;
     public $formIcon = 'save';
+    public $marques;
 
-    public $libelle = 'Enregistrer un pays';
+    public $libelle = 'Enregistrer un modèle';
     public $buttonLibelle = 'Enregistrer';
 
-    public function mount($paysId = null)
+    public function mount($modeleId = null)
     {
-        if ($paysId) {
-            $this->loadPays($paysId);
+        $this->marques = Marque::all();
+
+        if ($modeleId) {
+            $this->loadModele($modeleId);
         } else {
             $this->isEdit = false;
         }
     }
 
     protected $listeners = [
-        'editPays' => 'edit',
-        'deletePays' => 'delete',
+        'editModele' => 'edit',
+        'deleteModele' => 'delete',
     ];
 
-    public function edit($paysId)
+    public function edit($modeleId)
     {
-        $this->loadPays($paysId);
+        $this->loadModele($modeleId);
         $this->isEdit = true;
-        $this->libelle = 'Modifier un pays';
+        $this->libelle = 'Modifier un modèle';
         $this->buttonLibelle = 'Modifier';
         $this->formIcon = 'edit';
     }
 
-    public function loadPays($paysId)
+    public function loadModele($modeleId)
     {
         $this->isEdit = true;
-        $this->pays = Pays::findOrFail($paysId);
-        $this->nom = $this->pays->nom;
-        $this->code = $this->pays->code;
-        $this->indicatif = $this->pays->indicatif;
-        $this->langue = $this->pays->langue;
+        $this->modele = Modele::findOrFail($modeleId);
+        $this->nom = $this->modele->nom;
+        $this->marque_id = $this->modele->marque_id;
     }
 
     public function exitEdit()
     {
         $this->isEdit = false;
-        $this->libelle = 'Enregistrer un pays';
+        $this->libelle = 'Enregistrer un modèle';
         $this->buttonLibelle = 'Enregistrer';
         $this->reset();
+        $this->marques = Marque::all();
     }
 
     protected function rules()
     {
         if ($this->isEdit) {
             return [
-                'nom' => 'required|string|min:3|unique:pays,nom,' . $this->pays->id,
-                'code' => 'required|string|unique:pays,code,' . $this->pays->id,
-                'indicatif' => 'required|string|min:3|unique:pays,indicatif,' . $this->pays->id,
-                'langue' => 'required|string|min:3',
+                'nom' => 'required|string|min:3|unique:modeles,nom,' . $this->modele->id,
+                'marque_id' => 'required|exists:marques,id',
             ];
         }
         return [
-            'nom' => 'required|string|min:3|max:255|unique:pays',
-            'code' => 'required|string|min:2|max:255|unique:pays',
-            'indicatif' => 'required|string|min:3|max:255|unique:pays',
-            'langue' => 'required|string|max:255',
+            'nom' => 'required',
+            'marque_id' => 'required|exists:marques,id',
         ];
     }
 
     protected $messages = [
-        'nom.required' => 'Le nom du pays est obligatoire.',
-        'nom.unique' => 'Le nom du pays existe déjà.',
-        'nom.min' => 'Le nom du pays doit contenir au moins :min caractères.',
+        'nom.required' => 'Le nom du modèle est obligatoire.',
 
-        'code.required' => 'Le code du pays est obligatoire.',
-        'code.unique' => 'Le code du pays existe déjà.',
-        'code.min' => 'Le code du pays doit contenir au moins :min caractères.',
-
-        'indicatif.required' => 'L\'indicatif du pays est obligatoire.',
-        'indicatif.unique' => 'L\'indicatif du pays existe déjà.',
-        'indicatif.min' => 'L\'indicatif du pays doit contenir au moins :min caractères.',
-
-        'langue.required' => 'La langue du pays est obligatoire.',
-        'langue.min' => 'La langue du pays doit contenir au moins :min caractères.',
-
+        'marque_id.required' => 'La marque est obligatoire.',
+        'marque_id.exists' => 'La marque sélectionnée n\'existe pas.',
     ];
 
     public function store()
@@ -104,31 +90,98 @@ class Create extends Component
             return;
         }
 
-        $validated = $this->validate();
+        $this->validate();
 
-        Pays::create($validated);
+        $existingValues = '';
+        $hasOneNewValue = false;
+        $hasOneValideValue = false;
+
+        try {
+            // les valeurs sont stockées séparément par des virgules
+            $valeurs = array_filter(array_map('trim', explode(',', $this->nom)));
+
+            foreach ($valeurs as $valeur) {
+                $hasOneValideValue = true;
+                $modele = Modele::where('nom', $valeur)->where('marque_id', $this->marque_id)->first();
+                if ($modele) {
+                    $existingValues .= $valeur . ', ';
+                    continue;
+                }
+                $hasOneNewValue = true;
+                Modele::create([
+                    'nom' => $valeur,
+                    'marque_id' => $this->marque_id,
+                ]);
+            }
+        } catch (\Throwable $th) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue lors de l\'enregistrement du modèle'),
+            ]);
+            return;
+        }
+
+        if (!$hasOneValideValue) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Veuillez saisir une valeur valide.'),
+            ]);
+            return;
+        }
+
+        if (!$hasOneNewValue) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Les valeurs suivantes existent déjà pour la marque sélectionnée : ' . rtrim($existingValues, ', ')),
+            ]);
+            return;
+        }
+
+        $message = 'Modèle(s) ajouté(s) avec succès';
+        if ($existingValues) {
+            $message .= ' <br>Les valeurs suivantes existent déjà pour la marque sélectionnée : ' . rtrim($existingValues, ', ');
+        }
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
-            'message' => __('Pays ajouté avec succès'),
+            'message' => __($message),
         ]);
 
         $this->dispatch('relaod:dataTable');
 
         $this->reset();
+
+        $this->marques = Marque::all();
     }
 
     public function update()
     {
         $validated = $this->validate();
 
-        $this->pays->update($validated);
+        $existingModele = Modele::where('nom', $this->nom)
+            ->where('marque_id', $this->marque_id)
+            ->where('id', '!=', $this->modele->id)
+            ->first();
+
+        if ($existingModele) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Un modèle avec ce nom existe déjà pour la marque sélectionnée.'),
+            ]);
+            return;
+        }
+
+        $this->modele->update($validated);
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
-            'message' => __('Pays modifié avec succès'),
+            'message' => __('Modèle modifié avec succès'),
         ]);
 
         $this->dispatch('relaod:dataTable');
@@ -136,21 +189,13 @@ class Create extends Component
         $this->exitEdit();
     }
 
-
-    public function delete($paysId)
+    public function delete($modeleId)
     {
         DB::beginTransaction();
 
         try {
-            $pays = Pays::findOrFail($paysId);
-            $pays->villes->each(function ($ville) {
-                $ville->quartiers->each(function ($quartier) {
-                    $quartier->delete();
-                });
-                $ville->delete();
-            });
-
-            $pays->delete();
+            $modele = Modele::findOrFail($modeleId);
+            $modele->delete();
 
             DB::commit();
         } catch (\Exception $e) {
@@ -159,14 +204,14 @@ class Create extends Component
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Erreur'),
-                'message' => __('Une erreur s\'est produite lors de la suppression du pays'),
+                'message' => __('Une erreur s\'est produite lors de la suppression du modèle'),
             ]);
         }
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
-            'message' => __('Pays supprimé avec succès'),
+            'message' => __('Modèle supprimé avec succès'),
         ]);
 
         $this->dispatch('relaod:dataTable');

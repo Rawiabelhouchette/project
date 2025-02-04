@@ -37,10 +37,7 @@ class MarqueController extends Controller
                     foreach ($searchableColumns as $column) {
                         $query->orWhere($column, 'like', '%' . $search . '%');
                     }
-                })
-                    ->orWhereHas('pays', function ($query) use ($search) {
-                        $query->where('nom', 'like', '%' . $search . '%');
-                    });
+                });
             }
         }
 

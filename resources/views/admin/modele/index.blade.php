@@ -7,7 +7,7 @@
         <div class="col-lg-6 col-md-10 col-sm-6 col-xs-12">
             <ol class="breadcrumb" style="text-align: left;">
                 <li><a href="#">Référence</a></li>
-                <li class="active">Gestion des marques-modèles</li>
+                <li class="active">Gestion des modèles</li>
             </ol>
         </div>
         <!-- /.col-lg-12 -->
@@ -15,11 +15,7 @@
     <!-- /. ROW  -->
     <div id="page-inner">
         <div class="row bott-wid">
-            <div class="col-md-6 col-sm-6">
-                @livewire('admin.marque.create')
-            </div>
-
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-12 col-sm-12">
                 @livewire('admin.modele.create')
             </div>
         </div>
@@ -28,7 +24,7 @@
             <div class="card card-list">
 
                 <div class="card-header" style="text-align: left !important;">
-                    <h4>Liste des pays</h4>
+                    <h4>Liste des modèles</h4>
                 </div>
 
                 <div class="card-body">
@@ -47,26 +43,19 @@
     <script>
         $(document).ready(function() {
             const columns = [{
+                    orderable: false,
                     title: 'N°',
                     render: function(data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
                 {
-                    title: 'Indicatif',
-                    data: 'indicatif',
+                    title: 'Marque',
+                    data: 'marque.nom',
                 },
                 {
-                    title: 'Code',
-                    data: 'code',
-                },
-                {
-                    title: 'Nom',
+                    title: 'Modèle',
                     data: 'nom',
-                },
-                {
-                    title: 'Langue',
-                    data: 'langue'
                 },
                 {
                     title: 'Date de création',
@@ -99,7 +88,7 @@
 
             const params = {
                 columns: columns,
-                url: "{{ route('pays.datatable') }}",
+                url: "{{ route('modeles.datatable') }}",
             };
 
             const datatable = initDataTable(params);
@@ -113,18 +102,18 @@
                 $('html, body').animate({
                     scrollTop: 0
                 }, 'slow');
-                Livewire.dispatch('editPays', [$(this).data('id')]);
+                Livewire.dispatch('editModele', [$(this).data('id')]);
             });
 
             $(document).on('click', '.delete', function(e) {
                 const id = $(this).data('id');
 
                 const params = {
-                    'message': 'La suppression de ce pays entrainera la suppression de toutes les villes et quartiers associés. Voulez-vous continuer ?',
+                    'message': 'Vous êtes sur le point de supprimer un modèle.',
                     onConfirm: function() {
-                        if (confirm('Voulez-vous vraiment continuer ?')) {
-                            Livewire.dispatch('deletePays', [id]);
-                        }
+                        // if (confirm('Voulez-vous vraiment continuer ?')) {
+                        Livewire.dispatch('deleteModele', [id]);
+                        // }
                     }
                 }
 

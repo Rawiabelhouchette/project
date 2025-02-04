@@ -9,36 +9,22 @@
         <form wire:submit.prevent="store">
             <div class="row mrg-r-10 mrg-l-10">
                 <div class="col-sm-6">
-                    <label class="required">Indicatif </label>
-                    <input class="form-control" type="text" placeholder="{{ __('Indicatif du pays (ex: +228)') }}" required wire:model.defer='indicatif'>
-                    @error('indicatif')
+                    <label class="required">Marque </label>
+                    <select class="form-control" required wire:model.defer='marque_id'>
+                        <option value="" selected>Choisir une marque</option>
+                        @foreach ($marques as $marque)
+                            <option value="{{ $marque->id }}">{{ $marque->nom }}</option>
+                        @endforeach
+                    </select>
+                    @error('marque_id')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="col-sm-6">
-                    <label class="required">Nom </label>
-                    <input class="form-control" type="text" placeholder="{{ __('Nom du pays') }}" required wire:model.defer='nom'>
+                    <label class="required">Modèle </label>
+                    <input class="form-control" type="text" placeholder="{{ __('Nom du modèle') }}" required wire:model.defer='nom'>
                     @error('nom')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="row mrg-r-10 mrg-l-10">
-                <div class="col-sm-6">
-                    <label class="required">Code </label>
-                    <input class="form-control" type="text" placeholder="{{ __('Coed du pays (ex: TG)') }}" required wire:model.defer='code'>
-                    @error('code')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-
-                </div>
-
-                <div class="col-sm-6">
-                    <label class="required">Langue </label>
-                    <input class="form-control" type="text" placeholder="{{ __('Langue du pays') }}" required wire:model.defer='langue'>
-                    @error('langue')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>

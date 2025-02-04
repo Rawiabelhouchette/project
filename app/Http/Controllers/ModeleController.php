@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Utils\Utils;
 use Illuminate\Http\Request;
+use App\Models\Modele;
 
 class ModeleController extends Controller
 {
@@ -17,11 +19,12 @@ class ModeleController extends Controller
     public function getDataTable()
     {
         $perPage = request()->input('length') ?? 30;
-        $ville = Ville::with('creator', 'pays');
+        $modele = Modele::with('creator', 'marque'); // Change 'Ville' to 'Modele'
 
         $searchableColumns = [
-            'id',
+            // 'id',
             'nom',
+            'created_at',
         ];
 
         if (request()->input('search')) {
@@ -29,22 +32,22 @@ class ModeleController extends Controller
             $searchDate = Utils::getStartAndEndOfDay($search);
 
             if ($searchDate[0] && $searchDate[1]) {
-                $ville = $ville->whereBetween('created_at', $searchDate);
+                $modele->whereBetween('created_at', $searchDate); // Change 'ville' to 'modele'
             } else {
-                $ville = $ville->where(function ($query) use ($search, $searchableColumns) {
-                    foreach ($searchableColumns as $column) {
-                        $query->orWhere($column, 'like', '%' . $search . '%');
-                    }
-                })
-                    ->orWhereHas('pays', function ($query) use ($search) {
+                $modele
+                    ->where(function ($query) use ($search, $searchableColumns) {
+                        foreach ($searchableColumns as $column) {
+                            $query->orWhere($column, 'like', '%' . $search . '%');
+                        }
+                    })
+                    ->orWhereHas('marque', function ($query) use ($search) {
                         $query->where('nom', 'like', '%' . $search . '%');
                     });
             }
         }
 
         $sortableColumns = [
-            'id',
-            'indicatif',
+            // 'id',
             'nom',
             'created_at',
         ];
@@ -59,21 +62,21 @@ class ModeleController extends Controller
 
                 if (in_array($sortBy, $sortableColumns)) {
                     // Appliquez le tri à la requête
-                    $ville = $ville->orderBy($sortBy, $sortOrder);
+                    $modele = $modele->orderBy($sortBy, $sortOrder); // Change 'ville' to 'modele'
                 }
             }
         } else {
             // Tri par défaut
-            $ville = $ville->orderBy('id', 'asc');
+            $modele = $modele->orderBy('id', 'asc'); // Change 'ville' to 'modele'
         }
 
-        $ville = $ville->paginate($perPage);
+        $modele = $modele->paginate($perPage); // Change 'ville' to 'modele'
 
         return response()->json(
             [
-                'recordsTotal' => $ville->total(),
-                'recordsFiltered' => $ville->total(),
-                'data' => $ville->items(),
+                'recordsTotal' => $modele->total(), // Change 'ville' to 'modele'
+                'recordsFiltered' => $modele->total(), // Change 'ville' to 'modele'
+                'data' => $modele->items(), // Change 'ville' to 'modele'
             ],
             200
         );
