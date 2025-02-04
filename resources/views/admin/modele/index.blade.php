@@ -114,7 +114,7 @@
                         // if (confirm('Voulez-vous vraiment continuer ?')) {
                         Livewire.dispatch('deleteModele', [id]);
                         // }
-                    }
+                    },
                 }
 
                 showConfirmationNotification(params);

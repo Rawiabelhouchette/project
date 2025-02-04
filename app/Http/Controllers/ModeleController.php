@@ -19,10 +19,9 @@ class ModeleController extends Controller
     public function getDataTable()
     {
         $perPage = request()->input('length') ?? 30;
-        $modele = Modele::with('creator', 'marque'); // Change 'Ville' to 'Modele'
+        $modele = Modele::with('creator', 'marque'); 
 
         $searchableColumns = [
-            // 'id',
             'nom',
             'created_at',
         ];
@@ -32,7 +31,7 @@ class ModeleController extends Controller
             $searchDate = Utils::getStartAndEndOfDay($search);
 
             if ($searchDate[0] && $searchDate[1]) {
-                $modele->whereBetween('created_at', $searchDate); // Change 'ville' to 'modele'
+                $modele->whereBetween('created_at', $searchDate); 
             } else {
                 $modele
                     ->where(function ($query) use ($search, $searchableColumns) {
@@ -47,36 +46,34 @@ class ModeleController extends Controller
         }
 
         $sortableColumns = [
-            // 'id',
+            'id',
+            'marque_id',
             'nom',
             'created_at',
         ];
 
-        // Tri
         if (request()->input('order')) {
             $orders = request()->input('order');
             foreach ($orders as $order) {
-                $columnIndex = $order['column']; // Index de la colonne à trier
-                $sortBy = $sortableColumns[$columnIndex]; // Nom de la colonne à trier
-                $sortOrder = $order['dir']; // Ordre de tri (asc ou desc)
+                $columnIndex = $order['column']; 
+                $sortBy = $sortableColumns[$columnIndex]; 
+                $sortOrder = $order['dir']; 
 
                 if (in_array($sortBy, $sortableColumns)) {
-                    // Appliquez le tri à la requête
-                    $modele = $modele->orderBy($sortBy, $sortOrder); // Change 'ville' to 'modele'
+                    $modele = $modele->orderBy($sortBy, $sortOrder); 
                 }
             }
         } else {
-            // Tri par défaut
-            $modele = $modele->orderBy('id', 'asc'); // Change 'ville' to 'modele'
+            $modele = $modele->orderBy('id', 'asc'); 
         }
 
-        $modele = $modele->paginate($perPage); // Change 'ville' to 'modele'
+        $modele = $modele->paginate($perPage);
 
         return response()->json(
             [
-                'recordsTotal' => $modele->total(), // Change 'ville' to 'modele'
-                'recordsFiltered' => $modele->total(), // Change 'ville' to 'modele'
-                'data' => $modele->items(), // Change 'ville' to 'modele'
+                'recordsTotal' => $modele->total(), 
+                'recordsFiltered' => $modele->total(), 
+                'data' => $modele->items(), 
             ],
             200
         );
