@@ -5,16 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Wildside\Userstamps\Userstamps;
 
 class Marque extends Model
 {
-    use HasFactory;
+    use HasFactory, Userstamps;
 
     protected $fillable = [
         'nom',
         'slug',
         'description',
         'is_active',
+        'created_by',
+        'updated_by',
     ];
 
     protected static function boot()
@@ -33,5 +36,10 @@ class Marque extends Model
     public function modeles()
     {
         return $this->hasMany(Modele::class);
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

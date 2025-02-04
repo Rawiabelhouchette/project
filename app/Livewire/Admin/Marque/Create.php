@@ -9,11 +9,12 @@ use Illuminate\Support\Str;
 
 class Create extends Component
 {
+    public $marque;
     public $nom;
     public $isEdit = false;
     public $formIcon = 'save';
 
-    public $libelle = 'Enregistrer un marque';
+    public $libelle = 'Enregistrer une marque';
     public $buttonLibelle = 'Enregistrer';
 
     public function mount($marqueId = null)
@@ -34,7 +35,7 @@ class Create extends Component
     {
         $this->loadMarque($marqueId);
         $this->isEdit = true;
-        $this->libelle = 'Modifier un marque';
+        $this->libelle = 'Modifier une marque';
         $this->buttonLibelle = 'Modifier';
         $this->formIcon = 'edit';
     }
@@ -49,7 +50,7 @@ class Create extends Component
     public function exitEdit()
     {
         $this->isEdit = false;
-        $this->libelle = 'Enregistrer un marque';
+        $this->libelle = 'Enregistrer une marque';
         $this->buttonLibelle = 'Enregistrer';
         $this->reset();
     }
@@ -58,11 +59,11 @@ class Create extends Component
     {
         if ($this->isEdit) {
             return [
-                'nom' => 'required|string|min:3|unique:marque,nom,' . $this->marque->id,
+                'nom' => 'required|string|min:3|unique:marques,nom,' . $this->marque->id,
             ];
         }
         return [
-            'nom' => 'required|string|min:3|max:255|unique:marque',
+            'nom' => 'required|string|min:3|max:255|unique:marques',
         ];
     }
 
@@ -86,7 +87,7 @@ class Create extends Component
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
-            'message' => __('Marque ajouté avec succès'),
+            'message' => __('Marque ajoutée avec succès'),
         ]);
 
         $this->dispatch('relaod:dataTable');
@@ -103,7 +104,7 @@ class Create extends Component
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
-            'message' => __('Marque modifié avec succès'),
+            'message' => __('Marque modifiée avec succès'),
         ]);
 
         $this->dispatch('relaod:dataTable');
@@ -134,7 +135,7 @@ class Create extends Component
         $this->dispatch('swal:modal', [
             'icon' => 'success',
             'title' => __('Opération réussie'),
-            'message' => __('Marque supprimé avec succès'),
+            'message' => __('Marque supprimée avec succès'),
         ]);
 
         $this->dispatch('relaod:dataTable');
