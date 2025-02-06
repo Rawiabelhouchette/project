@@ -170,6 +170,6 @@
 
 </div>
 <div class="footer-copyright">
-    <p>Copyright &copy; {{ date('Y') }} propulsé par Numrod <a href="http://www.numrod.com/" title="Numrod" target="_blank">Numrod</a></p>
+    <p>Copyright &copy; {{ date('Y') }} propulsé par Numrod</p>
 </div>
 </footer>
