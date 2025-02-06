@@ -6,6 +6,8 @@ use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\LocationVehicule;
 use App\Models\Entreprise;
+use App\Models\Marque;
+use App\Models\Modele;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
@@ -25,8 +27,8 @@ class Create extends Component
     public $nom;
     public $type;
     public $description;
-    public $marque;
-    public $modele;
+    public $marque_id;
+    public $modele_id;
     public $annee;
     public $carburant;
     public $kilometrage;
@@ -45,6 +47,7 @@ class Create extends Component
 
     public $list_boites_vitesse = [];
     public $list_marques = [];
+    public $list_modeles = [];
     public $list_types_carburant = [];
 
     public $conditions_location = [];
@@ -98,10 +101,11 @@ class Create extends Component
             $this->list_conditions_location = ReferenceValeur::where('reference_id', $tmp_condition_location->id)->select('valeur', 'id')->get() :
             $this->list_conditions_location = [];
 
-        $tmp_marque = Reference::where('slug_type', 'marque')->where('slug_nom', 'marques-de-vehicule')->first();
-        $tmp_marque ?
-            $this->list_marques = ReferenceValeur::where('reference_id', $tmp_marque->id)->select('valeur', 'id')->get() :
-            $this->list_marques = [];
+        // $tmp_marque = Reference::where('slug_type', 'marque')->where('slug_nom', 'marques-de-vehicule')->first();
+        // $tmp_marque ?
+        //     $this->list_marques = ReferenceValeur::where('reference_id', $tmp_marque->id)->select('valeur', 'id')->get() :
+        //     $this->list_marques = [];
+        $this->list_marques = Marque::all();
 
         $tmp_type_carburant = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-moteur')->first();
         $tmp_type_carburant ?
@@ -117,8 +121,7 @@ class Create extends Component
             'entreprise_id' => 'required|exists:entreprises,id',
             'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
             'description' => 'required|string|min:3',
-            'marque' => 'required|string|min:3',
-            'modele' => 'nullable|string|min:3',
+            'modele_id' => 'required|exists:modeles,id',
             'annee' => 'nullable|integer|min:1800|max:9999',
             'carburant' => 'nullable|string|exists:reference_valeurs,valeur',
             'kilometrage' => 'nullable|integer|min:0|max:999999',
@@ -158,14 +161,8 @@ class Create extends Component
             'description.min' => __('La description doit contenir au moins :min caractères'),
             'description.max' => __('La description doit contenir au maximum :max caractères'),
 
-            'marque.required' => __('Veuillez renseigner la marque'),
-            'marque.string' => __('Marque invalide'),
-            'marque.min' => __('La marque doit contenir au moins :min caractères'),
-            'marque.max' => __('La marque doit contenir au maximum :max caractères'),
-
-            'modele.string' => __('Modèle invalide'),
-            'modele.min' => __('Le modèle doit contenir au moins :min caractères'),
-            'modele.max' => __('Le modèle doit contenir au maximum :max caractères'),
+            'modele_id.required' => __('Veuillez choisir un modèle'),
+            'modele_id.exists' => __('Veuillez choisir un modèle valide'),
 
             'annee.integer' => __('Année invalide'),
             'annee.min' => __('L\'année doit être supérieure ou égale à :min'),
@@ -214,6 +211,12 @@ class Create extends Component
         $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
     }
 
+    public function updatedMarqueId($marque_id)
+    {
+        $this->modele_id = null;
+        $this->list_modeles = Modele::where('marque_id', $marque_id)->get();
+    }
+
     public function store()
     {
         $this->validate();
@@ -224,8 +227,6 @@ class Create extends Component
             // $date_validite = $this->date_validite . ' ' . $this->heure_validite;
 
             $locationVehicule = LocationVehicule::create([
-                'marque' => $this->marque,
-                'modele' => $this->modele,
                 'annee' => $this->annee,
                 'carburant' => $this->carburant,
                 'kilometrage' => $this->kilometrage,
@@ -234,6 +235,7 @@ class Create extends Component
                 'nombre_places' => $this->nombre_places,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
+                'modele_id' => $this->modele_id,
             ]);
 
             $annonce = new Annonce([
