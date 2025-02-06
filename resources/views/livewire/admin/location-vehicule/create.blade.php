@@ -5,9 +5,6 @@
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
                     <div class="row">
-                        {{-- 
-                             // TODO : Add id form label and link it to input
-                            --}}
                         <div class="col-md-1"></div>
                         <div class="col-md-10">
                             <label class="">Entreprise
@@ -50,10 +47,10 @@
                             <label class="" for="marque">Marque
                                 <b style="color: red; font-size: 100%;">*</b>
                             </label> <br>
-                            <select class="select2" id="marque" data-nom="marque" wire:model.defer='marque' required>
+                            <select class="form-control" id="marque" data-nom="marque_id" wire:model.lazy='marque_id' required>
                                 <option value="">-- Sélectionner --</option>
                                 @foreach ($list_marques as $marque)
-                                    <option value="{{ $marque->valeur }}">{{ $marque->valeur }}</option>
+                                    <option value="{{ $marque->id }}">{{ $marque->nom }}</option>
                                 @endforeach
                             </select>
                             @error('marque')
@@ -69,10 +66,15 @@
                         <div class="col-md-1"></div>
                         <div class="col-md-10">
                             <label class="">Modèle
-                                {{-- <b style="color: red; font-size: 100%;">*</b> --}}
+                                <b style="color: red; font-size: 100%;">*</b>
                             </label> <br>
-                            <input class="form-control" type="text" placeholder="" wire:model.defer='modele'>
-                            @error('modele')
+                            <select class="form-control" data-nom="modele_id" wire:model.lazy='modele_id' required>
+                                <option value="">-- Sélectionner --</option>
+                                @foreach ($list_modeles as $modele)
+                                    <option value="{{ $modele->id }}">{{ $modele->nom }}</option>
+                                @endforeach
+                            </select>
+                            @error('modele_id')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -139,7 +141,15 @@
                             <label class="">Nombre de portes
                                 <b style="color: red; font-size: 100%;">*</b>
                             </label> <br>
-                            <input class="form-control" type="number" value="2" placeholder="" wire:model.defer='nombre_portes' required>
+                            {{-- select 2, 4, 6, 8 --}}
+                            {{-- <input class="form-control" type="number" value="2" placeholder="" wire:model.defer='nombre_portes' required> --}}
+                            <select class="form-control" data-nom="nombre_portes" wire:model.lazy='nombre_portes' required>
+                                <option value="">-- Sélectionner --</option>
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="6">6</option>
+                                <option value="8">8</option>
+                            </select>
                             @error('nombre_portes')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

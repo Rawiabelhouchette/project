@@ -16,19 +16,20 @@ class LocationVehicule extends Model implements AnnonceInterface
     use HasFactory, SoftDeletes, Userstamps;
 
     protected $fillable = [
-        'marque',
-        'modele',
+        // 'marque',
+        // 'modele',
         'annee',
         'carburant',
         'kilometrage',
         'boite_vitesse',
         'nombre_portes',
         'nombre_places',
+        'modele_id',
     ];
 
     protected $casts = [
-        'marque' => PurifyHtmlOnGet::class,
-        'modele' => PurifyHtmlOnGet::class,
+        // 'marque' => PurifyHtmlOnGet::class,
+        // 'modele' => PurifyHtmlOnGet::class,
         'annee' => PurifyHtmlOnGet::class,
         'carburant' => PurifyHtmlOnGet::class,
         'kilometrage' => PurifyHtmlOnGet::class,
@@ -48,6 +49,17 @@ class LocationVehicule extends Model implements AnnonceInterface
         'caracteristiques',
     ];
 
+    public function annonce(): MorphOne
+    {
+        return $this->morphOne(Annonce::class, 'annonceable');
+    }
+
+    public function modele()
+    {
+        return $this->belongsTo(Modele::class);
+    }
+
+
     public function getShowUrlAttribute(): string
     {
         return route('location-vehicules.show', $this);
@@ -57,12 +69,6 @@ class LocationVehicule extends Model implements AnnonceInterface
     // {
     //     return route('location-vehicules.edit', $this);
     // }
-
-    public function annonce(): MorphOne
-    {
-        return $this->morphOne(Annonce::class, 'annonceable');
-    }
-
     public function getTypesVehiculeAttribute(): string
     {
         return $this->annonce->references('types-de-voiture');
@@ -94,12 +100,9 @@ class LocationVehicule extends Model implements AnnonceInterface
     {
         $attributes = [];
 
-        if ($this->marque) {
-            $attributes['Marque'] = $this->marque;
-        }
-
-        if ($this->modele) {
-            $attributes['Modèle'] = $this->modele;
+        if ($this->modele_id) {
+            $attributes['Marque'] = $this->modele->marque->nom;
+            $attributes['Modèle'] = $this->modele->nom;
         }
 
         if ($this->annee) {
