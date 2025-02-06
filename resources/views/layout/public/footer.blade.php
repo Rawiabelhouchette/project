@@ -88,8 +88,9 @@
 
             <div class="col-md-3 col-sm-6">
                 <div class="footer-widget">
-                    <h3 class="widgettitle widget-title">IID</h3>
-                    <p>L'Institut de l'Information et de la Documentation (IID) est une école qui forme les étudiants aux nouvelles techniques de gestion de l'information et de la documentation.</p>
+                    <h3 class="widgettitle widget-title">Vamiyi</h3>
+                    <p>
+                        Nous sommes une plateforme qui permet aux professionnels de différents secteurs (restaurants, hôtels, locations de véhicules, divertissement, etc.) de publier des annonces, de créer leur site vitrine et de gagner en visibilité. Avec Vamiyi, connectez-vous à votre clientèle et développez votre activité en toute simplicité ! </p>
                     {{-- <a href="#" class="other-store-link">
                         <div class="other-store-app">
                             <div class="os-app-icon">
@@ -145,12 +146,12 @@
                         </div>
                     </div>
                     <!--<ul class="footer-social">
-                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-            </ul>-->
+<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+<li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+</ul>-->
                 </div>
             </div>
         </div>
