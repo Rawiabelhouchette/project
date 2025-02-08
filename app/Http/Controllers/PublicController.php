@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Annonce;
 use App\Models\Entreprise;
 use App\Models\Quartier;
+use App\Models\User;
 use App\Utils\AnnoncesUtils;
 use App\Utils\CustomSession;
 use Auth;
@@ -17,7 +18,11 @@ class PublicController extends Controller
         $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
         $annonces = Annonce::public()->with('annonceable', 'entreprise')->inRandomOrder()->take(6)->get();
 
-        // dd($annonces);
+        $nbAnnonces = Annonce::public()->count();
+        $nbEntreprises = Entreprise::count();
+        $nbUtilisateurs = User::count();
+        $nbTypesAnnonces = count($typeAnnonce);
+
         $statsAnnonce = [];
         $quartiers = Quartier::getAllQuartiers();
         foreach ($typeAnnonce as $type) {
@@ -41,12 +46,16 @@ class PublicController extends Controller
                 'typeAnnonce',
                 'annonces',
                 'statsAnnonce',
-                'quartiers'
+                'quartiers',
+                'nbAnnonces',
+                'nbEntreprises',
+                'nbUtilisateurs',
+                'nbTypesAnnonces'
             )
         );
     }
 
-    
+
 
     public function showEntreprise($slug)
     {
