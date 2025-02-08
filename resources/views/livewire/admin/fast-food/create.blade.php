@@ -53,7 +53,7 @@
               
            <div class="row align-items-start">
                <div class="col plats">
-                <h3>Plats
+                <h3>Produits
                     <b style="color: red; font-size: 100%;">*</b>
                 </h3>
                 <h4>Carte des plats</h4>
