@@ -67,14 +67,29 @@ class FastFood extends Model implements AnnonceInterface
 
     public function getShowInformationHeader(): View
     {
-        return view('components.public.show.restaurant-information-header');
+        return view('components.public.show.fast-food-information-header');
     }
 
     public function getShowInformationBody(): View
     {
-        return view('components.public.show.restaurant-information-body', [
+        return view('components.public.show.fast-food-information-body', [
             'annonce' => $this->annonce,
         ]);
+    }
+
+    public function getStringArray($string, $separator = null)
+    {
+        if ($separator === null) {
+            $separator = Utils::getRestaurantValueSeparator();
+        }
+
+        if (empty($string)) {
+            return [];
+        }
+        $tmp = explode($separator, $string);
+        return array_filter($tmp, function ($value) {
+            return $value !== null && $value !== '';
+        });
     }
 
     public function getCaracteristiquesAttribute(): array
@@ -100,7 +115,7 @@ class FastFood extends Model implements AnnonceInterface
 
     public function getProduitsAttribute()
     {
-        $plats = [];
+        $produits = [];
 
         $tmp_nom = $this->getStringArray($this->nom_produit);
         $tmp_accompagnement = $this->getStringArray($this->accompagnement_produit);
@@ -111,7 +126,7 @@ class FastFood extends Model implements AnnonceInterface
 
         for ($i = 0; $i < $maxCount; $i++) {
             $image = isset($tmp_image[$i]) ? Fichier::find($tmp_image[$i]) : null;
-            $plats[] = [
+            $produits[] = [
                 'nom' => $tmp_nom[$i] ?? null,
                 'accompagnements' => $tmp_accompagnement[$i] ?? null,
                 'prix' => isset($tmp_prix[$i]) ? (int) $tmp_prix[$i] : null,
@@ -119,6 +134,6 @@ class FastFood extends Model implements AnnonceInterface
             ];
         }
 
-        return $plats;
+        return $produits;
     }
 }
