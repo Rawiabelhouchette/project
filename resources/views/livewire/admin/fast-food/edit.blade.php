@@ -162,7 +162,7 @@
             <div class="row padd-bot-15">
                 <div class="form-group">
                     <div class="col text-right">
-                        <button onclick="window.location.reload()" class="btn btn-danger" type="button" style="margin-right: 30px;" wire:loading.attr="disabled">
+                        <button class="btn btn-danger" type="button" style="margin-right: 30px;" onclick="window.location.reload()" wire:loading.attr="disabled">
                             <i class="fa fa-times fa-lg" style="margin-right: 10px;"></i>
                             Annuler
                         </button>
