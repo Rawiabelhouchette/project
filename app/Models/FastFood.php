@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Utils\AnnonceInterface;
+use App\Utils\Utils;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,10 +19,6 @@ class FastFood extends Model implements AnnonceInterface
     protected $table = 'fast_foods';
 
     protected $fillable = [
-        // 'ingredient',
-        // 'prix_min',
-        // 'prix_max',
-
         'nom_produit',
         'accompagnement_produit',
         'prix_produit',
@@ -29,8 +26,6 @@ class FastFood extends Model implements AnnonceInterface
     ];
 
     protected $casts = [
-        // 'prix_min' => 'integer',
-        // 'prix_max' => 'integer',
     ];
 
     protected $appends = [
@@ -41,6 +36,8 @@ class FastFood extends Model implements AnnonceInterface
         // 'produits_fast_food',
 
         'caracteristiques',
+
+        'produits'
     ];
 
     public function annonce(): MorphOne
@@ -70,12 +67,12 @@ class FastFood extends Model implements AnnonceInterface
 
     public function getShowInformationHeader(): View
     {
-        return view('components.public.show.default-information-header');
+        return view('components.public.show.restaurant-information-header');
     }
 
     public function getShowInformationBody(): View
     {
-        return view('components.public.show.default-information-body', [
+        return view('components.public.show.restaurant-information-body', [
             'annonce' => $this->annonce,
         ]);
     }
@@ -99,5 +96,29 @@ class FastFood extends Model implements AnnonceInterface
         }
 
         return $attributes;
+    }
+
+    public function getProduitsAttribute()
+    {
+        $plats = [];
+
+        $tmp_nom = $this->getStringArray($this->nom_produit);
+        $tmp_accompagnement = $this->getStringArray($this->accompagnement_produit);
+        $tmp_prix = $this->getStringArray($this->prix_produit);
+        $tmp_image = $this->getStringArray($this->image_produit, Utils::getRestaurantImageSeparator());
+
+        $maxCount = max(count($tmp_nom), count($tmp_accompagnement), count($tmp_prix), count($tmp_image));
+
+        for ($i = 0; $i < $maxCount; $i++) {
+            $image = isset($tmp_image[$i]) ? Fichier::find($tmp_image[$i]) : null;
+            $plats[] = [
+                'nom' => $tmp_nom[$i] ?? null,
+                'accompagnements' => $tmp_accompagnement[$i] ?? null,
+                'prix' => isset($tmp_prix[$i]) ? (int) $tmp_prix[$i] : null,
+                'image' => $image ? $image->chemin : null,
+            ];
+        }
+
+        return $plats;
     }
 }
