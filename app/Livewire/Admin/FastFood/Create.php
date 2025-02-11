@@ -72,6 +72,9 @@ class Create extends Component
     public $latitude;
     public $longitude;
 
+    public $galerie = [];
+    public $old_galerie = [];
+
     public function mount()
     {
         $this->initialization();

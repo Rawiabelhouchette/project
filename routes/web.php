@@ -207,6 +207,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
         Route::resource('adverts/fast-foods', PublicFastFoodController::class, [
             'names' => [
                 'create' => 'public.fast-foods.create',
+                'edit' => 'public.fast-foods.edit',
             ]
         ]);
 

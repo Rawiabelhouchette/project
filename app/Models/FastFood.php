@@ -30,14 +30,15 @@ class FastFood extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        // 'edit_url',
+        'edit_url',
 
         'equipements_restauration',
         // 'produits_fast_food',
 
         'caracteristiques',
 
-        'produits'
+        'produits',
+        'public_edit_url',
     ];
 
     public function annonce(): MorphOne
@@ -50,10 +51,10 @@ class FastFood extends Model implements AnnonceInterface
         return route('fast-foods.show', $this);
     }
 
-    // public function getEditUrlAttribute(): string
-    // {
-    //     return route('fast-foods.edit', $this);
-    // }
+    public function getEditUrlAttribute(): string
+    {
+        return route('public.fast-foods.edit', $this);
+    }
 
     public function getEquipementsRestaurationAttribute(): array
     {
@@ -135,5 +136,10 @@ class FastFood extends Model implements AnnonceInterface
         }
 
         return $produits;
+    }
+
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.fast-foods.edit', $this);
     }
 }

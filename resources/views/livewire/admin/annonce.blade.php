@@ -38,7 +38,7 @@
         .listing-price-info span {
             display: inline-block;
             /* background: #ffffff; */
-            background: #ff3a72;
+            /* background: #ff3a72; */
             color: #ffffff !important;
             padding: 4px 18px;
             border-radius: 50px;
@@ -92,7 +92,7 @@
                                             <h4>{{ $annonce->titre }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
-                                        <a href="#">
+                                        <a class="listing-shot-edit" href="{{ $annonce->annonceable->public_edit_url }}">
                                             <span class="like-listing alt style-2"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                                         </a>
                                     </div>
