@@ -25,7 +25,10 @@ class Annonce extends Component
     {
         $search = $this->search;
         $user = User::find(auth()->user()->id);
-        $annonces = $user->annonces()->paginate($this->perPage);
+        $annonces = $user->annonces()->where(function ($query) use ($search) {
+            $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($search) . '%'])
+                ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
+        })->paginate($this->perPage);
 
         return view('livewire.admin.annonce', compact('annonces'));
     }

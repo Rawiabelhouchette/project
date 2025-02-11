@@ -59,15 +59,18 @@
             height: 100%;
         }
     </style>
+
     <div class="card">
         <div class="card-body padd-l-0 padd-r-0">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6" style="margin-top: 10px;">
-                        <span class="mrg-l-10" id="nbre-favoris">{{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} favori(s)</span>
+                        <span class="mrg-l-10" id="nbre-favoris">
+                            {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} annonce(s)
+                        </span>
                     </div>
                     <div class="col-md-6 text-center">
-                        <input class="form-control" id="favorite_search" type="text" value="" style="margin-top: 6px; margin-bottom: 6px; height: 35px;" placeholder="Afficher la recherche" wire:model.live.debounce.500ms='search'>
+                        <input class="form-control" id="favorite_search" type="text" value="" style="margin-top: 6px; margin-bottom: 6px; height: 35px;" placeholder="Rechercher" wire:model.live.debounce.500ms='search'>
                     </div>
                 </div>
             </div>
@@ -93,7 +96,7 @@
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
                                         <a class="listing-shot-edit" href="{{ $annonce->annonceable->public_edit_url }}">
-                                            <span class="like-listing alt style-2"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                            <span class="like-listing style-2"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                                         </a>
                                     </div>
                                     <div class="listing-price-info">
