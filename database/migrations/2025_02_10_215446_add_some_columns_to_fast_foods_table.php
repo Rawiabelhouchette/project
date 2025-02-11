@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::table('fast_foods', function (Blueprint $table) {
             $table->string('nom_produit')->nullable();
             $table->string('accompagnement_produit')->nullable();
-            $table->double('prix_produit')->nullable();
+            $table->string('prix_produit')->nullable();
             $table->string('image_produit')->nullable();
 
             // remove prix min and max

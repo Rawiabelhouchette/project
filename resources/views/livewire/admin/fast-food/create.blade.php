@@ -45,7 +45,7 @@
                 <div class="col description">
                     <div>
                         <h3>Description</h3>
-                        <textarea class="form-control" id="description" name="description" placeholder="" wire:model.defer='description' required></textarea>
+                        <textarea class="form-control" id="description" name="description" placeholder="" wire:model.defer='description'></textarea>
                         @error('description')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -96,11 +96,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="produit-description-{{ $index + 1 }}">Accompagnements<b style="color: red; font-size: 100%;">*</b></label>
-                                            <textarea class="form-control required-field" id="produit-description-{{ $index + 1 }}" wire:model="produits.{{ $index }}.ingredients" rows="3"></textarea>
+                                            <textarea class="form-control required-field" id="produit-description-{{ $index + 1 }}" wire:model="produits.{{ $index }}.accompagnements" rows="3"></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="produit-price-{{ $index + 1 }}">Prix<b style="color: red; font-size: 100%;">*</b></label>
-                                            <input class="form-control required-field" id="produit-price-{{ $index + 1 }}" type="number" wire:model="produits.{{ $index }}.prix_min">
+                                            <input class="form-control required-field" id="produit-price-{{ $index + 1 }}" type="number" wire:model="produits.{{ $index }}.prix">
                                         </div>
                                         <div class="form-group">
                                             <label for="form-img-produit-{{ $index + 1 }}">Image à la Une <b style="color: red; font-size: 100%;">*</b></label>
@@ -125,12 +125,12 @@
                                 <span class="text-danger">{{ $message }}</span>
                             </div>
                         @enderror
-                        @error('produits.*.ingredients')
+                        @error('produits.*.accompagnements')
                             <div class="col-md-12 col-sm-12 text-center">
                                 <span class="text-danger">{{ $message }}</span>
                             </div>
                         @enderror
-                        @error('produits.*.prix_min')
+                        @error('produits.*.prix')
                             <div class="col-md-12 col-sm-12 text-center">
                                 <span class="text-danger">{{ $message }}</span>
                             </div>
@@ -348,7 +348,7 @@
             const produitId = $(this).data('produit-id');
             if (validateFields('produit', produitId)) {
                 const produitName = $(`#produit-name-${produitId}`).val();
-                const produitIngredients = $(`#produit-description-${produitId}`).val();
+                const produitaccompagnements = $(`#produit-description-${produitId}`).val();
                 const produitPrice = $(`#produit-price-${produitId}`).val();
 
                 // Fermer le offcanvas après enregistrement
@@ -370,7 +370,7 @@
 
                 produitsData.push({
                     nom: name,
-                    ingredients: description,
+                    accompagnements: description,
                     prix: price,
                     image: image // Si image est définie, elle sera envoyée
                 });

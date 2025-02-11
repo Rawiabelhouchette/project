@@ -47,7 +47,7 @@ class Create extends Component
     public $nom_produit;
     public $prix_produit;
     public $image_produit;
-    public $ingredients_produit;
+    public $accompagnements_produit;
 
     public $produits = [
         [
@@ -187,6 +187,7 @@ class Create extends Component
 
     public function addProduit()
     {
+        // dd($this->produits);
         $length = count($this->produits);
         if ($length != 0) {
             $i = $length - 1;
@@ -232,7 +233,7 @@ class Create extends Component
         foreach ($this->produits as $produit) {
             $this->nom_produit .= $produit['nom'] . $separator;
             $this->prix_produit .= $produit['prix'] . $separator;
-            $this->ingredients_produit .= $produit['accompagnements'] . $separator;
+            $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'fast-foods');
@@ -244,7 +245,7 @@ class Create extends Component
 
             $fastFood = FastFood::create([
                 'nom_produit' => $this->nom_produit,
-                'accompagnement_produit' => $this->ingredients_produit,
+                'accompagnement_produit' => $this->accompagnements_produit,
                 'prix_produit' => $this->prix_produit,
                 'image_produit' => $this->image_produit,
             ]);
