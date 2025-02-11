@@ -1,14 +1,14 @@
 <div>
     <div class="fast-food-template">
-        <form wire:submit.prevent="store" enctype="multipart/form-data">
+        <form wire:submit.prevent="update" enctype="multipart/form-data">
             @csrf
             <div class="row align-items-start">
-                <div class="col entreprise" wire:ignore>
+                <div class="col entreprise">
                     <div>
                         <h3>Entreprise
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <select class="select2" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
+                        <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
                                 <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
@@ -24,7 +24,7 @@
                         <h3>Nom
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <input class="form-control" name="nom" type="text" placeholder="" required wire:model.defer='nom' required>
+                        <input class="form-control" name="nom" type="text" placeholder="" wire:model.defer='nom' required>
                         @error('nom')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -162,9 +162,13 @@
             <div class="row padd-bot-15">
                 <div class="form-group">
                     <div class="col text-right">
+                        <button onclick="window.location.reload()" class="btn btn-danger" type="button" style="margin-right: 30px;" wire:loading.attr="disabled">
+                            <i class="fa fa-times fa-lg" style="margin-right: 10px;"></i>
+                            Annuler
+                        </button>
                         <button class="btn theme-btn" id="fast-food-form-submit" type="submit" style="margin-right: 30px;" wire:loading.attr="disabled">
                             <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
-                            Enregistrer
+                            Enregistrer Modifications
                         </button>
                     </div>
                 </div>

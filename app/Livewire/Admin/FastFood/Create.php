@@ -30,9 +30,6 @@ class Create extends Component
     public $entreprise_id;
     public $accompagnement;
 
-    public $prix_min;
-    public $prix_max;
-
     public $services = [];
     public $list_services = [];
 
@@ -114,9 +111,6 @@ class Create extends Component
             'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
             'description' => 'nullable|min:3|max:255',
             'date_validite' => 'required|date|after:today',
-            // 'accompagnement' => 'nullable|string|min:3|max:255',
-            // 'prix_min' => 'nullable|numeric|lt:prix_max',
-            // 'prix_max' => 'nullable|numeric',
 
             'produits' => 'required|array|min:1',
 
@@ -145,13 +139,7 @@ class Create extends Component
             'date_validite.required' => 'Le champ date de validité est obligatoire.',
             'date_validite.date' => 'Le champ date de validité doit être une date.',
             'date_validite.after' => 'Le champ date de validité doit être une date supérieure à la date du jour.',
-            // 'accompagnement.string' => 'Le champ ingrédient doit être une chaîne de caractères.',
-            // 'accompagnement.min' => 'Le champ ingrédient doit contenir au moins 3 caractères.',
-            // 'accompagnement.max' => 'Le champ ingrédient ne doit pas dépasser 255 caractères.',
-            // 'prix_min.numeric' => 'Le prix minimum doit être un nombre',
-            // 'prix_max.numeric' => 'Le prix maximum doit être un nombre',
-            // 'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
-            // 'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
+            
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
             'ville_id.required' => 'La ville est obligatoire',

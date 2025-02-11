@@ -159,6 +159,7 @@
                     </ul>
                 </div>
             </div>
+
             <div class="col-md-12">
                 {{ $annonces->links() }}
             </div>
