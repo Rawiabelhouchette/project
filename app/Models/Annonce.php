@@ -33,7 +33,7 @@ class Annonce extends Model
         'image',
         'longitude',
         'latitude',
-        'quartier_id',
+        'quartier',
         'ville_id',
     ];
 
@@ -146,10 +146,10 @@ class Annonce extends Model
         return $this->hasMany(View::class);
     }
 
-    public function quartier()
-    {
-        return $this->belongsTo(Quartier::class, 'quartier_id');
-    }
+    // public function quartier()
+    // {
+    //     return $this->belongsTo(Quartier::class, 'quartier_id');
+    // }
 
     public function ville()
     {
@@ -278,12 +278,12 @@ class Annonce extends Model
 
     public function getAdresseCompleteAttribute(): object
     {
-        $quartier = $this->quartier()->first();
-        $ville = $quartier ? $quartier->ville()->first() : $this->ville()->first();
+        $ville = $this->ville()->first();
         $pays = $ville ? $ville->pays()->first() : null;
+        $quartier = $this->quartier;
 
         return (object) [
-            'quartier' => $quartier ? $quartier->nom : '',
+            'quartier' => $quartier ? $quartier : '',
             'ville' => $ville ? $ville->nom : '',
             'pays' => $pays ? $pays->nom : '',
         ];
