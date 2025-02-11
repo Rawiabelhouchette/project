@@ -116,7 +116,7 @@ class Create extends Component
 
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
-            'quartier_id' => 'nullable|exists:quartiers,id',
+            'quartier_id' => 'required|string|max:255',
 
             'longitude' => 'required|string',
             'latitude' => 'required|string',
@@ -139,12 +139,12 @@ class Create extends Component
             'date_validite.required' => 'Le champ date de validité est obligatoire.',
             'date_validite.date' => 'Le champ date de validité doit être une date.',
             'date_validite.after' => 'Le champ date de validité doit être une date supérieure à la date du jour.',
-            
+
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
             'ville_id.required' => 'La ville est obligatoire',
             'ville_id.exists' => 'La ville n\'existe pas',
-            'quartier_id.exists' => 'Le quartier n\'existe pas',
+            'quartier_id.required' => 'Le quartier est obligatoire',
 
             'longitude.required' => 'La localisation est obligatoire.',
 
@@ -248,7 +248,7 @@ class Create extends Component
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'ville_id' => $this->ville_id,
-                'quartier_id' => $this->quartier_id,
+                'quartier' => $this->quartier_id,
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
             ]);

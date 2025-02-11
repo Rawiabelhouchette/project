@@ -102,7 +102,7 @@ class Create extends Component
             // 'image' => 'required',
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
-            'quartier_id' => 'nullable|exists:quartiers,id',
+            'quartier_id' => 'required|string|max:255',
 
             'longitude' => 'required|string',
             'latitude' => 'required|string',
@@ -158,7 +158,7 @@ class Create extends Component
             'pays_id.exists' => 'Le pays n\'existe pas',
             'ville_id.required' => 'La ville est obligatoire',
             'ville_id.exists' => 'La ville n\'existe pas',
-            'quartier_id.exists' => 'Le quartier n\'existe pas',
+            'quartier_id.required' => 'Le quartier est obligatoire',
 
             'longitude.required' => 'La localisation est obligatoire.',
         ];
@@ -204,7 +204,7 @@ class Create extends Component
                 'entreprise_id' => $this->entreprise_id,
 
                 'ville_id' => $this->ville_id,
-                'quartier_id' => $this->quartier_id,
+                'quartier' => $this->quartier_id,
 
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,

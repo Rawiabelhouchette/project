@@ -519,7 +519,7 @@ class Create extends Component
                 'entreprise_id' => $this->entreprise_id,
 
                 'ville_id' => $this->ville_id,
-                'quartier_id' => $this->quartier_id,
+                'quartier' => $this->quartier_id,
 
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
