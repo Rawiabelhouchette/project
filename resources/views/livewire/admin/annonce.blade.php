@@ -96,7 +96,7 @@
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
                                         <a class="listing-shot-edit" href="{{ $annonce->annonceable->public_edit_url }}">
-                                            <span class="like-listing style-2"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                            <span class="like-listing alt style-2"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                                         </a>
                                     </div>
                                     <div class="listing-price-info">

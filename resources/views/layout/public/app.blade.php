@@ -130,6 +130,12 @@
         <script src="{{ asset('assets_client/js/custom.js') }}"></script>
 
         <script>
+            $(document).ready(function() {
+                $('ul.pagination').parent().removeClass('navbar');
+            });
+        </script>
+
+        <script>
             window.addEventListener('page:reload', event => {
                 location.reload();
             });
