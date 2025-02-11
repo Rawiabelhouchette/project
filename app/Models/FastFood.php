@@ -19,14 +19,18 @@ class FastFood extends Model implements AnnonceInterface
 
     protected $fillable = [
         // 'ingredient',
-        'prix_min',
-        'prix_max',
+        // 'prix_min',
+        // 'prix_max',
+
+        'nom_produit',
+        'accompagnement_produit',
+        'prix_produit',
+        'image_produit',
     ];
 
     protected $casts = [
-        // 'ingredient' => PurifyHtmlOnGet::class,
-        'prix_min' => 'integer',
-        'prix_max' => 'integer',
+        // 'prix_min' => 'integer',
+        // 'prix_max' => 'integer',
     ];
 
     protected $appends = [
@@ -34,7 +38,7 @@ class FastFood extends Model implements AnnonceInterface
         // 'edit_url',
 
         'equipements_restauration',
-        'produits_fast_food',
+        // 'produits_fast_food',
 
         'caracteristiques',
     ];
