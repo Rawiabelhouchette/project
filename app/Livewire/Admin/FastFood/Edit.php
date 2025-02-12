@@ -91,14 +91,16 @@ class Edit extends Component
         $this->longitude = $fastFood->annonce->longitude;
         $this->pays_id = $fastFood->annonce->ville->pays_id;
         $this->ville_id = $fastFood->annonce->ville_id;
-        $this->quartier_id = $fastFood->annonce->quartier_id;
+        $this->quartier_id = $fastFood->annonce->quartier;
         $this->entreprise_id = $fastFood->annonce->entreprise_id;
+
+        $this->villes = Ville::where('pays_id', $this->pays_id)->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
 
         $this->produits = $fastFood->produits;
 
         $this->services = $fastFood->annonce->references('services')->pluck('id')->toArray();
         $this->equipements_restauration = $fastFood->annonce->references('equipements-restauration')->pluck('id')->toArray();
-
     }
 
     private function initialization()
@@ -125,7 +127,6 @@ class Edit extends Component
             $this->list_services = [];
 
         $this->pays = Pays::all();
-
     }
 
     public function rules()
@@ -144,6 +145,9 @@ class Edit extends Component
 
             'longitude' => 'required|string',
             'latitude' => 'required|string',
+
+            'image' => 'nullable|image|max:1024',
+            'galerie.*' => 'nullable|image|max:1024',
         ];
     }
 
@@ -175,8 +179,6 @@ class Edit extends Component
             'produits.required' => 'Le champ produits est obligatoire.',
             'produits.array' => 'Le champ produits doit être un tableau.',
             'produits.min' => 'Le champ produits doit contenir au moins un élément.',
-
-
         ];
     }
 
@@ -237,9 +239,18 @@ class Edit extends Component
         $this->produits_error = '';
     }
 
-    public function store()
+    public function update()
     {
         $this->validate();
+
+        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('La date de validité doit être supérieure à la date du jour'),
+            ]);
+            return;
+        }
 
         $separator = Utils::getRestaurantValueSeparator();
         $separator2 = Utils::getRestaurantImageSeparator();
@@ -264,16 +275,22 @@ class Edit extends Component
         try {
             DB::beginTransaction();
 
-            $fastFood = FastFood::create([
+            // $fastFood = FastFood::create([
+            //     'nom_produit' => $this->nom_produit,
+            //     'accompagnement_produit' => $this->accompagnements_produit,
+            //     'prix_produit' => $this->prix_produit,
+            //     'image_produit' => $this->image_produit,
+            // ]);
+
+            $this->fastFood->update([
                 'nom_produit' => $this->nom_produit,
                 'accompagnement_produit' => $this->accompagnements_produit,
                 'prix_produit' => $this->prix_produit,
                 'image_produit' => $this->image_produit,
             ]);
 
-            $annonce = new Annonce([
+            $this->fastFood->annonce->update([
                 'titre' => $this->nom,
-                'type' => 'Fast-Food',
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
@@ -281,18 +298,17 @@ class Edit extends Component
                 'quartier' => $this->quartier_id,
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
+                'is_active' => $this->is_active,
             ]);
-
-            $fastFood->annonce()->save($annonce);
 
             $references = [
                 ['Equipements restauration', $this->equipements_restauration],
                 ['Services', $this->services],
             ];
 
-            AnnoncesUtils::createManyReference($annonce, $references);
+            AnnoncesUtils::updateManyReference($this->fastFood->annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'fast-foods');
+            AnnoncesUtils::updateGalerie($this->image, $this->hotel->annonce, $this->galerie, $this->deleted_old_galerie, 'fast-foods');
 
             DB::commit();
         } catch (\Throwable $th) {

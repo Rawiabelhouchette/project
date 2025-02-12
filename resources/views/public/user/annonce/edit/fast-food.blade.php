@@ -41,6 +41,10 @@
 
         var marker;
 
+        var latlng = L.latLng({{ $fastFood->annonce->latitude }}, {{ $fastFood->annonce->longitude }});
+        marker = L.marker(latlng).addTo(mymap);
+        mymap.setView(latlng, 8); // Set map view to current location
+
         mymap.on('click', function(e) {
             if (marker) {
                 mymap.removeLayer(marker); // Supprimez le marqueur existant s'il y en a un.
@@ -49,8 +53,6 @@
             marker = L.marker(e.latlng).addTo(mymap);
             var lat = e.latlng.lat;
             var lon = e.latlng.lng;
-
-
 
             Livewire.dispatch('setLocation', [{
                 lon,

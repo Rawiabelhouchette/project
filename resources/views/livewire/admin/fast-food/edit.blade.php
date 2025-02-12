@@ -30,11 +30,48 @@
                         @enderror
                     </div>
                 </div>
+                {{-- <div class="col validite">
+                    <div>
+                        <h3 class="required">Date de validité</h3>
+                        <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                        @error('date_validite')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div> --}}
+                {{-- <div class="col is_active">
+                    <div>
+                        <h3>Statut</h3>
+                        <select class="form-control" name="is_active" wire:model.defer='is_active'>
+                            <option value="1">Actif</option>
+                            <option value="0">Inactif</option>
+                        </select>
+                        @error('is_active')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div> --}}
+            </div>
+
+            <div class="row align-items-start">
                 <div class="col validite">
                     <div>
                         <h3 class="required">Date de validité</h3>
                         <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
                         @error('date_validite')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                
+                <div class="col is_active">
+                    <div>
+                        <h3>Statut</h3>
+                        <select class="form-control" name="is_active" wire:model.defer='is_active'>
+                            <option value="1">Actif</option>
+                            <option value="0">Inactif</option>
+                        </select>
+                        @error('is_active')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -162,10 +199,10 @@
             <div class="row padd-bot-15">
                 <div class="form-group">
                     <div class="col text-right">
-                        <button class="btn btn-danger" type="button" style="margin-right: 30px;" onclick="window.location.reload()" wire:loading.attr="disabled">
+                        <a class="btn btn-danger" href="{{ route('public.annonces.list') }}" style="margin-right: 30px;" wire:loading.attr="disabled">
                             <i class="fa fa-times fa-lg" style="margin-right: 10px;"></i>
                             Annuler
-                        </button>
+                        </a>
                         <button class="btn theme-btn" id="fast-food-form-submit" type="submit" style="margin-right: 30px;" wire:loading.attr="disabled">
                             <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                             Enregistrer Modifications

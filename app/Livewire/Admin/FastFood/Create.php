@@ -120,6 +120,9 @@ class Create extends Component
 
             'longitude' => 'required|string',
             'latitude' => 'required|string',
+
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,svg',
+            'galerie.*' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,svg',
         ];
     }
 
@@ -152,6 +155,13 @@ class Create extends Component
             'produits.array' => 'Le champ produits doit être un tableau.',
             'produits.min' => 'Le champ produits doit contenir au moins un élément.',
 
+            'image.required' => 'L\'image est obligatoire.',
+            'image.image' => 'Le fichier doit être une image.',
+            'image.max' => 'L\'image ne doit pas dépasser 5 Mo.',
+            'image.mimes' => 'L\'image doit être de type jpeg, png, jpg, svg.',
+            'galerie.*.image' => 'Le fichier doit être une image.',
+            'galerie.*.max' => 'L\'image ne doit pas dépasser 5 Mo.',
+            'galerie.*.mimes' => 'L\'image doit être de type jpeg, png, jpg, svg.',
 
         ];
     }
@@ -219,6 +229,7 @@ class Create extends Component
 
         $separator = Utils::getRestaurantValueSeparator();
         $separator2 = Utils::getRestaurantImageSeparator();
+        $quartier = $this->quartier_id;
 
         // Put all produits in the same variable
         foreach ($this->produits as $produit) {
@@ -248,7 +259,7 @@ class Create extends Component
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'ville_id' => $this->ville_id,
-                'quartier' => $this->quartier_id,
+                'quartier' => $quartier,
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
             ]);

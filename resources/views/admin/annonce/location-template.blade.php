@@ -32,13 +32,12 @@
             <div>
                 <h3>Quartier <b style="color: red; font-size: 100%;">*</b></h3>
                 <h4>Saisissez le nom du quartier</h4>
-                <input class="form-control" data-nom="quartier_id" type="test" wire:model='quartier_id' placeholder="Saissisez le quartier" required>
-                {{-- <select class="form-control" data-nom="quartier_id" wire:model.lazy='quartier_id'>
-                    <option value="">Sélectionnez un quartier</option>
+                <input class="form-control" data-nom="quartier_id" type="text" wire:model='quartier_id' placeholder="Saissisez le quartier" list="quartiers-list" required>
+                <datalist id="quartiers-list">
                     @foreach ($quartiers as $q)
-                        <option value="{{ $q->id }}">{{ $q->nom }}</option>
+                        <option value="{{ $q->nom }}"></option>
                     @endforeach
-                </select> --}}
+                </datalist>
             </div>
         </div>
     </div>

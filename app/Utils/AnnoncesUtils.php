@@ -5,6 +5,7 @@ namespace App\Utils;
 use App\Models\Fichier;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Storage;
 
 
 class AnnoncesUtils
@@ -395,6 +396,28 @@ class AnnoncesUtils
     public static function storeImage($image, $folder_name): object
     {
         $image->store('public/' . $folder_name);
+        $fichier = Fichier::create([
+            'nom' => $image->hashName(),
+            'chemin' => $folder_name . '/' . $image->hashName(),
+            'extension' => $image->extension(),
+        ]);
+
+        return (object) [
+            'id' => $fichier->id,
+            'path' => $fichier->chemin,
+        ];
+    }
+
+    public static function updateImage($image, $folder_name, $image_id): object
+    {
+        $image->store('public/' . $folder_name);
+        $fichier = Fichier::find($image_id);
+
+        if ($fichier) {
+            Storage::delete('public/' . $fichier->chemin);
+            $fichier->delete();
+        }
+
         $fichier = Fichier::create([
             'nom' => $image->hashName(),
             'chemin' => $folder_name . '/' . $image->hashName(),

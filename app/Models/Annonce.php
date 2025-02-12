@@ -77,6 +77,29 @@ class Annonce extends Model
         static::updating(function ($model) {
             $model->slug = Str::slug($model->titre);
         });
+
+        static::created(function ($model) {
+            $model->addQuartier($model->quartier);
+        });
+
+        static::updated(function ($model) {
+            $model->addQuartier($model->quartier);
+        });
+    }
+
+    private function addQuartier($quartier)
+    {
+        $quartier = ucfirst(mb_strtolower($quartier));
+
+        $existingQuartier = Quartier::where('ville_id', $this->ville_id)->where('nom', $quartier)->first();
+        if ($existingQuartier) {
+            $existingQuartier->update(['nom' => $quartier]);
+        } else {
+            Quartier::create([
+                'ville_id' => $this->ville_id,
+                'nom' => $quartier,
+            ]);
+        }
     }
 
 
