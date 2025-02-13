@@ -88,7 +88,7 @@
                                                 <img class="img-responsive" src="http://via.placeholder.com/800x800" alt="">
                                             @endif
                                         </a>
-                                        @if ($annonce->is_active)
+                                        @if ($annonce->is_active && $annonce->date_validite >= now())
                                             <span class="approve-listing" title="Annonce publiée">
                                                 <i class="fa fa-check"></i>
                                             </span>
