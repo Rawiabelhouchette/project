@@ -54,8 +54,11 @@ class Edit extends Component
             'prix' => '',
             'image' => '',
             'accompagnements' => '',
+            'image_id' => null,
         ]
     ];
+
+    public $old_produits = [];
 
     public $produits_error = '';
 
@@ -98,6 +101,7 @@ class Edit extends Component
         $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
 
         $this->produits = $fastFood->produits;
+        $this->old_produits = $fastFood->produits;
 
         $this->services = $fastFood->annonce->references('services')->pluck('id')->toArray();
         $this->equipements_restauration = $fastFood->annonce->references('equipements-restauration')->pluck('id')->toArray();
@@ -133,7 +137,7 @@ class Edit extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
+            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->fastFood->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
             'description' => 'nullable|min:3|max:255',
             'date_validite' => 'required|date|after:today',
 
@@ -146,8 +150,8 @@ class Edit extends Component
             'longitude' => 'required|string',
             'latitude' => 'required|string',
 
-            'image' => 'nullable|image|max:1024',
-            'galerie.*' => 'nullable|image|max:1024',
+            // 'image' => 'nullable|image|max:1024',
+            // 'galerie.*' => 'nullable|image|max:1024',
         ];
     }
 
@@ -175,6 +179,7 @@ class Edit extends Component
             'quartier_id.required' => 'Le quartier est obligatoire',
 
             'longitude.required' => 'La localisation est obligatoire.',
+            'latitude.required' => 'La latitude est obligatoire.',
 
             'produits.required' => 'Le champ produits est obligatoire.',
             'produits.array' => 'Le champ produits doit être un tableau.',
@@ -204,22 +209,9 @@ class Edit extends Component
 
     public function addProduit()
     {
-        // dd($this->produits);
-        $length = count($this->produits);
-        if ($length != 0) {
-            $i = $length - 1;
-            if (empty($this->produits[$i]['nom']) || empty($this->produits[$i]['prix']) || empty($this->produits[$i]['image']) || empty($this->produits[$i]['accompagnements'])) {
-                return;
-            }
-
-            foreach ($this->produits as $key => $produit) {
-                if ($key == $i)
-                    continue;
-                if ($produit['nom'] == $this->produits[$i]['nom']) {
-                    $this->produits_error = 'Ce nom de produit existe déjà';
-                    return;
-                }
-            }
+        $result = $this->checkUniqueProduit();
+        if (!$result) {
+            return;
         }
 
         $this->produits_error = '';
@@ -230,6 +222,37 @@ class Edit extends Component
             'image' => '',
             'accompagnements' => '',
         ];
+    }
+
+    private function checkUniqueProduit(bool $isUpdating = false): bool
+    {
+        $length = count($this->produits);
+        if ($length != 0) {
+            $i = $length - 1;
+            if (empty($this->produits[$i]['nom']) || empty($this->produits[$i]['prix']) || empty($this->produits[$i]['image']) || empty($this->produits[$i]['accompagnements'])) {
+                return false;
+            }
+
+            foreach ($this->produits as $key => $produit) {
+                if ($key == $i)
+                    continue;
+                if ($produit['nom'] == $this->produits[$i]['nom']) {
+                    $this->produits_error = 'Ce nom de produit existe déjà';
+
+                    if ($isUpdating) {
+                        $this->dispatch('swal:modal', [
+                            'icon' => 'error',
+                            'title' => __('Opération échouée'),
+                            'message' => __('Un produit avec le même nom existe déjà'),
+                        ]);
+                    }
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public function removeProduit($key)
@@ -243,6 +266,10 @@ class Edit extends Component
     {
         $this->validate();
 
+        if (!$this->checkUniqueProduit(true)) {
+            return;
+        }
+
         if ($this->is_active && $this->date_validite < date('Y-m-d')) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
@@ -255,32 +282,26 @@ class Edit extends Component
         $separator = Utils::getRestaurantValueSeparator();
         $separator2 = Utils::getRestaurantImageSeparator();
 
-        // Put all produits in the same variable
-        foreach ($this->produits as $produit) {
-            $this->nom_produit .= $produit['nom'] . $separator;
-            $this->prix_produit .= $produit['prix'] . $separator;
-            $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
-
-            // upload image
-            $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'fast-foods');
-            $this->image_produit .= "{$uploadResult->id}{$separator2}";
-        }
-
-        // Handle the new image property
-        if ($this->image) {
-            $uploadResult = AnnoncesUtils::storeImage($this->image, 'fast-foods');
-            $this->image_produit .= "{$uploadResult->id}{$separator2}";
-        }
-
         try {
             DB::beginTransaction();
 
-            // $fastFood = FastFood::create([
-            //     'nom_produit' => $this->nom_produit,
-            //     'accompagnement_produit' => $this->accompagnements_produit,
-            //     'prix_produit' => $this->prix_produit,
-            //     'image_produit' => $this->image_produit,
-            // ]);
+            // Put all produits in the same variable
+            foreach ($this->produits as $index => $produit) {
+                $this->nom_produit .= $produit['nom'] . $separator;
+                $this->prix_produit .= $produit['prix'] . $separator;
+                $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
+
+
+                // check if $produit image is a string or an object
+                if (is_string($produit['image'])) {
+                    $this->image_produit .= $this->old_produits[$index]['image_id'] . $separator2;
+                    continue;
+                }
+
+                // upload image
+                $uploadResult = AnnoncesUtils::updateImage($produit['image'], 'fast-foods', $this->old_produits[$index]['image_id']);
+                $this->image_produit .= "{$uploadResult->id}{$separator2}";
+            }
 
             $this->fastFood->update([
                 'nom_produit' => $this->nom_produit,
@@ -308,7 +329,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->fastFood->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->hotel->annonce, $this->galerie, $this->deleted_old_galerie, 'fast-foods');
+            AnnoncesUtils::updateGalerie($this->image, $this->fastFood->annonce, $this->galerie, $this->deleted_old_galerie, 'fast-foods');
 
             DB::commit();
         } catch (\Throwable $th) {

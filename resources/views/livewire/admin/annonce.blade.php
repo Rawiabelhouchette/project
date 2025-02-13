@@ -88,7 +88,18 @@
                                                 <img class="img-responsive" src="http://via.placeholder.com/800x800" alt="">
                                             @endif
                                         </a>
-                                        {{-- <span class="approve-listing"><i class="fa fa-check"></i></span> --}}
+                                        @if ($annonce->is_active)
+                                            <span class="approve-listing" title="Annonce publiée">
+                                                <i class="fa fa-check"></i>
+                                            </span>
+                                        @else
+                                            <span class="not-approve-listing" title="Annonce non publiée">
+                                                <i class="fa fa-times"></i>
+                                            </span>
+                                        @endif
+                                        {{-- <span class="approve-listing" title="{{ $annonce->is_active ? 'Annonce publiée' : 'Annonce non publiée' }}" style="background-color: {{ $annonce->is_active ? '#28a745' : '#dc3545' }};">
+                                            <i class="fa {{ $annonce->is_active ? 'fa-check' : 'fa-times' }}"></i>
+                                        </span> --}}
                                     </div>
                                     <div class="listing-shot-caption">
                                         <a href="{{ route('show', $annonce->slug) }}">

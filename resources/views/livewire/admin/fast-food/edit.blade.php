@@ -63,11 +63,11 @@
                         @enderror
                     </div>
                 </div>
-                
+
                 <div class="col is_active">
                     <div>
-                        <h3>Statut</h3>
-                        <select class="form-control" name="is_active" wire:model.defer='is_active'>
+                        <h3 class="required">Statut</h3>
+                        <select class="form-control" name="is_active" wire:model.defer='is_active' required>
                             <option value="1">Actif</option>
                             <option value="0">Inactif</option>
                         </select>
@@ -142,6 +142,13 @@
                                         <div class="form-group">
                                             <label for="form-img-produit-{{ $index + 1 }}">Image à la Une <b style="color: red; font-size: 100%;">*</b></label>
                                             <input class="form-control form-control-file" id="form-img-produit-{{ $index + 1 }}" data-id="{{ $index + 1 }}" type="file" wire:model="produits.{{ $index }}.image" accept="image/*">
+
+                                            @if (is_string($produits[$index]['image']))
+                                                <img class="listing-shot-img img-responsive" src="{{ asset('storage/' . $produits[$index]['image']) }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
+                                            @else
+                                                <img class="listing-shot-img img-responsive" src="{{ $produits[$index]['image']->temporaryUrl() }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
+                                            @endif
+
                                         </div>
                                         <button class="btn btn-danger mb-2 delete-produit-btn" data-produit-id="{{ $index + 1 }}" type="button" wire:click="removeProduit({{ $index }})">Supprimer</button>
                                     </div>
@@ -279,7 +286,7 @@
     <script type="text/javascript">
         const produitsContainer = $('#produits-container');
         const addProduitBtn = $('#add-produit-btn');
-        let produitCounter = 2; // Compteur pour générer des IDs uniques
+        let produitCounter = "{{ count($produits) + 1 }}";
 
         // Valider les champs obligatoires et l'unicité du nom
         function validateFields(element, id) {
@@ -329,6 +336,8 @@
                 $('#produit-error-message').text(`Veuillez remplir tous les champs obligatoires du produit ${lastProduitId}.`);
                 return; // Stopper l'ajout si les champs ne sont pas valides
             }
+            // alert('addProduit');
+            // return;
 
             @this.call('addProduit');
 

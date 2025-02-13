@@ -105,6 +105,11 @@
                                         <div class="form-group">
                                             <label for="form-img-produit-{{ $index + 1 }}">Image à la Une <b style="color: red; font-size: 100%;">*</b></label>
                                             <input class="form-control form-control-file" id="form-img-produit-{{ $index + 1 }}" data-id="{{ $index + 1 }}" type="file" wire:model="produits.{{ $index }}.image" accept="image/*">
+
+                                            @if (!empty($produits[$index]['image']))
+                                                <img class="listing-shot-img img-responsive" src="{{ $produits[$index]['image']->temporaryUrl() }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
+                                            @endif
+
                                         </div>
                                         <button class="btn btn-danger mb-2 delete-produit-btn" data-produit-id="{{ $index + 1 }}" type="button" wire:click="removeProduit({{ $index }})">Supprimer</button>
                                     </div>

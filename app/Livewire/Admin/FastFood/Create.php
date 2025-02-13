@@ -188,22 +188,9 @@ class Create extends Component
 
     public function addProduit()
     {
-        // dd($this->produits);
-        $length = count($this->produits);
-        if ($length != 0) {
-            $i = $length - 1;
-            if (empty($this->produits[$i]['nom']) || empty($this->produits[$i]['prix']) || empty($this->produits[$i]['image']) || empty($this->produits[$i]['accompagnements'])) {
-                return;
-            }
-
-            foreach ($this->produits as $key => $produit) {
-                if ($key == $i)
-                    continue;
-                if ($produit['nom'] == $this->produits[$i]['nom']) {
-                    $this->produits_error = 'Ce nom de produit existe déjà';
-                    return;
-                }
-            }
+        $result = $this->checkUniqueProduit();
+        if (!$result) {
+            return;
         }
 
         $this->produits_error = '';
@@ -214,6 +201,28 @@ class Create extends Component
             'image' => '',
             'accompagnements' => '',
         ];
+    }
+
+    private function checkUniqueProduit(): bool
+    {
+        $length = count($this->produits);
+        if ($length != 0) {
+            $i = $length - 1;
+            if (empty($this->produits[$i]['nom']) || empty($this->produits[$i]['prix']) || empty($this->produits[$i]['image']) || empty($this->produits[$i]['accompagnements'])) {
+                return false;
+            }
+
+            foreach ($this->produits as $key => $produit) {
+                if ($key == $i)
+                    continue;
+                if ($produit['nom'] == $this->produits[$i]['nom']) {
+                    $this->produits_error = 'Ce nom de produit existe déjà';
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public function removeProduit($key)

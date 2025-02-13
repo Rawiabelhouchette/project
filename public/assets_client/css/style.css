@@ -3186,6 +3186,20 @@ span.approve-listing {
     border: 2px solid #9fd402;
     line-height: 21px;
 }
+span.not-approve-listing {
+    width: 25px;
+    height: 25px;
+    background: #dc3545;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border-radius: 50%;
+    color: #ffffff;
+    text-align: center;
+    font-size: 10px;
+    border: 2px solid #dc3545;
+    line-height: 21px;
+}
 a.author-img-box {
 	position: absolute;
 	right: 10px;

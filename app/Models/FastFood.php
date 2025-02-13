@@ -132,6 +132,7 @@ class FastFood extends Model implements AnnonceInterface
                 'accompagnements' => $tmp_accompagnement[$i] ?? null,
                 'prix' => isset($tmp_prix[$i]) ? (int) $tmp_prix[$i] : null,
                 'image' => $image ? $image->chemin : null,
+                'image_id' => $image ? $image->id : null,
             ];
         }
 
