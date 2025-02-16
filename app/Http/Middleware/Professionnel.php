@@ -17,7 +17,10 @@ class Professionnel
     {
         if (!auth()->user()->hasRole('Professionnel') && !auth()->user()->hasRole('Administrateur')) {
             // return back()->with('error', 'Vous n\'avez pas accès à cette page.');
-            abort(404);
+            // throw new \Illuminate\Auth\Access\AuthorizationException('Vous n\'avez pas accès à cette page.');
+            // not found exception
+            // abort(404);
+            abort(401);
         }
         return $next($request);
     }
