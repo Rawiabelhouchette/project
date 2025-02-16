@@ -1221,6 +1221,9 @@ html body .cl-primary{
 html body .cl-danger{
 	color:#f21136;
 }
+html body .cl-theme{
+	color:#de6600;
+}
 html body .cl-warning{
 	color:#ff9800;
 }
