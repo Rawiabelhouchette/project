@@ -122,12 +122,12 @@
 @push('scripts')
     <script>
         function recaptchaCallbackRegister() {
-            console.log('Captcha resolved');
+            // console.log('Captcha resolved');
             @this.set('recaptcha', grecaptcha.getResponse());
         }
 
         function expiredCallbackFunctionRegister() {
-            console.log('Captcha expired');
+            // console.log('Captcha expired');
             grecaptcha.reset();
             @this.set('recaptcha', '');
         }

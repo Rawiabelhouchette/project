@@ -53,7 +53,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', function () {
     if (auth()->check()) {
-        // return back();
         return redirect('/');
     }
     return view('login');
@@ -61,7 +60,6 @@ Route::get('/login', function () {
 
 Route::get('/register', function () {
     if (auth()->check()) {
-        // return back();
         return redirect('/');
     }
     return view('register');
@@ -86,9 +84,7 @@ Route::post('reset-password', [AccountController::class, 'newPassword'])->name('
 
 
 // Auth middleware
-Route::group([
-    'middleware' => 'App\Http\Middleware\Auth',
-], function () {
+Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
 
     Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
@@ -211,6 +207,7 @@ Route::group([
         Route::resource('adverts/fast-foods', PublicFastFoodController::class, [
             'names' => [
                 'create' => 'public.fast-foods.create',
+                'edit' => 'public.fast-foods.edit',
             ]
         ]);
 
@@ -239,19 +236,16 @@ Route::group([
         Route::get('business', [PublicUserController::class, 'myBusiness'])->name('public.my-business');
 
 
-        // Mon compte
-        Route::get('accounts', [PublicUserController::class, 'myAccount'])->name('public.my-account');
-
-        // Mes commentaires
-        Route::get('comments', [PublicUserController::class, 'myComments'])->name('public.my-comments');
-
-        // Mes favoris
-        Route::get('favorites', [PublicUserController::class, 'myFavorites'])->name('public.my-favorites');
-
-
-
-
     });
+
+    // Mon compte
+    Route::get('accounts', [PublicUserController::class, 'myAccount'])->name('public.my-account');
+
+    // Mes commentaires
+    Route::get('comments', [PublicUserController::class, 'myComments'])->name('public.my-comments');
+
+    // Mes favoris
+    Route::get('favorites', [PublicUserController::class, 'myFavorites'])->name('public.my-favorites');
 
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
 

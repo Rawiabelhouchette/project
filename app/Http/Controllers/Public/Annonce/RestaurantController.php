@@ -11,4 +11,9 @@ class RestaurantController extends Controller
     {
         return view('public.user.annonce.create.restaurant');
     }
+
+    public function edit()
+    {
+        return view('public.user.annonce.edit.restaurant');
+    }
 }

@@ -1221,6 +1221,9 @@ html body .cl-primary{
 html body .cl-danger{
 	color:#f21136;
 }
+html body .cl-theme{
+	color:#de6600;
+}
 html body .cl-warning{
 	color:#ff9800;
 }
@@ -3184,6 +3187,20 @@ span.approve-listing {
     text-align: center;
     font-size: 10px;
     border: 2px solid #9fd402;
+    line-height: 21px;
+}
+span.not-approve-listing {
+    width: 25px;
+    height: 25px;
+    background: #dc3545;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border-radius: 50%;
+    color: #ffffff;
+    text-align: center;
+    font-size: 10px;
+    border: 2px solid #dc3545;
     line-height: 21px;
 }
 a.author-img-box {

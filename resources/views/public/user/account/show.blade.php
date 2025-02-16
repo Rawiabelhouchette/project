@@ -24,7 +24,7 @@
 
     <div class="page-name auberge row">
         <div class="container text-left">
-        @livewire('admin.profile')
+            @livewire('admin.profile')
         </div>
     </div>
 @endsection

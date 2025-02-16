@@ -6,7 +6,7 @@
         <div class="profile-cover-content">
             <div class="container">
                 <div class="center">
-                    <h3 style="color: white;">500</h3>
+                    <h3 style="color: white;">401</h3>
                 </div>
             </div>
         </div>
@@ -17,9 +17,9 @@
     <section>
         <div class="container">
             <div class="booking-confirm padd-top-10 padd-bot-10">
-                <h1 class="mrg-top-15 mrg-bot-0 cl-theme font-100 font-bold">500</h1>
-                <h2 class="mrg-top-15 cl-theme">Une erreur s'est produite</h2>
-                <p>Veuillez réessayer plus tard</p>
+                <h1 class="mrg-top-15 mrg-bot-0 cl-theme font-100 font-bold">401</h1>
+                <h2 class="mrg-top-15 cl-theme">Accès non autorisé</h2>
+                <p>Vous n'êtes pas autorisé à accéder à cette page</p>
                 <a class="btn theme-btn-trans mrg-top-20" href="{{ route('accueil') }}">Retourner à l'accueil</a>
             </div>
         </div>

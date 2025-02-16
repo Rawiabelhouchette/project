@@ -33,7 +33,7 @@ class Annonce extends Model
         'image',
         'longitude',
         'latitude',
-        'quartier_id',
+        'quartier',
         'ville_id',
     ];
 
@@ -77,6 +77,29 @@ class Annonce extends Model
         static::updating(function ($model) {
             $model->slug = Str::slug($model->titre);
         });
+
+        static::created(function ($model) {
+            $model->addQuartier($model->quartier);
+        });
+
+        static::updated(function ($model) {
+            $model->addQuartier($model->quartier);
+        });
+    }
+
+    private function addQuartier($quartier)
+    {
+        $quartier = ucfirst(mb_strtolower($quartier));
+
+        $existingQuartier = Quartier::where('ville_id', $this->ville_id)->where('nom', $quartier)->first();
+        if ($existingQuartier) {
+            $existingQuartier->update(['nom' => $quartier]);
+        } else {
+            Quartier::create([
+                'ville_id' => $this->ville_id,
+                'nom' => $quartier,
+            ]);
+        }
     }
 
 
@@ -146,10 +169,10 @@ class Annonce extends Model
         return $this->hasMany(View::class);
     }
 
-    public function quartier()
-    {
-        return $this->belongsTo(Quartier::class, 'quartier_id');
-    }
+    // public function quartier()
+    // {
+    //     return $this->belongsTo(Quartier::class, 'quartier_id');
+    // }
 
     public function ville()
     {
@@ -278,12 +301,12 @@ class Annonce extends Model
 
     public function getAdresseCompleteAttribute(): object
     {
-        $quartier = $this->quartier()->first();
-        $ville = $quartier ? $quartier->ville()->first() : $this->ville()->first();
+        $ville = $this->ville()->first();
         $pays = $ville ? $ville->pays()->first() : null;
+        $quartier = $this->quartier;
 
         return (object) [
-            'quartier' => $quartier ? $quartier->nom : '',
+            'quartier' => $quartier ? $quartier : '',
             'ville' => $ville ? $ville->nom : '',
             'pays' => $pays ? $pays->nom : '',
         ];

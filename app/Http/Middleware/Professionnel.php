@@ -16,7 +16,11 @@ class Professionnel
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->user()->hasRole('Professionnel') && !auth()->user()->hasRole('Administrateur')) {
-            return back()->with('error', 'Vous n\'avez pas accès à cette page.');
+            // return back()->with('error', 'Vous n\'avez pas accès à cette page.');
+            // throw new \Illuminate\Auth\Access\AuthorizationException('Vous n\'avez pas accès à cette page.');
+            // not found exception
+            // abort(404);
+            abort(401);
         }
         return $next($request);
     }

@@ -1,4 +1,26 @@
 @props(['login' => true])
+
+<style>
+    body.home-2 nav.navbar {
+        background-color: #ffffff;
+        border-bottom: none;
+        -webkit-box-shadow: 0 2px 4px 0 rgba(188, 195, 208, 0.5);
+        -moz-box-shadow: 0 2px 4px 0 rgba(188, 195, 208, 0.5);
+        box-shadow: 0 2px 4px 0 rgba(188, 195, 208, 0.5);
+        z-index: 999;
+        padding: 1rem 3rem;
+    }
+
+    nav:not(.navbar-transparent) .logo-scrolled,
+    nav.navbar-transparent .logo-display {
+        display: block;
+        width: 70px;
+        height: 70px;
+        max-height: 80px;
+        margin-top: -10px;
+    }
+</style>
+
 <div class="header">
     <nav class="navbar navbar-expand-lg bg-light fixed-top bootsnav navbar-transparent">
         <div class="container-fluid">

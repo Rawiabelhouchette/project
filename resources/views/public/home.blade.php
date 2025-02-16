@@ -9,7 +9,6 @@
 @endsection
 
 @section('content')
-
     @include('components.default-value')
 
     @php
@@ -22,13 +21,14 @@
             <div class="banner-caption">
                 <div class="col-md-12 col-sm-12 banner-text">
                     <div class="logo-home col-md-4" style="background-image:url(assets/img/logo-vamiyi-vacances-white.svg);"></div>
-                    
+
                     <div class="search-home col-md-12">
                         <!-- <h1>Vamiyi</h1> -->
                         <h2>L'aventure commence ici</h2>
                         <p>Explorez les meilleurs hébergements, des restaurants et plus encore...</p>
                     </div>
-                    <div class="form-home col-md-12"><form class="form-verticle" method="GET" action="{{ route('search') }}">
+                    <div class="form-home col-md-12">
+                        <form class="form-verticle" method="GET" action="{{ route('search') }}">
                             <input name="form_request" type="hidden" value="1">
                             <div class="col-md-4 col-sm-4 no-padd">
                                 <i class="banner-icon icon-pencil"></i>
@@ -52,7 +52,7 @@
                                     </select>
                                 </div>
                             </div>
-    
+
                             <div class="col-md-2 col-sm-3 no-padd">
                                 <div class="form-box">
                                     <button class="btn theme-btn btn-default" type="submit">
@@ -61,7 +61,8 @@
                                     </button>
                                 </div>
                             </div>
-                        </form></div>
+                        </form>
+                    </div>
 
                     {{-- <div class="popular-categories">
                         <ul class="popular-categories-list">
@@ -182,7 +183,7 @@
     <!-- End Listings Section -->
 
     <!-- Category Section -->
-  <section class="bg-image" data-overlay="6" style="background:url(assets_client/img/image-stat.JPEG);">
+    <section class="bg-image" data-overlay="6" style="background:url(assets_client/img/image-stat.JPEG);">
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
@@ -216,21 +217,21 @@
     <!-- End Category Section -->
 
     <!-- Top Places Listing -->
-  <!--  <section>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-10">
-                        <div class="heading">
-                            <h2>Les types d'annonce</h2>
-                            <p>La liste des types d'annonce</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    @forelse ($statsAnnonce as $key => $stat)
-                        @if ($key > 5)
-                        @break
-                    @endif
+    <!--  <section>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="heading">
+                                            <h2>Les types d'annonce</h2>
+                                            <p>La liste des types d'annonce</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @forelse ($statsAnnonce as $key => $stat)
+    @if ($key > 5)
+@break
+@endif
                     <div class="col-md-{{ $key % 4 == 0 || $key % 4 == 3 ? '4' : '8' }} col-sm-{{ $key % 4 == 0 || $key % 4 == 3 ? '5' : '7' }}">
                         <a class="place-box" href="{{ route('search.key.type', ['', $stat->type]) }}">
                             <span class="listing-count">
@@ -241,17 +242,17 @@
                                 <span>Voir les annonces</span>
                             </div>
                             @foreach ($listAnnonce as $type)
-                                @if (Str::slug($type->nom) == Str::slug($stat->type) || Str::slug($type->libelle) == Str::slug($stat->type))
-                                    <div class="place-box-bg" style="background-image: url({{ $type->image }});"></div>
-                                @endif
-                            @endforeach
+@if (Str::slug($type->nom) == Str::slug($stat->type) || Str::slug($type->libelle) == Str::slug($stat->type))
+<div class="place-box-bg" style="background-image: url({{ $type->image }});"></div>
+@endif
+@endforeach
                         </a>
                     </div>
-                @empty
+@empty
                     <div class="col-md-12">
                         <p class="text-center">Aucune annonce n'est disponible pour le moment</p>
                     </div>
-                @endforelse
+@endforelse
             </div>
             </div>
         </section> -->
@@ -261,29 +262,41 @@
         <div class="col-md-3 col-sm-6">
             <div class="work-count">
                 <span class="theme-cl icon fa fa-briefcase"></span>
-                <span class="counter">200</span> <span class="counter-incr">+</span>
-                <p>Annonce</p>
+                <span class="counter">
+                    {{ $nbAnnonces }}
+                </span>
+                {{-- <span class="counter-incr">+</span> --}}
+                <p>Annonces</p>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="work-count">
                 <span class="theme-cl icon ti-layers"></span>
-                <span class="counter">307</span> <span class="counter-incr">+</span>
-                <p>Type annonce</p>
+                <span class="counter">
+                    {{ $nbTypesAnnonces }}
+                </span>
+                {{-- <span class="counter-incr">+</span> --}}
+                <p>Types d'annonce</p>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="work-count">
                 <span class="theme-cl icon fa fa-building"></span>
-                <span class="counter">700</span> <span class="counter-incr">+</span>
-                <p>Entreprise</p>
+                <span class="counter">
+                    {{ $nbEntreprises }}
+                </span>
+                {{-- <span class="counter-incr">+</span> --}}
+                <p>Entreprises</p>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
             <div class="work-count">
                 <span class="theme-cl icon ti-user"></span>
-                <span class="counter">770</span> <span class="counter-incr">+</span>
-                <p>Utilisateur</p>
+                <span class="counter">
+                    {{ $nbUtilisateurs }}
+                </span>
+                {{-- <span class="counter-incr">+</span> --}}
+                <p>Utilisateurs</p>
             </div>
         </div>
     </div>

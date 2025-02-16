@@ -38,7 +38,7 @@
         .listing-price-info span {
             display: inline-block;
             /* background: #ffffff; */
-            background: #ff3a72;
+            /* background: #ff3a72; */
             color: #ffffff !important;
             padding: 4px 18px;
             border-radius: 50px;

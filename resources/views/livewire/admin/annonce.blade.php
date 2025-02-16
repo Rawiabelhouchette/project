@@ -38,7 +38,7 @@
         .listing-price-info span {
             display: inline-block;
             /* background: #ffffff; */
-            background: #ff3a72;
+            /* background: #ff3a72; */
             color: #ffffff !important;
             padding: 4px 18px;
             border-radius: 50px;
@@ -59,15 +59,18 @@
             height: 100%;
         }
     </style>
+
     <div class="card">
         <div class="card-body padd-l-0 padd-r-0">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6" style="margin-top: 10px;">
-                        <span class="mrg-l-10" id="nbre-favoris">{{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} favori(s)</span>
+                        <span class="mrg-l-10" id="nbre-favoris">
+                            {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} annonce(s)
+                        </span>
                     </div>
                     <div class="col-md-6 text-center">
-                        <input class="form-control" id="favorite_search" type="text" value="" style="margin-top: 6px; margin-bottom: 6px; height: 35px;" placeholder="Afficher la recherche" wire:model.live.debounce.500ms='search'>
+                        <input class="form-control" id="favorite_search" type="text" value="" style="margin-top: 6px; margin-bottom: 6px; height: 35px;" placeholder="Rechercher" wire:model.live.debounce.500ms='search'>
                     </div>
                 </div>
             </div>
@@ -85,14 +88,25 @@
                                                 <img class="img-responsive" src="http://via.placeholder.com/800x800" alt="">
                                             @endif
                                         </a>
-                                        {{-- <span class="approve-listing"><i class="fa fa-check"></i></span> --}}
+                                        @if ($annonce->is_active && $annonce->date_validite >= now())
+                                            <span class="approve-listing" title="Annonce publiée">
+                                                <i class="fa fa-check"></i>
+                                            </span>
+                                        @else
+                                            <span class="not-approve-listing" title="Annonce non publiée">
+                                                <i class="fa fa-times"></i>
+                                            </span>
+                                        @endif
+                                        {{-- <span class="approve-listing" title="{{ $annonce->is_active ? 'Annonce publiée' : 'Annonce non publiée' }}" style="background-color: {{ $annonce->is_active ? '#28a745' : '#dc3545' }};">
+                                            <i class="fa {{ $annonce->is_active ? 'fa-check' : 'fa-times' }}"></i>
+                                        </span> --}}
                                     </div>
                                     <div class="listing-shot-caption">
                                         <a href="{{ route('show', $annonce->slug) }}">
                                             <h4>{{ $annonce->titre }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
-                                        <a href="#">
+                                        <a class="listing-shot-edit" href="{{ $annonce->annonceable->public_edit_url }}">
                                             <span class="like-listing alt style-2"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                                         </a>
                                     </div>
@@ -156,6 +170,7 @@
                     </ul>
                 </div>
             </div>
+
             <div class="col-md-12">
                 {{ $annonces->links() }}
             </div>

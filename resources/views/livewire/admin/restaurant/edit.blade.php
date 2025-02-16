@@ -16,7 +16,7 @@
                                 <label class="">Entreprise
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <select class="select2" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
+                                <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                                     <option value="">-- Sélectionner --</option>
                                     @foreach ($entreprises as $entreprise)
                                         <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
