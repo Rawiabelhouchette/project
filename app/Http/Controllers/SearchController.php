@@ -38,11 +38,17 @@ class SearchController extends Controller
 
     public function show($slug)
     {
+
         $annonce = Annonce::with(['galerie', 'entreprise', 'commentaires', 'favoris'])
-            ->public()
-            ->where('slug', $slug)
-            ->where('is_active', true)
-            ->first();
+            ->where('slug', $slug);
+
+
+        if ((auth()->check() && auth()->user()->hasRole('Administrateur')) || ((auth()->check() && auth()->user()->hasRole('Professionnel')) && in_array($annonce->entreprise_id, auth()->user()->entreprises->pluck('id')->toArray()))) {
+            $annonce = $annonce->first();
+        } else {
+            $annonce = $annonce->public()->first();
+        }
+
         if (!$annonce) {
             return view('errors.404');
         }

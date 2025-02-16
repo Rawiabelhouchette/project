@@ -128,6 +128,7 @@ class FastFood extends Model implements AnnonceInterface
         for ($i = 0; $i < $maxCount; $i++) {
             $image = isset($tmp_image[$i]) ? Fichier::find($tmp_image[$i]) : null;
             $produits[] = [
+                'id' => $i + 1,
                 'nom' => $tmp_nom[$i] ?? null,
                 'accompagnements' => $tmp_accompagnement[$i] ?? null,
                 'prix' => isset($tmp_prix[$i]) ? (int) $tmp_prix[$i] : null,
