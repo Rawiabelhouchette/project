@@ -326,7 +326,7 @@ button:hover, input:hover, input:focus, button:focus{
 	color:#de6600;
 }
 .btn-general-theme-trans-bg:hover, .btn-general-theme-trans-bg:focus{
-	background:rgba(255, 58, 114,1);
+	background:#de6600;
 	border-color:#de6600;
 	color:#ffffff;
 }
@@ -911,7 +911,7 @@ button.btn.dropdown-toggle.btn-default {
     border: 1px solid #de6600;
 }
 .btn.theme-btn-trans-radius:hover, a.theme-btn-trans-radius:hover, .btn.theme-btn-trans-radius:focus, a.theme-btn-trans-radius:focus{
-	background: rgba(255, 58, 114,1);
+	background: #de6600;
     color: #ffffff;
     border-radius: 50px;
     border: 1px solid #de6600;
@@ -923,7 +923,7 @@ button.btn.dropdown-toggle.btn-default {
     border: 1px solid #de6600;
 }
 .btn.theme-btn-trans:hover, a.theme-btn-trans:hover, .btn.theme-btn-trans:focus, a.theme-btn-trans:focus{
-	background: rgba(255, 58, 114,1);
+	background: #de6600;
     color: #ffffff;
     border-radius:2px;
     border: 1px solid #de6600;
