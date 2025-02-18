@@ -25,7 +25,8 @@
                         <h3>Nom
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <input class="form-control" name="nom" type="text" placeholder="" required wire:model.defer='nom' required>
+                        <input class="form-control" name="nom" type="text" placeholder="" required
+                            wire:model.defer='nom' required>
                         @error('nom')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -33,18 +34,18 @@
                 </div>
             </div>
 
-            {{--   <div class="">
-                    <div class="row">
-                        
-                        <div>
-                            <h3>Superficie (m²)
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3> 
-                            <input type="number" class="form-control" placeholder="" wire:model.defer='superficie'>
-                        </div>
-                        
+            {{-- <div class="">
+                <div class="row">
+
+                    <div>
+                        <h3>Superficie (m²)
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <input type="number" class="form-control" placeholder="" wire:model.defer='superficie'>
                     </div>
-                </div> --}}
+
+                </div>
+            </div> --}}
 
             <div class="row align-items-start">
                 <div class="col nb-personnes">
@@ -52,7 +53,9 @@
 
                         <div>
                             <h3 class="required">Date de validité</h3>
-                            <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                            <input class="form-control" name="date_validite" type="date"
+                                min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite'
+                                required>
                             @error('date_validite')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -67,7 +70,8 @@
                             <h3>Prix minimum
                                 {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                             </h3>
-                            <input class="form-control" name="prix_min" type="number" placeholder="" wire:model.defer='prix_min'>
+                            <input class="form-control" name="prix_min" type="number" placeholder=""
+                                wire:model.defer='prix_min'>
                             @error('prix_min')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -80,7 +84,8 @@
 
                         <div>
                             <h3>Prix maximum</h3>
-                            <input class="form-control" name="prix_max" type="number" placeholder="" wire:model.defer='prix_max'>
+                            <input class="form-control" name="prix_max" type="number" placeholder=""
+                                wire:model.defer='prix_max'>
                             @error('prix_max')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -93,7 +98,8 @@
                 <div class="col">
                     <div>
                         <h3>Nombre de salle de bain</h3>
-                        <input class="form-control" name="nombre_salles_bain" type="number" placeholder="" wire:model.defer='nombre_salles_bain'>
+                        <input class="form-control" name="nombre_salles_bain" type="number" placeholder=""
+                            wire:model.defer='nombre_salles_bain'>
                     </div>
                 </div>
 
@@ -102,7 +108,8 @@
                         <h3>Nombre de personnes
                             {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                         </h3>
-                        <input class="form-control" name="nombre_personne" type="number" placeholder="" wire:model.defer='nombre_personne'>
+                        <input class="form-control" name="nombre_personne" type="number" placeholder=""
+                            wire:model.defer='nombre_personne'>
                     </div>
                 </div>
                 <div class="col">
@@ -110,18 +117,15 @@
                         <h3>Nombre de chambre
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <input class="form-control" name="nombre_chambre" type="number" placeholder="" wire:model.defer='nombre_chambre' required>
+                        <input class="form-control" name="nombre_chambre" type="number" placeholder=""
+                            wire:model.defer='nombre_chambre' required>
                     </div>
 
                 </div>
             </div>
 
-            <div class="row align-items-start" wire:ignore>
-                <div class="col">
-                    <h3>Description</h3>
-                    {{-- <textarea class=" editor" id="description" placeholder="" wire:model.defer='description'></textarea> --}}
-                    <div class="editor" name="description" data-nom="description"></div>
-                </div>
+            <div class="row align-items-start">
+                @include('admin.annonce.description-component')
             </div>
 
             <div class="row align-items-start">
@@ -193,7 +197,8 @@
             <div class="row padd-bot-15">
                 <div class="form-group">
                     <div class="col text-right">
-                        <button class="btn theme-btn" id="submit-btn" type="submit" style="margin-right: 30px;" wire:loading.attr='disabled'>
+                        <button class="btn theme-btn" id="submit-btn" type="submit" style="margin-right: 30px;"
+                            wire:loading.attr='disabled'>
                             <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                             Enregistrer
                         </button>
@@ -206,8 +211,8 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $('#submit-btn').click(function() {
+        $(document).ready(function () {
+            $('#submit-btn').click(function () {
                 var description = $('.ql-editor').html();
                 @this.set('description', description);
             });
@@ -217,7 +222,7 @@
                 width: '100%',
             });
 
-            $('.select2').on('change', function(e) {
+            $('.select2').on('change', function (e) {
                 var data = $(this).val();
                 var nom = $(this).data('nom');
                 @this.set(nom, data);
