@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Utils\AnnonceInterface;
+use App\Utils\Utils;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;

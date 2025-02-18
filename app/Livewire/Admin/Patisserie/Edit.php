@@ -83,6 +83,7 @@ class Edit extends Component
 
     public function mount($patisserie)
     {
+        // dd($patisserie->annonce);
         $this->initialization();
         $this->patisserie = $patisserie;
         $this->entreprise_id = $patisserie->annonce->entreprise_id;
