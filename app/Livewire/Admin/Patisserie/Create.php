@@ -85,7 +85,7 @@ class Create extends Component
             $this->entreprises = Entreprise::all();
         }
 
-        $tmp_produit_fast_food = Reference::where('slug_type', 'restauration')->where('slug_nom', 'produits-fast-food')->first();
+        $tmp_produit_fast_food = Reference::where('slug_type', 'restauration')->where('slug_nom', 'produits-patisserie')->first();
         $tmp_produit_fast_food ?
             $this->list_produits_fast_food = ReferenceValeur::where('reference_id', $tmp_produit_fast_food->id)->select('valeur', 'id')->get() :
             $this->list_produits_fast_food = [];
@@ -247,7 +247,7 @@ class Create extends Component
             $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
 
             // upload image
-            $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'fast-foods');
+            $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'patisseries');
             $this->image_produit .= "{$uploadResult->id}{$separator2}";
         }
 
@@ -263,7 +263,7 @@ class Create extends Component
 
             $annonce = new Annonce([
                 'titre' => $this->nom,
-                'type' => 'Fast-Food',
+                'type' => 'Patisserie',
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
@@ -282,7 +282,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'fast-foods');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'patisseries');
 
             DB::commit();
         } catch (\Throwable $th) {
