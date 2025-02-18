@@ -26,6 +26,10 @@ class FastFood extends Model implements AnnonceInterface
     ];
 
     protected $casts = [
+        'nom_produit' => PurifyHtmlOnGet::class,
+        'accompagnement_produit' => PurifyHtmlOnGet::class,
+        'prix_produit' => PurifyHtmlOnGet::class,
+        'image_produit' => PurifyHtmlOnGet::class,
     ];
 
     protected $appends = [
@@ -33,7 +37,6 @@ class FastFood extends Model implements AnnonceInterface
         'edit_url',
 
         'equipements_restauration',
-        // 'produits_fast_food',
 
         'caracteristiques',
 
@@ -59,11 +62,6 @@ class FastFood extends Model implements AnnonceInterface
     public function getEquipementsRestaurationAttribute(): array
     {
         return $this->annonce->references('equipements-restauration')->pluck('id')->toArray();
-    }
-
-    public function getProduitsFastFoodAttribute(): array
-    {
-        return $this->annonce->references('produits-fast-food')->pluck('id')->toArray();
     }
 
     public function getShowInformationHeader(): View
@@ -96,21 +94,6 @@ class FastFood extends Model implements AnnonceInterface
     public function getCaracteristiquesAttribute(): array
     {
         $attributes = [];
-
-        if ($this->prix_min) {
-            $attributes['Prix minimum'] = $this->prix_min;
-        }
-
-        if ($this->prix_max) {
-            $attributes['Prix maximum'] = $this->prix_max;
-        }
-
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
         return $attributes;
     }
 
