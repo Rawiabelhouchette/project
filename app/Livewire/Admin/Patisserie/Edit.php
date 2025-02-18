@@ -83,7 +83,6 @@ class Edit extends Component
 
     public function mount($patisserie)
     {
-        // dd($patisserie->annonce);
         $this->initialization();
         $this->patisserie = $patisserie;
         $this->entreprise_id = $patisserie->annonce->entreprise_id;
@@ -368,7 +367,7 @@ class Edit extends Component
             return;
         }
 
-        session()->flash('success', 'L\'annonce a bien été ajoutée');
+        session()->flash('success', 'L\'annonce a bien été modifiée.');
         return redirect()->route('public.annonces.list');
     }
 

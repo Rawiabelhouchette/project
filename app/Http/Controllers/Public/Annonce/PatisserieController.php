@@ -13,8 +13,9 @@ class PatisserieController extends Controller
         return view('public.user.annonce.create.patisserie');
     }
 
-    public function edit(Patisserie $patisserie)
+    public function edit(Patisserie $pastryShop)
     {
+        $patisserie = $pastryShop;
         return view('public.user.annonce.edit.patisserie', compact('patisserie'));
     }
 }

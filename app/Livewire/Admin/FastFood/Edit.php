@@ -367,7 +367,7 @@ class Edit extends Component
             return;
         }
 
-        session()->flash('success', 'L\'annonce a bien été ajoutée');
+        session()->flash('success', 'L\'annonce a bien été modifiée');
         return redirect()->route('public.annonces.list');
     }
 
