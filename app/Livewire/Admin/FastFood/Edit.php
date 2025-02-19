@@ -102,7 +102,7 @@ class Edit extends Component
         $this->villes = Ville::where('pays_id', $this->pays_id)->get();
         $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
 
-        $this->produits = $fastFood->produits;
+        $this->produits = $fastFood->menus;
         foreach ($this->produits as $key => $produit) {
             $this->produits[$key]['is_new'] = false;
         }

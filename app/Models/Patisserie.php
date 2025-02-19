@@ -65,12 +65,12 @@ class Patisserie extends Model implements AnnonceInterface
 
     public function getShowInformationHeader(): View
     {
-        return view('components.public.show.fast-food-information-header');
+        return view('components.public.show.patisserie-information-header');
     }
 
     public function getShowInformationBody(): View
     {
-        return view('components.public.show.fast-food-information-body', [
+        return view('components.public.show.patisserie-information-body', [
             'annonce' => $this->annonce,
         ]);
     }

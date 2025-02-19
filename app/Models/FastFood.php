@@ -40,7 +40,7 @@ class FastFood extends Model implements AnnonceInterface
 
         'caracteristiques',
 
-        'produits',
+        'menus',
         'public_edit_url',
     ];
 
@@ -97,9 +97,9 @@ class FastFood extends Model implements AnnonceInterface
         return $attributes;
     }
 
-    public function getProduitsAttribute()
+    public function getMenusAttribute()
     {
-        $produits = [];
+        $menus = [];
 
         $tmp_nom = $this->getStringArray($this->nom_produit);
         $tmp_accompagnement = $this->getStringArray($this->accompagnement_produit);
@@ -110,7 +110,7 @@ class FastFood extends Model implements AnnonceInterface
 
         for ($i = 0; $i < $maxCount; $i++) {
             $image = isset($tmp_image[$i]) ? Fichier::find($tmp_image[$i]) : null;
-            $produits[] = [
+            $menus[] = [
                 'id' => $i + 1,
                 'nom' => $tmp_nom[$i] ?? null,
                 'accompagnements' => $tmp_accompagnement[$i] ?? null,
@@ -120,7 +120,7 @@ class FastFood extends Model implements AnnonceInterface
             ];
         }
 
-        return $produits;
+        return $menus;
     }
 
     public function getPublicEditUrlAttribute(): string

@@ -65,25 +65,25 @@
 
             <div class="row align-items-start">
                 <div class="col produits">
-                    <h3>Produits ({{ count($produits) }})
+                    <h3>Menus ({{ count($produits) }})
                         <b style="color: red; font-size: 100%;">*</b>
                     </h3>
-                    <h4>Carte de produits</h4>
+                    <h4>Carte de menus</h4>
                     <div id="produits-container">
                         <!-- Produit 1 par défaut -->
-                        @foreach ($produits as $index => $plat)
+                        @foreach ($produits as $index => $menu)
                             <div id="produit-item-{{ $index + 1 }}" class="form-group produit-item">
                                 <div>
                                     <button class="btn btn-form" data-bs-toggle="offcanvas"
                                         data-bs-target="#produit-{{ $index + 1 }}" type="button"
                                         aria-controls="produit-{{ $index + 1 }}">
-                                        Produit {{ $index + 1 }} <i class="fa fa-pencil"></i>
+                                        Menu {{ $index + 1 }} : {{ $menu['nom'] }} <i class="fa fa-pencil"></i>
                                     </button>
                                 </div>
                                 <div id="produit-{{ $index + 1 }}" class="offcanvas offcanvas-end" data-bs-scroll="true"
                                     aria-labelledby="produit-{{ $index + 1 }}" tabindex="-1">
                                     <div class="offcanvas-header">
-                                        <h5 class="offcanvas-title">Produit {{ $index + 1 }}</h5>
+                                        <h5 class="offcanvas-title">Menu {{ $index + 1 }}</h5>
                                         <button id="produits-close-{{ $index + 1 }}" class="btn-close text-reset"
                                             data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
                                     </div>

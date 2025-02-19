@@ -24,7 +24,8 @@
                         <h3>Nom
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <input class="form-control" name="nom" type="text" placeholder="" wire:model.defer='nom' required>
+                        <input class="form-control" name="nom" type="text" placeholder="" wire:model.defer='nom'
+                            required>
                         @error('nom')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -33,9 +34,10 @@
                 {{-- <div class="col validite">
                     <div>
                         <h3 class="required">Date de validité</h3>
-                        <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                        <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}"
+                            placeholder="" wire:model.defer='date_validite' required>
                         @error('date_validite')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div> --}}
@@ -47,7 +49,7 @@
                             <option value="0">Inactif</option>
                         </select>
                         @error('is_active')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div> --}}
@@ -57,7 +59,8 @@
                 <div class="col validite">
                     <div>
                         <h3 class="required">Date de validité</h3>
-                        <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                        <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}"
+                            placeholder="" wire:model.defer='date_validite' required>
                         @error('date_validite')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -82,7 +85,8 @@
                 <div class="col description">
                     <div>
                         <h3>Description</h3>
-                        <textarea class="form-control" id="description" name="description" placeholder="" wire:model.defer='description'></textarea>
+                        <textarea class="form-control" id="description" name="description" placeholder=""
+                            wire:model.defer='description'></textarea>
                         @error('description')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -108,49 +112,69 @@
 
             <div class="row align-items-start">
                 <div class="col produits">
-                    <h3>Produits ({{ count($produits) }})
+                    <h3>Menus ({{ count($produits) }})
                         <b style="color: red; font-size: 100%;">*</b>
                     </h3>
-                    <h4>Carte de produits</h4>
+                    <h4>Carte de menus</h4>
                     <div id="produits-container">
                         <!-- Produit 1 par défaut -->
                         @foreach ($produits as $index => $plat)
                             <div class="form-group produit-item" id="produit-item-{{ $index + 1 }}">
                                 <div>
-                                    <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#produit-{{ $index + 1 }}" type="button" aria-controls="produit-{{ $index + 1 }}">
-                                        Produit {{ $index + 1 }} <i class="fa fa-pencil"></i>
+                                    <button class="btn btn-form" data-bs-toggle="offcanvas"
+                                        data-bs-target="#produit-{{ $index + 1 }}" type="button"
+                                        aria-controls="produit-{{ $index + 1 }}">
+                                        Menu {{ $index + 1 }} : {{ $plat['nom'] }} <i class="fa fa-pencil"></i>
                                     </button>
                                 </div>
-                                <div class="offcanvas offcanvas-end" id="produit-{{ $index + 1 }}" data-bs-scroll="true" aria-labelledby="produit-{{ $index + 1 }}" tabindex="-1">
+                                <div class="offcanvas offcanvas-end" id="produit-{{ $index + 1 }}" data-bs-scroll="true"
+                                    aria-labelledby="produit-{{ $index + 1 }}" tabindex="-1">
                                     <div class="offcanvas-header">
-                                        <h5 class="offcanvas-title">Produit {{ $index + 1 }}</h5>
-                                        <button class="btn-close text-reset" id="produits-close-{{ $index + 1 }}" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
+                                        <h5 class="offcanvas-title">Menu {{ $index + 1 }}</h5>
+                                        <button class="btn-close text-reset" id="produits-close-{{ $index + 1 }}"
+                                            data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
                                     </div>
                                     <div class="offcanvas-body">
                                         <div class="form-group">
-                                            <label for="produit-name-{{ $index + 1 }}">Nom<b style="color: red; font-size: 100%;">*</b></label>
-                                            <input class="form-control required-field" id="produit-name-{{ $index + 1 }}" type="text" wire:model="produits.{{ $index }}.nom">
+                                            <label for="produit-name-{{ $index + 1 }}">Nom<b
+                                                    style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control required-field" id="produit-name-{{ $index + 1 }}"
+                                                type="text" wire:model="produits.{{ $index }}.nom">
                                         </div>
                                         <div class="form-group">
-                                            <label for="produit-description-{{ $index + 1 }}">Accompagnements<b style="color: red; font-size: 100%;">*</b></label>
-                                            <textarea class="form-control required-field" id="produit-description-{{ $index + 1 }}" wire:model="produits.{{ $index }}.accompagnements" rows="3"></textarea>
+                                            <label for="produit-description-{{ $index + 1 }}">Accompagnements<b
+                                                    style="color: red; font-size: 100%;">*</b></label>
+                                            <textarea class="form-control required-field"
+                                                id="produit-description-{{ $index + 1 }}"
+                                                wire:model="produits.{{ $index }}.accompagnements" rows="3"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label for="produit-price-{{ $index + 1 }}">Prix<b style="color: red; font-size: 100%;">*</b></label>
-                                            <input class="form-control required-field" id="produit-price-{{ $index + 1 }}" type="number" wire:model="produits.{{ $index }}.prix">
+                                            <label for="produit-price-{{ $index + 1 }}">Prix<b
+                                                    style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control required-field" id="produit-price-{{ $index + 1 }}"
+                                                type="number" wire:model="produits.{{ $index }}.prix">
                                         </div>
                                         <div class="form-group">
-                                            <label for="form-img-produit-{{ $index + 1 }}">Image à la Une <b style="color: red; font-size: 100%;">*</b></label>
-                                            <input class="form-control form-control-file" id="form-img-produit-{{ $index + 1 }}" data-id="{{ $index + 1 }}" type="file" wire:model="produits.{{ $index }}.image" accept="image/*">
+                                            <label for="form-img-produit-{{ $index + 1 }}">Image à la Une <b
+                                                    style="color: red; font-size: 100%;">*</b></label>
+                                            <input class="form-control form-control-file"
+                                                id="form-img-produit-{{ $index + 1 }}" data-id="{{ $index + 1 }}"
+                                                type="file" wire:model="produits.{{ $index }}.image" accept="image/*">
 
                                             @if (is_string($produits[$index]['image']))
-                                                <img class="listing-shot-img img-responsive" src="{{ asset('storage/' . $produits[$index]['image']) }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
+                                                <img class="listing-shot-img img-responsive"
+                                                    src="{{ asset('storage/' . $produits[$index]['image']) }}" alt=""
+                                                    style="width: 100%; height: 100px; object-fit: cover;">
                                             @else
-                                                <img class="listing-shot-img img-responsive" src="{{ $produits[$index]['image']->temporaryUrl() }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
+                                                <img class="listing-shot-img img-responsive"
+                                                    src="{{ $produits[$index]['image']->temporaryUrl() }}" alt=""
+                                                    style="width: 100%; height: 100px; object-fit: cover;">
                                             @endif
 
                                         </div>
-                                        <button class="btn btn-danger mb-2 delete-produit-btn" data-produit-id="{{ $index + 1 }}" type="button" wire:click="removeProduit({{ $index }})">Supprimer</button>
+                                        <button class="btn btn-danger mb-2 delete-produit-btn"
+                                            data-produit-id="{{ $index + 1 }}" type="button"
+                                            wire:click="removeProduit({{ $index }})">Supprimer</button>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +208,8 @@
                                 <span class="text-danger">{{ $message }}</span>
                             </div>
                         @enderror
-                        <button class="btn btn-success btn-square" id="add-produit-btn" type="button"><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-success btn-square" id="add-produit-btn" type="button"><i
+                                class="fa fa-plus"></i></button>
                     </div>
                 </div>
             </div>
@@ -206,13 +231,13 @@
             <div class="row padd-bot-15">
                 <div class="form-group">
                     <div class="col text-right">
-                        <a class="btn btn-danger" href="{{ route('public.annonces.list') }}" style="margin-right: 30px;" wire:loading.attr="disabled">
+                        <a class="btn btn-danger" href="{{ route('public.annonces.list') }}" style="margin-right: 30px;"
+                            wire:loading.attr="disabled">
                             <i class="fa fa-times fa-lg" style="margin-right: 10px;"></i>
                             Annuler
                         </a>
-                        <button class="btn theme-btn" id="fast-food-form-submit" type="submit" style="margin-right: 30px;" 
-                        {{-- wire:loading.attr="disabled" --}}
-                        >
+                        <button class="btn theme-btn" id="fast-food-form-submit" type="submit"
+                            style="margin-right: 30px;" wire:loading.attr="disabled">
                             <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                             Enregistrer Modifications
                         </button>
@@ -225,13 +250,13 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.select2').select2({
                 height: '25px',
                 width: '100%',
             });
 
-            $('.select2').on('change', function(e) {
+            $('.select2').on('change', function (e) {
                 var data = $(this).val();
                 var nom = $(this).data('nom');
                 @this.set(nom, data);
@@ -241,7 +266,7 @@
     </script>
 
     <script>
-        $('#fast-food-form-submit').on('click', function() {
+        $('#fast-food-form-submit').on('click', function () {
             //  check if all required fields are filled : I dont want a function
 
             const produits = collectProduits();
@@ -296,7 +321,7 @@
             const elementName = $(`#${element}-name-${id}`).val();
 
             // Vérifier si tous les champs obligatoires sont remplis
-            $(`#${element}-item-${id} .required-field`).each(function() {
+            $(`#${element}-item-${id} .required-field`).each(function () {
                 if (!$(this).val()) {
                     isValid = false;
                     $(this).addClass('is-invalid'); // Ajouter une classe pour marquer le champ comme invalide
@@ -316,7 +341,7 @@
         // Vérifier si le nom du produit est unique
         function isProduitNameUnique(elementName, id) {
             let isUnique = true;
-            $('.required-field').each(function() {
+            $('.required-field').each(function () {
                 const currentId = $(this).data('${element}-id');
                 const currentName = $(`#${elementName}-name-${currentId}`).val();
 
@@ -351,7 +376,7 @@
 
         // Réordonner les produits après suppression
         function reorderProduits() {
-            produitsContainer.children('.produit-item').each(function(index) {
+            produitsContainer.children('.produit-item').each(function (index) {
                 const newIndex = index + 1; // Nouvel index (commence à 1)
                 const produitItem = $(this);
 
@@ -390,7 +415,7 @@
         }
 
         // Supprimer un produit
-        $(document).on('click', '.delete-produit-btn', function() {
+        $(document).on('click', '.delete-produit-btn', function () {
             const produitId = $(this).data('produit-id');
             $('#produit-error-message').text(''); // Réinitialiser le message d'erreur
             $(`#produit-item-${produitId}`).remove();
@@ -398,7 +423,7 @@
         });
 
         // Enregistrer un produit (vous pouvez personnaliser selon vos besoins)
-        $(document).on('click', '.save-produit-btn', function() {
+        $(document).on('click', '.save-produit-btn', function () {
             const produitId = $(this).data('produit-id');
             if (validateFields('produit', produitId)) {
                 const produitName = $(`#produit-name-${produitId}`).val();
@@ -415,7 +440,7 @@
         function collectProduits() {
             let produitsData = [];
 
-            $('.produit-item').each(function() {
+            $('.produit-item').each(function () {
                 const produitId = $(this).attr('id').split('-')[2]; // Extraire l'ID du produit
                 const name = $(`#produit-name-${produitId}`).val();
                 const description = $(`#produit-description-${produitId}`).val();

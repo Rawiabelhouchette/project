@@ -55,25 +55,25 @@
         @endforelse
     </div>
 
-    <div class="tab-pane fade" id="menu" role="tabpanel" aria-labelledby="menu-tab">
+    <div class="tab-pane fade" id="produit" role="tabpanel" aria-labelledby="produit-tab">
         <div class="side-list">
             <ul>
-                @forelse ($annonce->annonceable->menus as $menu)
+                @forelse ($annonce->annonceable->produits as $produit)
                     <li>
                         <div class="small-listing-box">
                             <div class="small-list-img">
-                                @if ($menu['image'])
-                                    <img class="img-responsive" src="{{ asset('storage/' . $menu['image']) }}" alt="">
+                                @if ($produit['image'])
+                                    <img class="img-responsive" src="{{ asset('storage/' . $produit['image']) }}" alt="">
                                 @else
                                     <img class="img-responsive" src="{{ asset('assets/img/placeholder.svg') }}" alt="">
                                 @endif
                             </div>
                             <div class="small-list-detail">
-                                <h4>{{ $menu['nom'] }}</h4>
-                                <p>{{ $menu['accompagnements'] }}</p>
+                                <h4>{{ $produit['nom'] }}</h4>
+                                <p>{{ $produit['accompagnements'] }}</p>
                             </div>
                             <div class="small-list-action">
-                                <span>{{ number_format($menu['prix'], 0, ',', ' ') }} FCFA</span>
+                                <span>{{ number_format($produit['prix'], 0, ',', ' ') }} FCFA</span>
                             </div>
                         </div>
                     </li>
