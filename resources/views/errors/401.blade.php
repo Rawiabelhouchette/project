@@ -1,5 +1,7 @@
 @extends('layout.public.app')
 
+@section('title', 'Unauthorized')
+
 @section('content')
     <section class="detail-section" data-overlay="6" style="background:url({{ asset('assets_client/img/banner/image-4.jpg') }});">
         <div class="overlay" style="background-color: rgb(36, 36, 41); opacity: 0.5;"></div>

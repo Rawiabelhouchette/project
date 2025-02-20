@@ -18,17 +18,26 @@
                         </div>
                     @enderror
 
+                    @if (session('status'))
+                        <div class="alert-group">
+                            <div class="alert alert-success alert-dismissable" style="text-align: center;">
+                                <button class="close" data-dismiss="alert" type="button" aria-hidden="true">×</button>
+                                {{ session('status') }}
+                            </div>
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="input-group">
 
                             <span class="input-group-addon"><i class="fa fa-envelope theme-cl"></i></span>
-                            <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="text" value="{{ old('email') }}" placeholder="Identifiant" required autocomplete="email" autofocus>
+                            <input id="email" class="form-control @error('email') is-invalid @enderror" name="email" type="text" value="{{ old('email') }}" placeholder="Identifiant" required autocomplete="email" autofocus>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
-                            <input class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="password" placeholder="Mot de Passe" required autocomplete="current-password">
+                            <input id="password" class="form-control @error('password') is-invalid @enderror" name="password" type="password" placeholder="Mot de Passe" required autocomplete="current-password">
                         </div>
 
                         @if (Route::has('password.reset'))
@@ -52,8 +61,9 @@
                                 <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
                             @enderror
                     </div>
+                </div>
 
-                    <div class="text-center mrg-bot-20">
+                    <div class="mrg-bot-20 text-center">
                         <button class="btn theme-btn width-200 btn-radius" type="submit">
                             {{ __('Connexion') }}
                         </button>
