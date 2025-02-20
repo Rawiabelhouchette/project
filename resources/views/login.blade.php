@@ -61,7 +61,6 @@
                                 <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
                             @enderror
                     </div>
-                </div>
 
                     <div class="mrg-bot-20 text-center">
                         <button class="btn theme-btn width-200 btn-radius" type="submit">
@@ -71,7 +70,7 @@
 
                     <div class="center mrg-top-5">
                         <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
-                        <a class="theme-cl" data-toggle="modal" data-target="#register" href="javascript:void(0)">{{ __('Créer un compte') }}</a>
+                        <a class="theme-cl" data-toggle="modal" data-target="#register" href="{{ route('register') }}">{{ __('Créer un compte') }}</a>
                     </div>
                 </form>
 
