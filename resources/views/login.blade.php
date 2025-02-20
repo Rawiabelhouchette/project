@@ -50,8 +50,10 @@
 
                         <span class="custom-checkbox d-block">
                             <input id="remember" name="remember" type="checkbox">
-                            <label for="remember"></label>
-                            {{ __('Se souvenir de moi') }}
+                            <label for="remember">
+                                {{ __('Se souvenir de moi') }}
+                            </label>
+                            
                         </span>
 
                         <div class="form-group">

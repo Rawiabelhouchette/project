@@ -429,3 +429,7 @@ https://www.youtube.com/watch?v=Zs0BVTmT9AY&t=120s&ab_channel=WebTechKnowledge
 
 ## 12/01/2025
 - Redesigner la page d'enregistrement
+
+
+## 20/02/2025
+- Apres connexion renvoyer sur la derniere url
