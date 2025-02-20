@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Utils\AnnonceInterface;
+use App\Utils\Utils;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\View\View;
 use Wildside\Userstamps\Userstamps;
@@ -16,92 +18,112 @@ class Patisserie extends Model implements AnnonceInterface
     use HasFactory, SoftDeletes, Userstamps;
 
     protected $fillable = [
-        'ingredients',
-        'accompagnement',
-        'prix_min',
-        'prix_max',
+        'nom_produit',
+        'accompagnement_produit',
+        'prix_produit',
+        'image_produit',
     ];
 
     protected $casts = [
-        'ingredients' => PurifyHtmlOnGet::class,
-        'accompagnement' => PurifyHtmlOnGet::class,
-        'prix_min' => PurifyHtmlOnGet::class,
-        'prix_max' => PurifyHtmlOnGet::class,
+        'nom_produit' => PurifyHtmlOnGet::class,
+        'accompagnement_produit' => PurifyHtmlOnGet::class,
+        'prix_produit' => PurifyHtmlOnGet::class,
+        'image_produit' => PurifyHtmlOnGet::class,
     ];
 
     protected $appends = [
         'show_url',
-        // 'edit_url',
+        'edit_url',
 
-        'produits_patissiers',
-        'equipements_patisserie',
+        'equipements_restauration',
 
         'caracteristiques',
+
+        'produits',
+        'public_edit_url',
     ];
 
-    public function annonce()
+    public function annonce(): MorphOne
     {
         return $this->morphOne(Annonce::class, 'annonceable');
     }
 
     public function getShowUrlAttribute(): string
     {
-        return route('patisseries.show', $this);
+        return route('pastry-shops.show', $this);
     }
 
-    // public function getEditUrlAttribute(): string
-    // {
-    //     return route('patisseries.edit', $this);
-    // }
-
-    public function getProduitsPatissiersAttribute()
+    public function getEditUrlAttribute(): string
     {
-        return $this->annonce->references('produits-patissiers');
+        return route('public.pastry-shops.edit', $this);
     }
 
-    public function getEquipementsPatisserieAttribute()
+    public function getEquipementsRestaurationAttribute(): array
     {
-        return $this->annonce->references('equipements-patisserie');
+        return $this->annonce->references('equipements-restauration')->pluck('id')->toArray();
     }
 
     public function getShowInformationHeader(): View
     {
-        return view('components.public.show.default-information-header');
+        return view('components.public.show.patisserie-information-header');
     }
 
     public function getShowInformationBody(): View
     {
-        return view('components.public.show.default-information-body', [
+        return view('components.public.show.patisserie-information-body', [
             'annonce' => $this->annonce,
         ]);
+    }
+
+    public function getStringArray($string, $separator = null)
+    {
+        if ($separator === null) {
+            $separator = Utils::getRestaurantValueSeparator();
+        }
+
+        if (empty($string)) {
+            return [];
+        }
+        $tmp = explode($separator, $string);
+        return array_filter($tmp, function ($value) {
+            return $value !== null && $value !== '';
+        });
     }
 
     public function getCaracteristiquesAttribute(): array
     {
         $attributes = [];
-
-        if ($this->ingredients) {
-            $attributes['Ingrédients'] = $this->ingredients;
-        }
-
-        if ($this->accompagnement) {
-            $attributes['Accompagnement'] = $this->accompagnement;
-        }
-
-        if ($this->prix_min) {
-            $attributes['Prix minimum'] = $this->prix_min;
-        }
-
-        if ($this->prix_max) {
-            $attributes['Prix maximum'] = $this->prix_max;
-        }
-
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
         return $attributes;
+    }
+
+    public function getProduitsAttribute()
+    {
+        $produits = [];
+
+        $tmp_nom = $this->getStringArray($this->nom_produit);
+        $tmp_accompagnement = $this->getStringArray($this->accompagnement_produit);
+        $tmp_prix = $this->getStringArray($this->prix_produit);
+        $tmp_image = $this->getStringArray($this->image_produit, Utils::getRestaurantImageSeparator());
+
+        $maxCount = max(count($tmp_nom), count($tmp_accompagnement), count($tmp_prix), count($tmp_image));
+
+        for ($i = 0; $i < $maxCount; $i++) {
+            $image = isset($tmp_image[$i]) ? Fichier::find($tmp_image[$i]) : null;
+            $produits[] = [
+                'id' => $i + 1,
+                'nom' => $tmp_nom[$i] ?? null,
+                'accompagnements' => $tmp_accompagnement[$i] ?? null,
+                'prix' => isset($tmp_prix[$i]) ? (int) $tmp_prix[$i] : null,
+                'image' => $image ? $image->chemin : null,
+                'image_id' => $image ? $image->id : null,
+            ];
+        }
+
+        return $produits;
+    }
+
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.pastry-shops.edit', $this);
     }
 }

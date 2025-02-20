@@ -26,6 +26,10 @@ class FastFood extends Model implements AnnonceInterface
     ];
 
     protected $casts = [
+        'nom_produit' => PurifyHtmlOnGet::class,
+        'accompagnement_produit' => PurifyHtmlOnGet::class,
+        'prix_produit' => PurifyHtmlOnGet::class,
+        'image_produit' => PurifyHtmlOnGet::class,
     ];
 
     protected $appends = [
@@ -33,11 +37,10 @@ class FastFood extends Model implements AnnonceInterface
         'edit_url',
 
         'equipements_restauration',
-        // 'produits_fast_food',
 
         'caracteristiques',
 
-        'produits',
+        'menus',
         'public_edit_url',
     ];
 
@@ -59,11 +62,6 @@ class FastFood extends Model implements AnnonceInterface
     public function getEquipementsRestaurationAttribute(): array
     {
         return $this->annonce->references('equipements-restauration')->pluck('id')->toArray();
-    }
-
-    public function getProduitsFastFoodAttribute(): array
-    {
-        return $this->annonce->references('produits-fast-food')->pluck('id')->toArray();
     }
 
     public function getShowInformationHeader(): View
@@ -96,27 +94,12 @@ class FastFood extends Model implements AnnonceInterface
     public function getCaracteristiquesAttribute(): array
     {
         $attributes = [];
-
-        if ($this->prix_min) {
-            $attributes['Prix minimum'] = $this->prix_min;
-        }
-
-        if ($this->prix_max) {
-            $attributes['Prix maximum'] = $this->prix_max;
-        }
-
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
         return $attributes;
     }
 
-    public function getProduitsAttribute()
+    public function getMenusAttribute()
     {
-        $produits = [];
+        $menus = [];
 
         $tmp_nom = $this->getStringArray($this->nom_produit);
         $tmp_accompagnement = $this->getStringArray($this->accompagnement_produit);
@@ -127,7 +110,7 @@ class FastFood extends Model implements AnnonceInterface
 
         for ($i = 0; $i < $maxCount; $i++) {
             $image = isset($tmp_image[$i]) ? Fichier::find($tmp_image[$i]) : null;
-            $produits[] = [
+            $menus[] = [
                 'id' => $i + 1,
                 'nom' => $tmp_nom[$i] ?? null,
                 'accompagnements' => $tmp_accompagnement[$i] ?? null,
@@ -137,7 +120,7 @@ class FastFood extends Model implements AnnonceInterface
             ];
         }
 
-        return $produits;
+        return $menus;
     }
 
     public function getPublicEditUrlAttribute(): string

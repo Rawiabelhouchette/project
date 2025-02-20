@@ -3,63 +3,114 @@
 namespace App\Livewire\Admin\Patisserie;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
+use App\Models\Annonce;
+use App\Models\Patisserie;
 use App\Models\Entreprise;
+use App\Models\Pays;
+use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
-use Livewire\Component;
-use Livewire\WithFileUploads;
+use App\Utils\Utils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
     use WithFileUploads, AnnonceBaseEdit;
 
+    public $patisserie;
+    public $is_active;
     public $nom;
+    public $type;
     public $description;
     public $date_validite;
     public $entreprise_id;
-    public $is_active;
-
-    public $patisserie;
-
-    public $ingredients;
     public $accompagnement;
 
-    public $prix_min;
-    public $prix_max;
+    public $services = [];
+    public $list_services = [];
 
-    public $equipements_patisserie = [];
-    public $list_equipements_patisserie = [];
+    public $produits_fast_food = [];
+    public $list_produits_fast_food = [];
 
-    public $produits_patissiers = [];
-    public $list_produits_patissiers = [];
+    public $equipements_restauration = [];
+    public $list_equipements_restauration = [];
 
     public $entreprises = [];
 
+    public $nom_produit;
+    public $prix_produit;
+    public $image_produit;
+    public $accompagnements_produit;
+    public $last_produit_id = 0;
+
+    public $produits = [
+        [
+            'nom' => '',
+            'prix' => '',
+            'image' => '',
+            'accompagnements' => '',
+            'image_id' => null,
+            'is_new' => true,
+        ]
+    ];
+
+    public $old_produits = [];
+
+    public $produits_error = '';
+
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
+
+    public $latitude;
+    public $longitude;
+
+    public $image;
+
+    public $galerie = [];
+    public $old_galerie = [];
 
     public function mount($patisserie)
     {
         $this->initialization();
-
         $this->patisserie = $patisserie;
+        $this->entreprise_id = $patisserie->annonce->entreprise_id;
         $this->nom = $patisserie->annonce->titre;
         $this->description = $patisserie->annonce->description;
         $this->date_validite = date('Y-m-d', strtotime($patisserie->annonce->date_validite));
-        $this->entreprise_id = $patisserie->annonce->entreprise_id;
-        $this->is_active = $patisserie->annonce->is_active;
-
-        $this->ingredients = $patisserie->ingredients;
-        $this->accompagnement = $patisserie->accompagnement;
-        $this->prix_min = $patisserie->prix_min;
-        $this->prix_max = $patisserie->prix_max;
-
-        $this->produits_patissiers = $patisserie->annonce->references('produits-patissiers')->pluck('id')->toArray();
-        $this->equipements_patisserie = $patisserie->annonce->references('equipements-patisserie')->pluck('id')->toArray();
-
         $this->old_galerie = $patisserie->annonce->galerie()->get();
         $this->old_image = $patisserie->annonce->imagePrincipale;
+        $this->is_active = $patisserie->annonce->is_active;
+        $this->latitude = $patisserie->annonce->latitude;
+        $this->longitude = $patisserie->annonce->longitude;
+        $this->pays_id = $patisserie->annonce->ville->pays_id;
+        $this->ville_id = $patisserie->annonce->ville_id;
+        $this->quartier_id = $patisserie->annonce->quartier;
+        $this->entreprise_id = $patisserie->annonce->entreprise_id;
+
+        $this->villes = Ville::where('pays_id', $this->pays_id)->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
+
+        $this->produits = $patisserie->produits;
+        foreach ($this->produits as $key => $produit) {
+            $this->produits[$key]['is_new'] = false;
+        }
+        $this->last_produit_id = count($this->produits);
+        $this->old_produits = $this->produits;
+
+        $this->services = $patisserie->annonce->references('services')->pluck('id')->toArray();
+        $this->equipements_restauration = $patisserie->annonce->references('equipements-restauration')->pluck('id')->toArray();
     }
 
     private function initialization()
@@ -70,15 +121,22 @@ class Edit extends Component
             $this->entreprises = Entreprise::all();
         }
 
-        $tmp_equipement_patisserie = Reference::where('slug_type', 'restauration')->where('slug_nom', 'equipements-patisserie')->first();
-        $tmp_equipement_patisserie ?
-            $this->list_equipements_patisserie = ReferenceValeur::where('reference_id', $tmp_equipement_patisserie->id)->select('valeur', 'id')->get() :
-            $this->list_equipements_patisserie = [];
+        $tmp_produit_fast_food = Reference::where('slug_type', 'restauration')->where('slug_nom', 'produits-patisserie')->first();
+        $tmp_produit_fast_food ?
+            $this->list_produits_fast_food = ReferenceValeur::where('reference_id', $tmp_produit_fast_food->id)->select('valeur', 'id')->get() :
+            $this->list_produits_fast_food = [];
 
-        $tmp_produit_patissier = Reference::where('slug_type', 'restauration')->where('slug_nom', 'produits-patissiers')->first();
-        $tmp_produit_patissier ?
-            $this->list_produits_patissiers = ReferenceValeur::where('reference_id', $tmp_produit_patissier->id)->select('valeur', 'id')->get() :
-            $this->list_produits_patissiers = [];
+        $tmp_equipement_restauration = Reference::where('slug_type', 'restauration')->where('slug_nom', 'equipements-restauration')->first();
+        $tmp_equipement_restauration ?
+            $this->list_equipements_restauration = ReferenceValeur::where('reference_id', $tmp_equipement_restauration->id)->select('valeur', 'id')->get() :
+            $this->list_equipements_restauration = [];
+
+        $tmp_services = Reference::where('slug_type', 'restauration')->where('slug_nom', 'services-proposes')->first();
+        $tmp_services ?
+            $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
+            $this->list_services = [];
+
+        $this->pays = Pays::all();
     }
 
     public function rules()
@@ -86,54 +144,140 @@ class Edit extends Component
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
             'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->patisserie->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
-            'description' => 'nullable|string|min:3',
-            'date_validite' => 'required|date',
-            'ingredients' => 'nullable|string|min:3',
-            'accompagnement' => 'nullable|string|min:3',
-            'equipements_patisserie' => 'nullable|array',
-            'equipements_patisserie.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'produits_patissiers' => 'nullable|array',
-            'produits_patissiers.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'galerie' => 'nullable|array',
-            'galerie.*' => 'nullable|image',
-            'prix_min' => 'nullable|numeric|lt:prix_max',
-            'prix_max' => 'nullable|numeric',
+            'description' => 'nullable|min:3|max:255',
+            'date_validite' => 'required|date|after:today',
+
+            'produits' => 'required|array|min:1',
+
+            'pays_id' => 'required|exists:pays,id',
+            'ville_id' => 'required|exists:villes,id',
+            'quartier_id' => 'required|string|max:255',
+
+            'longitude' => 'required|string',
+            'latitude' => 'required|string',
+
+            // 'image' => 'nullable|image|max:1024',
+            // 'galerie.*' => 'nullable|image|max:1024',
         ];
     }
 
     public function messages()
     {
         return [
-            'nom.required' => 'Le nom est obligatoire',
-            'nom.string' => 'Le nom doit être une chaîne de caractères',
-            'nom.min' => 'Le nom doit contenir au moins :min caractères',
-            'description.string' => 'La description doit être une chaîne de caractères',
-            'description.min' => 'La description doit contenir au moins :min caractères',
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
-            'entreprise_id.required' => 'L\'entreprise est obligatoire',
-            'entreprise_id.integer' => 'L\'entreprise doit être un nombre',
-            'ingredients.string' => 'Les ingrédients doivent être une chaîne de caractères',
-            'ingredients.min' => 'Les ingrédients doivent contenir au moins :min caractères',
-            'accompagnement.string' => 'L\'accompagnement doit être une chaîne de caractères',
-            'accompagnement.min' => 'L\'accompagnement doit contenir au moins :min caractères',
-            'equipements_patisserie.array' => 'Les équipements de patisserie doivent être un tableau',
-            'equipements_patisserie.*.integer' => 'Les équipements de patisserie doivent être des nombres',
-            'equipements_patisserie.*.exists' => 'Les équipements de patisserie sélectionnés sont invalides',
-            'produits_patissiers.array' => 'Les produits patissiers doivent être un tableau',
-            'produits_patissiers.*.integer' => 'Les produits patissiers doivent être des nombres',
-            'produits_patissiers.*.exists' => 'Les produits patissiers sélectionnés sont invalides',
-            'galerie.array' => 'La galerie doit être un tableau',
-            'galerie.*.image' => 'La galerie doit contenir des images',
-            'prix_min.numeric' => 'Le prix minimum doit être un nombre',
-            'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
-            'prix_max.numeric' => 'Le prix maximum doit être un nombre',
+            'entreprise_id.required' => 'Le champ entreprise est obligatoire.',
+            'entreprise_id.exists' => 'L\'entreprise sélectionnée n\'existe pas.',
+            'nom.required' => 'Le champ nom est obligatoire.',
+            'nom.string' => 'Le champ nom doit être une chaîne de caractères.',
+            'nom.min' => 'Le champ nom doit contenir au moins 3 caractères.',
+            'nom.max' => 'Le champ nom ne doit pas dépasser 255 caractères.',
+            'nom.unique' => 'Le nom de l\'annonce existe déjà.',
+            'description.string' => 'Le champ description doit être une chaîne de caractères.',
+            'description.min' => 'Le champ description doit contenir au moins 3 caractères.',
+            'description.max' => 'Le champ description ne doit pas dépasser 255 caractères.',
+            'date_validite.required' => 'Le champ date de validité est obligatoire.',
+            'date_validite.date' => 'Le champ date de validité doit être une date.',
+            'date_validite.after' => 'Le champ date de validité doit être une date supérieure à la date du jour.',
+
+            'pays_id.required' => 'Le pays est obligatoire',
+            'pays_id.exists' => 'Le pays n\'existe pas',
+            'ville_id.required' => 'La ville est obligatoire',
+            'ville_id.exists' => 'La ville n\'existe pas',
+            'quartier_id.required' => 'Le quartier est obligatoire',
+
+            'longitude.required' => 'La localisation est obligatoire.',
+            'latitude.required' => 'La latitude est obligatoire.',
+
+            'produits.required' => 'Le champ produits est obligatoire.',
+            'produits.array' => 'Le champ produits doit être un tableau.',
+            'produits.min' => 'Le champ produits doit contenir au moins un élément.',
         ];
+    }
+
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
+    }
+
+    public function addProduit()
+    {
+        $result = $this->checkUniqueProduit();
+        if (!$result) {
+            return;
+        }
+
+        $this->produits_error = '';
+
+        $this->produits[] = [
+            'id' => $this->last_produit_id + 1,
+            'nom' => '',
+            'prix' => '',
+            'image' => '',
+            'accompagnements' => '',
+            'is_new' => true,
+        ];
+    }
+
+    private function checkUniqueProduit(bool $isUpdating = false): bool
+    {
+        $length = count($this->produits);
+        if ($length != 0) {
+            $i = $length - 1;
+            if (empty($this->produits[$i]['nom']) || empty($this->produits[$i]['prix']) || empty($this->produits[$i]['image']) || empty($this->produits[$i]['accompagnements'])) {
+                return false;
+            }
+
+            foreach ($this->produits as $key => $produit) {
+                if ($key == $i)
+                    continue;
+                if ($produit['nom'] == $this->produits[$i]['nom']) {
+                    $this->produits_error = 'Ce nom de produit existe déjà';
+
+                    if ($isUpdating) {
+                        $this->dispatch('swal:modal', [
+                            'icon' => 'error',
+                            'title' => __('Opération échouée'),
+                            'message' => __('Un produit avec le même nom existe déjà'),
+                        ]);
+                    }
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public function removeProduit($key)
+    {
+        unset($this->produits[$key]);
+        $this->produits = array_values($this->produits);
+        $this->produits_error = '';
     }
 
     public function update()
     {
         $this->validate();
+
+
+        if (!$this->checkUniqueProduit(true)) {
+            return;
+        }
 
         if ($this->is_active && $this->date_validite < date('Y-m-d')) {
             $this->dispatch('swal:modal', [
@@ -144,28 +288,67 @@ class Edit extends Component
             return;
         }
 
+        $separator = Utils::getRestaurantValueSeparator();
+        $separator2 = Utils::getRestaurantImageSeparator();
+
         try {
             DB::beginTransaction();
+
+            // Put all produits in the same variable
+            foreach ($this->produits as $index => $produit) {
+                $this->nom_produit .= $produit['nom'] . $separator;
+                $this->prix_produit .= $produit['prix'] . $separator;
+                $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
+
+
+                // check if $produit image is a string or an object
+                if (is_string($produit['image'])) {
+                    $oldProduitsCollection = collect($this->old_produits);
+                    $tmp_produit = $oldProduitsCollection->where('id', $produit['id'])->first();
+                    $this->image_produit .= $tmp_produit['image_id'] . $separator2;
+                    continue;
+                }
+
+
+                // dump($produit);
+                // dd($this->old_produits);
+
+                // upload image
+                if ($produit['is_new']) {
+                    $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'patisseries');
+                    $this->image_produit .= "{$uploadResult->id}{$separator2}";
+                } else {
+                    $uploadResult = AnnoncesUtils::updateImage($produit['image'], 'patisseries', $this->old_produits[$index]['image_id']);
+                    $this->image_produit .= "{$uploadResult->id}{$separator2}";
+                }
+            }
+
+
+            // dump($this->produits);
+            // dd($this->old_produits);
+
+            $this->patisserie->update([
+                'nom_produit' => $this->nom_produit,
+                'accompagnement_produit' => $this->accompagnements_produit,
+                'prix_produit' => $this->prix_produit,
+                'image_produit' => $this->image_produit,
+            ]);
 
             $this->patisserie->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
+                'ville_id' => $this->ville_id,
+                'quartier' => $this->quartier_id,
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
                 'is_active' => $this->is_active,
             ]);
 
-
-            $this->patisserie->update([
-                'ingredients' => $this->ingredients,
-                'accompagnement' => $this->accompagnement,
-                'prix_min' => $this->prix_min,
-                'prix_max' => $this->prix_max,
-            ]);
-
             $references = [
-                ['Equipements patisserie', $this->equipements_patisserie],
-                ['Produits patissiers', $this->produits_patissiers],
+                ['Equipements restauration', $this->equipements_restauration],
+                ['Services', $this->services],
             ];
 
             AnnoncesUtils::updateManyReference($this->patisserie->annonce, $references);
@@ -178,15 +361,14 @@ class Edit extends Component
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Opération réussie'),
-                'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
+                'message' => __('Une erreur est survenue lors de l\'annonce'),
             ]);
             Log::error($th->getMessage());
             return;
         }
 
-        session()->flash('success', __('La patisserie a bien été modifiée avec succès'));
-
-        return redirect()->route('annonces.index');
+        session()->flash('success', 'L\'annonce a bien été modifiée.');
+        return redirect()->route('public.annonces.list');
     }
 
     public function render()

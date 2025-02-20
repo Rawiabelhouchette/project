@@ -47,6 +47,8 @@ class Auberge extends Model implements AnnonceInterface
         'types_hebergement',
 
         'caracteristiques',
+
+        'public_edit_url',
     ];
 
 
@@ -142,6 +144,11 @@ class Auberge extends Model implements AnnonceInterface
         }
 
         return $attributes;
+    }
+
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.hostels.edit', $this);
     }
 
 }

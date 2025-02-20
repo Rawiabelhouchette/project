@@ -102,7 +102,7 @@ class Edit extends Component
         $this->villes = Ville::where('pays_id', $this->pays_id)->get();
         $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
 
-        $this->produits = $fastFood->produits;
+        $this->produits = $fastFood->menus;
         foreach ($this->produits as $key => $produit) {
             $this->produits[$key]['is_new'] = false;
         }
@@ -291,83 +291,83 @@ class Edit extends Component
         $separator = Utils::getRestaurantValueSeparator();
         $separator2 = Utils::getRestaurantImageSeparator();
 
-        // try {
-        DB::beginTransaction();
+        try {
+            DB::beginTransaction();
 
-        // Put all produits in the same variable
-        foreach ($this->produits as $index => $produit) {
-            $this->nom_produit .= $produit['nom'] . $separator;
-            $this->prix_produit .= $produit['prix'] . $separator;
-            $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
+            // Put all produits in the same variable
+            foreach ($this->produits as $index => $produit) {
+                $this->nom_produit .= $produit['nom'] . $separator;
+                $this->prix_produit .= $produit['prix'] . $separator;
+                $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
 
 
-            // check if $produit image is a string or an object
-            if (is_string($produit['image'])) {
-                $oldProduitsCollection = collect($this->old_produits);
-                $tmp_produit = $oldProduitsCollection->where('id', $produit['id'])->first();
-                $this->image_produit .= $tmp_produit['image_id'] . $separator2;
-                continue;
+                // check if $produit image is a string or an object
+                if (is_string($produit['image'])) {
+                    $oldProduitsCollection = collect($this->old_produits);
+                    $tmp_produit = $oldProduitsCollection->where('id', $produit['id'])->first();
+                    $this->image_produit .= $tmp_produit['image_id'] . $separator2;
+                    continue;
+                }
+
+
+                // dump($produit);
+                // dd($this->old_produits);
+
+                // upload image
+                if ($produit['is_new']) {
+                    $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'fast-foods');
+                    $this->image_produit .= "{$uploadResult->id}{$separator2}";
+                } else {
+                    $uploadResult = AnnoncesUtils::updateImage($produit['image'], 'fast-foods', $this->old_produits[$index]['image_id']);
+                    $this->image_produit .= "{$uploadResult->id}{$separator2}";
+                }
             }
 
 
-            // dump($produit);
+            // dump($this->produits);
             // dd($this->old_produits);
 
-            // upload image
-            if ($produit['is_new']) {
-                $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'fast-foods');
-                $this->image_produit .= "{$uploadResult->id}{$separator2}";
-            } else {
-                $uploadResult = AnnoncesUtils::updateImage($produit['image'], 'fast-foods', $this->old_produits[$index]['image_id']);
-                $this->image_produit .= "{$uploadResult->id}{$separator2}";
-            }
+            $this->fastFood->update([
+                'nom_produit' => $this->nom_produit,
+                'accompagnement_produit' => $this->accompagnements_produit,
+                'prix_produit' => $this->prix_produit,
+                'image_produit' => $this->image_produit,
+            ]);
+
+            $this->fastFood->annonce->update([
+                'titre' => $this->nom,
+                'description' => $this->description,
+                'date_validite' => $this->date_validite,
+                'entreprise_id' => $this->entreprise_id,
+                'ville_id' => $this->ville_id,
+                'quartier' => $this->quartier_id,
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
+                'is_active' => $this->is_active,
+            ]);
+
+            $references = [
+                ['Equipements restauration', $this->equipements_restauration],
+                ['Services', $this->services],
+            ];
+
+            AnnoncesUtils::updateManyReference($this->fastFood->annonce, $references);
+
+            AnnoncesUtils::updateGalerie($this->image, $this->fastFood->annonce, $this->galerie, $this->deleted_old_galerie, 'fast-foods');
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération réussie'),
+                'message' => __('Une erreur est survenue lors de l\'annonce'),
+            ]);
+            Log::error($th->getMessage());
+            return;
         }
 
-
-        // dump($this->produits);
-        // dd($this->old_produits);
-
-        $this->fastFood->update([
-            'nom_produit' => $this->nom_produit,
-            'accompagnement_produit' => $this->accompagnements_produit,
-            'prix_produit' => $this->prix_produit,
-            'image_produit' => $this->image_produit,
-        ]);
-
-        $this->fastFood->annonce->update([
-            'titre' => $this->nom,
-            'description' => $this->description,
-            'date_validite' => $this->date_validite,
-            'entreprise_id' => $this->entreprise_id,
-            'ville_id' => $this->ville_id,
-            'quartier' => $this->quartier_id,
-            'longitude' => $this->longitude,
-            'latitude' => $this->latitude,
-            'is_active' => $this->is_active,
-        ]);
-
-        $references = [
-            ['Equipements restauration', $this->equipements_restauration],
-            ['Services', $this->services],
-        ];
-
-        AnnoncesUtils::updateManyReference($this->fastFood->annonce, $references);
-
-        AnnoncesUtils::updateGalerie($this->image, $this->fastFood->annonce, $this->galerie, $this->deleted_old_galerie, 'fast-foods');
-
-        DB::commit();
-        // } catch (\Throwable $th) {
-        //     DB::rollBack();
-        //     $this->dispatch('swal:modal', [
-        //         'icon' => 'error',
-        //         'title' => __('Opération réussie'),
-        //         'message' => __('Une erreur est survenue lors de l\'annonce'),
-        //     ]);
-        //     Log::error($th->getMessage());
-        //     return;
-        // }
-
-        session()->flash('success', 'L\'annonce a bien été ajoutée');
+        session()->flash('success', 'L\'annonce a bien été modifiée');
         return redirect()->route('public.annonces.list');
     }
 

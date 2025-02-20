@@ -4,19 +4,20 @@ namespace App\Livewire\Admin\Patisserie;
 
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
-use App\Models\Entreprise;
 use App\Models\Patisserie;
+use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
+use App\Utils\Utils;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class Create extends Component
 {
@@ -27,20 +28,34 @@ class Create extends Component
     public $description;
     public $date_validite;
     public $entreprise_id;
-
-    public $ingredients;
     public $accompagnement;
 
-    public $prix_min = 0;
-    public $prix_max = 0;
+    public $services = [];
+    public $list_services = [];
 
-    public $equipements_patisserie = [];
-    public $list_equipements_patisserie = [];
+    public $produits_fast_food = [];
+    public $list_produits_fast_food = [];
 
-    public $produits_patissiers = [];
-    public $list_produits_patissiers = [];
+    public $equipements_restauration = [];
+    public $list_equipements_restauration = [];
 
     public $entreprises = [];
+
+    public $nom_produit;
+    public $prix_produit;
+    public $image_produit;
+    public $accompagnements_produit;
+
+    public $produits = [
+        [
+            'nom' => '',
+            'prix' => '',
+            'image' => '',
+            'accompagnements' => '',
+        ]
+    ];
+
+    public $produits_error = '';
 
     public $pays = [];
     public $pays_id;
@@ -54,6 +69,8 @@ class Create extends Component
     public $latitude;
     public $longitude;
 
+    public $galerie = [];
+    public $old_galerie = [];
 
     public function mount()
     {
@@ -68,36 +85,34 @@ class Create extends Component
             $this->entreprises = Entreprise::all();
         }
 
-        $tmp_equipement_patisserie = Reference::where('slug_type', 'restauration')->where('slug_nom', 'equipements-patisserie')->first();
-        $tmp_equipement_patisserie ?
-            $this->list_equipements_patisserie = ReferenceValeur::where('reference_id', $tmp_equipement_patisserie->id)->select('valeur', 'id')->get() :
-            $this->list_equipements_patisserie = [];
+        $tmp_produit_fast_food = Reference::where('slug_type', 'restauration')->where('slug_nom', 'produits-patisserie')->first();
+        $tmp_produit_fast_food ?
+            $this->list_produits_fast_food = ReferenceValeur::where('reference_id', $tmp_produit_fast_food->id)->select('valeur', 'id')->get() :
+            $this->list_produits_fast_food = [];
 
-        $tmp_produit_patissier = Reference::where('slug_type', 'restauration')->where('slug_nom', 'produits-patissiers')->first();
-        $tmp_produit_patissier ?
-            $this->list_produits_patissiers = ReferenceValeur::where('reference_id', $tmp_produit_patissier->id)->select('valeur', 'id')->get() :
-            $this->list_produits_patissiers = [];
+        $tmp_equipement_restauration = Reference::where('slug_type', 'restauration')->where('slug_nom', 'equipements-restauration')->first();
+        $tmp_equipement_restauration ?
+            $this->list_equipements_restauration = ReferenceValeur::where('reference_id', $tmp_equipement_restauration->id)->select('valeur', 'id')->get() :
+            $this->list_equipements_restauration = [];
+
+        $tmp_services = Reference::where('slug_type', 'restauration')->where('slug_nom', 'services-proposes')->first();
+        $tmp_services ?
+            $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
+            $this->list_services = [];
 
         $this->pays = Pays::all();
+
     }
 
     public function rules()
     {
         return [
-            'nom' => 'required|string|min:3',
-            'description' => 'nullable|string|min:3',
-            'date_validite' => 'required|date',
-            'entreprise_id' => 'required|integer|exists:entreprises,id',
-            'ingredients' => 'nullable|string|min:3',
-            'accompagnement' => 'nullable|string|min:3',
-            'equipements_patisserie' => 'nullable|array',
-            'equipements_patisserie.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'produits_patissiers' => 'nullable|array',
-            'produits_patissiers.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'galerie' => 'nullable|array',
-            'galerie.*' => 'nullable|image',
-            'prix_min' => 'nullable|numeric|lt:prix_max',
-            'prix_max' => 'nullable|numeric',
+            'entreprise_id' => 'required|exists:entreprises,id',
+            'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
+            'description' => 'nullable|min:3|max:255',
+            'date_validite' => 'required|date|after:today',
+
+            'produits' => 'required|array|min:1',
 
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
@@ -105,36 +120,28 @@ class Create extends Component
 
             'longitude' => 'required|string',
             'latitude' => 'required|string',
+
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,svg',
+            'galerie.*' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,svg',
         ];
     }
 
     public function messages()
     {
         return [
-            'nom.required' => 'Le nom est obligatoire',
-            'nom.string' => 'Le nom doit être une chaîne de caractères',
-            'nom.min' => 'Le nom doit contenir au moins :min caractères',
-            'description.string' => 'La description doit être une chaîne de caractères',
-            'description.min' => 'La description doit contenir au moins :min caractères',
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
-            'entreprise_id.required' => 'L\'entreprise est obligatoire',
-            'entreprise_id.integer' => 'L\'entreprise doit être un nombre',
-            'ingredients.string' => 'Les ingrédients doivent être une chaîne de caractères',
-            'ingredients.min' => 'Les ingrédients doivent contenir au moins :min caractères',
-            'accompagnement.string' => 'L\'accompagnement doit être une chaîne de caractères',
-            'accompagnement.min' => 'L\'accompagnement doit contenir au moins :min caractères',
-            'equipements_patisserie.array' => 'Les équipements de patisserie doivent être un tableau',
-            'equipements_patisserie.*.integer' => 'Les équipements de patisserie doivent être des nombres',
-            'equipements_patisserie.*.exists' => 'Les équipements de patisserie sélectionnés sont invalides',
-            'produits_patissiers.array' => 'Les produits patissiers doivent être un tableau',
-            'produits_patissiers.*.integer' => 'Les produits patissiers doivent être des nombres',
-            'produits_patissiers.*.exists' => 'Les produits patissiers sélectionnés sont invalides',
-            'galerie.array' => 'La galerie doit être un tableau',
-            'galerie.*.image' => 'La galerie doit contenir des images',
-            'prix_min.numeric' => 'Le prix minimum doit être un nombre',
-            'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
-            'prix_max.numeric' => 'Le prix maximum doit être un nombre',
+            'entreprise_id.required' => 'Le champ entreprise est obligatoire.',
+            'entreprise_id.exists' => 'L\'entreprise sélectionnée n\'existe pas.',
+            'nom.required' => 'Le champ nom est obligatoire.',
+            'nom.string' => 'Le champ nom doit être une chaîne de caractères.',
+            'nom.min' => 'Le champ nom doit contenir au moins 3 caractères.',
+            'nom.max' => 'Le champ nom ne doit pas dépasser 255 caractères.',
+            'nom.unique' => 'Le nom de l\'annonce existe déjà.',
+            'description.string' => 'Le champ description doit être une chaîne de caractères.',
+            'description.min' => 'Le champ description doit contenir au moins 3 caractères.',
+            'description.max' => 'Le champ description ne doit pas dépasser 255 caractères.',
+            'date_validite.required' => 'Le champ date de validité est obligatoire.',
+            'date_validite.date' => 'Le champ date de validité doit être une date.',
+            'date_validite.after' => 'Le champ date de validité doit être une date supérieure à la date du jour.',
 
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
@@ -143,6 +150,19 @@ class Create extends Component
             'quartier_id.required' => 'Le quartier est obligatoire',
 
             'longitude.required' => 'La localisation est obligatoire.',
+
+            'produits.required' => 'Le champ produits est obligatoire.',
+            'produits.array' => 'Le champ produits doit être un tableau.',
+            'produits.min' => 'Le champ produits doit contenir au moins un élément.',
+
+            'image.required' => 'L\'image est obligatoire.',
+            'image.image' => 'Le fichier doit être une image.',
+            'image.max' => 'L\'image ne doit pas dépasser 5 Mo.',
+            'image.mimes' => 'L\'image doit être de type jpeg, png, jpg, svg.',
+            'galerie.*.image' => 'Le fichier doit être une image.',
+            'galerie.*.max' => 'L\'image ne doit pas dépasser 5 Mo.',
+            'galerie.*.mimes' => 'L\'image doit être de type jpeg, png, jpg, svg.',
+
         ];
     }
 
@@ -166,18 +186,79 @@ class Create extends Component
         $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
     }
 
+    public function addProduit()
+    {
+        $result = $this->checkUniqueProduit();
+        if (!$result) {
+            return;
+        }
+
+        $this->produits_error = '';
+
+        $this->produits[] = [
+            'nom' => '',
+            'prix' => '',
+            'image' => '',
+            'accompagnements' => '',
+        ];
+    }
+
+    private function checkUniqueProduit(): bool
+    {
+        $length = count($this->produits);
+        if ($length != 0) {
+            $i = $length - 1;
+            if (empty($this->produits[$i]['nom']) || empty($this->produits[$i]['prix']) || empty($this->produits[$i]['image']) || empty($this->produits[$i]['accompagnements'])) {
+                return false;
+            }
+
+            foreach ($this->produits as $key => $produit) {
+                if ($key == $i)
+                    continue;
+                if ($produit['nom'] == $this->produits[$i]['nom']) {
+                    $this->produits_error = 'Ce nom de produit existe déjà';
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public function removeProduit($key)
+    {
+        unset($this->produits[$key]);
+        $this->produits = array_values($this->produits);
+        $this->produits_error = '';
+    }
+
     public function store()
     {
         $this->validate();
+
+        $separator = Utils::getRestaurantValueSeparator();
+        $separator2 = Utils::getRestaurantImageSeparator();
+        $quartier = $this->quartier_id;
+
+        // Put all produits in the same variable
+        foreach ($this->produits as $produit) {
+            $this->nom_produit .= $produit['nom'] . $separator;
+            $this->prix_produit .= $produit['prix'] . $separator;
+            $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
+
+            // upload image
+            $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'patisseries');
+            $this->image_produit .= "{$uploadResult->id}{$separator2}";
+        }
 
         try {
             DB::beginTransaction();
 
             $patisserie = Patisserie::create([
-                'ingredients' => $this->ingredients,
-                'accompagnement' => $this->accompagnement,
-                'prix_min' => $this->prix_min,
-                'prix_max' => $this->prix_max,
+                'nom_produit' => $this->nom_produit,
+                'accompagnement_produit' => $this->accompagnements_produit,
+                'prix_produit' => $this->prix_produit,
+                'image_produit' => $this->image_produit,
             ]);
 
             $annonce = new Annonce([
@@ -186,10 +267,8 @@ class Create extends Component
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
-
                 'ville_id' => $this->ville_id,
-                'quartier' => $this->quartier_id,
-
+                'quartier' => $quartier,
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
             ]);
@@ -197,8 +276,8 @@ class Create extends Component
             $patisserie->annonce()->save($annonce);
 
             $references = [
-                ['Equipements patisserie', $this->equipements_patisserie],
-                ['Produits patissiers', $this->produits_patissiers],
+                ['Equipements restauration', $this->equipements_restauration],
+                ['Services', $this->services],
             ];
 
             AnnoncesUtils::createManyReference($annonce, $references);

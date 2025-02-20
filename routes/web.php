@@ -177,6 +177,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
         Route::resource('adverts/hostels', PublicAubergeController::class, [
             'names' => [
                 'create' => 'public.hostels.create',
+                'edit' => 'public.hostels.edit',
             ]
         ]);
 
@@ -226,6 +227,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
         Route::resource('adverts/pastry-shops', PublicPatisserieController::class, [
             'names' => [
                 'create' => 'public.pastry-shops.create',
+                'edit' => 'public.pastry-shops.edit',
             ]
         ]);
 

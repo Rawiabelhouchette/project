@@ -7,8 +7,8 @@
         <button class="nav-link" id="equipement-tab" data-bs-toggle="tab" data-bs-target="#equipement" type="button" role="tab" aria-controls="equipement" aria-selected="true">Équipements</button>
     </li>
 
-    <li class="nav-item" role="menu">
-        <button class="nav-link" id="menu-tab" data-bs-toggle="tab" data-bs-target="#menu" type="button" role="tab" aria-controls="menu" aria-selected="true">Menus</button>
+    <li class="nav-item" role="produit">
+        <button class="nav-link" id="produit-tab" data-bs-toggle="tab" data-bs-target="#produit" type="button" role="tab" aria-controls="produit" aria-selected="true">Produits</button>
     </li>
 
     <li class="nav-item" role="comments">
