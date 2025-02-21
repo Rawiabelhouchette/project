@@ -162,7 +162,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-caption text-center mrg-top-20 mrg-bot-20">
-                                        <h4>Aucun commentaire trouvé</h4>
+                                        <h4>Aucune annonce trouvée</h4>
                                     </div>
                                 </div>
                             </div>

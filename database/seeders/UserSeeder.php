@@ -47,6 +47,16 @@ class UserSeeder extends Seeder
             'heure_fin' => '23:59:00',
         ]);
 
+        $abonnements = \App\Models\Abonnement::create([
+            'offre_abonnement_id' => 1,
+            'date_debut' => now(),
+            'date_fin' => now()->addYears(5),
+            'montant' => 10000,
+            'is_active' => true,
+        ]);
+
+        $abonnements->entreprises()->attach($entreprise->id);
+
 
     }
 }
