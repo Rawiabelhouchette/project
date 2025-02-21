@@ -55,6 +55,8 @@ class Restaurant extends Model implements AnnonceInterface
         'entrees',
         'plats',
         'desserts',
+
+        // 'public_edit_url',
     ];
 
     public static function boot()
@@ -225,4 +227,9 @@ class Restaurant extends Model implements AnnonceInterface
     {
         return [];
     }
+
+    // public function getPublicEditUrlAttribute(): string
+    // {
+    //     return route('public.fast-foods.edit', $this);
+    // }
 }

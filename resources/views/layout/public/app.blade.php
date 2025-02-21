@@ -66,7 +66,7 @@
 
     {!! htmlScriptTagJsApi() !!}
 
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    {{-- <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" /> --}}
 
     @yield('css')
 
@@ -300,13 +300,13 @@
             </script>
         @endif
 
-        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script> --}}
 
-        <script>
+        {{-- <script>
             const quill = new Quill('.editor', {
                 theme: 'snow',
             });
-        </script>
+        </script> --}}
 
         <script>
             $(document).ready(function() {
