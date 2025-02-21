@@ -30,5 +30,23 @@ class UserSeeder extends Seeder
             'telephone' => '90 90 90 87',
             'password' => 'martin',
         ])->assignRole('Administrateur');
+
+        $entreprise = \App\Models\Entreprise::create([
+            'nom' => 'VAMIYI',
+            'slug' => 'vamiyi',
+            'email' => 'contact@vamiyi.com',
+            'telephone' => '93 67 35 76',
+            'whatsapp' => '93 67 35 76',
+            'longitude' => '1.2315569747663',
+            'latitude' => '6.1443779257375',
+        ]);
+
+        $entreprise->heure_ouverture()->create([
+            'jour' => 'Tous les jours',
+            'heure_debut' => '12:00:00',
+            'heure_fin' => '23:59:00',
+        ]);
+
+
     }
 }
