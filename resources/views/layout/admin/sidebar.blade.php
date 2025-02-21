@@ -130,11 +130,11 @@
                 <li class="@yield('abonnement')">
                     <a href="javascript:void(0)"><i class="fa fa-credit-card" aria-hidden="true"></i>Abonnement<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('abonnements.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Ajouter
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="{{ route('abonnements.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Rechercher

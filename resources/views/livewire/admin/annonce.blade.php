@@ -106,7 +106,7 @@
                                             <h4>{{ $annonce->titre }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
-                                        <a class="listing-shot-edit" href="{{ $annonce->annonceable->public_edit_url }}">
+                                        <a class="listing-shot-edit" href="{{ $annonce->annonceable->public_edit_url ?? '#' }}">
                                             <span class="like-listing alt style-2"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                                         </a>
                                     </div>
@@ -162,7 +162,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-caption text-center mrg-top-20 mrg-bot-20">
-                                        <h4>Aucun commentaire trouvé</h4>
+                                        <h4>Aucune annonce trouvée</h4>
                                     </div>
                                 </div>
                             </div>

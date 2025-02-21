@@ -3,12 +3,14 @@
         <form wire:submit.prevent="store" enctype="multipart/form-data">
             @csrf
             <div class="row align-items-start">
-                <div class="col entreprise" wire:ignore>
+                <div class="col entreprise">
                     <div>
                         <h3>Entreprise
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
+                        <h4>Sélectionnez l'entreprise</h4>
+                        <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id'
+                            required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
                                 <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
@@ -19,26 +21,30 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col nom">
-                    <div>
-                        <h3>Nom
-                            <b style="color: red; font-size: 100%;">*</b>
-                        </h3>
-                        <input class="form-control" name="nom" type="text" placeholder="" required wire:model.defer='nom' required>
-                        @error('nom')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+
+                <div class="col restaurant">
+                    <h3>Nom
+                        <b style="color: red; font-size: 100%;">*</b>
+                    </h3>
+                    <h4>Indiquez le nom de votre restaurant</h4>
+                    <input class="form-control" type="text" placeholder="" wire:model.defer='nom' required>
+                    @error('nom')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
-                <div class="col validite">
-                    <div>
-                        <h3 class="required">Date de validité</h3>
-                        <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
-                        @error('date_validite')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+
+                <div class="col restaurant">
+                    <h3>Date de validité
+                        <b style="color: red; font-size: 100%;">*</b>
+                    </h3>
+                    <h4>Indiquez la date d'expiration de l'annonce</h4>
+                    <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder=""
+                        wire:model.defer='date_validite' required>
+                    @error('date_validite')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
+
             </div>
 
             <div class="row align-items-start">

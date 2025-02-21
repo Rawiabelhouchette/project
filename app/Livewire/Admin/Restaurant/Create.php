@@ -328,57 +328,24 @@ class Create extends Component
         $this->entrees_count++;
     }
 
-    public function addDessert()
-    {
-        // check if all fields are filled (desserts_count - 1) times
-        $i = $this->desserts_count - 1;
-        if (empty($this->desserts[$i]['nom']) || empty($this->desserts[$i]['ingredients']) || empty($this->desserts[$i]['prix_min'])) {
-            $this->desserts_error = 'Veuillez remplir tous les champs du dessert précédent';
-            return;
-        }
-
-        $this->desserts[$i]['prix_max'] = $this->desserts[$i]['prix_min'];
-
-        // check if nom is unique
-        foreach ($this->desserts as $key => $dessert) {
-            if ($key == $i)
-                continue;
-            if ($dessert['nom'] == $this->desserts[$i]['nom']) {
-                $this->desserts_error = 'Ce nom de dessert existe déjà';
-                return;
-            }
-        }
-
-        $this->desserts_error = '';
-
-        $this->desserts[] = [
-            'nom' => '',
-            'ingredients' => '',
-            'prix_min' => '',
-            'prix_max' => '',
-        ];
-
-        $this->desserts_count++;
-    }
-
     public function addPlat()
     {
-        // check if all fields are filled (entrees_count - 1) times
-        $i = $this->plats_count - 1;
-        if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['accompagnements']) || empty($this->plats[$i]['prix_min'])) {
-            $this->plats_error = 'Veuillez remplir tous les champs du plat précédent';
-            return;
-        }
-
-        $this->plats[$i]['prix_max'] = $this->plats[$i]['prix_min'];
-
-        // check if nom is unique
-        foreach ($this->plats as $key => $plat) {
-            if ($key == $i)
-                continue;
-            if ($plat['nom'] == $this->plats[$i]['nom']) {
-                $this->plats_error = 'Ce nom de plat existe déjà';
+        $length = count($this->plats);
+        if ($length != 0) {
+            $i = $this->plats_count - 1;
+            if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['accompagnements']) || empty($this->plats[$i]['prix_min']) || empty($this->plats[$i]['image'])) {
                 return;
+            }
+
+            $this->plats[$i]['prix_max'] = $this->plats[$i]['prix_min'];
+
+            foreach ($this->plats as $key => $plat) {
+                if ($key == $i)
+                    continue;
+                if ($plat['nom'] == $this->plats[$i]['nom']) {
+                    $this->plats_error = 'Ce nom de plat existe déjà';
+                    return;
+                }
             }
         }
 
@@ -390,9 +357,44 @@ class Create extends Component
             'accompagnements' => '',
             'prix_min' => '',
             'prix_max' => '',
+            'image' => null,
         ];
 
         $this->plats_count++;
+    }
+
+    public function addDessert()
+    {
+        $length = count($this->desserts);
+        if ($length != 0) {
+            $i = $this->desserts_count - 1;
+            if (empty($this->desserts[$i]['nom']) || empty($this->desserts[$i]['ingredients']) || empty($this->desserts[$i]['prix_min']) || empty($this->desserts[$i]['image'])) {
+                return;
+            }
+
+            $this->desserts[$i]['prix_max'] = $this->desserts[$i]['prix_min'];
+
+            foreach ($this->desserts as $key => $dessert) {
+                if ($key == $i)
+                    continue;
+                if ($dessert['nom'] == $this->desserts[$i]['nom']) {
+                    $this->desserts_error = 'Ce nom de dessert existe déjà';
+                    return;
+                }
+            }
+        }
+
+        $this->desserts_error = '';
+
+        $this->desserts[] = [
+            'nom' => '',
+            'ingredients' => '',
+            'prix_min' => '',
+            'prix_max' => '',
+            'image' => null,
+        ];
+
+        $this->desserts_count++;
     }
 
     public function removeEntree($key)

@@ -16,41 +16,41 @@ class PaysSeeder extends Seeder
      */
     public function run(): void
     {
-        Pays::updateOrCreate([
-            'nom' => 'Togo',
-            'code' => 'togo',
-            'indicatif' => '+228',
-            'langue' => 'Français',
-            'created_by' => User::first()->id,
-            'updated_by' => User::first()->id,
-        ]);
+        // Pays::updateOrCreate([
+        //     'nom' => 'Togo',
+        //     'code' => 'togo',
+        //     'indicatif' => '+228',
+        //     'langue' => 'Français',
+        //     'created_by' => User::first()->id,
+        //     'updated_by' => User::first()->id,
+        // ]);
 
-        Ville::updateOrCreate([
-            'nom' => 'Lomé',
-            'pays_id' => 1,
-            'created_by' => User::first()->id,
-            'updated_by' => User::first()->id,
-        ]);
+        // Ville::updateOrCreate([
+        //     'nom' => 'Lomé',
+        //     'pays_id' => 1,
+        //     'created_by' => User::first()->id,
+        //     'updated_by' => User::first()->id,
+        // ]);
 
-        Quartier::updateOrCreate([
-            'nom' => 'Avedji',
-            'ville_id' => 1,
-            'created_by' => User::first()->id,
-            'updated_by' => User::first()->id,
-        ]);
+        // Quartier::updateOrCreate([
+        //     'nom' => 'Avedji',
+        //     'ville_id' => 1,
+        //     'created_by' => User::first()->id,
+        //     'updated_by' => User::first()->id,
+        // ]);
 
-        Quartier::updateOrCreate([
-            'nom' => 'Totsi',
-            'ville_id' => 1,
-            'created_by' => User::first()->id,
-            'updated_by' => User::first()->id,
-        ]);
+        // Quartier::updateOrCreate([
+        //     'nom' => 'Totsi',
+        //     'ville_id' => 1,
+        //     'created_by' => User::first()->id,
+        //     'updated_by' => User::first()->id,
+        // ]);
 
-        Quartier::updateOrCreate([
-            'nom' => 'Adidogomé',
-            'ville_id' => 1,
-            'created_by' => User::first()->id,
-            'updated_by' => User::first()->id,
-        ]);
+        // Quartier::updateOrCreate([
+        //     'nom' => 'Adidogomé',
+        //     'ville_id' => 1,
+        //     'created_by' => User::first()->id,
+        //     'updated_by' => User::first()->id,
+        // ]);
     }
 }
