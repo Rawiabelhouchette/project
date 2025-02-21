@@ -118,7 +118,7 @@
                             <div class="form-group produit-item" id="produit-item-{{ $index + 1 }}">
                                 <div>
                                     <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#produit-{{ $index + 1 }}" type="button" aria-controls="produit-{{ $index + 1 }}">
-                                        Produit {{ $index + 1 }} <i class="fa fa-pencil"></i>
+                                        Produit {{ $index + 1 }} : {{ $plat['nom'] }} <i class="fa fa-pencil"></i>
                                     </button>
                                 </div>
                                 <div class="offcanvas offcanvas-end" id="produit-{{ $index + 1 }}" data-bs-scroll="true" aria-labelledby="produit-{{ $index + 1 }}" tabindex="-1">
@@ -210,9 +210,7 @@
                             <i class="fa fa-times fa-lg" style="margin-right: 10px;"></i>
                             Annuler
                         </a>
-                        <button class="btn theme-btn" id="fast-food-form-submit" type="submit" style="margin-right: 30px;" 
-                        {{-- wire:loading.attr="disabled" --}}
-                        >
+                        <button class="btn theme-btn" id="fast-food-form-submit" type="submit" style="margin-right: 30px;"                         >
                             <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                             Enregistrer Modifications
                         </button>

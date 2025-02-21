@@ -18,17 +18,26 @@
                         </div>
                     @enderror
 
+                    @if (session('status'))
+                        <div class="alert-group">
+                            <div class="alert alert-success alert-dismissable" style="text-align: center;">
+                                <button class="close" data-dismiss="alert" type="button" aria-hidden="true">×</button>
+                                {{ session('status') }}
+                            </div>
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="input-group">
 
                             <span class="input-group-addon"><i class="fa fa-envelope theme-cl"></i></span>
-                            <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="text" value="{{ old('email') }}" placeholder="Identifiant" required autocomplete="email" autofocus>
+                            <input id="email" class="form-control @error('email') is-invalid @enderror" name="email" type="text" value="{{ old('email') }}" placeholder="Identifiant" required autocomplete="email" autofocus>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
-                            <input class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="password" placeholder="Mot de Passe" required autocomplete="current-password">
+                            <input id="password" class="form-control @error('password') is-invalid @enderror" name="password" type="password" placeholder="Mot de Passe" required autocomplete="current-password">
                         </div>
 
                         @if (Route::has('password.reset'))
@@ -41,8 +50,10 @@
 
                         <span class="custom-checkbox d-block">
                             <input id="remember" name="remember" type="checkbox">
-                            <label for="remember"></label>
-                            {{ __('Se souvenir de moi') }}
+                            <label for="remember">
+                                {{ __('Se souvenir de moi') }}
+                            </label>
+                            
                         </span>
 
                         <div class="form-group">
@@ -53,7 +64,7 @@
                             @enderror
                     </div>
 
-                    <div class="text-center mrg-bot-20">
+                    <div class="mrg-bot-20 text-center">
                         <button class="btn theme-btn width-200 btn-radius" type="submit">
                             {{ __('Connexion') }}
                         </button>
@@ -61,7 +72,7 @@
 
                     <div class="center mrg-top-5">
                         <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
-                        <a class="theme-cl" data-toggle="modal" data-target="#register" href="javascript:void(0)">{{ __('Créer un compte') }}</a>
+                        <a class="theme-cl" data-toggle="modal" data-target="#register" href="{{ route('register') }}">{{ __('Créer un compte') }}</a>
                     </div>
                 </form>
 

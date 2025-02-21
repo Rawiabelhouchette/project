@@ -53,7 +53,7 @@ class AccountController extends Controller
     public function resetPassword(Request $request)
     {
         // YOU SHOULD NOT TELL TO THE USER IF THE EMAIL EXISTS OR NOT
-$request->validate([
+        $request->validate([
             'email' => 'required|email',
         ], [
             'email' => 'Veuillez saisir une adresse email valide.',
@@ -115,8 +115,7 @@ $request->validate([
         );
 
         if ($status == Password::PASSWORD_RESET) {
-            AuthenticationController::login($request);
-            return redirect('/');
+            return redirect()->route('connexion')->with('status', 'Mot de passe réinitialisé. Veuillez vous connecter.');
         } else {
             return back()->withErrors(['email' => 'Le lien de réinitialisation a expiré.']);
         }

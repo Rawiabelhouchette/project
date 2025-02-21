@@ -81,7 +81,7 @@
                             <div id="produit-item-{{ $index + 1 }}" class="form-group produit-item">
                                 <div>
                                     <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#produit-{{ $index + 1 }}" type="button" aria-controls="produit-{{ $index + 1 }}">
-                                        Produit {{ $index + 1 }} <i class="fa fa-pencil"></i>
+                                        Produit {{ $index + 1 }} : {{ $plat['nom'] }} <i class="fa fa-pencil"></i>
                                     </button>
                                 </div>
                                 <div id="produit-{{ $index + 1 }}" class="offcanvas offcanvas-end" data-bs-scroll="true" aria-labelledby="produit-{{ $index + 1 }}" tabindex="-1">
