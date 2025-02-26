@@ -238,6 +238,7 @@ class Edit extends Component
         if ($length != 0) {
             $i = $length - 1;
             if (empty($this->produits[$i]['nom']) || empty($this->produits[$i]['prix']) || empty($this->produits[$i]['image']) || empty($this->produits[$i]['accompagnements'])) {
+                $this->produits_error = 'Veuillez remplir tous les champs';
                 return false;
             }
 

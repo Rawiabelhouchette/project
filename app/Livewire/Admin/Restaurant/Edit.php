@@ -280,6 +280,7 @@ class Edit extends Component
         if ($length != 0) {
             $i = $length - 1;
             if (empty($this->entrees[$i]['nom']) || empty($this->entrees[$i]['ingredients']) || empty($this->entrees[$i]['prix_min']) || empty($this->entrees[$i]['image'])) {
+                $this->entrees_error = 'Veuillez remplir tous les champs';
                 return false;
             }
 
@@ -329,7 +330,8 @@ class Edit extends Component
         $length = count($this->plats);
         if ($length != 0) {
             $i = $length - 1;
-            if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['accompagnements']) || empty($this->plats[$i]['prix_min']) || empty($this->plats[$i]['image'])) {
+            if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['prix_min']) || empty($this->plats[$i]['image'])) {
+                $this->plats_error = 'Veuillez remplir tous les champs';
                 return false;
             }
 
@@ -379,6 +381,7 @@ class Edit extends Component
         if ($length != 0) {
             $i = $length - 1;
             if (empty($this->desserts[$i]['nom']) || empty($this->desserts[$i]['ingredients']) || empty($this->desserts[$i]['prix_min']) || empty($this->desserts[$i]['image'])) {
+                $this->desserts_error = 'Veuillez remplir tous les champs';
                 return false;
             }
 
@@ -429,6 +432,7 @@ class Edit extends Component
     {
         $this->validate();
 
+        
         if (!$this->checkUniqueEntree(true) || !$this->checkUniquePlat(true) || !$this->checkUniqueDessert(true)) {
             return;
         }
@@ -445,7 +449,7 @@ class Edit extends Component
         $separator = Utils::getRestaurantValueSeparator();
         $separator2 = Utils::getRestaurantImageSeparator();
 
-        try {
+        // try {
             DB::beginTransaction();
 
             // Put all entrees in the same variable
@@ -565,16 +569,16 @@ class Edit extends Component
             AnnoncesUtils::updateGalerie($annonce, $this->image, $this->galerie, 'restaurants', $this->old_galerie);
 
             DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $this->dispatch('swal:modal', [
-                'icon' => 'error',
-                'title' => __('Opération échouée'),
-                'message' => __('Une erreur est survenue lors de la mise à jour de l\'annonce'),
-            ]);
-            Log::error($th->getMessage());
-            return;
-        }
+        // } catch (\Throwable $th) {
+        //     DB::rollBack();
+        //     $this->dispatch('swal:modal', [
+        //         'icon' => 'error',
+        //         'title' => __('Opération échouée'),
+        //         'message' => __('Une erreur est survenue lors de la mise à jour de l\'annonce'),
+        //     ]);
+        //     Log::error($th->getMessage());
+        //     return;
+        // }
 
         session()->flash('success', 'L\'annonce a bien été mise à jour');
         return redirect()->route('public.annonces.list');
