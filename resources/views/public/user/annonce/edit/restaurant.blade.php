@@ -42,10 +42,14 @@
         }).addTo(mymap);
 
         var marker;
+        var lat = {{ $restaurant->annonce->latitude ?? 'null' }};
+        var lon = {{ $restaurant->annonce->longitude ?? 'null' }};
 
-        var latlng = L.latLng({{ $restaurant->annonce->latitude }}, {{ $restaurant->annonce->longitude }});
-        marker = L.marker(latlng).addTo(mymap);
-        mymap.setView(latlng, 8); // Set map view to current location
+        if (lat !== null && lon !== null) {
+            var latlng = L.latLng(lat, lon);
+            marker = L.marker(latlng).addTo(mymap);
+            mymap.setView(latlng, 8); // Set map view to current location
+        }
 
         mymap.on('click', function (e) {
             if (marker) {
@@ -53,8 +57,8 @@
             }
 
             marker = L.marker(e.latlng).addTo(mymap);
-            var lat = e.latlng.lat;
-            var lon = e.latlng.lng;
+            lat = e.latlng.lat;
+            lon = e.latlng.lng;
 
             Livewire.dispatch('setLocation', [{
                 lon,

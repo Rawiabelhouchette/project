@@ -162,7 +162,7 @@ class Restaurant extends Model implements AnnonceInterface
         $tmp_image = $this->getStringArray($this->e_image, Utils::getRestaurantImageSeparator());
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
-            $image = Fichier::find($tmp_image[$i]);
+            $image = Fichier::find($tmp_image[$i] ?? null);
             $entrees[] = [
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
@@ -186,7 +186,7 @@ class Restaurant extends Model implements AnnonceInterface
         $tmp_image = $this->getStringArray($this->p_image, Utils::getRestaurantImageSeparator());
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
-            $image = Fichier::find($tmp_image[$i]);
+            $image = Fichier::find($tmp_image[$i] ?? null);
             $plats[] = [
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
@@ -210,7 +210,7 @@ class Restaurant extends Model implements AnnonceInterface
         $tmp_image = $this->getStringArray($this->d_image, Utils::getRestaurantImageSeparator());
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
-            $image = Fichier::find($tmp_image[$i]);
+            $image = Fichier::find($tmp_image[$i] ?? null);
             $desserts[] = [
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],

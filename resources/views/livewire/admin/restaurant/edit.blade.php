@@ -152,9 +152,11 @@
                                                     src="{{ asset('storage/' . $entrees[$index]['image']) }}" alt=""
                                                     style="width: 100%; height: 100px; object-fit: cover;">
                                             @else
-                                                <img class="listing-shot-img img-responsive"
-                                                    src="{{ $entrees[$index]['image']->temporaryUrl() }}" alt=""
-                                                    style="width: 100%; height: 100px; object-fit: cover;">
+                                                @if ($entrees[$index]['image'])
+                                                    <img class="listing-shot-img img-responsive"
+                                                        src="{{ $entrees[$index]['image']->temporaryUrl() }}" alt=""
+                                                        style="width: 100%; height: 100px; object-fit: cover;">
+                                                @endif
                                             @endif
                                         </div>
                                         <button class="btn btn-danger mb-2 delete-entree-btn"
@@ -253,9 +255,11 @@
                                                     src="{{ asset('storage/' . $plats[$index]['image']) }}" alt=""
                                                     style="width: 100%; height: 100px; object-fit: cover;">
                                             @else
-                                                <img class="listing-shot-img img-responsive"
-                                                    src="{{ $plats[$index]['image']->temporaryUrl() }}" alt=""
-                                                    style="width: 100%; height: 100px; object-fit: cover;">
+                                                @if ($plats[$index]['image'])
+                                                    <img class="listing-shot-img img-responsive"
+                                                        src="{{ $plats[$index]['image']->temporaryUrl() }}" alt=""
+                                                        style="width: 100%; height: 100px; object-fit: cover;">
+                                                @endif
                                             @endif
                                         </div>
                                         <button class="btn btn-danger mb-2 delete-plat-btn" data-plat-id="{{ $index + 1 }}"
@@ -353,9 +357,11 @@
                                                     src="{{ asset('storage/' . $desserts[$index]['image']) }}" alt=""
                                                     style="width: 100%; height: 100px; object-fit: cover;">
                                             @else
-                                                <img class="listing-shot-img img-responsive"
-                                                    src="{{ $desserts[$index]['image']->temporaryUrl() }}" alt=""
-                                                    style="width: 100%; height: 100px; object-fit: cover;">
+                                                @if ($desserts[$index]['image'])
+                                                    <img class="listing-shot-img img-responsive"
+                                                        src="{{ $desserts[$index]['image']->temporaryUrl() }}" alt=""
+                                                        style="width: 100%; height: 100px; object-fit: cover;">
+                                                @endif
                                             @endif
                                         </div>
                                         <button class="btn btn-danger mb-2 delete-dessert-btn"
