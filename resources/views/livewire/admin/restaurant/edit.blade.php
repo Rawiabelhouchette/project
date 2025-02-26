@@ -120,11 +120,16 @@
                                                     id="form-img-entree-{{ $index + 1 }}" data-id="{{ $index + 1 }}"
                                                     type="file" wire:model="entrees.{{ $index }}.image" accept="image/*">
 
-                                                @if (!empty($entrees[$index]['image']))
+                                                @if (is_string($entrees[$index]['image']))
                                                     <img class="listing-shot-img img-responsive"
-                                                        src="{{ $entrees[$index]['image']->temporaryUrl() }}" alt=""
+                                                        src="{{ asset('storage/' . $entrees[$index]['image']) }}" alt=""
+                                                        style="width: 100%; height: 100px; object-fit: cover;">
+                                                @else
+                                                    <img class="listing-shot-img img-responsive"
+                                                        src="{{ $entrees[$index]['image'] ? $entrees[$index]['image']->temporaryUrl() : '' }}" alt=""
                                                         style="width: 100%; height: 100px; object-fit: cover;">
                                                 @endif
+
                                             </div>
                                             <button class="btn btn-danger mb-2 delete-entree-btn"
                                                 data-entree-id="{{ $index + 1 }}" type="button"
@@ -218,11 +223,16 @@
                                                     id="form-img-plat-{{ $index + 1 }}" data-id="{{ $index + 1 }}"
                                                     type="file" wire:model="plats.{{ $index }}.image" accept="image/*">
 
-                                                @if (!empty($plats[$index]['image']))
+                                                @if (is_string($plats[$index]['image']))
                                                     <img class="listing-shot-img img-responsive"
-                                                        src="{{ $plats[$index]['image']->temporaryUrl() }}" alt=""
+                                                        src="{{ asset('storage/' . $plats[$index]['image']) }}" alt=""
+                                                        style="width: 100%; height: 100px; object-fit: cover;">
+                                                @else
+                                                    <img class="listing-shot-img img-responsive"
+                                                        src="{{ $plats[$index]['image'] ? $plats[$index]['image']->temporaryUrl() : '' }}" alt=""
                                                         style="width: 100%; height: 100px; object-fit: cover;">
                                                 @endif
+
                                             </div>
                                             <button class="btn btn-danger mb-2 delete-plat-btn"
                                                 data-plat-id="{{ $index + 1 }}" type="button"
@@ -318,11 +328,16 @@
                                                     id="form-img-dessert-{{ $index + 1 }}" data-id="{{ $index + 1 }}"
                                                     type="file" wire:model="desserts.{{ $index }}.image" accept="image/*">
 
-                                                @if (!empty($desserts[$index]['image']))
+                                                @if (is_string($desserts[$index]['image']))
                                                     <img class="listing-shot-img img-responsive"
-                                                        src="{{ $desserts[$index]['image']->temporaryUrl() }}" alt=""
+                                                        src="{{ asset('storage/' . $desserts[$index]['image']) }}" alt=""
+                                                        style="width: 100%; height: 100px; object-fit: cover;">
+                                                @else
+                                                    <img class="listing-shot-img img-responsive"
+                                                        src="{{ $desserts[$index]['image'] ? $desserts[$index]['image']->temporaryUrl() : '' }}" alt=""
                                                         style="width: 100%; height: 100px; object-fit: cover;">
                                                 @endif
+
                                             </div>
                                             <button class="btn btn-danger mb-2 delete-dessert-btn"
                                                 data-dessert-id="{{ $index + 1 }}" type="button"

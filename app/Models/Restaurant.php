@@ -164,11 +164,13 @@ class Restaurant extends Model implements AnnonceInterface
         for ($i = 0; $i < count($tmp_nom); $i++) {
             $image = Fichier::find($tmp_image[$i] ?? null);
             $entrees[] = [
+                'id' => $i + 1,
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
                 'prix_max' => (int) $tmp_prix_max[$i],
                 'image' => $image ? $image->chemin : null,
+                'image_id' => $image ? $image->id : null,
             ];
         }
 
@@ -188,11 +190,13 @@ class Restaurant extends Model implements AnnonceInterface
         for ($i = 0; $i < count($tmp_nom); $i++) {
             $image = Fichier::find($tmp_image[$i] ?? null);
             $plats[] = [
+                'id' => $i + 1,
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
                 'prix_max' => (int) $tmp_prix_max[$i],
                 'image' => $image ? $image->chemin : null,
+                'image_id' => $image ? $image->id : null,
             ];
         }
 
@@ -212,11 +216,13 @@ class Restaurant extends Model implements AnnonceInterface
         for ($i = 0; $i < count($tmp_nom); $i++) {
             $image = Fichier::find($tmp_image[$i] ?? null);
             $desserts[] = [
+                'id' => $i + 1,
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
                 'prix_max' => (int) $tmp_prix_max[$i],
                 'image' => $image ? $image->chemin : null,
+                'image_id' => $image ? $image->id : null,
             ];
         }
 

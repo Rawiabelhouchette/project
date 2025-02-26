@@ -408,7 +408,7 @@ class AnnoncesUtils
         ];
     }
 
-    public static function updateImage($image, string $folder_name, int $image_id): object
+    public static function updateImage($image, string $folder_name, int|null $image_id): object
     {
         $image->store('public/' . $folder_name);
         $fichier = Fichier::find($image_id);
