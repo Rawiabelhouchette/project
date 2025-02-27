@@ -171,6 +171,7 @@ class Restaurant extends Model implements AnnonceInterface
                 'prix_max' => (int) $tmp_prix_max[$i],
                 'image' => $image ? $image->chemin : null,
                 'image_id' => $image ? $image->id : null,
+                'is_new' => false,
             ];
         }
 
@@ -197,6 +198,7 @@ class Restaurant extends Model implements AnnonceInterface
                 'prix_max' => (int) $tmp_prix_max[$i],
                 'image' => $image ? $image->chemin : null,
                 'image_id' => $image ? $image->id : null,
+                'is_new' => false,
             ];
         }
 
@@ -223,6 +225,7 @@ class Restaurant extends Model implements AnnonceInterface
                 'prix_max' => (int) $tmp_prix_max[$i],
                 'image' => $image ? $image->chemin : null,
                 'image_id' => $image ? $image->id : null,
+                'is_new' => false,
             ];
         }
 

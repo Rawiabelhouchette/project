@@ -145,17 +145,8 @@ class Edit extends Component
         $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
 
         $this->entrees = $restaurant->entrees;
-        foreach ($this->entrees as $key => $entree) {
-            $this->entrees[$key]['is_new'] = false;
-        }
         $this->plats = $restaurant->plats;
-        foreach ($this->plats as $key => $plat) {
-            $this->plats[$key]['is_new'] = false;
-        }
         $this->desserts = $restaurant->desserts;
-        foreach ($this->desserts as $key => $dessert) {
-            $this->desserts[$key]['is_new'] = false;
-        }
 
         $this->old_entrees = $this->entrees;
         $this->old_plats = $this->plats;
@@ -297,6 +288,7 @@ class Edit extends Component
             'prix_min' => '',
             'prix_max' => '',
             'image' => null,
+            'is_new' => true,
         ];
     }
 
@@ -348,6 +340,7 @@ class Edit extends Component
             'prix_min' => '',
             'prix_max' => '',
             'image' => null,
+            'is_new' => true,
         ];
     }
 
@@ -398,6 +391,7 @@ class Edit extends Component
             'prix_min' => '',
             'prix_max' => '',
             'image' => null,
+            'is_new' => true,
         ];
     }
 

@@ -48,6 +48,22 @@
                 </div>
 
                 <div class="row align-items-start">
+                    <div class="col col-md-4 col-xs-12 restaurant">
+                        <h3>Statut
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Indiquez si l'annonce est active</h4>
+                        <select class="form-control" wire:model.defer='is_active' required>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                        </select>
+                        @error('is_active')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row align-items-start">
                     @include('admin.annonce.reference-select-component', [
                         'title' => 'Equipements',
                         'name' => 'equipements_restauration',
@@ -126,8 +142,8 @@
                                                         style="width: 100%; height: 100px; object-fit: cover;">
                                                 @else
                                                     <img class="listing-shot-img img-responsive"
-                                                        src="{{ $entrees[$index]['image'] ? $entrees[$index]['image']->temporaryUrl() : '' }}" alt=""
-                                                        style="width: 100%; height: 100px; object-fit: cover;">
+                                                        src="{{ $entrees[$index]['image'] ? $entrees[$index]['image']->temporaryUrl() : '' }}"
+                                                        alt="" style="width: 100%; height: 100px; object-fit: cover;">
                                                 @endif
 
                                             </div>
@@ -229,8 +245,8 @@
                                                         style="width: 100%; height: 100px; object-fit: cover;">
                                                 @else
                                                     <img class="listing-shot-img img-responsive"
-                                                        src="{{ $plats[$index]['image'] ? $plats[$index]['image']->temporaryUrl() : '' }}" alt=""
-                                                        style="width: 100%; height: 100px; object-fit: cover;">
+                                                        src="{{ $plats[$index]['image'] ? $plats[$index]['image']->temporaryUrl() : '' }}"
+                                                        alt="" style="width: 100%; height: 100px; object-fit: cover;">
                                                 @endif
 
                                             </div>
@@ -334,8 +350,8 @@
                                                         style="width: 100%; height: 100px; object-fit: cover;">
                                                 @else
                                                     <img class="listing-shot-img img-responsive"
-                                                        src="{{ $desserts[$index]['image'] ? $desserts[$index]['image']->temporaryUrl() : '' }}" alt=""
-                                                        style="width: 100%; height: 100px; object-fit: cover;">
+                                                        src="{{ $desserts[$index]['image'] ? $desserts[$index]['image']->temporaryUrl() : '' }}"
+                                                        alt="" style="width: 100%; height: 100px; object-fit: cover;">
                                                 @endif
 
                                             </div>
