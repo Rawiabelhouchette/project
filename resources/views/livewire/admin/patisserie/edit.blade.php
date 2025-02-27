@@ -8,6 +8,7 @@
                         <h3>Entreprise
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
+                        <h4>Sélectionnez l'entreprise</h4>
                         <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
@@ -24,6 +25,7 @@
                         <h3>Nom
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
+                        <h4>Indiquez le nom de votre patisserie</h4>
                         <input class="form-control" name="nom" type="text" placeholder="" wire:model.defer='nom' required>
                         @error('nom')
                             <span class="text-danger">{{ $message }}</span>
@@ -57,6 +59,7 @@
                 <div class="col validite">
                     <div>
                         <h3 class="required">Date de validité</h3>
+                        <h4>Indiquez la date d'expiration de l'annonce</h4>
                         <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
                         @error('date_validite')
                             <span class="text-danger">{{ $message }}</span>
@@ -67,6 +70,7 @@
                 <div class="col is_active">
                     <div>
                         <h3 class="required">Statut</h3>
+                        <h4>Indiquez si l'annonce est active ou inactive</h4>
                         <select class="form-control" name="is_active" wire:model.defer='is_active' required>
                             <option value="1">Actif</option>
                             <option value="0">Inactif</option>
@@ -82,6 +86,7 @@
                 <div class="col description">
                     <div>
                         <h3>Description</h3>
+                        <h4>Donnez une description de votre patisserie</h4>
                         <textarea class="form-control" id="description" name="description" placeholder="" wire:model.defer='description'></textarea>
                         @error('description')
                             <span class="text-danger">{{ $message }}</span>
@@ -96,9 +101,7 @@
                     'name' => 'equipements_restauration',
                     'options' => $list_equipements_restauration,
                 ])
-            </div>
-
-            <div class="row align-items-start">
+                
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Services proposés',
                     'name' => 'services',
@@ -118,8 +121,8 @@
                             <div class="form-group produit-item" id="produit-item-{{ $index + 1 }}">
                                 <div>
                                     <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#produit-{{ $index + 1 }}" type="button" aria-controls="produit-{{ $index + 1 }}">
-                                        Produit {{ $index + 1 }} : {{ $plat['nom'] }} <i class="fa fa-pencil"></i>
-                                    </button>
+                                        {{ Str::limit('Produit ' . ($index + 1) . ' : ' . $plat['nom'], 40) }} <i
+                                        class="fa fa-pencil"></i>                                    </button>
                                 </div>
                                 <div class="offcanvas offcanvas-end" id="produit-{{ $index + 1 }}" data-bs-scroll="true" aria-labelledby="produit-{{ $index + 1 }}" tabindex="-1">
                                     <div class="offcanvas-header">

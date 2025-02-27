@@ -1,16 +1,17 @@
 @props(['galery', 'required' => false])
 
-<div class="row">
-    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 20px; padding-left: 40px;padding-right: 40px;">
+<div>
+    <div class="col-md-12" style="margin-top: 10px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px;">
         <div class="row">
-            <div class="col-md-12">
-                <label class="">Image à la une
+            <div class="col col-md-12" style="padding-left: 0; padding-right: 0;">
+                <h3 class="">Image à la une
                     <b style="color: red; font-size: 100%;">*</b>
-                </label>
+                </h3>
+                <h4>Choisissez une image principale pour votre annonce</h4>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" style="padding-left: 0; padding-right: 0;">
                 <label class="btn btn-sm theme-btn" for="upload-image" style="padding: 6px">
                     <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
                     &nbsp; &nbsp; &nbsp;
@@ -23,7 +24,8 @@
                 </label>
             </div>
         </div>
-        <input id="upload-image" type="file" style="display: none;" wire:model="image" accept="image/*" name="image" required> <br>
+        <input id="upload-image" type="file" style="display: none;" wire:model="image" accept="image/*" name="image"
+            required> <br>
         <div class="text-center gallery-box">
             <div class="row">
                 <div class="col-md-3 padd-bot-0">
@@ -31,7 +33,8 @@
                         <div class="listing-shot grid-style padd-0">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
-                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}" alt="">
+                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}"
+                                        alt="">
                                 </a>
                             </div>
                         </div>
@@ -47,12 +50,11 @@
 
     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 40px; padding-left: 40px;padding-right: 40px;">
         <div class="row">
-            <div class="col-md-12">
-                <label class="">Galérie
-                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                </label>
+            <div class="col col-md-12" style="padding-left: 0; padding-right: 0;">
+                <h3 class="">Galérie</h3>
+                <h4>Ajoutez des images pour votre annonce</h4>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="padding-left: 0; padding-right: 0;">
                 <label class="btn btn-sm theme-btn" for="upload" style="padding: 6px">
                     <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
                     &nbsp; &nbsp; &nbsp;
@@ -63,11 +65,14 @@
                     @endif
                     &nbsp; &nbsp;
                 </label>
-                <input id="upload" type="file" style="display: none;" wire:model="selected_images" name="images" accept="image/*" multiple> <br>
+                <input id="upload" type="file" style="display: none;" wire:model="selected_images" name="images"
+                    accept="image/*" multiple> <br>
             </div>
             <div class="col-md-4">
                 @if (count($galerie) != 0)
-                    <a class="btn btn-sm theme-btn-outlined" href="javascript:void(0)" style="padding: 6px" wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?" wire:click="removeAllImages">
+                    <a class="btn btn-sm theme-btn-outlined" href="javascript:void(0)" style="padding: 6px"
+                        wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?"
+                        wire:click="removeAllImages">
                         <i class="fa fa-trash fa-lg" style="margin-left: 10px;"></i>
                         &nbsp; &nbsp; &nbsp;
                         Supprimer toutes les images
@@ -76,8 +81,9 @@
                 @endif
             </div>
             <div class="col-md-4">
-                {{-- <a href="javascript:void(0)" wire:click='restoreImages' wire:confirm="Confirmez-vous cette action ?"
-                   class="btn btn-sm theme-btn-outlined" wire:click="removeAllOldImages" style="padding: 6px">
+                {{-- <a href="javascript:void(0)" wire:click='restoreImages'
+                    wire:confirm="Confirmez-vous cette action ?" class="btn btn-sm theme-btn-outlined"
+                    wire:click="removeAllOldImages" style="padding: 6px">
                     <i class="fa fa-refresh fa-lg" style="margin-left: 10px;"></i>
                     &nbsp; &nbsp; &nbsp;
                     Annuler les modifications
@@ -92,10 +98,12 @@
                         <div class="listing-shot grid-style padd-0">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
-                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}" alt="">
+                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}"
+                                        alt="">
                                 </a>
                                 <span class="approve-listing" style="background-color: red;">
-                                    <a href="javascript:void(0)" style="color: white;" wire:click='removeImage("{{ $index }}")'>
+                                    <a href="javascript:void(0)" style="color: white;"
+                                        wire:click='removeImage("{{ $index }}")'>
                                         <i class="fa fa-trash" style="font-size: 10px;"></i>
                                     </a>
                                 </span>

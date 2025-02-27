@@ -201,8 +201,7 @@
                                         <button class="btn btn-form" data-bs-toggle="offcanvas"
                                             data-bs-target="#plat-{{ $index + 1 }}" type="button"
                                             aria-controls="plat-{{ $index + 1 }}">
-                                            {{ Str::limit('Plat ' . ($index + 1) . ' : ' . $plat['nom'], 40) }} <i
-                                                class="fa fa-pencil"></i>
+                                            {{ Str::limit('Plat ' . ($index + 1) . ' : ' . $plat['nom'], 40) }} <i class="fa fa-pencil"></i>
                                         </button>
                                     </div>
                                     <div class="offcanvas offcanvas-end" id="plat-{{ $index + 1 }}" data-bs-scroll="true"

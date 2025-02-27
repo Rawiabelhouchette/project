@@ -275,7 +275,6 @@ class Edit extends Component
     {
         $this->validate();
 
-
         if (!$this->checkUniqueProduit(true)) {
             return;
         }

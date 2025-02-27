@@ -8,6 +8,7 @@
                         <h3>Entreprise
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
+                        <h4>Sélectionnez l'entreprise</h4>
                         <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
@@ -24,6 +25,7 @@
                         <h3>Nom
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
+                        <h4>Indiquez le nom de votre restaurant</h4>
                         <input class="form-control" name="nom" type="text" placeholder="" wire:model.defer='nom'
                             required>
                         @error('nom')
@@ -59,6 +61,7 @@
                 <div class="col validite">
                     <div>
                         <h3 class="required">Date de validité</h3>
+                        <h4>Indiquez la date d'expiration de l'annonce</h4>
                         <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}"
                             placeholder="" wire:model.defer='date_validite' required>
                         @error('date_validite')
@@ -70,6 +73,7 @@
                 <div class="col is_active">
                     <div>
                         <h3 class="required">Statut</h3>
+                        <h4>Indiquez si l'annonce est active ou inactive</h4>
                         <select class="form-control" name="is_active" wire:model.defer='is_active' required>
                             <option value="1">Actif</option>
                             <option value="0">Inactif</option>
@@ -82,16 +86,7 @@
             </div>
 
             <div class="row align-items-start">
-                <div class="col description">
-                    <div>
-                        <h3>Description</h3>
-                        <textarea class="form-control" id="description" name="description" placeholder=""
-                            wire:model.defer='description'></textarea>
-                        @error('description')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
+                @include('admin.annonce.description-component')
             </div>
 
             <div class="row align-items-start">

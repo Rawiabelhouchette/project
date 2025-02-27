@@ -81,8 +81,8 @@
                                         <button class="btn btn-form" data-bs-toggle="offcanvas"
                                             data-bs-target="#entree-{{ $index + 1 }}" type="button"
                                             aria-controls="entree-{{ $index + 1 }}">
-                                            Entrée {{ $index + 1 }} : {{ $entree['nom'] }} <i class="fa fa-pencil"></i>
-                                        </button>
+                                            {{ Str::limit('Entrée ' . ($index + 1) . ' : ' . $entree['nom'], 40) }} <i
+                                            class="fa fa-pencil"></i>                                        </button>
                                     </div>
                                     <div class="offcanvas offcanvas-end" id="entree-{{ $index + 1 }}" data-bs-scroll="true"
                                         aria-labelledby="entree-{{ $index + 1 }}" tabindex="-1">
@@ -179,7 +179,8 @@
                                         <button class="btn btn-form" data-bs-toggle="offcanvas"
                                             data-bs-target="#plat-{{ $index + 1 }}" type="button"
                                             aria-controls="plat-{{ $index + 1 }}">
-                                            Plat {{ $index + 1 }} : {{ $plat['nom'] }} <i class="fa fa-pencil"></i>
+                                            {{ Str::limit('Plat ' . ($index + 1) . ' : ' . $plat['nom'], 40) }}
+                                            <i class="fa fa-pencil"></i>
                                         </button>
                                     </div>
                                     <div class="offcanvas offcanvas-end" id="plat-{{ $index + 1 }}" data-bs-scroll="true"
@@ -276,8 +277,8 @@
                                         <button class="btn btn-form" data-bs-toggle="offcanvas"
                                             data-bs-target="#dessert-{{ $index + 1 }}" type="button"
                                             aria-controls="dessert-{{ $index + 1 }}">
-                                            Dessert {{ $index + 1 }} : {{ $dessert['nom'] }} <i class="fa fa-pencil"></i>
-                                        </button>
+                                            {{ Str::limit('Dessert ' . ($index + 1) . ' : ' . $dessert['nom'], 40) }} <i
+                                            class="fa fa-pencil"></i>                                        </button>
                                     </div>
                                     <div class="offcanvas offcanvas-end" id="dessert-{{ $index + 1 }}" data-bs-scroll="true"
                                         aria-labelledby="dessert-{{ $index + 1 }}" tabindex="-1">
