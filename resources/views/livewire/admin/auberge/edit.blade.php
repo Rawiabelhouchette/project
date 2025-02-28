@@ -176,13 +176,13 @@
                 ])
             </div>
 
-            <div class="row align-items-start">
-                @include('admin.annonce.location-template', [
-                    'pays' => $pays,
-                    'villes' => $villes,
-                    'quartiers' => $quartiers,
-                ])
+            @include('admin.annonce.location-template', [
+                'pays' => $pays,
+                'villes' => $villes,
+                'quartiers' => $quartiers,
+            ])
 
+            <div class="row align-items-start">
                 @include('admin.annonce.edit-galery-component', [
                     'galerie' => $galerie,
                     'old_galerie' => $old_galerie,
