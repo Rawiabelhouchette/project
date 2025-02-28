@@ -3,14 +3,13 @@
         <form wire:submit.prevent="store" enctype="multipart/form-data">
             @csrf
             <div class="row align-items-start">
-                <div class="col entreprise">
-                    <div>
+                <div class="col-md-4 col-sm-12 p-0">
+                    <div class="col">
                         <h3>Entreprise
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Sélectionnez l'entreprise</h4>
-                        <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id'
-                            required>
+                        <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
                                 <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
@@ -22,27 +21,31 @@
                     </div>
                 </div>
 
-                <div class="col restaurant">
-                    <h3>Nom
-                        <b style="color: red; font-size: 100%;">*</b>
-                    </h3>
-                    <h4>Indiquez le nom de votre restaurant</h4>
-                    <input class="form-control" type="text" placeholder="" wire:model.defer='nom' required>
-                    @error('nom')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                <div class="col-md-4 col-sm-12 p-0">
+                    <div class="col">
+                        <h3>Nom
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Indiquez le nom de votre restaurant</h4>
+                        <input class="form-control" type="text" placeholder="" wire:model.defer='nom' required>
+                        @error('nom')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
 
-                <div class="col restaurant">
-                    <h3>Date de validité
-                        <b style="color: red; font-size: 100%;">*</b>
-                    </h3>
-                    <h4>Indiquez la date d'expiration de l'annonce</h4>
-                    <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder=""
-                        wire:model.defer='date_validite' required>
-                    @error('date_validite')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                <div class="col-md-4 col-sm-12 p-0">
+                    <div class="col">
+                        <h3>Date de validité
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Indiquez la date d'expiration de l'annonce</h4>
+                        <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder=""
+                            wire:model.defer='date_validite' required>
+                        @error('date_validite')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
 
             </div>
@@ -57,7 +60,7 @@
                     'name' => 'equipements_restauration',
                     'options' => $list_equipements_restauration,
                 ])
-                
+
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Services proposés',
                     'name' => 'services',
@@ -66,112 +69,116 @@
             </div>
 
             <div class="row align-items-start">
-                <div class="col produits">
-                    <h3>Menus ({{ count($produits) }})
-                        <b style="color: red; font-size: 100%;">*</b>
-                    </h3>
-                    <h4>Carte de menus</h4>
-                    <div id="produits-container">
-                        <!-- Produit 1 par défaut -->
-                        @foreach ($produits as $index => $menu)
-                            <div id="produit-item-{{ $index + 1 }}" class="form-group produit-item">
-                                <div>
-                                    <button class="btn btn-form" data-bs-toggle="offcanvas"
-                                        data-bs-target="#produit-{{ $index + 1 }}" type="button"
-                                        aria-controls="produit-{{ $index + 1 }}">
-                                        Menu {{ $index + 1 }} : {{ $menu['nom'] }} <i class="fa fa-pencil"></i>
-                                    </button>
-                                </div>
-                                <div id="produit-{{ $index + 1 }}" class="offcanvas offcanvas-end" data-bs-scroll="true"
-                                    aria-labelledby="produit-{{ $index + 1 }}" tabindex="-1">
-                                    <div class="offcanvas-header">
-                                        <h5 class="offcanvas-title">Menu {{ $index + 1 }}</h5>
-                                        <button id="produits-close-{{ $index + 1 }}" class="btn-close text-reset"
-                                            data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
+                <div class="col-md-12 col-sm-12 p-0">
+                    <div class="col produits">
+                        <h3>Menus ({{ count($produits) }})
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Carte de menus</h4>
+                        <div id="produits-container">
+                            <!-- Produit 1 par défaut -->
+                            @foreach ($produits as $index => $menu)
+                                <div id="produit-item-{{ $index + 1 }}" class="form-group produit-item">
+                                    <div>
+                                        <button class="btn btn-form" data-bs-toggle="offcanvas"
+                                            data-bs-target="#produit-{{ $index + 1 }}" type="button"
+                                            aria-controls="produit-{{ $index + 1 }}">
+                                            Menu {{ $index + 1 }} : {{ $menu['nom'] }} <i class="fa fa-pencil"></i>
+                                        </button>
                                     </div>
-                                    <div class="offcanvas-body">
-                                        <div class="form-group">
-                                            <label for="produit-name-{{ $index + 1 }}">Nom<b
-                                                    style="color: red; font-size: 100%;">*</b></label>
-                                            <input id="produit-name-{{ $index + 1 }}" class="form-control required-field"
-                                                type="text" wire:model="produits.{{ $index }}.nom">
+                                    <div id="produit-{{ $index + 1 }}" class="offcanvas offcanvas-end" data-bs-scroll="true"
+                                        aria-labelledby="produit-{{ $index + 1 }}" tabindex="-1">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title">Menu {{ $index + 1 }}</h5>
+                                            <button id="produits-close-{{ $index + 1 }}" class="btn-close text-reset"
+                                                data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="produit-description-{{ $index + 1 }}">Accompagnements<b
-                                                    style="color: red; font-size: 100%;">*</b></label>
-                                            <textarea id="produit-description-{{ $index + 1 }}"
-                                                class="form-control required-field"
-                                                wire:model="produits.{{ $index }}.accompagnements" rows="3"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="produit-price-{{ $index + 1 }}">Prix<b
-                                                    style="color: red; font-size: 100%;">*</b></label>
-                                            <input id="produit-price-{{ $index + 1 }}" class="form-control required-field"
-                                                type="number" wire:model="produits.{{ $index }}.prix">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="form-img-produit-{{ $index + 1 }}">Image à la Une <b
-                                                    style="color: red; font-size: 100%;">*</b></label>
-                                            <input id="form-img-produit-{{ $index + 1 }}"
-                                                class="form-control form-control-file" data-id="{{ $index + 1 }}"
-                                                type="file" wire:model="produits.{{ $index }}.image" accept="image/*">
+                                        <div class="offcanvas-body">
+                                            <div class="form-group">
+                                                <label for="produit-name-{{ $index + 1 }}">Nom<b
+                                                        style="color: red; font-size: 100%;">*</b></label>
+                                                <input id="produit-name-{{ $index + 1 }}"
+                                                    class="form-control required-field" type="text"
+                                                    wire:model="produits.{{ $index }}.nom">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="produit-description-{{ $index + 1 }}">Accompagnements<b
+                                                        style="color: red; font-size: 100%;">*</b></label>
+                                                <textarea id="produit-description-{{ $index + 1 }}"
+                                                    class="form-control required-field"
+                                                    wire:model="produits.{{ $index }}.accompagnements" rows="3"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="produit-price-{{ $index + 1 }}">Prix<b
+                                                        style="color: red; font-size: 100%;">*</b></label>
+                                                <input id="produit-price-{{ $index + 1 }}"
+                                                    class="form-control required-field" type="number"
+                                                    wire:model="produits.{{ $index }}.prix">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-img-produit-{{ $index + 1 }}">Image à la Une <b
+                                                        style="color: red; font-size: 100%;">*</b></label>
+                                                <input id="form-img-produit-{{ $index + 1 }}"
+                                                    class="form-control form-control-file" data-id="{{ $index + 1 }}"
+                                                    type="file" wire:model="produits.{{ $index }}.image" accept="image/*">
 
-                                            @if (!empty($produits[$index]['image']))
-                                                <img class="listing-shot-img img-responsive"
-                                                    src="{{ $produits[$index]['image']->temporaryUrl() }}" alt=""
-                                                    style="width: 100%; height: 100px; object-fit: cover;">
-                                            @endif
+                                                @if (!empty($produits[$index]['image']))
+                                                    <img class="listing-shot-img img-responsive"
+                                                        src="{{ $produits[$index]['image']->temporaryUrl() }}" alt=""
+                                                        style="width: 100%; height: 100px; object-fit: cover;">
+                                                @endif
 
+                                            </div>
+                                            <button class="btn btn-danger delete-produit-btn mb-2"
+                                                data-produit-id="{{ $index + 1 }}" type="button"
+                                                wire:click="removeProduit({{ $index }})">Supprimer</button>
                                         </div>
-                                        <button class="btn btn-danger delete-produit-btn mb-2"
-                                            data-produit-id="{{ $index + 1 }}" type="button"
-                                            wire:click="removeProduit({{ $index }})">Supprimer</button>
                                     </div>
                                 </div>
+                            @endforeach
+
+                            <div class="col-md-12 col-sm-12 text-center">
+                                <span id="produit-error-message" class="text-danger"><br></span>
                             </div>
-                        @endforeach
-
-                        <div class="col-md-12 col-sm-12 text-center">
-                            <span id="produit-error-message" class="text-danger"><br></span>
+                            @if ($produits_error)
+                                <div class="col-md-12 col-sm-12 text-center">
+                                    <span class="text-danger">{{ $produits_error }}</span>
+                                </div>
+                            @endif
+                            @error('produits.*.nom')
+                                <div class="col-md-12 col-sm-12 text-center">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
+                            @error('produits.*.accompagnements')
+                                <div class="col-md-12 col-sm-12 text-center">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
+                            @error('produits.*.prix')
+                                <div class="col-md-12 col-sm-12 text-center">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
+                            @error('produits.*.image')
+                                <div class="col-md-12 col-sm-12 text-center">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </div>
+                            @enderror
+                            <button id="add-produit-btn" class="btn btn-success btn-square" type="button"><i
+                                    class="fa fa-plus"></i></button>
                         </div>
-                        @if ($produits_error)
-                            <div class="col-md-12 col-sm-12 text-center">
-                                <span class="text-danger">{{ $produits_error }}</span>
-                            </div>
-                        @endif
-                        @error('produits.*.nom')
-                            <div class="col-md-12 col-sm-12 text-center">
-                                <span class="text-danger">{{ $message }}</span>
-                            </div>
-                        @enderror
-                        @error('produits.*.accompagnements')
-                            <div class="col-md-12 col-sm-12 text-center">
-                                <span class="text-danger">{{ $message }}</span>
-                            </div>
-                        @enderror
-                        @error('produits.*.prix')
-                            <div class="col-md-12 col-sm-12 text-center">
-                                <span class="text-danger">{{ $message }}</span>
-                            </div>
-                        @enderror
-                        @error('produits.*.image')
-                            <div class="col-md-12 col-sm-12 text-center">
-                                <span class="text-danger">{{ $message }}</span>
-                            </div>
-                        @enderror
-                        <button id="add-produit-btn" class="btn btn-success btn-square" type="button"><i
-                                class="fa fa-plus"></i></button>
                     </div>
                 </div>
             </div>
 
-            <div class="row align-items-start">
-                @include('admin.annonce.location-template', [
-                    'pays' => $pays,
-                    'villes' => $villes,
-                    'quartiers' => $quartiers,
-                ])
+            @include('admin.annonce.location-template', [
+                'pays' => $pays,
+                'villes' => $villes,
+                'quartiers' => $quartiers,
+            ])
 
+            <div class="row align-items-start">
                 @include('admin.annonce.create-galery-component', [
                     'galery' => $galerie,
                 ])

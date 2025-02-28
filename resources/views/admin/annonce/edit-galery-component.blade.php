@@ -1,6 +1,6 @@
 @props(['old_galerie', 'galerie', 'deleted_old_galerie', 'old_image', 'required' => false])
 
-<div class="row">
+<div>
     <div class="col-md-12" style="margin-top: 10px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px;">
         <div class="row">
             <div class="col col-md-12" style="padding-left: 0; padding-right: 0;">
