@@ -280,7 +280,7 @@ class Create extends Component
         //     'title'   => __('Opération réussie'),
         //     'message' => __('L\'auberge a bien été ajoutée'),
         // ]);
-        session()->flash('success', 'L\'auberge a bien été ajoutée');
+        session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('public.annonces.list');
 
         // return redirect()->route('auberges.create');

@@ -23,6 +23,8 @@ class Annonce extends Component
 
     public function render()
     {
+        session()->flash('success', 'L\'annonce a bien été ajoutée');
+
         $search = $this->search;
         $user = User::find(auth()->user()->id);
         $annonces = $user->annonces()->where(function ($query) use ($search) {
