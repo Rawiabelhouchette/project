@@ -38,7 +38,7 @@
         .listing-price-info span {
             display: inline-block;
             /* background: #ffffff; */
-            /* background: #ff3a72; */
+            /* background: #de6600; */
             color: #ffffff !important;
             padding: 4px 18px;
             border-radius: 50px;
@@ -66,11 +66,14 @@
                 <div class="row">
                     <div class="col-md-6" style="margin-top: 10px;">
                         <span class="mrg-l-10" id="nbre-favoris">
-                            {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} annonce(s)
+                            {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }}
+                            annonce(s)
                         </span>
                     </div>
                     <div class="col-md-6 text-center">
-                        <input class="form-control" id="favorite_search" type="text" value="" style="margin-top: 6px; margin-bottom: 6px; height: 35px;" placeholder="Rechercher" wire:model.live.debounce.500ms='search'>
+                        <input class="form-control" id="favorite_search" type="text" value=""
+                            style="margin-top: 6px; margin-bottom: 6px; height: 35px;" placeholder="Rechercher"
+                            wire:model.live.debounce.500ms='search'>
                     </div>
                 </div>
             </div>
@@ -83,7 +86,8 @@
                                     <div class="listing-shot-img">
                                         <a href="{{ route('show', $annonce->slug) }}">
                                             @if ($annonce->image)
-                                                <img class="img-responsive" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="">
+                                                <img class="img-responsive"
+                                                    src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="">
                                             @else
                                                 <img class="img-responsive" src="http://via.placeholder.com/800x800" alt="">
                                             @endif
@@ -97,7 +101,9 @@
                                                 <i class="fa fa-times"></i>
                                             </span>
                                         @endif
-                                        {{-- <span class="approve-listing" title="{{ $annonce->is_active ? 'Annonce publiée' : 'Annonce non publiée' }}" style="background-color: {{ $annonce->is_active ? '#28a745' : '#dc3545' }};">
+                                        {{-- <span class="approve-listing"
+                                            title="{{ $annonce->is_active ? 'Annonce publiée' : 'Annonce non publiée' }}"
+                                            style="background-color: {{ $annonce->is_active ? '#28a745' : '#dc3545' }};">
                                             <i class="fa {{ $annonce->is_active ? 'fa-check' : 'fa-times' }}"></i>
                                         </span> --}}
                                     </div>
@@ -106,8 +112,10 @@
                                             <h4>{{ $annonce->titre }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
-                                        <a class="listing-shot-edit" href="{{ $annonce->annonceable->public_edit_url ?? '#' }}">
-                                            <span class="like-listing alt style-2"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                        <a class="listing-shot-edit"
+                                            href="{{ $annonce->annonceable->public_edit_url ?? '#' }}">
+                                            <span class="like-listing alt style-2"><i class="fa fa-pencil"
+                                                    aria-hidden="true"></i></span>
                                         </a>
                                     </div>
                                     <div class="listing-price-info">
@@ -118,7 +126,8 @@
                                         <div class="row extra">
                                             <div class="col-md-12">
                                                 <div class="listing-detail-info">
-                                                    <span><i class="fa fa-phone" aria-hidden="true"></i> {{ $annonce->entreprise->contact }}</span>
+                                                    <span><i class="fa fa-phone" aria-hidden="true"></i>
+                                                        {{ $annonce->entreprise->contact }}</span>
                                                     <span>
                                                         <i class="fa fa-globe" aria-hidden="true"></i>
                                                         @if ($annonce->entreprise->site_web)
@@ -141,12 +150,14 @@
                                                 &nbsp;&nbsp;
                                                 <i class="fa fa-eye" aria-hidden="true"></i> {{ $annonce->view_count }}
                                                 &nbsp;&nbsp;
-                                                <i class="fa fa-comment" aria-hidden="true"></i> {{ $annonce->comment_count }}
+                                                <i class="fa fa-comment" aria-hidden="true"></i>
+                                                {{ $annonce->comment_count }}
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                                                     @for ($i = 1; $i <= 5; $i++)
-                                                        <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
+                                                        <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star"
+                                                            aria-hidden="true"></i>
                                                     @endfor
                                                     &nbsp;&nbsp;
                                                     {{ $annonce->notation_count }}

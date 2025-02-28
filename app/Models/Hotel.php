@@ -91,7 +91,7 @@ class Hotel extends Model implements AnnonceInterface
 
     public function getEquipementsCuisineAttribute()
     {
-        return $this->annonce->references('accessoires-cuisine');
+        return $this->annonce->references('accessoires-de-cuisine');
     }
 
     public function getTypesHebergementAttribute()

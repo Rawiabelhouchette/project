@@ -110,7 +110,7 @@ class Create extends Component
                 ->get())
             : ($this->list_equipements_salle_bain = []);
 
-        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'accessoires-cuisine')->first();
+        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'accessoires-de-cuisine')->first();
         $tmp_equipements_cuisine
             ? ($this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)
                 ->select('valeur', 'id')
@@ -250,7 +250,7 @@ class Create extends Component
                 ['Services proposés', $this->services],
                 ['Equipements hébergement', $this->equipements_herbegement],
                 ['Equipements salle de bain', $this->equipements_salle_bain],
-                ['Accessoires de cuisines', $this->equipements_cuisine],
+                ['Accessoires de cuisine', $this->equipements_cuisine],
                 ['Types hébergement', $this->types_hebergement]
             ];
 
@@ -280,7 +280,7 @@ class Create extends Component
         //     'title'   => __('Opération réussie'),
         //     'message' => __('L\'auberge a bien été ajoutée'),
         // ]);
-        session()->flash('success', 'L\'auberge a bien été ajoutée');
+        session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('public.annonces.list');
 
         // return redirect()->route('auberges.create');

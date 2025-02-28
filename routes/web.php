@@ -215,6 +215,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
         Route::resource('adverts/restaurants', PublicRestaurantController::class, [
             'names' => [
                 'create' => 'public.restaurants.create',
+                'edit' => 'public.restaurants.edit',
             ]
         ]);
 

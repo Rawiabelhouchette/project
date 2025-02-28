@@ -33,18 +33,18 @@
                 </div>
             </div>
 
-            {{--   <div class="">
-                    <div class="row">
-                        
-                        <div>
-                            <h3>Superficie (m²)
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3> 
-                            <input type="number" class="form-control" placeholder="" wire:model.defer='superficie'>
-                        </div>
-                        
+            {{-- <div class="">
+                <div class="row">
+
+                    <div>
+                        <h3>Superficie (m²)
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <input type="number" class="form-control" placeholder="" wire:model.defer='superficie'>
                     </div>
-                </div> --}}
+
+                </div>
+            </div> --}}
 
             <div class="row align-items-start">
                 <div class="col nb-personnes">
@@ -52,7 +52,8 @@
 
                         <div>
                             <h3 class="required">Date de validité</h3>
-                            <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                            <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder=""
+                                wire:model.defer='date_validite' required>
                             @error('date_validite')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -110,7 +111,8 @@
                         <h3>Nombre de chambre
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_chambre' required>
+                        <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_chambre'
+                            required>
                     </div>
 
                 </div>
@@ -119,7 +121,8 @@
             <div class="row align-items-start" wire:ignore>
                 <div class="col">
                     <h3>Description</h3>
-                    <textarea class="form-control height-100 editor" id="description" placeholder="" wire:model.defer='description'></textarea>
+                    <textarea class="form-control height-100 editor" id="description" placeholder=""
+                        wire:model.defer='description'></textarea>
                 </div>
             </div>
 
@@ -161,7 +164,7 @@
 
                 {{-- equipements_cuisine --}}
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Accessoires de cuisines',
+                    'title' => 'Accessoires de cuisine',
                     'name' => 'equipements_cuisine',
                     'options' => $list_equipements_cuisine,
                     'required' => true,
@@ -192,7 +195,8 @@
             <div class="row padd-bot-15">
                 <div class="form-group">
                     <div class="col text-right">
-                        <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='store' wire:loading.attr='disabled'>
+                        <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='store'
+                            wire:loading.attr='disabled'>
                             <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                             Enregistrer
                         </button>
@@ -205,13 +209,13 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.select2').select2({
                 height: '25px',
                 width: '100%',
             });
 
-            $('.select2').on('change', function(e) {
+            $('.select2').on('change', function (e) {
                 var data = $(this).val();
                 var nom = $(this).data('nom');
                 @this.set(nom, data);

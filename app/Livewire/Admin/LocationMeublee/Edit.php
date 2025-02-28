@@ -66,7 +66,7 @@ class Edit extends Component
         $this->services = $locationMeublee->annonce->references('services-proposes')->pluck('id')->toArray();
         $this->equipements_herbegement = $locationMeublee->annonce->references('equipements-hebergement')->pluck('id')->toArray();
         $this->equipements_salle_bain = $locationMeublee->annonce->references('equipements-salle-de-bain')->pluck('id')->toArray();
-        $this->equipements_cuisine = $locationMeublee->annonce->references('accessoires-cuisine')->pluck('id')->toArray();
+        $this->equipements_cuisine = $locationMeublee->annonce->references('accessoires-de-cuisine')->pluck('id')->toArray();
         $this->types_hebergement = $locationMeublee->annonce->references('types-hebergement')->pluck('id')->toArray();
         $this->old_galerie = $locationMeublee->annonce->galerie()->get();
         $this->old_image = $locationMeublee->annonce->imagePrincipale;
@@ -105,7 +105,7 @@ class Edit extends Component
             $this->list_equipements_salle_bain = ReferenceValeur::where('reference_id', $tmp_equipements_salle_bain->id)->select('valeur', 'id')->get() :
             $this->list_equipements_salle_bain = [];
 
-        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'accessoires-cuisine')->first();
+        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'accessoires-de-cuisine')->first();
         $tmp_equipements_cuisine ?
             $this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)->select('valeur', 'id')->get() :
             $this->list_equipements_cuisine = [];
@@ -222,7 +222,7 @@ class Edit extends Component
                 ['Services proposés', $this->services],
                 ['Equipements hébergement', $this->equipements_herbegement],
                 ['Equipements salle de bain', $this->equipements_salle_bain],
-                ['Accessoires de cuisines', $this->equipements_cuisine],
+                ['Accessoires de cuisine', $this->equipements_cuisine],
                 ['Types hébergement', $this->types_hebergement],
             ];
 

@@ -301,7 +301,7 @@
 
             .autocomplete-items div:hover {
                 background-color: #f6f6f6;
-                /* background-color: #ff3a72; */
+                /* background-color: #de6600; */
                 /* color: #fff; */
                 color: #90969e;
             }

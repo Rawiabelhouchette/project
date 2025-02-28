@@ -38,7 +38,7 @@
     .listing-price-info span {
         display: inline-block;
         /* background: #ffffff; */
-        background: #ff3a72;
+        background: #de6600;
         color: #ffffff !important;
         padding: 4px 18px;
         border-radius: 50px;
@@ -75,7 +75,8 @@
             <div class="listing-shot-img">
                 <a href="{{ route('show', $annonce->slug) }}" target="_blank">
                     @if ($annonce->image)
-                        <img class="img-responsive" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt="" style="object-fit: cover;">
+                        <img class="img-responsive" src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" alt=""
+                            style="object-fit: cover;">
                     @else
                         <img class="img-responsive" src="http://via.placeholder.com/800x800" alt="">
                     @endif
@@ -84,7 +85,9 @@
             <div class="listing-shot-caption">
                 <a href="{{ route('show', $annonce->slug) }}">
                     <h4 class="theme-cl-blue">{{ $annonce->titre }}</h4>
-                    <p class="listing-location">{{ $annonce->description_courte == '' ? 'Pas de description' : $annonce->description_courte }}</p>
+                    <p class="listing-location">
+                        {{ $annonce->description_courte == '' ? 'Pas de description' : $annonce->description_courte }}
+                    </p>
                 </a>
                 @if (Auth::check())
                     @if ($annonce->est_favoris)
@@ -106,7 +109,8 @@
                     <div class="col-md-12">
                         <div class="listing-detail-info">
                             {{-- <span class="pricetag theme-bg">Restaurants</span> --}}
-                            <span><i class="fa fa-phone" aria-hidden="true"></i> {{ $annonce->entreprise->contact }}</span>
+                            <span><i class="fa fa-phone" aria-hidden="true"></i>
+                                {{ $annonce->entreprise->contact }}</span>
                             <span>
                                 <i class="fa fa-globe" aria-hidden="true"></i>
                                 @if ($annonce->entreprise->site_web)
@@ -125,7 +129,9 @@
                         <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
                     @endfor
 
-                    {{-- <a href="javascript:void(0)" data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}', '{{ $annonce->type }}')" class="theme-cl annonce-share" style="float: right;">
+                    {{-- <a href="javascript:void(0)" data-toggle="modal" data-target="#share"
+                        onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}', '{{ $annonce->type }}')"
+                        class="theme-cl annonce-share" style="float: right;">
                         <i class="fa fa-share theme-cl" aria-hidden="true"></i>
                         Partager
                     </a> --}}

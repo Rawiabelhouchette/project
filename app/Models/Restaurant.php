@@ -56,7 +56,7 @@ class Restaurant extends Model implements AnnonceInterface
         'plats',
         'desserts',
 
-        // 'public_edit_url',
+        'public_edit_url',
     ];
 
     public static function boot()
@@ -162,13 +162,16 @@ class Restaurant extends Model implements AnnonceInterface
         $tmp_image = $this->getStringArray($this->e_image, Utils::getRestaurantImageSeparator());
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
-            $image = Fichier::find($tmp_image[$i]);
+            $image = Fichier::find($tmp_image[$i] ?? null);
             $entrees[] = [
+                'id' => $i + 1,
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
                 'prix_max' => (int) $tmp_prix_max[$i],
                 'image' => $image ? $image->chemin : null,
+                'image_id' => $image ? $image->id : null,
+                'is_new' => false,
             ];
         }
 
@@ -186,13 +189,16 @@ class Restaurant extends Model implements AnnonceInterface
         $tmp_image = $this->getStringArray($this->p_image, Utils::getRestaurantImageSeparator());
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
-            $image = Fichier::find($tmp_image[$i]);
+            $image = Fichier::find($tmp_image[$i] ?? null);
             $plats[] = [
+                'id' => $i + 1,
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
                 'prix_max' => (int) $tmp_prix_max[$i],
                 'image' => $image ? $image->chemin : null,
+                'image_id' => $image ? $image->id : null,
+                'is_new' => false,
             ];
         }
 
@@ -210,13 +216,16 @@ class Restaurant extends Model implements AnnonceInterface
         $tmp_image = $this->getStringArray($this->d_image, Utils::getRestaurantImageSeparator());
 
         for ($i = 0; $i < count($tmp_nom); $i++) {
-            $image = Fichier::find($tmp_image[$i]);
+            $image = Fichier::find($tmp_image[$i] ?? null);
             $desserts[] = [
+                'id' => $i + 1,
                 'nom' => $tmp_nom[$i],
                 'ingredients' => $tmp_ingredients[$i],
                 'prix_min' => (int) $tmp_prix_min[$i],
                 'prix_max' => (int) $tmp_prix_max[$i],
                 'image' => $image ? $image->chemin : null,
+                'image_id' => $image ? $image->id : null,
+                'is_new' => false,
             ];
         }
 
@@ -228,8 +237,8 @@ class Restaurant extends Model implements AnnonceInterface
         return [];
     }
 
-    // public function getPublicEditUrlAttribute(): string
-    // {
-    //     return route('public.fast-foods.edit', $this);
-    // }
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.restaurants.edit', $this);
+    }
 }

@@ -214,7 +214,7 @@
 
         {{-- equipements_cuisine --}}
         @include('admin.annonce.reference-select-component', [
-        'title' => 'Accessoires de cuisines',
+        'title' => 'Accessoires de cuisine',
         'name' => 'equipements_cuisine',
         'options' => $list_equipements_cuisine,
         'required' => true,
