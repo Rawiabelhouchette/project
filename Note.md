@@ -445,3 +445,7 @@ update annonce_reference_valeur set slug = "accessoires-de-cuisine" where slug =
 update `references` set slug_nom = 'accessoires-de-cuisine' where nom = 'Accessoires de cuisines';
 update `references` set nom = 'Accessoires de cuisine' where nom = 'Accessoires de cuisines';
 ```
+
+
+
+revoir les buttons de edit (la modification des annonces)
