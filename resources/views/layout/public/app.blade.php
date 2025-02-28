@@ -77,7 +77,7 @@
 <body class="home-2" style="overflow-x: hidden;">
     <div class="wrapper">
         @php
-            $defaultColor = '#ff3a72';
+            $defaultColor = '#de6600';
         @endphp
 
         <!-- Start Navigation -->

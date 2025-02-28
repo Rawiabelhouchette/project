@@ -4,7 +4,7 @@
     @include('components.default-value')
 
     @php
-        $defaultColor = '#ff3a72';
+        $defaultColor = '#de6600';
     @endphp
 
     <section class="title-transparent page-title"

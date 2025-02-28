@@ -5,7 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- <meta name="description" content="Best Responsive job portal template build on Latest Bootstrap.">
+    {{--
+    <meta name="description" content="Best Responsive job portal template build on Latest Bootstrap.">
     <meta name="keywords" content="job, nob board, job portal, job listing">
     <meta name="robots" content="index,follow">' --}}
 
@@ -40,10 +41,12 @@
     <link href="{{ asset('assets/css/perso.css') }}" rel="stylesheet" />
 
     <!-- DATATABLE -->
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css"> --}}
+    {{--
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css"> --}}
 
-    {{-- <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.css') }}"> --}}
+    {{--
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.css') }}"> --}}
 
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" rel="stylesheet" />
 
@@ -153,7 +156,7 @@
         }
 
         .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
-            background-color: #ff3a72 !important;
+            background-color: #de6600 !important;
         }
     </style>
 
@@ -168,7 +171,7 @@
     @include('components.default-value')
 
     @php
-        $defaultColor = '#ff3a72';
+        $defaultColor = '#de6600';
     @endphp
 
 </head>
@@ -211,16 +214,30 @@
     <!-- CUSTOM SCRIPTS -->
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <!-- JQUERY -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.js" integrity="sha512-6DC1eE3AWg1bgitkoaRM1lhY98PxbMIbhgYCGV107aZlyzzvaWCW1nJW2vDuYQm06hXrW0As6OGKcIaAVWnHJw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.js"
+        integrity="sha512-6DC1eE3AWg1bgitkoaRM1lhY98PxbMIbhgYCGV107aZlyzzvaWCW1nJW2vDuYQm06hXrW0As6OGKcIaAVWnHJw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
 
     <!-- FONTAWSOME -->
-    {{-- <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script> --}}
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{--
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
+        integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
+        crossorigin="anonymous"></script> --}}
+    {{--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
+    {{--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- SWEET ALERT -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -239,7 +256,7 @@
             title,
             timerProgressBar = true,
             confirmButtonText = 'OK',
-            onConfirm = () => {},
+            onConfirm = () => { },
         }) => {
             Swal.fire({
                 icon: icon,
@@ -344,7 +361,8 @@
 
     <script src="https://unpkg.com/imask"></script>
 
-    {{-- <script>
+    {{--
+    <script>
         let elements = document.getElementsByClassName('telephone');
         let maskOptions = {
             mask: '00 00 00 00'
@@ -357,7 +375,7 @@
     <script>
         // take cpuntry name as parameter
         function applyMask(country = 'Togo') {
-            $('.telephone').each(function() {
+            $('.telephone').each(function () {
                 let maskOptions;
 
                 switch (country) {
@@ -422,7 +440,7 @@
                     url: url,
                     type: 'GET',
                     dataType: 'json',
-                    data: function(d) {
+                    data: function (d) {
                         d.page = d.start / d.length + 1;
                         d.search = d.search.value;
                         d.length = d.length;
@@ -452,9 +470,9 @@
             icon = 'warning',
             confirmButtonText = 'Oui, je confirme',
             cancelButtonText = 'Annuler',
-            onConfirm = () => {},
-            onCancel = () => {},
-            onDismiss = () => {},
+            onConfirm = () => { },
+            onCancel = () => { },
+            onDismiss = () => { },
         }) => {
             Swal.fire({
                 icon: icon,

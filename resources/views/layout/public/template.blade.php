@@ -2,7 +2,7 @@
 
 @section('content')
     @php
-        $defaultColor = '#ff3a72';
+        $defaultColor = '#de6600';
     @endphp
 
 
@@ -40,13 +40,19 @@
         }
 
         .li-btn:hover {
-            color: {{ $defaultColor }};
+            color:
+                {{ $defaultColor }}
+            ;
         }
 
         .share-button:hover {
-            background: {{ $defaultColor }} !important;
+            background:
+                {{ $defaultColor }}
+                !important;
             color: white !important;
-            border: 1px solid {{ $defaultColor }} !important;
+            border: 1px solid
+                {{ $defaultColor }}
+                !important;
             border-radius: 4px;
         }
 
@@ -155,8 +161,8 @@
     <!-- ================ Listing Detail Full Information ======================= -->
     <section class="page">
         <div class="container">
-                @yield('page-content')
-            </div>
+            @yield('page-content')
+        </div>
     </section>
     <!-- ================ Listing Detail Full Information ======================= -->
 @endsection
