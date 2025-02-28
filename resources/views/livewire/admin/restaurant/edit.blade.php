@@ -201,7 +201,8 @@
                                         <button class="btn btn-form" data-bs-toggle="offcanvas"
                                             data-bs-target="#plat-{{ $index + 1 }}" type="button"
                                             aria-controls="plat-{{ $index + 1 }}">
-                                            {{ Str::limit('Plat ' . ($index + 1) . ' : ' . $plat['nom'], 40) }} <i class="fa fa-pencil"></i>
+                                            {{ Str::limit('Plat ' . ($index + 1) . ' : ' . $plat['nom'], 40) }} <i
+                                                class="fa fa-pencil"></i>
                                         </button>
                                     </div>
                                     <div class="offcanvas offcanvas-end" id="plat-{{ $index + 1 }}" data-bs-scroll="true"
@@ -409,22 +410,7 @@
                     ])
                 </div>
 
-                <div class="row padd-bot-15">
-                    <div class="form-group">
-                        <div class="col text-right">
-                            <a class="btn btn-danger" href="{{ route('public.annonces.list') }}"
-                                style="margin-right: 30px;" wire:loading.attr="disabled">
-                                <i class="fa fa-times fa-lg" style="margin-right: 10px;"></i>
-                                Annuler
-                            </a>
-                            <button class="btn theme-btn" id="restaurant-form-submit" type="submit"
-                                style="margin-right: 30px;" wire:loading.attr="disabled">
-                                <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
-                                Enregistrer Modifications
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                @include('admin.annonce.edit-validation-buttons')
             </div>
         </form>
     </div>

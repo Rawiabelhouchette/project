@@ -2,7 +2,7 @@
 
 <div>
     <div class="row align-items-start">
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-4 col-sm-12 p-0">
             <div class="col">
                 <h3 class="">Pays <b style="color: red; font-size: 100%;">*</b></h3>
                 <h4>Sélectionnez un élément dans la liste</h4>
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-4 col-sm-12 p-0">
             <div class="col">
                 <h3 class="">Ville <b style="color: red; font-size: 100%;">*</b></h3>
                 <h4>Sélectionnez un élément dans la liste</h4>
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-4 col-sm-12 p-0">
             <div class="col">
                 <h3>Quartier <b style="color: red; font-size: 100%;">*</b></h3>
                 <h4>Saisissez le nom du quartier</h4>

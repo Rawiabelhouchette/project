@@ -54,8 +54,7 @@
                     <div class="col">
                         <h3>Prix minimum</h3>
                         <h4>Indiquez le prix minimum</h4>
-                        <input class="form-control" name="prix_min" type="number" placeholder=""
-                            wire:model='prix_min'>
+                        <input class="form-control" name="prix_min" type="number" placeholder="" wire:model='prix_min'>
                         @error('prix_min')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -66,8 +65,7 @@
                     <div class="col">
                         <h3>Prix maximum</h3>
                         <h4>Indiquez le prix maximum</h4>
-                        <input class="form-control" name="prix_max" type="number" placeholder=""
-                            wire:model='prix_max'>
+                        <input class="form-control" name="prix_max" type="number" placeholder="" wire:model='prix_max'>
                         @error('prix_max')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -148,7 +146,7 @@
 
                 {{-- equipements_cuisine --}}
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Accessoires de cuisines',
+                    'title' => 'Accessoires de cuisine',
                     'name' => 'equipements_cuisine',
                     'options' => $list_equipements_cuisine,
                     'required' => true,

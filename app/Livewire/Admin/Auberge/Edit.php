@@ -3,6 +3,9 @@
 namespace App\Livewire\Admin\Auberge;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
+use App\Models\Pays;
+use App\Models\Quartier;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use Livewire\Component;
 use App\Models\Entreprise;
@@ -16,10 +19,11 @@ class Edit extends Component
 {
     use WithFileUploads, AnnonceBaseEdit;
 
+    public $auberge;
+    public $is_active;
     public $nom;
     public $type;
     public $types_hebergement;
-    public $is_active;
     public $description;
     public $nombre_chambre;
     public $nombre_personne;
@@ -44,7 +48,17 @@ class Edit extends Component
     public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
-    public $auberge;
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
+
+    public $latitude;
+    public $longitude;
 
     public function mount($auberge)
     {
@@ -66,10 +80,19 @@ class Edit extends Component
         $this->services = $auberge->annonce->references('services')->pluck('id')->toArray();
         $this->equipements_herbegement = $auberge->annonce->references('equipements-hebergement')->pluck('id')->toArray();
         $this->equipements_salle_bain = $auberge->annonce->references('equipements-salle-de-bain')->pluck('id')->toArray();
-        $this->equipements_cuisine = $auberge->annonce->references('accessoires-cuisine')->pluck('id')->toArray();
+        $this->equipements_cuisine = $auberge->annonce->references('accessoires-de-cuisine')->pluck('id')->toArray();
         $this->types_hebergement = $auberge->annonce->references('types-hebergement')->pluck('id')->toArray();
         $this->old_galerie = $auberge->annonce->galerie()->get();
         $this->old_image = $auberge->annonce->imagePrincipale;
+
+
+        $this->pays_id = $auberge->annonce->ville->pays_id;
+        $this->ville_id = $auberge->annonce->ville_id;
+        $this->quartier_id = $auberge->annonce->quartier;
+        $this->villes = Ville::where('pays_id', $this->pays_id)->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
+        $this->latitude = $auberge->annonce->latitude;
+        $this->longitude = $auberge->annonce->longitude;
     }
 
     public function updatedSelectedImages($images)
@@ -114,7 +137,7 @@ class Edit extends Component
             $this->list_equipements_salle_bain = ReferenceValeur::where('reference_id', $tmp_equipements_salle_bain->id)->select('valeur', 'id')->get() :
             $this->list_equipements_salle_bain = [];
 
-        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'accessoires-cuisine')->first();
+        $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'accessoires-de-cuisine')->first();
         $tmp_equipements_cuisine ?
             $this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)->select('valeur', 'id')->get() :
             $this->list_equipements_cuisine = [];
@@ -123,6 +146,9 @@ class Edit extends Component
         $tmp_types_hebergement ?
             $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
             $this->list_types_hebergement = [];
+
+        $this->pays = Pays::all();
+
     }
 
     public function rules()
@@ -222,7 +248,7 @@ class Edit extends Component
                 ['Services proposés', $this->services],
                 ['Equipements hébergement', $this->equipements_herbegement],
                 ['Equipements salle de bain', $this->equipements_salle_bain],
-                ['Accessoires de cuisines', $this->equipements_cuisine],
+                ['Accessoires de cuisine', $this->equipements_cuisine],
                 ['Types hébergement', $this->types_hebergement],
             ];
 

@@ -11,15 +11,16 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
                         <div class="row">
-                            {{-- 
-                             // TODO : Add id form label and link it to input
+                            {{--
+                            // TODO : Add id form label and link it to input
                             --}}
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
                                 <label class="">Entreprise
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
+                                <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id'
+                                    required>
                                     <option value="">-- Sélectionner --</option>
                                     @foreach ($entreprises as $entreprise)
                                         <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
@@ -40,7 +41,8 @@
                                 <label class="">Nom
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input class="form-control" type="text" placeholder="" required wire:model.defer='nom' required>
+                                <input class="form-control" type="text" placeholder="" required wire:model.defer='nom'
+                                    required>
                                 @error('nom')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -69,7 +71,8 @@
                                 <label class="">Nombre de personne
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_personne'>
+                                <input class="form-control" type="number" placeholder=""
+                                    wire:model.defer='nombre_personne'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -82,7 +85,8 @@
                                 <label class="">Nombre de chambre
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_chambre' required>
+                                <input class="form-control" type="number" placeholder=""
+                                    wire:model.defer='nombre_chambre' required>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -125,7 +129,8 @@
                                 <label class="">Nombre de salle de bain
                                     {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                                 </label> <br>
-                                <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_salles_bain'>
+                                <input class="form-control" type="number" placeholder=""
+                                    wire:model.defer='nombre_salles_bain'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -137,7 +142,8 @@
                                 <label class="">Date de validité
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                                <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder=""
+                                    wire:model.defer='date_validite' required>
                                 @error('date_validite')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -173,9 +179,10 @@
                                 <label class="">Heure de validité
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input type="time" class="form-control" placeholder="" wire:model.defer='heure_validite' required>
+                                <input type="time" class="form-control" placeholder="" wire:model.defer='heure_validite'
+                                    required>
                                 @error('heure_validite')
-                                    <span class="text-danger">{{ $message }}</span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="col-md-1"></div>
@@ -188,7 +195,8 @@
                         <label class="">Description
                             {{-- <b style="color: red; font-size: 100%;">*</b> --}}
                         </label> <br>
-                        <textarea class="form-control height-100" id="description" placeholder="" wire:model.defer='description'></textarea>
+                        <textarea class="form-control height-100" id="description" placeholder=""
+                            wire:model.defer='description'></textarea>
                     </div>
                 </div>
 
@@ -227,7 +235,7 @@
 
                 {{-- equipements_cuisine --}}
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Accessoires de cuisines',
+                    'title' => 'Accessoires de cuisine',
                     'name' => 'equipements_cuisine',
                     'options' => $list_equipements_cuisine,
                     'required' => true,
@@ -248,7 +256,8 @@
                 <div class="row">
                     <div class="form-group" style="margin-top: 15px;">
                         <div class="col-md-12 col-sm-12 text-right">
-                            <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='update' wire:loading.attr='disabled'>
+                            <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='update'
+                                wire:loading.attr='disabled'>
                                 <i class="fa fa-pencil fa-lg" style="margin-right: 10px;"></i>
                                 Modifier
                             </button>
@@ -263,12 +272,12 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.select2').select2({
                 height: '25px',
                 width: '100%',
             });
-            $('.select2').on('change', function(e) {
+            $('.select2').on('change', function (e) {
                 var data = $(this).val();
                 var nom = $(this).data('nom');
                 @this.set(nom, data);

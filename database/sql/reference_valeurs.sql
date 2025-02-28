@@ -4,7 +4,7 @@ INSERT INTO `references` (`id`, `type`, `slug_type`, `nom`, `slug_nom`, `created
 (3, 'Hébergement', 'hebergement', 'Types de lit', 'types-de-lit', '2024-11-22 07:43:32', '2024-11-22 07:43:32', NULL, 1, 1, NULL),
 (4, 'Hébergement', 'hebergement', 'Equipements hébergement', 'equipements-hebergement', '2024-11-22 07:43:32', '2024-11-22 07:43:32', NULL, 1, 1, NULL),
 (5, 'Hébergement', 'hebergement', 'Equipements salle de bain', 'equipements-salle-de-bain', '2024-11-22 07:43:32', '2024-11-22 07:43:32', NULL, 1, 1, NULL),
-(6, 'Hébergement', 'hebergement', 'Accessoires de cuisines', 'accessoires-cuisine', '2024-11-22 07:43:32', '2024-11-22 07:43:32', NULL, 1, 1, NULL),
+(6, 'Hébergement', 'hebergement', 'Accessoires de cuisine', 'accessoires-de-cuisine', '2024-11-22 07:43:32', '2024-11-22 07:43:32', NULL, 1, 1, NULL),
 (7, 'Hébergement', 'hebergement', 'Types hebergement', 'types-hebergement', '2024-11-22 07:43:32', '2024-11-22 07:43:32', NULL, 1, 1, NULL),
 (8, 'Location de véhicule', 'location-de-vehicule', 'Type de voiture', 'types-de-voiture', '2024-11-22 07:43:32', '2024-11-22 07:43:32', NULL, 1, 1, NULL),
 (9, 'Location de véhicule', 'location-de-vehicule', 'Options et accesoires', 'options-accessoires', '2024-11-22 07:43:32', '2024-11-22 07:43:32', NULL, 1, 1, NULL),

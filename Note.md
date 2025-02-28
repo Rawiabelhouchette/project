@@ -433,3 +433,15 @@ https://www.youtube.com/watch?v=Zs0BVTmT9AY&t=120s&ab_channel=WebTechKnowledge
 
 ## 20/02/2025
 - Apres connexion renvoyer sur la derniere url
+
+
+## 28/02/2025
+```sql
+update annonce_reference_valeur set titre = "Accessoires de cuisine" where titre = "Accessoires de cuisines";
+update annonce_reference_valeur set slug = "accessoires-de-cuisine" where slug = "accessoires-de-cuisines";
+```
+
+```sql
+update `references` set slug_nom = 'accessoires-de-cuisine' where nom = 'Accessoires de cuisines';
+update `references` set nom = 'Accessoires de cuisine' where nom = 'Accessoires de cuisines';
+```
