@@ -90,6 +90,7 @@
                             @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
                                 <li><a class="dropdown-item" href="{{ route('public.my-business') }}">Mon entreprise</a></li>
                                 <li><a class="dropdown-item" href="{{ route('public.annonces.list') }}">Mes annonces</a></li>
+                                <li><a class="dropdown-item" href="#">Mes abonnements</a></li>
                             @endif
                             <li>
                                 <hr class="dropdown-divider">
