@@ -60,7 +60,7 @@
                 <label class="">Galérie</label>
                 <h4>Ajoutez des images pour votre annonce</h4>
             </div>
-            <div class="col-md-4" style="padding-left: 0; padding-right: 0;">
+            <div class="col-md-4 col-xs-12 mb-3 mb-md-0">
                 <label class="btn btn-sm theme-btn" for="upload" style="padding: 6px">
                     <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
                     &nbsp; &nbsp; &nbsp;
@@ -75,7 +75,7 @@
                     multiple> <br>
 
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 col-xs-12">
                 @if (count($galerie) + count($old_galerie) - count($deleted_old_galerie) != 0)
                     <a class="btn btn-sm theme-btn-outlined" href="javascript:void(0)" style="padding: 6px"
                         wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?"
