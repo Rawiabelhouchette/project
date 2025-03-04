@@ -101,11 +101,7 @@ class Create extends Component
             $this->list_conditions_location = ReferenceValeur::where('reference_id', $tmp_condition_location->id)->select('valeur', 'id')->get() :
             $this->list_conditions_location = [];
 
-        // $tmp_marque = Reference::where('slug_type', 'marque')->where('slug_nom', 'marques-de-vehicule')->first();
-        // $tmp_marque ?
-        //     $this->list_marques = ReferenceValeur::where('reference_id', $tmp_marque->id)->select('valeur', 'id')->get() :
-        //     $this->list_marques = [];
-        $this->list_marques = Marque::all();
+        $this->list_marques = Marque::orderBy('nom')->get();
 
         $tmp_type_carburant = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-moteur')->first();
         $tmp_type_carburant ?
@@ -214,7 +210,7 @@ class Create extends Component
     public function updatedMarqueId($marque_id)
     {
         $this->modele_id = null;
-        $this->list_modeles = Modele::where('marque_id', $marque_id)->get();
+        $this->list_modeles = Modele::where('marque_id', $marque_id)->orderBy('nom')->get();
     }
 
     public function store()
@@ -223,8 +219,6 @@ class Create extends Component
 
         try {
             DB::beginTransaction();
-
-            // $date_validite = $this->date_validite . ' ' . $this->heure_validite;
 
             $locationVehicule = LocationVehicule::create([
                 'annee' => $this->annee,
