@@ -242,11 +242,7 @@ class Annonce extends Model
         $description = str_replace("\r", ' ', $description);
         $description = str_replace("\t", ' ', $description);
         $description = str_replace('  ', ' ', $description);
-        $description = substr($description, 0, 70);
-
-        if (Str::length($description) >= 70) {
-            $description = $description . '...';
-        }
+        $description = Str::limit($description, 70, '...');
 
         return $description;
     }

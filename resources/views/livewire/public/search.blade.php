@@ -117,7 +117,7 @@
                                         </div>
                                         <div class="listing-shot-caption">
                                             <a href="{{ route('show', $annonce->slug) }}">
-                                                <h4 class="theme-cl-blue">{{ $annonce->titre }}</h4>
+                                                <h4 class="theme-cl-blue">{{ Str::limit($annonce->titre, 24, '...') }}</h4>
                                                 <p class="listing-location">{{ $annonce->description_courte == '' ? 'Pas de description' : $annonce->description_courte }}</p>
                                             </a>
                                             @if (Auth::check())

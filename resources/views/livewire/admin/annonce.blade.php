@@ -81,7 +81,7 @@
                 <div class="small-list-wrapper">
                     <ul id="table">
                         @foreach ($annonces as $annonce)
-                            <div class="col-md-6 col-sm-12 col-lg-4 col-xl-3">
+                            <div class="col-md-4 col-sm-6 col-lg-4 col-xl-3">
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-img">
                                         <a href="{{ route('show', $annonce->slug) }}">
@@ -109,7 +109,7 @@
                                     </div>
                                     <div class="listing-shot-caption">
                                         <a href="{{ route('show', $annonce->slug) }}">
-                                            <h4>{{ $annonce->titre }}</h4>
+                                            <h4>{{ Str::limit($annonce->titre, 24, '...') }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
                                         <a class="listing-shot-edit"
