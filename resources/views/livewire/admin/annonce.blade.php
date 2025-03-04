@@ -101,16 +101,16 @@
                                                 <i class="fa fa-times"></i>
                                             </span>
                                         @endif
-                                        {{-- <span class="approve-listing"
-                                            title="{{ $annonce->is_active ? 'Annonce publiée' : 'Annonce non publiée' }}"
-                                            style="background-color: {{ $annonce->is_active ? '#28a745' : '#dc3545' }};">
-                                            <i class="fa {{ $annonce->is_active ? 'fa-check' : 'fa-times' }}"></i>
-                                        </span> --}}
                                     </div>
                                     <div class="listing-shot-caption">
                                         <a href="{{ route('show', $annonce->slug) }}">
                                             <h4>{{ Str::limit($annonce->titre, 24, '...') }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
+                                        </a>
+                                        <a class="listing-shot-edit"
+                                            href="{{ $annonce->annonceable->public_edit_url ?? '#' }}">
+                                            <span class="like-listing alt style-2"><i class="fa fa-pencil"
+                                                    aria-hidden="true"></i></span>
                                         </a>
                                         <a class="listing-shot-edit"
                                             href="{{ $annonce->annonceable->public_edit_url ?? '#' }}">
