@@ -3,6 +3,9 @@
 namespace App\Livewire\Admin\Hotel;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
+use App\Models\Pays;
+use App\Models\Quartier;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use Livewire\Component;
 use App\Models\Entreprise;
@@ -16,10 +19,11 @@ class Edit extends Component
 {
     use WithFileUploads, AnnonceBaseEdit;
 
+    public $hotel;
+    public $is_active;
     public $nom;
     public $type;
     public $types_hebergement;
-    public $is_active;
     public $description;
     public $nombre_chambre;
     public $nombre_personne;
@@ -44,7 +48,17 @@ class Edit extends Component
     public $list_types_hebergement = [];
     public $date_validite;
     public $heure_validite;
-    public $hotel;
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
+
+    public $latitude;
+    public $longitude;
 
     public function mount($hotel)
     {
@@ -70,6 +84,24 @@ class Edit extends Component
         $this->types_hebergement = $hotel->annonce->references('types-hebergement')->pluck('id')->toArray();
         $this->old_galerie = $hotel->annonce->galerie()->get();
         $this->old_image = $hotel->annonce->imagePrincipale;
+
+
+        $this->pays_id = $hotel->annonce->ville->pays_id;
+        $this->ville_id = $hotel->annonce->ville_id;
+        $this->quartier_id = $hotel->annonce->quartier;
+        $this->villes = Ville::where('pays_id', $this->pays_id)->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
+        $this->latitude = $hotel->annonce->latitude;
+        $this->longitude = $hotel->annonce->longitude;
+    }
+
+    public function updatedSelectedImages($images)
+    {
+        foreach ($images as $image) {
+            $this->galerie[] = $image;
+        }
+
+        $this->selected_images = [];
     }
 
     private function initialization()
@@ -114,6 +146,9 @@ class Edit extends Component
         $tmp_types_hebergement ?
             $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
             $this->list_types_hebergement = [];
+
+        $this->pays = Pays::all();
+
     }
 
     public function rules()
@@ -143,6 +178,7 @@ class Edit extends Component
             // 'heure_validite' => 'required|date_format:H:i',
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
+
         ];
     }
 
@@ -166,7 +202,7 @@ class Edit extends Component
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
-            'prix_max.gt' => 'Le prix maximum doit être supérieur au prix minimum',
+            'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
         ];
     }
 
@@ -185,8 +221,6 @@ class Edit extends Component
 
         try {
             DB::beginTransaction();
-
-            $date_validite = $this->date_validite . ' ' . $this->heure_validite;
 
             $this->hotel->annonce->update([
                 'titre' => $this->nom,
@@ -218,25 +252,24 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->hotel->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->hotel->annonce, $this->galerie, $this->deleted_old_galerie, 'hotels');
+            AnnoncesUtils::updateGalerie($this->image, $this->hotel->annonce, $this->galerie, $this->deleted_old_galerie, 'annonces');
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération réussie'),
+                'title' => __('Opération échouée'),
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'hotel'),
             ]);
             Log::error($th->getMessage());
             return;
         }
 
-        // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
-        session()->flash('success', __('L\'hotel a bien été modifiée avec succès'));
-
-        return redirect()->route('annonces.index');
+        session()->flash('success', 'L\'annonce a bien été modifiée.');
+        return redirect()->route('public.annonces.list');
     }
 
     public function render()

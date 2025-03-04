@@ -222,8 +222,6 @@ class Edit extends Component
         try {
             DB::beginTransaction();
 
-            $date_validite = $this->date_validite . ' ' . $this->heure_validite;
-
             $this->auberge->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
@@ -261,7 +259,7 @@ class Edit extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération réussie'),
+                'title' => __('Opération échouée'),
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'auberge'),
             ]);
             Log::error($th->getMessage());

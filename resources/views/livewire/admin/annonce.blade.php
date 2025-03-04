@@ -122,7 +122,7 @@
                                         <span class="pricetag">{{ $annonce->type }} </span>
 
                                     </div>
-                                    <div class="listing-shot-info">
+                                    {{-- <div class="listing-shot-info">
                                         <div class="row extra">
                                             <div class="col-md-12">
                                                 <div class="listing-detail-info">
@@ -139,7 +139,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="listing-shot-info rating">
                                         <div class="row extra">
 
@@ -160,7 +160,7 @@
                                                             aria-hidden="true"></i>
                                                     @endfor
                                                     &nbsp;&nbsp;
-                                                    {{ $annonce->notation_count }}
+                                                    {{ $annonce->note }}
                                                 </div>
                                             </div>
                                         </div>

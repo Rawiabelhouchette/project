@@ -184,6 +184,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
         Route::resource('adverts/hotels', PublicHotelController::class, [
             'names' => [
                 'create' => 'public.hotels.create',
+                'edit' => 'public.hotels.edit',
             ]
         ]);
 

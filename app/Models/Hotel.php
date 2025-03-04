@@ -46,6 +46,8 @@ class Hotel extends Model implements AnnonceInterface
         'types_hebergement',
 
         'caracteristiques',
+
+        'public_edit_url',
     ];
 
 
@@ -145,6 +147,11 @@ class Hotel extends Model implements AnnonceInterface
         }
 
         return $attributes;
+    }
+
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.hotels.edit', $this);
     }
 
 }

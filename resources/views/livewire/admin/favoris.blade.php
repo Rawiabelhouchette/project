@@ -145,7 +145,7 @@
                                                             aria-hidden="true"></i>
                                                     @endfor
                                                     &nbsp;&nbsp;
-                                                    {{ $annonce->notation_count }}
+                                                    {{ $annonce->note }}
                                                 </div>
                                             </div>
                                         </div>
