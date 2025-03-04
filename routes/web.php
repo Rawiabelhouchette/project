@@ -191,6 +191,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
         Route::resource('adverts/vehicle-rentals', PublicLocationVehiculeController::class, [
             'names' => [
                 'create' => 'public.vehicle-rentals.create',
+                'edit' => 'public.vehicle-rentals.edit',
             ]
         ]);
 

@@ -228,6 +228,11 @@ class Edit extends Component
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'is_active' => $this->is_active,
+                
+                'ville_id' => $this->ville_id,
+                'quartier' => $this->quartier_id,
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
             ]);
 
 

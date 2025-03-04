@@ -50,7 +50,7 @@
             </div>
 
             <div class="row align-items-start">
-                <div class="col-md-4 col-xs-12 is-active p-0">
+                <div class="col-md-4 col-xs-12 p-0">
                     <div class="col">
                         <h3 class="required">Statut</h3>
                         <h4>Indiquez si l'annonce est active ou inactive</h4>

@@ -16,8 +16,6 @@ class LocationVehicule extends Model implements AnnonceInterface
     use HasFactory, SoftDeletes, Userstamps;
 
     protected $fillable = [
-        // 'marque',
-        // 'modele',
         'annee',
         'carburant',
         'kilometrage',
@@ -28,8 +26,6 @@ class LocationVehicule extends Model implements AnnonceInterface
     ];
 
     protected $casts = [
-        // 'marque' => PurifyHtmlOnGet::class,
-        // 'modele' => PurifyHtmlOnGet::class,
         'annee' => PurifyHtmlOnGet::class,
         'carburant' => PurifyHtmlOnGet::class,
         'kilometrage' => PurifyHtmlOnGet::class,
@@ -47,6 +43,8 @@ class LocationVehicule extends Model implements AnnonceInterface
         'conditions_location',
 
         'caracteristiques',
+
+        'public_edit_url',
     ];
 
     public function annonce(): MorphOne
@@ -136,5 +134,10 @@ class LocationVehicule extends Model implements AnnonceInterface
         }
 
         return $attributes;
+    }
+
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.vehicle-rentals.edit', $this);
     }
 }
