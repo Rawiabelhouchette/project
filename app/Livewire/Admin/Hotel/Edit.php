@@ -147,7 +147,7 @@ class Edit extends Component
             $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
             $this->list_types_hebergement = [];
 
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
 
     }
 

@@ -48,7 +48,7 @@ class Edit extends Component
     public function mount($entreprise)
     {
         $this->entreprise = $entreprise;
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
         $this->villes = $entreprise->quartier ? Ville::where('pays_id', $entreprise->quartier->ville->pays_id)->get() : [];
         $this->quartiers = $entreprise->quartier ? Quartier::where('ville_id', $entreprise->quartier->ville_id)->get() : [];
         $this->nom = $entreprise->nom;
@@ -99,13 +99,13 @@ class Edit extends Component
     {
         $this->ville_id = '';
         $this->quartier_id = '';
-        $this->villes = Ville::where('pays_id', $pays_id)->get();
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
     }
 
     public function updatedVilleId($ville_id)
     {
         $this->quartier_id = '';
-        $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
     }
 
     #[On('changerJour')]

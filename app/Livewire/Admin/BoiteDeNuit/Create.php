@@ -89,7 +89,7 @@ class Create extends Component
             $this->list_equipements_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_equipements_vie_nocturne->id)->select('valeur', 'id')->get() :
             $this->list_equipements_vie_nocturne = [];
 
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
 
     }
 
@@ -161,13 +161,13 @@ class Create extends Component
     {
         $this->ville_id = null;
         $this->quartier_id = null;
-        $this->villes = Ville::where('pays_id', $pays_id)->get();
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
     }
 
     public function updatedVilleId($ville_id)
     {
         $this->quartier_id = null;
-        $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
     }
 
     public function store()
