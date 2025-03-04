@@ -7,6 +7,7 @@ use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Entreprise;
 use App\Models\Reference;
@@ -206,6 +207,26 @@ class Edit extends Component
         ];
     }
 
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
+    }
+
     public function update()
     {
         $this->validate();
@@ -228,7 +249,7 @@ class Edit extends Component
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'is_active' => $this->is_active,
-                
+
                 'ville_id' => $this->ville_id,
                 'quartier' => $this->quartier_id,
                 'longitude' => $this->longitude,

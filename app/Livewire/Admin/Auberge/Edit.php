@@ -7,6 +7,7 @@ use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Entreprise;
 use App\Models\Reference;
@@ -179,6 +180,12 @@ class Edit extends Component
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
+            'longitude' => 'required',
+            'latitude' => 'required',
+
+            'ville_id' => 'required|exists:villes,id',
+            'quartier_id' => 'required',
+
         ];
     }
 
@@ -203,7 +210,34 @@ class Edit extends Component
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
+
+            'longitude.required' => 'La longitude est obligatoire',
+            'latitude.required' => 'La latitude est obligatoire',
+
+            'ville_id.required' => 'La ville est obligatoire',
+            'ville_id.exists' => 'La ville n\'existe pas',
+            'quartier_id.required' => 'Le quartier est obligatoire',
         ];
+    }
+
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
     }
 
     public function update()
