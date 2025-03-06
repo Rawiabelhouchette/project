@@ -29,7 +29,7 @@ class Create extends Component
             $this->loadQuartier($quartierId);
         } else {
             $this->isEdit = false;
-            $this->pays = Pays::all();
+            $this->pays = Pays::orderBy('nom')->get();
             $this->villes = [];
         }
     }
@@ -71,7 +71,7 @@ class Create extends Component
         $this->libelle = 'Enregistrer un quartier';
         $this->buttonLibelle = 'Enregistrer';
         $this->reset();
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
     }
 
     protected function rules()
@@ -158,7 +158,7 @@ class Create extends Component
 
         $this->reset();
 
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
         $this->villes = [];
     }
 

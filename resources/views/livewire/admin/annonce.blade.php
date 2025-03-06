@@ -81,7 +81,7 @@
                 <div class="small-list-wrapper">
                     <ul id="table">
                         @foreach ($annonces as $annonce)
-                            <div class="col-md-6 col-sm-12 col-lg-4 col-xl-3">
+                            <div class="col-md-4 col-sm-6 col-lg-4 col-xl-3">
                                 <div class="listing-shot grid-style">
                                     <div class="listing-shot-img">
                                         <a href="{{ route('show', $annonce->slug) }}">
@@ -101,16 +101,16 @@
                                                 <i class="fa fa-times"></i>
                                             </span>
                                         @endif
-                                        {{-- <span class="approve-listing"
-                                            title="{{ $annonce->is_active ? 'Annonce publiée' : 'Annonce non publiée' }}"
-                                            style="background-color: {{ $annonce->is_active ? '#28a745' : '#dc3545' }};">
-                                            <i class="fa {{ $annonce->is_active ? 'fa-check' : 'fa-times' }}"></i>
-                                        </span> --}}
                                     </div>
                                     <div class="listing-shot-caption">
                                         <a href="{{ route('show', $annonce->slug) }}">
-                                            <h4>{{ $annonce->titre }}</h4>
+                                            <h4>{{ Str::limit($annonce->titre, 24, '...') }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
+                                        </a>
+                                        <a class="listing-shot-edit"
+                                            href="{{ $annonce->annonceable->public_edit_url ?? '#' }}">
+                                            <span class="like-listing alt style-2"><i class="fa fa-pencil"
+                                                    aria-hidden="true"></i></span>
                                         </a>
                                         <a class="listing-shot-edit"
                                             href="{{ $annonce->annonceable->public_edit_url ?? '#' }}">
@@ -122,7 +122,7 @@
                                         <span class="pricetag">{{ $annonce->type }} </span>
 
                                     </div>
-                                    <div class="listing-shot-info">
+                                    {{-- <div class="listing-shot-info">
                                         <div class="row extra">
                                             <div class="col-md-12">
                                                 <div class="listing-detail-info">
@@ -139,7 +139,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="listing-shot-info rating">
                                         <div class="row extra">
 
@@ -160,7 +160,7 @@
                                                             aria-hidden="true"></i>
                                                     @endfor
                                                     &nbsp;&nbsp;
-                                                    {{ $annonce->notation_count }}
+                                                    {{ $annonce->note }}
                                                 </div>
                                             </div>
                                         </div>

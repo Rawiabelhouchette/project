@@ -22,7 +22,7 @@ class Create extends Component
 
     public function mount($villeId = null)
     {
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
         if ($villeId) {
             $this->loadVille($villeId);
         } else {
@@ -59,7 +59,7 @@ class Create extends Component
         $this->libelle = 'Enregistrer une ville';
         $this->buttonLibelle = 'Enregistrer';
         $this->reset();
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
     }
 
     protected function rules()
@@ -90,7 +90,7 @@ class Create extends Component
             $this->update();
             return;
         }
-        
+
         $this->validate();
 
         $existingValues = '';
@@ -141,7 +141,7 @@ class Create extends Component
 
         $this->reset();
 
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
     }
 
     public function update()

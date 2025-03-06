@@ -7,6 +7,7 @@ use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Entreprise;
 use App\Models\Reference;
@@ -147,7 +148,7 @@ class Edit extends Component
             $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
             $this->list_types_hebergement = [];
 
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
 
     }
 
@@ -179,6 +180,12 @@ class Edit extends Component
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
+            'longitude' => 'required',
+            'latitude' => 'required',
+
+            'ville_id' => 'required|exists:villes,id',
+            'quartier_id' => 'required',
+
         ];
     }
 
@@ -203,7 +210,34 @@ class Edit extends Component
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
+
+            'longitude.required' => 'La longitude est obligatoire',
+            'latitude.required' => 'La latitude est obligatoire',
+
+            'ville_id.required' => 'La ville est obligatoire',
+            'ville_id.exists' => 'La ville n\'existe pas',
+            'quartier_id.required' => 'Le quartier est obligatoire',
         ];
+    }
+
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
     }
 
     public function update()
@@ -222,14 +256,17 @@ class Edit extends Component
         try {
             DB::beginTransaction();
 
-            $date_validite = $this->date_validite . ' ' . $this->heure_validite;
-
             $this->auberge->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'is_active' => $this->is_active,
+                
+                'ville_id' => $this->ville_id,
+                'quartier' => $this->quartier_id,
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
             ]);
 
 
@@ -261,7 +298,7 @@ class Edit extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération réussie'),
+                'title' => __('Opération échouée'),
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'auberge'),
             ]);
             Log::error($th->getMessage());

@@ -46,7 +46,7 @@ class Annonce extends Model
         'view_count',
         'favorite_count',
         'comment_count',
-        'notation_count',
+        // 'notation_count',
 
         'adresse_complete',
     ];
@@ -159,10 +159,10 @@ class Annonce extends Model
         return $this->hasMany(Commentaire::class);
     }
 
-    public function notation()
-    {
-        return $this->hasMany(Notation::class);
-    }
+    // public function notation()
+    // {
+    //     return $this->hasMany(Notation::class);
+    // }
 
     public function views()
     {
@@ -242,11 +242,7 @@ class Annonce extends Model
         $description = str_replace("\r", ' ', $description);
         $description = str_replace("\t", ' ', $description);
         $description = str_replace('  ', ' ', $description);
-        $description = substr($description, 0, 70);
-
-        if (Str::length($description) >= 70) {
-            $description = $description . '...';
-        }
+        $description = Str::limit($description, 70, '...');
 
         return $description;
     }
@@ -294,10 +290,10 @@ class Annonce extends Model
         return $this->commentaires()->count();
     }
 
-    public function getNotationCountAttribute(): int
-    {
-        return $this->notation()->count();
-    }
+    // public function getNotationCountAttribute(): int
+    // {
+    //     return $this->notation()->count();
+    // }
 
     public function getAdresseCompleteAttribute(): object
     {

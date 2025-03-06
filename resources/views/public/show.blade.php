@@ -115,7 +115,7 @@
                                                 <div class="carousel-inner">
                                                     @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
                                                         <div class="carousel-item {{ $key == 0 ? ' active' : '' }}">
-                                                            <img class="d-block w-100"
+                                                            <img class="d-block w-100" style="object-fit: cover;"
                                                                 src="{{ asset('storage/' . $image->chemin) }}" alt="...">
                                                         </div>
                                                     @endforeach
@@ -126,7 +126,7 @@
                                                             data-bs-target="#carouselExampleIndicators"
                                                             data-bs-slide-to="{{ $key }}" type="button" aria-current="true"
                                                             aria-label="Slide 1">
-                                                            <img class="d-block w-100"
+                                                            <img class="d-block w-100" style="object-fit: cover;"
                                                                 src="{{ asset('storage/' . $image->chemin) }}" alt="...">
                                                         </button>
                                                     @endforeach

@@ -66,7 +66,7 @@
                 <div class="col-md-12 col-sm-12 p-0">
                     <div class="col">
                         <h3>Description</h3>
-                        <h4>Donnez une description de votre patisserie</h4>
+                        <h4>Donnez une description de votre annonce</h4>
                         <textarea class="form-control" id="description" name="description" placeholder=""
                             wire:model.defer='description'></textarea>
                         @error('description')

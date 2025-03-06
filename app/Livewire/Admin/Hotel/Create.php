@@ -76,41 +76,55 @@ class Create extends Component
         }
 
         $tmp_commodite = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'commodites-hebergement')->first();
-        $tmp_commodite ?
-            $this->list_commodites = ReferenceValeur::where('reference_id', $tmp_commodite->id)->select('valeur', 'id')->get() :
-            $this->list_commodites = [];
+        $tmp_commodite
+            ? ($this->list_commodites = ReferenceValeur::where('reference_id', $tmp_commodite->id)
+                ->select('valeur', 'id')
+                ->get())
+            : ($this->list_commodites = []);
 
         $tmp_types_lit = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'types-de-lit')->first();
-        $tmp_types_lit ?
-            $this->list_types_lit = ReferenceValeur::where('reference_id', $tmp_types_lit->id)->select('valeur', 'id')->get() :
-            $this->list_types_lit = [];
+        $tmp_types_lit
+            ? ($this->list_types_lit = ReferenceValeur::where('reference_id', $tmp_types_lit->id)
+                ->select('valeur', 'id')
+                ->get())
+            : ($this->list_types_lit = []);
 
         $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services-proposes')->first();
-        $tmp_services ?
-            $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
-            $this->list_services = [];
+        $tmp_services
+            ? ($this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)
+                ->select('valeur', 'id')
+                ->get())
+            : ($this->list_services = []);
 
         $tmp_equipements_herbegement = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'equipements-hebergement')->first();
-        $tmp_equipements_herbegement ?
-            $this->list_equipements_herbegement = ReferenceValeur::where('reference_id', $tmp_equipements_herbegement->id)->select('valeur', 'id')->get() :
-            $this->list_equipements_herbegement = [];
+        $tmp_equipements_herbegement
+            ? ($this->list_equipements_herbegement = ReferenceValeur::where('reference_id', $tmp_equipements_herbegement->id)
+                ->select('valeur', 'id')
+                ->get())
+            : ($this->list_equipements_herbegement = []);
 
         $tmp_equipements_salle_bain = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'equipements-salle-de-bain')->first();
-        $tmp_equipements_salle_bain ?
-            $this->list_equipements_salle_bain = ReferenceValeur::where('reference_id', $tmp_equipements_salle_bain->id)->select('valeur', 'id')->get() :
-            $this->list_equipements_salle_bain = [];
+        $tmp_equipements_salle_bain
+            ? ($this->list_equipements_salle_bain = ReferenceValeur::where('reference_id', $tmp_equipements_salle_bain->id)
+                ->select('valeur', 'id')
+                ->get())
+            : ($this->list_equipements_salle_bain = []);
 
         $tmp_equipements_cuisine = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'accessoires-de-cuisine')->first();
-        $tmp_equipements_cuisine ?
-            $this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)->select('valeur', 'id')->get() :
-            $this->list_equipements_cuisine = [];
+        $tmp_equipements_cuisine
+            ? ($this->list_equipements_cuisine = ReferenceValeur::where('reference_id', $tmp_equipements_cuisine->id)
+                ->select('valeur', 'id')
+                ->get())
+            : ($this->list_equipements_cuisine = []);
 
         $tmp_types_hebergement = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'types-hebergement')->first();
-        $tmp_types_hebergement ?
-            $this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)->select('valeur', 'id')->get() :
-            $this->list_types_hebergement = [];
+        $tmp_types_hebergement
+            ? ($this->list_types_hebergement = ReferenceValeur::where('reference_id', $tmp_types_hebergement->id)
+                ->select('valeur', 'id')
+                ->get())
+            : ($this->list_types_hebergement = []);
 
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
     }
 
     public function rules()
@@ -129,13 +143,14 @@ class Create extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'nullable',
-            'galerie.*' => 'image',//|max:5120',
+            'galerie.*' => 'image', //|max:5120',
             // 'galerie' => 'max:10',
             'date_validite' => 'required|date|after:today',
             // 'heure_validite' => 'required|date_format:H:i',
+            // prix_min < prix_max
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
-
+            // 'image' => 'required|image|max',
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
             'quartier_id' => 'required|string|max:255',
@@ -162,12 +177,14 @@ class Create extends Component
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
+            'image.required' => 'L\'image est obligatoire',
 
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
             'ville_id.required' => 'La ville est obligatoire',
             'ville_id.exists' => 'La ville n\'existe pas',
             'quartier_id.required' => 'Le quartier est obligatoire',
+
 
             'longitude.required' => 'La localisation est obligatoire.',
         ];
@@ -184,20 +201,23 @@ class Create extends Component
     {
         $this->ville_id = null;
         $this->quartier_id = null;
-        $this->villes = Ville::where('pays_id', $pays_id)->get();
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
     }
 
     public function updatedVilleId($ville_id)
     {
         $this->quartier_id = null;
-        $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
     }
+
     public function store()
     {
         $this->validate();
 
         try {
             DB::beginTransaction();
+
+            // $date_validite = $this->date_validite . ' ' . $this->heure_validite;
 
             $hotel = Hotel::create([
                 'nombre_chambre' => $this->nombre_chambre,
@@ -214,6 +234,7 @@ class Create extends Component
                 'description' => $this->description,
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
+
                 'ville_id' => $this->ville_id,
                 'quartier' => $this->quartier_id,
 
@@ -230,30 +251,39 @@ class Create extends Component
                 ['Equipements hébergement', $this->equipements_herbegement],
                 ['Equipements salle de bain', $this->equipements_salle_bain],
                 ['Accessoires de cuisine', $this->equipements_cuisine],
-                ['Types hébergement', $this->types_hebergement],
+                ['Types hébergement', $this->types_hebergement]
             ];
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'hotels');
-
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'annonces');
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération réussie'),
+                'title' => __('Opération échouée'),
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'hotel'),
             ]);
             Log::error($th->getMessage());
             return;
         }
 
+        // $this->reset();
+        // $this->initialization();
+
         // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
-        session()->flash('success', 'L\'hôtel a bien été ajoutée');
+        // $this->dispatch('swal:modal', [
+        //     'icon' => 'success',
+        //     'title'   => __('Opération réussie'),
+        //     'message' => __('L\'hotel a bien été ajoutée'),
+        // ]);
+        session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('public.annonces.list');
+
+        // return redirect()->route('hotels.create');
     }
 
     public function render()
