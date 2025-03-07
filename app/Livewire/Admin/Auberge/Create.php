@@ -179,7 +179,7 @@ class Create extends Component
             'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
 
             'galerie.*.image' => 'Le fichier doit être une image',
-            'galerie.*.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
             'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
             'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
 
