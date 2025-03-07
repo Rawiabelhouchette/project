@@ -185,7 +185,7 @@ class Edit extends Component
             'quartier_id' => 'required',
 
             'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg',
-            'galerie' => 'array|max:6',
+            'galerie' => 'array|max:10',
             'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
         ];
     }

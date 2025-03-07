@@ -156,7 +156,7 @@ class Create extends Component
             'latitude' => 'required|string',
 
             'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
-            'galerie' => 'array|max:6',
+            'galerie' => 'array|max:10',
             'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
             'date_validite' => 'required|date|after:today',
 
