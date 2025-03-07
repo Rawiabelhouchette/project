@@ -130,13 +130,16 @@ class Create extends Component
             'equipements_vehicule.*' => 'nullable|integer|exists:reference_valeurs,id',
             'conditions_location' => 'nullable|array',
             'conditions_location.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'galerie' => 'nullable|array|max:10',
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
             'quartier_id' => 'required|string|max:255',
 
             'longitude' => 'required|string',
             'latitude' => 'required|string',
+
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:6',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
         ];
     }
 
@@ -184,6 +187,16 @@ class Create extends Component
             'quartier_id.required' => 'Le quartier est obligatoire',
 
             'longitude.required' => 'La localisation est obligatoire.',
+
+            'image.required' => 'L\'image est obligatoire',
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
         ];
     }
 

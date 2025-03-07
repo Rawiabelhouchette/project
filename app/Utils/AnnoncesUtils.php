@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use App\Models\Annonce;
 use App\Models\Fichier;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -428,6 +429,24 @@ class AnnoncesUtils
             'id' => $fichier->id,
             'path' => $fichier->chemin,
         ];
+    }
+
+    public static function generateSlug($name)
+    {
+        // Génère le slug de base à partir du nom
+        $slug = Str::slug($name);
+
+        // Génère un nombre aléatoire initial
+        $randomNumber = random_int(100000, 999999);
+
+        // Vérifie si ce nombre existe déjà dans les slugs
+        while (Annonce::where('slug', 'like', $slug . '-' . $randomNumber)->exists()) {
+            // Si le nombre existe déjà, génère un autre nombre aléatoire
+            $randomNumber = random_int(100000, 999999);
+        }
+
+        // Combine le slug et le nombre aléatoire pour créer un slug unique
+        return $slug . '-' . $randomNumber;
     }
 }
 

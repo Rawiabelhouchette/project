@@ -167,10 +167,13 @@ class Edit extends Component
             'equipements_vehicule.*' => 'nullable|integer|exists:reference_valeurs,id',
             'conditions_location' => 'nullable|array',
             'conditions_location.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'galerie' => 'nullable|array|max:10',
-            
+
             'longitude' => 'required|string',
             'latitude' => 'required|string',
+
+            'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:6',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
         ];
     }
 
@@ -217,6 +220,16 @@ class Edit extends Component
             'longitude.string' => __('Longitude invalide'),
             'latitude.required' => __('Veuillez renseigner la latitude'),
             'latitude.string' => __('Latitude invalide'),
+
+            'image.required' => 'L\'image est obligatoire',
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
         ];
     }
 

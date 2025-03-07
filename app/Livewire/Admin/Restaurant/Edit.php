@@ -210,6 +210,10 @@ class Edit extends Component
 
             // 'image' => 'nullable|image|max:1024',
             // 'galerie.*' => 'nullable|image|max:1024',
+
+            'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:6',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
         ];
     }
 
@@ -250,6 +254,15 @@ class Edit extends Component
             'desserts.required' => 'Le champ desserts est obligatoire.',
             'desserts.array' => 'Le champ desserts doit être un tableau.',
             'desserts.min' => 'Le champ desserts doit contenir au moins un élément.',
+
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
         ];
     }
 

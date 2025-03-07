@@ -121,8 +121,9 @@ class Create extends Component
             'longitude' => 'required|string',
             'latitude' => 'required|string',
 
-            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,svg',
-            'galerie.*' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,svg',
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:6',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
         ];
     }
 
@@ -155,13 +156,15 @@ class Create extends Component
             'produits.array' => 'Le champ produits doit être un tableau.',
             'produits.min' => 'Le champ produits doit contenir au moins un élément.',
 
-            'image.required' => 'L\'image est obligatoire.',
-            'image.image' => 'Le fichier doit être une image.',
-            'image.max' => 'L\'image ne doit pas dépasser 5 Mo.',
-            'image.mimes' => 'L\'image doit être de type jpeg, png, jpg, svg.',
-            'galerie.*.image' => 'Le fichier doit être une image.',
-            'galerie.*.max' => 'L\'image ne doit pas dépasser 5 Mo.',
-            'galerie.*.mimes' => 'L\'image doit être de type jpeg, png, jpg, svg.',
+            'image.required' => 'L\'image est obligatoire',
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
 
         ];
     }

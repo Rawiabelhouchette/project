@@ -173,12 +173,15 @@ class Edit extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'nullable',
-            // 'galerie.*' => 'image|max:5120',
-            // 'galerie' => 'max:10',
+
             'date_validite' => 'required|date',
-            // 'heure_validite' => 'required|date_format:H:i',
+
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
+
+            'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:6',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
 
         ];
     }
@@ -193,17 +196,25 @@ class Edit extends Component
             'nom.unique' => 'Le nom est déjà pris',
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
-            'galerie.*.image' => 'Le fichier doit être une image',
-            'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
-            'galerie.max' => 'Vous ne pouvez pas charger plus de 10 images',
+
             'date_validite.required' => 'La date de validité est obligatoire',
             'date_validite.date' => 'La date de validité doit être une date',
             'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
-            'heure_validite.required' => 'L\'heure de validité est obligatoire',
+
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
+
+            'image.required' => 'L\'image est obligatoire',
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
         ];
     }
 
