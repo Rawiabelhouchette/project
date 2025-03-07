@@ -71,7 +71,7 @@
                         </span>
                     </div>
                     <div class="col-md-6 text-center">
-                        <input class="form-control" id="favorite_search" type="text" value=""
+                        <input class="form-control" id="favorite_search" type="search" value=""
                             style="margin-top: 6px; margin-bottom: 6px; height: 35px;" placeholder="Rechercher"
                             wire:model.live.debounce.500ms='search'>
                     </div>
@@ -131,9 +131,9 @@
                                                     <span>
                                                         <i class="fa fa-globe" aria-hidden="true"></i>
                                                         @if ($annonce->entreprise->site_web)
-                                                            {{ $annonce->entreprise->site_web }}
+                                                        {{ $annonce->entreprise->site_web }}
                                                         @else
-                                                            -
+                                                        -
                                                         @endif
                                                     </span>
                                                 </div>

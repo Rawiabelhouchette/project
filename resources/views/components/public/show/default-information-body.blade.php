@@ -1,12 +1,12 @@
 @props(['annonce'])
 
-<div class="tab-content mt-3" id="myTabContent">
+<div class="tab-content mt-3 p-0" id="myTabContent">
     <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
         <div class="side-list">
             <ul>
-                <li>
+                <li class="pt-0">
                     <div>
-                        {!! $annonce->description ?? 'Aucune description disponible' !!}
+                        {{ $annonce->description ?? 'Aucune description disponible' }}
                     </div>
                 </li>
             </ul>
