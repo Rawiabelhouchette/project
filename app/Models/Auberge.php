@@ -116,34 +116,17 @@ class Auberge extends Model implements AnnonceInterface
 
     public function getCaracteristiquesAttribute(): array
     {
-        $attributes = [];
-        if ($this->nombre_chambre) {
-            $attributes['Nombre de chambre'] = $this->nombre_chambre;
-        }
+        $attributes = [
+            'Nombre de chambre' => $this->nombre_chambre,
+            'Nombre de personne' => $this->nombre_personne,
+            'Superficie' => $this->superficie,
+            'Prix minimum' => $this->prix_min ? number_format($this->prix_min, 0, ',', ' ') : null,
+            'Prix maximum' => $this->prix_max ? number_format($this->prix_max, 0, ',', ' ') : null,
+        ];
 
-        if ($this->nombre_personne) {
-            $attributes['Nombre de personne'] = $this->nombre_personne;
-        }
-
-        if ($this->superficie) {
-            $attributes['Superficie'] = $this->superficie;
-        }
-
-        if ($this->prix_min) {
-            $attributes['Prix minimum'] = $this->prix_min;
-        }
-
-        if ($this->prix_max) {
-            $attributes['Prix maximum'] = $this->prix_max;
-        }
-
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
-        return $attributes;
+        return array_filter($attributes, function ($value) {
+            return !is_null($value);
+        });
     }
 
     public function getPublicEditUrlAttribute(): string
