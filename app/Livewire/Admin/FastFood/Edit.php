@@ -99,8 +99,8 @@ class Edit extends Component
         $this->quartier_id = $fastFood->annonce->quartier;
         $this->entreprise_id = $fastFood->annonce->entreprise_id;
 
-        $this->villes = Ville::where('pays_id', $this->pays_id)->get();
-        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
+        $this->villes = Ville::where('pays_id', $this->pays_id)->orderBy('nom')->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->orderBy('nom')->get();
 
         $this->produits = $fastFood->menus;
         foreach ($this->produits as $key => $produit) {

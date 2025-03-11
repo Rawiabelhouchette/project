@@ -20,11 +20,10 @@ class Edit extends Component
 {
     use WithFileUploads, AnnonceBaseEdit;
 
-    public $locationMeublee;
-    public $is_active;
     public $nom;
     public $type;
     public $types_hebergement;
+    public $is_active;
     public $description;
     public $nombre_chambre;
     public $nombre_personne;
@@ -48,7 +47,7 @@ class Edit extends Component
     public $list_equipements_cuisine = [];
     public $list_types_hebergement = [];
     public $date_validite;
-    public $heure_validite;
+    public $locationMeublee;
     public $pays = [];
     public $pays_id;
 
@@ -78,7 +77,7 @@ class Edit extends Component
         $this->date_validite = date('Y-m-d', strtotime($locationMeublee->annonce->date_validite));
         $this->types_lit = $locationMeublee->annonce->references('types-de-lit')->pluck('id')->toArray();
         $this->commodites = $locationMeublee->annonce->references('commodites-hebergement')->pluck('id')->toArray();
-        $this->services = $locationMeublee->annonce->references('services')->pluck('id')->toArray();
+        $this->services = $locationMeublee->annonce->references('services-proposes')->pluck('id')->toArray();
         $this->equipements_herbegement = $locationMeublee->annonce->references('equipements-hebergement')->pluck('id')->toArray();
         $this->equipements_salle_bain = $locationMeublee->annonce->references('equipements-salle-de-bain')->pluck('id')->toArray();
         $this->equipements_cuisine = $locationMeublee->annonce->references('accessoires-de-cuisine')->pluck('id')->toArray();
@@ -94,15 +93,6 @@ class Edit extends Component
         $this->quartiers = Quartier::where('ville_id', $this->ville_id)->orderBy('nom')->get();
         $this->latitude = $locationMeublee->annonce->latitude;
         $this->longitude = $locationMeublee->annonce->longitude;
-    }
-
-    public function updatedSelectedImages($images)
-    {
-        foreach ($images as $image) {
-            $this->galerie[] = $image;
-        }
-
-        $this->selected_images = [];
     }
 
     private function initialization()
@@ -149,7 +139,6 @@ class Edit extends Component
             $this->list_types_hebergement = [];
 
         $this->pays = Pays::orderBy('nom')->get();
-
     }
 
     public function rules()
@@ -164,67 +153,57 @@ class Edit extends Component
             'type' => 'nullable',
             'is_active' => 'required|boolean',
             'description' => 'nullable|min:3',
-            'nombre_chambre' => 'nullable|numeric',
+            'nombre_chambre' => 'required|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'types_lit' => 'nullable',
+            'types_lit' => 'required',
             'commodites' => 'nullable',
             'services' => 'nullable',
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
-            'equipements_cuisine' => 'nullable',
+            'equipements_cuisine' => 'required',
+            // 'galerie.*' => 'image|max:5120',
+            // 'galerie' => 'max:10',
             'date_validite' => 'required|date',
             // 'heure_validite' => 'required|date_format:H:i',
+            // prix_min < prix_max
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
-
-            'longitude' => 'required',
-            'latitude' => 'required',
-
-            'ville_id' => 'required|exists:villes,id',
-            'quartier_id' => 'required',
-
-            'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg',
-            'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
         ];
     }
 
     public function messages()
     {
         return [
-            'nom.required' => 'Le nom est obligatoire',
-            'nom.string' => 'Le nom doit être une chaîne de caractères',
-            'nom.min' => 'Le nom doit contenir au moins 3 caractères',
-            'nom.max' => 'Le nom ne doit pas dépasser 255 caractères',
-            'nom.unique' => 'Le nom est déjà pris',
-            'entreprise_id.required' => 'L\'entreprise est obligatoire',
-            'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
-            'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
-            'heure_validite.required' => 'L\'heure de validité est obligatoire',
-            'prix_min.numeric' => 'Le prix minimum doit être un nombre',
-            'prix_max.numeric' => 'Le prix maximum doit être un nombre',
-            'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
-            'prix_max.lt' => 'Le prix maximum doit être supérieur au prix minimum',
-
-            'longitude.required' => 'La longitude est obligatoire',
-            'latitude.required' => 'La latitude est obligatoire',
-
-            'ville_id.required' => 'La ville est obligatoire',
-            'ville_id.exists' => 'La ville n\'existe pas',
-            'quartier_id.required' => 'Le quartier est obligatoire',
-
-            'image.required' => 'L\'image est obligatoire',
-            'image.image' => 'Le fichier doit être une image',
-            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
-            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
-
-            'galerie.*.image' => 'Le fichier doit être une image',
-            'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
-            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
-            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+            'entreprise_id.required' => __('Ce champ est obligatoire'),
+            'entreprise_id.exists' => __('Cette entreprise n\'existe pas'),
+            'nom.required' => __('Ce champ est obligatoire'),
+            'nom.string' => __('Ce champ doit être une chaîne de caractères'),
+            'nom.min' => __('Ce champ doit contenir au moins :min caractères'),
+            'nom.max' => __('Ce champ doit contenir au plus :max caractères'),
+            'nom.unique' => __('Ce nom est déjà utilisé'),
+            'type.string' => __('Ce champ doit être une chaîne de caractères'),
+            'type.min' => __('Ce champ doit contenir au moins :min caractères'),
+            'type.max' => __('Ce champ doit contenir au plus :max caractères'),
+            'is_active.required' => __('Ce champ est obligatoire'),
+            'is_active.boolean' => __('Ce champ doit être un booléen'),
+            'description.string' => __('Ce champ doit être une chaîne de caractères'),
+            'description.min' => __('Ce champ doit contenir au moins :min caractères'),
+            'description.max' => __('Ce champ doit contenir au plus :max caractères'),
+            'nombre_chambre.required' => __('Ce champ est obligatoire'),
+            'nombre_chambre.numeric' => __('Ce champ doit être un nombre'),
+            'nombre_personne.numeric' => __('Ce champ doit être un nombre'),
+            'superficie.numeric' => __('Ce champ doit être un nombre'),
+            'types_lit.required' => __('Ce champ est obligatoire'),
+            'commodites.required' => __('Ce champ est obligatoire'),
+            'services.required' => __('Ce champ est obligatoire'),
+            'equipements_herbegement.required' => __('Ce champ est obligatoire'),
+            'equipements_salle_bain.required' => __('Ce champ est obligatoire'),
+            'equipements_cuisine.required' => __('Ce champ est obligatoire'),
+            'prix_min.numeric' => __('Ce champ doit être un nombre'),
+            'prix_max.numeric' => __('Ce champ doit être un nombre'),
+            'prix_min.lt' => __('Ce champ doit être inférieur à :prix_max'),
+            'prix_max.lt' => __('Ce champ doit être supérieur à :prix_min'),
         ];
     }
 
@@ -299,21 +278,21 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->locationMeublee->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->locationMeublee->annonce, $this->galerie, $this->deleted_old_galerie, 'locationMeublees');
+            AnnoncesUtils::updateGalerie($this->image, $this->locationMeublee->annonce, $this->galerie, $this->deleted_old_galerie, 'location-meublees');
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération échouée'),
-                'message' => __('Une erreur est survenue lors de l\'ajout de l\'locationMeublee'),
+                'title' => __('Opération réussie'),
+                'message' => __('Une erreur est survenue lors de l\'ajout de l\'LocationMeublee'),
             ]);
             Log::error($th->getMessage());
             return;
         }
 
-        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', 'L\'annonce a bien été modifiée.');
         return redirect()->route('public.annonces.list');

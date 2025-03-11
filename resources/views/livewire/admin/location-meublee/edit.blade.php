@@ -1,218 +1,138 @@
 <div>
-    <div class="card">
-
-        <div class="card-header">
-            <h4>Modifier une location meublée</h4>
-        </div>
-
-        <div class="card-body">
-            <form wire:submit="update()">
-                @csrf
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;" wire:ignore>
-                        <div class="row">
-                            {{--
-                            // TODO : Add id form label and link it to input
-                            --}}
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Entreprise
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id'
-                                    required>
-                                    <option value="">-- Sélectionner --</option>
-                                    @foreach ($entreprises as $entreprise)
-                                        <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
-                                    @endforeach
-                                </select>
-                                @error('entreprise_id')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Nom de la location
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input class="form-control" type="text" placeholder="" required wire:model.defer='nom'
-                                    required>
-                                @error('nom')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-3 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Superficie (m²)
-                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                </label> <br>
-                                <input class="form-control" type="number" placeholder="" wire:model.defer='superficie'>
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Nombre de personne
-                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                </label> <br>
-                                <input class="form-control" type="number" placeholder=""
-                                    wire:model.defer='nombre_personne'>
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Nombre de chambre
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input class="form-control" type="number" placeholder=""
-                                    wire:model.defer='nombre_chambre' required>
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Prix minimum
-                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                </label> <br>
-                                <input class="form-control" type="number" placeholder="" wire:model.defer='prix_min'>
-                                @error('prix_min')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Prix maximum
-                                    {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                                </label> <br>
-                                <input class="form-control" type="number" placeholder="" wire:model.defer='prix_max'>
-                                @error('prix_max')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Nombre de salle de bain
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input class="form-control" type="number" placeholder=""
-                                    wire:model.defer='nombre_salles_bain' required>
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Date de validité
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder=""
-                                    wire:model.defer='date_validite' required>
-                                @error('date_validite')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                    {{-- is_active boolean : dropdownlist --}}
-                    <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;" wire:ignore>
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Statut
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <select class="form-control" data-nom="is_active" wire:model.defer='is_active'>
-                                    <option value="1">Activé</option>
-                                    <option value="0">Désactivé</option>
-                                </select>
-                                @error('is_active')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-
-                    {{-- <div class="col-md-3 col-sm-4 col-xl-3" style="margin-top: 15px;">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <label class="">Heure de validité
-                                    <b style="color: red; font-size: 100%;">*</b>
-                                </label> <br>
-                                <input type="time" class="form-control" placeholder="" wire:model.defer='heure_validite'
-                                    required>
-                                @error('heure_validite')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div> --}}
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 col-sm-12" style="margin-top: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Description
-                            {{-- <b style="color: red; font-size: 100%;">*</b> --}}
-                        </label> <br>
-                        <textarea class="form-control height-100" id="description" placeholder=""
-                            wire:model.defer='description'></textarea>
-                    </div>
-                </div>
-
-                {{-- <div class="row" wire:ignore>
-                    <div class="col-md-12"
-                        style="margin-top: 10px; padding-bottom: 10px; padding-left: 40px;padding-right: 40px;">
-                        <label class="">Type d'hébergement
-                        </label> <br>
-                        <select class="form-control select2" multiple style="width: 100%;"
-                            wire:model.defer='types_hebergement' data-nom="types_hebergement">
-                            @foreach ($list_types_hebergement as $type)
-                            <option value="{{ $type->id }}">{{ $type->valeur }}</option>
+    <div class="hebergement-template">
+        <form wire:submit.prevent="update">
+            @csrf
+            <div class="row align-items-start">
+                <div class="col-md-4 col-xs-12 entreprise p-0">
+                    <div class="col">
+                        <h3>Entreprise
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Sélectionnez l'entreprise</h4>
+                        <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
+                            <option value="">-- Sélectionner --</option>
+                            @foreach ($entreprises as $entreprise)
+                                <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
                             @endforeach
                         </select>
+                        @error('entreprise_id')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                </div> --}}
+                </div>
+
+                <div class="col-md-4 col-xs-12 categorie p-0">
+                    <div class="col">
+                        <h3>Nom
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Indiquez le nom de votre annonce</h4>
+                        <input class="form-control" type="text" placeholder="" wire:model.defer='nom' required>
+                        @error('nom')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12 patisserie p-0">
+                    <div class="col">
+                        <h3>Date de validité
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Indiquez la date d'expiration de l'annonce</h4>
+                        <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder=""
+                            wire:model.defer='date_validite' required>
+                        @error('date_validite')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-start">
+                <div class="col-md-4 col-xs-12 is-active p-0">
+                    <div class="col">
+                        <h3 class="required">Statut</h3>
+                        <h4>Indiquez si l'annonce est active ou inactive</h4>
+                        <select class="form-control" name="is_active" wire:model.defer='is_active' required>
+                            <option value="1">Actif</option>
+                            <option value="0">Inactif</option>
+                        </select>
+                        @error('is_active')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12 p-0">
+                    <div class="col">
+                        <h3 class="required">Nombre de chambre</h3>
+                        <h4>Indiquez le nombre de chambre</h4>
+                        <input class="form-control" name="nombre_chambre" type="number" placeholder=""
+                            wire:model.defer='nombre_chambre' required>
+                        @error('nombre_chambre')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12 p-0">
+                    <div class="col">
+                        <h3>Nombre de personnes</h3>
+                        <h4>Indiquez le nombre de personnes</h4>
+                        <input class="form-control" name="nombre_personne" type="number" placeholder=""
+                            wire:model.defer='nombre_personne'>
+                        @error('nombre_personne')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12 p-0">
+                    <div class="col">
+                        <h3>Nombre de salle de bain</h3>
+                        <h4>Indiquez le nombre de salle de bain</h4>
+                        <input class="form-control" name="nombre_salles_bain" type="number" placeholder=""
+                            wire:model.defer='nombre_salles_bain'>
+                        @error('nombre_salles_bain')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12 min-price p-0">
+                    <div class="col">
+                        <h3>Prix minimum</h3>
+                        <h4>Indiquez le prix minimum</h4>
+                        <input class="form-control" name="prix_min" type="number" placeholder="" wire:model='prix_min'>
+                        @error('prix_min')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12 max-price p-0">
+                    <div class="col">
+                        <h3>Prix maximum</h3>
+                        <h4>Indiquez le prix maximum</h4>
+                        <input class="form-control" name="prix_max" type="number" placeholder="" wire:model='prix_max'>
+                        @error('prix_max')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-start">
+                @include('admin.annonce.description-component')
+            </div>
+
+            <div class="row align-items-start">
+                @include('admin.annonce.reference-select-component', [
+                    'title' => 'Type d\'hebergement',
+                    'name' => 'types_hebergement',
+                    'options' => $list_types_hebergement,
+                ])
 
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Type de lit',
@@ -222,69 +142,72 @@
                 ])
 
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Commodités hébergement',
+                    'title' => 'Commodités',
                     'name' => 'commodites',
                     'options' => $list_commodites,
                 ])
+            </div>
 
-                {{-- service --}}
+            <div class="row align-items-start">
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Services proposés',
                     'name' => 'services',
                     'options' => $list_services,
                 ])
 
-                {{-- equipements_herbegement --}}
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Equipements d\'hébergement',
                     'name' => 'equipements_herbegement',
                     'options' => $list_equipements_herbegement,
                 ])
 
-                {{-- equipements_cuisine --}}
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Accessoires de cuisine',
+                    'title' => 'Equipements de cuisine',
                     'name' => 'equipements_cuisine',
                     'options' => $list_equipements_cuisine,
                     'required' => true,
                 ])
+            </div>
 
-                {{-- equipements_salle_bain --}}
+            <div class="row align-items-start">
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Equipements de salle de bain',
                     'name' => 'equipements_salle_bain',
                     'options' => $list_equipements_salle_bain,
                 ])
+            </div>
 
+            @include('admin.annonce.location-template', [
+                'pays' => $pays,
+                'villes' => $villes,
+                'quartiers' => $quartiers,
+            ])
+
+            <div class="row align-items-start">
                 @include('admin.annonce.edit-galery-component', [
-                    'galery' => $galerie,
+                    'galerie' => $galerie,
                     'old_galerie' => $old_galerie,
                 ])
+            </div>
 
-                <div class="row">
-                    <div class="form-group" style="margin-top: 15px;">
-                        <div class="col-md-12 col-sm-12 text-right">
-                            <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='update'
-                                wire:loading.attr='disabled'>
-                                <i class="fa fa-pencil fa-lg" style="margin-right: 10px;"></i>
-                                Modifier
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            @include('admin.annonce.edit-validation-buttons')
 
-        </div>
+        </form>
     </div>
 </div>
 
 @push('scripts')
     <script>
         $(document).ready(function () {
+            $('#submit-btn').click(function () {
+                var description = $('.ql-editor').html();
+            });
+
             $('.select2').select2({
                 height: '25px',
                 width: '100%',
             });
+
             $('.select2').on('change', function (e) {
                 var data = $(this).val();
                 var nom = $(this).data('nom');

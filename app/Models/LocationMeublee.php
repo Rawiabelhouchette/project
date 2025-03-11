@@ -50,6 +50,7 @@ class LocationMeublee extends Model implements AnnonceInterface
         'commodites',
         'types_hebergement',
 
+        'public_edit_url',
     ];
 
 
@@ -122,18 +123,17 @@ class LocationMeublee extends Model implements AnnonceInterface
             'Nombre de personne' => $this->nombre_personne,
             'Nombre de salle de bain' => $this->nombre_salles_bain,
             'Superficie' => $this->superficie,
-            'Prix minimum' => $this->prix_min,
-            'Prix maximum' => $this->prix_max,
+            'Prix minimum' => $this->prix_min ? number_format($this->prix_min, 0, ',', ' ') : null,
+            'Prix maximum' => $this->prix_max ? number_format($this->prix_max, 0, ',', ' ') : null,
         ];
 
-        // Filter out null values
-        $attributes = array_filter($attributes);
+        return array_filter($attributes, function ($value) {
+            return !is_null($value);
+        });
+    }
 
-        // Format numeric values
-        $attributes = array_map(function ($value) {
-            return is_numeric($value) ? number_format($value, 0, ',', ' ') : $value;
-        }, $attributes);
-
-        return $attributes;
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.furnished-rentals.edit', $this);
     }
 }

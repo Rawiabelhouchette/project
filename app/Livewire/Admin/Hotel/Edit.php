@@ -90,8 +90,8 @@ class Edit extends Component
         $this->pays_id = $hotel->annonce->ville->pays_id;
         $this->ville_id = $hotel->annonce->ville_id;
         $this->quartier_id = $hotel->annonce->quartier;
-        $this->villes = Ville::where('pays_id', $this->pays_id)->get();
-        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
+        $this->villes = Ville::where('pays_id', $this->pays_id)->orderBy('nom')->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->orderBy('nom')->get();
         $this->latitude = $hotel->annonce->latitude;
         $this->longitude = $hotel->annonce->longitude;
     }

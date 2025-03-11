@@ -103,8 +103,8 @@ class Edit extends Component
         $this->pays_id = $locationVehicule->annonce->ville->pays_id;
         $this->ville_id = $locationVehicule->annonce->ville_id;
         $this->quartier_id = $locationVehicule->annonce->quartier;
-        $this->villes = Ville::where('pays_id', $this->pays_id)->get();
-        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
+        $this->villes = Ville::where('pays_id', $this->pays_id)->orderBy('nom')->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->orderBy('nom')->get();
         $this->latitude = $locationVehicule->annonce->latitude;
         $this->longitude = $locationVehicule->annonce->longitude;
     }
