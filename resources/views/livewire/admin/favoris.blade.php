@@ -59,6 +59,7 @@
             height: 100%;
         }
     </style>
+
     <div class="card">
         <div class="card-body padd-l-0 padd-r-0">
             <div class="col-md-12">
@@ -75,6 +76,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="col-md-12">
                 <div class="small-list-wrapper">
                     <ul id="table">
