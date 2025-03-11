@@ -173,8 +173,6 @@ class Edit extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'nullable',
-            // 'galerie.*' => 'image|max:5120',
-            // 'galerie' => 'max:10',
             'date_validite' => 'required|date',
             // 'heure_validite' => 'required|date_format:H:i',
             'prix_min' => 'nullable|numeric|lt:prix_max',
@@ -186,6 +184,9 @@ class Edit extends Component
             'ville_id' => 'required|exists:villes,id',
             'quartier_id' => 'required',
 
+            'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:10',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
         ];
     }
 
@@ -199,9 +200,6 @@ class Edit extends Component
             'nom.unique' => 'Le nom est déjà pris',
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
-            'galerie.*.image' => 'Le fichier doit être une image',
-            'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
-            'galerie.max' => 'Vous ne pouvez pas charger plus de 10 images',
             'date_validite.required' => 'La date de validité est obligatoire',
             'date_validite.date' => 'La date de validité doit être une date',
             'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
@@ -217,6 +215,16 @@ class Edit extends Component
             'ville_id.required' => 'La ville est obligatoire',
             'ville_id.exists' => 'La ville n\'existe pas',
             'quartier_id.required' => 'Le quartier est obligatoire',
+
+            'image.required' => 'L\'image est obligatoire',
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
         ];
     }
 
@@ -262,7 +270,7 @@ class Edit extends Component
                 'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'is_active' => $this->is_active,
-                
+
                 'ville_id' => $this->ville_id,
                 'quartier' => $this->quartier_id,
                 'longitude' => $this->longitude,

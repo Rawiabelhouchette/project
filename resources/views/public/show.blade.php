@@ -55,12 +55,11 @@
 
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <!-- Listing galery -->
                         <div class="widget-boxed padd-bot-10">
                             <div class="widget-boxed-header">
                                 <div class="listing-title-bar">
                                     <h3> {{ $annonce->titre }}
-                                        <span class="listing-shot-info rating padd-0">
+                                        <span class="listing-shot-info rating p-0">
                                             @for ($i = 1; $i <= 5; $i++)
                                                 <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star"
                                                     aria-hidden="true"></i>
@@ -69,7 +68,7 @@
                                         </span>
                                     </h3>
                                     <div class="annonces">
-                                        <a href="javascript:void(0)">
+                                        <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}">
                                             <i class="fa fa-building fa-lg"></i>
                                             {{ $annonce->entreprise->nom }}
                                         </a>
@@ -108,7 +107,7 @@
                             <div class="widget-boxed-body padd-top-0">
                                 <div class="side-list no-border gallery-box">
                                     <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
-                                        <div class="col-xs-12 col-md-12 padd-0">
+                                        <div class="col-xs-12 col-md-12 p-0">
                                             <div class="carousel slide" id="carouselExampleIndicators"
                                                 data-bs-ride="carousel">
 
@@ -149,62 +148,58 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- End: Listing Gallery -->
-                        <!-- Start: Listing Detail Wrapper -->
-                        <!-- Tabs -->
-                        <div class="tab style-1 mrg-bot-40" role="tabpanel">
-                            {{ $annonce->annonceable->getShowInformationHeader() }}
+                        
+                        <div class="widget-boxed padd-bot-10">
+                            <div class="tab style-1 mrg-bot-40" role="tabpanel">
+                                {{ $annonce->annonceable->getShowInformationHeader() }}
 
-                            {{ $annonce->annonceable->getShowInformationBody() }}
+                                {{ $annonce->annonceable->getShowInformationBody() }}
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-12 col-sm-12">
-                        <div class="col-md-8 col-sm-12">
-                            <!-- Start: Listing Location -->
-                            <div class="widget-boxed padd-bot-10">
-                                <div class="widget-boxed-header">
-                                    <h4><i class="ti-location-pin padd-r-10"></i>Localisation</h4>
-                                </div>
-                                <div class="widget-boxed-body padd-top-5">
-                                    <div class="side-list">
-                                        <ul>
-                                            <li>{{ $annonce->adresse_complete->pays ?? '-' }} -
-                                                {{ $annonce->adresse_complete->ville ?? '-' }},
-                                                {{ $annonce->adresse_complete->quartier ?? '-' }}</li>
-                                            <li>
-                                                <div class="full-width" id="map" style="height:200px;"></div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        <div class="widget-boxed padd-bot-10">
+                            <div class="widget-boxed-header">
+                                <h4><i class="ti-location-pin padd-r-10"></i>Localisation</h4>
+                            </div>
+                            <div class="widget-boxed-body padd-top-5">
+                                <div class="side-list">
+                                    <ul>
+                                        <li>{{ $annonce->adresse_complete->pays ?? '-' }} -
+                                            {{ $annonce->adresse_complete->ville ?? '-' }},
+                                            {{ $annonce->adresse_complete->quartier ?? '-' }}
+                                        </li>
+                                        <li>
+                                            <div class="full-width" id="map" style="height:252px;"></div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <!-- End: Listing Location -->
-                        </div>
-                        <div class="col-md-4 col-sm-12">
-                            <!-- Start: Opening hour -->
-                            <div class="widget-boxed padd-bot-10">
-                                <div class="widget-boxed-header">
-                                    <h4><i class="ti-time padd-r-10"></i>Heures d'ouverture</h4>
-                                </div>
-                                <div class="widget-boxed-body">
-                                    <div class="side-list">
-                                        <ul>
-                                            @foreach ($annonce->entreprise->heure_ouvertures as $key => $ouverture)
-                                                @if ($ouverture == 'Fermé')
-                                                    <li>{{ $key }} <span class="text-danger">{{ $ouverture }}</span></li>
-                                                @else
-                                                    <li>{{ $key }} <span>{{ $ouverture }}</span></li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End: Opening hour -->
                         </div>
                     </div>
-                    <!-- End: Listing Detail Wrapper -->
+                    <div class="col-md-4 col-sm-12">
+                        <!-- Start: Opening hour -->
+                        <div class="widget-boxed padd-bot-10">
+                            <div class="widget-boxed-header">
+                                <h4><i class="ti-time padd-r-10"></i>Heures d'ouverture</h4>
+                            </div>
+                            <div class="widget-boxed-body">
+                                <div class="side-list">
+                                    <ul>
+                                        @foreach ($annonce->entreprise->heure_ouvertures as $key => $ouverture)
+                                            @if ($ouverture == 'Fermé')
+                                                <li>{{ $key }} <span class="text-danger">{{ $ouverture }}</span></li>
+                                            @else
+                                                <li>{{ $key }} <span>{{ $ouverture }}</span></li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End: Opening hour -->
+                    </div>
                 </div>
             </div>
 

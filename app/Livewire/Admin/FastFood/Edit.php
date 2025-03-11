@@ -156,8 +156,9 @@ class Edit extends Component
             'longitude' => 'required|string',
             'latitude' => 'required|string',
 
-            // 'image' => 'nullable|image|max:1024',
-            // 'galerie.*' => 'nullable|image|max:1024',
+            'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:10',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
         ];
     }
 

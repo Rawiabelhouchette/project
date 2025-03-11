@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\AnnoncesUtils;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -70,12 +71,12 @@ class Annonce extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->slug = Str::slug($model->titre);
+            $model->slug = AnnoncesUtils::generateSlug($model->titre);
             $model->is_active = true;
         });
 
         static::updating(function ($model) {
-            $model->slug = Str::slug($model->titre);
+            $model->slug = AnnoncesUtils::generateSlug($model->titre);
         });
 
         static::created(function ($model) {

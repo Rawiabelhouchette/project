@@ -20,11 +20,11 @@
         </div>
         <div class="col-md-12">
             <div class="add-job_container">
-                <div class="card">
-                    <div class="card-header">
-                        <h4><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;Informations Personnelles</h4>
+                <div class="widget-boxed padd-bot-10">
+                    <div class="widget-boxed-header">
+                        <h4><i class="fa fa-user" aria-hidden="true"></i>Informations Personnelles</h4>
                     </div>
-                    <div class="card-body">
+                    <div class="widget-boxed-body padd-top-0">
                         <div class="row no-ext-mrg sm-plix">
                             <div class="col-sm-6">
                                 <label>Nom</label>
@@ -69,12 +69,12 @@
                 </div>
 
                 @if ($editPass)
-                    <div class="card" wire:transition.fade>
-                        <div class="card-header">
-                            <h4><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;&nbsp;Mot de passe</h4>
+                    <div class="widget-boxed padd-bot-10" wire:transition.fade>
+                        <div class="widget-boxed-header">
+                            <h4><i class="fa fa-lock" aria-hidden="true"></i>Mot de passe</h4>
                         </div>
 
-                        <div class="card-body">
+                        <div class="widget-boxed-body padd-top-0">
                             <div class="row no-ext-mrg sm-plix">
                                 <div class="col-sm-6">
                                     <label>Ancien mot de passe</label>

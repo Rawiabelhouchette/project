@@ -185,12 +185,13 @@ class Create extends Component
 
 
             'services' => 'nullable',
-            'image' => 'required|image',
-            'galerie' => 'nullable|array',
-            'galerie.*' => 'nullable|image',
 
             'longitude' => 'required|string',
             'latitude' => 'required|string',
+
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:10',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
         ];
     }
 
@@ -246,8 +247,6 @@ class Create extends Component
             'carte_consommation.array' => 'La carte de consommation doit être un tableau.',
             'carte_consommation.*.integer' => 'La carte de consommation doit être des entiers.',
             'carte_consommation.*.exists' => 'La carte de consommation sélectionnée est invalide.',
-            'galerie.array' => 'La galerie doit être un tableau.',
-            'galerie.*.image' => 'La galerie doit contenir des images.',
 
             'entrees.required' => 'Les entrées sont obligatoires.',
             'entrees.array' => 'Les entrées doivent être un tableau.',
@@ -267,6 +266,16 @@ class Create extends Component
             'entrees.*.image.image' => 'L\'image de l\'entrée doit être une image.',
 
             'longitude.required' => 'La localisation est obligatoire.',
+
+            'image.required' => 'L\'image est obligatoire',
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
 
         ];
     }

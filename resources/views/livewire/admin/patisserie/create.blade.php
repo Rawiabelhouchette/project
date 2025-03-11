@@ -50,7 +50,7 @@
             </div>
 
             <div class="row align-items-start">
-                <div class="col-md-4 col-sm-12 p-0">
+                <div class="col-md-12 col-sm-12 p-0">
                     <div class="col">
                         <h3>Description</h3>
                         <h4>Donnez une description de votre annonce</h4>
