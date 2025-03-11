@@ -130,7 +130,8 @@
                                 <label class="">Whatsapp
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input class="form-control telephone" id="telephone" type="text" required wire:model.defer='whatsapp'>
+                                <input class="form-control telephone" id="telephone" type="text" required
+                                    wire:model.defer='whatsapp'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -188,7 +189,8 @@
                                 <label class="">Longitude
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input class="form-control" id="longitude" type="text" required wire:model.defer='longitude'>
+                                <input class="form-control" id="longitude" type="text" required
+                                    wire:model.defer='longitude'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -202,7 +204,8 @@
                                 <label class="">Latitude
                                     <b style="color: red; font-size: 100%;">*</b>
                                 </label> <br>
-                                <input class="form-control" id="latitude" type="text" required wire:model.defer='latitude'>
+                                <input class="form-control" id="latitude" type="text" required
+                                    wire:model.defer='latitude'>
                             </div>
                             <div class="col-md-1"></div>
                         </div>
@@ -271,7 +274,8 @@
                                     <label class="">Heure ouverture
                                         <b style="color: red; font-size: 100%;">*</b>
                                     </label> <br>
-                                    <input class="form-control" id="heure-debut-{{ $key }}" type="time" required wire:model.defer='plannings.{{ $key }}.heure_debut'>
+                                    <input class="form-control" id="heure-debut-{{ $key }}" type="time" required
+                                        wire:model.defer='plannings.{{ $key }}.heure_debut'>
                                 </div>
                                 <div class="col-md-1"></div>
 
@@ -286,7 +290,8 @@
                                     <label class="">Heure fermeture
                                         <b style="color: red; font-size: 100%;">*</b>
                                     </label> <br>
-                                    <input class="form-control" id="heure-fin-{{ $key }}" type="time" required wire:model.defer='plannings.{{ $key }}.heure_fin'>
+                                    <input class="form-control" id="heure-fin-{{ $key }}" type="time" required
+                                        wire:model.defer='plannings.{{ $key }}.heure_fin'>
                                 </div>
                                 <div class="col-md-1"></div>
                             </div>
@@ -297,7 +302,8 @@
                 <div class="row padd-bot-15">
                     <div class="form-group" style="margin-top: 15px;">
                         <div class="col-md-12 col-sm-12 text-right">
-                            <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='store' wire:loading.attr='disabled'>
+                            <button class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:target='store'
+                                wire:loading.attr='disabled'>
                                 <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                                 Enregistrer
                             </button>
@@ -312,7 +318,7 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             //  Telephone
             let pays = $('#pays option:selected').text();
             // add attribute data-country 
@@ -322,14 +328,14 @@
             // change pays by selecting the first option
             // $('#pays').val($('#pays option:first').val());
 
-            $('#pays').on('change', function() {
+            $('#pays').on('change', function () {
                 let pays = $('#pays option:selected').text();
                 // add attribute data-country 
                 $('#telephone').attr('data-country', pays);
                 applyMask($('#telephone').attr('data-country'));
             });
 
-            $('.jour').on('change', function() {
+            $('.jour').on('change', function () {
                 var jour = $(this).val();
                 if (jour == 'Tous les jours' || jour == '') {
                     Livewire.dispatch('changerJour', [false]);
