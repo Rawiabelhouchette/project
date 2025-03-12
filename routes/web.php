@@ -198,6 +198,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
         Route::resource('adverts/furnished-rentals', PublicLocationMeubleeController::class, [
             'names' => [
                 'create' => 'public.furnished-rentals.create',
+                'edit' => 'public.furnished-rentals.edit',
             ]
         ]);
 

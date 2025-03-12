@@ -93,7 +93,10 @@ class Patisserie extends Model implements AnnonceInterface
     public function getCaracteristiquesAttribute(): array
     {
         $attributes = [];
-        return $attributes;
+
+        return array_filter($attributes, function ($value) {
+            return !is_null($value);
+        });
     }
 
     public function getProduitsAttribute()

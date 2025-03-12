@@ -48,8 +48,6 @@ class Create extends Component
     public $list_equipements_cuisine = [];
     public $list_types_hebergement = [];
     public $date_validite;
-    public $heure_validite;
-
     public $pays = [];
     public $pays_id;
 
@@ -123,6 +121,7 @@ class Create extends Component
             'description' => 'nullable|min:3',
             'nombre_chambre' => 'required|numeric',
             'nombre_personne' => 'nullable|numeric',
+            'nombre_salles_bain' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
             'types_lit' => 'required',
             'commodites' => 'nullable',
@@ -130,12 +129,13 @@ class Create extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'required',
-            'galerie.*' => 'image',//|max:5120',
-            // 'galerie' => 'max:10',
-            'date_validite' => 'required|date|after:today',
-            // 'heure_validite' => 'required|date_format:H:i',
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
+
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:10',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
+            'date_validite' => 'required|date|after:today',
 
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
@@ -149,38 +149,36 @@ class Create extends Component
     public function messages()
     {
         return [
-            'entreprise_id.required' => __('Veuillez choisir une entreprise'),
+            'entreprise_id.required' => __('Le champ est obligatoire'),
             'entreprise_id.exists' => __('L\'entreprise choisi n\'existe pas'),
-            'nom.required' => __('Veuillez renseigner le nom de la location meublée'),
-            'nom.string' => __('Le nom de la location meublée doit être une chaine de caractères'),
-            'nom.min' => __('Le nom de la location meublée doit contenir au moins :min caractères'),
-            'nom.max' => __('Le nom de la location meublée ne doit pas dépasser :max caractères'),
+            'nom.required' => __('Le champ est obligatoire'),
+            'nom.string' => __('Le nom doit être une chaine de caractères'),
+            'nom.min' => __('Le nom doit contenir au moins :min caractères'),
+            'nom.max' => __('Le nom ne doit pas dépasser :max caractères'),
             'nom.unique' => __('Ce nom est déjà utilisé'),
-            'type.required' => __('Veuillez choisir un type da location meublée'),
-            'description.min' => __('La description de la location meublée doit contenir au moins :min caractères'),
-            'description.max' => __('La description de la location meublée ne doit pas dépasser :max caractères'),
-            'nombre_chambre.required' => __('Veuillez renseigner le nombre de chambre(s) de la location meublée'),
-            'nombre_chambre.numeric' => __('Le nombre de chambre(s) de la location meublée doit être un nombre'),
-            'nombre_personne.numeric' => __('Le nombre de personne(s) de la location meublée doit être un nombre'),
-            'superficie.numeric' => __('La superficie de la location meublée doit être un nombre'),
-            'types_lit.required' => __('Veuillez choisir au moins un type de lit'),
-            'commodites.required' => __('Veuillez choisir au moins une commodité'),
-            'services.required' => __('Veuillez choisir au moins un service'),
-            'equipements_herbegement.required' => __('Veuillez choisir au moins un équipement d\'hébergement'),
-            'equipements_salle_bain.required' => __('Veuillez choisir au moins un équipement de salle de bain'),
-            'equipements_cuisine.required' => __('Veuillez choisir au moins un équipement de cuisine'),
+            'type.required' => __('Le champ est obligatoire'),
+            'description.min' => __('La description doit contenir au moins :min caractères'),
+            'description.max' => __('La description ne doit pas dépasser :max caractères'),
+            'nombre_chambre.required' => __('Le champ est obligatoire'),
+            'nombre_chambre.numeric' => __('Le nombre de chambre(s) doit être un nombre'),
+            'nombre_personne.numeric' => __('Le nombre de personne(s) doit être un nombre'),
+            'superficie.numeric' => __('La superficie doit être un nombre'),
+            'types_lit.required' => __('Le champ est obligatoire'),
+            'commodites.required' => __('Le champ est obligatoire'),
+            'services.required' => __('Le champ est obligatoire'),
+            'equipements_herbegement.required' => __('Le champ est obligatoire'),
+            'equipements_salle_bain.required' => __('Le champ est obligatoire'),
+            'equipements_cuisine.required' => __('Le champ est obligatoire'),
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.gt' => 'Le prix maximum doit être supérieur au prix minimum',
-
-            'pays_id.required' => 'Le pays est obligatoire',
+            'pays_id.required' => 'Le champ est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
-            'ville_id.required' => 'La ville est obligatoire',
+            'ville_id.required' => 'Le champ est obligatoire',
             'ville_id.exists' => 'La ville n\'existe pas',
-            'quartier_id.required' => 'Le quartier est obligatoire',
-
-            'longitude.required' => 'La localisation est obligatoire.',
+            'quartier_id.required' => 'Le champ est obligatoire',
+            'longitude.required' => 'Le champ est obligatoire.',
         ];
     }
 

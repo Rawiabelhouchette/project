@@ -141,8 +141,8 @@ class Edit extends Component
         $this->quartier_id = $restaurant->annonce->quartier;
         $this->entreprise_id = $restaurant->annonce->entreprise_id;
 
-        $this->villes = Ville::where('pays_id', $this->pays_id)->get();
-        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
+        $this->villes = Ville::where('pays_id', $this->pays_id)->orderBy('nom')->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->orderBy('nom')->get();
 
         $this->entrees = $restaurant->entrees;
         $this->plats = $restaurant->plats;

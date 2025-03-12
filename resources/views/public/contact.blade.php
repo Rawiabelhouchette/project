@@ -22,16 +22,16 @@
 
     <section class="padd-0">
         <div class="container">
-            <div class="col-md-10 col-md-offset-1 col-sm-12 translateY-60">
-                <div class="col-md-6 col-sm-6">
-                    <div class="detail-wrapper text-center padd-top-40 mrg-bot-10 padd-bot-40 light-bg">
+            <div class="col-md-10 col-md-offset-1 col-sm-12 translateY-60 p-3">
+                <div class="col-md-6 col-sm-6 mr-1 p-3 pb-3">
+                    <div class="detail-wrapper text-center padd-top-40 mrg-bot-10 padd-bot-40 light-bg pt-3 pb-4" style="background-color: #f7f4f4;">
                         <i class="theme-cl font-30 ti-location-pin"></i>
                         <h4>Bureau du Togo</h4>
                         Lomé-Adidogomé
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6">
-                    <div class="detail-wrapper text-center padd-top-40 mrg-bot-10 padd-bot-40 light-bg">
+                <div class="col-md-6 col-sm-6 ml-1 p-3 pb-3">
+                    <div class="detail-wrapper text-center padd-top-40 mrg-bot-10 padd-bot-40 light-bg pt-3 pb-4" style="background-color: #f7f4f4;">
                         <i class="theme-cl font-30 ti-email"></i>
                         <h4>contact@numrod.fr</h4>
                         contact@numrod.fr
@@ -41,7 +41,7 @@
         </div>
     </section>
 
-    <section class="padd-top-0">
+    <section class="padd-top-0 pt-0">
         <div class="container">
             <div class="col-md-6 col-sm-6">
                 <form action="{{ route('contact-us') }}" method="post">

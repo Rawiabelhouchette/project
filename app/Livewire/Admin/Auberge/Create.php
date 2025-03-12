@@ -270,7 +270,7 @@ class Create extends Component
 
             AnnoncesUtils::createManyReference($annonce, $references);
 
-            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'annonces');
+            AnnoncesUtils::createGalerie($annonce, $this->image, $this->galerie, 'auberges');
 
             DB::commit();
         } catch (\Throwable $th) {

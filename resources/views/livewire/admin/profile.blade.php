@@ -11,7 +11,7 @@
                     }
                 </style>
                 @if ($editInfo || $editPass)
-                    <a href="javascript:void(0)" class="btn theme-btn" wire:click='cancel'>Annuler</a>
+                    <a href="javascript:void(0)" class="btn btn-danger" wire:click='cancel'>Annuler</a>
                 @else
                     <a href="javascript:void(0)" class="btn theme-btn-trans-radius" wire:click='editInformation'>Modifier information</a>
                     <a href="javascript:void(0)" class="btn theme-btn-trans-radius profile-edit-button" wire:click='editPassword'>Changer mot de passe</a>

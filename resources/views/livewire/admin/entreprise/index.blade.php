@@ -1,5 +1,4 @@
 <div class="col-md-12 col-sm-12">
-
     <style>
         .tp-author-basic-info {
             margin: 30px 0 0 0;
@@ -76,7 +75,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-12">
                 <div class="small-list-wrapper">
                     <ul id="table">

@@ -90,8 +90,8 @@ class Edit extends Component
         $this->pays_id = $auberge->annonce->ville->pays_id;
         $this->ville_id = $auberge->annonce->ville_id;
         $this->quartier_id = $auberge->annonce->quartier;
-        $this->villes = Ville::where('pays_id', $this->pays_id)->get();
-        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->get();
+        $this->villes = Ville::where('pays_id', $this->pays_id)->orderBy('nom')->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->orderBy('nom')->get();
         $this->latitude = $auberge->annonce->latitude;
         $this->longitude = $auberge->annonce->longitude;
     }
@@ -299,7 +299,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->auberge->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->auberge->annonce, $this->galerie, $this->deleted_old_galerie, 'annonces');
+            AnnoncesUtils::updateGalerie($this->image, $this->auberge->annonce, $this->galerie, $this->deleted_old_galerie, 'auberges');
 
             DB::commit();
         } catch (\Throwable $th) {

@@ -82,13 +82,9 @@ class BoiteDeNuit extends Model implements AnnonceInterface
     {
         $attributes = [];
 
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
-        return $attributes;
+        return array_filter($attributes, function ($value) {
+            return !is_null($value);
+        });
     }
 
 }

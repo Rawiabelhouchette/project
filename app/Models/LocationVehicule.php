@@ -57,7 +57,6 @@ class LocationVehicule extends Model implements AnnonceInterface
         return $this->belongsTo(Modele::class);
     }
 
-
     public function getShowUrlAttribute(): string
     {
         return route('location-vehicules.show', $this);
@@ -96,36 +95,20 @@ class LocationVehicule extends Model implements AnnonceInterface
 
     public function getCaracteristiquesAttribute(): array
     {
-        $attributes = [];
+        $attributes = [
+            'Marque' => $this->modele_id ? $this->modele->marque->nom : null,
+            'Modèle' => $this->modele_id ? $this->modele->nom : null,
+            'Année' => $this->annee,
+            'Carburant' => $this->carburant,
+            'Kilométrage' => $this->kilometrage,
+            'Boite de vitesse' => $this->boite_vitesse,
+            'Nombre de portes' => $this->nombre_portes,
+            'Nombre de places' => $this->nombre_places,
+        ];
 
-        if ($this->modele_id) {
-            $attributes['Marque'] = $this->modele->marque->nom;
-            $attributes['Modèle'] = $this->modele->nom;
-        }
-
-        if ($this->annee) {
-            $attributes['Année'] = $this->annee;
-        }
-
-        if ($this->carburant) {
-            $attributes['Carburant'] = $this->carburant;
-        }
-
-        if ($this->kilometrage) {
-            $attributes['Kilométrage'] = $this->kilometrage;
-        }
-
-        if ($this->boite_vitesse) {
-            $attributes['Boite de vitesse'] = $this->boite_vitesse;
-        }
-
-        if ($this->nombre_portes) {
-            $attributes['Nombre de portes'] = $this->nombre_portes;
-        }
-
-        if ($this->nombre_places) {
-            $attributes['Nombre de places'] = $this->nombre_places;
-        }
+        $attributes = array_filter($attributes, function ($value) {
+            return !is_null($value);
+        });
 
         foreach ($attributes as $key => $value) {
             if (is_numeric($value)) {
