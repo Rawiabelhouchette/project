@@ -28,7 +28,6 @@ class Create extends Component
     public $date_validite;
     public $entreprise_id;
     public $type_bar;
-    public $type_musique;
     public $capacite_accueil;
 
     public $prix_min = 0;
@@ -39,6 +38,9 @@ class Create extends Component
 
     public $commodites_vie_nocturne = [];
     public $list_commodites_vie_nocturne = [];
+
+    public $types_musique = [];
+    public $list_types_musique = [];
 
     public $entreprises = [];
 
@@ -68,6 +70,11 @@ class Create extends Component
             $this->entreprises = Entreprise::all();
         }
 
+        $tmp_types_musique = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'types-de-musique')->first();
+        $tmp_types_musique ?
+            $this->list_types_musique = ReferenceValeur::where('reference_id', $tmp_types_musique->id)->select('valeur', 'id')->get() :
+            $this->list_types_musique = [];
+
         $tmp_equipement_vie_nocturne = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'equipements-vie-nocturne')->first();
         $tmp_equipement_vie_nocturne ?
             $this->list_equipements_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_equipement_vie_nocturne->id)->select('valeur', 'id')->get() :
@@ -89,7 +96,7 @@ class Create extends Component
             'date_validite' => 'required|date',
             'entreprise_id' => 'required|integer|exists:entreprises,id',
             'type_bar' => 'nullable|string',
-            'type_musique' => 'nullable|string',
+            'types_musique' => 'nullable|string',
             'capacite_accueil' => 'nullable|integer',
             'equipements_vie_nocturne' => 'nullable|array',
             'equipements_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
@@ -128,7 +135,7 @@ class Create extends Component
 
             'type_bar.string' => 'Le type de bar doit être une chaîne de caractères',
 
-            'type_musique.string' => 'Le type de musique doit être une chaîne de caractères',
+            'types_musique.string' => 'Le type de musique doit être une chaîne de caractères',
 
             'capacite_accueil.integer' => 'La capacité d\'accueil doit être un entier',
 
@@ -153,6 +160,8 @@ class Create extends Component
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
 
             'image.required' => 'L\'image est obligatoire',
+            // validation.uploaded
+            'image.uploaded' => 'L\'image doit être une image',
 
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
@@ -215,6 +224,7 @@ class Create extends Component
             $references = [
                 ['Equipements vie nocturne', $this->equipements_vie_nocturne],
                 ['Commodités de vie nocturne', $this->commodites_vie_nocturne],
+                ['Types de musique', [$this->types_musique]],
             ];
 
             AnnoncesUtils::createManyReference($annonce, $references);
