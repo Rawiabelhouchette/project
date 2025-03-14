@@ -203,7 +203,7 @@ class Edit extends Component
             return;
         }
 
-        // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', __('L\'bar a bien été modifiée avec succès'));
 

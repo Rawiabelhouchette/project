@@ -205,6 +205,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
         Route::resource('adverts/night-clubs', PublicBoiteDeNuitController::class, [
             'names' => [
                 'create' => 'public.night-clubs.create',
+                'edit' => 'public.night-clubs.edit',
             ]
         ]);
 

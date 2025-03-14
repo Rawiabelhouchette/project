@@ -3,11 +3,12 @@
         <form wire:submit.prevent="store">
             @csrf
             <div class="row align-items-start">
-                <div class="col entreprise" wire:ignore>
-                    <div>
+                <div class="col-md-4 col-xs-12 entreprise p-0">
+                    <div class="col">
                         <h3>Entreprise
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
+                        <h4>Sélectionnez l'entreprise</h4>
                         <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
@@ -20,22 +21,26 @@
                     </div>
                 </div>
 
-                <div class="col nom">
-                    <div>
+                <div class="col-md-4 col-xs-12 categorie p-0">
+                    <div class="col">
                         <h3>Nom
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <input class="form-control" name="nom" type="text" placeholder="" required wire:model.defer='nom' required>
+                        <h4>Indiquez le nom de votre annonce</h4>
+                        <input class="form-control" type="text" placeholder="" wire:model.defer='nom' required>
                         @error('nom')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
 
-                <div class="col date-validite">
-                    <div>
-                        <h3 class="required">Date de validité</h3>
-                        <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                <div class="col-md-4 col-xs-12 patisserie p-0">
+                    <div class="col">
+                        <h3>Date de validité
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Indiquez la date d'expiration de l'annonce</h4>
+                        <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
                         @error('date_validite')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -43,41 +48,37 @@
                 </div>
             </div>
 
-            <div class="row align-items-start" wire:ignore>
-                <div class="col">
-                    <h3>Description</h3>
-                    {{-- <textarea class=" editor" id="description" placeholder="" wire:model.defer='description'></textarea> --}}
-                    <div class="editor" name="description" data-nom="description"></div>
-                </div>
+            <div class="row align-items-start">
+                @include('admin.annonce.description-component')
             </div>
 
-            {{-- Type de musique --}}
-            @include('admin.annonce.reference-select-component', [
-                'title' => 'Type de musique',
-                'name' => 'types_musique',
-                'options' => $list_types_musique,
-            ])
+            <div class="row align-items-start">
+                @include('admin.annonce.reference-select-component', [
+                    'title' => 'Type de musique',
+                    'name' => 'types_musique',
+                    'options' => $list_types_musique,
+                ])
 
-            {{-- Equipements nocturnes --}}
-            @include('admin.annonce.reference-select-component', [
-                'title' => 'Equipements nocturnes',
-                'name' => 'equipements_vie_nocturne',
-                'options' => $list_equipements_vie_nocturne,
-            ])
+                @include('admin.annonce.reference-select-component', [
+                    'title' => 'Equipements nocturnes',
+                    'name' => 'equipements_vie_nocturne',
+                    'options' => $list_equipements_vie_nocturne,
+                ])
+            </div>
 
-            {{-- Commodités --}}
-            @include('admin.annonce.reference-select-component', [
-                'title' => 'Commodités',
-                'name' => 'commodites',
-                'options' => $list_commodites,
-            ])
+            <div class="row align-items-start">
+                @include('admin.annonce.reference-select-component', [
+                    'title' => 'Commodités',
+                    'name' => 'commodites',
+                    'options' => $list_commodites,
+                ])
 
-            {{-- Services --}}
-            @include('admin.annonce.reference-select-component', [
-                'title' => 'Services',
-                'name' => 'services',
-                'options' => $list_services,
-            ])
+                @include('admin.annonce.reference-select-component', [
+                    'title' => 'Services proposés',
+                    'name' => 'services',
+                    'options' => $list_services,
+                ])
+            </div>
 
             @include('admin.annonce.location-template', [
                 'pays' => $pays,
@@ -85,20 +86,13 @@
                 'quartiers' => $quartiers,
             ])
 
-            @include('admin.annonce.create-galery-component', [
-                'galery' => $galerie,
-            ])
-
-            <div class="row padd-bot-15">
-                <div class="form-group" style="margin-top: 15px;">
-                    <div class="col-md-12 col-sm-12 text-right">
-                        <button class="btn theme-btn" id="submit-btn" type="submit" style="margin-right: 30px;" wire:loading.attr='disabled'>
-                            <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
-                            Enregistrer
-                        </button>
-                    </div>
-                </div>
+            <div class="row align-items-start">
+                @include('admin.annonce.create-galery-component', [
+                    'galery' => $galerie,
+                ])
             </div>
+
+            @include('admin.annonce.create-validation-buttons')
         </form>
     </div>
 </div>

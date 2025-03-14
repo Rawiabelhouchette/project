@@ -3,11 +3,12 @@
         <form wire:submit.prevent="store">
             @csrf
             <div class="row align-items-start">
-                <div class="col entreprise" wire:ignore>
-                    <div>
+                <div class="col-md-4 col-xs-12 entreprise p-0">
+                    <div class="col">
                         <h3>Entreprise
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
+                        <h4>Sélectionnez l'entreprise</h4>
                         <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
@@ -19,72 +20,27 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col nom">
-                    <div>
+
+                <div class="col-md-4 col-xs-12 categorie p-0">
+                    <div class="col">
                         <h3>Nom
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <input class="form-control" name="nom" type="text" placeholder="" required wire:model.defer='nom' required>
+                        <h4>Indiquez le nom de votre annonce</h4>
+                        <input class="form-control" type="text" placeholder="" wire:model.defer='nom' required>
                         @error('nom')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
-            </div>
 
-            <div class="row align-items-start">
-                <div class="col">
-                    <div>
-                        <h3>Type de bar</h3>
-                        <input class="form-control" name="type_bar" type="text" placeholder="" wire:model.defer='type_bar'>
-                        @error('type_bar')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col">
-                    <div>
-                        <h3>Type de musique</h3>
-                        <input class="form-control" name="type_musique" type="text" placeholder="" wire:model.defer='type_musique'>
-                        @error('type_musique')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
-            <div class="row align-items-start">
-                <div class="col">
-                    <div>
-                        <h3>Capacité d'accueil</h3>
-                        <input class="form-control" name="capacite_accueil" type="number" placeholder="" wire:model.defer='capacite_accueil'>
-                        @error('capacite_accueil')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col min-price">
-                    <div>
-                        <h3>Prix minimum</h3>
-                        <input class="form-control" name="prix_min" type="number" placeholder="" wire:model.defer='prix_min'>
-                        @error('prix_min')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col max-price">
-                    <div>
-                        <h3>Prix maximum</h3>
-                        <input class="form-control" name="prix_max" type="number" placeholder="" wire:model.defer='prix_max'>
-                        @error('prix_max')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col nb-personnes">
-                    <div>
-                        <h3 class="required">Date de validité</h3>
-                        <input class="form-control" name="date_validite" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                <div class="col-md-4 col-xs-12 patisserie p-0">
+                    <div class="col">
+                        <h3>Date de validité
+                            <b style="color: red; font-size: 100%;">*</b>
+                        </h3>
+                        <h4>Indiquez la date d'expiration de l'annonce</h4>
+                        <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
                         @error('date_validite')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -92,11 +48,54 @@
                 </div>
             </div>
 
-            <div class="row align-items-start" wire:ignore>
-                <div class="col">
-                    <h3>Description</h3>
-                    <div class="editor" name="description" data-nom="description"></div>
+            <div class="row align-items-start">
+                <div class="col-md-4 col-xs-12 min-price p-0">
+                    <div class="col">
+                        <h3>Prix minimum</h3>
+                        <h4>Indiquez le prix minimum</h4>
+                        <input class="form-control" name="prix_min" type="number" placeholder="" wire:model='prix_min'>
+                        @error('prix_min')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
+
+                <div class="col-md-4 col-xs-12 max-price p-0">
+                    <div class="col">
+                        <h3>Prix maximum</h3>
+                        <h4>Indiquez le prix maximum</h4>
+                        <input class="form-control" name="prix_max" type="number" placeholder="" wire:model='prix_max'>
+                        @error('prix_max')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12 nombre-salles-bain p-0">
+                    <div class="col">
+                        <h3>Capacité d'accueil</h3>
+                        <h4>Indiquez la capacité d'accueil</h4>
+                        <input class="form-control" name="capacite_accueil" type="number" placeholder="" wire:model.defer='capacite_accueil' min="0">
+                        @error('capacite_accueil')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12 nombre-salles-bain p-0">
+                    <div class="col">
+                        <h3>Type de bar</h3>
+                        <h4>Indiquez le type de bar</h4>
+                        <input class="form-control" name="type_bar" type="text" placeholder="" wire:model.defer='type_bar' min="0">
+                        @error('type_bar')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-start">
+                @include('admin.annonce.description-component')
             </div>
 
             <div class="row align-items-start">
@@ -110,6 +109,12 @@
                     'title' => 'Commodités vie nocturne',
                     'name' => 'commodites_vie_nocturne',
                     'options' => $list_commodites_vie_nocturne,
+                ])
+
+                @include('admin.annonce.reference-select-component', [
+                    'title' => 'Type de musique',
+                    'name' => 'types_musique',
+                    'options' => $list_types_musique,
                 ])
             </div>
 
@@ -126,7 +131,7 @@
             <div class="row padd-bot-15">
                 <div class="form-group">
                     <div class="col text-right">
-                        <button class="btn theme-btn" id="submit-btn" type="submit" style="margin-right: 30px;" wire:loading.attr='disabled'>
+                        <button id="submit-btn" class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:loading.attr='disabled'>
                             <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                             Enregistrer
                         </button>
