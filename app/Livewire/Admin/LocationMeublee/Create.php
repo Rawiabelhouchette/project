@@ -261,7 +261,7 @@ class Create extends Component
             return;
         }
 
-        // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('public.annonces.list');

@@ -323,7 +323,7 @@ class Edit extends Component
             return;
         }
 
-        // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', __('L\'annonce a été modifiée avec succès'));
         return redirect()->route('public.annonces.list');
