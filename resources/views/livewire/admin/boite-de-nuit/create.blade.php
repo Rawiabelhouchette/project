@@ -74,7 +74,7 @@
                 ])
 
                 @include('admin.annonce.reference-select-component', [
-                    'title' => 'Services',
+                    'title' => 'Services proposés',
                     'name' => 'services',
                     'options' => $list_services,
                 ])
