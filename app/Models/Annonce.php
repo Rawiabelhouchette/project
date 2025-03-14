@@ -76,7 +76,9 @@ class Annonce extends Model
         });
 
         static::updating(function ($model) {
-            $model->slug = AnnoncesUtils::generateSlug($model->titre);
+            if ($model->isDirty('titre')) {
+                $model->slug = AnnoncesUtils::generateSlug($model->titre);
+            }
         });
 
         static::created(function ($model) {
