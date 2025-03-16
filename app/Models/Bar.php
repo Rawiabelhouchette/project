@@ -16,7 +16,6 @@ class Bar extends Model implements AnnonceInterface
 
     protected $fillable = [
         'type_bar',
-        'type_musique',
         'capacite_accueil',
         'prix_min',
         'prix_max',
@@ -24,7 +23,6 @@ class Bar extends Model implements AnnonceInterface
 
     protected $casts = [
         'type_bar' => PurifyHtmlOnGet::class,
-        'type_musique' => PurifyHtmlOnGet::class,
         'capacite_accueil' => PurifyHtmlOnGet::class,
         'prix_min' => PurifyHtmlOnGet::class,
         'prix_max' => PurifyHtmlOnGet::class,
@@ -38,6 +36,8 @@ class Bar extends Model implements AnnonceInterface
         'commodites_vie_nocturne',
 
         'caracteristiques',
+
+        'public_edit_url',
     ];
 
     public function annonce()
@@ -91,5 +91,10 @@ class Bar extends Model implements AnnonceInterface
         return array_filter($attributes, function ($value) {
             return !is_null($value);
         });
+    }
+
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.bars.edit', $this);
     }
 }

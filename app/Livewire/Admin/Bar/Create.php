@@ -208,6 +208,8 @@ class Create extends Component
             $bar = Bar::create([
                 'prix_min' => $this->prix_min,
                 'prix_max' => $this->prix_max,
+                'capacite_accueil' => $this->capacite_accueil,
+                'type_bar' => $this->type_bar
             ]);
 
             $annonce = new Annonce([
