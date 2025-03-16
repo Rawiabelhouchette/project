@@ -86,22 +86,22 @@ class Edit extends Component
     public function rules()
     {
         return [
-            'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->bar->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
-            'description' => 'nullable|string|min:3',
-            'date_validite' => 'required|date',
-            'type_bar' => 'nullable|string',
-            'type_musique' => 'nullable|string',
-            'capacite_accueil' => 'nullable|integer',
-            'equipements_vie_nocturne' => 'nullable|array',
-            'equipements_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'commodites_vie_nocturne' => 'nullable|array',
-            'commodites_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'galerie' => 'nullable|array',
-            'galerie.*' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
-            'is_active' => 'required|boolean',
-            'prix_min' => 'nullable|numeric|lt:prix_max',
-            'prix_max' => 'nullable|numeric',
+            // 'entreprise_id' => 'required|exists:entreprises,id',
+            // 'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->bar->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
+            // 'description' => 'nullable|string|min:3',
+            // 'date_validite' => 'required|date',
+            // 'type_bar' => 'nullable|string',
+            // 'type_musique' => 'nullable|string',
+            // 'capacite_accueil' => 'nullable|integer',
+            // 'equipements_vie_nocturne' => 'nullable|array',
+            // 'equipements_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
+            // 'commodites_vie_nocturne' => 'nullable|array',
+            // 'commodites_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
+            // 'galerie' => 'nullable|array',
+            // 'galerie.*' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
+            // 'is_active' => 'required|boolean',
+            // 'prix_min' => 'nullable|numeric|lt:prix_max',
+            // 'prix_max' => 'nullable|numeric',
         ];
     }
 
@@ -150,7 +150,8 @@ class Edit extends Component
 
     public function update()
     {
-        $this->validate();
+        // $this->validate();
+        dd("update");
 
         if ($this->is_active && $this->date_validite < date('Y-m-d')) {
             $this->dispatch('swal:modal', [
