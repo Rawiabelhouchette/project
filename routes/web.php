@@ -226,6 +226,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
         Route::resource('adverts/bars', PublicBarController::class, [
             'names' => [
                 'create' => 'public.bars.create',
+                'edit' => 'public.bars.edit',
             ]
         ]);
 

@@ -158,7 +158,6 @@
                     'options' => $list_equipements_herbegement,
                 ])
 
-                {{-- equipements_cuisine --}}
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Accessoires de cuisine',
                     'name' => 'equipements_cuisine',
@@ -168,7 +167,6 @@
             </div>
 
             <div class="row align-items-start">
-                {{-- equipements_salle_bain --}}
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Equipements de salle de bain',
                     'name' => 'equipements_salle_bain',

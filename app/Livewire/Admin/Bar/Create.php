@@ -91,22 +91,25 @@ class Create extends Component
     public function rules()
     {
         return [
-            'nom' => 'required|string|min:3',
+            'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
             'description' => 'nullable|string|min:3',
-            'date_validite' => 'required|date',
+            'date_validite' => 'required|date|after_or_equal:today',
             'entreprise_id' => 'required|integer|exists:entreprises,id',
             'type_bar' => 'nullable|string',
-            'types_musique' => 'nullable|string',
+
             'capacite_accueil' => 'nullable|integer',
             'equipements_vie_nocturne' => 'nullable|array',
             'equipements_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
             'commodites_vie_nocturne' => 'nullable|array',
             'commodites_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
+            'types_musique' => 'nullable|array',
+            'types_musique.*' => 'nullable|integer|exists:reference_valeurs,id',
+
             'galerie' => 'nullable|array',
             'galerie.*' => 'nullable|image|max:1024',
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
-            // 'image' => 'required',
+            // // 'image' => 'required',
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
             'quartier_id' => 'required|string|max:255',
@@ -128,6 +131,7 @@ class Create extends Component
 
             'date_validite.required' => 'La date de validité est obligatoire',
             'date_validite.date' => 'La date de validité doit être une date',
+            'date_validite.after_or_equal' => 'La date de validité doit être supérieure ou égale à la date du jour',
 
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.integer' => 'L\'entreprise doit être un entier',
@@ -135,7 +139,8 @@ class Create extends Component
 
             'type_bar.string' => 'Le type de bar doit être une chaîne de caractères',
 
-            'types_musique.string' => 'Le type de musique doit être une chaîne de caractères',
+            'types_musique.integer' => 'Le type de musique doit être un entier',
+            'types_musique.exists' => 'Le type de musique n\'existe pas',
 
             'capacite_accueil.integer' => 'La capacité d\'accueil doit être un entier',
 
@@ -203,6 +208,8 @@ class Create extends Component
             $bar = Bar::create([
                 'prix_min' => $this->prix_min,
                 'prix_max' => $this->prix_max,
+                'capacite_accueil' => $this->capacite_accueil,
+                'type_bar' => $this->type_bar
             ]);
 
             $annonce = new Annonce([
