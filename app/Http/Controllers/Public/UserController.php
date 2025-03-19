@@ -9,7 +9,16 @@ class UserController extends Controller
 {
     public function myBusiness()
     {
-        return view('public.user.company.show');
+        $user = auth()->user();
+        return view('public.user.company.show', [
+            'entreprise' => $user->entreprises()->first(),
+            'annonces' => $user->annonces()->limit(5)->get(),
+        ]);
+    }
+
+    public function editMyBusiness()
+    {
+        return view('public.user.company.edit');
     }
 
     public function myAccount()
