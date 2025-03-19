@@ -109,55 +109,64 @@
             ])
 
             {{-- planning --}}
-            <div class="row align-items-start">
-                <div class="col-md-4 col-xs-12 p-0">
-                    <div class="col">
-                        <h3>Jours d'ouverture
-                            <b style="color: red; font-size: 100%;">*</b>
-                        </h3>
-                        <h4>Indiquez les jours d'ouverture</h4>
-                        <select class="form-control" wire:model.defer='jours_ouverture' required>
-                            <option value="">Sélectionnez les jours d'ouverture</option>
-                            <option value="Lundi">Lundi</option>
-                            <option value="Mardi">Mardi</option>
-                            <option value="Mercredi">Mercredi</option>
-                            <option value="Jeudi">Jeudi</option>
-                            <option value="Vendredi">Vendredi</option>
-                            <option value="Samedi">Samedi</option>
-                            <option value="Dimanche">Dimanche</option>
-                        </select>
-                        @error('jours_ouverture')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
+            <h5 class="mb-4 text-center">
+                <label class="font-weight-bold">Heure d'ouverture et de fermeture</label>
+            </h5>
 
-                <div class="col-md-4 col-xs-12 p-0">
-                    <div class="col">
-                        <h3>Heure d'ouverture
-                            <b style="color: red; font-size: 100%;">*</b>
-                        </h3>
-                        <h4>Indiquez l'heure d'ouverture</h4>
-                        <input class="form-control" type="time" placeholder="" wire:model.defer='heure_ouverture' required>
-                        @error('heure_ouverture')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
+            @foreach ($plannings as $key => $planning)
+                <div class="row align-items-center mb-3">
+                    {{-- Jour : dropdown --}}
+                    <div class="col-md-4 col-sm-6">
+                        <label class="font-weight-bold">Jour
+                            <b style="color: red;">*</b>
+                        </label>
+                        <div class="input-group">
+                            @if ($key == 0 && $autreJour)
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-primary" type="button" wire:click='addPlanning'>
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            @elseif ($key > 0)
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-danger" type="button" wire:click="removePlanning({{ $key }})">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            @endif
+                            <select class="form-control jour" required wire:model.defer='plannings.{{ $key }}.jour'>
+                                <option value="">-- Sélectionnez un jour --</option>
+                                <option value="Lundi">Lundi</option>
+                                <option value="Mardi">Mardi</option>
+                                <option value="Mercredi">Mercredi</option>
+                                <option value="Jeudi">Jeudi</option>
+                                <option value="Vendredi">Vendredi</option>
+                                <option value="Samedi">Samedi</option>
+                                <option value="Dimanche">Dimanche</option>
+                                @if ($key == 0)
+                                    <option value="Tous les jours">Tous les jours</option>
+                                @endif
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4 col-xs-12 p-0">
-                    <div class="col">
-                        <h3>Heure de fermeture
-                            <b style="color: red; font-size: 100%;">*</b>
-                        </h3>
-                        <h4>Indiquez l'heure de fermeture</h4>
-                        <input class="form-control" type="time" placeholder="" wire:model.defer='heure_fermeture' required>
-                        @error('heure_fermeture')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                    {{-- Heure ouverture : time --}}
+                    <div class="col-md-4 col-sm-6">
+                        <label class="font-weight-bold">Heure d'ouverture
+                            <b style="color: red;">*</b>
+                        </label>
+                        <input type="time" class="form-control" required wire:model.defer='plannings.{{ $key }}.heure_debut'>
+                    </div>
+
+                    {{-- Heure fermeture : time --}}
+                    <div class="col-md-4 col-sm-6">
+                        <label class="font-weight-bold">Heure de fermeture
+                            <b style="color: red;">*</b>
+                        </label>
+                        <input type="time" class="form-control" required wire:model.defer='plannings.{{ $key }}.heure_fin'>
                     </div>
                 </div>
-            </div>
+            @endforeach
 
             @include('admin.annonce.edit-validation-buttons', [
                 'withCancel' => false,
