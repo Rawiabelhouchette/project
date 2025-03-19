@@ -76,19 +76,27 @@
                             annonce(s)
                         </span>
                     </div>
-                    <div class="col-md-8 text-center" style="display: flex; justify-content: flex-end; gap: 10px;">
-                        <select class="form-control custom-field-filter" wire:model.live="type" style="padding-top: 0; padding-bottom: 0;">
-                            <option value="">Tous les types</option>
-                            @foreach ($types as $type)
-                                <option value="{{ $type->valeur }}">{{ $type->nom }}</option>
-                            @endforeach
-                        </select>
-                        <select class="form-control custom-field-filter" wire:model.live="is_published" style="padding-top: 0; padding-bottom: 0;">
-                            <option value="">Toutes les annonces</option>
-                            <option value="1">Annonces publiées</option>
-                            <option value="0">Annonces non publiées</option>
-                        </select>
-                        <input id="favorite_search" class="form-control custom-field-filter" type="search" value="" placeholder="Rechercher" wire:model.live.debounce.500ms='search'>
+                    <div class="col-md-8 text-center">
+                        <div class="row">
+                            <div class="col-12 col-md-4 mb-md-0 mb-2 p-0">
+                                <select class="form-control custom-field-filter" wire:model.live="type" style="padding-top: 0; padding-bottom: 0;">
+                                    <option value="">Tous les types</option>
+                                    @foreach ($types as $type)
+                                        <option value="{{ $type->valeur }}">{{ $type->nom }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4 mb-md-0 mb-2">
+                                <select class="form-control custom-field-filter" wire:model.live="is_published" style="padding-top: 0; padding-bottom: 0;">
+                                    <option value="">Toutes les annonces</option>
+                                    <option value="1">Annonces publiées</option>
+                                    <option value="0">Annonces non publiées</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4 p-0">
+                                <input id="favorite_search" class="form-control custom-field-filter" type="search" value="" placeholder="Rechercher" wire:model.live.debounce.500ms='search'>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
