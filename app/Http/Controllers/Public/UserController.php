@@ -18,7 +18,9 @@ class UserController extends Controller
 
     public function editMyBusiness()
     {
-        return view('public.user.company.edit');
+        return view('public.user.company.edit', [
+            'entreprise' => auth()->user()->entreprises()->first(),
+        ]);
     }
 
     public function myAccount()
