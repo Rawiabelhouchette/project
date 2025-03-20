@@ -1,13 +1,7 @@
 @extends('layout.public.app')
 
 @section('content')
-    @include('components.default-value')
-
-    @php
-        $defaultColor = '#de6600';
-    @endphp
-    <section class="title-transparent page-title"
-        style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }});">
+    <section class="title-transparent page-title" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }});">
         <div class="container">
             <div class="title-content">
                 <h1>{{ $annonce->titre }}</h1>
@@ -61,8 +55,7 @@
                                     <h3> {{ $annonce->titre }}
                                         <span class="listing-shot-info rating p-0">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star"
-                                                    aria-hidden="true"></i>
+                                                <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
                                             @endfor
 
                                         </span>
@@ -80,27 +73,20 @@
 
                                         @if ($annonce->entreprise->email)
                                             {{-- <a href="mailto:{{ $annonce->entreprise->email }}"> --}}
-                                                <a href="javascript:void(0)">
-                                                    <i class="ti-email"></i>
-                                                    {{ $annonce->entreprise->email }}
-                                                </a>
+                                            <a href="javascript:void(0)">
+                                                <i class="ti-email"></i>
+                                                {{ $annonce->entreprise->email }}
+                                            </a>
                                         @endif
-                                            @if ($annonce->entreprise->instagram)
-                                                <a class="social-network" href="{{ $annonce->entreprise->instagram }}"
-                                                    target="_blank"><i class="fa-brands fa-instagram"
-                                                        style="font-size: 17px;"></i> Instagram</a>
-                                            @endif
-                                            @if ($annonce->entreprise->facebook)
-                                                <a class="social-network" href="{{ $annonce->entreprise->facebook }}"
-                                                    target="_blank"><i class="fa-brands fa-facebook"
-                                                        style="font-size: 17px;"></i> Facebook</a>
-                                            @endif
-                                            @if ($annonce->entreprise->whatsapp)
-                                                <a class="social-network"
-                                                    href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}"
-                                                    target="_blank"><i class="fa-brands fa-whatsapp"
-                                                        style="font-size: 17px;"></i> Whatsapp</a>
-                                            @endif
+                                        @if ($annonce->entreprise->instagram)
+                                            <a class="social-network" href="{{ $annonce->entreprise->instagram }}" target="_blank"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> Instagram</a>
+                                        @endif
+                                        @if ($annonce->entreprise->facebook)
+                                            <a class="social-network" href="{{ $annonce->entreprise->facebook }}" target="_blank"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> Facebook</a>
+                                        @endif
+                                        @if ($annonce->entreprise->whatsapp)
+                                            <a class="social-network" href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> Whatsapp</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -108,25 +94,19 @@
                                 <div class="side-list no-border gallery-box">
                                     <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
                                         <div class="col-xs-12 col-md-12 p-0">
-                                            <div class="carousel slide" id="carouselExampleIndicators"
-                                                data-bs-ride="carousel">
+                                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 
                                                 <div class="carousel-inner">
                                                     @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
                                                         <div class="carousel-item {{ $key == 0 ? ' active' : '' }}">
-                                                            <img class="d-block w-100" style="object-fit: cover;"
-                                                                src="{{ asset('storage/' . $image->chemin) }}" alt="...">
+                                                            <img class="d-block w-100" style="object-fit: cover;" src="{{ asset('storage/' . $image->chemin) }}" alt="...">
                                                         </div>
                                                     @endforeach
                                                 </div>
                                                 <div class="carousel-indicators">
                                                     @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
-                                                        <button class="active thumbnail"
-                                                            data-bs-target="#carouselExampleIndicators"
-                                                            data-bs-slide-to="{{ $key }}" type="button" aria-current="true"
-                                                            aria-label="Slide 1">
-                                                            <img class="d-block w-100" style="object-fit: cover;"
-                                                                src="{{ asset('storage/' . $image->chemin) }}" alt="...">
+                                                        <button class="active thumbnail" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" type="button" aria-current="true" aria-label="Slide 1">
+                                                            <img class="d-block w-100" style="object-fit: cover;" src="{{ asset('storage/' . $image->chemin) }}" alt="...">
                                                         </button>
                                                     @endforeach
                                                 </div>
@@ -136,8 +116,7 @@
                                 </div>
                                 <div class="side-list share-buttons">
                                     <div class="mrg-r-10">
-                                        <button class="buttons padd-10 btn-default share-button" data-toggle="modal"
-                                            data-target="#share">
+                                        <button class="buttons padd-10 btn-default share-button" data-toggle="modal" data-target="#share">
                                             <i class="fa fa-share-nodes"></i>
                                             <!-- <span class="hidden-xs">Partager</span> -->
                                         </button>
@@ -148,7 +127,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="widget-boxed padd-bot-10">
                             <div class="tab style-1 mrg-bot-40" role="tabpanel">
                                 {{ $annonce->annonceable->getShowInformationHeader() }}
@@ -171,7 +150,7 @@
                                             {{ $annonce->adresse_complete->quartier ?? '-' }}
                                         </li>
                                         <li>
-                                            <div class="full-width" id="map" style="height:252px;"></div>
+                                            <div id="map" class="full-width" style="height:252px;"></div>
                                         </li>
                                     </ul>
                                 </div>
@@ -215,7 +194,7 @@
             'title' => 'Partager cette annonce',
             'annonce' => $annonce,
         ])
-@endsection
+    @endsection
 
     @section('js')
         <script>
@@ -239,8 +218,8 @@
         </script>
 
         <script>
-            $(document).ready(function () {
-                $('.image-preview').click(function () {
+            $(document).ready(function() {
+                $('.image-preview').click(function() {
                     $('#share').hide();
                     var id = $(this).data('id');
                     $('#image-' + id).addClass('pulse');

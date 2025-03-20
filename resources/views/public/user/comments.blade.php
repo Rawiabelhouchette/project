@@ -3,14 +3,8 @@
 @section('comment', 'active')
 
 @section('content')
-    @include('components.default-value')
 
-    @php
-        $defaultColor = '#de6600';
-    @endphp
-
-    <section class="title-transparent page-title"
-        style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
+    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
         <div class="container">
             <div class="title-content">
                 <h1>Mes commentaires</h1>

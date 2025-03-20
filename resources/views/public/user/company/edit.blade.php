@@ -1,6 +1,4 @@
-@extends('layout.public.template')
-
-@section('entreprise', 'active')
+@extends('layout.public.app')
 
 @section('css')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -30,8 +28,7 @@
 @endsection
 
 @section('js')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
     <script>
         var mymap = L.map('map').setView([8.6195, 0.8248], 6);
@@ -46,7 +43,7 @@
         marker = L.marker(latlng).addTo(mymap);
         mymap.setView(latlng, 8); // Set map view to current location
 
-        mymap.on('click', function (e) {
+        mymap.on('click', function(e) {
             if (marker) {
                 mymap.removeLayer(marker); // Supprimez le marqueur existant s'il y en a un.
             }
@@ -63,7 +60,7 @@
     </script>
 
     <script>
-        $('.select2').each(function () {
+        $('.select2').each(function() {
             $(this).select2({
                 theme: 'bootstrap-5',
                 dropdownParent: $(this).parent(),

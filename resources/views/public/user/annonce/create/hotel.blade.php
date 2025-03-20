@@ -1,14 +1,7 @@
 @extends('layout.public.app')
 
 @section('content')
-    @include('components.default-value')
-
-    @php
-        $defaultColor = '#de6600';
-    @endphp
-
-    <section class="title-transparent page-title"
-        style="background:url({{ asset('assets_client/img/banner/image-1.jpg') }})">
+    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-1.jpg') }})">
         <div class="container">
             <div class="title-content">
                 <h1>Ajouter un hotel</h1>
@@ -41,7 +34,7 @@
 
         var marker;
 
-        mymap.on('click', function (e) {
+        mymap.on('click', function(e) {
             if (marker) {
                 mymap.removeLayer(marker); // Supprimez le marqueur existant s'il y en a un.
             }
@@ -58,7 +51,7 @@
     </script>
 
     <script>
-        $('.select2').each(function () {
+        $('.select2').each(function() {
             $(this).select2({
                 theme: 'bootstrap-5',
                 dropdownParent: $(this).parent(),

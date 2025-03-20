@@ -76,9 +76,7 @@
 
 <body class="home-2" style="overflow-x: hidden;">
     <div class="wrapper">
-        {{-- @php
-            $defaultColor = '#de6600';
-        @endphp --}}
+        
         @include('components.default-value')
 
         <!-- Start Navigation -->
@@ -278,7 +276,7 @@
 
         @if (session()->has('success'))
             <script>
-                console.log("{{ session()->get('success') }}");
+                // console.log("{{ session()->get('success') }}");
                 const data = {
                     icon: 'success',
                     title: 'Opération réussie',

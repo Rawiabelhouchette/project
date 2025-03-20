@@ -1,11 +1,6 @@
 @extends('layout.public.app')
 
 @section('content')
-    @php
-        $defaultColor = '#de6600';
-    @endphp
-
-
     <style>
         .social-network {
             color: #fff;
@@ -41,18 +36,14 @@
 
         .li-btn:hover {
             color:
-                {{ $defaultColor }}
-            ;
+                {{ $defaultColor }};
         }
 
         .share-button:hover {
             background:
-                {{ $defaultColor }}
-                !important;
+                {{ $defaultColor }} !important;
             color: white !important;
-            border: 1px solid
-                {{ $defaultColor }}
-                !important;
+            border: 1px solid {{ $defaultColor }} !important;
             border-radius: 4px;
         }
 

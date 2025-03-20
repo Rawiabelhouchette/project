@@ -11,10 +11,6 @@
 @section('content')
     @include('components.default-value')
 
-    @php
-        $defaultColor = '#de6600';
-    @endphp
-
     <!-- Main Banner Section Start -->
     <div id="banner" class="banner dark-opacity" data-overlay="8" style="background-image:url(assets_client/img/banner/image-1.jpg);">
         <div class="container">
