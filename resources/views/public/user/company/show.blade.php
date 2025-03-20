@@ -1,12 +1,12 @@
-@extends('layout.public.template')
-
-@section('entreprise', 'active')
-
-@section('css')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-@endsection
+@extends('layout.public.app')
 
 @section('content')
+    {{-- @include('components.default-value') --}}
+
+    {{-- @php
+        $defaultColor = '#de6600';
+    @endphp --}}
+
     <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
         <div class="container">
             <div class="title-content">
@@ -65,7 +65,8 @@
                                     @endif
 
                                     @if ($entreprise->instagram)
-                                        <a href="https://www.instagram.com/{{ $entreprise->instagram }}" target="_blank">
+                                        <a href="{{ $entreprise->instagram }}" target="_blank">
+                                            {{-- <a href="https://www.instagram.com/{{ $entreprise->instagram }}" target="_blank"> --}}
                                             <i class="fa-brands fa-instagram"></i>&nbsp;
                                             {{ $entreprise->instagram }}
                                         </a>
@@ -73,9 +74,18 @@
                                     @endif
 
                                     @if ($entreprise->facebook)
-                                        <a href="https://www.facebook.com/{{ $entreprise->facebook }}" target="_blank">
+                                        <a href="{{ $entreprise->facebook }}" target="_blank">
+                                            {{-- <a href="https://www.facebook.com/{{ $entreprise->facebook }}" target="_blank"> --}}
                                             <i class="fa-brands fa-facebook"></i>&nbsp;
                                             {{ $entreprise->facebook }}
+                                        </a>
+                                        <br>
+                                    @endif
+
+                                    @if ($entreprise->site_web)
+                                        <a href="{{ $entreprise->site_web }}" target="_blank">
+                                            <i class="fa fa-globe"></i>&nbsp;
+                                            {{ $entreprise->site_web }}
                                         </a>
                                         <br>
                                     @endif

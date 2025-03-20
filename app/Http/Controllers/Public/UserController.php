@@ -9,6 +9,8 @@ class UserController extends Controller
 {
     public function myBusiness()
     {
+        session()->flash('success', 'Ceci est un test1');
+        // dd(session()->all());
         $user = auth()->user();
         return view('public.user.company.show', [
             'entreprise' => $user->entreprises()->first(),

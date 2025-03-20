@@ -108,68 +108,77 @@
                 'quartiers' => $quartiers,
             ])
 
-            {{-- planning --}}
-            <h5 class="mb-4 text-center">
-                <label class="font-weight-bold">Heure d'ouverture et de fermeture</label>
-            </h5>
-
-            @foreach ($plannings as $key => $planning)
-                <div class="row align-items-center mb-3">
-                    {{-- Jour : dropdown --}}
-                    <div class="col-md-4 col-sm-6">
-                        <label class="font-weight-bold">Jour
-                            <b style="color: red;">*</b>
-                        </label>
-                        <div class="input-group">
-                            @if ($key == 0 && $autreJour)
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-outline-primary" type="button" wire:click='addPlanning'>
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            @elseif ($key > 0)
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-outline-danger" type="button" wire:click="removePlanning({{ $key }})">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                            @endif
-                            <select class="form-control jour" required wire:model.defer='plannings.{{ $key }}.jour'>
-                                <option value="">-- Sélectionnez un jour --</option>
-                                <option value="Lundi">Lundi</option>
-                                <option value="Mardi">Mardi</option>
-                                <option value="Mercredi">Mercredi</option>
-                                <option value="Jeudi">Jeudi</option>
-                                <option value="Vendredi">Vendredi</option>
-                                <option value="Samedi">Samedi</option>
-                                <option value="Dimanche">Dimanche</option>
-                                @if ($key == 0)
-                                    <option value="Tous les jours">Tous les jours</option>
-                                @endif
-                            </select>
-                        </div>
-                    </div>
-
-                    {{-- Heure ouverture : time --}}
-                    <div class="col-md-4 col-sm-6">
-                        <label class="font-weight-bold">Heure d'ouverture
-                            <b style="color: red;">*</b>
-                        </label>
-                        <input type="time" class="form-control" required wire:model.defer='plannings.{{ $key }}.heure_debut'>
-                    </div>
-
-                    {{-- Heure fermeture : time --}}
-                    <div class="col-md-4 col-sm-6">
-                        <label class="font-weight-bold">Heure de fermeture
-                            <b style="color: red;">*</b>
-                        </label>
-                        <input type="time" class="form-control" required wire:model.defer='plannings.{{ $key }}.heure_fin'>
+            <div class="row align-items-start">
+                <div class="col-md-12 col-xs-12 p-0">
+                    <div class="col">
+                        <h3>Heure d'ouverture et de fermeture</h3>
+                        <h4>Indiquez les heures d'ouverture et de fermeture</h4>
                     </div>
                 </div>
-            @endforeach
+                <div class="col-md-12 col-xs-12 p-0">
+
+                    @foreach ($plannings as $key => $planning)
+                        <div class="row align-items-center col mb-3">
+                            <div class="col-md-1 col-sm-1">
+                                {{-- <label class="font-weight-bold">&nbsp;</label> --}}
+                                <div class="input-group">
+                                    {{-- @if ($key == 0 && $autreJour) --}}
+                                    @if ($key == 0 && $autreJour && $plannings[$key]['jour'] != 'Tous les jours')
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-outline-primary" type="button" wire:click='addPlanning'>
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    @elseif ($key > 0)
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-outline-danger" type="button" wire:click="removePlanning({{ $key }})">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-5">
+                                <label class="font-weight-bold">Jour
+                                    <b style="color: red;">*</b>
+                                </label>
+                                <select class="form-control jour" required wire:model.defer='plannings.{{ $key }}.jour'>
+                                    <option value="">-- Sélectionnez un jour --</option>
+                                    <option value="Lundi">Lundi</option>
+                                    <option value="Mardi">Mardi</option>
+                                    <option value="Mercredi">Mercredi</option>
+                                    <option value="Jeudi">Jeudi</option>
+                                    <option value="Vendredi">Vendredi</option>
+                                    <option value="Samedi">Samedi</option>
+                                    <option value="Dimanche">Dimanche</option>
+                                    @if ($key == 0)
+                                        <option value="Tous les jours">Tous les jours</option>
+                                    @endif
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 col-sm-6">
+                                <label class="font-weight-bold">Heure d'ouverture
+                                    <b style="color: red;">*</b>
+                                </label>
+                                <input type="time" class="form-control" required wire:model.defer='plannings.{{ $key }}.heure_debut'>
+                            </div>
+
+                            <div class="col-md-4 col-sm-6">
+                                <label class="font-weight-bold">Heure de fermeture
+                                    <b style="color: red;">*</b>
+                                </label>
+                                <input type="time" class="form-control" required wire:model.defer='plannings.{{ $key }}.heure_fin'>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
 
             @include('admin.annonce.edit-validation-buttons', [
-                'withCancel' => false,
+                'withCancel' => true,
+                'cancelLink' => route('public.my-business'),
             ])
 
         </form>
@@ -191,6 +200,13 @@
                     Livewire.dispatch('changerJour', [true]);
                 }
             });
+
+            if ($('.jour').val() == 'Tous les jours') {
+                Livewire.on('changerJour', function() {
+                    $('.jour').val('Tous les jours');
+                });
+            }
+
         });
     </script>
 @endpush

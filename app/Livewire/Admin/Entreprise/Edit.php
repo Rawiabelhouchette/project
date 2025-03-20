@@ -119,6 +119,21 @@ class Edit extends Component
         if (!$this->autreJour)
             return;
 
+        // verifier si le precedent est a pour non tous les jours
+        if ($this->nbr_planning == 1 && $this->plannings[0]['jour'] == '') {
+            $this->dispatch('alert:modal', [
+                'message' => __('Veuillez sélectionner un jour avant d\'ajouter un autre'),
+            ]);
+            return;
+        }
+
+        if ($this->nbr_planning == 1 && $this->plannings[0]['jour'] == 'Tous les jours') {
+            $this->dispatch('alert:modal', [
+                'message' => __('Impossible d\'ajouter un autre jour car "Tous les jours" est déjà sélectionné.'),
+            ]);
+            return;
+        }
+
         if ($this->nbr_planning <= 7) {
             $this->nbr_planning++;
             if ($this->nbr_planning > 1) {
@@ -197,10 +212,8 @@ class Edit extends Component
         }
 
         session()->flash('success', 'Entreprise modifiée avec succès.');
-
-        return redirect()->route('entreprises.index');
+        return redirect()->route('public.my-business');
     }
-
 
     public function render()
     {

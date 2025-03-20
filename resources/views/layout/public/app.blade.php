@@ -76,9 +76,10 @@
 
 <body class="home-2" style="overflow-x: hidden;">
     <div class="wrapper">
-        @php
+        {{-- @php
             $defaultColor = '#de6600';
-        @endphp
+        @endphp --}}
+        @include('components.default-value')
 
         <!-- Start Navigation -->
 
