@@ -39,4 +39,9 @@ class UserController extends Controller
     {
         return view('public.user.favorites');
     }
+
+    public function mySubscriptions()
+    {
+        return view('public.user.subscriptions');
+    }
 }

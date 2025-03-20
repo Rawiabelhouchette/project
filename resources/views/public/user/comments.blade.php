@@ -1,6 +1,5 @@
 @extends('layout.public.app')
 
-@section('comment', 'active')
 
 @section('content')
 
