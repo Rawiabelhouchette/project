@@ -184,18 +184,6 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <!-- FONTAWSOME -->
-        {{--
-        <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
-            integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
-            crossorigin="anonymous"></script> --}}
-        {{--
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-        {{--
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet"
             integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -276,7 +264,6 @@
 
         @if (session()->has('success'))
             <script>
-                // console.log("{{ session()->get('success') }}");
                 const data = {
                     icon: 'success',
                     title: 'Opération réussie',
