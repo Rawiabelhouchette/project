@@ -29,9 +29,9 @@
                             @forelse($abonnements as $abonnement)
                                 <tr>
                                     <td>{{ $abonnement->id }}</td>
-                                    <td>{{ $abonnement->date_debut }}</td>
-                                    <td>{{ $abonnement->date_fin }}</td>
-                                    <td>{{ $abonnement->montant }}</td>
+                                    <td>{{ $abonnement->date_debut->format('d-m-Y H:i:s') }}</td>
+                                    <td>{{ $abonnement->date_fin->format('d-m-Y H:i:s') }}</td>
+                                    <td>{{ number_format($abonnement->montant, 0, ',', ' ') }}</td>
                                     <td>{{ $abonnement->is_active ? 'Actif' : 'Inactif' }}</td>
                                 </tr>
                             @empty
