@@ -11,6 +11,8 @@
 @section('content')
     @include('components.default-value')
 
+    
+
     <!-- Main Banner Section Start -->
     <div id="banner" class="banner dark-opacity" data-overlay="8" style="background-image:url(assets_client/img/banner/image-1.jpg);">
         <div class="container">
@@ -134,7 +136,7 @@
                                         {{-- <span class="veryfied-author"></span> --}}
                                     </h3>
                                 </div>
-                                <p class="property_add" style="color: {{ $defaultColor }};">{{ $annonce->type }}</p>
+                                <p class="property_add btn-theme">{{ $annonce->type }}</p>
                                 <div class="property_meta">
                                     <div class="list-fx-features">
                                         <div class="listing-card-info-icon">

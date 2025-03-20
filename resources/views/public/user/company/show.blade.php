@@ -51,7 +51,7 @@
                                     @endif
 
                                     @if ($entreprise->whatsapp)
-                                        <a href="https://api.whatsapp.com/send?phone={{ $entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $entreprise->whatsapp) }}" target="_blank">
+                                        <a href="https://api.whatsapp.com/send?phone={{ $entreprise->ville->pays->indicatif }}{{ str_replace(' ', '', $entreprise->whatsapp) }}" target="_blank">
                                             <i class="fa-brands fa-whatsapp"></i>&nbsp;
                                             {{ $entreprise->whatsapp }}
                                         </a>

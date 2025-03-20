@@ -24,7 +24,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="dataTable" class="table table-striped table-2 table-hover">
+                            <table id="dataTable" class="table-striped table-2 table-hover table">
                                 <thead>
                                     <tr>
                                         <th>N°</th>
@@ -50,8 +50,8 @@
                                             <td>{{ $entreprise->telephone }}</td>
                                             <td>{{ $entreprise->email }}</td>
                                             <td>{{ $entreprise->whatsapp }}</td>
-                                            <td>{{ $entreprise->quartier->ville->pays->nom ?? '-' }}</td>
-                                            <td>{{ $entreprise->quartier->ville->nom ?? '-' }}</td>
+                                            <td>{{ $entreprise->ville->pays->nom ?? '-' }}</td>
+                                            <td>{{ $entreprise->ville->nom ?? '-' }}</td>
                                             <td>{{ $entreprise->quartier->nom ?? '-' }}</td>
                                             {{-- <td>{{ $entreprise->creator->nom }} {{ $entreprise->creator->prenom }}</td> --}}
                                             <td>{{ $entreprise->created_at }}</td>

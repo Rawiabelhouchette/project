@@ -31,7 +31,7 @@
 
                     <div class="card-body" style="background-color: white;">
                         <div class="table-responsive">
-                            <table class="table table-striped table-2 table-hover">
+                            <table class="table-striped table-2 table-hover table">
                                 <tbody>
                                     {{-- nom --}}
                                     <tr>
@@ -98,13 +98,13 @@
                                     {{-- Pays --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">PAYS</td>
-                                        <td>{{ $entreprise->quartier->ville->pays->nom ?? '-' }}</td>
+                                        <td>{{ $entreprise->ville->pays->nom ?? '-' }}</td>
                                     </tr>
 
                                     {{-- Ville --}}
                                     <tr>
                                         <td style="font-weight: bold;" width="30%">VILLE</td>
-                                        <td>{{ $entreprise->quartier->ville->nom ?? '-' }}</td>
+                                        <td>{{ $entreprise->ville->nom ?? '-' }}</td>
                                     </tr>
 
                                     {{-- Quartier --}}
