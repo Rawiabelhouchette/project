@@ -252,6 +252,48 @@ class AnnoncesUtils
         ]);
     }
 
+    public static function getFilterAnnonceTypeList(): object
+    {
+        return collect([
+            (object) [
+                'nom' => 'Auberge',
+                'valeur' => 'Auberge',
+            ],
+            (object) [
+                'nom' => 'Hôtel',
+                'valeur' => 'Hôtel',
+            ],
+            (object) [
+                'nom' => 'Location de véhicule',
+                'valeur' => 'Location de véhicule',
+            ],
+            (object) [
+                'nom' => 'Location meublée',
+                'valeur' => 'Location meublée',
+            ],
+            (object) [
+                'nom' => 'Boite de nuit',
+                'valeur' => 'Boite de nuit',
+            ],
+            (object) [
+                'nom' => 'Fast-food',
+                'valeur' => 'Fast-food',
+            ],
+            (object) [
+                'nom' => 'Restaurant',
+                'valeur' => 'Restaurant',
+            ],
+            (object) [
+                'nom' => 'Patisserie',
+                'valeur' => 'Patisserie',
+            ],
+            (object) [
+                'nom' => 'Bar & Rooftop',
+                'valeur' => 'Bar',
+            ],
+        ]);
+    }
+
     public static function createReference($model, $variable, $title, $slug): void
     {
         if ($variable) {

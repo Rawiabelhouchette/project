@@ -242,8 +242,10 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
 
         // Mon entreprise
         Route::get('business', [PublicUserController::class, 'myBusiness'])->name('public.my-business');
+        Route::get('business/edit', [PublicUserController::class, 'editMyBusiness'])->name('public.my-business.edit');
 
-
+        // Abonnement
+        Route::get('subscription', [PublicUserController::class, 'mySubscriptions'])->name('public.my-subscription');
     });
 
     // Mon compte

@@ -49,8 +49,6 @@ class Edit extends Component
     {
         $this->entreprise = $entreprise;
         $this->pays = Pays::orderBy('nom')->get();
-        $this->villes = $entreprise->quartier ? Ville::where('pays_id', $entreprise->quartier->ville->pays_id)->get() : [];
-        $this->quartiers = $entreprise->quartier ? Quartier::where('ville_id', $entreprise->quartier->ville_id)->get() : [];
         $this->nom = $entreprise->nom;
         $this->description = $entreprise->description;
         $this->site_web = $entreprise->site_web;
@@ -62,9 +60,6 @@ class Edit extends Component
         $this->logo = $entreprise->logo;
         $this->longitude = $entreprise->longitude;
         $this->latitude = $entreprise->latitude;
-        $this->pays_id = $entreprise->quartier ? $entreprise->quartier->ville->pays_id : '';
-        $this->ville_id = $entreprise->quartier ? $entreprise->quartier->ville_id : '';
-        $this->quartier_id = $entreprise->quartier ? $entreprise->quartier_id : '';
         if (!empty($entreprise->heure_ouverture->toArray())) {
             $this->plannings = $entreprise->heure_ouverture->toArray();
         }
@@ -74,24 +69,58 @@ class Edit extends Component
             'lon' => $this->longitude,
             'lat' => $this->latitude,
         ]);
+
+        $this->pays_id = $entreprise->ville->pays_id;
+        $this->ville_id = $entreprise->ville_id;
+        $this->quartier_id = $entreprise->quartier;
+        $this->villes = Ville::where('pays_id', $this->pays_id)->orderBy('nom')->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->orderBy('nom')->get();
+
     }
 
     // rules
     public function rules()
     {
         return [
-            'nom' => 'required|string|min:3|unique:entreprises,nom,' . $this->entreprise->id . ',id,quartier_id,' . $this->quartier_id,
+            'nom' => 'required|string|min:3|unique:entreprises,nom,' . $this->entreprise->id . ',id', //,quartier_id,' . $this->quartier_id,
+            // 'nom' => 'required|string|min:3|unique:entreprises,nom,' . $this->entreprise->id . ',id,quartier_id,' . $this->quartier_id,
             'description' => 'nullable|string|min:3',
             'site_web' => 'nullable|string|min:3',
-            'email' => 'required|string|min:3',
+            'email' => 'required|string|email|min:3',
             'telephone' => 'nullable|string|min:3',
             'instagram' => 'nullable|string|min:3',
             'facebook' => 'nullable|string|min:3',
             'whatsapp' => 'required|string|min:3',
-            'logo' => 'nullable|string|min:3',
-            'quartier_id' => 'required|integer|exists:quartiers,id',
+            // 'logo' => 'nullable|string|min:3',
+            'ville_id' => 'required|integer|exists:villes,id',
+            'quartier_id' => 'required|string',
             'longitude' => 'nullable|string|min:3',
             'latitude' => 'nullable|string|min:3',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'nom.required' => 'Le nom de l\'entreprise est obligatoire.',
+            'nom.unique' => 'Ce nom d\'entreprise est déjà utilisé. Veuillez en choisir un autre.',
+            'nom.min' => 'Le nom de l\'entreprise doit contenir au moins 3 caractères.',
+            'description.min' => 'La description doit contenir au moins 3 caractères.',
+            'site_web.min' => 'Le site web doit contenir au moins 3 caractères.',
+            'email.required' => 'L\'adresse email est obligatoire.',
+            'email.email' => 'Veuillez fournir une adresse email valide.',
+            'email.min' => 'L\'adresse email doit contenir au moins 3 caractères.',
+            'telephone.min' => 'Le numéro de téléphone doit contenir au moins 3 caractères.',
+            'instagram.min' => 'Le lien Instagram doit contenir au moins 3 caractères.',
+            'facebook.min' => 'Le lien Facebook doit contenir au moins 3 caractères.',
+            'whatsapp.required' => 'Le numéro WhatsApp est obligatoire.',
+            'whatsapp.min' => 'Le numéro WhatsApp doit contenir au moins 3 caractères.',
+            'logo.min' => 'Le logo doit contenir au moins 3 caractères.',
+            'ville_id.required' => 'La ville est obligatoire.',
+            'ville_id.exists' => 'La ville sélectionnée n\'existe pas.',
+            'quartier_id.required' => 'Le quartier est obligatoire.',
+            'longitude.min' => 'La longitude doit contenir au moins 3 caractères.',
+            'latitude.min' => 'La latitude doit contenir au moins 3 caractères.',
         ];
     }
 
@@ -118,6 +147,21 @@ class Edit extends Component
     {
         if (!$this->autreJour)
             return;
+
+        // verifier si le precedent est a pour non tous les jours
+        if ($this->nbr_planning == 1 && $this->plannings[0]['jour'] == '') {
+            $this->dispatch('alert:modal', [
+                'message' => __('Veuillez sélectionner un jour avant d\'ajouter un autre'),
+            ]);
+            return;
+        }
+
+        if ($this->nbr_planning == 1 && $this->plannings[0]['jour'] == 'Tous les jours') {
+            $this->dispatch('alert:modal', [
+                'message' => __('Impossible d\'ajouter un autre jour car "Tous les jours" est déjà sélectionné.'),
+            ]);
+            return;
+        }
 
         if ($this->nbr_planning <= 7) {
             $this->nbr_planning++;
@@ -180,6 +224,7 @@ class Edit extends Component
 
         try {
             DB::beginTransaction();
+            $validated['quartier'] = $validated['quartier_id'];
             $this->entreprise->update($validated);
             $this->entreprise->heure_ouverture()->delete();
             $this->entreprise->heure_ouverture()->createMany($this->plannings);
@@ -197,10 +242,8 @@ class Edit extends Component
         }
 
         session()->flash('success', 'Entreprise modifiée avec succès.');
-
-        return redirect()->route('entreprises.index');
+        return redirect()->route('public.my-business');
     }
-
 
     public function render()
     {

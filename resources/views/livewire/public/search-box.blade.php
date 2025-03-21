@@ -1,7 +1,4 @@
 <div>
-    @php
-        $defaultColor = '#de6600';
-    @endphp
 
     <!-- ================ Start Page Title ======================= -->
     <section class="title-transparent page-title" style="background:url(assets_client/img/banner/image-1.jpg);">
@@ -37,22 +34,19 @@
                     <form class="form-verticle" method="GET" action="{{ route('search') }}">
                         <input type="hidden" value="1" name="form_request">
                         <div class="col-md-3 col-sm-3 no-padd">
-                            <input type="text" class="form-control left-radius" placeholder="Mot clé .." name="key"
-                                value="{{ $key }}">
+                            <input type="text" class="form-control left-radius" placeholder="Mot clé .." name="key" value="{{ $key }}">
                         </div>
 
                         <div class="col-md-4 col-sm-4 no-padd">
-                            <input id="myInput" type="text" class="form-control" placeholder="Localisation .."
-                                name="location" value="{{ $location }}">
+                            <input id="myInput" type="text" class="form-control" placeholder="Localisation .." name="location" value="{{ $location }}">
                             <div id="autocomplete-results" class="autocomplete-items"></div>
                         </div>
 
                         <div class="col-md-3 col-sm-3 no-padd">
-                            <select class="form-control" id="search-type-input" name="type[]" value="{{ $type }}">
+                            <select id="search-type-input" class="form-control" name="type[]" value="{{ $type }}">
                                 <option value="" selected>Tous les types d'annonce</option>
                                 @foreach ($typeAnnonce as $annonce)
-                                    <option value="{{ $annonce }}" {{ $annonce == $type ? 'selected' : '' }}
-                                        style="hover: {{ $defaultColor }};">{{ $annonce }}</option>
+                                    <option value="{{ $annonce }}" {{ $annonce == $type ? 'selected' : '' }} style="hover: {{ $defaultColor }};">{{ $annonce }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -115,7 +109,7 @@
             let countries = @json($quartiers);
             let myInput = document.getElementById('myInput');
 
-            myInput.addEventListener('focus', function (e) {
+            myInput.addEventListener('focus', function(e) {
                 let a, b, val = this.value;
                 a = document.createElement("DIV");
                 a.setAttribute("id", this.id + "autocomplete-list");
@@ -126,7 +120,7 @@
                         b = document.createElement("DIV");
                         b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i];
                         b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
-                        b.addEventListener("click", function (e) {
+                        b.addEventListener("click", function(e) {
                             document.getElementById('myInput').value = this.getElementsByTagName("input")[0].value;
                             closeAllLists();
                         });
@@ -150,7 +144,7 @@
                             "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
                             countries[i].substr(endIdx);
                         b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
-                        b.addEventListener("click", function (e) {
+                        b.addEventListener("click", function(e) {
                             document.getElementById('myInput').value = this.getElementsByTagName("input")[0].value;
                             closeAllLists();
                         });
@@ -160,7 +154,7 @@
             });
 
 
-            myInput.addEventListener('input', function (e) {
+            myInput.addEventListener('input', function(e) {
                 let a, b, val = this.value;
                 closeAllLists();
                 if (!val) {
@@ -183,7 +177,7 @@
                             "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
                             countries[i].substr(endIdx);
                         b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
-                        b.addEventListener("click", function (e) {
+                        b.addEventListener("click", function(e) {
                             document.getElementById('myInput').value = this.getElementsByTagName("input")[0].value;
                             closeAllLists();
                         });
@@ -205,7 +199,7 @@
                 }
             }
 
-            document.addEventListener("click", function (e) {
+            document.addEventListener("click", function(e) {
                 closeAllLists(e.target);
             });
         </script>

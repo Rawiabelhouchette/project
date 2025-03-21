@@ -1,384 +1,361 @@
 <!DOCTYPE html>
 <html class="no-js" lang="fr">
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="icon">
-    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="shortcut icon">
+        <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="icon">
+        <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="shortcut icon">
 
-    <title>@yield('title', 'Vamiyi')</title>
+        <title>@yield('title', 'Vamiyi')</title>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Les meilleurs bars, restaurants, boites de nuit, location de voiture et hébergements du Togo">
-    <meta name="keywords"
-        content="restaurants, bars, Togo, boîtes de nuit, location de voiture, hébergements, logements">
-    <meta name="robots" content="index,follow">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Les meilleurs bars, restaurants, boites de nuit, location de voiture et hébergements du Togo">
+        <meta name="keywords" content="restaurants, bars, Togo, boîtes de nuit, location de voiture, hébergements, logements">
+        <meta name="robots" content="index,follow">
 
-    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}" rel="icon">
-    <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}" rel="shortcut icon">
+        <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}" rel="icon">
+        <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}" rel="shortcut icon">
 
-    @livewireStyles
+        @livewireStyles
 
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1..1000&display=swap" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com" rel="preconnect">
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1..1000&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap 5 style -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <!-- Bootstrap 5 style -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
-    <!-- All plugins -->
-    <link href="{{ asset('assets_client/plugins/css/plugins.css') }}" rel="stylesheet">
-    <link type="text/css" href="css/bootstrap-multiselect.css" rel="stylesheet" />
+        <!-- All plugins -->
+        <link href="{{ asset('assets_client/plugins/css/plugins.css') }}" rel="stylesheet">
+        <link type="text/css" href="css/bootstrap-multiselect.css" rel="stylesheet" />
 
-    <!-- Custom style -->
-    <link href="{{ asset('assets_client/css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets_client/css/responsiveness.css') }}" rel="stylesheet">
+        <!-- Custom style -->
+        <link href="{{ asset('assets_client/css/style.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets_client/css/responsiveness.css') }}" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- FONTAWESOME STYLES-->
-    <link href="{{ asset('assets/css/font-awesome.css') }}" rel="stylesheet" />
+        <!-- FONTAWESOME STYLES-->
+        <link href="{{ asset('assets/css/font-awesome.css') }}" rel="stylesheet" />
 
-    <!-- HTML5 shim and Respond.js') }} for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+        <!-- HTML5 shim and Respond.js') }} for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js') }}"></script>
       <script src="js/respond.min.js') }}"></script>
     <![endif]-->
 
-    {{-- cookies --}}
-    <link href="{{ asset('assets_client/cookies/cookies.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets_client/cookies/iframemanager.css') }}" rel="stylesheet">
+        {{-- cookies --}}
+        <link href="{{ asset('assets_client/cookies/cookies.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets_client/cookies/iframemanager.css') }}" rel="stylesheet">
 
-    <script defer src="{{ asset('assets_client/cookies/cookieconsent.umd.js') }}"></script>
-    <script defer src="{{ asset('assets_client/cookies/iframemanager.js') }}"></script>
-    <script defer src="{{ asset('assets_client/cookies/index.js') }}"></script>
-    {{-- end cookies --}}
+        <script defer src="{{ asset('assets_client/cookies/cookieconsent.umd.js') }}"></script>
+        <script defer src="{{ asset('assets_client/cookies/iframemanager.js') }}"></script>
+        <script defer src="{{ asset('assets_client/cookies/index.js') }}"></script>
+        {{-- end cookies --}}
 
-    {!! htmlScriptTagJsApi() !!}
+        {!! htmlScriptTagJsApi() !!}
 
-    {{--
+        {{--
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" /> --}}
 
-    @yield('css')
+        @yield('css')
 
-</head>
+    </head>
 
-<body class="home-2" style="overflow-x: hidden;">
-    <div class="wrapper">
-        @php
-            $defaultColor = '#de6600';
-        @endphp
+    <body class="home-2" style="overflow-x: hidden;">
+        <div class="wrapper">
 
-        <!-- Start Navigation -->
+            @include('components.default-value')
 
-        @include('layout.public.navbar')
+            <!-- Start Navigation -->
 
-        <!-- End Navigation -->
-        <div class="clearfix"></div>
+            @include('layout.public.navbar')
 
-        @yield('content')
-        <!-- ================ Start Footer ======================= -->
-        @include('layout.public.footer')
-        <!-- ================ End Footer Section ======================= -->
+            <!-- End Navigation -->
+            <div class="clearfix"></div>
 
-        <!-- ================== Login & Sign Up Window ================== -->
-        @include('layout.public.connexion')
-        <!-- ===================== End Login & Sign Up Window =========================== -->
+            @yield('content')
+            <!-- ================ Start Footer ======================= -->
+            @include('layout.public.footer')
+            <!-- ================ End Footer Section ======================= -->
 
-        <a class="theme-bg" id="back2Top" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
+            <!-- ================== Login & Sign Up Window ================== -->
+            @include('layout.public.connexion')
+            <!-- ===================== End Login & Sign Up Window =========================== -->
 
-        <!-- START JAVASCRIPT -->
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+            <a id="back2Top" class="theme-bg" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
 
-        <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
-        <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootsnav.js') }}"></script>
+            <!-- START JAVASCRIPT -->
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-        <script src="{{ asset('assets_client/plugins/js/jquery.touchSwipe.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/chosen.jquery.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/datedropper.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/dropzone.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jquery.counterup.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jquery.fancybox.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jquery.nice-select.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/fastclick.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jqueryadd-count.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jquery-rating.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/slick.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/timedropper.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/waypoints.min.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-            crossorigin="anonymous"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootstrap-slider.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootstrap-touch-slider-min.js') }}"></script>
+            <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+            <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/bootsnav.js') }}"></script>
 
-        <!-- LEAFLET -->
-        <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"
-            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+            <script src="{{ asset('assets_client/plugins/js/jquery.touchSwipe.min.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/chosen.jquery.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/datedropper.min.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/dropzone.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/jquery.counterup.min.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/jquery.fancybox.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/jquery.nice-select.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/fastclick.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/jqueryadd-count.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/jquery-rating.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/slick.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/timedropper.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/waypoints.min.js') }}"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+            <script src="{{ asset('assets_client/plugins/js/bootstrap-slider.js') }}"></script>
+            <script src="{{ asset('assets_client/plugins/js/bootstrap-touch-slider-min.js') }}"></script>
 
-        <!-- Custom Js -->
-        <script src="{{ asset('assets_client/js/custom.js') }}"></script>
+            <!-- LEAFLET -->
+            <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-        <script>
-            $(document).ready(function () {
-                $('ul.pagination').parent().removeClass('navbar');
-            });
-        </script>
+            <!-- Custom Js -->
+            <script src="{{ asset('assets_client/js/custom.js') }}"></script>
 
-        <script>
-            window.addEventListener('page:reload', event => {
-                location.reload();
-            });
-        </script>
-
-        <script>
-            // refresh url
-            window.addEventListener('refresh:url', event => {
-                window.history.replaceState({}, '', event.detail[0].url);
-            });
-        </script>
-
-        <script src="https://unpkg.com/imask"></script>
-
-        <script>
-            // take cpuntry name as parameter
-            function applyMask(country = 'Togo') {
-                $('.telephone').each(function () {
-                    let maskOptions;
-
-                    switch (country) {
-                        case 'Togo':
-                            maskOptions = {
-                                mask: '00 00 00 00'
-                            }; // Format for Togo
-                            break;
-                        default:
-                            maskOptions = {
-                                mask: '00 00 00 00'
-                            }; // Default format (TOGO)
-                    }
-
-                    let mask = IMask(this, maskOptions);
-                });
-            }
-        </script>
-
-        <!-- SWEET ALERT -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-        <!-- FONTAWSOME -->
-        {{--
-        <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
-            integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
-            crossorigin="anonymous"></script> --}}
-        {{--
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-        {{--
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            integrity="sha512-rq3yrAQH0gezS8fRwU6Q/0Z0DlnV7B4ALxP5F9X9DhSkvM8zAywRU/kZBkxzZBpY5o5P5xu6ws3aIF9fUJMB8A=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet"
-            integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-        <script>
-            // show notification
-            const showNotification = ({
-                message,
-                icon,
-                timer = 5000,
-                title,
-                timerProgressBar = true,
-                confirmButtonText = 'OK',
-                onConfirm = () => { },
-            }) => {
-                Swal.fire({
-                    icon: icon,
-                    title: title,
-                    confirmButtonColor: 'green',
-                    html: "<p style='font-size: 17px'>" + message + "</p>",
-                    confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
-                    width: '40%',
-                    timerProgressBar: timerProgressBar,
-                    timer: timer,
-                    confirmButtonColor: defaultColor,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        onConfirm();
-                    }
-                });
-            }
-
-            // show confirmation notification
-            const showConfirmationNotification = ({
-                message,
-                icon = 'warning',
-                confirmButtonText = 'Oui, je confirme',
-                cancelButtonText = 'Annuler',
-                onConfirm = () => { },
-                onCancel = () => { },
-                onDismiss = () => { },
-            }) => {
-                Swal.fire({
-                    icon: icon,
-                    title: 'Êtes-vous sûr ?',
-                    showCancelButton: true,
-                    confirmButtonColor: 'red',
-                    cancelButtonColor: 'gray',
-                    html: "<p style='font-size: 17px'>" + message + "</p>",
-                    confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
-                    cancelButtonText: '<span style="font-size: 15px;">' + cancelButtonText + '</span>',
-                    width: '40%',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        onConfirm();
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        onCancel();
-                    } else {
-                        onDismiss();
-                    }
-                });
-            }
-
-            window.addEventListener('alert:modal', event => {
-                alert(event.detail[0].message);
-            });
-
-            window.addEventListener('swal:modal', event => {
-                const data = {
-                    icon: event.detail[0].icon,
-                    title: event.detail[0].title,
-                    message: event.detail[0].message,
-                };
-
-                showNotification(data);
-            });
-        </script>
-
-        @if (session()->has('success'))
             <script>
-                console.log("{{ session()->get('success') }}");
-                const data = {
-                    icon: 'success',
-                    title: 'Opération réussie',
-                    message: "{{ session()->get('success') }}",
-                    timer: 4000,
-                };
-
-                showNotification(data);
+                $(document).ready(function() {
+                    $('ul.pagination').parent().removeClass('navbar');
+                });
             </script>
-        @endif
 
-        @if (session()->has('error'))
             <script>
-                const data = {
-                    icon: 'error',
-                    title: 'Oops...',
-                    message: "{{ session()->get('error') }}",
-                    timer: 4000,
-                };
-
-                showNotification(data);
+                window.addEventListener('page:reload', event => {
+                    location.reload();
+                });
             </script>
-        @endif
 
-        @if (session()->has('info'))
             <script>
-                const data = {
-                    icon: 'info',
-                    title: 'Information',
-                    message: "{{ session()->get('info') }}",
-                    timer: 4000,
-                };
-
-                showNotification(data);
+                // refresh url
+                window.addEventListener('refresh:url', event => {
+                    window.history.replaceState({}, '', event.detail[0].url);
+                });
             </script>
-        @endif
 
-        {{--
+            <script src="https://unpkg.com/imask"></script>
+
+            <script>
+                // take cpuntry name as parameter
+                function applyMask(country = 'Togo') {
+                    $('.telephone').each(function() {
+                        let maskOptions;
+
+                        switch (country) {
+                            case 'Togo':
+                                maskOptions = {
+                                    mask: '00 00 00 00'
+                                }; // Format for Togo
+                                break;
+                            default:
+                                maskOptions = {
+                                    mask: '00 00 00 00'
+                                }; // Default format (TOGO)
+                        }
+
+                        let mask = IMask(this, maskOptions);
+                    });
+                }
+            </script>
+
+            <!-- SWEET ALERT -->
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+            <!-- FONTAWSOME -->
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+            <script>
+                // show notification
+                const showNotification = ({
+                    message,
+                    icon,
+                    timer = 5000,
+                    title,
+                    timerProgressBar = true,
+                    confirmButtonText = 'OK',
+                    onConfirm = () => {},
+                }) => {
+                    Swal.fire({
+                        icon: icon,
+                        title: title,
+                        confirmButtonColor: 'green',
+                        html: "<p style='font-size: 17px'>" + message + "</p>",
+                        confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
+                        width: '40%',
+                        timerProgressBar: timerProgressBar,
+                        timer: timer,
+                        confirmButtonColor: defaultColor,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            onConfirm();
+                        }
+                    });
+                }
+
+                // show confirmation notification
+                const showConfirmationNotification = ({
+                    message,
+                    icon = 'warning',
+                    confirmButtonText = 'Oui, je confirme',
+                    cancelButtonText = 'Annuler',
+                    onConfirm = () => {},
+                    onCancel = () => {},
+                    onDismiss = () => {},
+                }) => {
+                    Swal.fire({
+                        icon: icon,
+                        title: 'Êtes-vous sûr ?',
+                        showCancelButton: true,
+                        confirmButtonColor: 'red',
+                        cancelButtonColor: 'gray',
+                        html: "<p style='font-size: 17px'>" + message + "</p>",
+                        confirmButtonText: '<span style="font-size: 15px;">' + confirmButtonText + '</span>',
+                        cancelButtonText: '<span style="font-size: 15px;">' + cancelButtonText + '</span>',
+                        width: '40%',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            onConfirm();
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            onCancel();
+                        } else {
+                            onDismiss();
+                        }
+                    });
+                }
+
+                window.addEventListener('alert:modal', event => {
+                    alert(event.detail[0].message);
+                });
+
+                window.addEventListener('swal:modal', event => {
+                    const data = {
+                        icon: event.detail[0].icon,
+                        title: event.detail[0].title,
+                        message: event.detail[0].message,
+                    };
+
+                    showNotification(data);
+                });
+            </script>
+
+            @if (session()->has('success'))
+                <script>
+                    const data = {
+                        icon: 'success',
+                        title: 'Opération réussie',
+                        message: "{{ session()->get('success') }}",
+                        timer: 4000,
+                    };
+
+                    showNotification(data);
+                </script>
+            @endif
+
+            @if (session()->has('error'))
+                <script>
+                    const data = {
+                        icon: 'error',
+                        title: 'Oops...',
+                        message: "{{ session()->get('error') }}",
+                        timer: 4000,
+                    };
+
+                    showNotification(data);
+                </script>
+            @endif
+
+            @if (session()->has('info'))
+                <script>
+                    const data = {
+                        icon: 'info',
+                        title: 'Information',
+                        message: "{{ session()->get('info') }}",
+                        timer: 4000,
+                    };
+
+                    showNotification(data);
+                </script>
+            @endif
+
+            {{--
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script> --}}
 
-        {{--
+            {{--
         <script>
             const quill = new Quill('.editor', {
                 theme: 'snow',
             });
         </script> --}}
 
-        <script>
-            $(document).ready(function () {
-                $('.required').each(function () {
-                    $(this).append(' <b style="color: red; font-size: 100%;">*</b>');
-                });
-            });
-        </script>
-
-        <script>
-            function locateMe() {
-                // Get current location
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        var lat = position.coords.latitude;
-                        var lon = position.coords.longitude;
-                        var latlng = L.latLng(lat, lon);
-
-                        mymap.setView(latlng, 13); // Set map view to current location
-
-                        if (marker) {
-                            mymap.removeLayer(marker); // Supprimez le marqueur existant s'il y en a un.
-                        }
-
-                        marker = L.marker(latlng).addTo(mymap);
-                        var lat = latlng.lat;
-                        var lon = latlng.lng;
-
-                        Livewire.dispatch('setLocation', [{
-                            lon,
-                            lat
-                        }]);
-                    }, function (error) {
-                        console.error("Error getting location: " + error.message);
+            <script>
+                $(document).ready(function() {
+                    $('.required').each(function() {
+                        $(this).append(' <b style="color: red; font-size: 100%;">*</b>');
                     });
-                } else {
-                    console.error("Geolocation is not supported by this browser.");
-                }
-            }
-
-
-            $(document).ready(function () {
-                $('.locate-me').click(function () {
-                    locateMe();
                 });
-            });
-        </script>
+            </script>
 
-        @livewireScripts
+            <script>
+                function locateMe() {
+                    // Get current location
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            var lat = position.coords.latitude;
+                            var lon = position.coords.longitude;
+                            var latlng = L.latLng(lat, lon);
 
-        @stack('scripts')
+                            mymap.setView(latlng, 13); // Set map view to current location
 
-        @yield('js')
+                            if (marker) {
+                                mymap.removeLayer(marker); // Supprimez le marqueur existant s'il y en a un.
+                            }
 
-    </div>
-</body>
+                            marker = L.marker(latlng).addTo(mymap);
+                            var lat = latlng.lat;
+                            var lon = latlng.lng;
+
+                            Livewire.dispatch('setLocation', [{
+                                lon,
+                                lat
+                            }]);
+                        }, function(error) {
+                            console.error("Error getting location: " + error.message);
+                        });
+                    } else {
+                        console.error("Geolocation is not supported by this browser.");
+                    }
+                }
+
+
+                $(document).ready(function() {
+                    $('.locate-me').click(function() {
+                        locateMe();
+                    });
+                });
+            </script>
+
+            @livewireScripts
+
+            @stack('scripts')
+
+            @yield('js')
+
+        </div>
+    </body>
 
 </html>

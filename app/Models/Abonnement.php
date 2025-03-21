@@ -17,6 +17,11 @@ class Abonnement extends Model
         'is_active',
     ];
 
+    protected $casts = [
+        'date_debut' => 'datetime',
+        'date_fin' => 'datetime',
+    ];
+
     public function entreprises()
     {
         return $this->belongsToMany(Entreprise::class, 'abonnement_entreprise');

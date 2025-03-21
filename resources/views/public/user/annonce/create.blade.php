@@ -1,19 +1,11 @@
 @extends('layout.public.app')
 
 @section('css')
-    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 @endsection
 
 @section('content')
-    @include('components.default-value')
-
-    @php
-        $defaultColor = '#de6600';
-    @endphp
-
-    <section class="title-transparent page-title"
-        style="background:url({{ asset('assets_client/img/banner/image-1.jpg') }})">
+    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-1.jpg') }})">
         <div class="container">
             <div class="title-content">
                 <h1>Déposer une annonce</h1>

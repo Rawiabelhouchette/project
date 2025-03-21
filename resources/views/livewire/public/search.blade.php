@@ -6,10 +6,10 @@
             <div class="row">
                 <!-- Start Sidebar -->
                 <div class="col-md-4 col-sm-12">
-                    <h4 class="text-center mrg-bot-15">Filtrer vos recherches</h4>
+                    <h4 class="mrg-bot-15 text-center">Filtrer vos recherches</h4>
 
                     @if ($type || $ville || $quartier || $entreprise)
-                        <p class="text-center" id="reset-filters">
+                        <p id="reset-filters" class="text-center">
                             <a href="javascript:void(0)" class="reset-filters" wire:click='resetFilters'>
                                 Effacer tous les filtres
                             </a>
@@ -53,16 +53,16 @@
                                     <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
                                         Recherche : &nbsp;
                                         @if ($key)
-                                            <span class="badge height-25 theme-bg" id="key-filter" data-value="{{ $key }}">
+                                            <span id="key-filter" class="badge height-25 theme-bg" data-value="{{ $key }}">
                                                 {{ $key }}
-                                                <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $key }}", "key", true)'> x </a>
+                                                <a href="javascript:void(0)" class="selectedOption text-white" wire:click='changeState("{{ $key }}", "key", true)'> x </a>
                                             </span> &nbsp;
                                         @endif
                                         @foreach ($facettes as $facette)
                                             @foreach ($facette->selectedItems as $item)
                                                 <span class="badge height-25 theme-bg search-elt" wire:key='sub-facette-filter-{{ $loop->index }}'>
                                                     {{ $item }}
-                                                    <a href="javascript:void(0)" class="text-white selectedOption" wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'> x </a>
+                                                    <a href="javascript:void(0)" class="selectedOption text-white" wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'> x </a>
                                                 </span> &nbsp;
                                             @endforeach
                                         @endforeach
@@ -104,7 +104,7 @@
 
                         <div id="annonces-zone">
                             @foreach ($annonces as $annonce)
-                                <div class="col-md-6 col-sm-6" wire:key='{{ time() . $annonce->id }}' id="annonce-{{ $annonce->id }}">
+                                <div id="annonce-{{ $annonce->id }}" class="col-md-6 col-sm-6" wire:key='{{ time() . $annonce->id }}'>
                                     <div class="listing-shot grid-style">
                                         <div class="listing-shot-img">
                                             <a href="{{ route('show', $annonce->slug) }}">
@@ -148,7 +148,9 @@
                                                         <span>
                                                             <i class="fa fa-globe" aria-hidden="true"></i>
                                                             @if ($annonce->entreprise->site_web)
-                                                                {{ $annonce->entreprise->site_web }}
+                                                                <a href="{{ $annonce->entreprise->site_web }}" target="_blank" rel="noopener noreferrer">
+                                                                    {{ $annonce->entreprise->nom }}
+                                                                </a>
                                                             @else
                                                                 -
                                                             @endif
@@ -166,20 +168,20 @@
                                         </div>
                                         <div class="tp-author-basic-info mrg-top-0">
                                             <ul>
-                                                <!--<li class="text-center padd-top-10 padd-bot-0">
+                                                <!--<li class="padd-top-10 padd-bot-0 text-center">
                                                     <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                                                    {{ $annonce->view_count }} 
+                                                    {{ $annonce->view_count }}
                                                 </li> -->
-                                                <li class="text-center padd-top-10 padd-bot-0">
+                                                <li class="padd-top-10 padd-bot-0 text-center">
                                                     <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
                                                     {{ $annonce->favorite_count }}
                                                 </li>
-                                                <li class="text-center padd-top-10 padd-bot-0">
+                                                <li class="padd-top-10 padd-bot-0 text-center">
                                                     <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
                                                     {{ $annonce->comment_count }}
                                                 </li>
 
-                                                <li class="text-center padd-top-10 padd-bot-0">
+                                                <li class="padd-top-10 padd-bot-0 text-center">
                                                     <a href="javascript:void(0)" data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}', '{{ $annonce->type }}')" class="theme-cl annonce-share">
                                                         <i class="fa fa-share-nodes theme-cl" aria-hidden="true"></i>
                                                     </a>
@@ -194,7 +196,7 @@
                         @empty($annonces->count())
                             <div class="col-md-12 col-sm-12">
                                 <div class="listing-shot grid-style" style="padding-top: 50px; padding-bottom: 50px;">
-                                    <div class="listing-shot-caption text-center mrg-top-5">
+                                    <div class="listing-shot-caption mrg-top-5 text-center">
                                         <i class="fa-solid fa-xmark fa-5x" aria-hidden="true"></i> <br>
                                         <h4>Aucune annonce trouvée</h4>
                                         {{-- <a href="javascript:void(0)" class="reset-filters" class="theme-cl" wire:click='resetFilters'>Effacer les filtres</a> --}}

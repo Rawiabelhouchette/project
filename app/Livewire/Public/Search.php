@@ -242,7 +242,7 @@ class Search extends Component
             $villes = $this->ville;
             $quartiers = [];
             // $annonces = Annonce::public()->where('type', $type)->get();
-            $annonces = Annonce::public()->whereHas('entreprise.quartier.ville', function ($query) use ($villes) {
+            $annonces = Annonce::public()->whereHas('entreprise.ville', function ($query) use ($villes) {
                 $query->whereIn('nom', $villes);
             })->get();
 
@@ -295,7 +295,7 @@ class Search extends Component
         //     })->count();
         // }
         // foreach ($villes as $key => $ville) {
-        //     $villes[$key]['count'] = Annonce::public()->where('type', $type)->whereHas('entreprise.quartier.ville', function ($query) use ($ville) {
+        //     $villes[$key]['count'] = Annonce::public()->where('type', $type)->whereHas('entreprise.ville', function ($query) use ($ville) {
         //         $query->where('nom', 'like', '%' . $ville['value'] . '%');
         //     })->count();
         // }
@@ -415,7 +415,7 @@ class Search extends Component
 
         if ($this->ville) {
             $villes = $this->ville;
-            $annonces = $annonces->whereHas('entreprise.quartier.ville', function ($query) use ($villes) {
+            $annonces = $annonces->whereHas('entreprise.ville', function ($query) use ($villes) {
                 $query->where(function ($query) use ($villes) {
                     foreach ($villes as $ville) {
                         $query->orWhere('nom', 'like', '%' . $ville . '%');

@@ -16,7 +16,7 @@ class AnnonceController extends Controller
             $entrepises = Auth::user()->entreprises;
             // dd($entrepises);
             foreach ($entrepises as $entreprise) {
-                if (!$entreprise->quartier_id) {
+                if (!$entreprise->quartier) {
                     // if user is entreprise admin
                     if ($entreprise->pivot->is_admin) {
                         // return redirect()->route('entreprises.edit', $entreprise->id)->with('error', 'Veuillez renseigner le quartier de votre entreprise');

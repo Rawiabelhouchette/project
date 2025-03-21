@@ -9,7 +9,20 @@ class UserController extends Controller
 {
     public function myBusiness()
     {
-        return view('public.user.company.show');
+        // session()->flash('success', 'Ceci est un test1');
+        // dd(session()->all());
+        $user = auth()->user();
+        return view('public.user.company.show', [
+            'entreprise' => $user->entreprises()->first(),
+            'annonces' => $user->annonces()->limit(5)->get(),
+        ]);
+    }
+
+    public function editMyBusiness()
+    {
+        return view('public.user.company.edit', [
+            'entreprise' => auth()->user()->entreprises()->first(),
+        ]);
     }
 
     public function myAccount()
@@ -25,5 +38,10 @@ class UserController extends Controller
     public function myFavorites()
     {
         return view('public.user.favorites');
+    }
+
+    public function mySubscriptions()
+    {
+        return view('public.user.subscriptions');
     }
 }

@@ -2,7 +2,6 @@
 
 @section('css')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    
 @endsection
 
 @section('content')
@@ -28,7 +27,7 @@
                     <div class="detail-wrapper">
                         <div class="detail-wrapper-body">
                             <div class="listing-title-bar">
-                                <h3> {{ $entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $entreprise->quartier->ville->pays->nom }}</span></h3>
+                                <h3> {{ $entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $entreprise->ville->pays->nom }}</span></h3>
                                 <div>
                                     <a href="javascript:void(0)" class="listing-address">
                                         <i class="ti-location-pin mrg-r-5"></i>
@@ -52,7 +51,7 @@
                                     @endif
 
                                     @if ($entreprise->whatsapp)
-                                        <a href="https://api.whatsapp.com/send?phone={{ $entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $entreprise->whatsapp) }}" target="_blank">
+                                        <a href="https://api.whatsapp.com/send?phone={{ $entreprise->ville->pays->indicatif }}{{ str_replace(' ', '', $entreprise->whatsapp) }}" target="_blank">
                                             <i class="fa-brands fa-whatsapp"></i>&nbsp;
                                             {{ $entreprise->whatsapp }}
                                         </a>
