@@ -113,7 +113,7 @@
                                         <div class="row extra">
                                             <div class="col-md-12">
                                                 <div class="listing-detail-info">
-                                                    <span><i class="fa fa-phone" aria-hidden="true"></i>
+                                                    {{-- <span><i class="fa fa-phone" aria-hidden="true"></i>
                                                         {{ $annonce->entreprise->contact }}</span>
                                                     <span>
                                                         <i class="fa fa-globe" aria-hidden="true"></i>
@@ -122,7 +122,7 @@
                                                         @else
                                                             -
                                                         @endif
-                                                    </span>
+                                                    </span> --}}
                                                 </div>
                                             </div>
                                         </div>
