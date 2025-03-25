@@ -1,5 +1,9 @@
 <div>
     <div>
+        @php
+            $defaultColor = '#de6600';
+        @endphp
+
         <div class="detail-wrapper">
             <div class="detail-wrapper-header">
                 <h4>{{ $count }} Commentaire(s)</h4>
@@ -48,7 +52,7 @@
                     @endempty
 
                     @if ($commentaires->hasMorePages())
-                        <div class="text-center mrg-top-10">
+                        <div class="mrg-top-10 text-center">
                             <a class="theme-cl" href="javascript:void(0)" wire:click="loadMore({{ $annonce_id }}, {{ $perPage }})">Afficher plus</a>
                         </div>
                     @endif
@@ -56,7 +60,7 @@
             </div>
         </div>
 
-        <div class="detail-wrapper" id="write-review">
+        <div id="write-review" class="detail-wrapper">
             <div class="detail-wrapper-header">
                 <div class="row">
                     <div class="col-md-6 col-xs-12">
@@ -86,16 +90,16 @@
 
                 <div class="row mrg-bot-10">
                     @if (!auth()->check())
-                        <p class="text-center theme-cl">Vous devez être connecté pour laisser un commentaire</p>
+                        <p class="theme-cl text-center">Vous devez être connecté pour laisser un commentaire</p>
                     @endif
 
                     <div class="col-md-12">
                         <div class="rating-opt">
                             <div class="jr-ratenode jr-nomal"></div>
-                            <div class="jr-ratenode jr-nomal "></div>
-                            <div class="jr-ratenode jr-nomal "></div>
-                            <div class="jr-ratenode jr-nomal "></div>
-                            <div class="jr-ratenode jr-nomal "></div>
+                            <div class="jr-ratenode jr-nomal"></div>
+                            <div class="jr-ratenode jr-nomal"></div>
+                            <div class="jr-ratenode jr-nomal"></div>
+                            <div class="jr-ratenode jr-nomal"></div>
                         </div> <br>
                         @error('note')
                             <span class="text-danger">{{ $message }}</span>
@@ -117,10 +121,10 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <input type="hidden" id="info">
+                        <input id="info" type="hidden">
                         <div class="col-sm-12">
                             @if (auth()->check())
-                                <button class="btn theme-btn" id="btn-add" type="submit" wire:loading.attr="disabled">Commenter</button>
+                                <button id="btn-add" class="btn theme-btn" type="submit" wire:loading.attr="disabled">Commenter</button>
                             @else
                                 <button class="btn theme-btn" type="button" data-toggle="modal" data-target="#signin">Commenter</button>
                             @endif
