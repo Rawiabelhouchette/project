@@ -74,6 +74,7 @@ class PaiementService
              sur la facture de CinetPay(Supporte trois variables 
              que vous nommez à votre convenance)*/
             $invoice_data = array(
+                "Offre_id" => $validated['offre_id'],
                 "Nom" => $customer_name . ' ' . $customer_surname,
                 "Email" => $customer_email,
                 "Abonnement" => $offre->duree . " mois",
@@ -105,24 +106,24 @@ class PaiementService
             $CinetPay = new CinetPay($site_id, $apikey, $VerifySsl = false);//$VerifySsl=true <=> Pour activerr la verification ssl sur curl 
             $result = $CinetPay->generatePaymentLink($formData);
 
-            dd($result);
+            // dd($result);
 
             if ($result["code"] == '201') {
                 $url = $result["data"]["payment_url"];
 
-                $checStatus = self::checkPayment($transaction_id);
+                $checkStatus = self::checkPayment($transaction_id);
 
-                dd($checStatus);
+                // dd($checkStatus);
 
                 $transaction = new Transaction;
                 $transaction->montant = $offre->prix;
                 $transaction->trans_id = $transaction_id;
                 $transaction->method = $channels;
                 $transaction->buyer_name = $customer_name . ' ' . $customer_surname;
-                $transaction->trans_status = $checStatus->data['status'];
-            dd("HERE+++++++++++++++++++++++++++++");
+                $transaction->trans_status = $checkStatus->data['status'];
+            // dd("HERE+++++++++++++++++++++++++++++");
                 $transaction->phone = $customer_phone_number;
-                $transaction->error_message = $checStatus->message;
+                $transaction->error_message = $checkStatus->message;
                 $transaction->statut = '0';
                 $transaction->user_id = auth()->user()->id;
                 $transaction->offre_id = $validated['offre_id'];
