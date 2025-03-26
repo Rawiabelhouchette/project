@@ -6,9 +6,9 @@
             <div class="title-content">
                 <h1>Abonnement</h1>
                 <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    {{-- <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Tarif</span> --}}
+                    <a href="{{ route(name: 'accueil') }}">Accueil</a>
+                    <span class="gt3_breadcrumb_divider"></span>
+                    <a href="{{ route(name: 'pricing') }}">Tarif</a>
                     <span class="gt3_breadcrumb_divider"></span>
                     <span class="current">Créer une entreprise</span>
                 </div>
@@ -20,17 +20,6 @@
 
     <section>
         <div class="container">
-            {{-- display errors --}}
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="package-box">
                     <div class="package-header">
@@ -58,33 +47,44 @@
                         <h2>Création d'une <span class="theme-cl">Entreprise</span></h2>
                     </div>
 
-                    <form>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="pl-3">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('abonnements.payement.check') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="offre_id" value="{{ $offre->id }}">
 
-                        <div class="row p-2">
-                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 mb-4">
+                        <div class="row p-2 px-4">
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
-                                    <span class="input-group-addon"><i class="fa fa-user theme-cl"></i></span>
-                                    <input id="nom" class="form-control" type="text" placeholder="Nom" required name="nom">
+                                    <span class="input-group-addon"><i class="fa fa-building theme-cl"></i></span>
+                                    <input id="company" class="form-control" type="text" placeholder="Nom de votre entreprise" required name="nom_entreprise" value="{{ old('nom_entreprise') }}">
                                 </div>
                             </div>
 
-                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 mb-4">
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
-                                    <span class="input-group-addon"><i class="fa fa-user theme-cl"></i></span>
-                                    <input id="prenom" class="form-control" type="text" placeholder="Prénom" required name="prenom">
+                                    <span class="input-group-addon"><i class="fa fa-phone theme-cl"></i></span>
+                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone (+228 xxxxxxxxxx)" required name="numero_telephone"  value="{{ old('numero_telephone') }}">
                                 </div>
                             </div>
 
-                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 mb-4">
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
-                                    <span class="input-group-addon"><i class="fa fa-user-lock theme-cl"></i></span>
-                                    <input id="username" class="form-control" type="text" placeholder="Nom d'utilisateur" required name="username">
+                                    <span class="input-group-addon"><i class="fa-brands fa-whatsapp theme-cl" style="font-size: 17px;"></i></span>
+                                    <input id="whatsapp_phone" class="form-control" type="text" placeholder="Numéro whatsapp (+228 xxxxxxxxxx)" required name="numero_whatsapp" value="{{ old('numero_whatsapp') }}">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="center">
+                        <div class="center mt-3">
                             <button id="signup" class="btn btn-midium theme-btn btn-radius width-200" type="submit">
                                 <span style="display: inline-flex; align-items: center;">
                                     {{ __('Enregistrer') }}
@@ -92,11 +92,6 @@
                             </button>
                         </div>
                     </form>
-
-                    <div class="center mt-4">
-                        <div class="bottom-login text-center">Déjà un compte ? </div>
-                        <a id="btn-login" class="theme-cl" href="{{ route('login') }}">{{ __('Se Connecter') }}</a>
-                    </div>
                 </div>
             </div>
 

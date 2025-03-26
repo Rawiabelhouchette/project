@@ -1,7 +1,7 @@
 @props(['offre', 'withModal' => false])
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <form id="pricing-submit-form" action="{{ route('abonnements.payement.check') }}" method="POST">
+    {{-- <form id="pricing-submit-form" action="{{ route('abonnements.payement.check') }}" method="POST"> --}}
         {{-- <form class="pricing-submit-form" action="{{ route('abonnements.store') }}" method="POST"> --}}
         @csrf
         <div class="package-box">
@@ -32,7 +32,7 @@
             @endif
         </div>
 
-        @if ($withModal)
+        {{-- @if ($withModal)
             <div id="abonnement-{{ $offre->id }}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog">
                     <div class="modal-content" style="padding-bottom: 10px;">
@@ -72,6 +72,6 @@
                     </div>
                 </div>
             </div>
-        @endif
-    </form>
+        @endif --}}
+    {{-- </form> --}}
 </div>

@@ -115,7 +115,7 @@ class AbonnementController extends Controller
         }
 
         return view('public.pricing-2', [
-            'offre' => $abonnement
+            'offre' => $abonnement,
         ]);
     }
 
