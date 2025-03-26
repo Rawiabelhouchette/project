@@ -47,16 +47,6 @@
                         <h2>Création d'une <span class="theme-cl">Entreprise</span></h2>
                     </div>
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="pl-3">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
                     <form action="{{ route('abonnements.payement.check') }}" method="POST">
                         @csrf
                         <input type="hidden" name="offre_id" value="{{ $offre->id }}">
@@ -67,13 +57,19 @@
                                     <span class="input-group-addon"><i class="fa fa-building theme-cl"></i></span>
                                     <input id="company" class="form-control" type="text" placeholder="Nom de votre entreprise" required name="nom_entreprise" value="{{ old('nom_entreprise') }}">
                                 </div>
+                                @error('nom_entreprise')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa fa-phone theme-cl"></i></span>
-                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone (+228 xxxxxxxxxx)" required name="numero_telephone"  value="{{ old('numero_telephone') }}">
+                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone (+228 xxxxxxxxxx)" required name="numero_telephone" value="{{ old('numero_telephone') }}">
                                 </div>
+                                @error('numero_telephone')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
@@ -81,6 +77,9 @@
                                     <span class="input-group-addon"><i class="fa-brands fa-whatsapp theme-cl" style="font-size: 17px;"></i></span>
                                     <input id="whatsapp_phone" class="form-control" type="text" placeholder="Numéro whatsapp (+228 xxxxxxxxxx)" required name="numero_whatsapp" value="{{ old('numero_whatsapp') }}">
                                 </div>
+                                @error('numero_whatsapp')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
 

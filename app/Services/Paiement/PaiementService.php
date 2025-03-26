@@ -74,7 +74,6 @@ class PaiementService
              sur la facture de CinetPay(Supporte trois variables 
              que vous nommez à votre convenance)*/
             $invoice_data = array(
-                "Offre_id" => $validated['offre_id'],
                 "Nom" => $customer_name . ' ' . $customer_surname,
                 "Email" => $customer_email,
                 "Abonnement" => $offre->duree . " mois",
@@ -113,21 +112,19 @@ class PaiementService
 
                 $checkStatus = self::checkPayment($transaction_id);
 
-                // dd($checkStatus);
-
                 $transaction = new Transaction;
                 $transaction->montant = $offre->prix;
                 $transaction->trans_id = $transaction_id;
                 $transaction->method = $channels;
                 $transaction->buyer_name = $customer_name . ' ' . $customer_surname;
-                $transaction->trans_status = $checkStatus->data['status'];
-            // dd("HERE+++++++++++++++++++++++++++++");
-                $transaction->phone = $customer_phone_number;
+                // $transaction->trans_status = optional($checkStatus->data)['status'] ?? null;
+                $transaction->trans_status = $checkStatus->code;
                 $transaction->error_message = $checkStatus->message;
+                $transaction->phone = $customer_phone_number;
                 $transaction->statut = '0';
                 $transaction->user_id = auth()->user()->id;
                 $transaction->offre_id = $validated['offre_id'];
-                
+
                 $transaction->entreprise_id = $companyId;
                 if (auth()->user()->hasRole('Usager')) {
                     $transaction->entreprise = $validated['nom_entreprise'];
@@ -145,6 +142,13 @@ class PaiementService
                 ];
 
             }
+
+            return (object) [
+                'status' => 'error',
+                'message' => 'Une erreur s\'est produite',
+                'url' => null,
+            ];
+
         } catch (Exception $e) {
             \Log::error($e->getMessage());
             return (object) [
