@@ -2,7 +2,7 @@
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <form id="pricing-submit-form" action="{{ route('abonnements.payement.check') }}" method="POST">
-    {{-- <form class="pricing-submit-form" action="{{ route('abonnements.store') }}" method="POST"> --}}
+        {{-- <form class="pricing-submit-form" action="{{ route('abonnements.store') }}" method="POST"> --}}
         @csrf
         <div class="package-box">
             <div class="package-header">
@@ -23,19 +23,22 @@
             </div>
             <input type="hidden" name="offre_id" value="{{ $offre->id }}">
             @if ($withModal)
-                <button type="button" data-toggle="modal" data-target="#abonnement-{{ $offre->id }}" class="btn btn-package">Souscrire</button>
+                <button type="button" onclick="window.location.href='{{ route('pricing-2', ['subscription' => $offre->id]) }}'" class="btn btn-package">Souscrire</button>
+                {{-- <a type="button" href="{{ route('pricing-2', ['subscription' => $offre->id]) }}" class="btn btn-package">Souscrire</a> --}}
+                
             @else
                 <button type="button" class="btn btn-package pricing-submit-btn">Souscrire</button>
+                {{-- <button type="button" class="btn btn-package pricing-submit-btn">Souscrire</button> --}}
             @endif
         </div>
 
         @if ($withModal)
-            <div class="modal fade in" id="abonnement-{{ $offre->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div id="abonnement-{{ $offre->id }}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog">
                     <div class="modal-content" style="padding-bottom: 10px;">
 
                         <div class="modal-header">
-                            <h4 class="modal-title" id="modalLabel2">Création d'entreprise</h4>
+                            <h4 id="modalLabel2" class="modal-title">Création d'entreprise</h4>
                             <button type="button" class="m-close" data-dismiss="modal" aria-label="Close">
                                 <i class="ti-close"></i>
                             </button>
@@ -63,7 +66,7 @@
                             </div>
 
                             <div class="center">
-                                <button type="submit" id="login-btn" class="btn btn-midium theme-btn btn-radius width-200"> Continuer </button>
+                                <button id="login-btn" type="submit" class="btn btn-midium theme-btn btn-radius width-200"> Continuer </button>
                             </div>
                         </div>
                     </div>

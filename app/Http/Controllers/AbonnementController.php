@@ -86,12 +86,37 @@ class AbonnementController extends Controller
             return redirect()->route('connexion');
         }
 
-        if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
-            return redirect()->route('abonnements.create');
-        }
+        // if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
+        //     return redirect()->route('abonnements.create');
+        // }
 
         $offres = OffreAbonnement::active()->get();
         return view('public.pricing', compact('offres'));
+    }
+
+    public function createCompany(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('connexion');
+        }
+
+        if (!auth()->user()->hasRole('Usager')) {
+            return redirect()->route('accueil');
+        }
+
+        $abonnementId = $request->subscription;
+
+        $abonnement = OffreAbonnement::active()->where('id', $abonnementId)->first();
+
+        // dd($abonnement);
+
+        if (!$abonnement) {
+            return redirect()->route('pricing');
+        }
+
+        return view('public.pricing-2', [
+            'offre' => $abonnement
+        ]);
     }
 
     // operation de validation avant l'abonnement

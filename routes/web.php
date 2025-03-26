@@ -258,6 +258,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
     Route::get('favorites', [PublicUserController::class, 'myFavorites'])->name('public.my-favorites');
 
     Route::get('pricing', [AbonnementController::class, 'choiceIndex'])->name('pricing');
+    Route::get('business/create', [AbonnementController::class, 'createCompany'])->name('pricing-2');
 
     Route::post('abonnements/payment/check', [AbonnementController::class, 'checkPayment'])->name('abonnements.payement.check');
 

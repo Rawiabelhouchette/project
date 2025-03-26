@@ -12,6 +12,7 @@
                     @livewire('public.auth.register')
                 </div>
             </div>
+            <div class="col-md-2 col-sm-1"></div>
         </div>
     </section>
 @endsection
