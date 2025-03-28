@@ -61,8 +61,8 @@
 
         .custom-field-filter {
             margin-top: 6px !important;
-            margin-bottom: 6px !important;
-            height: 40px !important;
+            /* margin-bottom: 6px !important;
+            height: 40px !important; */
         }
     </style>
 

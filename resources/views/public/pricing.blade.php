@@ -31,7 +31,7 @@
             @endif
 
             @foreach ($offres as $offre)
-                @include('components.pricing-card', ['offre' => $offre, 'withModal' => true])
+                @include('components.pricing-card', ['offre' => $offre, 'isPro' => $isPro])
             @endforeach
         </div>
     </section>

@@ -90,8 +90,10 @@ class AbonnementController extends Controller
         //     return redirect()->route('abonnements.create');
         // }
 
+        $isPro = auth()->user()->hasRole('Professionnel');
+
         $offres = OffreAbonnement::active()->get();
-        return view('public.pricing', compact('offres'));
+        return view('public.pricing', compact('offres', 'isPro'));
     }
 
     public function createCompany(Request $request)
@@ -101,14 +103,12 @@ class AbonnementController extends Controller
         }
 
         if (!auth()->user()->hasRole('Usager')) {
-            return redirect()->route('accueil');
+            return redirect()->back();
         }
 
         $abonnementId = $request->subscription;
 
         $abonnement = OffreAbonnement::active()->where('id', $abonnementId)->first();
-
-        // dd($abonnement);
 
         if (!$abonnement) {
             return redirect()->route('pricing');
@@ -165,13 +165,10 @@ class AbonnementController extends Controller
         }
         $abonnements = $abonnements->paginate($perPage);
 
-        return response()->json(
-            [
-                'recordsTotal' => $abonnements->total(),
-                'recordsFiltered' => $abonnements->total(),
-                'data' => $abonnements->items(),
-            ],
-            200,
-        );
+        return response()->json([
+            'recordsTotal' => $abonnements->total(),
+            'recordsFiltered' => $abonnements->total(),
+            'data' => $abonnements->items(),
+        ], 200);
     }
 }
