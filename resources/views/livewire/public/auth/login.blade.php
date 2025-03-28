@@ -1,9 +1,9 @@
-<div class="modal fade" id="signin" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" tabindex="-1" wire:ignore.self>
+<div id="signin" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" tabindex="-1" wire:ignore.self>
     <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h4 class="modal-title" id="modalLabel2">{{ __('Connectez-vous à votre compte') }}</h4>
+                <h4 id="modalLabel2" class="modal-title">{{ __('Connectez-vous à votre compte') }}</h4>
                 <button class="m-close" data-dismiss="modal" type="button" aria-label="Close">
                     <i class="ti-close"></i>
                 </button>
@@ -27,8 +27,8 @@
                 <form id="demo-form" wire:submit.prevent="login">
                     @csrf
                     <div class="form-group">
-                        <label>{{ __('Identifiant') }}</label>
-                        <input class="form-control form-control-sm" name="email" type="text" minlength="4" placeholder="Username" wire:model='email' required>
+                        <label>{{ __('Identifiant / Email') }}</label>
+                        <input class="form-control form-control-sm" name="email" type="text" minlength="4" placeholder="Identifiant" wire:model='email' required>
                         @error('email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -70,7 +70,7 @@
                     <div class="center">
                         <button class="btn btn-midium theme-btn btn-radius width-200" type="submit" wire:loading.attr='disabled'>
                             <span wire:loading>
-                                @include('components.public.loader', ['withText' => false, 'color' => '#fff'])
+                                @include('components.public.loader', ['withText' => false, 'color' => '#de6600'])
                             </span>
                             <span>
                                 &nbsp;{{ __('Connexion') }}

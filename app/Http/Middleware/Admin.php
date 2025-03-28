@@ -17,7 +17,8 @@ class Admin
     {
         // return back if user is not authenticated or has no role (Professionnel or Administrateur)
         if (!auth()->user()->hasRole('Administrateur')) {
-            return back()->with('email', 'Vous n\'avez pas accès à cette page.');
+            // return back()->with('email', 'Vous n\'avez pas accès à cette page.');
+            abort(404);
         }
 
         return $next($request);

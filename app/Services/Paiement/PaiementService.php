@@ -55,7 +55,7 @@ class PaiementService
 
 
             //transaction id
-            $id_transaction = self::generateTransId();
+            $transaction_id = self::generateTransId();
 
             //Veuillez entrer votre apiKey
             $apikey = env("CP_API_KEY");
@@ -81,7 +81,7 @@ class PaiementService
 
             //
             $formData = array(
-                "transaction_id" => $id_transaction,
+                "transaction_id" => $transaction_id,
                 "amount" => $offre->prix,
                 "currency" => $currency,
                 "customer_surname" => $customer_name,
@@ -105,22 +105,26 @@ class PaiementService
             $CinetPay = new CinetPay($site_id, $apikey, $VerifySsl = false);//$VerifySsl=true <=> Pour activerr la verification ssl sur curl 
             $result = $CinetPay->generatePaymentLink($formData);
 
+            // dd($result);
+
             if ($result["code"] == '201') {
                 $url = $result["data"]["payment_url"];
 
-                $checStatus = self::checkPayment($id_transaction);
+                $checkStatus = self::checkPayment($transaction_id);
 
                 $transaction = new Transaction;
                 $transaction->montant = $offre->prix;
-                $transaction->trans_id = $id_transaction;
+                $transaction->trans_id = $transaction_id;
                 $transaction->method = $channels;
                 $transaction->buyer_name = $customer_name . ' ' . $customer_surname;
-                $transaction->trans_status = $checStatus->data['status'];
+                // $transaction->trans_status = optional($checkStatus->data)['status'] ?? null;
+                $transaction->trans_status = $checkStatus->code;
+                $transaction->error_message = $checkStatus->message;
                 $transaction->phone = $customer_phone_number;
-                $transaction->error_message = $checStatus->message;
                 $transaction->statut = '0';
                 $transaction->user_id = auth()->user()->id;
                 $transaction->offre_id = $validated['offre_id'];
+
                 $transaction->entreprise_id = $companyId;
                 if (auth()->user()->hasRole('Usager')) {
                     $transaction->entreprise = $validated['nom_entreprise'];
@@ -130,6 +134,7 @@ class PaiementService
 
                 $transaction->save();
 
+
                 return (object) [
                     'status' => 'success',
                     'message' => 'Guihchet généré avec succès',
@@ -137,7 +142,15 @@ class PaiementService
                 ];
 
             }
+
+            return (object) [
+                'status' => 'error',
+                'message' => 'Une erreur s\'est produite',
+                'url' => null,
+            ];
+
         } catch (Exception $e) {
+            \Log::error($e->getMessage());
             return (object) [
                 'status' => 'error',
                 'message' => $e->getMessage(),

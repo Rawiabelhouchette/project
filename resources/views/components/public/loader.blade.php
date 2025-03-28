@@ -8,6 +8,7 @@
     @else
         <span class="lds-dual-ring-2"></span>
     @endif
+    &nbsp;&nbsp;
 
     <style>
         /* Spinner */

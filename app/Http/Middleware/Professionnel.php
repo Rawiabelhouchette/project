@@ -19,8 +19,7 @@ class Professionnel
             // return back()->with('error', 'Vous n\'avez pas accès à cette page.');
             // throw new \Illuminate\Auth\Access\AuthorizationException('Vous n\'avez pas accès à cette page.');
             // not found exception
-            // abort(404);
-            abort(401);
+            abort(404);
         }
         return $next($request);
     }

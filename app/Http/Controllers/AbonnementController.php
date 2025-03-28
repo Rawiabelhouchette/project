@@ -86,12 +86,37 @@ class AbonnementController extends Controller
             return redirect()->route('connexion');
         }
 
-        if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
-            return redirect()->route('abonnements.create');
-        }
+        // if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
+        //     return redirect()->route('abonnements.create');
+        // }
+
+        $isPro = auth()->user()->hasRole('Professionnel');
 
         $offres = OffreAbonnement::active()->get();
-        return view('public.pricing', compact('offres'));
+        return view('public.pricing', compact('offres', 'isPro'));
+    }
+
+    public function createCompany(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('connexion');
+        }
+
+        if (!auth()->user()->hasRole('Usager')) {
+            return redirect()->back();
+        }
+
+        $abonnementId = $request->subscription;
+
+        $abonnement = OffreAbonnement::active()->where('id', $abonnementId)->first();
+
+        if (!$abonnement) {
+            return redirect()->route('pricing');
+        }
+
+        return view('public.pricing-2', [
+            'offre' => $abonnement,
+        ]);
     }
 
     // operation de validation avant l'abonnement
@@ -140,13 +165,10 @@ class AbonnementController extends Controller
         }
         $abonnements = $abonnements->paginate($perPage);
 
-        return response()->json(
-            [
-                'recordsTotal' => $abonnements->total(),
-                'recordsFiltered' => $abonnements->total(),
-                'data' => $abonnements->items(),
-            ],
-            200,
-        );
+        return response()->json([
+            'recordsTotal' => $abonnements->total(),
+            'recordsFiltered' => $abonnements->total(),
+            'data' => $abonnements->items(),
+        ], 200);
     }
 }

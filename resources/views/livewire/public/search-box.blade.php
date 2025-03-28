@@ -1,5 +1,7 @@
 <div>
-
+    @php
+        $defaultColor = '#de6600';
+    @endphp
     <!-- ================ Start Page Title ======================= -->
     <section class="title-transparent page-title" style="background:url(assets_client/img/banner/image-1.jpg);">
         <div class="container">

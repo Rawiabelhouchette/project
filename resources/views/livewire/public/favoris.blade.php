@@ -1,4 +1,7 @@
 <div>
+    @php
+        $defaultColor = '#de6600';
+    @endphp
 
     @if (Auth::check())
         <button wire:click='updateFavoris' wire:loading.attr="disabled" class="buttons padd-10 favoris-btn-show" style="background: {{ $isEnabled ? $defaultColor : 'white' }}; color: {{ $isEnabled ? 'white' : 'grey' }};">

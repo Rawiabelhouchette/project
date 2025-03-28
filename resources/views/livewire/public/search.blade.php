@@ -1,4 +1,7 @@
 <div>
+    @php
+        $defaultColor = '#de6600';
+    @endphp
 
     <!-- ================ Listing In Grid Style ======================= -->
     <section>
