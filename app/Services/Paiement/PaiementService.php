@@ -173,7 +173,7 @@ class PaiementService
     public function redirectionAfterPayment()
     {
         if (!auth()->user()->hasRole('Usager')) {
-            return redirect()->route('abonnements.index');
+            return redirect()->route('public.annonces.create');
         }
 
         return redirect()->route('pricing');
@@ -184,6 +184,7 @@ class PaiementService
     {
         // check if request contains transaction_id
         if (!$request->cpm_trans_id) {
+            \Log::error("transaction_id non transmis");
             abort(403, "transaction_id non transmis");
         }
 
@@ -200,11 +201,13 @@ class PaiementService
             if ($request->header('X-Token')) {
                 $xtoken = $request->header('X-Token');
             } else {
+                \Log::error("X-token indisponible");
                 abort(403, "X-token indisponible");
             }
 
             // check if the token is valid
             if (!hash_equals($xtoken, $generated_token)) {
+                \Log::error("Token invalide");
                 abort(403, "Token invalide");
             }
 
@@ -228,11 +231,13 @@ class PaiementService
             //  0  : pending
             //  1  : success
             if (!$transaction) {
+                \Log::error("Transaction non trouvée");
                 abort(403, "Transaction non trouvée");
             }
 
             // TODO : Shall I check from the db first ?
             if ($transaction->statut == 1) {
+                \Log::error("Transaction déjà effectuée");
                 abort(403, "Transaction déjà effectuée");
             }
 
@@ -247,6 +252,7 @@ class PaiementService
                 ]);
                 // session flash message
                 session()->flash('error', 'Echec, votre paiement a échoué');
+                \Log::error("Echec, votre paiement a échoué");
                 abort(403, "Echec, votre paiement a échoué");
             }
 
@@ -278,6 +284,11 @@ class PaiementService
             );
 
             session()->flash('success', 'Paiement effectué avec succès');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Opération réussie.'
+            ]);
 
         } catch (Exception $e) {
             DB::rollBack();
