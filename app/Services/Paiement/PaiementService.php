@@ -182,8 +182,10 @@ class PaiementService
     // Notification de paiement venant de CinetPay
     public function notify(Request $request)
     {
+        $transaction_id = $request->cpm_trans_id;
+
         // check if request contains transaction_id
-        if (!$request->cpm_trans_id) {
+        if (!$transaction_id) {
             \Log::error("transaction_id non transmis");
             abort(403, "transaction_id non transmis");
         }
@@ -226,7 +228,7 @@ class PaiementService
             Log::channel('transaction')->info('' . $log);
 
             // check if the transaction is valid in DB
-            $transaction = Transaction::where('trans_id', $request->cpm_trans_id)->first();
+            $transaction = Transaction::where('trans_id', $transaction_id)->first();
             // -1 : error
             //  0  : pending
             //  1  : success
@@ -242,7 +244,8 @@ class PaiementService
             }
 
             // check if the transaction is valid
-            $check_transaction = self::checkPayment($request->cpm_trans_id);
+            $check_transaction = self::checkPayment($transaction_id);
+            \Log::error(json_encode($check_transaction));
             if ($check_transaction->code != '00') {
                 // update the transaction
                 $transaction->update([
