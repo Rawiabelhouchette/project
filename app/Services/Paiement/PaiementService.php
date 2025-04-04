@@ -395,7 +395,7 @@ class PaiementService
                 $offre_abonnement->libelle,
                 $subscription->date_debut,
                 $subscription->date_fin,
-                $subscription->entreprise->nom
+                $company->nom
             )
         );
 
@@ -439,7 +439,7 @@ class PaiementService
                 $user->nom,
                 $subscription->date_debut,
                 $subscription->date_fin,
-                $subscription->offreAbonnement->libelle,
+                $offreAbonnement->libelle,
             )
         );
 
