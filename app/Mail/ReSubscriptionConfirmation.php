@@ -17,13 +17,15 @@ class ReSubscriptionConfirmation extends Mailable
     public $startDate;
     public $endDate;
     public $service;
+    public $recipient;
 
 
     /**
      * Create a new message instance.
      */
-    public function __construct($clientName, $startDate, $endDate, $service)
+    public function __construct($recipient, $clientName, $startDate, $endDate, $service)
     {
+        $this->recipient = $recipient;
         $this->clientName = $clientName;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
@@ -37,6 +39,7 @@ class ReSubscriptionConfirmation extends Mailable
     {
         return new Envelope(
             subject: 'Confirmation de réabonnement à ' . config('app.name'),
+            to: [$this->recipient],
         );
     }
 

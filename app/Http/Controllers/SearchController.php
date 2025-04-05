@@ -38,34 +38,39 @@ class SearchController extends Controller
 
     public function show($slug)
     {
+        $user = auth()->user();
 
-        $annonce = Annonce::with(['galerie', 'entreprise', 'commentaires', 'favoris'])
-            ->where('slug', $slug);
-
-
-        if ((auth()->check() && auth()->user()->hasRole('Administrateur')) || ((auth()->check() && auth()->user()->hasRole('Professionnel')) && in_array($annonce->entreprise_id, auth()->user()->entreprises->pluck('id')->toArray()))) {
-            $annonce = $annonce->first();
-        } else {
-            $annonce = $annonce->public()->first();
-        }
+        $query = Annonce::with(['galerie', 'entreprise', 'commentaires', 'favoris'])->where('slug', $slug);
+        $annonce = $query->first(); // Appel unique
 
         if (!$annonce) {
             return view('errors.404');
         }
 
+        // Accès selon rôles
+        $isAdmin = $user && $user->hasRole('Administrateur');
+        $isPro = $user && $user->hasRole('Professionnel') && in_array($annonce->entreprise_id, $user->entreprises->pluck('id')->toArray());
+
+        if (!$isAdmin && !$isPro && !$annonce->is_active) {
+            return view('errors.404');
+        }
+
+        // Vues similaires
         $annonces = Annonce::public()->where('type', $annonce->type)->latest()->take(4)->get();
         $type = $annonce->type;
         $key = '';
 
+        // Création de la vue
         View::createView($annonce->id, request()->ip());
 
+        // Types d'annonces
         $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
 
+        // Session personnalisée
         $session = new CustomSession();
-        $sessAnnonces = $session->annonces;
+        $sessAnnonces = $session->annonces ?? [];
 
-        if (!$sessAnnonces) {
-            $sessAnnonces = [];
+        if (!in_array($annonce->id, $sessAnnonces)) {
             $sessAnnonces[] = $annonce->id;
             CustomSession::create([
                 'annonces' => $sessAnnonces,
@@ -73,25 +78,16 @@ class SearchController extends Controller
             ]);
         }
 
+        // Position + pagination
         $result = $this->findElement($sessAnnonces, $annonce->id);
 
-        $previousSlug = 'javascript:void(0)';
-        $nextSlug = 'javascript:void(0)';
-
-        if ($result->previous > 0) {
-            $previousSlug = route('show', Annonce::public()->where('id', $result->previous)->first()->slug);
-        }
-
-        if ($result->next > 0) {
-            $nextSlug = route('show', Annonce::public()->where('id', $result->next)->first()->slug);
-        }
-
-        $position = $result->position . '/' . (count($sessAnnonces) == 0 ? 1 : count($sessAnnonces));
+        $previous = Annonce::public()->find($result->previous);
+        $next = Annonce::public()->find($result->next);
 
         $pagination = (object) [
-            'position' => $position,
-            'previous' => $previousSlug,
-            'next' => $nextSlug
+            'position' => "{$result->position}/" . max(count($sessAnnonces), 1),
+            'previous' => $previous ? route('show', $previous->slug) : 'javascript:void(0)',
+            'next' => $next ? route('show', $next->slug) : 'javascript:void(0)',
         ];
 
         return view('public.show', compact('annonce', 'type', 'key', 'annonces', 'typeAnnonce', 'pagination'));

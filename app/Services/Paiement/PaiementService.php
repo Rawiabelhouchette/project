@@ -245,7 +245,7 @@ class PaiementService
 
             // check if the transaction is valid
             $check_transaction = self::checkPayment($transaction_id);
-            \Log::info(json_encode($check_transaction));
+            // \Log::info(json_encode($check_transaction));
             if ($check_transaction->code != '00') {
                 // update the transaction
                 $transaction->update([
@@ -391,11 +391,12 @@ class PaiementService
 
         Mail::send(
             new SubscriptionConfirmation(
+                $user->email,
                 $user->nom,
                 $offre_abonnement->libelle,
                 $subscription->date_debut,
                 $subscription->date_fin,
-                $subscription->entreprise->nom
+                $company->nom
             )
         );
 
@@ -436,10 +437,11 @@ class PaiementService
 
         Mail::send(
             new ReSubscriptionConfirmation(
+                $user->email,
                 $user->nom,
                 $subscription->date_debut,
                 $subscription->date_fin,
-                $subscription->offreAbonnement->libelle,
+                $offreAbonnement->libelle,
             )
         );
 

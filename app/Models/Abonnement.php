@@ -27,8 +27,12 @@ class Abonnement extends Model
         return $this->belongsToMany(Entreprise::class, 'abonnement_entreprise');
     }
 
-    public function entreprise($id)
+    public function entreprise($id = null)
     {
+        if (!$id) {
+            return $this->entreprises()->first();
+        }
+
         return $this->entreprises()->where('entreprise_id', $id)->first();
     }
 
