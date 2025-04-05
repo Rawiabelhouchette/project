@@ -77,6 +77,11 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function entreprise()
+    {
+        return $this->entreprises->first();
+    }
+
 
     /**
      * Get the favoris annonces for the user.

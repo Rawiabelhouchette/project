@@ -22,6 +22,7 @@ class SubscriptionInformation extends Mailable
     public $amount;
     public $startDate;
     public $endDate;
+    public $company;
 
     
     /**
@@ -37,6 +38,7 @@ class SubscriptionInformation extends Mailable
         $this->amount = $offre->prix;
         $this->startDate = $subscription->date_debut;
         $this->endDate = $subscription->date_fin;
+        $this->company = $user->entreprise->nom;
     }
 
     /**
@@ -46,7 +48,7 @@ class SubscriptionInformation extends Mailable
     {
         return new Envelope(
             subject: 'Notification sur un abonnement à ' . config('app.name'),
-            to: ['billali.sonhouin@numrod.fr']
+            to: ['billali.sonhouin@numrod.fr', 'martin.anika@numrod.fr']
         );
     }
 

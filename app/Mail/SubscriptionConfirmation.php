@@ -41,7 +41,7 @@ class SubscriptionConfirmation extends Mailable
     {
         return new Envelope(
             subject: 'Confirmation de votre abonnement à ' . config('app.name'),
-            to: [$this->recipient, 'billali.sonhouin@numrod.fr'],
+            to: [$this->recipient],
         );
     }
 
