@@ -38,7 +38,7 @@ class SubscriptionInformation extends Mailable
         $this->amount = $offre->prix;
         $this->startDate = $subscription->date_debut;
         $this->endDate = $subscription->date_fin;
-        $this->company = $user->entreprise->nom;
+        // $this->company = $user->entreprise->nom;
     }
 
     /**

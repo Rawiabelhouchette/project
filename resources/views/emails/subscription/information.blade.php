@@ -12,7 +12,7 @@
 
     <p>
         <strong>Nom du client</strong> : {{ $clientName }}<br>
-        <strong>Nom de l'entreprise</strong> : {{ $company }}<br>
+        {{-- <strong>Nom de l'entreprise</strong> : {{ $company }}<br> --}}
         <strong>Nom de l'offre</strong> : {{ $offerName }}<br>
         <strong>Montant</strong> : {{ $amount }} FCFA<br>
         <strong>Durée</strong> : {{ $duration }} mois<br>
