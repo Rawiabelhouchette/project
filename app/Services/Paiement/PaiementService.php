@@ -391,6 +391,7 @@ class PaiementService
 
         Mail::send(
             new SubscriptionConfirmation(
+                $user->email,
                 $user->nom,
                 $offre_abonnement->libelle,
                 $subscription->date_debut,
@@ -436,6 +437,7 @@ class PaiementService
 
         Mail::send(
             new ReSubscriptionConfirmation(
+                $user->email,
                 $user->nom,
                 $subscription->date_debut,
                 $subscription->date_fin,
