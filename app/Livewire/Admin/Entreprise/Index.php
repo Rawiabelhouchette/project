@@ -164,7 +164,7 @@ class Index extends Component
             Log::error($th->getMessage());
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération réussie'),
+                'title' => __('Opération échouée'),
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'entreprise'),
             ]);
             return;

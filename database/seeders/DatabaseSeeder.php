@@ -14,15 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // foreach (Annonce::all() as $annonce) {
-        //     $annonce->slug = Str::slug($annonce->titre);
-        //     $annonce->save();
-        // }
-
         $this->call(RoleSeeder::class);
-        $this->call(OffreAbonnementSeeder::class);
-        // $this->call(PaysSeeder::class);
+
         $this->call(UserSeeder::class);
-        // $this->call(ReferenceSeeder::class);
+
+        $this->call(ReferenceValeurSeeder::class);
+
+        $this->call(OffreAbonnementSeeder::class);
+
+        $this->call(EntrepriseSeeder::class);
     }
 }

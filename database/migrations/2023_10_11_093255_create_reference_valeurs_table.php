@@ -21,10 +21,6 @@ return new class extends Migration {
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
         });
-
-        Artisan::call('db:seed', [
-            '--class' => 'ReferenceValeurSeeder',
-        ]);
     }
 
     /**
