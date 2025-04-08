@@ -110,7 +110,7 @@ class Create extends Component
             'entreprise_id' => 'required|exists:entreprises,id',
             'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
             'description' => 'nullable|min:3|max:255',
-            'date_validite' => 'required|date|after:today',
+
 
             'produits' => 'required|array|min:1',
 

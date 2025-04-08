@@ -101,7 +101,7 @@ class Create extends Component
             'commodites' => 'nullable',
             'services' => 'nullable',
             'galerie.*' => 'image', //|max:5120',
-            'date_validite' => 'required|date|after:today',
+
             'types_musique' => 'nullable',
             'equipements_vie_nocturne' => 'nullable',
             'pays_id' => 'required|exists:pays,id',

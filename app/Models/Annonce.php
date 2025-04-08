@@ -73,6 +73,7 @@ class Annonce extends Model
         static::creating(function ($model) {
             $model->slug = AnnoncesUtils::generateSlug($model->titre);
             $model->is_active = true;
+            $model->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');;
         });
 
         static::updating(function ($model) {

@@ -135,7 +135,7 @@ class Create extends Component
             'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
             'galerie' => 'array|max:10',
             'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
-            'date_validite' => 'required|date|after:today',
+
 
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
