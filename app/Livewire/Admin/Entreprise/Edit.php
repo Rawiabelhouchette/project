@@ -235,8 +235,8 @@ class Edit extends Component
             Log::error($th->getMessage());
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération réussie'),
-                'message' => __('Une erreur est survenue lors de l\'ajout de l\'entreprise'),
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue.'),
             ]);
             return;
         }

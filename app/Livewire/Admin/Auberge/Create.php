@@ -278,7 +278,7 @@ class Create extends Component
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Opération échouée'),
-                'message' => __('Une erreur est survenue lors de l\'ajout de l\'auberge'),
+                'message' => __('Une erreur est survenue lors de l\'ajout de l\'annonce'),
             ]);
             Log::error($th->getMessage());
             return;

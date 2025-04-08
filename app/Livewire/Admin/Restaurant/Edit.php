@@ -482,134 +482,134 @@ class Edit extends Component
         $separator = Utils::getRestaurantValueSeparator();
         $separator2 = Utils::getRestaurantImageSeparator();
 
-        // try {
-        DB::beginTransaction();
+        try {
+            DB::beginTransaction();
 
-        // Put all entrees in the same variable
-        foreach ($this->entrees as $index => $entree) {
-            $this->e_nom .= $entree['nom'] . $separator;
-            $this->e_ingredients .= $entree['ingredients'] . $separator;
-            $this->e_prix_min .= $entree['prix_min'] . $separator;
-            $this->e_prix_max .= $entree['prix_min'] . $separator;
+            // Put all entrees in the same variable
+            foreach ($this->entrees as $index => $entree) {
+                $this->e_nom .= $entree['nom'] . $separator;
+                $this->e_ingredients .= $entree['ingredients'] . $separator;
+                $this->e_prix_min .= $entree['prix_min'] . $separator;
+                $this->e_prix_max .= $entree['prix_min'] . $separator;
 
-            if (is_string($entree['image'])) {
-                $oldEntreesCollection = collect($this->old_entrees);
-                $tmp_entree = $oldEntreesCollection->where('id', $entree['id'])->first();
-                $this->e_image .= $tmp_entree['image_id'] . $separator2;
-                continue;
+                if (is_string($entree['image'])) {
+                    $oldEntreesCollection = collect($this->old_entrees);
+                    $tmp_entree = $oldEntreesCollection->where('id', $entree['id'])->first();
+                    $this->e_image .= $tmp_entree['image_id'] . $separator2;
+                    continue;
+                }
+
+                if ($entree['is_new']) {
+                    $uploadResult = AnnoncesUtils::storeImage($entree['image'], 'restaurants');
+                    $this->e_image .= "{$uploadResult->id}{$separator2}";
+                } else {
+                    $uploadResult = AnnoncesUtils::updateImage($entree['image'], 'restaurants', $this->old_entrees[$index]['image_id']);
+                    $this->e_image .= "{$uploadResult->id}{$separator2}";
+                }
             }
 
-            if ($entree['is_new']) {
-                $uploadResult = AnnoncesUtils::storeImage($entree['image'], 'restaurants');
-                $this->e_image .= "{$uploadResult->id}{$separator2}";
-            } else {
-                $uploadResult = AnnoncesUtils::updateImage($entree['image'], 'restaurants', $this->old_entrees[$index]['image_id']);
-                $this->e_image .= "{$uploadResult->id}{$separator2}";
+            // Put all plats in the same variable
+            foreach ($this->plats as $index => $plat) {
+                $this->p_nom .= $plat['nom'] . $separator;
+                $this->p_ingredients .= $plat['ingredients'] . $separator;
+                $this->p_prix_min .= $plat['prix_min'] . $separator;
+                $this->p_prix_max .= $plat['prix_min'] . $separator;
+
+                if (is_string($plat['image'])) {
+                    $oldPlatsCollection = collect($this->old_plats);
+                    $tmp_plat = $oldPlatsCollection->where('id', $plat['id'])->first();
+                    $this->p_image .= $tmp_plat['image_id'] . $separator2;
+                    continue;
+                }
+
+                if ($plat['is_new']) {
+                    $uploadResult = AnnoncesUtils::storeImage($plat['image'], 'restaurants');
+                    $this->p_image .= "{$uploadResult->id}{$separator2}";
+                } else {
+                    $uploadResult = AnnoncesUtils::updateImage($plat['image'], 'restaurants', $this->old_plats[$index]['image_id']);
+                    $this->p_image .= "{$uploadResult->id}{$separator2}";
+                }
             }
+
+            // Put all desserts in the same variable
+            foreach ($this->desserts as $index => $dessert) {
+                $this->d_nom .= $dessert['nom'] . $separator;
+                $this->d_ingredients .= $dessert['ingredients'] . $separator;
+                $this->d_prix_min .= $dessert['prix_min'] . $separator;
+                $this->d_prix_max .= $dessert['prix_min'] . $separator;
+
+                if (is_string($dessert['image'])) {
+                    $oldDessertsCollection = collect($this->old_desserts);
+                    $tmp_dessert = $oldDessertsCollection->where('id', $dessert['id'])->first();
+                    $this->d_image .= $tmp_dessert['image_id'] . $separator2;
+                    continue;
+                }
+
+                if ($dessert['is_new']) {
+                    $uploadResult = AnnoncesUtils::storeImage($dessert['image'], 'restaurants');
+                    $this->d_image .= "{$uploadResult->id}{$separator2}";
+                } else {
+                    $uploadResult = AnnoncesUtils::updateImage($dessert['image'], 'restaurants', $this->old_desserts[$index]['image_id']);
+                    $this->d_image .= "{$uploadResult->id}{$separator2}";
+                }
+            }
+
+            $restaurant = $this->restaurant;
+            $restaurant->update([
+                'e_nom' => $this->e_nom,
+                'e_ingredients' => $this->e_ingredients,
+                'e_prix_min' => $this->e_prix_min,
+                'e_prix_max' => $this->e_prix_max,
+                'e_image' => $this->e_image,
+
+                'p_nom' => $this->p_nom,
+                'p_ingredients' => $this->p_ingredients,
+                'p_prix_min' => $this->p_prix_min,
+                'p_prix_max' => $this->p_prix_max,
+                'p_image' => $this->p_image,
+
+                'd_nom' => $this->d_nom,
+                'd_ingredients' => $this->d_ingredients,
+                'd_prix_min' => $this->d_prix_min,
+                'd_prix_max' => $this->d_prix_max,
+                'd_image' => $this->d_image,
+            ]);
+
+            $annonce = $restaurant->annonce;
+            $annonce->update([
+                'titre' => $this->nom,
+                'description' => $this->description,
+                'date_validite' => $this->date_validite,
+                'entreprise_id' => $this->entreprise_id,
+                'ville_id' => $this->ville_id,
+                'quartier' => $this->quartier_id,
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
+                'is_active' => $this->is_active,
+            ]);
+
+            $references = [
+                ['Equipements restauration', $this->equipements_restauration],
+                ['Specialités', $this->specialites],
+                ['Services', $this->services],
+                ['Carte de consommation', $this->carte_consommation],
+            ];
+
+            AnnoncesUtils::updateManyReference($this->restaurant->annonce, $references);
+
+            AnnoncesUtils::updateGalerie($this->image, $this->restaurant->annonce, $this->galerie, $this->deleted_old_galerie, 'restaurants');
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
+            ]);
+            Log::error($th->getMessage());
+            return;
         }
-
-        // Put all plats in the same variable
-        foreach ($this->plats as $index => $plat) {
-            $this->p_nom .= $plat['nom'] . $separator;
-            $this->p_ingredients .= $plat['ingredients'] . $separator;
-            $this->p_prix_min .= $plat['prix_min'] . $separator;
-            $this->p_prix_max .= $plat['prix_min'] . $separator;
-
-            if (is_string($plat['image'])) {
-                $oldPlatsCollection = collect($this->old_plats);
-                $tmp_plat = $oldPlatsCollection->where('id', $plat['id'])->first();
-                $this->p_image .= $tmp_plat['image_id'] . $separator2;
-                continue;
-            }
-
-            if ($plat['is_new']) {
-                $uploadResult = AnnoncesUtils::storeImage($plat['image'], 'restaurants');
-                $this->p_image .= "{$uploadResult->id}{$separator2}";
-            } else {
-                $uploadResult = AnnoncesUtils::updateImage($plat['image'], 'restaurants', $this->old_plats[$index]['image_id']);
-                $this->p_image .= "{$uploadResult->id}{$separator2}";
-            }
-        }
-
-        // Put all desserts in the same variable
-        foreach ($this->desserts as $index => $dessert) {
-            $this->d_nom .= $dessert['nom'] . $separator;
-            $this->d_ingredients .= $dessert['ingredients'] . $separator;
-            $this->d_prix_min .= $dessert['prix_min'] . $separator;
-            $this->d_prix_max .= $dessert['prix_min'] . $separator;
-
-            if (is_string($dessert['image'])) {
-                $oldDessertsCollection = collect($this->old_desserts);
-                $tmp_dessert = $oldDessertsCollection->where('id', $dessert['id'])->first();
-                $this->d_image .= $tmp_dessert['image_id'] . $separator2;
-                continue;
-            }
-
-            if ($dessert['is_new']) {
-                $uploadResult = AnnoncesUtils::storeImage($dessert['image'], 'restaurants');
-                $this->d_image .= "{$uploadResult->id}{$separator2}";
-            } else {
-                $uploadResult = AnnoncesUtils::updateImage($dessert['image'], 'restaurants', $this->old_desserts[$index]['image_id']);
-                $this->d_image .= "{$uploadResult->id}{$separator2}";
-            }
-        }
-
-        $restaurant = $this->restaurant;
-        $restaurant->update([
-            'e_nom' => $this->e_nom,
-            'e_ingredients' => $this->e_ingredients,
-            'e_prix_min' => $this->e_prix_min,
-            'e_prix_max' => $this->e_prix_max,
-            'e_image' => $this->e_image,
-
-            'p_nom' => $this->p_nom,
-            'p_ingredients' => $this->p_ingredients,
-            'p_prix_min' => $this->p_prix_min,
-            'p_prix_max' => $this->p_prix_max,
-            'p_image' => $this->p_image,
-
-            'd_nom' => $this->d_nom,
-            'd_ingredients' => $this->d_ingredients,
-            'd_prix_min' => $this->d_prix_min,
-            'd_prix_max' => $this->d_prix_max,
-            'd_image' => $this->d_image,
-        ]);
-
-        $annonce = $restaurant->annonce;
-        $annonce->update([
-            'titre' => $this->nom,
-            'description' => $this->description,
-            'date_validite' => $this->date_validite,
-            'entreprise_id' => $this->entreprise_id,
-            'ville_id' => $this->ville_id,
-            'quartier' => $this->quartier_id,
-            'longitude' => $this->longitude,
-            'latitude' => $this->latitude,
-            'is_active' => $this->is_active,
-        ]);
-
-        $references = [
-            ['Equipements restauration', $this->equipements_restauration],
-            ['Specialités', $this->specialites],
-            ['Services', $this->services],
-            ['Carte de consommation', $this->carte_consommation],
-        ];
-
-        AnnoncesUtils::updateManyReference($this->restaurant->annonce, $references);
-
-        AnnoncesUtils::updateGalerie($this->image, $this->restaurant->annonce, $this->galerie, $this->deleted_old_galerie, 'restaurants');
-
-        DB::commit();
-        // } catch (\Throwable $th) {
-        //     DB::rollBack();
-        //     $this->dispatch('swal:modal', [
-        //         'icon' => 'error',
-        //         'title' => __('Opération échouée'),
-        //         'message' => __('Une erreur est survenue lors de la mise à jour de l\'annonce'),
-        //     ]);
-        //     Log::error($th->getMessage());
-        //     return;
-        // }
 
         session()->flash('success', 'L\'annonce a bien été mise à jour');
         return redirect()->route('public.annonces.list');

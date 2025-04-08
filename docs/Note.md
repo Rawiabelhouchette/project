@@ -449,3 +449,11 @@ update `references` set nom = 'Accessoires de cuisine' where nom = 'Accessoires 
 
 
 revoir les buttons de edit (la modification des annonces)
+
+
+## 08-04-2025
+
+Poiur utiliser github sur cpanel il faut generer une cle ecdsa
+ssh-keygen -t ecdsa -b 256 -f ~/.ssh/id_ecdsa
+
+cat ~/.ssh/id_ecdsa.pub

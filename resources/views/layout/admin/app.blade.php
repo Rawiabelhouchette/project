@@ -38,16 +38,6 @@
         <!-- CUSTOM STYLES-->
         <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" />
 
-        <link href="{{ asset('assets/css/perso.css') }}" rel="stylesheet" />
-
-        <!-- DATATABLE -->
-        {{--
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css"> --}}
-
-        {{--
-    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.css') }}"> --}}
-
         <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" rel="stylesheet" />
 
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
@@ -241,6 +231,7 @@
         {{-- Default color --}}
 
         <script>
+            const defaultColor = '#de6600';
             // show notification
             const showNotification = ({
                 message,

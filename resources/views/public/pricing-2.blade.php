@@ -44,7 +44,7 @@
             <div class="col-md-8 col-sm-6 col-xs-12">
                 <div class="p-3">
                     <div class="wel-back">
-                        <h2>Créer une <span class="theme-cl">Entreprise</span></h2>
+                        <h2>Créer votre <span class="theme-cl">Entreprise</span></h2>
                     </div>
 
                     <form action="{{ route('abonnements.payement.check') }}" method="POST">
