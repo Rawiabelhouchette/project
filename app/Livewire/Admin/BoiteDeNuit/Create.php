@@ -89,6 +89,7 @@ class Create extends Component
 
         $this->pays = Pays::orderBy('nom')->get();
 
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
 
     public function rules()
@@ -100,16 +101,20 @@ class Create extends Component
             'description' => 'nullable|min:3',
             'commodites' => 'nullable',
             'services' => 'nullable',
-            'galerie.*' => 'image', //|max:5120',
 
             'types_musique' => 'nullable',
             'equipements_vie_nocturne' => 'nullable',
-            'pays_id' => 'required|exists:pays,id',
-            'ville_id' => 'required|exists:villes,id',
-            'quartier_id' => 'required|string|max:255',
 
             'longitude' => 'required|string',
             'latitude' => 'required|string',
+
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:10',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
+
+            'pays_id' => 'required|exists:pays,id',
+            'ville_id' => 'required|exists:villes,id',
+            'quartier_id' => 'required|string|max:255',
         ];
     }
 
@@ -133,11 +138,9 @@ class Create extends Component
             'services.array' => 'Les services doivent être un tableau',
             'galerie.*.image' => 'Les fichiers doivent être des images',
             // 'galerie.*.max' => 'Les images doivent être de taille inférieure à 5Mo',
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
-            'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
             'types_musique.array' => 'Les types de musique doivent être un tableau',
             'equipements_vie_nocturne.array' => 'Les équipements de vie nocturne doivent être un tableau',
+
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
             'ville_id.required' => 'La ville est obligatoire',
@@ -181,7 +184,6 @@ class Create extends Component
                 'titre' => $this->nom,
                 'type' => 'Boite de nuit',
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
 
                 'ville_id' => $this->ville_id,
