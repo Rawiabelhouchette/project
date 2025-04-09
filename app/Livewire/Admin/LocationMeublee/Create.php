@@ -109,6 +109,7 @@ class Create extends Component
             $this->list_types_hebergement = [];
 
         $this->pays = Pays::orderBy('nom')->get();
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
 
     }
 
@@ -222,7 +223,6 @@ class Create extends Component
                 'titre' => $this->nom,
                 'type' => 'Location meublée',
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
 
                 'ville_id' => $this->ville_id,
