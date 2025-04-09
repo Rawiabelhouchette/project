@@ -60,6 +60,9 @@
                 <div class="input-group mb-2">
                     <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
                     <input id="password" class="form-control" type="password" placeholder="Mot de passe" required wire:model="password">
+                    <span class="input-group-addon" onclick="togglePasswordVisibility('password')">
+                        <i id="toggle-password-icon-password" class="fa fa-eye"></i>
+                    </span>
                 </div>
                 @error('password')
                     <span class="text-danger">{{ $message }}</span>
@@ -70,6 +73,9 @@
                 <div class="input-group mb-2">
                     <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
                     <input id="password_confirmation" class="form-control" type="password" placeholder="Rattaper le mot de passe" required wire:model="password_confirmation">
+                    <span class="input-group-addon" onclick="togglePasswordVisibility('password_confirmation')">
+                        <i id="toggle-password-icon-password_confirmation" class="fa fa-eye"></i>
+                    </span>
                 </div>
                 @error('password_confirmation')
                     <span class="text-danger">{{ $message }}</span>
@@ -129,5 +135,19 @@
         window.addEventListener('recaptcha:reset', event => {
             expiredCallbackFunctionRegister();
         });
+
+        function togglePasswordVisibility(fieldId) {
+            const input = document.getElementById(fieldId);
+            const icon = document.getElementById(`toggle-password-icon-${fieldId}`);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
     </script>
 @endpush
