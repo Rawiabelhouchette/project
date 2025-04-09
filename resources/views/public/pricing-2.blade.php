@@ -81,15 +81,47 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="center mt-3">
-                            <button id="signup" class="btn btn-midium theme-btn btn-radius width-200" type="submit">
-                                <span style="display: inline-flex; align-items: center;">
-                                    {{ __('Enregistrer') }}
-                                </span>
-                            </button>
-                        </div>
+                            {{-- <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 mb-4">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-addon"><i class="fa fa-globe theme-cl"></i></span>
+                                    <select id="country" class="form-control" name="pays" required>
+                                        <option value="" disabled selected>Choisissez un pays</option>
+                                        <option value="Togo">Togo</option>
+                                        <option value="Benin">Bénin</option>
+                                        <option value="Cote d'Ivoire">Côte d'Ivoire</option>
+                                        <!-- Add more countries as needed -->
+                                    </select>
+                                </div>
+                                @error('pays')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 mb-4">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-addon"><i class="fa fa-map-marker theme-cl"></i></span>
+                                    <select id="city" class="form-control" name="ville" required>
+                                        <option value="" disabled selected>Choisissez une ville</option>
+                                        <option value="Lome">Lomé</option>
+                                        <option value="Cotonou">Cotonou</option>
+                                        <option value="Abidjan">Abidjan</option>
+                                        <!-- Add more cities as needed -->
+                                    </select>
+                                </div>
+                                @error('ville')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div> --}}
+
+                            <div class="center mt-3">
+                                <button id="signup" class="btn btn-midium theme-btn btn-radius width-200" type="submit">
+                                    <span style="display: inline-flex; align-items: center;">
+                                        {{ __('Enregistrer') }}
+                                    </span>
+                                </button>
+                            </div>
                     </form>
                 </div>
             </div>
@@ -97,45 +129,3 @@
         </div>
     </section>
 @endsection
-
-{{-- @if ($withModal)
-                        <div id="abonnement-{{ $offre->id }}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-                            <div class="modal-dialog">
-                                <div class="modal-content" style="padding-bottom: 10px;">
-            
-                                    <div class="modal-header">
-                                        <h4 id="modalLabel2" class="modal-title">Création d'entreprise</h4>
-                                        <button type="button" class="m-close" data-dismiss="modal" aria-label="Close">
-                                            <i class="ti-close"></i>
-                                        </button>
-                                    </div>
-            
-                                    <div class="modal-body padd-top-10">
-            
-                                        <div class="wel-back">
-                                            <h3>Veuillez créer <span class="theme-cl">une entreprise !</span></h3>
-                                        </div>
-            
-                                        <div class="form-group">
-                                            <label>Nom de votre entreprise</label>
-                                            <input type="text" name="nom_entreprise" class="form-control" placeholder="" required>
-                                        </div>
-            
-                                        <div class="form-group">
-                                            <label>Numéro de téléphone</label>
-                                            <input type="text" name="numero_telephone" class="form-control telephone" data-country="Togo" placeholder="" required>
-                                        </div>
-            
-                                        <div class="form-group">
-                                            <label>Numéro de whatsapp</label>
-                                            <input type="text" name="numero_whatsapp" class="form-control telephone" data-country="Togo" placeholder="" required>
-                                        </div>
-            
-                                        <div class="center">
-                                            <button id="login-btn" type="submit" class="btn btn-midium theme-btn btn-radius width-200"> Continuer </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif --}}
