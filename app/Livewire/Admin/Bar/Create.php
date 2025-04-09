@@ -86,6 +86,8 @@ class Create extends Component
             $this->list_commodites_vie_nocturne = [];
 
         $this->pays = Pays::orderBy('nom')->get();
+
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
 
     public function rules()
@@ -93,7 +95,6 @@ class Create extends Component
         return [
             'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
             'description' => 'nullable|string|min:3',
-            'date_validite' => 'required|date|after_or_equal:today',
             'entreprise_id' => 'required|integer|exists:entreprises,id',
             'type_bar' => 'nullable|string',
 
@@ -128,10 +129,6 @@ class Create extends Component
 
             'description.string' => 'La description doit être une chaîne de caractères',
             'description.min' => 'La description doit contenir au moins 3 caractères',
-
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
-            'date_validite.after_or_equal' => 'La date de validité doit être supérieure ou égale à la date du jour',
 
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.integer' => 'L\'entreprise doit être un entier',
@@ -216,7 +213,6 @@ class Create extends Component
                 'titre' => $this->nom,
                 'type' => 'Bar',
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
 
                 'ville_id' => $this->ville_id,

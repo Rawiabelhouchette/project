@@ -258,7 +258,6 @@ class Edit extends Component
                 'latitude' => $this->latitude,
             ]);
 
-
             $this->auberge->update([
                 'nombre_chambre' => $this->nombre_chambre,
                 'nombre_personne' => $this->nombre_personne,
