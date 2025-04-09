@@ -148,6 +148,7 @@ class Create extends Component
 
         $this->pays = Pays::orderBy('nom')->get();
 
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
 
     public function rules()
@@ -155,7 +156,6 @@ class Create extends Component
         return [
             'nom' => 'required|string|min:3',
             'description' => 'nullable|string|min:3',
-            'date_validite' => 'required|date',
             'entreprise_id' => 'required|integer|exists:entreprises,id',
             // 'e_nom' => 'required|string|min:3',
             // 'e_ingredients' => 'nullable|string|min:3',
@@ -203,8 +203,6 @@ class Create extends Component
             'nom.min' => 'Le nom doit contenir au moins :min caractères.',
             'description.string' => 'La description doit être une chaîne de caractères.',
             'description.min' => 'La description doit contenir au moins :min caractères.',
-            'date_validite.required' => 'La date de validité est obligatoire.',
-            'date_validite.date' => 'La date de validité doit être une date.',
             'entreprise_id.required' => 'L\'entreprise est obligatoire.',
             'entreprise_id.integer' => 'L\'entreprise doit être un entier.',
             'entreprise_id.exists' => 'L\'entreprise sélectionnée n\'existe pas.',
@@ -324,7 +322,6 @@ class Create extends Component
             }
         }
 
-
         $this->entrees_error = '';
 
         $this->entrees[] = [
@@ -432,7 +429,6 @@ class Create extends Component
 
     public function checkEntries()
     {
-        // dd($this->entrees);
         $cEntrees = count($this->entrees) - 1;
         $cPlats = count($this->plats) - 1;
         $cDesserts = count($this->desserts) - 1;
@@ -526,7 +522,6 @@ class Create extends Component
                 'titre' => $this->nom,
                 'type' => 'Restaurant',
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
 
                 'ville_id' => $this->ville_id,

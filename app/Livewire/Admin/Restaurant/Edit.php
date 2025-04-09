@@ -230,9 +230,6 @@ class Edit extends Component
             'description.string' => 'Le champ description doit être une chaîne de caractères.',
             'description.min' => 'Le champ description doit contenir au moins 3 caractères.',
             'description.max' => 'Le champ description ne doit pas dépasser 255 caractères.',
-            'date_validite.required' => 'Le champ date de validité est obligatoire.',
-            'date_validite.date' => 'Le champ date de validité doit être une date.',
-            'date_validite.after' => 'Le champ date de validité doit être une date supérieure à la date du jour.',
 
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
@@ -470,15 +467,6 @@ class Edit extends Component
             return;
         }
 
-        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
-            $this->dispatch('swal:modal', [
-                'icon' => 'error',
-                'title' => __('Opération échouée'),
-                'message' => __('La date de validité doit être supérieure à la date du jour'),
-            ]);
-            return;
-        }
-
         $separator = Utils::getRestaurantValueSeparator();
         $separator2 = Utils::getRestaurantImageSeparator();
 
@@ -579,7 +567,6 @@ class Edit extends Component
             $annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'ville_id' => $this->ville_id,
                 'quartier' => $this->quartier_id,
