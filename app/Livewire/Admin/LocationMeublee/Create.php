@@ -267,7 +267,6 @@ class Create extends Component
         return redirect()->route('public.annonces.list');
     }
 
-
     public function render()
     {
         return view('livewire.admin.location-meublee.create');

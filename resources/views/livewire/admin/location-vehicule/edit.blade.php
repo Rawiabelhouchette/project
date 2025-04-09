@@ -40,8 +40,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez la date d'expiration de l'annonce</h4>
-                        <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder=""
-                            wire:model.defer='date_validite' required>
+                        <input class="form-control" type="date" placeholder="" disabled wire:model.defer='date_validite' required>
                         @error('date_validite')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -70,8 +69,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez la marque de la voiture</h4>
-                        <select class="form-control" id="marque" data-nom="marque_id" wire:model.lazy='marque_id'
-                            required>
+                        <select id="marque" class="form-control" data-nom="marque_id" wire:model.lazy='marque_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($list_marques as $marque)
                                 <option value="{{ $marque->id }}">{{ $marque->nom }}</option>
@@ -161,8 +159,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez le type de moteur</h4>
-                        <select class="form-control" id="carburant" data-nom="carburant" wire:model.defer='carburant'
-                            required>
+                        <select id="carburant" class="form-control" data-nom="carburant" wire:model.defer='carburant' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($list_types_carburant as $item)
                                 <option value="{{ $item->valeur }}">{{ $item->valeur }}</option>
@@ -180,8 +177,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez la boite de vitesses</h4>
-                        <select class="form-control" id="boite_vitesses" data-nom="boite_vitesses"
-                            wire:model.defer='boite_vitesses' required>
+                        <select id="boite_vitesses" class="form-control" data-nom="boite_vitesses" wire:model.defer='boite_vitesses' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($list_boites_vitesse as $item)
                                 <option value="{{ $item->valeur }}">{{ $item->valeur }}</option>
@@ -193,8 +189,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <div class="row align-items-start">
                 @include('admin.annonce.description-component')
@@ -243,8 +237,8 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function () {
-            $('#submit-btn').click(function () {
+        $(document).ready(function() {
+            $('#submit-btn').click(function() {
                 var description = $('.ql-editor').html();
                 @this.set('description', description);
             });
@@ -253,7 +247,7 @@
                 height: '25px',
                 width: '100%',
             });
-            $('.select2').on('change', function (e) {
+            $('.select2').on('change', function(e) {
                 var data = $(this).val();
                 var nom = $(this).data('nom');
                 @this.set(nom, data);

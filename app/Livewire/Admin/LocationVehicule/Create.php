@@ -109,6 +109,8 @@ class Create extends Component
             $this->list_types_carburant = [];
 
         $this->pays = Pays::orderBy('nom')->get();
+
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
 
     public function rules()
@@ -240,7 +242,6 @@ class Create extends Component
                 'boite_vitesse' => $this->boite_vitesses,
                 'nombre_portes' => $this->nombre_portes,
                 'nombre_places' => $this->nombre_places,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'modele_id' => $this->modele_id,
             ]);
@@ -248,7 +249,6 @@ class Create extends Component
             $annonce = new Annonce([
                 'titre' => $this->nom,
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'type' => 'Location de véhicule',
 

@@ -263,22 +263,12 @@ class Edit extends Component
     {
         $this->validate();
 
-        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
-            $this->dispatch('swal:modal', [
-                'icon' => 'error',
-                'title' => __('Opération échouée'),
-                'message' => __('La date de validité doit être supérieure à la date du jour'),
-            ]);
-            return;
-        }
-
         try {
             DB::beginTransaction();
 
             $this->locationVehicule->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'is_active' => $this->is_active,
 
@@ -296,7 +286,6 @@ class Edit extends Component
                 'boite_vitesse' => $this->boite_vitesses,
                 'nombre_portes' => $this->nombre_portes,
                 'nombre_places' => $this->nombre_places,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'modele_id' => $this->modele_id,
             ]);
