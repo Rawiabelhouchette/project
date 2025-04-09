@@ -272,20 +272,9 @@ class Create extends Component
             return;
         }
 
-        // $this->reset();
-        // $this->initialization();
-
         //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
-
-        // $this->dispatch('swal:modal', [
-        //     'icon' => 'success',
-        //     'title'   => __('Opération réussie'),
-        //     'message' => __('L\'hotel a bien été ajoutée'),
-        // ]);
         session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('public.annonces.list');
-
-        // return redirect()->route('hotels.create');
     }
 
     public function render()
