@@ -457,3 +457,8 @@ Poiur utiliser github sur cpanel il faut generer une cle ecdsa
 ssh-keygen -t ecdsa -b 256 -f ~/.ssh/id_ecdsa
 
 cat ~/.ssh/id_ecdsa.pub
+
+## 10-04-2025
+https://www.youtube.com/watch?v=2REc-Wlvl9M&ab_channel=Laravel
+
+Utilisation des pipelines
