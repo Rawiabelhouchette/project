@@ -1,6 +1,6 @@
 @extends('layout.public.app-2')
 
-@section('title', 'Connexion')
+@section('title', '- Connexion')
 
 @section('content')
     <section class="log-wrapper">

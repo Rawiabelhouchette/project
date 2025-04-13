@@ -1,6 +1,6 @@
 @extends('layout.public.app')
 
-@section('title', 'Vamiyi - Recherche')
+@section('title', '- Recherche')
 
 @section('content')
     @livewire('public.search-box')
