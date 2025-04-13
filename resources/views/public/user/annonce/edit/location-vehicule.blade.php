@@ -1,6 +1,6 @@
 @extends('layout.public.app')
 
-@section('title', env('APP_NAME') . ' - Modifier une Location de Véhicule')
+@section('title', '- Modifier une Location de Véhicule')
 
 @section('content')
     <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
