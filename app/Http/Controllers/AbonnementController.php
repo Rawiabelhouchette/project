@@ -130,6 +130,16 @@ class AbonnementController extends Controller
     public function checkPayment(StoreOffreAbonnementRequest $request)
     {
         $validated = $request->validated();
+        $ville = Ville::find($validated['ville_id']);
+
+        if (!$ville) {
+            return redirect()->back()->with('error', 'La ville sélectionnée est invalide.');
+        }
+
+        $ville->load('pays');
+        $validated['numero_telephone'] = $ville->pays->indicatif . ' ' . $validated['numero_telephone'];
+        $validated['numero_whatsapp'] = $ville->pays->indicatif . ' ' . $validated['numero_whatsapp'];
+
         session()->put('abonnement', $validated);
         return redirect()->route('payments.index');
     }
