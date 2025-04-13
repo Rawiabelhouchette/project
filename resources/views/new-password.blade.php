@@ -1,6 +1,6 @@
 @extends('layout.public.app-2')
 
-@section('title', 'Reset Password')
+@section('title', '- Réinitialiser le mot de passe')
 
 @section('content')
     <section class="log-wrapper">

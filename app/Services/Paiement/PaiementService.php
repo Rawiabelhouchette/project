@@ -130,6 +130,7 @@ class PaiementService
                     $transaction->entreprise = $validated['nom_entreprise'];
                     $transaction->numero = $validated['numero_telephone'];
                     $transaction->numero_whatsapp = $validated['numero_whatsapp'];
+                    $transaction->ville_id = $validated['ville_id'];
                 }
 
                 $transaction->save();
@@ -346,6 +347,7 @@ class PaiementService
             'nom' => $company_name,
             'telephone' => $transaction->numero,
             'whatsapp' => $transaction->numero_whatsapp,
+            'ville_id' => $transaction->ville_id,
         ]);
 
         // Get the user
@@ -358,7 +360,6 @@ class PaiementService
             'date_debut' => now(),
         ]);
 
-
         // Get offre dabonnement
         $offre_abonnement = OffreAbonnement::find($transaction->offre_id);
 
@@ -368,12 +369,6 @@ class PaiementService
             'date_debut' => date('Y-m-d H:i:s'),
             'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
         ]);
-
-        // $subscription = $company->abonnements()->create([
-        //     'offre_abonnement_id' => $offre_abonnement->id,
-        //     'date_debut' => date('Y-m-d H:i:s'),
-        //     'date_fin' => date('Y-m-d', strtotime('+' . $offre_abonnement->duree . ' month')) . ' 23:59:59',
-        // ]);
 
         // link the abonnement to the entreprise
         $subscription->entreprises()->attach($company->id);

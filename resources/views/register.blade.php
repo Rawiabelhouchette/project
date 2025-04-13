@@ -1,6 +1,6 @@
 @extends('layout.public.app-2')
 
-@section('title', 'Vamiyi - Inscription')
+@section('title', '- Inscription')
 
 @section('content')
     <section class="log-wrapper">

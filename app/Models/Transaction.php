@@ -29,5 +29,6 @@ class Transaction extends Model
         'entreprise',
         'numero',
         'numero_whatsapp',
+        'ville_id',
     ];
 }

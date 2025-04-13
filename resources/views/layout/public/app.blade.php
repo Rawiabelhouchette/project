@@ -9,7 +9,7 @@
         <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="icon">
         <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="shortcut icon">
 
-        <title>@yield('title', 'Vamiyi')</title>
+        <title>{{ env('APP_NAME') }} @yield('title')</title>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
