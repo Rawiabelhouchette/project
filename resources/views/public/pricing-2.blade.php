@@ -64,34 +64,11 @@
                                 @enderror
                             </div>
 
-                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-addon"><i class="fa fa-phone theme-cl"></i></span>
-                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone (+228 xxxxxxxxxx)" required name="numero_telephone" value="{{ old('numero_telephone') }}">
-                                </div>
-                                @error('numero_telephone')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-addon"><i class="fa-brands fa-whatsapp theme-cl" style="font-size: 17px;"></i></span>
-                                    <input id="whatsapp_phone" class="form-control" type="text" placeholder="Numéro whatsapp (+228 xxxxxxxxxx)" required name="numero_whatsapp" value="{{ old('numero_whatsapp') }}">
-                                </div>
-                                @error('numero_whatsapp')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-
                             <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa fa-globe theme-cl"></i></span>
                                     <select id="country" class="form-control" name="pays" required>
                                         <option value="" disabled selected>Choisissez un pays</option>
-                                        <option value="Togo">Togo</option>
-                                        <option value="Benin">Bénin</option>
-                                        <option value="Cote d'Ivoire">Côte d'Ivoire</option>
                                     </select>
                                 </div>
                                 @error('pays')
@@ -107,6 +84,28 @@
                                     </select>
                                 </div>
                                 @error('ville_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-addon"><i class="fa fa-phone theme-cl"></i></span>
+                                    <span class="input-group-addon phone_indicatif">+00</i></span>
+                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone" required name="numero_telephone" value="{{ old('numero_telephone') }}">
+                                </div>
+                                @error('numero_telephone')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-addon"><i class="fa-brands fa-whatsapp theme-cl" style="font-size: 17px;"></i></span>
+                                    <span class="input-group-addon phone_indicatif">+00</i></span>
+                                    <input id="whatsapp_phone" class="form-control" type="text" placeholder="Numéro whatsapp" required name="numero_whatsapp" value="{{ old('numero_whatsapp') }}">
+                                </div>
+                                @error('numero_whatsapp')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -138,11 +137,13 @@
             if (countries && countries.length) {
                 $('#country').empty().append('<option value="" disabled selected>Choisissez un pays</option>');
                 $.each(countries, function(index, country) {
-                    $('#country').append($('<option></option>').val(country.id).text(country.nom));
+                    $('#country').append($('<option></option>').val(country.id).text(country.nom).attr('data-indicatif', country.indicatif));
                 });
             }
 
             $('#country').on('change', function() {
+                $('.phone_indicatif').text($(this).find(':selected').data('indicatif'));
+
                 const selectedCountry = $(this).val();
                 const cities = countryToCities
                     .filter(country => country.pays_id == selectedCountry)

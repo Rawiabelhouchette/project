@@ -25,8 +25,8 @@ class StoreOffreAbonnementRequest extends FormRequest
         return [
             'offre_id' => 'required|exists:offre_abonnements,id',
             'nom_entreprise' => $authenticated ? 'nullable' : 'required|string|unique:entreprises,nom',
-            'numero_telephone' => $authenticated ? 'nullable' : 'required|string|unique:entreprises,telephone',
-            'numero_whatsapp' => $authenticated ? 'nullable' : 'required|string|unique:entreprises,whatsapp',
+            'numero_telephone' => $authenticated ? 'nullable' : 'required|regex:/^[0-9 ]+$/|unique:entreprises,telephone',
+            'numero_whatsapp' => $authenticated ? 'nullable' : 'required|regex:/^[0-9 ]+$/|unique:entreprises,whatsapp',
             'ville_id' => $authenticated ? 'nullable' : 'required|exists:villes,id',
         ];
     }
