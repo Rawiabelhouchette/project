@@ -92,7 +92,7 @@
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa fa-phone theme-cl"></i></span>
                                     <span class="input-group-addon phone_indicatif">+00</i></span>
-                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone" required name="numero_telephone" value="{{ old('numero_telephone') }}">
+                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone" required name="numero_telephone" value="{{ old('numero_telephone') }}" pattern="^[0-9\s]+$" title="Veuillez entrer uniquement des chiffres et des espaces.">
                                 </div>
                                 @error('numero_telephone')
                                     <span class="text-danger">{{ $message }}</span>
@@ -103,7 +103,7 @@
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa-brands fa-whatsapp theme-cl" style="font-size: 17px;"></i></span>
                                     <span class="input-group-addon phone_indicatif">+00</i></span>
-                                    <input id="whatsapp_phone" class="form-control" type="text" placeholder="Numéro whatsapp" required name="numero_whatsapp" value="{{ old('numero_whatsapp') }}">
+                                    <input id="whatsapp_phone" class="form-control" type="text" placeholder="Numéro whatsapp" required name="numero_whatsapp" value="{{ old('numero_whatsapp') }}" pattern="^[0-9\s]+$" title="Veuillez entrer uniquement des chiffres et des espaces.">
                                 </div>
                                 @error('numero_whatsapp')
                                     <span class="text-danger">{{ $message }}</span>
