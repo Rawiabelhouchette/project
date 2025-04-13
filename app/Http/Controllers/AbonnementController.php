@@ -6,7 +6,9 @@ use App\Http\Requests\StoreOffreAbonnementRequest;
 use App\Models\Abonnement;
 use App\Models\Entreprise;
 use App\Models\OffreAbonnement;
+use App\Models\Pays;
 use App\Models\User;
+use App\Models\Ville;
 use App\Services\Paiement\PaiementService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -114,8 +116,13 @@ class AbonnementController extends Controller
             return redirect()->route('pricing');
         }
 
+        $pays = Pays::select('id', 'nom', 'indicatif')->get();
+        $villes = Ville::select('id', 'nom', 'pays_id')->get();
+
         return view('public.pricing-2', [
             'offre' => $abonnement,
+            'pays' => $pays,
+            'villes' => $villes,
         ]);
     }
 

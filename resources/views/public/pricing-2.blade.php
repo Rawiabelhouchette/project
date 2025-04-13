@@ -82,7 +82,7 @@
                                 @enderror
                             </div>
 
-                            {{-- <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 mb-4">
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa fa-globe theme-cl"></i></span>
                                     <select id="country" class="form-control" name="pays" required>
@@ -90,7 +90,6 @@
                                         <option value="Togo">Togo</option>
                                         <option value="Benin">Bénin</option>
                                         <option value="Cote d'Ivoire">Côte d'Ivoire</option>
-                                        <!-- Add more countries as needed -->
                                     </select>
                                 </div>
                                 @error('pays')
@@ -101,31 +100,59 @@
                             <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa fa-map-marker theme-cl"></i></span>
-                                    <select id="city" class="form-control" name="ville" required>
+                                    <select id="city" class="form-control" name="ville_id" required>
                                         <option value="" disabled selected>Choisissez une ville</option>
-                                        <option value="Lome">Lomé</option>
-                                        <option value="Cotonou">Cotonou</option>
-                                        <option value="Abidjan">Abidjan</option>
-                                        <!-- Add more cities as needed -->
                                     </select>
                                 </div>
-                                @error('ville')
+                                @error('ville_id')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                        </div> --}}
+                        </div>
 
-                            <div class="center mt-3">
-                                <button id="signup" class="btn btn-midium theme-btn btn-radius width-200" type="submit">
-                                    <span style="display: inline-flex; align-items: center;">
-                                        {{ __('Enregistrer') }}
-                                    </span>
-                                </button>
-                            </div>
+                        <div class="center mt-3">
+                            <button id="signup" class="btn btn-midium theme-btn btn-radius width-200" type="submit">
+                                <span style="display: inline-flex; align-items: center;">
+                                    {{ __('Enregistrer') }}
+                                </span>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
 
         </div>
     </section>
+@endsection
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            // Convert PHP arrays to JavaScript objects
+            const countryToCities = @json($villes);
+            const countries = @json($pays);
+
+            // Populate the country dropdown
+            if (countries && countries.length) {
+                $('#country').empty().append('<option value="" disabled selected>Choisissez un pays</option>');
+                $.each(countries, function(index, country) {
+                    $('#country').append($('<option></option>').val(country.id).text(country.nom));
+                });
+            }
+
+            $('#country').on('change', function() {
+                const selectedCountry = $(this).val();
+                const cities = countryToCities
+                    .filter(country => country.pays_id == selectedCountry)
+                    .sort((a, b) => a.nom.localeCompare(b.nom));
+
+                $('#city').empty().append('<option value="" disabled selected>Choisissez une ville</option>');
+
+                $.each(cities, function(index, city) {
+                    // Handle cities as objects with id and nom properties
+                    $('#city').append($('<option></option>').val(city.id).text(city.nom));
+                });
+            });
+        });
+    </script>
 @endsection
