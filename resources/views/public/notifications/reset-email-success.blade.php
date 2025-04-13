@@ -1,6 +1,6 @@
 @extends('layout.public.app')
 
-@section('title', 'Message')
+@section('title', env('APP_NAME') . ' - Réinitialiser le mot de passe')
 
 @section('content')
     <section class="detail-section" data-overlay="6"

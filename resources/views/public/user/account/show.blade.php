@@ -1,5 +1,7 @@
 @extends('layout.public.app')
 
+@section('title', env('APP_NAME') . ' - Mon profil')
+
 @section('profil', 'active')
 
 @section('content')
