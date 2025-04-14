@@ -37,7 +37,7 @@
                             <div class="widget-boxed-body padd-top-40 padd-bot-40 text-center">
                                 <div class="help-support">
                                     <i class="ti-headphone-alt font-60 theme-cl mrg-bot-15"></i>
-                                    <p>Vous avez une question ? Contactez-nous</p>
+                                    <p>Vous avez une question ? <br> Contactez-nous</p>
                                     <h4 class="mrg-top-0">contact@numrod.fr</h4>
                                 </div>
                             </div>
