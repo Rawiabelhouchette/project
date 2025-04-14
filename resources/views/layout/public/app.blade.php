@@ -36,7 +36,7 @@
 
         <!-- All plugins -->
         <link href="{{ asset('assets_client/plugins/css/plugins.css') }}" rel="stylesheet">
-        <link type="text/css" href="css/bootstrap-multiselect.css" rel="stylesheet" />
+        {{-- <link type="text/css" href="css/bootstrap-multiselect.css" rel="stylesheet" /> --}}
 
         <!-- Custom style -->
         <link href="{{ asset('assets_client/css/style.css') }}" rel="stylesheet">
@@ -94,10 +94,7 @@
 
             <a id="back2Top" class="theme-bg" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
 
-            <!-- START JAVASCRIPT -->
-            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-            <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+            {{-- <script type="text/javascript" src="js/bootstrap-multiselect.js"></script> --}}
             <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>
             <script src="{{ asset('assets_client/plugins/js/bootsnav.js') }}"></script>
 

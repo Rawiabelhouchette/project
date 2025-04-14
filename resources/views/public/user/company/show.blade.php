@@ -223,14 +223,19 @@
         }).addTo(mymap);
 
         var marker;
-
-        var lon = {{ $entreprise->longitude }};
-        var lat = {{ $entreprise->latitude }};
-        if (marker) {
-            mymap.removeLayer(marker);
-        }
-
-        marker = L.marker([lat, lon]).addTo(mymap);
-        mymap.setView([lat, lon], 12);
     </script>
+
+    @if ($entreprise->latitude && $entreprise->longitude)
+        <script>
+            var lon = {{ $entreprise->longitude }};
+            var lat = {{ $entreprise->latitude }};
+
+            if (marker) {
+                mymap.removeLayer(marker);
+            }
+
+            marker = L.marker([lat, lon]).addTo(mymap);
+            mymap.setView([lat, lon], 12);
+        </script>
+    @endif
 @endsection

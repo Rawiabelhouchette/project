@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Admin\Entreprise;
 
-use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Ville;
@@ -78,24 +77,22 @@ class Edit extends Component
 
     }
 
-    // rules
     public function rules()
     {
         return [
             'nom' => 'required|string|min:3|unique:entreprises,nom,' . $this->entreprise->id . ',id', //,quartier_id,' . $this->quartier_id,
-            // 'nom' => 'required|string|min:3|unique:entreprises,nom,' . $this->entreprise->id . ',id,quartier_id,' . $this->quartier_id,
             'description' => 'nullable|string|min:3',
             'site_web' => 'nullable|string|min:3',
             'email' => 'required|string|email|min:3',
-            'telephone' => 'nullable|string|min:3',
+            'telephone' => 'required|string|min:3',
             'instagram' => 'nullable|string|min:3',
             'facebook' => 'nullable|string|min:3',
             'whatsapp' => 'required|string|min:3',
             // 'logo' => 'nullable|string|min:3',
             'ville_id' => 'required|integer|exists:villes,id',
             'quartier_id' => 'required|string',
-            'longitude' => 'nullable|string|min:3',
-            'latitude' => 'nullable|string|min:3',
+            'longitude' => 'required|string|min:3',
+            'latitude' => 'required|string|min:3',
         ];
     }
 
@@ -110,6 +107,7 @@ class Edit extends Component
             'email.required' => 'L\'adresse email est obligatoire.',
             'email.email' => 'Veuillez fournir une adresse email valide.',
             'email.min' => 'L\'adresse email doit contenir au moins 3 caractères.',
+            'telephone.required' => 'Le numéro de téléphone est obligatoire.',
             'telephone.min' => 'Le numéro de téléphone doit contenir au moins 3 caractères.',
             'instagram.min' => 'Le lien Instagram doit contenir au moins 3 caractères.',
             'facebook.min' => 'Le lien Facebook doit contenir au moins 3 caractères.',
@@ -119,7 +117,9 @@ class Edit extends Component
             'ville_id.required' => 'La ville est obligatoire.',
             'ville_id.exists' => 'La ville sélectionnée n\'existe pas.',
             'quartier_id.required' => 'Le quartier est obligatoire.',
+            'longitude.required' => 'La localisation est obligatoire.',
             'longitude.min' => 'La longitude doit contenir au moins 3 caractères.',
+            'latitude.required' => 'La localisation est obligatoire.',
             'latitude.min' => 'La latitude doit contenir au moins 3 caractères.',
         ];
     }

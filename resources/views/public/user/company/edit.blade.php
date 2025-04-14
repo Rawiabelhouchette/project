@@ -41,10 +41,6 @@
 
         var marker;
 
-        var latlng = L.latLng({{ $entreprise->latitude }}, {{ $entreprise->longitude }});
-        marker = L.marker(latlng).addTo(mymap);
-        mymap.setView(latlng, 8); // Set map view to current location
-
         mymap.on('click', function(e) {
             if (marker) {
                 mymap.removeLayer(marker); // Supprimez le marqueur existant s'il y en a un.
@@ -61,12 +57,11 @@
         });
     </script>
 
-    <script>
-        $('.select2').each(function() {
-            $(this).select2({
-                theme: 'bootstrap-5',
-                dropdownParent: $(this).parent(),
-            });
-        });
-    </script>
+    @if ($entreprise->latitude && $entreprise->longitude)
+        <script>
+            var latlng = L.latLng({{ $entreprise->latitude }}, {{ $entreprise->longitude }});
+            marker = L.marker(latlng).addTo(mymap);
+            mymap.setView(latlng, 8); // Set map view to current location
+        </script>
+    @endif
 @endsection
