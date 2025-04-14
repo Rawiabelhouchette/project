@@ -109,6 +109,7 @@ class Create extends Component
             $this->list_types_hebergement = [];
 
         $this->pays = Pays::orderBy('nom')->get();
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
 
     }
 
@@ -135,7 +136,7 @@ class Create extends Component
             'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
             'galerie' => 'array|max:10',
             'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
-            'date_validite' => 'required|date|after:today',
+
 
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
@@ -222,7 +223,6 @@ class Create extends Component
                 'titre' => $this->nom,
                 'type' => 'Location meublée',
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
 
                 'ville_id' => $this->ville_id,
@@ -266,7 +266,6 @@ class Create extends Component
         session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('public.annonces.list');
     }
-
 
     public function render()
     {

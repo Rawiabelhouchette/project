@@ -1,5 +1,7 @@
 @extends('layout.public.app')
 
+@section('title', '- Détails d\'une annonce')
+
 @section('content')
     <section class="title-transparent page-title" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }});">
         <div class="container">

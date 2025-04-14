@@ -1,5 +1,7 @@
 @extends('layout.public.app')
 
+@section('title', '- Créer un compte professionnel')
+
 @section('content')
     <section class="title-transparent page-title"
         style="background:url({{ asset('assets_client/img/cinet_pay.png') }}) no-repeat center center; background-size:cover;">

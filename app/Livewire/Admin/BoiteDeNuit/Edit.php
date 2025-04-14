@@ -125,7 +125,6 @@ class Edit extends Component
             'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->boiteDeNuit->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
             'is_active' => 'required|boolean',
             'description' => 'nullable|min:3',
-            'date_validite' => 'required|date',
 
             'commodites' => 'nullable',
             'services' => 'nullable',
@@ -148,8 +147,6 @@ class Edit extends Component
             'is_active.boolean' => __('L\'état de l\'boiteDeNuit doit être soit vrai soit faux'),
             'description.min' => __('La description de l\'boiteDeNuit doit contenir au moins :min caractères'),
             'description.max' => __('La description de l\'boiteDeNuit ne doit pas dépasser :max caractères'),
-            'date_validite.required' => __('Veuillez renseigner la date de validité de l\'boiteDeNuit'),
-            'date_validite.date' => __('La date de validité de l\'boiteDeNuit doit être une date valide'),
 
             'commodites.*.exists' => __('Veuillez choisir une commodité valide'),
             'services.*.exists' => __('Veuillez choisir un service valide'),
@@ -182,22 +179,12 @@ class Edit extends Component
     {
         $this->validate();
 
-        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
-            $this->dispatch('swal:modal', [
-                'icon' => 'error',
-                'title' => __('Opération échouée'),
-                'message' => __('La date de validité doit être supérieure à la date du jour'),
-            ]);
-            return;
-        }
-
         try {
             DB::beginTransaction();
 
             $this->boiteDeNuit->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'is_active' => $this->is_active,
 

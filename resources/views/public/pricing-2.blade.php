@@ -1,5 +1,7 @@
 @extends('layout.public.app')
 
+@section('title', '- Créer votre entreprise')
+
 @section('content')
     <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/cinet_pay.png') }}) no-repeat center center; background-size:cover;">
         <div class="container">
@@ -62,10 +64,35 @@
                                 @enderror
                             </div>
 
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 mb-4">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-addon"><i class="fa fa-globe theme-cl"></i></span>
+                                    <select id="country" class="form-control" name="pays" required>
+                                        <option value="" disabled selected>Choisissez un pays</option>
+                                    </select>
+                                </div>
+                                @error('pays')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 mb-4">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-addon"><i class="fa fa-map-marker theme-cl"></i></span>
+                                    <select id="city" class="form-control" name="ville_id" required>
+                                        <option value="" disabled selected>Choisissez une ville</option>
+                                    </select>
+                                </div>
+                                @error('ville_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa fa-phone theme-cl"></i></span>
-                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone (+228 xxxxxxxxxx)" required name="numero_telephone" value="{{ old('numero_telephone') }}">
+                                    <span class="input-group-addon phone_indicatif">+00</i></span>
+                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone" required name="numero_telephone" value="{{ old('numero_telephone') }}" pattern="^[0-9\s]+$" title="Veuillez entrer uniquement des chiffres et des espaces.">
                                 </div>
                                 @error('numero_telephone')
                                     <span class="text-danger">{{ $message }}</span>
@@ -75,7 +102,8 @@
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa-brands fa-whatsapp theme-cl" style="font-size: 17px;"></i></span>
-                                    <input id="whatsapp_phone" class="form-control" type="text" placeholder="Numéro whatsapp (+228 xxxxxxxxxx)" required name="numero_whatsapp" value="{{ old('numero_whatsapp') }}">
+                                    <span class="input-group-addon phone_indicatif">+00</i></span>
+                                    <input id="whatsapp_phone" class="form-control" type="text" placeholder="Numéro whatsapp" required name="numero_whatsapp" value="{{ old('numero_whatsapp') }}" pattern="^[0-9\s]+$" title="Veuillez entrer uniquement des chiffres et des espaces.">
                                 </div>
                                 @error('numero_whatsapp')
                                     <span class="text-danger">{{ $message }}</span>
@@ -98,44 +126,36 @@
     </section>
 @endsection
 
-{{-- @if ($withModal)
-                        <div id="abonnement-{{ $offre->id }}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-                            <div class="modal-dialog">
-                                <div class="modal-content" style="padding-bottom: 10px;">
-            
-                                    <div class="modal-header">
-                                        <h4 id="modalLabel2" class="modal-title">Création d'entreprise</h4>
-                                        <button type="button" class="m-close" data-dismiss="modal" aria-label="Close">
-                                            <i class="ti-close"></i>
-                                        </button>
-                                    </div>
-            
-                                    <div class="modal-body padd-top-10">
-            
-                                        <div class="wel-back">
-                                            <h3>Veuillez créer <span class="theme-cl">une entreprise !</span></h3>
-                                        </div>
-            
-                                        <div class="form-group">
-                                            <label>Nom de votre entreprise</label>
-                                            <input type="text" name="nom_entreprise" class="form-control" placeholder="" required>
-                                        </div>
-            
-                                        <div class="form-group">
-                                            <label>Numéro de téléphone</label>
-                                            <input type="text" name="numero_telephone" class="form-control telephone" data-country="Togo" placeholder="" required>
-                                        </div>
-            
-                                        <div class="form-group">
-                                            <label>Numéro de whatsapp</label>
-                                            <input type="text" name="numero_whatsapp" class="form-control telephone" data-country="Togo" placeholder="" required>
-                                        </div>
-            
-                                        <div class="center">
-                                            <button id="login-btn" type="submit" class="btn btn-midium theme-btn btn-radius width-200"> Continuer </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif --}}
+@section('js')
+    <script>
+        $(document).ready(function() {
+            // Convert PHP arrays to JavaScript objects
+            const countryToCities = @json($villes);
+            const countries = @json($pays);
+
+            // Populate the country dropdown
+            if (countries && countries.length) {
+                $('#country').empty().append('<option value="" disabled selected>Choisissez un pays</option>');
+                $.each(countries, function(index, country) {
+                    $('#country').append($('<option></option>').val(country.id).text(country.nom).attr('data-indicatif', country.indicatif));
+                });
+            }
+
+            $('#country').on('change', function() {
+                $('.phone_indicatif').text($(this).find(':selected').data('indicatif'));
+
+                const selectedCountry = $(this).val();
+                const cities = countryToCities
+                    .filter(country => country.pays_id == selectedCountry)
+                    .sort((a, b) => a.nom.localeCompare(b.nom));
+
+                $('#city').empty().append('<option value="" disabled selected>Choisissez une ville</option>');
+
+                $.each(cities, function(index, city) {
+                    // Handle cities as objects with id and nom properties
+                    $('#city').append($('<option></option>').val(city.id).text(city.nom));
+                });
+            });
+        });
+    </script>
+@endsection

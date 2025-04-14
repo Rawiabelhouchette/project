@@ -13,48 +13,27 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 /**
- * Composant Livewire pour la recherche d'annonces
- * 
- * Cette classe gère la recherche d'annonces avec différents filtres (type, ville, quartier, entreprise)
- * et affiche les résultats avec pagination.
+ * Version originale de la classe Search
+ * Conservée pour référence
  */
-class Search extends Component
+class SearchOriginal extends Component
 {
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
 
-    // États de base
     public $booted = true;
-    public $perPage = 10;
-    private $initURL = '';
 
-    // Filtres principaux
+    // filter input on the back
     public $type = [];
     public $key = '';
     public $location = '';
+    public $column = '';
+    public $direction = '';
     public $ville = [];
     public $quartier = [];
     public $entreprise = [];
 
-    // Tri
-    public $column = '';
-    public $direction = '';
-    public $sortOrder = 'created_at|desc'; // Tri par défaut
-
-    // Filtres côté client (facettes)
-    public string $typeFilterValue = '';
-    public string $villeFilterValue = '';
-    public string $quartierFilterValue = '';
-    public string $entrepriseFilterValue = '';
-
-    // Données des facettes
-    public $typeAnnonces = [];
-    public $villes = [];
-    public $quartiers = [];
-    public $entreprises = [];
-
-    // Paramètres de l'URL
     protected $queryString = [
         'type',
         'key',
@@ -66,48 +45,43 @@ class Search extends Component
         'entreprise',
     ];
 
-    /**
-     * Initialise le composant
-     *
-     * @param bool $hasSessionValue Indique si les valeurs doivent être récupérées depuis la session
-     */
+    // filter input on the front (facette)
+    public string $typeFilterValue = '';
+    public string $villeFilterValue = '';
+    public string $quartierFilterValue = '';
+    public string $entrepriseFilterValue = '';
+
+    public $sortOrder = 'created_at|desc'; // default sorting column and direction
+    public $perPage = 10;
+    // public $pageTest = 1;
+
+    // List of facette's elements
+    public $typeAnnonces = [];
+    public $villes = [];
+    public $quartiers = [];
+    public $entreprises = [];
+
+    private $initURL = '';
+
+
     public function mount($hasSessionValue)
     {
-        $this->initializeFromSession($hasSessionValue);
-        $this->loadNavLinks();
-        $this->normalizeInputs();
-        $this->loadAllFilters();
-        $this->processLocation();
-        $this->buildInitialUrl();
-    }
-
-    /**
-     * Initialise les valeurs depuis la session si nécessaire
-     */
-    private function initializeFromSession($hasSessionValue)
-    {
-        if (!$hasSessionValue) {
-            return;
+        if ($hasSessionValue) {
+            $session = new CustomSession();
+            $this->key = $session->key;
+            $this->type = $session->type;
+            $this->location = $session->location;
+            $this->column = $session->column;
+            $this->direction = $session->direction;
+            $this->ville = $session->ville;
+            $this->quartier = $session->quartier;
+            $this->entreprise = $session->entreprise;
+            $this->sortOrder = $session->sortOrder;
+            // $this->setPage($session->page);
         }
 
-        $session = new CustomSession();
-        $this->key = $session->key;
-        $this->type = $session->type;
-        $this->location = $session->location;
-        $this->column = $session->column;
-        $this->direction = $session->direction;
-        $this->ville = $session->ville;
-        $this->quartier = $session->quartier;
-        $this->entreprise = $session->entreprise;
-        $this->sortOrder = $session->sortOrder;
-        // $this->setPage($session->page);
-    }
+        $this->loadNavLinks();
 
-    /**
-     * Normalise les entrées des filtres
-     */
-    private function normalizeInputs()
-    {
         if (is_string($this->type)) {
             $this->type = [$this->type];
         }
@@ -118,50 +92,33 @@ class Search extends Component
         $this->ville = array_filter($this->ville ?? []);
         $this->quartier = array_filter($this->quartier ?? []);
         $this->entreprise = array_filter($this->entreprise ?? []);
-    }
 
-    /**
-     * Charge tous les filtres disponibles
-     */
-    private function loadAllFilters()
-    {
+
         $this->getAllEntreprises();
         $this->getVillesParType();
         $this->getQuartiersParVilles();
-    }
 
-    /**
-     * Traite la localisation si elle est fournie
-     */
-    private function processLocation()
-    {
-        if (!$this->location) {
-            return;
-        }
 
-        $tmp = explode(',', $this->location);
-        if (count($tmp) == 3) {
-            // pattern : quartier, ville, Pays
-            $villesValues = array_column($this->villes, 'value');
-            $quartiersValues = array_column($this->quartiers, 'value');
+        if ($this->location) {
+            $tmp = explode(',', $this->location);
+            if (count($tmp) == 3) {
+                // pattern : quartier, ville, Pays
+                $villesValues = array_column($this->villes, 'value');
+                $quartiersValues = array_column($this->quartiers, 'value');
 
-            if (in_array(trim($tmp[1]), $villesValues)) {
-                $this->ville[] = trim($tmp[1]);
-            }
+                if (in_array(trim($tmp[1]), $villesValues)) {
+                    $this->ville[] = trim($tmp[1]);
+                }
 
-            if (in_array(trim($tmp[0]), $quartiersValues)) {
-                $this->quartier[] = trim($tmp[0]);
+                if (in_array(trim($tmp[0]), $quartiersValues)) {
+                    $this->quartier[] = trim($tmp[0]);
+                }
             }
         }
         $this->location = '';
-    }
 
-    /**
-     * Construit l'URL initiale avec les paramètres de filtres
-     */
-    private function buildInitialUrl()
-    {
         $url = url()->current();
+
         $properties = ['type', 'ville', 'quartier'];
         $hasFirst = false;
 
@@ -182,28 +139,64 @@ class Search extends Component
         }
 
         $url = str_replace(' ', '+', $url);
+
         $this->initURL = trim($url);
     }
 
-    /**
-     * Change le nom de certains types d'annonces
-     */
     public function changeTypeName()
     {
         if (!$this->type) {
             $this->type = [];
         }
-
-        // Change "Véhicule" to "Location de véhicule"
+        // change vehicule to Location vehicule
+        // check if type contains Véhicule if yes replace it with Location Véhicule
         if (in_array('Véhicule', $this->type)) {
             $key = array_search('Véhicule', $this->type);
             $this->type[$key] = 'Location de véhicule';
         }
     }
 
-    /**
-     * Met à jour le tri lorsque sortOrder change
-     */
+    private function getAllVilles(): void
+    {
+        $this->villes = [];
+        foreach (Ville::all() as $ville) {
+            $tmp = ['value' => $ville->nom, 'count' => $ville->nombre_annonce];
+            $tmp = array_unique($tmp, SORT_REGULAR);
+            if (!in_array($tmp, $this->villes)) {
+                $this->villes[] = $tmp;
+            }
+        }
+    }
+
+    private function getAllQuartiers(): void
+    {
+        $this->quartiers = [];
+        foreach (Quartier::all() as $quartier) {
+            $tmp = ['value' => $quartier->nom, 'count' => $quartier->nombre_annonce];
+            $tmp = array_unique($tmp, SORT_REGULAR);
+            if (!in_array($tmp, $this->quartiers)) {
+                $this->quartiers[] = $tmp;
+            }
+        }
+    }
+
+    public function getAllEntreprises()
+    {
+        $this->entreprises = [];
+        // Company that have at least one active subscription
+        // public scope filter the annonces that are public (that has a subscription)
+        $entreprises = Entreprise::whereHas('annonces', function ($query) {
+            $query->public();
+        })->get();
+        foreach ($entreprises as $entreprise) {
+            $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonces];
+            $tmp = array_unique($tmp, SORT_REGULAR);
+            if (!in_array($tmp, $this->entreprises)) {
+                $this->entreprises[] = $tmp;
+            }
+        }
+    }
+
     public function updatedSortOrder()
     {
         if (!$this->sortOrder) {
@@ -218,132 +211,39 @@ class Search extends Component
         }
     }
 
-    /**
-     * Change l'état d'un filtre de recherche
-     * 
-     * @param string $value Valeur du filtre
-     * @param string $category Catégorie du filtre (type, ville, quartier, entreprise)
-     * @param bool $remove Indique si la valeur doit être supprimée
-     * @return void
-     */
     public function changeState($value, $category, $remove = false)
     {
         $this->booted = false;
 
-        // Cas spécial pour la clé de recherche
-        if ($category === 'key' && $remove) {
-            $this->resetSearchKey();
+        if ($category == 'key' && $remove) {
+            $this->key = '';
+            $this->dispatch('resetSearchKey');
             return;
         }
 
-        // Vérifier si la catégorie est valide
-        $validCategories = ['type', 'ville', 'quartier', 'entreprise'];
-        if (!in_array($category, $validCategories)) {
-            return;
+        if (in_array($category, ['type', 'ville', 'quartier', 'entreprise'])) {
+            if ($remove || in_array($value, $this->$category)) {
+                $this->$category = array_diff($this->$category, [$value]);
+            } else {
+                array_push($this->$category, $value);
+            }
+
+            if ($category === 'type') {
+                $this->getVillesParType();
+            } elseif ($category === 'ville') {
+                $this->getQuartiersParVilles();
+            }
         }
 
-        // Ajouter ou supprimer la valeur du filtre
-        $this->updateFilterValue($value, $category, $remove);
-
-        // Mettre à jour les filtres dépendants
-        $this->updateDependentFilters($category);
-
-        // Rafraîchir l'affichage et réinitialiser la pagination
         $this->dispatch('$refresh');
+
         $this->resetPage();
     }
 
-    /**
-     * Réinitialise la clé de recherche
-     */
-    private function resetSearchKey()
-    {
-        $this->key = '';
-        $this->dispatch('resetSearchKey');
-    }
-
-    /**
-     * Met à jour la valeur d'un filtre
-     */
-    private function updateFilterValue($value, $category, $remove)
-    {
-        if ($remove || in_array($value, $this->$category)) {
-            // Suppression de la valeur
-            $this->$category = array_diff($this->$category, [$value]);
-        } else {
-            // Ajout de la valeur
-            array_push($this->$category, $value);
-        }
-    }
-
-    /**
-     * Met à jour les filtres dépendants
-     */
-    private function updateDependentFilters($category)
-    {
-        if ($category === 'type') {
-            $this->getVillesParType();
-        } elseif ($category === 'ville') {
-            $this->getQuartiersParVilles();
-        }
-    }
-
-    /**
-     * Récupère tous les quartiers depuis la base de données
-     */
-    private function getAllQuartiers(): void
-    {
-        $this->quartiers = [];
-        foreach (Quartier::all() as $quartier) {
-            $tmp = ['value' => $quartier->nom, 'count' => $quartier->nombre_annonce];
-            $tmp = array_unique($tmp, SORT_REGULAR);
-            if (!in_array($tmp, $this->quartiers)) {
-                $this->quartiers[] = $tmp;
-            }
-        }
-    }
-
-    /**
-     * Récupère toutes les villes depuis la base de données
-     */
-    private function getAllVilles(): void
-    {
-        $this->villes = [];
-        foreach (Ville::all() as $ville) {
-            $tmp = ['value' => $ville->nom, 'count' => $ville->nombre_annonce];
-            $tmp = array_unique($tmp, SORT_REGULAR);
-            if (!in_array($tmp, $this->villes)) {
-                $this->villes[] = $tmp;
-            }
-        }
-    }
-
-    /**
-     * Récupère toutes les entreprises qui ont des annonces publiques
-     */
-    public function getAllEntreprises()
-    {
-        $this->entreprises = [];
-        // Entreprises qui ont au moins un abonnement actif
-        $entreprises = Entreprise::whereHas('annonces', function ($query) {
-            $query->public();
-        })->get();
-        foreach ($entreprises as $entreprise) {
-            $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonces];
-            $tmp = array_unique($tmp, SORT_REGULAR);
-            if (!in_array($tmp, $this->entreprises)) {
-                $this->entreprises[] = $tmp;
-            }
-        }
-    }
-
-    /**
-     * Récupère les quartiers en fonction des villes sélectionnées
-     */
     protected function getQuartiersParVilles()
     {
         if (count($this->ville) > 0) {
-            // Requête optimisée pour récupérer les noms et nombres de quartiers
+            // Single query to get both quartier names and counts
             $quartierData = Annonce::public()
                 ->select('entreprises.quartier as nom')
                 ->selectRaw('COUNT(DISTINCT annonces.id) as count')
@@ -366,25 +266,18 @@ class Search extends Component
             $this->getAllQuartiers();
         }
 
-        // Extrait les valeurs des quartiers pour le filtrage
+        // Extract quartier values for filtering
         $quartiersValues = array_column($this->quartiers, 'value');
 
-        // Ne garde que les quartiers sélectionnés qui existent dans les disponibles
+        // Keep only selected quartiers that exist in the available ones
         $this->quartier = array_intersect($this->quartier, $quartiersValues);
     }
 
-    /**
-     * Récupère les villes en fonction des types sélectionnés
-     */
     protected function getVillesParType()
     {
         $this->getAllVilles();
-        // Méthode simplifiée pour l'instant, pourrait être améliorée pour filtrer les villes par type
     }
 
-    /**
-     * Ajoute ou supprime une annonce des favoris de l'utilisateur
-     */
     public function updateFavoris($annonceId)
     {
         $favorite = Favoris::where('annonce_id', $annonceId)
@@ -400,9 +293,7 @@ class Search extends Component
         }
     }
 
-    /**
-     * Effectue la recherche d'annonces avec tous les filtres appliqués
-     */
+
     public function search()
     {
         $annonces = Annonce::public()->with('entreprise');
@@ -410,9 +301,6 @@ class Search extends Component
         return $annonces;
     }
 
-    /**
-     * Réinitialise tous les filtres
-     */
     public function resetFilters()
     {
         $this->key = '';
@@ -428,9 +316,6 @@ class Search extends Component
         $this->dispatch('resetSearchBox');
     }
 
-    /**
-     * Applique tous les filtres dans un ordre défini
-     */
     protected function filters($annonces)
     {
         $filters = [
@@ -448,9 +333,6 @@ class Search extends Component
         return $annonces;
     }
 
-    /**
-     * Filtre les annonces par type, clé et localisation
-     */
     protected function filterAnnoncesByTypeKeyLocation($annonces)
     {
         if ($this->type) {
@@ -464,8 +346,7 @@ class Search extends Component
         if ($this->key) {
             $key = $this->key;
             $annonces = $annonces->where(function ($query) use ($key) {
-                $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])
-                    ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
+                $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
             });
         }
 
@@ -483,9 +364,6 @@ class Search extends Component
         return $annonces;
     }
 
-    /**
-     * Filtre les annonces par ville
-     */
     protected function filterByVille($annonces)
     {
         $this->location = '';
@@ -504,9 +382,6 @@ class Search extends Component
         return $annonces;
     }
 
-    /**
-     * Filtre les annonces par entreprise
-     */
     public function filterByEntreprise($annonces)
     {
         if ($this->entreprise) {
@@ -519,9 +394,6 @@ class Search extends Component
         return $annonces;
     }
 
-    /**
-     * Filtre les annonces par quartier
-     */
     protected function filterByQuartier($annonces)
     {
         $this->location = '';
@@ -540,9 +412,6 @@ class Search extends Component
         return $annonces;
     }
 
-    /**
-     * Applique le tri aux résultats
-     */
     protected function filterByOrder($annonces)
     {
         if (!in_array($this->direction, ['asc', 'desc'])) {
@@ -562,9 +431,6 @@ class Search extends Component
         return $annonces;
     }
 
-    /**
-     * Retourne les facettes pour l'interface utilisateur
-     */
     public function getFacettes(): array
     {
         return [
@@ -607,9 +473,6 @@ class Search extends Component
         ];
     }
 
-    /**
-     * Charge les filtres depuis les liens de navigation
-     */
     private function loadNavLinks()
     {
         if (session()->has('se_loger') && session()->get('se_loger')) {
@@ -633,25 +496,7 @@ class Search extends Component
         }
     }
 
-    /**
-     * Génère la vue du composant
-     */
     public function render()
-    {
-        $this->prepareTypeAnnonces();
-        $annonces = $this->search()->paginate($this->perPage);
-        $this->saveVariableToSession();
-
-        return view('livewire.public.search', [
-            'annonces' => $annonces,
-            'facettes' => $this->getFacettes(),
-        ]);
-    }
-
-    /**
-     * Prépare les types d'annonces pour l'affichage
-     */
-    private function prepareTypeAnnonces()
     {
         $this->typeAnnonces = Annonce::public()
             ->pluck('type')
@@ -664,17 +509,22 @@ class Search extends Component
 
         $tmpTypeAnnonces = Annonce::pluck('type')->unique();
 
-        // Ajoute les types manquants avec un compte à 0
         foreach ($tmpTypeAnnonces as $type) {
             if (!in_array($type, array_column($this->typeAnnonces, 'value'))) {
                 $this->typeAnnonces[] = ['value' => $type, 'count' => 0];
             }
         }
+
+        $annonces = $this->search()->paginate($this->perPage);
+
+        $this->saveVariableToSession();
+
+        return view('livewire.public.search', [
+            'annonces' => $annonces,
+            'facettes' => $this->getFacettes(),
+        ]);
     }
 
-    /**
-     * Méthode appelée avant le rendu
-     */
     public function rendering()
     {
         if (!$this->booted) {
@@ -687,9 +537,6 @@ class Search extends Component
         }
     }
 
-    /**
-     * Sauvegarde les variables dans la session
-     */
     private function saveVariableToSession()
     {
         CustomSession::clear();
@@ -709,12 +556,10 @@ class Search extends Component
         ]);
     }
 
-    /**
-     * Méthode appelée après le rendu
-     */
     public function rendered($view, $html)
     {
         $this->dispatch('refresh:filter');
+
         $this->dispatch('refresh:url', [
             'url' => $this->initURL,
         ]);

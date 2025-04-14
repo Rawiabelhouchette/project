@@ -11,8 +11,6 @@
 @section('content')
     @include('components.default-value')
 
-    
-
     <!-- Main Banner Section Start -->
     <div id="banner" class="banner dark-opacity" data-overlay="8" style="background-image:url(assets_client/img/banner/image-1.jpg);">
         <div class="container">
@@ -151,8 +149,8 @@
                                         <div class="listing-card-info-icon">
                                             <span class="inc-fleat inc-call mrg-0">
                                                 @if ($annonce->ville_id)
-                                                    <a href="tel:{{ $annonce->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
-                                                        {{ $annonce->ville->pays->indicatif }} {{ $annonce->entreprise->telephone }}
+                                                    <a href="tel:{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
+                                                        {{ $annonce->entreprise->telephone }}
                                                     </a>
                                                 @else
                                                     <a href="tel:{{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">

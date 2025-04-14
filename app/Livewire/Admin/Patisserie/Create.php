@@ -102,6 +102,7 @@ class Create extends Component
 
         $this->pays = Pays::orderBy('nom')->get();
 
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
 
     public function rules()
@@ -110,7 +111,7 @@ class Create extends Component
             'entreprise_id' => 'required|exists:entreprises,id',
             'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
             'description' => 'nullable|min:3|max:255',
-            'date_validite' => 'required|date|after:today',
+
 
             'produits' => 'required|array|min:1',
 
@@ -140,9 +141,6 @@ class Create extends Component
             'description.string' => 'Le champ description doit être une chaîne de caractères.',
             'description.min' => 'Le champ description doit contenir au moins 3 caractères.',
             'description.max' => 'Le champ description ne doit pas dépasser 255 caractères.',
-            'date_validite.required' => 'Le champ date de validité est obligatoire.',
-            'date_validite.date' => 'Le champ date de validité doit être une date.',
-            'date_validite.after' => 'Le champ date de validité doit être une date supérieure à la date du jour.',
 
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
@@ -269,7 +267,6 @@ class Create extends Component
                 'titre' => $this->nom,
                 'type' => 'Patisserie',
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'ville_id' => $this->ville_id,
                 'quartier' => $quartier,

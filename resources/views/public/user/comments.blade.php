@@ -1,5 +1,6 @@
 @extends('layout.public.app')
 
+@section('title', '- Mes commentaires')
 
 @section('content')
 

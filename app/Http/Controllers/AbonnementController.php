@@ -6,7 +6,9 @@ use App\Http\Requests\StoreOffreAbonnementRequest;
 use App\Models\Abonnement;
 use App\Models\Entreprise;
 use App\Models\OffreAbonnement;
+use App\Models\Pays;
 use App\Models\User;
+use App\Models\Ville;
 use App\Services\Paiement\PaiementService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -114,8 +116,13 @@ class AbonnementController extends Controller
             return redirect()->route('pricing');
         }
 
+        $pays = Pays::select('id', 'nom', 'indicatif')->get();
+        $villes = Ville::select('id', 'nom', 'pays_id')->get();
+
         return view('public.pricing-2', [
             'offre' => $abonnement,
+            'pays' => $pays,
+            'villes' => $villes,
         ]);
     }
 
@@ -123,6 +130,16 @@ class AbonnementController extends Controller
     public function checkPayment(StoreOffreAbonnementRequest $request)
     {
         $validated = $request->validated();
+        $ville = Ville::find($validated['ville_id']);
+
+        if (!$ville) {
+            return redirect()->back()->with('error', 'La ville sélectionnée est invalide.');
+        }
+
+        $ville->load('pays');
+        $validated['numero_telephone'] = $ville->pays->indicatif . ' ' . $validated['numero_telephone'];
+        $validated['numero_whatsapp'] = $ville->pays->indicatif . ' ' . $validated['numero_whatsapp'];
+
         session()->put('abonnement', $validated);
         return redirect()->route('payments.index');
     }

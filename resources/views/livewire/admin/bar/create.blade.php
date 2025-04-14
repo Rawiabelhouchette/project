@@ -40,7 +40,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez la date d'expiration de l'annonce</h4>
-                        <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder="" wire:model.defer='date_validite' required>
+                        <input class="form-control" type="date" placeholder="" disabled wire:model.defer='date_validite' required>
                         @error('date_validite')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror

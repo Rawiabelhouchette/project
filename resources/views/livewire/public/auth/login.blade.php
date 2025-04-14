@@ -1,10 +1,10 @@
-<div id="signin" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" tabindex="-1" wire:ignore.self>
+<div id="signin" class="modal fade" data-bs-backdrop="static" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" tabindex="-1" wire:ignore.self>
     <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
                 <h4 id="modalLabel2" class="modal-title">{{ __('Connectez-vous à votre compte') }}</h4>
-                <button class="m-close" data-dismiss="modal" type="button" aria-label="Close">
+                <button class="btn-close m-close" data-bs-dismiss="modal" type="button" aria-label="Close">
                     <i class="ti-close"></i>
                 </button>
             </div>
@@ -17,9 +17,9 @@
 
                 @if ($error)
                     <div class="alert-group">
-                        <div class="alert alert-danger alert-dismissable" style="text-align: center;">
-                            <button class="close" data-dismiss="alert" type="button" aria-hidden="true">×</button>
+                        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
                             {{ $message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
                 @endif
@@ -53,7 +53,7 @@
                     </div>
 
                     @if (Route::has('password.reset'))
-                        <div class="text-right">
+                        <div class="text-end">
                             <a class="btn-link theme-cl" href="{{ route('password.reset') }}">
                                 {{ __('Mot de passe oublié ?') }}
                             </a>

@@ -1,7 +1,8 @@
 @extends('layout.public.app')
 
-@section('content')
+@section('title', '- Mes favoris')
 
+@section('content')
     <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
         <div class="container">
             <div class="title-content">

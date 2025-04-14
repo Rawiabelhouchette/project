@@ -128,6 +128,8 @@ class Create extends Component
             : ($this->list_types_hebergement = []);
 
         $this->pays = Pays::orderBy('nom')->get();
+
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
 
     public function rules()
@@ -147,8 +149,6 @@ class Create extends Component
             'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'nullable',
 
-            // 'heure_validite' => 'required|date_format:H:i',
-            // prix_min < prix_max
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
@@ -158,7 +158,6 @@ class Create extends Component
             'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
             'galerie' => 'array|max:10',
             'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
-            'date_validite' => 'required|date|after:today',
 
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
@@ -183,11 +182,6 @@ class Create extends Component
             'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
             'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
 
-
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
-            'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
-            'heure_validite.required' => 'L\'heure de validité est obligatoire',
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
@@ -198,7 +192,6 @@ class Create extends Component
             'ville_id.required' => 'La ville est obligatoire',
             'ville_id.exists' => 'La ville n\'existe pas',
             'quartier_id.required' => 'Le quartier est obligatoire',
-
 
             'longitude.required' => 'La localisation est obligatoire.',
         ];
@@ -231,8 +224,6 @@ class Create extends Component
         try {
             DB::beginTransaction();
 
-            // $date_validite = $this->date_validite . ' ' . $this->heure_validite;
-
             $auberge = Auberge::create([
                 'nombre_chambre' => $this->nombre_chambre,
                 'nombre_personne' => $this->nombre_personne,
@@ -246,7 +237,6 @@ class Create extends Component
                 'titre' => $this->nom,
                 'type' => 'Auberge',
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
 
                 'ville_id' => $this->ville_id,
@@ -284,20 +274,9 @@ class Create extends Component
             return;
         }
 
-        // $this->reset();
-        // $this->initialization();
-
         //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
-
-        // $this->dispatch('swal:modal', [
-        //     'icon' => 'success',
-        //     'title'   => __('Opération réussie'),
-        //     'message' => __('L\'auberge a bien été ajoutée'),
-        // ]);
         session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('public.annonces.list');
-
-        // return redirect()->route('auberges.create');
     }
 
     public function render()

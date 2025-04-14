@@ -25,8 +25,9 @@ class StoreOffreAbonnementRequest extends FormRequest
         return [
             'offre_id' => 'required|exists:offre_abonnements,id',
             'nom_entreprise' => $authenticated ? 'nullable' : 'required|string|unique:entreprises,nom',
-            'numero_telephone' => $authenticated ? 'nullable' : 'required|string|unique:entreprises,telephone',
-            'numero_whatsapp' => $authenticated ? 'nullable' : 'required|string|unique:entreprises,whatsapp',
+            'numero_telephone' => $authenticated ? 'nullable' : 'required|regex:/^[0-9 ]+$/|unique:entreprises,telephone',
+            'numero_whatsapp' => $authenticated ? 'nullable' : 'required|regex:/^[0-9 ]+$/|unique:entreprises,whatsapp',
+            'ville_id' => $authenticated ? 'nullable' : 'required|exists:villes,id',
         ];
     }
 
@@ -48,10 +49,16 @@ class StoreOffreAbonnementRequest extends FormRequest
             'numero_telephone.required' => 'Le numéro de téléphone est obligatoire.',
             'numero_telephone.string' => 'Le numéro de téléphone doit être une chaîne de caractères.',
             'numero_telephone.unique' => 'Ce numéro de téléphone est déjà utilisé.',
+            'numero_telephone.regex' => 'Le numéro doit contenir seulement chiffres et espaces.',
 
             'numero_whatsapp.required' => 'Le numéro WhatsApp est obligatoire.',
             'numero_whatsapp.string' => 'Le numéro WhatsApp doit être une chaîne de caractères.',
             'numero_whatsapp.unique' => 'Ce numéro WhatsApp est déjà utilisé.',
+            'numero_whatsapp.regex' => 'Le numéro doit contenir seulement chiffres et espaces.',
+
+            'ville_id.required' => 'Le champ ville est obligatoire.',
+            'ville_id.exists' => 'La ville sélectionnée est invalide.',
+            'ville_id.string' => 'La ville doit être une chaîne de caractères.',
         ];
     }
 }

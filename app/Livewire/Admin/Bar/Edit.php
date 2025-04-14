@@ -120,7 +120,6 @@ class Edit extends Component
             'entreprise_id' => 'required|exists:entreprises,id',
             'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->bar->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
             'description' => 'nullable|string|min:3',
-            'date_validite' => 'required|date',
             'type_bar' => 'nullable|string',
             'capacite_accueil' => 'nullable|integer',
 
@@ -156,8 +155,6 @@ class Edit extends Component
             'nom.unique' => 'Ce nom existe déjà',
             'description.string' => 'La description doit être une chaîne de caractères',
             'description.min' => 'La description doit contenir au moins 3 caractères',
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.integer' => 'L\'entreprise doit être un entier',
             'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
@@ -220,22 +217,12 @@ class Edit extends Component
     {
         $this->validate();
 
-        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
-            $this->dispatch('swal:modal', [
-                'icon' => 'error',
-                'title' => __('Opération échouée'),
-                'message' => __('La date de validité doit être supérieure à la date du jour'),
-            ]);
-            return;
-        }
-
         try {
             DB::beginTransaction();
 
             $this->bar->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'is_active' => $this->is_active,
 

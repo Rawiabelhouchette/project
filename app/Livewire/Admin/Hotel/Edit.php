@@ -86,7 +86,6 @@ class Edit extends Component
         $this->old_galerie = $hotel->annonce->galerie()->get();
         $this->old_image = $hotel->annonce->imagePrincipale;
 
-
         $this->pays_id = $hotel->annonce->ville->pays_id;
         $this->ville_id = $hotel->annonce->ville_id;
         $this->quartier_id = $hotel->annonce->quartier;
@@ -158,9 +157,6 @@ class Edit extends Component
             'entreprise_id' => 'required|exists:entreprises,id',
             'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->hotel->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
 
-            // 'entreprise_id' => 'required|exists:entreprises,id',
-            // // 'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id', update
-            // 'nom' => 'required|string|min:3|unique:annonces,titre'. $this->annonce->id .',id,entreprise_id'. $this->entreprise_id,
             'type' => 'nullable',
             'is_active' => 'required|boolean',
             'description' => 'nullable|min:3',
@@ -174,15 +170,12 @@ class Edit extends Component
             'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'nullable',
 
-            'date_validite' => 'required|date',
-
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
             'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg',
             'galerie' => 'array|max:10',
             'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
-
         ];
     }
 
@@ -196,10 +189,6 @@ class Edit extends Component
             'nom.unique' => 'Le nom est déjà pris',
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
-
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
-            'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
 
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
@@ -242,22 +231,12 @@ class Edit extends Component
     {
         $this->validate();
 
-        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
-            $this->dispatch('swal:modal', [
-                'icon' => 'error',
-                'title' => __('Opération échouée'),
-                'message' => __('La date de validité doit être supérieure à la date du jour'),
-            ]);
-            return;
-        }
-
         try {
             DB::beginTransaction();
 
             $this->hotel->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'is_active' => $this->is_active,
 

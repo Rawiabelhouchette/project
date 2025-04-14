@@ -37,7 +37,7 @@
                             <div class="widget-boxed-body padd-top-40 padd-bot-40 text-center">
                                 <div class="help-support">
                                     <i class="ti-headphone-alt font-60 theme-cl mrg-bot-15"></i>
-                                    <p>Vous avez une question ? Contactez-nous</p>
+                                    <p>Vous avez une question ? <br> Contactez-nous</p>
                                     <h4 class="mrg-top-0">contact@numrod.fr</h4>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                                                     </a>
                                                 @endif
                                             @else
-                                                <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" onclick="$('#share').hide()">
+                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
                                                     <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                                 </a>
                                             @endif

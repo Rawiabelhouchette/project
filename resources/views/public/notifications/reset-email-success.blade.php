@@ -1,10 +1,9 @@
 @extends('layout.public.app')
 
-@section('title', 'Message')
+@section('title', '- Réinitialiser le mot de passe')
 
 @section('content')
-    <section class="detail-section" data-overlay="6"
-        style="background:url({{ asset('assets_client/img/banner/image-4.jpg') }});">
+    <section class="detail-section" data-overlay="6" style="background:url({{ asset('assets_client/img/banner/image-4.jpg') }});">
         <div class="overlay" style="background-color: rgb(36, 36, 41); opacity: 0.5;"></div>
         <div class="profile-cover-content">
             <div class="container">

@@ -1,6 +1,6 @@
 @extends('layout.public.app-2')
 
-@section('title', 'Connexion')
+@section('title', '- Connexion')
 
 @section('content')
     <section class="log-wrapper">
@@ -38,6 +38,9 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
                             <input id="password" class="form-control @error('password') is-invalid @enderror" name="password" type="password" placeholder="Mot de Passe" required autocomplete="current-password">
+                            <span class="input-group-addon" onclick="togglePasswordVisibility('password')">
+                                <i id="toggle-password-icon-password" class="fa fa-eye"></i>
+                            </span>
                         </div>
 
                         @if (Route::has('password.reset'))
@@ -85,5 +88,19 @@
 @section('js')
 <script>
     $('.navbar').removeClass('navbar-transparent');
+
+    function togglePasswordVisibility(fieldId) {
+            const input = document.getElementById(fieldId);
+            const icon = document.getElementById(`toggle-password-icon-${fieldId}`);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
 </script>
 @endsection

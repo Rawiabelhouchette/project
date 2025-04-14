@@ -125,6 +125,9 @@ class Create extends Component
             : ($this->list_types_hebergement = []);
 
         $this->pays = Pays::orderBy('nom')->get();
+
+
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
 
     public function rules()
@@ -166,10 +169,6 @@ class Create extends Component
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
             'nom.required' => 'Le nom est obligatoire',
-
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
-            'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
             'heure_validite.required' => 'L\'heure de validité est obligatoire',
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
@@ -223,8 +222,6 @@ class Create extends Component
         try {
             DB::beginTransaction();
 
-            // $date_validite = $this->date_validite . ' ' . $this->heure_validite;
-
             $hotel = Hotel::create([
                 'nombre_chambre' => $this->nombre_chambre,
                 'nombre_personne' => $this->nombre_personne,
@@ -238,7 +235,6 @@ class Create extends Component
                 'titre' => $this->nom,
                 'type' => 'Hôtel',
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
 
                 'ville_id' => $this->ville_id,
@@ -276,20 +272,9 @@ class Create extends Component
             return;
         }
 
-        // $this->reset();
-        // $this->initialization();
-
         //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
-
-        // $this->dispatch('swal:modal', [
-        //     'icon' => 'success',
-        //     'title'   => __('Opération réussie'),
-        //     'message' => __('L\'hotel a bien été ajoutée'),
-        // ]);
         session()->flash('success', 'L\'annonce a bien été ajoutée');
         return redirect()->route('public.annonces.list');
-
-        // return redirect()->route('hotels.create');
     }
 
     public function render()

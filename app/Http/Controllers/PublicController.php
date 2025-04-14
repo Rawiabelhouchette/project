@@ -55,8 +55,6 @@ class PublicController extends Controller
         );
     }
 
-
-
     public function showEntreprise($slug)
     {
         $entreprise = Entreprise::where('slug', $slug)->firstOrFail();

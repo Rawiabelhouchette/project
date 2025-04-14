@@ -40,8 +40,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez la date d'expiration de l'annonce</h4>
-                        <input class="form-control" type="date" min="{{ now()->toDateString() }}" placeholder=""
-                            wire:model.defer='date_validite' required>
+                        <input class="form-control" type="date" placeholder="" disabled wire:model.defer='date_validite' required>
                         @error('date_validite')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -54,8 +53,7 @@
                     <div class="col">
                         <h3 class="required">Nombre de chambre</h3>
                         <h4>Indiquez le nombre de chambre</h4>
-                        <input class="form-control" name="nombre_chambre" type="number" placeholder=""
-                            wire:model.defer='nombre_chambre' required>
+                        <input class="form-control" name="nombre_chambre" type="number" placeholder="" wire:model.defer='nombre_chambre' required>
                         @error('nombre_chambre')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -66,8 +64,7 @@
                     <div class="col">
                         <h3>Nombre de personnes</h3>
                         <h4>Indiquez le nombre de personnes</h4>
-                        <input class="form-control" name="nombre_personne" type="number" placeholder=""
-                            wire:model.defer='nombre_personne'>
+                        <input class="form-control" name="nombre_personne" type="number" placeholder="" wire:model.defer='nombre_personne'>
                         @error('nombre_personne')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -78,8 +75,7 @@
                     <div class="col">
                         <h3>Nombre de salle de bain</h3>
                         <h4>Indiquez le nombre de salle de bain</h4>
-                        <input class="form-control" name="nombre_salles_bain" type="number" placeholder=""
-                            wire:model.defer='nombre_salles_bain'>
+                        <input class="form-control" name="nombre_salles_bain" type="number" placeholder="" wire:model.defer='nombre_salles_bain'>
                         @error('nombre_salles_bain')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -176,8 +172,7 @@
             <div class="row padd-bot-15">
                 <div class="form-group">
                     <div class="col text-right">
-                        <button class="btn theme-btn" id="submit-btn" type="submit" style="margin-right: 30px;"
-                            wire:loading.attr='disabled'>
+                        <button id="submit-btn" class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:loading.attr='disabled'>
                             <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
                             Enregistrer
                         </button>
@@ -190,8 +185,8 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function () {
-            $('#submit-btn').click(function () {
+        $(document).ready(function() {
+            $('#submit-btn').click(function() {
                 var description = $('.ql-editor').html();
             });
 
@@ -200,7 +195,7 @@
                 width: '100%',
             });
 
-            $('.select2').on('change', function (e) {
+            $('.select2').on('change', function(e) {
                 var data = $(this).val();
                 var nom = $(this).data('nom');
                 @this.set(nom, data);

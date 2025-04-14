@@ -40,8 +40,8 @@
 
             <div class="col-md-12">
                 <div class="small-list-wrapper">
-                    <table class="table-bordered table">
-                        <thead>
+                    <table class="table-bordered table table-hover">
+                        <thead></thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Date Début</th>
@@ -57,7 +57,13 @@
                                     <td>{{ $abonnement->date_debut->format('d-m-Y H:i:s') }}</td>
                                     <td>{{ $abonnement->date_fin->format('d-m-Y H:i:s') }}</td>
                                     <td>{{ number_format($abonnement->montant, 0, ',', ' ') }}</td>
-                                    <td>{{ $abonnement->is_active ? 'Actif' : 'Inactif' }}</td>
+                                    <td>
+                                        @if($abonnement->is_active)
+                                            <span class="badge bg-success">&nbsp;&nbsp;</span>&nbsp;Actif
+                                        @else
+                                            <span class="badge bg-danger">Inactif</span>
+                                        @endif
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
