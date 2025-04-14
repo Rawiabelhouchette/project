@@ -140,6 +140,18 @@ class AbonnementController extends Controller
         $validated['numero_telephone'] = $ville->pays->indicatif . ' ' . $validated['numero_telephone'];
         $validated['numero_whatsapp'] = $ville->pays->indicatif . ' ' . $validated['numero_whatsapp'];
 
+        // check if numero_telephone and numero_whatsapp are unique
+        $entreprise = Entreprise::where('telephone', $validated['numero_telephone'])
+            ->orWhere('whatsapp', $validated['numero_whatsapp'])
+            ->first();
+
+        if ($entreprise) {
+            return redirect()
+                ->back()
+                ->with('error', 'Le numéro de téléphone ou WhatsApp est déjà utilisé.')
+                ->withInput();
+        }
+
         session()->put('abonnement', $validated);
         return redirect()->route('payments.index');
     }
