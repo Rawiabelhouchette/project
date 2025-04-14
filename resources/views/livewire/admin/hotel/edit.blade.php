@@ -10,7 +10,6 @@
                         </h3>
                         <h4>Sélectionnez l'entreprise</h4>
                         <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
-                            <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
                                 <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
                             @endforeach
@@ -91,8 +90,7 @@
                     <div class="col">
                         <h3>Nombre de salle de bain</h3>
                         <h4>Indiquez le nombre de salle de bain</h4>
-                        <input class="form-control" name="nombre_salles_bain" type="number" placeholder=""
-                            wire:model.defer='nombre_salles_bain'>
+                        <input class="form-control" name="nombre_salles_bain" type="number" placeholder="" wire:model.defer='nombre_salles_bain'>
                     </div>
                 </div>
 
@@ -100,8 +98,7 @@
                     <div class="col">
                         <h3>Nombre de personnes</h3>
                         <h4>Indiquez le nombre de personnes</h4>
-                        <input class="form-control" name="nombre_personne" type="number" placeholder=""
-                            wire:model.defer='nombre_personne'>
+                        <input class="form-control" name="nombre_personne" type="number" placeholder="" wire:model.defer='nombre_personne'>
                     </div>
                 </div>
 
@@ -111,8 +108,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez le nombre de chambres</h4>
-                        <input class="form-control" name="nombre_chambre" type="number" placeholder=""
-                            wire:model.defer='nombre_chambre' required>
+                        <input class="form-control" name="nombre_chambre" type="number" placeholder="" wire:model.defer='nombre_chambre' required>
                     </div>
                 </div>
             </div>
@@ -196,8 +192,8 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function () {
-            $('#submit-btn').click(function () {
+        $(document).ready(function() {
+            $('#submit-btn').click(function() {
                 var description = $('.ql-editor').html();
                 @this.set('description', description);
             });
@@ -207,7 +203,7 @@
                 width: '100%',
             });
 
-            $('.select2').on('change', function (e) {
+            $('.select2').on('change', function(e) {
                 var data = $(this).val();
                 var nom = $(this).data('nom');
                 @this.set(nom, data);
