@@ -134,7 +134,7 @@
                                                     </a>
                                                 @endif
                                             @else
-                                                <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" onclick="$('#share').hide()">
+                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
                                                     <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                                 </a>
                                             @endif
