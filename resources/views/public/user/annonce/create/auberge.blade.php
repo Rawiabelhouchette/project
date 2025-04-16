@@ -1,6 +1,6 @@
 @extends('layout.public.app')
 
-@section('title', '- Ajouter une Auberge')
+@section('title', 'Ajouter une Auberge')
 
 @section('content')
     <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">

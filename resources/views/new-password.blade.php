@@ -1,6 +1,6 @@
 @extends('layout.public.app-2')
 
-@section('title', '- Réinitialiser le mot de passe')
+@section('title', 'Réinitialiser le mot de passe')
 
 @section('content')
     <section class="log-wrapper">
@@ -41,22 +41,18 @@
                         <div class="input-group">
 
                             <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
-                            <input type="password" name="password"
-                                class="form-control @error('password') is-invalid @enderror"
-                                placeholder="Nouveau mot de passe" required autocomplete="new-password">
+                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Nouveau mot de passe" required autocomplete="new-password">
                         </div>
 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
-                            <input type="password" name="password_confirmation"
-                                class="form-control @error('password_confirmation') is-invalid @enderror"
-                                placeholder="Confirmer le mot de passe" required autocomplete="new-password">
+                            <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Confirmer le mot de passe" required autocomplete="new-password">
                         </div>
 
                         <input type="hidden" name="token" value="{{ $token }}">
                         <input type="hidden" name="email" value="{{ $email }}">
 
-                        <div class="text-center mrg-top-20 mrg-bot-20">
+                        <div class="mrg-top-20 mrg-bot-20 text-center">
                             <button type="submit" class="btn theme-btn btn-radius">
                                 {{ __('Enregistrer') }}
                             </button>

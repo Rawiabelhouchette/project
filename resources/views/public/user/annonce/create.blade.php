@@ -1,6 +1,6 @@
 @extends('layout.public.app')
 
-@section('title', '- Déposer une annonce')
+@section('title', 'Déposer une annonce')
 
 @section('css')
     <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
