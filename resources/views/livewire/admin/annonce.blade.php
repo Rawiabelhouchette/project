@@ -103,6 +103,10 @@
             <div class="col-md-12">
                 <div class="small-list-wrapper">
                     <ul id="table">
+                        <div class="col-md-12 col-sm-12" wire:loading wire:transition>
+                            <h4 class="mt-3 text-center">Chargement...</h4>
+                        </div>
+
                         @foreach ($annonces as $annonce)
                             <div class="col-md-4 col-sm-6 col-lg-4 col-xl-3">
                                 <div class="listing-shot grid-style">
