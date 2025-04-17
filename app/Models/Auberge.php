@@ -35,7 +35,7 @@ class Auberge extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        'edit_url',
+        // 'edit_url',
 
         'types_lit',
         'commodites',
@@ -47,6 +47,8 @@ class Auberge extends Model implements AnnonceInterface
         'types_hebergement',
 
         'caracteristiques',
+
+        'public_edit_url',
     ];
 
 
@@ -55,10 +57,10 @@ class Auberge extends Model implements AnnonceInterface
         return route('auberges.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('auberges.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('auberges.edit', $this);
+    // }
 
     public function annonce(): MorphOne
     {
@@ -92,7 +94,7 @@ class Auberge extends Model implements AnnonceInterface
 
     public function getEquipementsCuisineAttribute()
     {
-        return $this->annonce->references('equipements-cuisine');
+        return $this->annonce->references('accessoires-de-cuisine');
     }
 
     public function getTypesHebergementAttribute()
@@ -114,34 +116,22 @@ class Auberge extends Model implements AnnonceInterface
 
     public function getCaracteristiquesAttribute(): array
     {
-        $attributes = [];
-        if ($this->nombre_chambre) {
-            $attributes['Nombre de chambre'] = $this->nombre_chambre;
-        }
+        $attributes = [
+            'Nombre de chambre' => $this->nombre_chambre,
+            'Nombre de personne' => $this->nombre_personne,
+            'Superficie' => $this->superficie,
+            'Prix minimum' => $this->prix_min ? number_format($this->prix_min, 0, ',', ' ') : null,
+            'Prix maximum' => $this->prix_max ? number_format($this->prix_max, 0, ',', ' ') : null,
+        ];
 
-        if ($this->nombre_personne) {
-            $attributes['Nombre de personne'] = $this->nombre_personne;
-        }
+        return array_filter($attributes, function ($value) {
+            return !is_null($value);
+        });
+    }
 
-        if ($this->superficie) {
-            $attributes['Superficie'] = $this->superficie;
-        }
-
-        if ($this->prix_min) {
-            $attributes['Prix minimum'] = $this->prix_min;
-        }
-
-        if ($this->prix_max) {
-            $attributes['Prix maximum'] = $this->prix_max;
-        }
-
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
-        return $attributes;
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.hostels.edit', $this);
     }
 
 }

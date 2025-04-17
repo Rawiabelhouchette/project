@@ -34,7 +34,7 @@ class Hotel extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        'edit_url',
+        // 'edit_url',
 
         'types_lit',
         'commodites',
@@ -46,6 +46,8 @@ class Hotel extends Model implements AnnonceInterface
         'types_hebergement',
 
         'caracteristiques',
+
+        'public_edit_url',
     ];
 
 
@@ -54,10 +56,10 @@ class Hotel extends Model implements AnnonceInterface
         return route('hotels.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('hotels.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('hotels.edit', $this);
+    // }
 
     public function annonce(): MorphOne
     {
@@ -91,7 +93,7 @@ class Hotel extends Model implements AnnonceInterface
 
     public function getEquipementsCuisineAttribute()
     {
-        return $this->annonce->references('equipements-cuisine');
+        return $this->annonce->references('accessoires-de-cuisine');
     }
 
     public function getTypesHebergementAttribute()
@@ -113,38 +115,23 @@ class Hotel extends Model implements AnnonceInterface
 
     public function getCaracteristiquesAttribute(): array
     {
-        $attributes = [];
-        if ($this->nombre_chambre) {
-            $attributes['Nombre de chambre'] = $this->nombre_chambre;
-        }
+        $attributes = [
+            'Nombre de chambre' => $this->nombre_chambre,
+            'Nombre de personne' => $this->nombre_personne,
+            'Superficie (m²)' => $this->superficie,
+            'Prix minimum' => $this->prix_min ? number_format($this->prix_min, 0, ',', ' ') : null,
+            'Prix maximum' => $this->prix_max ? number_format($this->prix_max, 0, ',', ' ') : null,
+            'Nombre de salle de bain' => $this->nombre_salles_bain,
+        ];
 
-        if ($this->nombre_personne) {
-            $attributes['Nombre de personne'] = $this->nombre_personne;
-        }
+        return array_filter($attributes, function ($value) {
+            return !is_null($value);
+        });
+    }
 
-        if ($this->superficie) {
-            $attributes['Superficie (m²)'] = $this->superficie;
-        }
-
-        if ($this->prix_min) {
-            $attributes['Prix minimim'] = $this->prix_min;
-        }
-
-        if ($this->prix_max) {
-            $attributes['Prix maximum'] = $this->prix_max;
-        }
-
-        if ($this->nombre_salles_bain) {
-            $attributes['Nombre de salle de bain'] = $this->nombre_salles_bain;
-        }
-
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
-        return $attributes;
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.hotels.edit', $this);
     }
 
 }

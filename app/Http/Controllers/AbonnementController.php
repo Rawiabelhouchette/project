@@ -6,7 +6,9 @@ use App\Http\Requests\StoreOffreAbonnementRequest;
 use App\Models\Abonnement;
 use App\Models\Entreprise;
 use App\Models\OffreAbonnement;
+use App\Models\Pays;
 use App\Models\User;
+use App\Models\Ville;
 use App\Services\Paiement\PaiementService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -86,18 +88,70 @@ class AbonnementController extends Controller
             return redirect()->route('connexion');
         }
 
-        if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
-            return redirect()->route('abonnements.create');
-        }
+        // if (!auth()->user()->hasRole('Usager') && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur'))) {
+        //     return redirect()->route('abonnements.create');
+        // }
+
+        $isPro = auth()->user()->hasRole('Professionnel');
 
         $offres = OffreAbonnement::active()->get();
-        return view('public.pricing', compact('offres'));
+        return view('public.pricing', compact('offres', 'isPro'));
+    }
+
+    public function createCompany(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('connexion');
+        }
+
+        if (!auth()->user()->hasRole('Usager')) {
+            return redirect()->back();
+        }
+
+        $abonnementId = $request->subscription;
+
+        $abonnement = OffreAbonnement::active()->where('id', $abonnementId)->first();
+
+        if (!$abonnement) {
+            return redirect()->route('pricing');
+        }
+
+        $pays = Pays::select('id', 'nom', 'indicatif')->get();
+        $villes = Ville::select('id', 'nom', 'pays_id')->get();
+
+        return view('public.pricing-2', [
+            'offre' => $abonnement,
+            'pays' => $pays,
+            'villes' => $villes,
+        ]);
     }
 
     // operation de validation avant l'abonnement
     public function checkPayment(StoreOffreAbonnementRequest $request)
     {
         $validated = $request->validated();
+        $ville = Ville::find($validated['ville_id']);
+
+        if (!$ville) {
+            return redirect()->back()->with('error', 'La ville sélectionnée est invalide.');
+        }
+
+        $ville->load('pays');
+        $validated['numero_telephone'] = $ville->pays->indicatif . ' ' . $validated['numero_telephone'];
+        $validated['numero_whatsapp'] = $ville->pays->indicatif . ' ' . $validated['numero_whatsapp'];
+
+        // check if numero_telephone and numero_whatsapp are unique
+        $entreprise = Entreprise::where('telephone', $validated['numero_telephone'])
+            ->orWhere('whatsapp', $validated['numero_whatsapp'])
+            ->first();
+
+        if ($entreprise) {
+            return redirect()
+                ->back()
+                ->with('error', 'Le numéro de téléphone ou WhatsApp est déjà utilisé.')
+                ->withInput();
+        }
+
         session()->put('abonnement', $validated);
         return redirect()->route('payments.index');
     }
@@ -140,13 +194,10 @@ class AbonnementController extends Controller
         }
         $abonnements = $abonnements->paginate($perPage);
 
-        return response()->json(
-            [
-                'recordsTotal' => $abonnements->total(),
-                'recordsFiltered' => $abonnements->total(),
-                'data' => $abonnements->items(),
-            ],
-            200,
-        );
+        return response()->json([
+            'recordsTotal' => $abonnements->total(),
+            'recordsFiltered' => $abonnements->total(),
+            'data' => $abonnements->items(),
+        ], 200);
     }
 }

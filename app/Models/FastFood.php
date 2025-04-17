@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Utils\AnnonceInterface;
+use App\Utils\Utils;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,15 +19,17 @@ class FastFood extends Model implements AnnonceInterface
     protected $table = 'fast_foods';
 
     protected $fillable = [
-        // 'ingredient',
-        'prix_min',
-        'prix_max',
+        'nom_produit',
+        'accompagnement_produit',
+        'prix_produit',
+        'image_produit',
     ];
 
     protected $casts = [
-        // 'ingredient' => PurifyHtmlOnGet::class,
-        'prix_min' => 'integer',
-        'prix_max' => 'integer',
+        'nom_produit' => PurifyHtmlOnGet::class,
+        'accompagnement_produit' => PurifyHtmlOnGet::class,
+        'prix_produit' => PurifyHtmlOnGet::class,
+        'image_produit' => PurifyHtmlOnGet::class,
     ];
 
     protected $appends = [
@@ -34,9 +37,11 @@ class FastFood extends Model implements AnnonceInterface
         'edit_url',
 
         'equipements_restauration',
-        'produits_fast_food',
 
         'caracteristiques',
+
+        'menus',
+        'public_edit_url',
     ];
 
     public function annonce(): MorphOne
@@ -51,7 +56,7 @@ class FastFood extends Model implements AnnonceInterface
 
     public function getEditUrlAttribute(): string
     {
-        return route('fast-foods.edit', $this);
+        return route('public.fast-foods.edit', $this);
     }
 
     public function getEquipementsRestaurationAttribute(): array
@@ -59,41 +64,70 @@ class FastFood extends Model implements AnnonceInterface
         return $this->annonce->references('equipements-restauration')->pluck('id')->toArray();
     }
 
-    public function getProduitsFastFoodAttribute(): array
-    {
-        return $this->annonce->references('produits-fast-food')->pluck('id')->toArray();
-    }
-
     public function getShowInformationHeader(): View
     {
-        return view('components.public.show.default-information-header');
+        return view('components.public.show.fast-food-information-header');
     }
 
     public function getShowInformationBody(): View
     {
-        return view('components.public.show.default-information-body', [
+        return view('components.public.show.fast-food-information-body', [
             'annonce' => $this->annonce,
         ]);
+    }
+
+    public function getStringArray($string, $separator = null)
+    {
+        if ($separator === null) {
+            $separator = Utils::getRestaurantValueSeparator();
+        }
+
+        if (empty($string)) {
+            return [];
+        }
+        $tmp = explode($separator, $string);
+        return array_filter($tmp, function ($value) {
+            return $value !== null && $value !== '';
+        });
     }
 
     public function getCaracteristiquesAttribute(): array
     {
         $attributes = [];
+        
+        return array_filter($attributes, function ($value) {
+            return !is_null($value);
+        });
+    }
 
-        if ($this->prix_min) {
-            $attributes['Prix minimum'] = $this->prix_min;
+    public function getMenusAttribute()
+    {
+        $menus = [];
+
+        $tmp_nom = $this->getStringArray($this->nom_produit);
+        $tmp_accompagnement = $this->getStringArray($this->accompagnement_produit);
+        $tmp_prix = $this->getStringArray($this->prix_produit);
+        $tmp_image = $this->getStringArray($this->image_produit, Utils::getRestaurantImageSeparator());
+
+        $maxCount = max(count($tmp_nom), count($tmp_accompagnement), count($tmp_prix), count($tmp_image));
+
+        for ($i = 0; $i < $maxCount; $i++) {
+            $image = isset($tmp_image[$i]) ? Fichier::find($tmp_image[$i]) : null;
+            $menus[] = [
+                'id' => $i + 1,
+                'nom' => $tmp_nom[$i] ?? null,
+                'accompagnements' => $tmp_accompagnement[$i] ?? null,
+                'prix' => isset($tmp_prix[$i]) ? (int) $tmp_prix[$i] : null,
+                'image' => $image ? $image->chemin : null,
+                'image_id' => $image ? $image->id : null,
+            ];
         }
 
-        if ($this->prix_max) {
-            $attributes['Prix maximum'] = $this->prix_max;
-        }
+        return $menus;
+    }
 
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
-        return $attributes;
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.fast-foods.edit', $this);
     }
 }

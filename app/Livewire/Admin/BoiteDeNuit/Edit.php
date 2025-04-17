@@ -3,7 +3,11 @@
 namespace App\Livewire\Admin\BoiteDeNuit;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
+use App\Models\Pays;
+use App\Models\Quartier;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Models\Entreprise;
 use App\Models\Reference;
@@ -39,6 +43,17 @@ class Edit extends Component
     public $entreprises = [];
 
     public $is_active;
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
+
+    public $latitude;
+    public $longitude;
 
 
     public function mount($boiteDeNuit)
@@ -51,11 +66,20 @@ class Edit extends Component
         $this->description = $boiteDeNuit->annonce->description;
         $this->date_validite = date('Y-m-d', strtotime($boiteDeNuit->annonce->date_validite));
         $this->commodites = $boiteDeNuit->annonce->references('commodites-hebergement')->pluck('id')->toArray();
-        $this->services = $boiteDeNuit->annonce->references('services')->pluck('id')->toArray();
+        $this->services = $boiteDeNuit->annonce->references('services-proposes')->pluck('id')->toArray();
         $this->types_musique = $boiteDeNuit->annonce->references('types-de-musique')->pluck('id')->toArray();
         $this->equipements_vie_nocturne = $boiteDeNuit->annonce->references('equipements-vie-nocturne')->pluck('id')->toArray();
         $this->old_galerie = $boiteDeNuit->annonce->galerie()->get();
         $this->old_image = $boiteDeNuit->annonce->imagePrincipale;
+
+
+        $this->pays_id = $boiteDeNuit->annonce->ville->pays_id;
+        $this->ville_id = $boiteDeNuit->annonce->ville_id;
+        $this->quartier_id = $boiteDeNuit->annonce->quartier;
+        $this->villes = Ville::where('pays_id', $this->pays_id)->orderBy('nom')->get();
+        $this->quartiers = Quartier::where('ville_id', $this->ville_id)->orderBy('nom')->get();
+        $this->latitude = $boiteDeNuit->annonce->latitude;
+        $this->longitude = $boiteDeNuit->annonce->longitude;
     }
 
     private function initialization()
@@ -71,10 +95,16 @@ class Edit extends Component
             $this->list_commodites = ReferenceValeur::where('reference_id', $tmp_commodite->id)->select('valeur', 'id')->get() :
             $this->list_commodites = [];
 
-        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services')->first();
+        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services-proposes')->first();
         $tmp_services ?
             $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
             $this->list_services = [];
+
+        $tmp_types_musique = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'types-de-musique')->first();
+        $tmp_types_musique ?
+            $this->list_types_musique = ReferenceValeur::where('reference_id', $tmp_types_musique->id)->select('valeur', 'id')->get() :
+            $this->list_types_musique = [];
+
 
         $tmp_types_musique = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'types-de-musique')->first();
         $tmp_types_musique ?
@@ -85,6 +115,8 @@ class Edit extends Component
         $tmp_equipements_vie_nocturne ?
             $this->list_equipements_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_equipements_vie_nocturne->id)->select('valeur', 'id')->get() :
             $this->list_equipements_vie_nocturne = [];
+
+        $this->pays = Pays::orderBy('nom')->get();
     }
     public function rules()
     {
@@ -93,7 +125,6 @@ class Edit extends Component
             'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->boiteDeNuit->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
             'is_active' => 'required|boolean',
             'description' => 'nullable|min:3',
-            'date_validite' => 'required|date',
 
             'commodites' => 'nullable',
             'services' => 'nullable',
@@ -116,8 +147,6 @@ class Edit extends Component
             'is_active.boolean' => __('L\'état de l\'boiteDeNuit doit être soit vrai soit faux'),
             'description.min' => __('La description de l\'boiteDeNuit doit contenir au moins :min caractères'),
             'description.max' => __('La description de l\'boiteDeNuit ne doit pas dépasser :max caractères'),
-            'date_validite.required' => __('Veuillez renseigner la date de validité de l\'boiteDeNuit'),
-            'date_validite.date' => __('La date de validité de l\'boiteDeNuit doit être une date valide'),
 
             'commodites.*.exists' => __('Veuillez choisir une commodité valide'),
             'services.*.exists' => __('Veuillez choisir un service valide'),
@@ -126,18 +155,29 @@ class Edit extends Component
         ];
     }
 
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
+    }
+
     public function update()
     {
         $this->validate();
-
-        if ($this->is_active && $this->date_validite < date('Y-m-d')) {
-            $this->dispatch('swal:modal', [
-                'icon' => 'error',
-                'title' => __('Opération échouée'),
-                'message' => __('La date de validité doit être supérieure à la date du jour'),
-            ]);
-            return;
-        }
 
         try {
             DB::beginTransaction();
@@ -145,19 +185,23 @@ class Edit extends Component
             $this->boiteDeNuit->annonce->update([
                 'titre' => $this->nom,
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'is_active' => $this->is_active,
+
+                'ville_id' => $this->ville_id,
+                'quartier' => $this->quartier_id,
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
             ]);
 
 
-            $this->boiteDeNuit->update([]);
+            // $this->boiteDeNuit->update([]);
 
             $references = [
                 ['Types de musique', $this->types_musique],
                 ['Equipements vie nocturne', $this->equipements_vie_nocturne],
                 ['Commodités hébergement', $this->commodites],
-                ['Services', $this->services],
+                ['Services proposés', $this->services],
             ];
 
             AnnoncesUtils::updateManyReference($this->boiteDeNuit->annonce, $references);
@@ -169,18 +213,17 @@ class Edit extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération réussie'),
-                'message' => __('Une erreur est survenue lors de l\'annonce'),
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
             ]);
             Log::error($th->getMessage());
             return;
         }
 
-        // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
-        session()->flash('success', __('L\'annonce a été modifiée avec succès'));
-
-        return redirect()->route('annonces.index');
+        session()->flash('success', 'L\'annonce a bien été ajoutée');
+        return redirect()->route('public.annonces.list');
     }
 
     public function render()

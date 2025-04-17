@@ -1,143 +1,106 @@
-<!DOCTYPE html>
-<html class="no-js" lang="fr">
+@extends('layout.public.app-2')
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('assets/img/logo-vamiyi-by-numrod-small.png') }}" type="image/x-icon">
+@section('title', 'Connexion')
 
-    <title>Vamiyi - Login</title>
+@section('content')
+    <section class="log-wrapper">
+        <div class="container">
+            <div class="col-md-6 col-sm-10 col-md-offset-3 col-sm-offset-1">
+                <div class="log-box padd-bot-25">
+                    <h2>Connexion <span class="theme-cl">!</span></h2>
 
-    <!-- All plugins -->
-    <link href="{{ asset('assets_client/plugins/css/plugins.css') }}" rel="stylesheet">
-
-    <!-- Custom style -->
-    <link href="{{ asset('assets_client/css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets_client/css/responsiveness.css') }}" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js') }} for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.min.js') }}"></script>
-      <script src="js/respond.min.js') }}"></script>
-    <![endif]-->
-
-    @livewireStyles
-
-</head>
-
-<body>
-    <div class="wrapper">
-        <!-- Start Navigation -->
-        @include('layout.public.navbar', ['active' => 'login'])
-        <!-- End Navigation -->
-        <div class="clearfix"></div>
-
-        <!-- Start Login Section -->
-        <section class="log-wrapper">
-            <div class="container">
-                <div class="col-md-6 col-sm-10 col-md-offset-3 col-sm-offset-1">
-                    <div class="log-box padd-bot-25">
-                        <h2>Connexion <span class="theme-cl">!</span></h2>
-
-                        @error('email')
-                            <div class="alert-group">
-                                <div class="alert alert-danger alert-dismissable" style="text-align: center;">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    {{ $message }}
-                                </div>
+                    @error('email')
+                        <div class="alert-group">
+                            <div class="alert alert-danger alert-dismissable" style="text-align: center;">
+                                <button class="close" data-dismiss="alert" type="button" aria-hidden="true">×</button>
+                                {{ $message }}
                             </div>
-                        @enderror
+                        </div>
+                    @enderror
 
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-
-                            <div class="input-group">
-
-                                <span class="input-group-addon"><i class="fa fa-envelope theme-cl"></i></span>
-                                <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Identifiant" required autocomplete="email" autofocus>
+                    @if (session('status'))
+                        <div class="alert-group">
+                            <div class="alert alert-success alert-dismissable" style="text-align: center;">
+                                <button class="close" data-dismiss="alert" type="button" aria-hidden="true">×</button>
+                                {{ session('status') }}
                             </div>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Mot de Passe" required autocomplete="current-password">
-                            </div>
+                        </div>
+                    @endif
 
-                            @if (Route::has('password.reset'))
-                                <div class="text-right">
-                                    <a class="btn-link theme-cl" href="{{ route('password.reset') }}">
-                                        {{ __('Mot de passe oublié ?') }}
-                                    </a>
-                                </div>
-                            @endif
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
 
-                            <span class="custom-checkbox d-block">
-                                <input id="remember" type="checkbox" name="remember">
-                                <label for="remember"></label>
-                                {{ __('Se souvenir de moi') }}
+                        <div class="input-group">
+
+                            <span class="input-group-addon"><i class="fa fa-envelope theme-cl"></i></span>
+                            <input id="email" class="form-control @error('email') is-invalid @enderror" name="email" type="text" value="{{ old('email') }}" placeholder="Identifiant" required autocomplete="email" autofocus>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
+                            <input id="password" class="form-control @error('password') is-invalid @enderror" name="password" type="password" placeholder="Mot de Passe" required autocomplete="current-password">
+                            <span class="input-group-addon" onclick="togglePasswordVisibility('password')">
+                                <i id="toggle-password-icon-password" class="fa fa-eye"></i>
                             </span>
+                        </div>
 
-                            <div class="text-center mrg-bot-20">
-                                <button type="submit" class="btn theme-btn width-200 btn-radius">
-                                    {{ __('Connexion') }}
-                                </button>
+                        @if (Route::has('password.reset'))
+                            <div class="text-right">
+                                <a class="btn-link theme-cl" href="{{ route('password.reset') }}">
+                                    {{ __('Mot de passe oublié ?') }}
+                                </a>
                             </div>
+                        @endif
 
-                            <div class="center mrg-top-5">
-                                <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#register" class="theme-cl">{{ __('Créer un compte') }}</a>
-                            </div>
-                        </form>
+                        <span class="custom-checkbox d-block">
+                            <input id="remember" name="remember" type="checkbox">
+                            <label for="remember">
+                                {{ __('Se souvenir de moi') }}
+                            </label>
 
+                        </span>
+
+                        <div class="form-group">
+                            {{-- <div class="form-group" wire:ignore> --}}
+                            {!! htmlFormSnippet() !!}
+                            @if ($errors->has('g-recaptcha-response'))
+                                <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                            @enderror
                     </div>
-                </div>
+
+                    <div class="mrg-bot-20 text-center">
+                        <button class="btn theme-btn width-200 btn-radius" type="submit">
+                            {{ __('Connexion') }}
+                        </button>
+                    </div>
+
+                    <div class="center mrg-top-5">
+                        <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
+                        <a class="theme-cl" data-toggle="modal" data-target="#register" href="{{ route('register') }}">{{ __('Créer un compte') }}</a>
+                    </div>
+                </form>
+
             </div>
-        </section>
-        <!-- End Login Section -->
-
-        <!-- ================ Start Footer ======================= -->
-        @include('layout.public.footer')
-        <!-- ================ End Footer Section ======================= -->
-
-        <!-- ================== Login & Sign Up Window ================== -->
-        @include('layout.public.connexion')
-        <!-- ===================== End Login & Sign Up Window =========================== -->
-
-        <!-- START JAVASCRIPT -->
-        <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootsnav.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootstrap-select.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootstrap-touch-slider-min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jquery.touchSwipe.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/chosen.jquery.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/datedropper.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/dropzone.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jquery.counterup.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jquery.fancybox.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jquery.nice-select.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/fastclick.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jqueryadd-count.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/jquery-rating.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/slick.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/timedropper.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/waypoints.min.js') }}"></script>
-        <script src="{{ asset('assets_client/plugins/js/bootstrap-slider.js') }}"></script>
-
-        <!-- Custom Js -->
-        <script src="{{ asset('assets_client/js/custom.js') }}"></script>
-
-        <script>
-            window.addEventListener('page:reload', event => {
-                location.reload();
-            });
-        </script>
-
-        @livewireScripts
-
-        @stack('scripts')
-
+        </div>
     </div>
-</body>
+</section>
+@endsection
 
-</html>
+@section('js')
+<script>
+    $('.navbar').removeClass('navbar-transparent');
+
+    function togglePasswordVisibility(fieldId) {
+        const input = document.getElementById(fieldId);
+        const icon = document.getElementById(`toggle-password-icon-${fieldId}`);
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+</script>
+@endsection

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Utils\AnnoncesUtils;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Stevebauman\Purify\Facades\Purify;
 use Wildside\Userstamps\Userstamps;
 use Illuminate\Support\Str;
 
@@ -29,6 +32,10 @@ class Annonce extends Model
         'annonceable_id',
         'type',
         'image',
+        'longitude',
+        'latitude',
+        'quartier',
+        'ville_id',
     ];
 
     protected $appends = [
@@ -40,7 +47,9 @@ class Annonce extends Model
         'view_count',
         'favorite_count',
         'comment_count',
-        'notation_count',
+        // 'notation_count',
+
+        'adresse_complete',
     ];
 
     protected $casts = [
@@ -51,18 +60,50 @@ class Annonce extends Model
         'type' => PurifyHtmlOnGet::class,
     ];
 
+    public function getContentAttribute($value)
+    {
+        $config = ['HTML.Allowed' => 'div,b,a[href]'];
+        return Purify::clean($value, $config);
+    }
+
     public static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
-            $model->slug = Str::slug($model->titre);
+            $model->slug = AnnoncesUtils::generateSlug($model->titre);
             $model->is_active = true;
+            $model->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');;
         });
 
         static::updating(function ($model) {
-            $model->slug = Str::slug($model->titre);
+            if ($model->isDirty('titre')) {
+                $model->slug = AnnoncesUtils::generateSlug($model->titre);
+            }
         });
+
+        static::created(function ($model) {
+            $model->addQuartier($model->quartier);
+        });
+
+        static::updated(function ($model) {
+            $model->addQuartier($model->quartier);
+        });
+    }
+
+    private function addQuartier($quartier)
+    {
+        $quartier = ucfirst(mb_strtolower($quartier));
+
+        $existingQuartier = Quartier::where('ville_id', $this->ville_id)->where('nom', $quartier)->first();
+        if ($existingQuartier) {
+            $existingQuartier->update(['nom' => $quartier]);
+        } else {
+            Quartier::create([
+                'ville_id' => $this->ville_id,
+                'nom' => $quartier,
+            ]);
+        }
     }
 
 
@@ -82,6 +123,15 @@ class Annonce extends Model
     public function imagePrincipale(): BelongsTo
     {
         return $this->belongsTo(Fichier::class, 'image');
+    }
+
+    public function galerieAvecImagePrincipale(): Collection
+    {
+        $galerie = $this->galerie()->get();
+        if ($this->imagePrincipale) {
+            $galerie->prepend($this->imagePrincipale);
+        }
+        return $galerie;
     }
 
     public function annonceable(): MorphTo
@@ -113,14 +163,24 @@ class Annonce extends Model
         return $this->hasMany(Commentaire::class);
     }
 
-    public function notation()
-    {
-        return $this->hasMany(Notation::class);
-    }
+    // public function notation()
+    // {
+    //     return $this->hasMany(Notation::class);
+    // }
 
     public function views()
     {
         return $this->hasMany(View::class);
+    }
+
+    // public function quartier()
+    // {
+    //     return $this->belongsTo(Quartier::class, 'quartier_id');
+    // }
+
+    public function ville()
+    {
+        return $this->belongsTo(Ville::class, 'ville_id');
     }
 
 
@@ -186,11 +246,7 @@ class Annonce extends Model
         $description = str_replace("\r", ' ', $description);
         $description = str_replace("\t", ' ', $description);
         $description = str_replace('  ', ' ', $description);
-        $description = substr($description, 0, 70);
-
-        if (Str::length($description) >= 70) {
-            $description = $description . '...';
-        }
+        $description = Str::limit($description, 70, '...');
 
         return $description;
     }
@@ -238,9 +294,22 @@ class Annonce extends Model
         return $this->commentaires()->count();
     }
 
-    public function getNotationCountAttribute(): int
+    // public function getNotationCountAttribute(): int
+    // {
+    //     return $this->notation()->count();
+    // }
+
+    public function getAdresseCompleteAttribute(): object
     {
-        return $this->notation()->count();
+        $ville = $this->ville()->first();
+        $pays = $ville ? $ville->pays()->first() : null;
+        $quartier = $this->quartier;
+
+        return (object) [
+            'quartier' => $quartier ? $quartier : '',
+            'ville' => $ville ? $ville->nom : '',
+            'pays' => $pays ? $pays->nom : '',
+        ];
     }
 
 

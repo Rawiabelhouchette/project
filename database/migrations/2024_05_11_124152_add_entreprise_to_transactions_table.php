@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('entreprise')->nullable();
             $table->string('numero')->nullable();
             $table->string('numero_whatsapp')->nullable();
+            $table->integer('ville_id')->nullable();
         });
     }
 

@@ -9,7 +9,6 @@ use Livewire\Component;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 
 class Register extends Component
 {
@@ -26,6 +25,7 @@ class Register extends Component
     public $password;
     public $password_confirmation;
     public $remember = false;
+    public $recaptcha;
 
     public function rules()
     {
@@ -34,10 +34,11 @@ class Register extends Component
             'prenom' => 'required',
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
-            'type' => 'required|in:Usager,Professionnel',
+            // 'type' => 'required|in:Usager,Professionnel',
             'password' => 'required',
             'password_confirmation' => 'required|same:password',
             'remember' => 'boolean',
+            'recaptcha' => 'required|recaptcha',
         ];
     }
 
@@ -57,13 +58,15 @@ class Register extends Component
             'password.required' => 'Le mot de passe est obligatoire',
             'password_confirmation.required' => 'La confirmation du mot de passe est obligatoire',
             'password_confirmation.same' => 'Les mots de passe ne sont pas identiques',
+            'recaptcha.required' => 'Le champ recaptcha est obligatoire',
+            'recaptcha.recaptcha' => 'Le champ recaptcha est invalide',
         ];
     }
 
     public function register()
     {
+        $this->dispatch('recaptcha:reset');
         $this->validate();
-
         // TODO : check if email is valid 
 
         DB::beginTransaction();

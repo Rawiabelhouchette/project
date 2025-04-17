@@ -1,85 +1,117 @@
 @props(['active' => null])
 
-<nav class="navbar navbar-default navbar-fixed navbar-transparent white bootsnav">
-    <div class="container-fluid">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-            <i class="ti-align-left"></i>
-        </button>
+<style>
+    body.home-2 nav.navbar {
+        background-color: #ffffff;
+        border-bottom: none;
+        -webkit-box-shadow: 0 2px 4px 0 rgba(188, 195, 208, 0.5);
+        -moz-box-shadow: 0 2px 4px 0 rgba(188, 195, 208, 0.5);
+        box-shadow: 0 2px 4px 0 rgba(188, 195, 208, 0.5);
+        z-index: 999;
+        padding: 1rem 3rem;
+    }
 
-        <!-- Start Header Navigation -->
-        <div class="navbar-header">
+    nav:not(.navbar-transparent) .logo-scrolled,
+    nav.navbar-transparent .logo-display {
+        display: block;
+        width: 70px;
+        height: 70px;
+        max-height: 80px;
+        margin-top: -10px;
+    }
+</style>
+
+<div class="header">
+    <nav class="navbar navbar-expand-lg bg-light fixed-top bootsnav navbar-transparent">
+        <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('accueil') }}">
                 @if ($active == 'login')
-                    <img src="{{ asset('assets/img/logo-vamiyi-by-numrod.png') }}" class="logo logo-display" alt="">
+                    <img class="logo logo-display d-inline-block align-text-top" src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="">
                 @else
-                    <img src="{{ asset('assets/img/logo-vamiyi-by-numrod-white.png') }}" class="logo logo-display" alt="">
+                    <img class="logo logo-display d-inline-block align-text-top" src="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}" alt="">
                 @endif
-                <img src="{{ asset('assets/img/logo-vamiyi-by-numrod.png') }}" class="logo logo-scrolled" alt="">
+                <img class="logo logo-scrolled d-inline-block align-text-top" src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="">
+                <span>Vamiyi</span>
             </a>
-        </div>
+            <button class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#navbar-list" type="button" aria-controls="navbar-list" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-list">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('search', ['se_loger' => 1]) }}">Se loger</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('search', ['se_restaurer' => 1]) }}">Se restaurer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('search', ['sortir' => 1]) }}">Sortir</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('search', ['louer_voiture' => 1]) }}">Louer une voiture</a>
+                    </li>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div id="navbar-menu" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
-                <li>
-                    <a href="{{ route('accueil') }}">
-                        Accueil
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('contact') }}">
-                        Contactez-nous
-                    </a>
-                </li>
-                @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
-                    <li>
-                        <a href="{{ route('home') }}" target="_blank">
-                            Accès professionnel
+                    <form>
+                        @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
+                            <a class="btn add-annonce" id="btn-deposer-annonce" href="{{ route('public.annonces.create') }}">
+                                <i class="fa-solid fa-plus"></i>Déposer une annonce
+                            </a>
+                        @elseif (auth()->check() && auth()->user()->hasRole('Usager'))
+                            <a class="btn add-annonce" id="btn-deposer-annonce" href="{{ route('pricing') }}">
+                                <i class="fa-solid fa-plus"></i>Déposer une annonce
+                            </a>
+                        @else
+                            <a class="btn add-annonce" id="btn-deposer-annonce" data-bs-toggle="modal" data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
+                                <i class="fa-solid fa-plus"></i>Déposer une annonce
+                            </a>
+                        @endif
+                    </form>
+
+                </ul>
+            </div>
+        </div>
+        <div class="user-account">
+            <ul>
+                {{-- if user is not connected or hasrole Administrateur --}}
+                @if (!auth()->check())
+                    <li class="">
+                        <a class="btn theme-btn" data-bs-toggle="modal" data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
+                            <i class="ti-user" aria-hidden="true"></i> <span>Connexion</span>
                         </a>
                     </li>
-                @endif
-                @if (auth()->check() && auth()->user()->hasRole('Usager'))
-                    <li>
-                        <a href="{{ route('pricing') }}">
-                            Déposer une annonce
+                @else
+                    <li class="dropdown">
+                        <a class="btn theme-btn dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            {{-- {{ auth()->user()->nom }} {{ auth()->user()->prenom }} --}}
+                            <i class="fa fa-user" aria-hidden="true"></i> <span>Connecté</span>
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('public.my-account') }}">Mon compte</a></li>
+                            @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
+                                <li><a class="dropdown-item" href="{{ route('public.my-business') }}">Mon entreprise</a></li>
+                                <li><a class="dropdown-item" href="{{ route('public.annonces.list') }}">Mes annonces</a></li>
+                                <li><a class="dropdown-item" href="{{ route('public.my-subscription') }}">Mes abonnements</a></li>
+                            @endif
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{{ route('public.my-favorites') }}">Mes favoris</a></li>
+                            <li><a class="dropdown-item" href="{{ route('public.my-comments') }}">Mes commentaires</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
+                                <li><a class="dropdown-item" href="{{ route('home') }}">Espace administrateur</a></li>
+                            @endif
+                            <li><a class="dropdown-item" href="{{ route('contact') }}">Contact</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off" aria-hidden="true"></i> <span>Me déconnecter</span></a></li>
+                        </ul>
                     </li>
                 @endif
             </ul>
-            {{-- if user is not connected or hasrole Administrateur --}}
-            @if (!auth()->check())
-                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class="no-pd">
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#signin" class="addlist" onclick="$('#share').hide()">
-                            <i class="ti-user" aria-hidden="true"></i>Connexion
-                        </a>
-                    </li>
-                </ul>
-            @else
-                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class="no-pd dropdown">
-                        <a href="{{ route('home') }}" class="addlist">
-                            <img src="{{ asset('assets_client/img/default-user.svg') }}" class="img-responsive img-circle avater-img" width="50px" height="50px" alt="">
-                            <strong id="navbar_username">{{ auth()->user()->nom }} {{ auth()->user()->prenom }}</strong>
-                        </a>
-                        <ul class="dropdown-menu animated navbar-left fadeOutUp" style="display: none; opacity: 1;">
-                            <li>
-                                <a href="{{ route('home') }}">
-                                    <i class="fa fa-user" aria-hidden="true"></i> &nbsp;
-                                    Mon compte
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('logout') }}">
-                                    <i class="fa fa-power-off" aria-hidden="true"></i> &nbsp;
-                                    Déconnexion
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            @endif
         </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</nav>
+    </nav>
+</div>

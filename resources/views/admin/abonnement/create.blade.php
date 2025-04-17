@@ -35,7 +35,7 @@
         }
 
         .active .package-header {
-            background: #ff3a72;
+            background: #de6600;
         }
 
         .package-header i {
@@ -107,7 +107,7 @@
         }
 
         button.btn.btn-package {
-            background: #ff3a72;
+            background: #de6600;
             color: #ffffff;
             font-size: 18px;
             width: 100%;
@@ -151,8 +151,8 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $('.pricing-submit-btn').click(function() {
+        $(document).ready(function () {
+            $('.pricing-submit-btn').click(function () {
                 Swal.fire({
                     title: 'Confirmation',
                     html: "<span style='font-size: 13px;'>Vous êtes sur le point de souscrire à un abonnement!</span>",

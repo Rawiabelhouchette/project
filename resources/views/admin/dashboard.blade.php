@@ -20,47 +20,39 @@
                 </div>
             </div> --}}
             @foreach ($elements as $element)
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="listing-shot grid-style">
+                <div class="col-md-4 col-sm-6 col-xs-12 dashboard-element" data-id="{{ $element['id'] }}" data-lien="{{ $element['lien'] }}">
+                    <div class="listing-shot grid-style pointer-cursor">
                         <div class="row">
                             <div class="col-md-12">
-                                @if ($element['lien'] != '')
-                                    <a href="{{ $element['lien'] }}">
-                                        <i class="{{ $element['icon'] }}"></i>
-                                    </a>
-                                @else
-                                    <a href="javascript:void(0)">
-                                        <i class="{{ $element['icon'] }}"></i>
-                                    </a>
-                                @endif
+                                <span>
+                                    <i class="{{ $element['icon'] }}"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="row">
-                        <div class="listing-shot-info">
-                            <div class="extra">
-                                <div class="listing-detail-info">
-                                    <a class="" href="{{ $element['lien'] ?? 'javascript:void(0)' }}">
+                            <div class="listing-shot-info">
+                                <div class="extra">
+                                    <div class="listing-detail-info">
                                         <span>
                                             {{ $element['nom'] }}
                                         </span>
-                                    </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                             <div class="col-md-12">
                                 <h5 id="{{ $element['id'] }}">{!! $element['nombre'] !!}</h5>
                             </div>
                         </div>
                         {{-- <div class="listing-shot-info rating">
-                            <div class="row">
-                                <a class="" href="#">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        Voir le detail &nbsp;&nbsp;
-                                        <i class="fa-solid fa-right-to-bracket"></i>
-                                    </div>
-                                </a>
-                            </div>
-                        </div> --}}
+                                <div class="row">
+                                    <a class="" href="#">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            Voir le detail &nbsp;&nbsp;
+                                            <i class="fa-solid fa-right-to-bracket"></i>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div> --}}
                     </div>
                 </div>
             @endforeach
@@ -71,26 +63,42 @@
 
 @section('js')
     <script>
-        // $(document).ready(function() {
-        //     setInterval(function() {
-        //         // Active users
-        //         $.ajax({
-        //             url: $('#metaData').data('connexion'),
-        //             type: "GET",
-        //             success: function(data) {
-        //                 $('#connexions').html(data);
-        //             }
-        //         });
+        $(document).ready(function() {
+            $('.dashboard-element').on('click', function() {
+                window.location.href = $(this).data('lien');
+            });
 
-        //         // Consultations
-        //         $.ajax({
-        //             url: $('#metaData').data('consultation'),
-        //             type: "GET",
-        //             success: function(data) {
-        //                 $('#consultations').html(data);
-        //             }
-        //         });
-        //     }, 10000);
-        // } );
+
+
+
+
+
+
+
+
+
+
+
+
+            //     setInterval(function() {
+            //         // Active users
+            //         $.ajax({
+            //             url: $('#metaData').data('connexion'),
+            //             type: "GET",
+            //             success: function(data) {
+            //                 $('#connexions').html(data);
+            //             }
+            //         });
+
+            //         // Consultations
+            //         $.ajax({
+            //             url: $('#metaData').data('consultation'),
+            //             type: "GET",
+            //             success: function(data) {
+            //                 $('#consultations').html(data);
+            //             }
+            //         });
+            //     }, 10000);
+        });
     </script>
 @endsection

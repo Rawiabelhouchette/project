@@ -77,6 +77,11 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function entreprise()
+    {
+        return $this->entreprises->first();
+    }
+
 
     /**
      * Get the favoris annonces for the user.
@@ -113,14 +118,14 @@ class User extends Authenticatable
         $entreprises_id = $this->entreprises->pluck('id');
         return Abonnement::with('offre', 'entreprises')->whereHas('entreprises', function ($query) use ($entreprises_id) {
             $query->whereIn('entreprise_id', $entreprises_id);
-        })->latest();
+        });
     }
 
     public function activeAbonnements()
     {
-        return $this->belongsToMany(Abonnement::class, 'abonnement_user', 'user_id', 'abonnement_id')
-            ->withPivot('is_active', 'date_debut', 'date_fin')
-            ->wherePivot('is_active', true)
-            ->withTimestamps();
+        return $this->abonnements()
+            // ->where('date_fin', '>=', now())
+            ->latest()
+            ->first();
     }
 }

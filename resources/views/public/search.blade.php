@@ -1,5 +1,7 @@
 @extends('layout.public.app')
 
+@section('title', 'Recherche')
+
 @section('content')
     @livewire('public.search-box')
 

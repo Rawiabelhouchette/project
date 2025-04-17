@@ -55,7 +55,7 @@ class PaiementService
 
 
             //transaction id
-            $id_transaction = self::generateTransId();
+            $transaction_id = self::generateTransId();
 
             //Veuillez entrer votre apiKey
             $apikey = env("CP_API_KEY");
@@ -81,7 +81,7 @@ class PaiementService
 
             //
             $formData = array(
-                "transaction_id" => $id_transaction,
+                "transaction_id" => $transaction_id,
                 "amount" => $offre->prix,
                 "currency" => $currency,
                 "customer_surname" => $customer_name,
@@ -105,30 +105,36 @@ class PaiementService
             $CinetPay = new CinetPay($site_id, $apikey, $VerifySsl = false);//$VerifySsl=true <=> Pour activerr la verification ssl sur curl 
             $result = $CinetPay->generatePaymentLink($formData);
 
+            // dd($result);
+
             if ($result["code"] == '201') {
                 $url = $result["data"]["payment_url"];
 
-                $checStatus = self::checkPayment($id_transaction);
+                $checkStatus = self::checkPayment($transaction_id);
 
                 $transaction = new Transaction;
                 $transaction->montant = $offre->prix;
-                $transaction->trans_id = $id_transaction;
+                $transaction->trans_id = $transaction_id;
                 $transaction->method = $channels;
                 $transaction->buyer_name = $customer_name . ' ' . $customer_surname;
-                $transaction->trans_status = $checStatus->data['status'];
+                // $transaction->trans_status = optional($checkStatus->data)['status'] ?? null;
+                $transaction->trans_status = $checkStatus->code;
+                $transaction->error_message = $checkStatus->message;
                 $transaction->phone = $customer_phone_number;
-                $transaction->error_message = $checStatus->message;
                 $transaction->statut = '0';
                 $transaction->user_id = auth()->user()->id;
                 $transaction->offre_id = $validated['offre_id'];
+
                 $transaction->entreprise_id = $companyId;
                 if (auth()->user()->hasRole('Usager')) {
                     $transaction->entreprise = $validated['nom_entreprise'];
                     $transaction->numero = $validated['numero_telephone'];
                     $transaction->numero_whatsapp = $validated['numero_whatsapp'];
+                    $transaction->ville_id = $validated['ville_id'];
                 }
 
                 $transaction->save();
+
 
                 return (object) [
                     'status' => 'success',
@@ -137,7 +143,15 @@ class PaiementService
                 ];
 
             }
+
+            return (object) [
+                'status' => 'error',
+                'message' => 'Une erreur s\'est produite',
+                'url' => null,
+            ];
+
         } catch (Exception $e) {
+            \Log::error($e->getMessage());
             return (object) [
                 'status' => 'error',
                 'message' => $e->getMessage(),
@@ -160,7 +174,7 @@ class PaiementService
     public function redirectionAfterPayment()
     {
         if (!auth()->user()->hasRole('Usager')) {
-            return redirect()->route('abonnements.index');
+            return redirect()->route('public.annonces.create');
         }
 
         return redirect()->route('pricing');
@@ -169,8 +183,11 @@ class PaiementService
     // Notification de paiement venant de CinetPay
     public function notify(Request $request)
     {
+        $transaction_id = $request->cpm_trans_id;
+
         // check if request contains transaction_id
-        if (!$request->cpm_trans_id) {
+        if (!$transaction_id) {
+            \Log::error("transaction_id non transmis");
             abort(403, "transaction_id non transmis");
         }
 
@@ -187,11 +204,13 @@ class PaiementService
             if ($request->header('X-Token')) {
                 $xtoken = $request->header('X-Token');
             } else {
+                \Log::error("X-token indisponible");
                 abort(403, "X-token indisponible");
             }
 
             // check if the token is valid
             if (!hash_equals($xtoken, $generated_token)) {
+                \Log::error("Token invalide");
                 abort(403, "Token invalide");
             }
 
@@ -210,21 +229,24 @@ class PaiementService
             Log::channel('transaction')->info('' . $log);
 
             // check if the transaction is valid in DB
-            $transaction = Transaction::where('trans_id', $request->cpm_trans_id)->first();
+            $transaction = Transaction::where('trans_id', $transaction_id)->first();
             // -1 : error
             //  0  : pending
             //  1  : success
             if (!$transaction) {
+                \Log::error("Transaction non trouvée");
                 abort(403, "Transaction non trouvée");
             }
 
             // TODO : Shall I check from the db first ?
             if ($transaction->statut == 1) {
+                \Log::error("Transaction déjà effectuée");
                 abort(403, "Transaction déjà effectuée");
             }
 
             // check if the transaction is valid
-            $check_transaction = self::checkPayment($request->cpm_trans_id);
+            $check_transaction = self::checkPayment($transaction_id);
+            // \Log::info(json_encode($check_transaction));
             if ($check_transaction->code != '00') {
                 // update the transaction
                 $transaction->update([
@@ -234,6 +256,7 @@ class PaiementService
                 ]);
                 // session flash message
                 session()->flash('error', 'Echec, votre paiement a échoué');
+                \Log::error("Echec, votre paiement a échoué");
                 abort(403, "Echec, votre paiement a échoué");
             }
 
@@ -265,6 +288,11 @@ class PaiementService
             );
 
             session()->flash('success', 'Paiement effectué avec succès');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Opération réussie.'
+            ]);
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -319,6 +347,7 @@ class PaiementService
             'nom' => $company_name,
             'telephone' => $transaction->numero,
             'whatsapp' => $transaction->numero_whatsapp,
+            'ville_id' => $transaction->ville_id,
         ]);
 
         // Get the user
@@ -331,7 +360,6 @@ class PaiementService
             'date_debut' => now(),
         ]);
 
-
         // Get offre dabonnement
         $offre_abonnement = OffreAbonnement::find($transaction->offre_id);
 
@@ -341,12 +369,6 @@ class PaiementService
             'date_debut' => date('Y-m-d H:i:s'),
             'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
         ]);
-
-        // $subscription = $company->abonnements()->create([
-        //     'offre_abonnement_id' => $offre_abonnement->id,
-        //     'date_debut' => date('Y-m-d H:i:s'),
-        //     'date_fin' => date('Y-m-d', strtotime('+' . $offre_abonnement->duree . ' month')) . ' 23:59:59',
-        // ]);
 
         // link the abonnement to the entreprise
         $subscription->entreprises()->attach($company->id);
@@ -364,11 +386,12 @@ class PaiementService
 
         Mail::send(
             new SubscriptionConfirmation(
+                $user->email,
                 $user->nom,
-                $subscription->offreAbonnement->libelle,
+                $offre_abonnement->libelle,
                 $subscription->date_debut,
                 $subscription->date_fin,
-                $subscription->entreprise->nom
+                $company->nom
             )
         );
 
@@ -409,10 +432,11 @@ class PaiementService
 
         Mail::send(
             new ReSubscriptionConfirmation(
+                $user->email,
                 $user->nom,
                 $subscription->date_debut,
                 $subscription->date_fin,
-                $subscription->offreAbonnement->libelle,
+                $offreAbonnement->libelle,
             )
         );
 

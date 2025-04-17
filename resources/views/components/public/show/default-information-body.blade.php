@@ -1,40 +1,54 @@
 @props(['annonce'])
 
-<div class="tab-content tabs">
-    <div class="tab-pane fade in active" id="information" role="tabpanel">
-        <div class="row">
-            @forelse ($annonce->annonceable->caracteristiques as $key => $value)
-                <div class="col-md-4 col-xs-12 mrg-bot-5 text-center padd-bot-5">
-                    {{ $key }} <br>
-                    <strong class="theme-cl">{{ $value }}</strong>
-                </div>
-            @empty
-                <div class="col-md-12">
-                    Aucune information disponible
-                </div>
-            @endforelse
+<div class="tab-content mt-3 p-0" id="myTabContent">
+    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+        <div class="side-list">
+            <ul>
+                <li class="pt-0">
+                    <div>
+                        {{ $annonce->description ?? 'Aucune description disponible' }}
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
-    <div class="tab-pane fade" id="equipement" role="tabpanel">
+
+    <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
+        <div class="side-list">
+            <ul>
+                @forelse ($annonce->annonceable->caracteristiques as $key => $value)
+                    <li>
+                        {{ $key }}
+                        <span>{{ $value }}</span>
+                    </li>
+                @empty
+                    <li>
+                        Aucune information disponible
+                    </li>
+                @endforelse
+            </ul>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="equipement" role="tabpanel" aria-labelledby="equipement-tab">
         @forelse ($annonce->referenceDisplay() as $key => $value)
             @if (count($value) > 0)
-                <div class="row">
-                    <div class="col-md-12">
-                        <strong class="" style="text-transform: uppercase;">{{ $key }}</strong>
-                    </div>
-                    <div class="detail-wrapper-body padd-bot-10">
-                        <ul class="detail-check">
-                            @forelse ($value as $equipement)
-                                <div class="col-xs-12 col-md-4 padd-l-0">
-                                    <li style="width: 100%;">{{ $equipement }}</li>
-                                </div>
-                            @empty
-                                <span class="text-center">
-                                    Aucun équipement disponible
-                                </span>
-                            @endforelse
-                        </ul>
-                    </div>
+                <div class="side-list">
+                    <ul>
+                        <li>
+                            {{ $key }}
+                        </li>
+                        <li class="detail-wrapper-body padd-bot-10">
+                            <ul class="detail-check">
+                                @forelse ($value as $equipement)
+                                    <li>{{ $equipement }}</li>
+                                @empty
+                                    <span class="text-center">
+                                        Aucun équipement disponible
+                                    </span>
+                                @endforelse
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             @endif
         @empty
@@ -42,5 +56,8 @@
                 Aucun équipement disponible
             </div>
         @endforelse
+    </div>
+    <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+        @livewire('public.comment', [$annonce])
     </div>
 </div>

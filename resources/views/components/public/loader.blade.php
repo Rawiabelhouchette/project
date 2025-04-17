@@ -1,4 +1,4 @@
-@props(['withText' => true, 'color' => '#ff3a72'])
+@props(['withText' => true, 'color' => '#de6600'])
 
 <div>
     @if ($withText)
@@ -8,6 +8,7 @@
     @else
         <span class="lds-dual-ring-2"></span>
     @endif
+    &nbsp;&nbsp;
 
     <style>
         /* Spinner */
@@ -24,8 +25,8 @@
             height: 24px;
             margin: 8px;
             border-radius: 50%;
-            border: 4px solid #ff3a72;
-            border-color: #ff3a72 transparent;
+            border: 4px solid #de6600;
+            border-color: #de6600 transparent;
             animation: lds-dual-ring 1.2s linear infinite;
         }
 
@@ -54,8 +55,14 @@
             margin: 0px;
             margin-bottom: -5px;
             border-radius: 50%;
-            border: 4px solid {{ $color }};
-            border-color: {{ $color }} transparent {{ $color }} transparent;
+            border: 4px solid
+                {{ $color }}
+            ;
+            border-color:
+                {{ $color }}
+                transparent
+                {{ $color }}
+                transparent;
             animation: lds-dual-ring-2 1.2s linear infinite;
         }
 

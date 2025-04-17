@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('auberges', function (Blueprint $table) {
             $table->id();
-            $table->integer('nombre_chambre');
+            $table->integer('nombre_chambre')->nullable();
             $table->integer('nombre_personne')->nullable();
             $table->integer('nombre_salles_bain')->nullable();
             $table->integer('superficie')->nullable();

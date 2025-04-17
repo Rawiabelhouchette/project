@@ -50,7 +50,7 @@ class Quartier extends Model
 
     // All quartiers with their ville and their pays ex : "Avedji, Lome, Togo"
     // return array of string
-    public static function getAllQuartiers() : array
+    public static function getAllQuartiers(): array
     {
         $quartiers = Quartier::with('ville.pays')->get();
         $quartiersArray = [];
@@ -63,11 +63,14 @@ class Quartier extends Model
     public function getNombreAnnonceAttribute()
     {
         $ville = $this->nom;
-        $count = Annonce::public()->whereHas('entreprise.quartier', function ($query) use ($ville) {
+        $count = Annonce::public()->whereHas('entreprise.ville', function ($query) use ($ville) {
             $query->where('nom', $ville);
         })->count();
         return $count;
     }
 
-    
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

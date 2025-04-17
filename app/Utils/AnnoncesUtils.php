@@ -2,9 +2,11 @@
 
 namespace App\Utils;
 
+use App\Models\Annonce;
 use App\Models\Fichier;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Storage;
 
 
 class AnnoncesUtils
@@ -64,6 +66,99 @@ class AnnoncesUtils
                 'nom' => 'Bar & Rooftop',
                 'icon' => 'fas fa-glass-martini-alt',
                 'route' => 'bars.create',
+                'color' => 'info'
+            ]
+        ]);
+    }
+
+    public static function getSeLogerList(): array
+    {
+        return [
+            'Auberge',
+            'Hôtel',
+            'Location meublée',
+        ];
+    }
+
+    public static function getSortirList(): array
+    {
+        return [
+            'Boite de nuit',
+            'Bar',
+        ];
+    }
+
+    public static function getSeRestaurerList(): array
+    {
+        return [
+            'Fast-food',
+            'Restaurant',
+            'Patisserie',
+        ];
+    }
+
+    public static function getLouerUneVoitureList(): array
+    {
+        return [
+            'Location de véhicule',
+        ];
+    }
+
+    public static function getAnnonceListAlt(): object
+    {
+        return collect([
+            (object) [
+                'nom' => 'Auberge',
+                'icon' => 'fas fa-hotel',
+                'route' => 'public.hostels.create',
+                'color' => 'info'
+            ],
+            (object) [
+                'nom' => 'Hôtel',
+                'icon' => 'fas fa-hotel',
+                'route' => 'public.hotels.create',
+                'color' => 'sucess'
+            ],
+            (object) [
+                'nom' => 'Location de véhicule',
+                'icon' => 'fas fa-car',
+                'route' => 'public.vehicle-rentals.create',
+                'color' => 'warning'
+            ],
+            (object) [
+                'nom' => 'Location meublée',
+                'icon' => 'fas fa-home',
+                'route' => 'public.furnished-rentals.create',
+                'color' => 'info'
+            ],
+            (object) [
+                'nom' => 'Boite de nuit',
+                'icon' => 'fas fa-glass-cheers',
+                'route' => 'public.night-clubs.create',
+                'color' => 'danger'
+            ],
+            (object) [
+                'nom' => 'Fast-food',
+                'icon' => 'fas fa-utensils',
+                'route' => 'public.fast-foods.create',
+                'color' => 'info'
+            ],
+            (object) [
+                'nom' => 'Restaurant',
+                'icon' => 'fas fa-burger',
+                'route' => 'public.restaurants.create',
+                'color' => 'sucess'
+            ],
+            (object) [
+                'nom' => 'Patisserie',
+                'icon' => 'fas fa-birthday-cake',
+                'route' => 'public.pastry-shops.create',
+                'color' => 'warning'
+            ],
+            (object) [
+                'nom' => 'Bar & Rooftop',
+                'icon' => 'fas fa-glass-martini-alt',
+                'route' => 'public.bars.create',
                 'color' => 'info'
             ]
         ]);
@@ -153,6 +248,48 @@ class AnnoncesUtils
                 'color' => 'cl-info',
                 'bg' => 'f',
                 'image' => $img_path . 'fast-food.jpg',
+            ],
+        ]);
+    }
+
+    public static function getFilterAnnonceTypeList(): object
+    {
+        return collect([
+            (object) [
+                'nom' => 'Auberge',
+                'valeur' => 'Auberge',
+            ],
+            (object) [
+                'nom' => 'Hôtel',
+                'valeur' => 'Hôtel',
+            ],
+            (object) [
+                'nom' => 'Location de véhicule',
+                'valeur' => 'Location de véhicule',
+            ],
+            (object) [
+                'nom' => 'Location meublée',
+                'valeur' => 'Location meublée',
+            ],
+            (object) [
+                'nom' => 'Boite de nuit',
+                'valeur' => 'Boite de nuit',
+            ],
+            (object) [
+                'nom' => 'Fast-food',
+                'valeur' => 'Fast-food',
+            ],
+            (object) [
+                'nom' => 'Restaurant',
+                'valeur' => 'Restaurant',
+            ],
+            (object) [
+                'nom' => 'Patisserie',
+                'valeur' => 'Patisserie',
+            ],
+            (object) [
+                'nom' => 'Bar & Rooftop',
+                'valeur' => 'Bar',
             ],
         ]);
     }
@@ -290,6 +427,68 @@ class AnnoncesUtils
         }
 
         return (object) $params;
+    }
+
+    /**
+     * Function to store an image and return the file path
+     *
+     * @param \Illuminate\Http\UploadedFile $image
+     * @param string $folder_name
+     * @return object
+     */
+    public static function storeImage($image, $folder_name): object
+    {
+        $image->store('public/' . $folder_name);
+        $fichier = Fichier::create([
+            'nom' => $image->hashName(),
+            'chemin' => $folder_name . '/' . $image->hashName(),
+            'extension' => $image->extension(),
+        ]);
+
+        return (object) [
+            'id' => $fichier->id,
+            'path' => $fichier->chemin,
+        ];
+    }
+
+    public static function updateImage($image, string $folder_name, int|null $image_id): object
+    {
+        $image->store('public/' . $folder_name);
+        $fichier = Fichier::find($image_id);
+
+        if ($fichier) {
+            Storage::delete('public/' . $fichier->chemin);
+            $fichier->delete();
+        }
+
+        $fichier = Fichier::create([
+            'nom' => $image->hashName(),
+            'chemin' => $folder_name . '/' . $image->hashName(),
+            'extension' => $image->extension(),
+        ]);
+
+        return (object) [
+            'id' => $fichier->id,
+            'path' => $fichier->chemin,
+        ];
+    }
+
+    public static function generateSlug($name)
+    {
+        // Génère le slug de base à partir du nom
+        $slug = Str::slug($name);
+
+        // Génère un nombre aléatoire initial
+        $randomNumber = random_int(100000, 999999);
+
+        // Vérifie si ce nombre existe déjà dans les slugs
+        while (Annonce::where('slug', 'like', $slug . '-' . $randomNumber)->exists()) {
+            // Si le nombre existe déjà, génère un autre nombre aléatoire
+            $randomNumber = random_int(100000, 999999);
+        }
+
+        // Combine le slug et le nombre aléatoire pour créer un slug unique
+        return $slug . '-' . $randomNumber;
     }
 }
 

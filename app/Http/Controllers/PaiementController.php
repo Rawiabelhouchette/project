@@ -26,7 +26,12 @@ class PaiementController extends Controller
             return redirect($guichet->url);
         } else {
             Log::error('' . $guichet->status);
-            return back()->with('error', $guichet->status);
+            return back()->with('error', $guichet->message)->withInput([
+                'offre_id' => $validated['offre_id'],
+                'nom_entreprise' => $validated['nom_entreprise'],
+                'numero_telephone' => $validated['numero_telephone'],
+                'numero_whatsapp' => $validated['numero_whatsapp'],
+            ]);
         }
     }
 

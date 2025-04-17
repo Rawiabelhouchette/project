@@ -6,9 +6,13 @@ use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Bar;
 use App\Models\Entreprise;
+use App\Models\Pays;
+use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +28,6 @@ class Create extends Component
     public $date_validite;
     public $entreprise_id;
     public $type_bar;
-    public $type_musique;
     public $capacite_accueil;
 
     public $prix_min = 0;
@@ -36,7 +39,22 @@ class Create extends Component
     public $commodites_vie_nocturne = [];
     public $list_commodites_vie_nocturne = [];
 
+    public $types_musique = [];
+    public $list_types_musique = [];
+
     public $entreprises = [];
+
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
+
+    public $latitude;
+    public $longitude;
 
 
     public function mount()
@@ -52,6 +70,11 @@ class Create extends Component
             $this->entreprises = Entreprise::all();
         }
 
+        $tmp_types_musique = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'types-de-musique')->first();
+        $tmp_types_musique ?
+            $this->list_types_musique = ReferenceValeur::where('reference_id', $tmp_types_musique->id)->select('valeur', 'id')->get() :
+            $this->list_types_musique = [];
+
         $tmp_equipement_vie_nocturne = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'equipements-vie-nocturne')->first();
         $tmp_equipement_vie_nocturne ?
             $this->list_equipements_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_equipement_vie_nocturne->id)->select('valeur', 'id')->get() :
@@ -61,27 +84,39 @@ class Create extends Component
         $tmp_commodite_vie_nocturne ?
             $this->list_commodites_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_commodite_vie_nocturne->id)->select('valeur', 'id')->get() :
             $this->list_commodites_vie_nocturne = [];
+
+        $this->pays = Pays::orderBy('nom')->get();
+
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
 
     public function rules()
     {
         return [
-            'nom' => 'required|string|min:3',
+            'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
             'description' => 'nullable|string|min:3',
-            'date_validite' => 'required|date',
             'entreprise_id' => 'required|integer|exists:entreprises,id',
             'type_bar' => 'nullable|string',
-            'type_musique' => 'nullable|string',
+
             'capacite_accueil' => 'nullable|integer',
             'equipements_vie_nocturne' => 'nullable|array',
             'equipements_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
             'commodites_vie_nocturne' => 'nullable|array',
             'commodites_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
+            'types_musique' => 'nullable|array',
+            'types_musique.*' => 'nullable|integer|exists:reference_valeurs,id',
+
             'galerie' => 'nullable|array',
             'galerie.*' => 'nullable|image|max:1024',
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
-            // 'image' => 'required',
+            // // 'image' => 'required',
+            'pays_id' => 'required|exists:pays,id',
+            'ville_id' => 'required|exists:villes,id',
+            'quartier_id' => 'required|string|max:255',
+
+            'longitude' => 'required|string',
+            'latitude' => 'required|string',
         ];
     }
 
@@ -95,16 +130,14 @@ class Create extends Component
             'description.string' => 'La description doit être une chaîne de caractères',
             'description.min' => 'La description doit contenir au moins 3 caractères',
 
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
-
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.integer' => 'L\'entreprise doit être un entier',
             'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
 
             'type_bar.string' => 'Le type de bar doit être une chaîne de caractères',
 
-            'type_musique.string' => 'Le type de musique doit être une chaîne de caractères',
+            'types_musique.integer' => 'Le type de musique doit être un entier',
+            'types_musique.exists' => 'Le type de musique n\'existe pas',
 
             'capacite_accueil.integer' => 'La capacité d\'accueil doit être un entier',
 
@@ -129,7 +162,37 @@ class Create extends Component
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
 
             'image.required' => 'L\'image est obligatoire',
+            // validation.uploaded
+            'image.uploaded' => 'L\'image doit être une image',
+
+            'pays_id.required' => 'Le pays est obligatoire',
+            'pays_id.exists' => 'Le pays n\'existe pas',
+            'ville_id.required' => 'La ville est obligatoire',
+            'ville_id.exists' => 'La ville n\'existe pas',
+            'quartier_id.required' => 'Le quartier est obligatoire',
+
+            'longitude.required' => 'La localisation est obligatoire.',
         ];
+    }
+
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
     }
 
     public function store()
@@ -142,14 +205,21 @@ class Create extends Component
             $bar = Bar::create([
                 'prix_min' => $this->prix_min,
                 'prix_max' => $this->prix_max,
+                'capacite_accueil' => $this->capacite_accueil,
+                'type_bar' => $this->type_bar
             ]);
 
             $annonce = new Annonce([
                 'titre' => $this->nom,
                 'type' => 'Bar',
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
+
+                'ville_id' => $this->ville_id,
+                'quartier' => $this->quartier_id,
+
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
             ]);
 
             $bar->annonce()->save($annonce);
@@ -157,6 +227,7 @@ class Create extends Component
             $references = [
                 ['Equipements vie nocturne', $this->equipements_vie_nocturne],
                 ['Commodités de vie nocturne', $this->commodites_vie_nocturne],
+                ['Types de musique', [$this->types_musique]],
             ];
 
             AnnoncesUtils::createManyReference($annonce, $references);
@@ -168,15 +239,15 @@ class Create extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération réussie'),
-                'message' => __('Une erreur est survenue lors de l\'annonce'),
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue lors de l\'ajout de l\'annonce'),
             ]);
             Log::error($th->getMessage());
             return;
         }
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
-        return redirect()->route('bars.create');
+        return redirect()->route('public.annonces.list');
     }
 
     public function render()

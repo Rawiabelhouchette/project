@@ -24,12 +24,12 @@ class Entreprise extends Model
         'facebook',
         'whatsapp',
         'logo',
-        'quartier_id',
+        'ville_id',
+        'quartier',
         'longitude',
         'latitude',
     ];
 
-    // before saing and updating
     public static function boot()
     {
         parent::boot();
@@ -77,9 +77,9 @@ class Entreprise extends Model
 
     public function getAdresseCompleteAttribute()
     {
-        $quartier = $this->quartier->nom ?? '';
-        $ville = $this->quartier->ville->nom ?? '';
-        $pays = $this->quartier->ville->pays->nom ?? '';
+        $quartier = $this->quartier;
+        $ville = $this->ville->nom ?? '';
+        $pays = $this->ville->pays->nom ?? '';
         return $pays . ', ' . $ville . ', ' . $quartier;
     }
 
@@ -128,7 +128,6 @@ class Entreprise extends Model
         'facebook' => PurifyHtmlOnGet::class,
         'whatsapp' => PurifyHtmlOnGet::class,
         'logo' => PurifyHtmlOnGet::class,
-        'quartier_id' => PurifyHtmlOnGet::class,
         'longitude' => PurifyHtmlOnGet::class,
         'latitude' => PurifyHtmlOnGet::class,
     ];
@@ -139,9 +138,9 @@ class Entreprise extends Model
         return $this->hasMany(HeureOuverture::class, 'entreprise_id');
     }
 
-    public function quartier()
+    public function ville()
     {
-        return $this->belongsTo(Quartier::class, 'quartier_id');
+        return $this->belongsTo(Ville::class, 'ville_id');
     }
 
     public function owner()

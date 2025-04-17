@@ -6,11 +6,17 @@ use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\LocationVehicule;
 use App\Models\Entreprise;
+use App\Models\Marque;
+use App\Models\Modele;
+use App\Models\Pays;
+use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -21,8 +27,8 @@ class Create extends Component
     public $nom;
     public $type;
     public $description;
-    public $marque;
-    public $modele;
+    public $marque_id;
+    public $modele_id;
     public $annee;
     public $carburant;
     public $kilometrage;
@@ -41,12 +47,25 @@ class Create extends Component
 
     public $list_boites_vitesse = [];
     public $list_marques = [];
+    public $list_modeles = [];
     public $list_types_carburant = [];
 
     public $conditions_location = [];
     public $list_conditions_location = [];
     public $date_validite;
     public $heure_validite;
+
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
+
+    public $latitude;
+    public $longitude;
 
 
     public function mount()
@@ -62,12 +81,12 @@ class Create extends Component
             $this->entreprises = Entreprise::all();
         }
 
-        $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-vehicule')->first();
+        $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-voiture')->first();
         $tmp_type_vehicule ?
             $this->list_types_vehicule = ReferenceValeur::where('reference_id', $tmp_type_vehicule->id)->select('valeur', 'id')->get() :
             $this->list_types_vehicule = [];
 
-        $tmp_equipement_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'equipements-vehicule')->first();
+        $tmp_equipement_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'options-accessoires')->first();
         $tmp_equipement_vehicule ?
             $this->list_equipements_vehicule = ReferenceValeur::where('reference_id', $tmp_equipement_vehicule->id)->select('valeur', 'id')->get() :
             $this->list_equipements_vehicule = [];
@@ -82,15 +101,16 @@ class Create extends Component
             $this->list_conditions_location = ReferenceValeur::where('reference_id', $tmp_condition_location->id)->select('valeur', 'id')->get() :
             $this->list_conditions_location = [];
 
-        $tmp_marque = Reference::where('slug_type', 'marque')->where('slug_nom', 'marques-de-vehicule')->first();
-        $tmp_marque ?
-            $this->list_marques = ReferenceValeur::where('reference_id', $tmp_marque->id)->select('valeur', 'id')->get() :
-            $this->list_marques = [];
+        $this->list_marques = Marque::orderBy('nom')->get();
 
-        $tmp_type_carburant = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-carburant')->first();
+        $tmp_type_carburant = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-moteur')->first();
         $tmp_type_carburant ?
             $this->list_types_carburant = ReferenceValeur::where('reference_id', $tmp_type_carburant->id)->select('valeur', 'id')->get() :
             $this->list_types_carburant = [];
+
+        $this->pays = Pays::orderBy('nom')->get();
+
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
 
     public function rules()
@@ -99,8 +119,7 @@ class Create extends Component
             'entreprise_id' => 'required|exists:entreprises,id',
             'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
             'description' => 'required|string|min:3',
-            'marque' => 'required|string|min:3',
-            'modele' => 'nullable|string|min:3',
+            'modele_id' => 'required|exists:modeles,id',
             'annee' => 'nullable|integer|min:1800|max:9999',
             'carburant' => 'nullable|string|exists:reference_valeurs,valeur',
             'kilometrage' => 'nullable|integer|min:0|max:999999',
@@ -113,7 +132,16 @@ class Create extends Component
             'equipements_vehicule.*' => 'nullable|integer|exists:reference_valeurs,id',
             'conditions_location' => 'nullable|array',
             'conditions_location.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'galerie' => 'nullable|array|max:10',
+            'pays_id' => 'required|exists:pays,id',
+            'ville_id' => 'required|exists:villes,id',
+            'quartier_id' => 'required|string|max:255',
+
+            'longitude' => 'required|string',
+            'latitude' => 'required|string',
+
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:10',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
         ];
     }
 
@@ -134,14 +162,8 @@ class Create extends Component
             'description.min' => __('La description doit contenir au moins :min caractères'),
             'description.max' => __('La description doit contenir au maximum :max caractères'),
 
-            'marque.required' => __('Veuillez renseigner la marque'),
-            'marque.string' => __('Marque invalide'),
-            'marque.min' => __('La marque doit contenir au moins :min caractères'),
-            'marque.max' => __('La marque doit contenir au maximum :max caractères'),
-
-            'modele.string' => __('Modèle invalide'),
-            'modele.min' => __('Le modèle doit contenir au moins :min caractères'),
-            'modele.max' => __('Le modèle doit contenir au maximum :max caractères'),
+            'modele_id.required' => __('Veuillez choisir un modèle'),
+            'modele_id.exists' => __('Veuillez choisir un modèle valide'),
 
             'annee.integer' => __('Année invalide'),
             'annee.min' => __('L\'année doit être supérieure ou égale à :min'),
@@ -160,7 +182,50 @@ class Create extends Component
             'nombre_portes.integer' => __('Nombre de portes invalide'),
             'nombre_portes.min' => __('Le nombre de portes doit être supérieur ou égal à :min'),
             'nombre_portes.max' => __('Le nombre de portes doit être inférieur ou égal à :max'),
+            'pays_id.required' => 'Le pays est obligatoire',
+            'pays_id.exists' => 'Le pays n\'existe pas',
+            'ville_id.required' => 'La ville est obligatoire',
+            'ville_id.exists' => 'La ville n\'existe pas',
+            'quartier_id.required' => 'Le quartier est obligatoire',
+
+            'longitude.required' => 'La localisation est obligatoire.',
+
+            'image.required' => 'L\'image est obligatoire',
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
         ];
+    }
+
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
+    }
+
+    public function updatedMarqueId($marque_id)
+    {
+        $this->modele_id = null;
+        $this->list_modeles = Modele::where('marque_id', $marque_id)->orderBy('nom')->get();
     }
 
     public function store()
@@ -170,34 +235,35 @@ class Create extends Component
         try {
             DB::beginTransaction();
 
-            // $date_validite = $this->date_validite . ' ' . $this->heure_validite;
-
             $locationVehicule = LocationVehicule::create([
-                'marque' => $this->marque,
-                'modele' => $this->modele,
                 'annee' => $this->annee,
                 'carburant' => $this->carburant,
                 'kilometrage' => $this->kilometrage,
                 'boite_vitesse' => $this->boite_vitesses,
                 'nombre_portes' => $this->nombre_portes,
                 'nombre_places' => $this->nombre_places,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
+                'modele_id' => $this->modele_id,
             ]);
 
             $annonce = new Annonce([
                 'titre' => $this->nom,
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
                 'type' => 'Location de véhicule',
+
+                'ville_id' => $this->ville_id,
+                'quartier' => $this->quartier_id,
+
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
             ]);
 
             $locationVehicule->annonce()->save($annonce);
 
             $references = [
-                ['Types de véhicule', $this->types_vehicule],
-                ['Equipements véhicule', $this->equipements_vehicule],
+                ['Types de voiture', $this->types_vehicule],
+                ['Options et accessoires', $this->equipements_vehicule],
                 ['Conditions de location', $this->conditions_location],
             ];
 
@@ -210,15 +276,15 @@ class Create extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération réussie'),
-                'message' => __('Une erreur est survenue lors de l\'enregistrement de l\'annonce'),
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue lors de l\'ajout de l\'annonce'),
             ]);
             Log::error($th->getMessage());
             return;
         }
 
         session()->flash('success', __('Annonce enregistrée avec succès'));
-        return redirect()->route('location-vehicules.create');
+        return redirect()->route('public.annonces.list');
     }
 
 

@@ -2,53 +2,209 @@
 
 namespace App\Livewire\Admin\Ville;
 
-use App\Models\Ville;
-use Livewire\Component;
 use App\Models\Pays;
+use DB;
+use Illuminate\Validation\ValidationException;
+use Livewire\Component;
+use App\Models\Ville;
 use Illuminate\Support\Str;
 
 class Create extends Component
 {
     public $nom;
-    public $pays_id;
+    public $isEdit = false;
     public $pays;
+    public $ville;
+    public $pays_id;
+    public $libelle = 'Enregistrer une ville';
+    public $buttonLibelle = 'Enregistrer';
+    public $formIcon = 'save';
 
-    public function rules() {
+    public function mount($villeId = null)
+    {
+        $this->pays = Pays::orderBy('nom')->get();
+        if ($villeId) {
+            $this->loadVille($villeId);
+        } else {
+            $this->isEdit = false;
+        }
+    }
+
+    protected $listeners = [
+        'editVille' => 'edit',
+        'deleteVille' => 'delete',
+    ];
+
+    public function edit($villeId)
+    {
+        $this->resetErrorBag();
+        $this->loadVille($villeId);
+        $this->isEdit = true;
+        $this->libelle = 'Modifier une ville';
+        $this->buttonLibelle = 'Modifier';
+        $this->formIcon = 'edit';
+    }
+
+    public function loadVille($villeId)
+    {
+        $this->isEdit = true;
+        $this->ville = Ville::findOrFail($villeId);
+        $this->nom = $this->ville->nom;
+        $this->pays_id = $this->ville->pays_id;
+    }
+
+    public function exitEdit()
+    {
+        $this->isEdit = false;
+        $this->libelle = 'Enregistrer une ville';
+        $this->buttonLibelle = 'Enregistrer';
+        $this->reset();
+        $this->pays = Pays::orderBy('nom')->get();
+    }
+
+    protected function rules()
+    {
+        if ($this->isEdit) {
+            return [
+                'nom' => 'required|string|min:3|unique:villes,nom,' . $this->ville->id,
+                'pays_id' => 'required|exists:pays,id',
+            ];
+        }
         return [
-            'nom' => 'required|string|min:3|unique:villes,nom,id,pays_id',
-            'pays_id' => 'required|integer|exists:pays,id',
+            'nom' => 'required|string|min:3|max:255',
+            'pays_id' => 'required|exists:pays,id',
         ];
     }
 
     protected $messages = [
-        'nom.required' => 'Le nom de la ville est obligatoire.',
-        'nom.unique' => 'Le nom de la ville existe déjà.',
-
-        'pays_id.required' => 'Le pays de la ville est obligatoire.',
-        'pays_id.exists' => 'Le pays de la ville n\'existe pas.',
+        'nom.required' => 'Le nom est obligatoire',
+        'nom.min' => 'Le nom doit contenir au moins 3 caractères',
+        'nom.unique' => 'Le nom existe déjà',
+        'pays_id.required' => 'Le pays est obligatoire',
+        'pays_id.exists' => 'Le pays n\'existe pas',
     ];
-
-    public function mount()
-    {
-        $this->pays = Pays::all();
-    }
 
     public function store()
     {
-        $validated = $this->validate();
-        $validated['slug'] = Str::slug($validated['nom']);
+        if ($this->isEdit) {
+            $this->update();
+            return;
+        }
 
-        Ville::create($validated);
+        $this->validate();
+
+        $existingValues = '';
+        $hasOneNewValue = false;
+        $hasOneValideValue = false;
+
+        // les valeurs sont stockées séparément par des virgules
+        $noms = array_filter(array_map('trim', explode(',', $this->nom)));
+
+        foreach ($noms as $nom) {
+            $hasOneValideValue = true;
+            $ville = Ville::where('nom', $nom)->where('pays_id', $this->pays_id)->first();
+            if ($ville) {
+                $existingValues .= $nom . ', ';
+                continue;
+            }
+            $hasOneNewValue = true;
+            Ville::create([
+                'nom' => $nom,
+                'pays_id' => $this->pays_id,
+            ]);
+        }
+
+        if (!$hasOneValideValue) {
+            throw ValidationException::withMessages([
+                'nom' => __('Veuillez saisir une valeur valide.'),
+            ]);
+        }
+
+        if (!$hasOneNewValue) {
+            throw ValidationException::withMessages([
+                'nom' => __('Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ')),
+            ]);
+        }
+
+        $message = 'Ville(s) ajoutée(s) avec succès';
+        if ($existingValues) {
+            $message .= ' <br>Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ');
+        }
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',
-            'title'   => __('Opération réussie'),
-            'message' => __('Ville ajoutée avec succès'),
-        ]);        
+            'title' => __('Opération réussie'),
+            'message' => __($message),
+        ]);
+
+        $this->dispatch('relaod:dataTable');
 
         $this->reset();
 
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
+    }
+
+    public function update()
+    {
+        $validated = $this->validate();
+
+        // check if the ville already exists
+        $ville = Ville::where('nom', $this->nom)
+            ->where('pays_id', $this->pays_id)
+            ->where('id', '!=', $this->ville->id)
+            ->first();
+
+        if ($ville) {
+            throw ValidationException::withMessages([
+                'nom' => __('La ville de ce pays existe déjà'),
+            ]);
+        }
+
+        $this->ville->update($validated);
+
+        $this->dispatch('swal:modal', [
+            'icon' => 'success',
+            'title' => __('Opération réussie'),
+            'message' => __('Ville modifié avec succès'),
+        ]);
+
+        $this->dispatch('relaod:dataTable');
+
+        $this->exitEdit();
+    }
+
+
+    public function delete($villeId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $ville = Ville::findOrFail($villeId);
+            $ville->quartiers->each(function ($quartier) {
+                $quartier->delete();
+            });
+            $ville->delete();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error($e->getMessage());
+            $this->dispatch('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Erreur'),
+                'message' => __('Une erreur s\'est produite lors de la suppression du pays'),
+            ]);
+        }
+
+        $this->exitEdit();
+
+        $this->dispatch('swal:modal', [
+            'icon' => 'success',
+            'title' => __('Opération réussie'),
+            'message' => __('Ville supprimée avec succès'),
+        ]);
+
+        $this->dispatch('relaod:dataTable');
     }
 
     public function render()

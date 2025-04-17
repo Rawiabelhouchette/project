@@ -9,7 +9,7 @@ use App\Models\Ville;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
-use Livewire\Attributes\On; 
+use Livewire\Attributes\On;
 
 class Create extends Component
 {
@@ -33,7 +33,7 @@ class Create extends Component
     public $quartiers = [];
     public $autreJour = false;
     public $tousLesJours = true;
-    
+
     public $plannings = [
         [
             'jour' => '',
@@ -44,7 +44,7 @@ class Create extends Component
 
     public function mount()
     {
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
     }
 
     public function rules()
@@ -71,16 +71,16 @@ class Create extends Component
     {
         $this->ville_id = '';
         $this->quartier_id = '';
-        $this->villes = Ville::where('pays_id', $pays_id)->get();
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
     }
-    
+
     public function updatedVilleId($ville_id)
     {
         $this->quartier_id = '';
-        $this->quartiers = Quartier::where('ville_id', $ville_id)->get();
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
     }
 
-    #[On('changerJour')] 
+    #[On('changerJour')]
     public function changerJour($valeur)
     {
         $this->autreJour = $valeur;
@@ -88,9 +88,10 @@ class Create extends Component
 
     public function addPlanning()
     {
-        if (!$this->autreJour) return;
+        if (!$this->autreJour)
+            return;
 
-        
+
         if ($this->nbr_planning < 7) {
             $this->nbr_planning++;
             if ($this->nbr_planning > 1) {
@@ -113,8 +114,8 @@ class Create extends Component
         }
     }
 
-    
-    #[On('setLocation')] 
+
+    #[On('setLocation')]
     public function setLocation($location)
     {
         $this->longitude = (String) $location['lon'];
@@ -133,7 +134,7 @@ class Create extends Component
                 $index = array_search($planning, $this->plannings) + 1;
                 $jour_tmp = $planning['jour'];
                 $this->dispatch('alert:modal', [
-                    'message' => __('Jour ['. $jour_tmp .'] est déjà sélectionné'),
+                    'message' => __('Jour [' . $jour_tmp . '] est déjà sélectionné'),
                 ]);
                 return;
             }
@@ -146,7 +147,7 @@ class Create extends Component
             if ($planning['heure_debut'] > $planning['heure_fin']) {
                 $index = array_search($planning, $this->plannings) + 1;
                 $this->dispatch('alert:modal', [
-                    'message' => __('Heure de fermeture ['. $index .'] doit être supérieur à heure de d\'ouverture'),
+                    'message' => __('Heure de fermeture [' . $index . '] doit être supérieur à heure de d\'ouverture'),
                 ]);
                 return;
             }
@@ -163,22 +164,22 @@ class Create extends Component
             Log::error($th->getMessage());
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération réussie'),
-                'message' => __('Une erreur est survenue lors de l\'ajout de l\'entreprise'),
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue.'),
             ]);
             return;
         }
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',
-            'title'   => __('Opération réussie'),
+            'title' => __('Opération réussie'),
             'message' => __('Entreprise ajoutée avec succès'),
         ]);
 
         // $this->dispatch('maker:reset');
 
         $this->reset();
-        $this->pays = Pays::all();
+        $this->pays = Pays::orderBy('nom')->get();
 
     }
 

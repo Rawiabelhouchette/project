@@ -23,15 +23,25 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('references.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                            <a href="{{ route('references.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Valeur
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('marques.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                                Marque
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('modeles.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
+                                Modèle
+                            </a>
+                        </li>
+                        {{-- <li>
                             <a href="{{ route('references.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Rechercher
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
 
@@ -53,11 +63,11 @@
                                 Quartier
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('localisations') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Rechercher
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
 
@@ -98,6 +108,10 @@
                 </li>
 
                 <li class="@yield('annonce')">
+                    <a href="{{ route('annonces.index') }}"><i class="fa fa-clone" aria-hidden="true"></i>Gestion annonce</a>
+                </li>
+
+                {{-- <li class="@yield('annonce')">
                     <a href="javascript:void(0)"><i class="fa fa-clone" aria-hidden="true"></i>Gestion annonce<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
@@ -111,16 +125,16 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
                 <li class="@yield('abonnement')">
                     <a href="javascript:void(0)"><i class="fa fa-credit-card" aria-hidden="true"></i>Abonnement<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li>
+                        {{-- <li>
                             <a href="{{ route('abonnements.create') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Ajouter
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="{{ route('abonnements.index') }}"><i class="fa fa-circle-o-notch" style="margin-right: 15px;font-size: 16px;"></i>
                                 Rechercher

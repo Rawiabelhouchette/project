@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
@@ -22,14 +24,19 @@ class ReferenceValeur extends Model
     ];
 
 
-    public function reference()
+    public function reference(): BelongsTo
     {
         return $this->belongsTo(Reference::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function annonceReferences(): HasMany
+    {
+        return $this->hasMany(AnnonceReference::class, 'reference_valeur_id');
     }
 
 }

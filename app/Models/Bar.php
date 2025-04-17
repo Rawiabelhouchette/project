@@ -16,7 +16,6 @@ class Bar extends Model implements AnnonceInterface
 
     protected $fillable = [
         'type_bar',
-        'type_musique',
         'capacite_accueil',
         'prix_min',
         'prix_max',
@@ -24,7 +23,6 @@ class Bar extends Model implements AnnonceInterface
 
     protected $casts = [
         'type_bar' => PurifyHtmlOnGet::class,
-        'type_musique' => PurifyHtmlOnGet::class,
         'capacite_accueil' => PurifyHtmlOnGet::class,
         'prix_min' => PurifyHtmlOnGet::class,
         'prix_max' => PurifyHtmlOnGet::class,
@@ -32,12 +30,14 @@ class Bar extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        'edit_url',
+        // 'edit_url',
 
         'equipements_vie_nocturne',
         'commodites_vie_nocturne',
 
         'caracteristiques',
+
+        'public_edit_url',
     ];
 
     public function annonce()
@@ -50,10 +50,10 @@ class Bar extends Model implements AnnonceInterface
         return route('bars.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('bars.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('bars.edit', $this);
+    // }
 
     public function getEquipementsVieNocturneAttribute()
     {
@@ -77,37 +77,24 @@ class Bar extends Model implements AnnonceInterface
         ]);
     }
 
-    
+
     public function getCaracteristiquesAttribute(): array
     {
-        $attributes = [];
+        $attributes = [
+            'Type de bar' => $this->type_bar,
+            'Type de musique' => $this->type_musique,
+            'Capacité d\'accueil' => $this->capacite_accueil,
+            'Prix minimum' => $this->prix_min ? number_format($this->prix_min, 0, ',', ' ') : null,
+            'Prix maximum' => $this->prix_max ? number_format($this->prix_max, 0, ',', ' ') : null,
+        ];
 
-        if ($this->type_bar) {
-            $attributes['Type de bar'] = $this->type_bar;
-        }
+        return array_filter($attributes, function ($value) {
+            return !is_null($value);
+        });
+    }
 
-        if ($this->type_musique) {
-            $attributes['Type de musique'] = $this->type_musique;
-        }
-
-        if ($this->capacite_accueil) {
-            $attributes['Capacité d\'accueil'] = $this->capacite_accueil;
-        }
-
-        if ($this->prix_min) {
-            $attributes['Prix minimum'] = number_format($this->prix_min, '0', ',', '.');
-        }
-
-        if ($this->prix_max) {
-            $attributes['Prix maximum'] = number_format($this->prix_max, '0', ',', '.');
-        }
-
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
-
-        return $attributes;
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.bars.edit', $this);
     }
 }

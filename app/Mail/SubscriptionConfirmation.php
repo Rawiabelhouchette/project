@@ -18,13 +18,15 @@ class SubscriptionConfirmation extends Mailable
     public $startDate;
     public $endDate;
     public $companyName;
+    public $recipient;
 
 
     /**
      * Create a new message instance.
      */
-    public function __construct($clientName, $offerName, $startDate, $endDate, $companyName)
+    public function __construct($recipient, $clientName, $offerName, $startDate, $endDate, $companyName)
     {
+        $this->recipient = $recipient;
         $this->clientName = $clientName;
         $this->offerName = $offerName;
         $this->startDate = $startDate;
@@ -39,6 +41,7 @@ class SubscriptionConfirmation extends Mailable
     {
         return new Envelope(
             subject: 'Confirmation de votre abonnement à ' . config('app.name'),
+            to: [$this->recipient],
         );
     }
 

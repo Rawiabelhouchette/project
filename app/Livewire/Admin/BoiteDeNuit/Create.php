@@ -6,11 +6,15 @@ use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\BoiteDeNuit;
 use App\Models\Entreprise;
+use App\Models\Pays;
+use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
+use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -38,6 +42,18 @@ class Create extends Component
     public $equipements_vie_nocturne = [];
     public $list_equipements_vie_nocturne = [];
 
+    public $pays = [];
+    public $pays_id;
+
+    public $villes = [];
+    public $ville_id;
+
+    public $quartiers = [];
+    public $quartier_id;
+
+    public $latitude;
+    public $longitude;
+
     public function mount()
     {
         $this->initialization();
@@ -51,14 +67,12 @@ class Create extends Component
             $this->entreprises = Entreprise::all();
         }
 
-        // dd($this->entreprises);
-
         $tmp_commodite = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'commodites-hebergement')->first();
         $tmp_commodite ?
             $this->list_commodites = ReferenceValeur::where('reference_id', $tmp_commodite->id)->select('valeur', 'id')->get() :
             $this->list_commodites = [];
 
-        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services')->first();
+        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services-proposes')->first();
         $tmp_services ?
             $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
             $this->list_services = [];
@@ -73,6 +87,9 @@ class Create extends Component
             $this->list_equipements_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_equipements_vie_nocturne->id)->select('valeur', 'id')->get() :
             $this->list_equipements_vie_nocturne = [];
 
+        $this->pays = Pays::orderBy('nom')->get();
+
+        $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
 
     public function rules()
@@ -84,10 +101,20 @@ class Create extends Component
             'description' => 'nullable|min:3',
             'commodites' => 'nullable',
             'services' => 'nullable',
-            'galerie.*' => 'image', //|max:5120',
-            'date_validite' => 'required|date|after:today',
+
             'types_musique' => 'nullable',
             'equipements_vie_nocturne' => 'nullable',
+
+            'longitude' => 'required|string',
+            'latitude' => 'required|string',
+
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+            'galerie' => 'array|max:10',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
+
+            'pays_id' => 'required|exists:pays,id',
+            'ville_id' => 'required|exists:villes,id',
+            'quartier_id' => 'required|string|max:255',
         ];
     }
 
@@ -111,12 +138,37 @@ class Create extends Component
             'services.array' => 'Les services doivent être un tableau',
             'galerie.*.image' => 'Les fichiers doivent être des images',
             // 'galerie.*.max' => 'Les images doivent être de taille inférieure à 5Mo',
-            'date_validite.required' => 'La date de validité est obligatoire',
-            'date_validite.date' => 'La date de validité doit être une date',
-            'date_validite.after' => 'La date de validité doit être supérieure à la date du jour',
             'types_musique.array' => 'Les types de musique doivent être un tableau',
             'equipements_vie_nocturne.array' => 'Les équipements de vie nocturne doivent être un tableau',
+
+            'pays_id.required' => 'Le pays est obligatoire',
+            'pays_id.exists' => 'Le pays n\'existe pas',
+            'ville_id.required' => 'La ville est obligatoire',
+            'ville_id.exists' => 'La ville n\'existe pas',
+            'quartier_id.required' => 'Le quartier est obligatoire',
+
+            'longitude.required' => 'La localisation est obligatoire.',
         ];
+    }
+
+    #[On('setLocation')]
+    public function setLocation($location)
+    {
+        $this->longitude = (String) $location['lon'];
+        $this->latitude = (String) $location['lat'];
+    }
+
+    public function updatedPaysId($pays_id)
+    {
+        $this->ville_id = null;
+        $this->quartier_id = null;
+        $this->villes = Ville::where('pays_id', $pays_id)->orderBy('nom')->get();
+    }
+
+    public function updatedVilleId($ville_id)
+    {
+        $this->quartier_id = null;
+        $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
     }
 
     public function store()
@@ -132,8 +184,13 @@ class Create extends Component
                 'titre' => $this->nom,
                 'type' => 'Boite de nuit',
                 'description' => $this->description,
-                'date_validite' => $this->date_validite,
                 'entreprise_id' => $this->entreprise_id,
+
+                'ville_id' => $this->ville_id,
+                'quartier' => $this->quartier_id,
+
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
             ]);
 
             $boiteDeNuit->annonce()->save($annonce);
@@ -142,7 +199,7 @@ class Create extends Component
                 ['Types de musique', $this->types_musique],
                 ['Equipements vie nocturne', $this->equipements_vie_nocturne],
                 ['Commodités hébergement', $this->commodites],
-                ['Services', $this->services],
+                ['Services proposés', $this->services],
             ];
 
             AnnoncesUtils::createManyReference($annonce, $references);
@@ -154,17 +211,17 @@ class Create extends Component
             DB::rollBack();
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title' => __('Opération réussie'),
-                'message' => __('Une erreur est survenue lors de l\'annonce'),
+                'title' => __('Opération échouée'),
+                'message' => __('Une erreur est survenue lors de l\'ajout de l\'annonce'),
             ]);
             Log::error($th->getMessage());
             return;
         }
 
-        // CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
-        return redirect()->route('boite-de-nuits.create');
+        return redirect()->route('public.annonces.list');
     }
 
 

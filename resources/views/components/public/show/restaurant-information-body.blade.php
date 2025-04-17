@@ -1,166 +1,158 @@
 @props(['annonce'])
 
-<div class="tab-content tabs">
-    {{-- <div class="tab-pane fade in active" id="information" role="tabpanel">
-        {{ $annonce->annonceable->caracteristiques }}
-    </div> --}}
-    <div class="tab-pane fade fade in active" id="equipement" role="tabpanel">
+<div class="tab-content mt-3" id="myTabContent">
+    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+        <div class="side-list">
+            <ul>
+                <li>
+                    {{ $annonce->description ?? 'Aucune description disponible' }}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
+        <div class="side-list">
+            <ul>
+                @forelse ($annonce->annonceable->caracteristiques as $key => $value)
+                    <li>
+                        {{ $key }}
+                        <span>{{ $value }}</span>
+                    </li>
+                @empty
+                    <li>
+                        Aucune information disponible
+                    </li>
+                @endforelse
+            </ul>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="equipement" role="tabpanel" aria-labelledby="equipement-tab">
         @forelse ($annonce->referenceDisplay() as $key => $value)
             @if (count($value) > 0)
-                <div class="row">
-                    <div class="col-md-12">
-                        <strong class="" style="text-transform: uppercase;">{{ $key }}</strong>
-                    </div>
-                    <div class="detail-wrapper-body padd-bot-10">
-                        <ul class="detail-check">
-                            @forelse ($value as $equipement)
-                                <div class="col-xs-12 col-md-4 padd-l-0">
-                                    <li style="width: 100%;">{{ $equipement }}</li>
-                                </div>
-                            @empty
-                                <span class="text-center">
-                                    Aucun équipement disponible
-                                </span>
-                            @endforelse
-                        </ul>
-                    </div>
+                <div class="side-list">
+                    <ul>
+                        <li>
+                            {{ $key }}
+                        </li>
+                        <li class="detail-wrapper-body padd-bot-10">
+                            <ul class="detail-check">
+                                @forelse ($value as $equipement)
+                                    <li>{{ $equipement }}</li>
+                                @empty
+                                    <span class="text-center">
+                                        Aucun équipement disponible
+                                    </span>
+                                @endforelse
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             @endif
         @empty
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    Aucun équipement disponible
-                </div>
+            <div class="col-md-12">
+                Aucun équipement disponible
             </div>
         @endforelse
     </div>
-    {{-- entrees --}}
-    <div class="tab-pane fade" id="entrees" role="tabpanel">
-        <div class="row">
-            <div class="table-responsive" style="padding: 0; border: 0;">
-                <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
-                    <tr>
-                        <td></td>
-                        <td>Nom</td>
-                        <td>Ingrédients</td>
-                        <td>Prix minimum</td>
-                        <td>Prix maximum</td>
-                    </tr>
-                    @forelse ($annonce->annonceable->entrees as $entree)
-                        <tr>
-                            <td>
-                                <strong class="">{{ $loop->iteration }}</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ $entree['nom'] }}</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ $entree['ingredients'] }}</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ number_format($entree['prix_min'], 0, ',', ' ') }} FCFA</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ number_format($entree['prix_max'], 0, ',', ' ') }} FCFA</strong>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4">
-                                Aucune information disponible
-                            </td>
-                        </tr>
-                    @endforelse
-                </table>
-            </div>
+    <div class="tab-pane fade" id="menu" role="tabpanel" aria-labelledby="menu-tab">
+        {{-- entrees --}}
+        <div class="side-list">
+            <h3>Entrées</h3>
+            @forelse ($annonce->annonceable->entrees as $entree)
+                <ul>
+                    <li>
+                        <div class="small-listing-box">
+                            <div class="small-list-img">
+                                @if ($entree['image'])
+                                    <img class="img-responsive" src="{{ asset('storage/' . $entree['image']) }}" alt="">
+                                @else
+                                    <img class="img-responsive" src="{{ asset('assets/img/placeholder.svg') }}" alt="">
+                                @endif
+                            </div>
+                            <div class="small-list-detail">
+                                <h4>{{ $entree['nom'] }}</h4>
+                                <p>{{ $entree['ingredients'] }}</p>
+                            </div>
+                            <div class="small-list-action">
+                                <span>{{ number_format($entree['prix_min'], 0, ',', ' ') }} FCFA</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            @empty
+                <ul>
+                    <li>
+                        Aucune information disponible
+                    </li>
+                </ul>
+            @endforelse
+        </div>
+        {{-- plats --}}
+        <div class="side-list">
+            <h3>Plats</h3>
+            @forelse ($annonce->annonceable->plats as $plat)
+                <ul>
+                    <li>
+                        <div class="small-listing-box">
+                            <div class="small-list-img">
+                                @if ($plat['image'])
+                                    <img class="img-responsive" src="{{ asset('storage/' . $plat['image']) }}" alt="">
+                                @else
+                                    <img class="img-responsive" src="{{ asset('assets/img/placeholder.svg') }}" alt="">
+                                @endif
+                            </div>
+                            <div class="small-list-detail">
+                                <h4>{{ $plat['nom'] }}</h4>
+                                <p>{{ $plat['ingredients'] }}</p>
+                            </div>
+                            <div class="small-list-action">
+                                <span>{{ number_format($plat['prix_min'], 0, ',', ' ') }} FCFA</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            @empty
+                <ul>
+                    <li>
+                        Aucune information disponible
+                    </li>
+                </ul>
+            @endforelse
+        </div>
+        {{-- desserts --}}
+        <div class="side-list">
+            <h3>Desserts</h3>
+            @forelse ($annonce->annonceable->desserts as $dessert)
+                <ul>
+                    <li>
+                        <div class="small-listing-box">
+                            <div class="small-list-img">
+                                @if ($dessert['image'])
+                                    <img class="img-responsive" src="{{ asset('storage/' . $dessert['image']) }}" alt="">
+                                @else
+                                    <img class="img-responsive" src="{{ asset('assets/img/placeholder.svg') }}" alt="">
+                                @endif
+                            </div>
+                            <div class="small-list-detail">
+                                <h4>{{ $dessert['nom'] }}</h4>
+                                <p>{{ $dessert['ingredients'] }}</p>
+                            </div>
+                            <div class="small-list-action">
+                                <span>{{ number_format($dessert['prix_min'], 0, ',', ' ') }} FCFA</span>
+                            </div>
+                        </div
+                              </li>
+                </ul>
+            @empty
+                <ul>
+                    <li>
+                        Aucune information disponible
+                    </li>
+                </ul>
+            @endforelse
         </div>
     </div>
-
-    {{-- plats --}}
-    <div class="tab-pane fade" id="plats" role="tabpanel">
-        <div class="row">
-            <div class="table-responsive" style="padding: 0; border: 0;">
-                <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
-                    <tr>
-                        <td></td>
-                        <td>Nom</td>
-                        <td>Ingrédients</td>
-                        <td>Accompagnements</td>
-                        <td>Prix minimum</td>
-                        <td>Prix maximum</td>
-                    </tr>
-                    @forelse ($annonce->annonceable->plats as $plat)
-                        <tr>
-                            <td>
-                                <strong class="">{{ $loop->iteration }}</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ $plat['nom'] }}</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ $plat['ingredients'] }}</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ $plat['accompagnements'] }}</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ number_format($plat['prix_min'], 0, ',', ' ') }} FCFA</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ number_format($plat['prix_max'], 0, ',', ' ') }} FCFA</strong>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4">
-                                Aucune information disponible
-                            </td>
-                        </tr>
-                    @endforelse
-                </table>
-            </div>
-        </div>
-    </div>
-
-    {{-- desserts --}}
-    <div class="tab-pane fade" id="desserts" role="tabpanel">
-        <div class="row">
-            <div class="table-responsive" style="padding: 0; border: 0;">
-                <table class="text-center table table-bordered table-striped table-hover table-reponsive" style="width: 100%;">
-                    <tr>
-                        <td></td>
-                        <td>Nom</td>
-                        <td>Ingrédients</td>
-                        <td>Prix minimum</td>
-                        <td>Prix maximum</td>
-                    </tr>
-                    @forelse ($annonce->annonceable->desserts as $dessert)
-                        <tr>
-                            <td>
-                                <strong class="">{{ $loop->iteration }}</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ $dessert['nom'] }}</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ $dessert['ingredients'] }}</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ number_format($dessert['prix_min'], 0, ',', ' ') }} FCFA</strong>
-                            </td>
-                            <td>
-                                <strong class="theme-cl">{{ number_format($dessert['prix_max'], 0, ',', ' ') }} FCFA</strong>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4">
-                                Aucune information disponible
-                            </td>
-                        </tr>
-                    @endforelse
-                </table>
-            </div>
-        </div>
+    <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+        @livewire('public.comment', [$annonce])
     </div>
 </div>

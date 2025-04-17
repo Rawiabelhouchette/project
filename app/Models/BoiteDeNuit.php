@@ -21,7 +21,7 @@ class BoiteDeNuit extends Model implements AnnonceInterface
 
     protected $appends = [
         'show_url',
-        'edit_url',
+        // 'edit_url',
 
         'commodites',
         'services',
@@ -29,6 +29,8 @@ class BoiteDeNuit extends Model implements AnnonceInterface
         'equipements_vie_nocturne',
 
         'caracteristiques',
+
+        'public_edit_url',
     ];
 
     public function getShowUrlAttribute(): string
@@ -36,10 +38,10 @@ class BoiteDeNuit extends Model implements AnnonceInterface
         return route('boite-de-nuits.show', $this);
     }
 
-    public function getEditUrlAttribute(): string
-    {
-        return route('boite-de-nuits.edit', $this);
-    }
+    // public function getEditUrlAttribute(): string
+    // {
+    //     return route('boite-de-nuits.edit', $this);
+    // }
 
     public function annonce(): MorphOne
     {
@@ -82,13 +84,14 @@ class BoiteDeNuit extends Model implements AnnonceInterface
     {
         $attributes = [];
 
-        foreach ($attributes as $key => $value) {
-            if (is_numeric($value)) {
-                $attributes[$key] = number_format($value, 0, ',', ' ');
-            }
-        }
+        return array_filter($attributes, function ($value) {
+            return !is_null($value);
+        });
+    }
 
-        return $attributes;
+    public function getPublicEditUrlAttribute(): string
+    {
+        return route('public.night-clubs.edit', $this);
     }
 
 }
