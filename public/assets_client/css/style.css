@@ -187,7 +187,7 @@ a:hover{
 }
 
 section{
-	padding:50px 0 50px;
+	padding:50px 0 0 0;
 }
 .small-pad{
 	padding:1em 0 1.5em 0;
@@ -3089,7 +3089,6 @@ span.like-listing.alt i {
 }
 p.listing-location {
     margin-bottom: 0;
-    height: 50px !important;
     color: initial;
     font-size: 14px;
     opacity: 0.6;
@@ -5567,8 +5566,8 @@ Sidebar Style
     -moz-box-shadow: 0px 0px 10px 1px rgba(71, 85, 95,0.08);*/
 }
 .widget-boxed-header {
-    padding: 14px 0;
-    border-bottom: 1px solid #eaeff5;
+    /*padding: 14px 0;
+    border-bottom: 1px solid #eaeff5;*/
 }
 .widget-boxed-header h4 {
     margin: 0;
@@ -7559,4 +7558,33 @@ a.cl-box {
 	color:#ffffff;
 	background:#de6600;
 	border:1px solid #de6600;
+}
+
+.filter-button{
+    background-color: #fff;
+    border-radius: 4px;
+    transform: translate3d(0, 0, 0);
+    z-index: 90;
+    position: relative;
+    color: #495369;
+    font-size: 14px;
+    padding: 8px 8px 8px 8px;
+    text-align: left;
+    font-weight: 600;
+    border: thin solid #dde6ef;
+/*	padding:0 12px 32px 20px;
+    border: 1px solid #eaeff5;
+    box-shadow: 0px 0px 10px 1px rgba(71, 85, 95,0.08);
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(71, 85, 95,0.08);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(71, 85, 95,0.08);*/
+}
+.filter-button-header {
+    margin-top: 5px;
+}
+.filter-button-header p>i{
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.filter-button-body {
+    padding:20px 0 0 0;
 }
