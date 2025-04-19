@@ -99,8 +99,7 @@
                                             <h4>{{ $annonce->titre }}</h4>
                                             <p class="listing-location">{{ $annonce->description_courte }}</p>
                                         </a>
-                                        <a href="javascript:void(0)"
-                                            onclick="if (confirm('Are you sure you want to remove this from favorites?')) @this.call('updateFavoris', {{ $annonce->id }})">
+                                        <a href="javascript:void(0)" onclick="confirmRemoveFavorite({{ $annonce->id }})">
                                             <span class="like-listing alt style-2"><i class="fa fa-trash"
                                                     aria-hidden="true"></i></span>
                                         </a>
@@ -174,3 +173,21 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    function confirmRemoveFavorite(annonceId) {
+        const params = {
+            message: 'Voulez-vous vraiment retirer cette annonce de vos favoris ?',
+            icon: 'warning',
+            confirmButtonText: 'Oui, retirer',
+            onConfirm: function() {
+                Livewire.dispatch('updateFavoris', [annonceId]);
+            }
+        };
+        
+        showConfirmationNotification(params);
+    }
+</script>
+@endpush
+
