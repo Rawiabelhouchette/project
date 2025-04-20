@@ -4407,6 +4407,7 @@ Component Style
     opacity: 0.7;
     margin-right: 3rem;
     margin-bottom: 3rem;
+    font-weight: 600;
 }
 
 .tab .nav-tabs{
@@ -4426,6 +4427,7 @@ Component Style
     opacity: 1;
     border-bottom: 6px solid #007a7a;
     border-radius: 3px;
+    font-weight: 800;
     
 }
 .tab .nav-tabs li a{
@@ -5570,7 +5572,8 @@ Sidebar Style
     border-bottom: 1px solid #eaeff5;*/
 }
 .widget-boxed-header h4 {
-    margin: 0;
+    margin-top: 20px;
+    font-weight: 700;
 }
 .widget-boxed-header h4>i {
     position: relative;
@@ -7588,3 +7591,101 @@ a.cl-box {
 .filter-button-body {
     padding:20px 0 0 0;
 }
+/* Enhanced styling for contact section */
+.contact-item {
+    margin-bottom: 15px;
+  }
+  
+  .contact-item strong {
+    font-weight: 600;
+    color: #333;
+    margin-right: 5px;
+  }
+  .social-links strong {
+    font-weight: 600;
+    color: #333;
+    margin-right: 5px;
+  }
+  
+  .contact-button {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 8px 15px;
+    background-color: #f0f2f5;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .contact-button:hover {
+    background-color: #e6e9ed;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #de6600;
+  }
+  
+  .contact-button i {
+    margin-right: 8px;
+  }
+  
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  
+  .social-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .social-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    color: white;
+  }
+  
+  .social-button i {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+  
+  .instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  }
+  
+  .facebook {
+    background-color: #3b5998;
+  }
+  
+  .whatsapp {
+    background-color: #25d366;
+  }
+  
+  @media (max-width: 768px) {
+    .social-links {
+      flex-direction: column;
+      gap: 8px;
+    }
+  
+    .social-button,
+    .contact-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
