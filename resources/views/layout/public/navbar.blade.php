@@ -140,7 +140,7 @@
         transition: transform 0.3s ease-in-out;
     }
 
-    .sidebar-mobile .show {
+    .sidebar-mobile.show {
         transform: translateX(0);
     }
 
@@ -420,7 +420,7 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- Sidebar Menu -->
-    <div class="sidebar-mobile" id="sidebar-mobile">
+    <div class="sidebar-mobile" id="sidebar">
         <div class="p-4">
             <div class="d-flex justify-content-between mb-4">
                 <img style="width: 70px;
@@ -518,17 +518,17 @@
     <script>
         // Toggle sidebar
         document.getElementById('menuToggle').addEventListener('click', function() {
-            document.getElementById('sidebar-mobile').classList.add('show');
+            document.getElementById('sidebar').classList.add('show');
             document.getElementById('overlay').classList.add('show');
         });
 
         document.getElementById('closeSidebar').addEventListener('click', function() {
-            document.getElementById('sidebar-mobile').classList.remove('show');
+            document.getElementById('sidebar').classList.remove('show');
             document.getElementById('overlay').classList.remove('show');
         });
 
         document.getElementById('overlay').addEventListener('click', function() {
-            document.getElementById('sidebar-mobile').classList.remove('show');
+            document.getElementById('sidebar').classList.remove('show');
             document.getElementById('overlay').classList.remove('show');
         });
 
