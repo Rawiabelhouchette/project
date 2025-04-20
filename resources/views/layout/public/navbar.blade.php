@@ -32,7 +32,7 @@
 
 /* Smartphones (landscape) */
 @media (min-width: 481px) and (max-width: 767px) {
-   .header{
+    .header{
     display:none
   }
    #header-mobile{
@@ -291,6 +291,7 @@
             <div class="col-8 text-center">
                 <div class="logo" >
 <img
+onlick="window.location.href='/'"
 style="width: 70px;
     height: 70px;
     max-height: 80px;"
@@ -302,13 +303,9 @@ class="logo logo-scrolled d-inline-block align-text-top" src="{{ asset('assets/i
 
                 <a >
                     <i >
-                         @if (!auth()->check())
-                    <li
-
-                     style="list-style:none">
-                        <a class="btn theme-btn"  href="javascript:void(0)"
-                         onclick="window.location.href = '/login'"
-                        >
+                       @if (!auth()->check())
+                    <li class="list-none">
+                        <a class="btn theme-btn" data-bs-toggle="modal" data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
                             <i class="ti-user" aria-hidden="true"></i> <span>Connexion</span>
                         </a>
                     </li>
@@ -319,28 +316,28 @@ class="logo logo-scrolled d-inline-block align-text-top" src="{{ asset('assets/i
                             <i class="fa fa-user" aria-hidden="true"></i> <span>Connecté</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="list-none"><a class="dropdown-item" href="{{ route('public.my-account') }}">Mon compte</a></li>
+                            <li><a class="dropdown-item" href="{{ route('public.my-account') }}">Mon compte</a></li>
                             @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
-                                <li class="list-none"><a class="dropdown-item " href="{{ route('public.my-business') }}">Mon entreprise</a></li>
-                                <li class="list-none"><a class="dropdown-item " href="{{ route('public.annonces.list') }}">Mes annonces</a></li>
-                                <li class="list-none"><a class="dropdown-item " href="{{ route('public.my-subscription') }}">Mes abonnements</a></li>
+                                <li><a class="dropdown-item" href="{{ route('public.my-business') }}">Mon entreprise</a></li>
+                                <li><a class="dropdown-item" href="{{ route('public.annonces.list') }}">Mes annonces</a></li>
+                                <li><a class="dropdown-item" href="{{ route('public.my-subscription') }}">Mes abonnements</a></li>
                             @endif
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li class="list-none"><a class="dropdown-item" href="{{ route('public.my-favorites') }}">Mes favoris</a></li>
-                            <li class="list-none"><a class="dropdown-item" href="{{ route('public.my-comments') }}">Mes commentaires</a></li>
-                            <li class="list-none">
+                            <li><a class="dropdown-item" href="{{ route('public.my-favorites') }}">Mes favoris</a></li>
+                            <li><a class="dropdown-item" href="{{ route('public.my-comments') }}">Mes commentaires</a></li>
+                            <li>
                                 <hr class="dropdown-divider">
                             </li>
                             @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
-                                <li class="list-none"><a class="dropdown-item" href="{{ route('home') }}">Espace administrateur</a></li>
+                                <li><a class="dropdown-item" href="{{ route('home') }}">Espace administrateur</a></li>
                             @endif
-                            <li class="list-none"><a class="dropdown-item" href="{{ route('contact') }}">Contact</a></li>
-                            <li class="list-none">
+                            <li><a class="dropdown-item" href="{{ route('contact') }}">Contact</a></li>
+                            <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li class="list-none"><a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off" aria-hidden="true"></i> <span>Me déconnecter</span></a></li>
+                            <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off" aria-hidden="true"></i> <span>Me déconnecter</span></a></li>
                         </ul>
                     </li>
                 @endif

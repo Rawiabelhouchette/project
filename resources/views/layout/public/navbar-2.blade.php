@@ -247,6 +247,7 @@
             <div class="col-8 text-center">
                 <div class="logo" >
 <img
+onlick="window.location.href='/'"
 style="width: 70px;
     height: 70px;
     max-height: 80px;"
