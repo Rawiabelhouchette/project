@@ -435,31 +435,35 @@
             </div>
 
 
-            <div class="category-white d-flex justify-content-between align-items-center">
+            <div class="category-white d-flex justify-content-between align-items-center"
+                onclick="window.location.href='{{ route('search', ['se_loger' => 1]) }}'">
                 <div class="d-flex align-items-center">
 
-                    <a class="nav-link" href="{{ route('search', ['se_loger' => 1]) }}">Se loger</a>
+                    <a class="nav-link">Se loger</a>
                 </div>
                 <i class="bi bi-chevron-right"></i>
             </div>
 
-            <div class="category-white d-flex justify-content-between align-items-center">
+            <div class="category-white d-flex justify-content-between align-items-center"
+                onclick="window.location.href='{{ route('search', ['se_restaurer' => 1]) }}'">
                 <div class="d-flex align-items-center">
-                    <a class="nav-link" href="{{ route('search', ['se_restaurer' => 1]) }}">Se restaurer</a>
+                    <a class="nav-link">Se restaurer</a>
                 </div>
                 <i class="bi bi-chevron-right"></i>
             </div>
 
-            <div class="category-white d-flex justify-content-between align-items-center">
+            <div class="category-white d-flex justify-content-between align-items-center"
+                onclick="window.location.href='{{ route('search', ['sortir' => 1]) }}'">
                 <div class="d-flex align-items-center">
-                    <a class="nav-link" href="{{ route('search', ['sortir' => 1]) }}">Sortir</a>
+                    <a class="nav-link">Sortir</a>
                 </div>
                 <i class="bi bi-chevron-right"></i>
             </div>
 
-            <div class="category-white d-flex justify-content-between align-items-center">
+            <div class="category-white d-flex justify-content-between align-items-center"
+                onclick="window.location.href='{{ route('search', ['louer_voiture' => 1]) }}'">
                 <div class="d-flex align-items-center">
-                    <a class="nav-link" href="{{ route('search', ['louer_voiture' => 1]) }}">Louer une voiture</a>
+                    <a class="nav-link">Louer une voiture</a>
 
                 </div>
                 <i class="bi bi-chevron-right"></i>
