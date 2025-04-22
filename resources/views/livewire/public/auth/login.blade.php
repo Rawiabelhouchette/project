@@ -1,4 +1,5 @@
-<div id="signin" class="modal fade" data-bs-backdrop="static" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true" tabindex="-1" wire:ignore.self>
+<div id="signin" class="modal fade" data-bs-backdrop="static" role="dialog" aria-labelledby="myModalLabel2"
+    aria-hidden="true" tabindex="-1" wire:ignore.self>
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -19,7 +20,8 @@
                     <div class="alert-group">
                         <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
                             {{ $message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </div>
                     </div>
                 @endif
@@ -28,7 +30,8 @@
                     @csrf
                     <div class="form-group">
                         <label>{{ __('Identifiant / Email') }}</label>
-                        <input class="form-control form-control-sm" name="email" type="text" minlength="4" placeholder="Identifiant" wire:model='email' required>
+                        <input class="form-control form-control-sm" name="email" type="text" minlength="4"
+                            placeholder="Identifiant" wire:model='email' required>
                         @error('email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -36,7 +39,8 @@
 
                     <div class="form-group">
                         <label>{{ __('Mot de passe') }}</label>
-                        <input class="form-control" name="password" type="password" placeholder="*******" wire:model='password' required>
+                        <input class="form-control" name="password" type="password" placeholder="*******"
+                            wire:model='password' required>
                     </div>
 
                     <div class="form-group">
@@ -68,9 +72,13 @@
                     </span>
 
                     <div class="center">
-                        <button class="btn btn-midium theme-btn btn-radius width-200" type="submit" wire:loading.attr='disabled'>
+                        <button class="btn btn-midium theme-btn btn-radius width-200" type="submit"
+                            wire:loading.attr='disabled'>
                             <span wire:loading>
-                                @include('components.public.loader', ['withText' => false, 'color' => '#de6600'])
+                                @include('components.public.loader', [
+                                    'withText' => false,
+                                    'color' => '#de6600',
+                                ])
                             </span>
                             <span>
                                 &nbsp;{{ __('Connexion') }}
@@ -80,6 +88,10 @@
 
                 </form>
             </div>
+            <button type="button" class="login-with-google-btn"
+                onclick="window.location.href='{{ route('google.login') }}'">
+                Sign in with Google
+            </button>
 
             <div class="center mrg-top-5">
                 <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
