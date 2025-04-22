@@ -86,8 +86,12 @@
     }
 
     .search-container {
-        background-color: #f5f5f7;
+
         border-radius: 25px;
+    }
+
+    body.home-2 a.btn i {
+        margin: 0 !important
     }
 
     .search-input {

@@ -86,8 +86,12 @@
     }
 
     .search-container {
-        background-color: #f5f5f7;
+
         border-radius: 25px;
+    }
+
+    body.home-2 a.btn i {
+        margin: 0 !important
     }
 
     .search-input {
@@ -378,7 +382,7 @@
         </div>
     </div>
 
- 
+
     <script>
         // Toggle sidebar
         document.getElementById('menuToggle').addEventListener('click', function() {
@@ -395,7 +399,5 @@
             document.getElementById('sidebar').classList.remove('show');
             document.getElementById('overlay').classList.remove('show');
         });
-
-
     </script>
 </div>

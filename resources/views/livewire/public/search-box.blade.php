@@ -62,7 +62,7 @@
                         </div>
                     </form>
 
-                    
+
                 </div>
             </div>
 
@@ -89,6 +89,7 @@
             .search-bar-mobile {
                 border-radius: 30px;
                 padding: 15px 20px;
+                margin: 50px;
                 cursor: pointer;
                 color: white;
                 background-color: #de6600;
@@ -464,7 +465,7 @@
                 <div class="search-bar-mobile d-flex align-items-center justify-content-center" data-bs-toggle="modal"
                     data-bs-target="#searchModalMobile">
                     <i class="bi bi-search me-2"></i>
-                    <span>Commencer ma recherche</span>
+                    <span>Rechercher</span>
                 </div>
             </div>
 
@@ -477,8 +478,11 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                                 id="customCloseBtnMobile"></button>
                         </div>
+
                         <div class="modal-body-mobile">
+
                             <div class="search-accordion" id="searchAccordion">
+
                                 <!-- Mot clé Accordion -->
                                 <div class="search-accordion-item active" id="motCleSection">
                                     <div class="search-accordion-header">
@@ -496,7 +500,7 @@
                                     <div class="search-accordion-content" style="max-height: 500px;">
                                         <div class="search-accordion-body">
                                             <div class="input-container">
-                                                <input type="text" id="motCleInput"
+                                                <input type="text" id="motCleInput" name="key"
                                                     placeholder="Rechercher par mot clé">
                                                 <i class="bi bi-search input-icon"></i>
                                             </div>
@@ -565,6 +569,7 @@
                                                     placeholder="Rechercher un type d'annonce">
                                                 <i class="bi bi-tag input-icon"></i>
                                             </div>
+
                                             <div class="chips-container" id="typesAnnonceChips">
                                                 @foreach ($typeAnnonce as $annonce)
                                                     <div class="chip" data-section="typesAnnonce">
@@ -578,15 +583,39 @@
                                     </div>
                                 </div>
 
+
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="clear-btn" id="clearBtn">Tout effacer</button>
-                            <button type="button" class="search-btn" id="searchBtn">
-                                <i class="bi bi-search"></i>
-                                <span>{{ __('Rechercher') }}</span>
-                            </button>
+
+                            <div>
+
+                                <form class="form-verticle" method="GET" action="{{ route('search') }}">
+                                    <input type="hidden" value="1" name="form_request">
+                                    <input type="hidden" name="type[]" value="" />
+                                    <input type="hidden" name="key" value="" />
+                                    <input type="hidden" name="location" value="" />
+
+                                    <button type="submit" class="clear-btn">
+                                        Effacer tous les filtres
+                                    </button>
+                                </form>
+                            </div>
+                            <div>
+                                <form class="form-verticle" method="GET" action="{{ route('search') }}">
+                                    <input type="hidden" value="1" name="form_request">
+                                    <input type="hidden" name="type[]" id="typeMobile" value="" />
+                                    <input type="hidden" name="key" id="keyMobile" value="" />
+                                    <input type="hidden" name="location" id="localisationMobile" value="" />
+
+                                    <button type="submit" class="search-btn" type="submit">
+                                        <i class="bi bi-search"></i>
+                                        <span>{{ __('Rechercher') }}</span>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -606,24 +635,25 @@
                     }
 
                     // Set default "Auberge" chip as active
-                    if (selections.typesAnnonce) {
+                    if (typeof selections.typesAnnonce === 'string') {
 
                         const typesAnnonceChips = document.querySelectorAll('.chip[data-section="typesAnnonce"]');
 
                         typesAnnonceChips.forEach(chip => {
-                            if (chip.textContent.trim() === selections.typesAnnonce.trim()) {
+                            if (chip.textContent.trim() === selections.typesAnnonce?.trim()) {
                                 chip.classList.add('active');
                                 updateSelectionText('typesAnnonce', selections.typesAnnonce);
                                 updateProgress('typesAnnonce');
+                                document.getElementById("typeMobile").value = selections.typesAnnonce
                             }
                         });
                     }
-                    if (selections.localisation) {
 
+                    if (typeof selections.localisation === 'string') {
                         const localisationChips = document.querySelectorAll('.chip[data-section="localisation"]');
 
                         localisationChips.forEach(chip => {
-                            if (chip.textContent.trim() === selections.localisation.trim()) {
+                            if (chip.textContent.trim() === selections.localisation?.trim()) {
                                 chip.classList.add('active');
                                 updateSelectionText('localisation', selections.localisation);
                                 updateProgress('localisation');
@@ -794,49 +824,14 @@
                     updateProgress('typesAnnonce');
                 });
 
-                // Search button animation
-                const searchBtn = document.getElementById('searchBtn');
-                searchBtn.addEventListener('click', function() {
-                    // Add pulse animation
-                    this.style.animation = 'pulse 0.8s';
 
-                    // Remove animation after completion
-                    setTimeout(() => {
-                        this.style.animation = '';
-                        let searchUrl = "/search";
-                        let params = [];
-
-                        if (selections.motCle) {
-                            params.push(`key=${encodeURIComponent(selections.motCle)}`);
-                        }
-
-                        if (selections.localisation) {
-                            params.push(`location=${encodeURIComponent(selections.localisation)}`);
-                        }
-
-                        if (selections.typesAnnonce) {
-                            // If it's an array, map it to multiple type[]=value entries
-                            if (Array.isArray(selections.typesAnnonce)) {
-                                selections.typesAnnonce.forEach(type => {
-                                    params.push(`type[]=${encodeURIComponent(type)}`);
-                                });
-                            } else {
-                                params.push(`type[]=${encodeURIComponent(selections.typesAnnonce)}`);
-                            }
-                        }
-
-                        if (params.length > 0) {
-                            searchUrl += "?" + params.join("&");
-                        }
-
-                        window.location.href = searchUrl
-                    }, 800);
-                });
 
                 // Update selection text in accordion header
                 function updateSelectionText(section, value) {
                     const selectionText = document.getElementById(section + 'Selection');
-
+                    document.getElementById("typeMobile").value = selections.typesAnnonce
+                    document.getElementById("keyMobile").value = selections.motCle
+                    document.getElementById("localisationMobile").value = selections.localisation
                     if (value) {
                         selectionText.textContent = value;
                         selectionText.classList.add('active');
@@ -873,8 +868,8 @@
                 // Focus on the first input when modal opens
                 const searchModalMobile = document.getElementById('searchModalMobile');
                 searchModalMobile.addEventListener('shown.bs.modal', function() {
-                    console.log("modal")
-                    document.querySelector(".modal-open #share").style.display = "none"
+
+
                     document.getElementById('motCleInput').focus();
 
 
@@ -897,7 +892,13 @@
                 display: none
             }
 
+            .modal-footer>* {
+                margin: 0 !important
+            }
 
+            .modal-open #share {
+                display: none !important
+            }
 
             .mobile-show {
                 display: block !important;
@@ -909,7 +910,13 @@
                 display: none
             }
 
+            .modal-footer>* {
+                margin: 0 !important
+            }
 
+            .modal-open #share {
+                display: none !important
+            }
 
             .mobile-show {
                 display: block !important;
@@ -921,7 +928,14 @@
                 display: none
             }
 
+            .modal-footer>* {
+                margin: 0 !important
+            }
 
+
+            .modal-open #share {
+                display: none !important
+            }
 
             .mobile-show {
                 display: block !important;
