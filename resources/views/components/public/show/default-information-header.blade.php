@@ -16,14 +16,16 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Get the equipement tab
+    // Get the equipement tab and information tab
     const equipementTab = document.getElementById('equipement-tab');
+    const informationTab = document.getElementById('information-tab');
+    const tabContainer = document.querySelector('.nav-tabs');
     
+    // Handle click on the third tab (equipement)
     if (equipementTab) {
         equipementTab.addEventListener('click', function() {
             setTimeout(function() {
                 // Get the tab container and comments tab
-                const tabContainer = document.querySelector('.nav-tabs');
                 const commentsTab = document.getElementById('comments-tab');
                 
                 if (tabContainer && commentsTab) {
@@ -38,6 +40,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             }, 50); // Small delay to ensure DOM is updated
+        });
+    }
+    
+    // Handle click on the second tab (information/détail)
+    if (informationTab && tabContainer) {
+        informationTab.addEventListener('click', function() {
+            // Scroll back to the beginning
+            tabContainer.scrollLeft = 0;
         });
     }
 });
