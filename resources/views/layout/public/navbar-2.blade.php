@@ -303,20 +303,7 @@
             </div>
         </div>
 
-        <div class="row mt-2">
-            <div class="col-12">
-                <div class="search-container d-flex align-items-center" id="searchToggle">
-                    <i class="bi bi-search ms-3"></i>
-                    <input type="text" class="search-input" placeholder="Que recherchez-vous ?">
-                </div>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-12">
 
-                <hr class="mt-2 mb-3">
-            </div>
-        </div>
     </header>
 
     <!-- Background Overlay -->
@@ -391,37 +378,7 @@
         </div>
     </div>
 
-    <!-- Search Overlay -->
-    <div class="search-overlay" id="searchOverlay">
-        <div class="p-3">
-            <div class="d-flex align-items-center mb-4">
-                <button class="btn p-0 border-0 me-2">
-                    <i class="bi bi-arrow-left fs-4"></i>
-                </button>
-                <div class="search-container d-flex align-items-center flex-grow-1">
-                    <input type="text" class="search-input" value="car">
-                </div>
-                <button class="btn p-0 border-0 ms-2" id="closeSearch">
-                    <i class="bi bi-x-circle fs-5"></i>
-                </button>
-            </div>
-
-            <h5 class="mb-3">Mot(s) clé(s) suggéré(s)</h5>
-
-            <div class="search-results">
-                <div class="search-result">Caracos femme</div>
-                <div class="search-result">Cartables</div>
-                <div class="search-result">Cardigan femme</div>
-                <div class="search-result">Caracos</div>
-                <div class="search-result">Carafe</div>
-                <div class="search-result">Cartable a roulette</div>
-                <div class="search-result">Cardigan</div>
-                <div class="search-result">Carreau</div>
-                <div class="search-result">Caradou</div>
-                <div class="search-result">Caradou 90x190</div>
-            </div>
-        </div>
-    </div>
+ 
     <script>
         // Toggle sidebar
         document.getElementById('menuToggle').addEventListener('click', function() {
@@ -439,13 +396,6 @@
             document.getElementById('overlay').classList.remove('show');
         });
 
-        // Toggle search overlay
-        document.getElementById('searchToggle').addEventListener('click', function() {
-            document.getElementById('searchOverlay').classList.add('show');
-        });
 
-        document.getElementById('closeSearch').addEventListener('click', function() {
-            document.getElementById('searchOverlay').classList.remove('show');
-        });
     </script>
 </div>

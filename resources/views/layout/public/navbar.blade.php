@@ -331,9 +331,9 @@
                     <i class="bi bi-list fs-4" style="font-size:32px !important"></i>
                 </button>
             </div>
-            <div class="col-8 text-center">
+            <div class="col-6 text-center">
                 <div class="logo">
-                    <img onlick="window.location.href='/'"
+                    <img onclick="window.location.href='/'"
                         style="width: 70px;
     height: 70px;
     max-height: 80px;"
@@ -342,72 +342,90 @@
 
                 </div>
             </div>
-            <div class="col-2 d-flex justify-content-end">
+            <div class=" d-flex col-4">
 
-                <a>
-                    <i>
-                        @if (!auth()->check())
-                            <li class="list-none">
-                                <a class="btn theme-btn" data-bs-toggle="modal" data-bs-target="#signin"
-                                    href="javascript:void(0)" onclick="$('#share').hide()">
-                                    <i class="ti-user" aria-hidden="true"></i> <span>Connexion</span>
-                                </a>
-                            </li>
-                        @else
-                            <li class="dropdown list-none">
-                                <a class="btn theme-btn dropdown-toggle" data-bs-toggle="dropdown" href="#"
-                                    role="button" aria-expanded="false">
-                                    {{-- {{ auth()->user()->nom }} {{ auth()->user()->prenom }} --}}
-                                    <i class="fa fa-user" aria-hidden="true"></i> <span>Connecté</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{ route('public.my-account') }}">Mon
-                                            compte</a></li>
-                                    @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
-                                        <li><a class="dropdown-item" href="{{ route('public.my-business') }}">Mon
-                                                entreprise</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('public.annonces.list') }}">Mes
-                                                annonces</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('public.my-subscription') }}">Mes
-                                                abonnements</a></li>
-                                    @endif
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="{{ route('public.my-favorites') }}">Mes
-                                            favoris</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('public.my-comments') }}">Mes
-                                            commentaires</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
-                                        <li><a class="dropdown-item" href="{{ route('home') }}">Espace
-                                                administrateur</a></li>
-                                    @endif
-                                    <li><a class="dropdown-item" href="{{ route('contact') }}">Contact</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="{{ route('logout') }}"><i
-                                                class="fa fa-power-off" aria-hidden="true"></i> <span>Me
-                                                déconnecter</span></a></li>
-                                </ul>
-                            </li>
-                        @endif
-                    </i>
-                </a>
-            </div>
-        </div>
 
-        <div class="row mt-2">
-            <div class="col-12">
-                <div class="search-container d-flex align-items-center" id="searchToggle">
-                    <i class="bi bi-search ms-3"></i>
-                    <input type="text" class="search-input" placeholder="Que recherchez-vous ?">
+                <form>
+                    @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
+                        <a class="btn add-annonce" id="btn-deposer-annonce" style="padding: 10px 15px;"
+                            href="{{ route('public.annonces.create') }}">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                    @elseif (auth()->check() && auth()->user()->hasRole('Usager'))
+                        <a class="btn add-annonce" style="padding: 10px 15px;" id="btn-deposer-annonce"
+                            href="{{ route('pricing') }}">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                    @else
+                        <a class="btn add-annonce" style="padding: 10px 15px;" id="btn-deposer-annonce"
+                            data-bs-toggle="modal" data-bs-target="#signin" href="javascript:void(0)"
+                            onclick="$('#share').hide()">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                    @endif
+                </form>
+
+                <div>
+
+                    @if (!auth()->check())
+                        <li class="list-none">
+                            <a class="btn theme-btn" style="padding: 10px 15px;" data-bs-toggle="modal"
+                                data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
+                                <i class="ti-user" aria-hidden="true"></i> <span></span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="dropdown list-none">
+                            <a class="btn theme-btn dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                                role="button" aria-expanded="false">
+                                {{-- {{ auth()->user()->nom }} {{ auth()->user()->prenom }} --}}
+                                <i class="fa fa-user" aria-hidden="true"></i> <span></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('public.my-account') }}">Mon
+                                        compte</a></li>
+                                @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
+                                    <li><a class="dropdown-item" href="{{ route('public.my-business') }}">Mon
+                                            entreprise</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('public.annonces.list') }}">Mes
+                                            annonces</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('public.my-subscription') }}">Mes
+                                            abonnements</a></li>
+                                @endif
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('public.my-favorites') }}">Mes
+                                        favoris</a></li>
+                                <li><a class="dropdown-item" href="{{ route('public.my-comments') }}">Mes
+                                        commentaires</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
+                                    <li><a class="dropdown-item" href="{{ route('home') }}">Espace
+                                            administrateur</a></li>
+                                @endif
+                                <li><a class="dropdown-item" href="{{ route('contact') }}">Contact</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off"
+                                            aria-hidden="true"></i> <span>Me
+                                            déconnecter</span></a></li>
+                            </ul>
+                        </li>
+                    @endif
+
                 </div>
+
+
             </div>
+
+
         </div>
+
+
         <div class="row mt-3">
             <div class="col-12">
 
@@ -468,57 +486,11 @@
                 </div>
                 <i class="bi bi-chevron-right"></i>
             </div>
-            <form class="mt-4">
-                @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
-                    <a class="btn add-annonce" id="btn-deposer-annonce"
-                        href="{{ route('public.annonces.create') }}">
-                        <i class="fa-solid fa-plus"></i>Déposer une annonce
-                    </a>
-                @elseif (auth()->check() && auth()->user()->hasRole('Usager'))
-                    <a class="btn add-annonce" id="btn-deposer-annonce" href="{{ route('pricing') }}">
-                        <i class="fa-solid fa-plus"></i>Déposer une annonce
-                    </a>
-                @else
-                    <a class="btn add-annonce" id="btn-deposer-annonce" data-bs-toggle="modal"
-                        data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
-                        <i class="fa-solid fa-plus"></i>Déposer une annonce
-                    </a>
-                @endif
-            </form>
+
         </div>
     </div>
 
-    <!-- Search Overlay -->
-    <div class="search-overlay" id="searchOverlay">
-        <div class="p-3">
-            <div class="d-flex align-items-center mb-4">
-                <button class="btn p-0 border-0 me-2">
-                    <i class="bi bi-arrow-left fs-4"></i>
-                </button>
-                <div class="search-container d-flex align-items-center flex-grow-1">
-                    <input type="text" class="search-input" value="car">
-                </div>
-                <button class="btn p-0 border-0 ms-2" id="closeSearch">
-                    <i class="bi bi-x-circle fs-5"></i>
-                </button>
-            </div>
 
-            <h5 class="mb-3">Mot(s) clé(s) suggéré(s)</h5>
-
-            <div class="search-results">
-                <div class="search-result">Caracos femme</div>
-                <div class="search-result">Cartables</div>
-                <div class="search-result">Cardigan femme</div>
-                <div class="search-result">Caracos</div>
-                <div class="search-result">Carafe</div>
-                <div class="search-result">Cartable a roulette</div>
-                <div class="search-result">Cardigan</div>
-                <div class="search-result">Carreau</div>
-                <div class="search-result">Caradou</div>
-                <div class="search-result">Caradou 90x190</div>
-            </div>
-        </div>
-    </div>
     <script>
         // Toggle sidebar
         document.getElementById('menuToggle').addEventListener('click', function() {
@@ -534,15 +506,6 @@
         document.getElementById('overlay').addEventListener('click', function() {
             document.getElementById('sidebar').classList.remove('show');
             document.getElementById('overlay').classList.remove('show');
-        });
-
-        // Toggle search overlay
-        document.getElementById('searchToggle').addEventListener('click', function() {
-            document.getElementById('searchOverlay').classList.add('show');
-        });
-
-        document.getElementById('closeSearch').addEventListener('click', function() {
-            document.getElementById('searchOverlay').classList.remove('show');
         });
     </script>
 </div>
