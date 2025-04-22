@@ -143,25 +143,25 @@
                                                 @endif
                                             </div>
                                             
-                                            <div class="social-links">
-                                                <strong>Socials : </strong>
-                                                @if ($annonce->entreprise->instagram)
-                                                    <a href="{{ $annonce->entreprise->instagram }}" target="_blank" class="social-button instagram">
-                                                        <i class="fa-brands fa-instagram"></i> Instagram
-                                                    </a>
-                                                @endif
-                                                
-                                                @if ($annonce->entreprise->facebook)
-                                                    <a href="{{ $annonce->entreprise->facebook }}" target="_blank" class="social-button facebook">
-                                                        <i class="fa-brands fa-facebook"></i> Facebook
-                                                    </a>
-                                                @endif
-                                                
-                                                @if ($annonce->entreprise->whatsapp)
-                                                    <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank" class="social-button whatsapp">
-                                                        <i class="fa-brands fa-whatsapp"></i> Whatsapp
-                                                    </a>
-                                                @endif
+                                            <div class="social-links d-flex align-items-center">
+                                                <strong class="me-3">Socials : </strong>
+                                                <div class="d-flex">
+                                                    @if ($annonce->entreprise->instagram)
+                                                        <a href="{{ $annonce->entreprise->instagram }}" target="_blank" class="social-button instagram me-2">
+                                                            <i class="fa-brands fa-instagram"></i>
+                                                        </a>
+                                                    @endif
+                                                    @if ($annonce->entreprise->facebook)
+                                                        <a href="{{ $annonce->entreprise->facebook }}" target="_blank" class="social-button facebook me-2">
+                                                            <i class="fa-brands fa-facebook"></i>
+                                                        </a>
+                                                    @endif
+                                                    @if ($annonce->entreprise->whatsapp)
+                                                        <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank" class="social-button whatsapp me-2">
+                                                            <i class="fa-brands fa-whatsapp"></i>
+                                                        </a>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -256,5 +256,6 @@
             });
         </script>
     @endsection
+
 
 

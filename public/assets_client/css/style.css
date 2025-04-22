@@ -160,9 +160,6 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 18px;
     font-weight: normal;
 }
-p a{
-	color:#de6600;
-}
 a, a.navlink {
 	color:inherit;
 	outline:none;
@@ -3491,7 +3488,8 @@ i.cat-icon {
     font-size: 20px;
     text-align: center;
     color: #ffffff;
-    left: 42%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .category-full-widget:hover .category-widget-bg {
     transform: translate3d(0,0,0) scale(1.08);
@@ -6837,8 +6835,8 @@ button.w3-button.w3-teal.w3-xlarge.w3-right {
     color: #ffffff !important;
     padding: 4px 18px;
     border-radius: 50px;
-    font-size: 16px;
-    margin-right: 15px;
+    font-size: 12px;
+    margin-right: 10px;
     color: #505667;
     box-shadow: 0px 0px 0px 5px rgba(255,255,255,0.2);
 }
@@ -6857,7 +6855,6 @@ a.tag_t {
 }
 .proerty_content {
     position: relative;
-    padding: 0em 1.5em 0em;
     text-align: center;
 }
 .proerty_text {
@@ -6920,12 +6917,18 @@ a.tag_t {
     justify-content: center;
 	text-align: left;
 }
+
+/* Remove flex on mobile devices */
+@media screen and (max-width: 768px) {
+    .list-fx-features {
+      display: block;
+    }
+  }
 .listing-card-info-icon {
     display: inline-block;
     padding-left: 18px;
     position: relative;
     vertical-align: top;
-    width: 50%;
     flex: 0 0 50%;
     margin-bottom: 1.5rem;
 	font-size:14px;
@@ -7688,4 +7691,46 @@ a.cl-box {
       justify-content: center;
     }
   }
+  /* Make tabs horizontal on mobile */
+  @media (max-width: 767px) {
+    .tab .nav-tabs,
+    .nav-tabs {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth; /* Add smooth scrolling */
+      padding-bottom: 5px; /* Add some padding to avoid cut-off */
+    }
   
+    .tab .nav-tabs li,
+    .nav-tabs li {
+      float: none;
+      display: inline-block;
+      width: auto;
+      margin-bottom: 0;
+      border-right: none;
+    }
+  
+    .tab .nav-tabs li a,
+    .tab .nav-tabs li button,
+    .nav-tabs li a,
+    .nav-tabs li button {
+      padding: 10px 15px;
+      font-size: 14px;
+    }
+  
+    /* Hide scrollbar but keep functionality */
+    .tab .nav-tabs::-webkit-scrollbar,
+    .nav-tabs::-webkit-scrollbar {
+      height: 3px;
+    }
+  }
+@media (max-width: 767px) {
+    .swal2-popup {
+        width: 90% !important;
+        max-width: 90% !important;
+        margin: 0 auto !important;
+    }
+}

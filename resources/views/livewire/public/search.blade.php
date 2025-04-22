@@ -9,91 +9,96 @@
             <div class="row">
                 <!-- Start Sidebar -->
                 <div class="col-md-12 col-sm-12">
-                    <h4 class="mrg-bot-15 text-center">Filtrer vos recherches</h4>
+    <!-- Create a flex container for the header elements -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="align-items-center">
+            <h4 class="mb-0 me-3">Filtrer vos recherches</h4>
+            
+           
+        </div>
+        
+        <!-- Sort dropdown moved to the right -->
+        <div class="mb-0">
+            <select id="select-order" class="fs-5 filter-button" tabindex="-98" wire:model.lazy='sortOrder'>
+                <option value="" disabled>Trier</option>
+                <option value="titre|asc">Titre: A à Z</option>
+                <option value="titre|desc">Titre: Z à A</option>
+                <option value="created_at|asc">Date: Ancien à récent</option>
+                <option value="created_at|desc">Date: Récent à ancien</option>
+            </select>
+        </div>
+    </div>
 
-                    @if ($type || $ville || $quartier || $entreprise)
-                        <p id="reset-filters" class="text-center">
-                            <a href="javascript:void(0)" class="reset-filters" wire:click='resetFilters'>
-                                Effacer tous les filtres
-                            </a>
-                        </p>
-                    @endif
-                    <div class="row col-md-12 col-sm-12">
-                        <div class="mb-3 col-md-5">
-                            <select id="select-order" class="fs-5 filter-button" tabindex="-98" wire:model.lazy='sortOrder'>
-                                <option value="" disabled>Trier</option>
-                                <option value="titre|asc">Titre: A à Z</option>
-                                <option value="titre|desc">Titre: Z à A</option>
-                                <option value="created_at|asc">Date: Ancien à récent</option>
-                                <option value="created_at|desc">Date: Récent à ancien</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="sidebar" class="row col-md-12 col-sm-12">
+    
+    <div class="sidebar" class="row col-md-12 col-sm-12">
+        @foreach ($facettes as $index => $facette)
+            <div wire:key='{{ $facette->id }}' class="{{ $index >= 2 ? 'd-md-block more-filter-sm d-none' : ($index >= 4 ? 'more-filter-md d-none' : '') }}">
+                @include('components.public.filter-view', [
+                    'title' => $facette->title,
+                    'category' => $facette->category,
+                    'items' => $facette->items,
+                    'selectedItems' => $facette->selectedItems,
+                    'icon' => $facette->icon,
+                    'filterModel' => $facette->filterModel,
+                ])
+            </div>
+        @endforeach
+    </div>
 
-                        @foreach ($facettes as $index => $facette)
-                            <div wire:key='{{ $facette->id }}' class="{{ $index >= 2 ? 'd-md-block more-filter-sm d-none' : ($index >= 4 ? 'more-filter-md d-none' : '') }}">
-                                @include('components.public.filter-view', [
-                                    'title' => $facette->title,
-                                    'category' => $facette->category,
-                                    'items' => $facette->items,
-                                    'selectedItems' => $facette->selectedItems,
-                                    'icon' => $facette->icon,
-                                    'filterModel' => $facette->filterModel,
-                                ])
-                            </div>
-                        @endforeach
+    @if(count($facettes) > 2)
+    <div class="row col-md-12 col-sm-12">
+        <div class="col-md-3 text-center mb-3 mt-2 d-block d-md-none">
+            <button id="show-more-filters-sm" class="filter-button" onclick="toggleMoreFiltersSm()">
+            <i class="fa fa-sliders me-2"></i> Plus de filtres
+            </button>
+        </div>
+    </div>
+    @endif          
+    <div class="col-12 text-center mb-3">
+        @if ($type || $ville || $quartier || $entreprise)
+            <p id="reset-filters" class="btn theme-btn mb-0" wire:click='resetFilters'>
+                
+                <i class="fa fa-trash" aria-hidden="true"></i> Effacer tous
 
-                       
-                    </div>
-                    
-                    @if(count($facettes) > 2)
-                    <div class="row col-md-12 col-sm-12">
-                            <div class="col-md-3 text-center mb-3 mt-2 d-block d-md-none">
-                                <button id="show-more-filters-sm" class="filter-button" onclick="toggleMoreFiltersSm()">
-                                <i class="fa fa-sliders me-2"></i> Plus de filtres
-                                </button>
-                            </div>
-                            </div>
-                        @endif          
-                    
-
-                    <script>
-                        function toggleMoreFiltersSm() {
-                            const moreFilters = document.querySelectorAll('.more-filter-sm');
-                            const button = document.getElementById('show-more-filters-sm');
-                            
-                            let isHidden = moreFilters[0].classList.contains('d-none');
-                            
-                            moreFilters.forEach(filter => {
-                                if (isHidden) {
-                                    filter.classList.remove('d-none');
-                                    button.innerHTML = '<i class="fa fa-sliders me-2"></i> Moins de filtres';
-                                } else {
-                                    filter.classList.add('d-none');
-                                    button.innerHTML = '<i class="fa fa-sliders me-2"></i> Plus de filtres';
-                                }
-                            });
-                        }
-                        
-                        function toggleMoreFiltersMd() {
-                            const moreFilters = document.querySelectorAll('.more-filter-md');
-                            const button = document.getElementById('show-more-filters-md');
-                            
-                            let isHidden = moreFilters[0].classList.contains('d-none');
-                            
-                            moreFilters.forEach(filter => {
-                                if (isHidden) {
-                                    filter.classList.remove('d-none');
-                                    button.innerHTML = '<i class="fa fa-filter me-2"></i> Moins de filtres';
-                                } else {
-                                    filter.classList.add('d-none');
-                                    button.innerHTML = '<i class="fa fa-filter me-2"></i> Plus de filtres';
-                                }
-                            });
-                        }
-                    </script>
-                </div>
+            </p>
+        @endif
+    </div>
+    <script>
+        function toggleMoreFiltersSm() {
+            const moreFilters = document.querySelectorAll('.more-filter-sm');
+            const button = document.getElementById('show-more-filters-sm');
+            
+            let isHidden = moreFilters[0].classList.contains('d-none');
+            
+            moreFilters.forEach(filter => {
+                if (isHidden) {
+                    filter.classList.remove('d-none');
+                    button.innerHTML = '<i class="fa fa-sliders me-2"></i> Moins de filtres';
+                } else {
+                    filter.classList.add('d-none');
+                    button.innerHTML = '<i class="fa fa-sliders me-2"></i> Plus de filtres';
+                }
+            });
+        }
+        
+        function toggleMoreFiltersMd() {
+            const moreFilters = document.querySelectorAll('.more-filter-md');
+            const button = document.getElementById('show-more-filters-md');
+            
+            let isHidden = moreFilters[0].classList.contains('d-none');
+            
+            moreFilters.forEach(filter => {
+                if (isHidden) {
+                    filter.classList.remove('d-none');
+                    button.innerHTML = '<i class="fa fa-filter me-2"></i> Moins de filtres';
+                } else {
+                    filter.classList.add('d-none');
+                    button.innerHTML = '<i class="fa fa-filter me-2"></i> Plus de filtres';
+                }
+            });
+        }
+    </script>
+</div>
                 <!-- End Start Sidebar -->
 
                 <!-- Start All Listing -->
@@ -126,12 +131,11 @@
                     </div>
 
                     <div class="row mrg-0">
-                        <div class="col-md-6 mrg-top-10">
-                            <h5 class="theme-cl-blue">Affichage : {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} résultat trouvé(s)</h5>
+                        <div class="col-md-4 col-xs-9">
+                            <h4 class="theme-cl-blue">Affichage : {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} trouvé(s)</h4>
                         </div>
-                        <div class="col-md-1"></div>
 
-                        <div class="col-md-1" style="">
+                        <div class="col-md-1 col-xs-3" style="">
                             <a href="javascript:void(0)" data-toggle="modal" data-target="#share" onclick="sharePage()">
                                 <i class="fa fa-share-nodes fa-lg" aria-hidden="true"></i>
                             </a>
@@ -247,7 +251,7 @@
                                     <div class="listing-shot-caption mrg-top-5 text-center">
                                         <i class="fa-solid fa-xmark fa-5x" aria-hidden="true"></i> <br>
                                         <h4>Aucune annonce trouvée</h4>
-                                        {{-- <a href="javascript:void(0)" class="reset-filters" class="theme-cl" wire:click='resetFilters'>Effacer les filtres</a> --}}
+                                        {{-- <a href="javascript:void(0)" class="reset-filters" class="theme-cl" wire:click='resetFilters'>    Effacer les filtres</a> --}}
                                     </div>
                                 </div>
                             </div>
@@ -276,6 +280,7 @@
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
 </div>
+
 
 
 

@@ -176,8 +176,8 @@ All custom js files contents are below
 		  settings: {
 			arrows: false,
 			centerMode: true,
-			centerPadding: '40px',
-			slidesToShow: 1
+			centerPadding: '20px',
+			slidesToShow: 2
 		  }
 		}
 	  ]

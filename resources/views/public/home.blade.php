@@ -103,7 +103,7 @@
 
                 <!-- Single List -->
                 @foreach ($annonces as $annonce)
-                    <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="col-lg-4 col-md-6 col-xs-6">
                         <div class="property_item classical-list">
                             <div class="image" style="height: 200px important">
                                 <a class="listing-thumb" href="{{ route('show', $annonce->slug) }}">
@@ -138,6 +138,9 @@
                                 <div class="property_meta">
                                     <div class="list-fx-features">
                                         <div class="listing-card-info-icon">
+                                            <span>
+                                            <i class="ti-location-pin"></i>
+                                            </span>
                                             <span class="inc-fleat inc-add mrg-0">
                                                 @if ($annonce->ville_id)
                                                     {{ $annonce->adresse_complete->pays }}, {{ $annonce->adresse_complete->ville }}, {{ $annonce->adresse_complete->quartier }}
@@ -147,8 +150,9 @@
                                             </span>
                                         </div>
                                         <div class="listing-card-info-icon">
+                                                <i class="ti-mobile"></i> 
                                             <span class="inc-fleat inc-call mrg-0">
-                                                @if ($annonce->ville_id)
+                                                @if ($annonce->entreprise->telephone)
                                                     <a href="tel:{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
                                                         {{ $annonce->entreprise->telephone }}
                                                     </a>
@@ -166,17 +170,24 @@
                             <div class="listing-footer-info">
                                 <div class="listing-cat">
                                     <a class="cl-1" href="{{ route('entreprise.show', $annonce->entreprise->slug) }}">
-                                        <span class="more-cat mrg-l-0" style="">
-                                            <i class="fas fa-building"></i>
-                                        </span> &nbsp;
+                                        <div class=" d-flex justify-content-center align-items-center">
+                                            <span class="more-cat mrg-l-0" style="">
+                                                <i class="fas fa-building"></i>
+                                            </span>
+                                        </div>
+                                        <div class=" text-center">
                                         {{ $annonce->entreprise->nom }}
+                                        </div>
                                     </a>
-                                </div>
-                                @if ($annonce->entreprise->est_ouverte)
+                                    <div class="col-md-12 text-center">
+                                    @if ($annonce->entreprise->est_ouverte)
                                     <span class="place-status">Ouvert</span>
                                 @else
                                     <span class="place-status closed">Fermée</span>
                                 @endif
+                                    </div>
+                                </div>
+                                
                             </div>
 
                         </div>
@@ -209,7 +220,7 @@
                                     <i class="bg-{{ $list->bg }} cat-icon {{ $list->icon }}" aria-hidden="true"></i>
                                 </div>
                                 <div class="cat-box-name">
-                                    <h4>{{ $list->libelle }}</h4>
+                                    <h4 style="font-size: 16px;">{{ $list->libelle }}</h4>
                                     <a class="btn-btn-wrowse" href="{{ route('search.key.type', ['', $list->nom]) }}">Parcourir</a>
                                 </div>
                             </div>
