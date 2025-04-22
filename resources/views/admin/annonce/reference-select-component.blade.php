@@ -1,7 +1,7 @@
 @props(['title', 'name', 'options', 'required' => false])
 
 <div class="col-md-4 col-xs-12">
-    <div wire:ignore>
+    <div wire:ignore class="px-4">
         <h3 class="">{{ $title }}
             @if ($required)
                 <b style="color: red; font-size: 100%;">*</b>
@@ -53,9 +53,6 @@
                             </div>
                         </template>
                     </div>
-                </template>
-                <template x-if="!selected || selected.length === 0">
-                    <span class="placeholder">Sélectionnez un élément dans la liste</span>
                 </template>
                 <div class="select-arrow" :class="{ 'open': open }">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>

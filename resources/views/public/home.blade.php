@@ -760,7 +760,7 @@
                                         </div>
                                         <div class=" text-center">
                                         {{ $annonce->entreprise->nom }}
-                                        
+                                        </div>
                                     </a>
                                     <div class="col-md-12 text-center">
                                     @if ($annonce->entreprise->est_ouverte)

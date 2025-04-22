@@ -21,54 +21,54 @@
                     @endif
                 </div>
             </div>
+            <div class="banner-caption d-none d-md-block">
+                    <!-- <h3 class="text-center">Recherche</h3> -->
+                    <form class="form-verticle" method="GET" action="{{ route('search') }}">
+                            <input name="form_request" type="hidden" value="1">
+                            <div class="col-md-4 col-sm-4 no-padd">
+                                <i class="banner-icon icon-pencil"></i>
+                                <input class="form-control left-radius right-br" name="key" type="text"
+                                    placeholder="Mot clé...">
+                            </div>
+                            <div class="col-md-3 col-sm-3 no-padd">
+                                <div class="form-box">
+                                    <i class="banner-icon icon-map-pin"></i>
+                                    <input id="myInput" class="form-control right-br" name="location" type="text"
+                                        placeholder="Localisation...">
+                                    <div id="autocomplete-results" class="autocomplete-items"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3 no-padd">
+                                <div class="form-box">
+                                    <i class="banner-icon icon-layers"></i>
+                                    <select class="form-control" name="type[]">
+                                        <option class="chosen-select" data-placeholder="{{ __('Types d\'annonce') }}"
+                                            value="" selected>{{ __('Types d\'annonce') }}</option>
+                                        @foreach ($typeAnnonce as $annonce)
+                                            <option value="{{ $annonce }}">{{ $annonce }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-3 no-padd">
+                                <div class="form-box">
+                                    <button class="btn theme-btn btn-default" type="submit" style="border-top-left-radius: 0px; !important; border-bottom-left-radius: 0px !important;">
+                                        {{-- <i class="ti-search"></i> --}}
+                                        {{ __('Rechercher') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+
+                </div>
         </div>
     </section>
     <div class="clearfix"></div>
     <!-- ================ End Page Title ======================= -->
 
-    <!-- ================ Listing In Grid Style ======================= -->
-    <section class="padd-top-0 padd-bot-0 overlap  desktop-show">
-        <div class="container">
-            <!-- Searc Filter -->
-            <div class="row">
-                <div>
-                    <!-- <h3 class="text-center">Recherche</h3> -->
-                    <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                        <input type="hidden" value="1" name="form_request">
-                        <div class="col-md-3 col-sm-3 no-padd">
-                            <input type="text" class="form-control left-radius" placeholder="Mot clé .."
-                                name="key" value="{{ $key }}">
-                        </div>
 
-                        <div class="col-md-4 col-sm-4 no-padd">
-                            <input id="myInput" type="text" class="form-control" placeholder="Localisation .."
-                                name="location" value="{{ $location }}">
-                            <div id="autocomplete-results" class="autocomplete-items"></div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-3 no-padd">
-                            <select id="search-type-input" class="form-control" name="type[]"
-                                value="{{ $type }}">
-                                <option value="" selected>Tous les types d'annonce</option>
-                                @foreach ($typeAnnonce as $annonce)
-                                    <option value="{{ $annonce }}" {{ $annonce == $type ? 'selected' : '' }}
-                                        style="hover: {{ $defaultColor }};">{{ $annonce }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-md-2 col-sm-2 no-padd">
-                            <button type="submit" class="btn theme-btn normal-height full-width">Rechercher</button>
-                        </div>
-                    </form>
-
-
-                </div>
-            </div>
-
-
-        </div>
-    </section>
     <div class="mobile-show">
         <style>
             :root {
