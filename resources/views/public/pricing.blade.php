@@ -1,10 +1,9 @@
 @extends('layout.public.app')
 
-@section('title', '- Créer un compte professionnel')
+@section('title', 'Créer un compte professionnel')
 
 @section('content')
-    <section class="title-transparent page-title"
-        style="background:url({{ asset('assets_client/img/cinet_pay.png') }}) no-repeat center center; background-size:cover;">
+    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/cinet_pay.png') }}) no-repeat center center; background-size:cover;">
         <div class="container">
             <div class="title-content">
                 <h1>Abonnement</h1>
@@ -41,7 +40,7 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             applyMask('Togo');
         });
     </script>

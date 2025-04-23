@@ -1,6 +1,6 @@
 @extends('layout.public.app')
 
-@section('title', '- Mon profil')
+@section('title', 'Mon profil')
 
 @section('profil', 'active')
 

@@ -1,6 +1,6 @@
 @extends('layout.public.app')
 
-@section('title', '- Contactez-nous')
+@section('title', 'Contactez-nous')
 
 @section('css')
     <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -26,14 +26,14 @@
         <div class="container">
             <div class="col-md-10 col-md-offset-1 col-sm-12 translateY-60 p-3">
                 <div class="col-md-6 col-sm-6 mr-1 p-3 pb-3">
-                    <div class="detail-wrapper text-center padd-top-40 mrg-bot-10 padd-bot-40 light-bg pt-3 pb-4" style="background-color: #f7f4f4;">
+                    <div class="detail-wrapper padd-top-40 mrg-bot-10 padd-bot-40 light-bg pb-4 pt-3 text-center" style="background-color: #f7f4f4;">
                         <i class="theme-cl font-30 ti-location-pin"></i>
                         <h4>Bureau du Togo</h4>
                         Lomé-Adidogomé
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 ml-1 p-3 pb-3">
-                    <div class="detail-wrapper text-center padd-top-40 mrg-bot-10 padd-bot-40 light-bg pt-3 pb-4" style="background-color: #f7f4f4;">
+                    <div class="detail-wrapper padd-top-40 mrg-bot-10 padd-bot-40 light-bg pb-4 pt-3 text-center" style="background-color: #f7f4f4;">
                         <i class="theme-cl font-30 ti-email"></i>
                         <h4>contact@numrod.fr</h4>
                         contact@numrod.fr

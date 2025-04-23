@@ -1,6 +1,6 @@
 @extends('layout.public.app')
 
-@section('title', '- Réinitialiser le mot de passe')
+@section('title', 'Réinitialiser le mot de passe')
 
 @section('content')
     <section class="detail-section" data-overlay="6" style="background:url({{ asset('assets_client/img/banner/image-4.jpg') }});">

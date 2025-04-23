@@ -1,6 +1,6 @@
 @extends('layout.public.app-2')
 
-@section('title', '- Réinitialiser le mot de passe')
+@section('title', 'Réinitialiser le mot de passe')
 
 @section('content')
     <section class="log-wrapper">
@@ -33,11 +33,10 @@
                         <div class="input-group">
 
                             <span class="input-group-addon"><i class="fa fa-envelope theme-cl"></i></span>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                                value="{{ old('email') }}" placeholder="Email" required autocomplete="email" autofocus>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Email" required autocomplete="email" autofocus>
                         </div>
 
-                        <div class="text-center mrg-top-20 mrg-bot-20">
+                        <div class="mrg-top-20 mrg-bot-20 text-center">
                             <button type="submit" class="btn theme-btn btn-radius">
                                 {{ __('Réinitialiser') }}
                             </button>

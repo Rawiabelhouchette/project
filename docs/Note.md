@@ -462,3 +462,8 @@ cat ~/.ssh/id_ecdsa.pub
 https://www.youtube.com/watch?v=2REc-Wlvl9M&ab_channel=Laravel
 
 Utilisation des pipelines
+
+## 16-04-2025
+- [ok] Affichage d'annonce : Il faut faire un reset de page quans j'applique un filtre
+- [ok] Ajouter un loader sur la page d'affichage des annonces
+ 

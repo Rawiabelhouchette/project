@@ -1,6 +1,6 @@
 @extends('layout.public.app-2')
 
-@section('title', '- Connexion')
+@section('title', 'Connexion')
 
 @section('content')
     <section class="log-wrapper">
@@ -56,7 +56,7 @@
                             <label for="remember">
                                 {{ __('Se souvenir de moi') }}
                             </label>
-                            
+
                         </span>
 
                         <div class="form-group">
@@ -90,17 +90,17 @@
     $('.navbar').removeClass('navbar-transparent');
 
     function togglePasswordVisibility(fieldId) {
-            const input = document.getElementById(fieldId);
-            const icon = document.getElementById(`toggle-password-icon-${fieldId}`);
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
+        const input = document.getElementById(fieldId);
+        const icon = document.getElementById(`toggle-password-icon-${fieldId}`);
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
         }
+    }
 </script>
 @endsection

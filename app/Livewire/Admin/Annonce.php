@@ -29,16 +29,19 @@ class Annonce extends Component
 
         if ($this->type) {
             $annonces->where('type', $this->type);
+            $this->resetPage();
         }
 
         if ($this->is_published == '1') {
             $annonces->where('is_active', 1)
                 ->where('date_validite', '>=', now());
+            $this->resetPage();
         } elseif ($this->is_published == '0') {
             $annonces->where(function ($query) {
                 $query->where('is_active', 0)
                     ->orWhere('date_validite', '<', now());
             });
+            $this->resetPage();
         }
 
         if ($search) {
@@ -47,6 +50,7 @@ class Annonce extends Component
                     ->orWhereRaw('LOWER(description) LIKE ?', ["%$search%"])
                     ->orWhereRaw('LOWER(type) LIKE ?', ["%$search%"]);
             });
+            $this->resetPage();
         }
 
         $annonces = $annonces->paginate($this->perPage);
