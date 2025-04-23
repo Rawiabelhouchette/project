@@ -330,28 +330,26 @@
 <div id="header-mobile">
     <header class="container-fluid py-3">
         <div class="row align-items-center">
-            <div class="col-2">
-                <button class="btn p-0 border-0" id="menuToggle">
+            <div class="col-6 d-flex align-items-center">
+                <button class="btn p-0 border-0 ms-1" id="menuToggle">
                     <i class="bi bi-list fs-4" style="font-size:32px !important"></i>
                 </button>
-            </div>
-            <div class="col-6 text-center">
-                <div class="logo">
+                <div class="logo ms-2">
                     <img onclick="window.location.href='/'"
                         style="width: 70px;
-    height: 70px;
-    max-height: 80px;"
+                                height: 70px;
+                                max-height: 80px;"
                         class="logo logo-scrolled d-inline-block align-text-top"
                         src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="">
 
                 </div>
             </div>
-            <div class=" d-flex col-4">
+            <div class="col-6 d-flex justify-content-end">
 
 
-                <form>
+                <form style="width: 25%; !important;">
                     @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
-                        <a class="btn add-annonce" id="btn-deposer-annonce" style="padding: 10px 15px;"
+                        <a class="btn add-annonce" id="btn-deposer-annonce" style="padding: 10px 15px; "
                             href="{{ route('public.annonces.create') }}">
                             <i class="fa-solid fa-plus"></i>
                         </a>
