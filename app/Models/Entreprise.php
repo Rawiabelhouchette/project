@@ -35,11 +35,7 @@ class Entreprise extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->slug = Str::slug($model->nom);
-        });
-
-        static::updating(function ($model) {
-            $model->slug = Str::slug($model->nom);
+            $model->slug = (string) Str::uuid();
         });
     }
 
