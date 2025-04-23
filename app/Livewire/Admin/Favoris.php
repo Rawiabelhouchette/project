@@ -16,6 +16,8 @@ class Favoris extends Component
     private $perPage = 9;
     public $search = '';
 
+    protected $listeners = ['updateFavoris'];
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -41,3 +43,4 @@ class Favoris extends Component
         return view('livewire.admin.favoris', compact('annonces'));
     }
 }
+

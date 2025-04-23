@@ -21,7 +21,7 @@
     </section>
 
     <div class="page-name edit-annonce row">
-        <div class="container">
+        <div class="container px-5" >
             @foreach ($typeAnnonces as $type)
                 <div class="col-md-4 col-sm-6">
                     <div class="widget unique-widget">
@@ -32,7 +32,7 @@
                                         <i class="icon {{ $type->icon }}"></i>
                                     </div>
                                     <div class="col-xs-8">
-                                        <div class="widget-detail">
+                                        <div class="widget-detail" style="padding-left: 15px;">
                                             <h3>{{ $type->nom }}</h3>
                                         </div>
                                     </div>

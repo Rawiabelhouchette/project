@@ -179,7 +179,7 @@
                 @include('admin.annonce.description-component')
             </div>
 
-            <div class="row align-items-start">
+            <div class="row col-md-12">
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Type de voiture',
                     'name' => 'types_vehicule',
@@ -200,14 +200,16 @@
                 ])
 
             </div>
-
-            @include('admin.annonce.location-template', [
+             <div class="row col-md-12">
+             @include('admin.annonce.location-template', [
                 'pays' => $pays,
                 'villes' => $villes,
                 'quartiers' => $quartiers,
             ])
+                </div>               
 
-            <div class="row align-items-start">
+
+            <div class="row col-md-12">
                 @include('admin.annonce.create-galery-component', [
                     'galery' => $galerie,
                 ])
@@ -247,3 +249,5 @@
         });
     </script>
 @endpush
+
+
