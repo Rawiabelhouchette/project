@@ -426,14 +426,6 @@
 
 
         </div>
-
-
-        <div class="row mt-3">
-            <div class="col-12">
-
-                <hr class="mt-2 mb-3">
-            </div>
-        </div>
     </header>
 
     <!-- Background Overlay -->
