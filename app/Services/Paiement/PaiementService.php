@@ -105,8 +105,6 @@ class PaiementService
             $CinetPay = new CinetPay($site_id, $apikey, $VerifySsl = false);//$VerifySsl=true <=> Pour activerr la verification ssl sur curl 
             $result = $CinetPay->generatePaymentLink($formData);
 
-            // dd($result);
-
             if ($result["code"] == '201') {
                 $url = $result["data"]["payment_url"];
 
@@ -363,11 +361,15 @@ class PaiementService
         // Get offre dabonnement
         $offre_abonnement = OffreAbonnement::find($transaction->offre_id);
 
+        // TODO : check if the offer is promotional and apply the discount
+        $montantPaye = $offre_abonnement->prix;
+
         // Create a new subscription for the company
         $subscription = $company->abonnements()->create([
             'offre_abonnement_id' => $offre_abonnement->id,
             'date_debut' => date('Y-m-d H:i:s'),
             'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
+            'montant' => $montantPaye,
         ]);
 
         // link the abonnement to the entreprise
@@ -381,7 +383,7 @@ class PaiementService
 
 
         // logging in subscription channel
-        $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offre_abonnement->libelle . "' (" . $offre_abonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
+        $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offre_abonnement->libelle . "' (" . $montantPaye . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
         Log::channel('subscription')->info($message);
 
         Mail::send(
@@ -405,6 +407,9 @@ class PaiementService
         // Get offre dabonnement
         $offreAbonnement = OffreAbonnement::find($transaction->offre_id);
 
+        // TODO : check if the offer is promotional and apply the discount
+        $montantPaye = $offreAbonnement->prix;
+
         // get the last active subscription
         $lastSubscription = $company->abonnements()->latest()->first();
 
@@ -415,6 +420,7 @@ class PaiementService
             'offre_abonnement_id' => $offreAbonnement->id,
             'date_debut' => $endDate,
             'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offreAbonnement->duree . ' month', strtotime($endDate))),
+            'montant' => $montantPaye,
         ]);
 
         // link the abonnement to the entreprise
@@ -427,7 +433,7 @@ class PaiementService
         $user = User::find($transaction->user_id);
 
         // logging in subscription channel
-        $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offreAbonnement->libelle . "' (" . $offreAbonnement->prix . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
+        $message = "\n Nouvel abonnement de l'entreprise '" . $company->nom . "' à l'offre '" . $offreAbonnement->libelle . "' (" . $montantPaye . ") le " . date('Y-m-d H:i:s') . "\n Subscritpion ID: " . $subscription->id . "\n Transaction ID: " . $transaction->id;
         Log::channel('subscription')->info($message);
 
         Mail::send(
