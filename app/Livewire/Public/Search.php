@@ -528,12 +528,10 @@ class Search extends Component
 
         if ($this->quartier) {
             $quartiers = $this->quartier;
-            $annonces = $annonces->whereHas('entreprise.quartier', function ($query) use ($quartiers) {
-                $query->where(function ($query) use ($quartiers) {
-                    foreach ($quartiers as $quartier) {
-                        $query->orWhere('nom', 'like', '%' . $quartier . '%');
-                    }
-                });
+            $annonces = $annonces->where(function ($query) use ($quartiers) {
+                foreach ($quartiers as $quartier) {
+                        $query->orWhere('quartier', 'like', '%' . $quartier . '%');
+                }
             });
         }
 
