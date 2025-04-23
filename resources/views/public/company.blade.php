@@ -1,33 +1,35 @@
 @extends('layout.public.app')
 
-@section('css')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-@endsection
+@section('title', "Détails d'une entreprise")
 
 @section('content')
-    <!-- ================ Listing Detail Basic Information ======================= -->
-    <section class="detail-section" style="background:url({{ asset('assets_client/img/company_display.jpg') }})" data-overlay="6">
-        <div class="overlay" style="background-color: rgb(36, 36, 41); opacity: 0.5;"></div>
-        <div class="profile-cover-content">
-            <div class="container">
-                <div class="center">
-                    <h3 style="color: white;">Détail d'une entreprise</h3>
+    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
+        <div class="container">
+            <div class="title-content">
+                <h1>Détails d'une entreprise</h1>
+                <div class="breadcrumbs">
+                    <a href="{{ route('accueil') }}">Accueil</a>
+                    <span class="gt3_breadcrumb_divider"></span>
+                    <span class="current">Entreprise</span>
+                    <span class="gt3_breadcrumb_divider"></span>
+                    <span class="current">{{ $entreprise->nom }}</span>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ================ End Listing Detail Basic Information ======================= -->
-
-    <!-- ================ Listing Detail Full Information ======================= -->
     <section class="list-detail">
         <div class="container">
-            <div class="row">
+            <div class="row bott-wid">
                 <!-- Start: Listing Detail Wrapper -->
                 <div class="col-md-8 col-sm-8">
                     <div class="detail-wrapper">
                         <div class="detail-wrapper-body">
                             <div class="listing-title-bar">
-                                <h3> {{ $entreprise->nom }} <span class="mrg-l-5 category-tag">{{ $entreprise->ville->pays->nom }}</span></h3>
+                                <h3> {{ $entreprise->nom }}
+                                    <span class="mrg-l-5 category-tag">
+                                        {{ $entreprise->ville->pays->nom }}
+                                    </span>
+                                </h3>
                                 <div>
                                     <a href="javascript:void(0)" class="listing-address">
                                         <i class="ti-location-pin mrg-r-5"></i>
@@ -59,7 +61,8 @@
                                     @endif
 
                                     @if ($entreprise->instagram)
-                                        <a href="https://www.instagram.com/{{ $entreprise->instagram }}" target="_blank">
+                                        <a href="{{ $entreprise->instagram }}" target="_blank">
+                                            {{-- <a href="https://www.instagram.com/{{ $entreprise->instagram }}" target="_blank"> --}}
                                             <i class="fa-brands fa-instagram"></i>&nbsp;
                                             {{ $entreprise->instagram }}
                                         </a>
@@ -67,9 +70,18 @@
                                     @endif
 
                                     @if ($entreprise->facebook)
-                                        <a href="https://www.facebook.com/{{ $entreprise->facebook }}" target="_blank">
+                                        <a href="{{ $entreprise->facebook }}" target="_blank">
+                                            {{-- <a href="https://www.facebook.com/{{ $entreprise->facebook }}" target="_blank"> --}}
                                             <i class="fa-brands fa-facebook"></i>&nbsp;
                                             {{ $entreprise->facebook }}
+                                        </a>
+                                        <br>
+                                    @endif
+
+                                    @if ($entreprise->site_web)
+                                        <a href="{{ $entreprise->site_web }}" target="_blank">
+                                            <i class="fa fa-globe"></i>&nbsp;
+                                            {{ $entreprise->site_web }}
                                         </a>
                                         <br>
                                     @endif
@@ -95,8 +107,17 @@
                         <div class="detail-wrapper-header">
                             <h4>Localisation</h4>
                         </div>
-                        <div class="detail-wrapper-body">
-                            <div id="map" class="full-width" style="height:400px;"></div>
+                        <div class="detail-wrapper-body p-0 px-4 pb-4">
+                            <div class="side-list">
+                                <ul>
+                                    <li>{{ $entreprise->adresse_complete }}</li>
+                                    <li>
+                                        <div id="map" class="full-width" style="height:400px;"></div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {{-- <div id="map" class="full-width" style="height:400px;"></div> --}}
                         </div>
                     </div>
                 </div>
@@ -126,25 +147,6 @@
                             </div>
                         </div>
                         <!-- End: Opening hour -->
-
-                        <!-- Start: Listing Gallery -->
-                        {{-- <div class="widget-boxed">
-                            <div class="widget-boxed-header">
-                                <h4><i class="ti-gallery padd-r-10"></i>Image</h4>
-                            </div>
-                            <div class="widget-boxed-body">
-                                <div class="side-list no-border gallery-box">
-                                    <ul class="gallery-list-unique">
-                                        <li>
-                                            <a data-fancybox="gallery" href="http://via.placeholder.com/1200x850">
-                                                <img src="http://via.placeholder.com/100x80" class="img-responsive" alt="" />
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div> --}}
-                        <!-- End: Listing Gallery -->
 
                         <!-- Start: Latest Listing -->
                         <div class="widget-boxed">
@@ -189,7 +191,6 @@
             </div>
         </div>
     </section>
-    <!-- ================ Listing Detail Full Information ======================= -->
 @endsection
 
 @section('js')
@@ -203,14 +204,19 @@
         }).addTo(mymap);
 
         var marker;
-
-        var lon = {{ $entreprise->longitude }};
-        var lat = {{ $entreprise->latitude }};
-        if (marker) {
-            mymap.removeLayer(marker);
-        }
-
-        marker = L.marker([lat, lon]).addTo(mymap);
-        mymap.setView([lat, lon], 12);
     </script>
+
+    @if ($entreprise->latitude && $entreprise->longitude)
+        <script>
+            var lon = {{ $entreprise->longitude }};
+            var lat = {{ $entreprise->latitude }};
+
+            if (marker) {
+                mymap.removeLayer(marker);
+            }
+
+            marker = L.marker([lat, lon]).addTo(mymap);
+            mymap.setView([lat, lon], 12);
+        </script>
+    @endif
 @endsection
