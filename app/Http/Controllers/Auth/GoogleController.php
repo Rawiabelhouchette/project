@@ -28,7 +28,7 @@ class GoogleController extends Controller
         if (!$user) {
             // Create a new user if not exists
             $user = User::create([
-                'username' => $fullName,
+                'username' => $fullName . Str::uuid()->toString(),
                 'prenom' => $parts[0],
                 'nom' => $parts[1] ?? '',
 
