@@ -118,7 +118,7 @@ class Create extends Component
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
             'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
-            'description' => 'required|string|min:3',
+            'description' => 'nullable|string|min:3',
             'modele_id' => 'required|exists:modeles,id',
             'annee' => 'nullable|integer|min:1800|max:9999',
             'carburant' => 'nullable|string|exists:reference_valeurs,valeur',
