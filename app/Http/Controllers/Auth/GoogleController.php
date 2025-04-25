@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 class GoogleController extends Controller
 {
+    public $type = 'Usager';
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
@@ -24,7 +26,7 @@ class GoogleController extends Controller
         $fullName = $googleUser->getName();
         $parts = explode(' ', $fullName, 2);
 
-
+        DB::beginTransaction();
         if (!$user) {
             // Create a new user if not exists
             $user = User::create([
@@ -37,6 +39,8 @@ class GoogleController extends Controller
 
                 'password' => "vamiyi", // You can generate a random password
             ]);
+            $user->assignRole($this->type);
+            DB::commit();
         }
 
         Auth::login($user);
