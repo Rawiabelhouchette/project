@@ -10,6 +10,7 @@
                         </h3>
                         <h4>Sélectionnez l'entreprise</h4>
                         <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
+                            <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
                                 <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
                             @endforeach
@@ -200,14 +201,13 @@
                 ])
 
             </div>
-             <div class="row col-md-12">
-             @include('admin.annonce.location-template', [
-                'pays' => $pays,
-                'villes' => $villes,
-                'quartiers' => $quartiers,
-            ])
-                </div>               
-
+            <div class="row col-md-12">
+                @include('admin.annonce.location-template', [
+                    'pays' => $pays,
+                    'villes' => $villes,
+                    'quartiers' => $quartiers,
+                ])
+            </div>
 
             <div class="row col-md-12">
                 @include('admin.annonce.create-galery-component', [
@@ -249,5 +249,3 @@
         });
     </script>
 @endpush
-
-

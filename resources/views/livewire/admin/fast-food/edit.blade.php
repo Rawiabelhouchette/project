@@ -12,6 +12,7 @@
                             <h4>Sélectionnez l'entreprise</h4>
                             <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                                 <option value="">-- Sélectionner --</option>
+                                <option value="">-- Sélectionner --</option>
                                 @foreach ($entreprises as $entreprise)
                                     <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
                                 @endforeach
