@@ -106,8 +106,11 @@ class Create extends Component
             'types_musique' => 'nullable|array',
             'types_musique.*' => 'nullable|integer|exists:reference_valeurs,id',
 
-            'galerie' => 'nullable|array',
-            'galerie.*' => 'nullable|image|max:1024',
+
+            'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,heic',
+            'galerie' => 'array|max:10',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
+            
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
             // // 'image' => 'required',
@@ -152,16 +155,21 @@ class Create extends Component
             'commodites_vie_nocturne.*.required' => 'Une commodité de vie nocturne est obligatoire',
             'commodites_vie_nocturne.*.integer' => 'Une commodité de vie nocturne doit être un entier',
             'commodites_vie_nocturne.*.exists' => 'Une commodité de vie nocturne n\'existe pas',
-            'galerie.required' => 'La galerie est obligatoire',
-            'galerie.array' => 'La galerie doit être un tableau',
-            'galerie.*.required' => 'Une image de la galerie est obligatoire',
-            'galerie.*.image' => 'Une image de la galerie doit être une image',
-            'galerie.*.max' => 'Une image de la galerie ne doit pas dépasser 1 Mo',
+            
+            'image.required' => 'L\'image est obligatoire',
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
+
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
 
-            'image.required' => 'L\'image est obligatoire',
             // validation.uploaded
             'image.uploaded' => 'L\'image doit être une image',
 

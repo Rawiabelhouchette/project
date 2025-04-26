@@ -130,6 +130,10 @@ class Edit extends Component
             'services' => 'nullable',
             'types_musique' => 'nullable',
             'equipements_vie_nocturne' => 'nullable',
+
+            'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,heic',
+            'galerie' => 'array|max:10',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
         ];
     }
 
@@ -152,6 +156,16 @@ class Edit extends Component
             'services.*.exists' => __('Veuillez choisir un service valide'),
             'types_musique.*.exists' => __('Veuillez choisir un type de musique valide'),
             'equipements_vie_nocturne.*.exists' => __('Veuillez choisir un équipement de vie nocturne valide'),
+
+            'image.required' => 'L\'image est obligatoire',
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
         ];
     }
 

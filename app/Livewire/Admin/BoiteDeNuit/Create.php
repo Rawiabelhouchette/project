@@ -108,9 +108,9 @@ class Create extends Component
             'longitude' => 'required|string',
             'latitude' => 'required|string',
 
-            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
 
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
@@ -136,10 +136,19 @@ class Create extends Component
             'description.max' => 'La description doit contenir au plus :max caractères',
             'commodites.array' => 'Les commodités doivent être un tableau',
             'services.array' => 'Les services doivent être un tableau',
-            'galerie.*.image' => 'Les fichiers doivent être des images',
             // 'galerie.*.max' => 'Les images doivent être de taille inférieure à 5Mo',
             'types_musique.array' => 'Les types de musique doivent être un tableau',
             'equipements_vie_nocturne.array' => 'Les équipements de vie nocturne doivent être un tableau',
+
+            'image.required' => 'L\'image est obligatoire',
+            'image.image' => 'Le fichier doit être une image',
+            'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
+
+            'galerie.*.image' => 'Le fichier doit être une image',
+            'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
+            'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
 
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',

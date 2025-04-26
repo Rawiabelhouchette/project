@@ -112,7 +112,6 @@ class Create extends Component
             'nom' => 'required|string|min:3|max:255|unique:annonces,titre,id,entreprise_id',
             'description' => 'nullable|min:3|max:255',
 
-
             'produits' => 'required|array|min:1',
 
             'pays_id' => 'required|exists:pays,id',
@@ -122,9 +121,9 @@ class Create extends Component
             'longitude' => 'required|string',
             'latitude' => 'required|string',
 
-            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
         ];
     }
 
@@ -157,12 +156,12 @@ class Create extends Component
             'image.required' => 'L\'image est obligatoire',
             'image.image' => 'Le fichier doit être une image',
             'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
-            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
 
             'galerie.*.image' => 'Le fichier doit être une image',
             'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
             'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
-            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
 
         ];
     }

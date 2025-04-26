@@ -173,9 +173,9 @@ class Edit extends Component
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
-            'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg',
+            'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
         ];
     }
 
@@ -198,12 +198,12 @@ class Edit extends Component
             'image.required' => 'L\'image est obligatoire',
             'image.image' => 'Le fichier doit être une image',
             'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
-            'image.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+            'image.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
 
             'galerie.*.image' => 'Le fichier doit être une image',
             'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
             'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
-            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png ou jpg',
+            'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
         ];
     }
 

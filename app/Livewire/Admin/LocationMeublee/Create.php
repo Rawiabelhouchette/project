@@ -133,9 +133,9 @@ class Create extends Component
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
-            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
 
 
             'pays_id' => 'required|exists:pays,id',
