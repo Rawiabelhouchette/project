@@ -93,7 +93,7 @@
             @include('layout.public.connexion')
             <!-- ===================== End Login & Sign Up Window =========================== -->
 
-            <a id="back2Top" class="theme-bg" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
+            <a id="back2Top" class="theme-bg rounded-circle" href="#" title="Back to top"><i class="ti-arrow-up"></i></a>
 
             {{-- <script type="text/javascript" src="js/bootstrap-multiselect.js"></script> --}}
             <script src="{{ asset('assets_client/js/jquery.min.js') }}"></script>

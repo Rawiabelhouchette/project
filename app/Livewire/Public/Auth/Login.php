@@ -23,7 +23,7 @@ class Login extends Component
                 'email' => 'required|min:4',
                 'password' => 'required|min:4',
                 'remember' => 'boolean',
-                'recaptcha' => 'required|recaptcha',
+                'recaptcha' => 'nullable',
             ],
             [
                 'email.required' => 'Le champ email est obligatoire',

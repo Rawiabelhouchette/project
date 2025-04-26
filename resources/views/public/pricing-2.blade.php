@@ -133,6 +133,26 @@
             const countryToCities = @json($villes);
             const countries = @json($pays);
 
+            // Phone input validation
+            $('#phone, #whatsapp_phone').on('input', function(e) {
+                const value = $(this).val();
+                const lastChar = value.slice(-1);
+                
+                // Check if the last character is not a digit or space
+                if (lastChar !== '' && !/^[0-9\s]$/.test(lastChar)) {
+                    // Alert the user
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur de saisie',
+                        text: 'Veuillez entrer uniquement des chiffres et des espaces.',
+                        confirmButtonText: 'OK'
+                    });
+                    
+                    // Remove the invalid character
+                    $(this).val(value.slice(0, -1));
+                }
+            });
+
             // Populate the country dropdown
             if (countries && countries.length) {
                 $('#country').empty().append('<option value="" disabled selected>Choisissez un pays</option>');
@@ -159,3 +179,4 @@
         });
     </script>
 @endsection
+

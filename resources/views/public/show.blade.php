@@ -62,34 +62,8 @@
 
                                         </span>
                                     </h3>
-                                    <div class="annonces">
-                                        <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}">
-                                            <i class="fa fa-building fa-lg"></i>
-                                            {{ $annonce->entreprise->nom }}
-                                        </a>
-                                        @if ($annonce->entreprise->site_web)
-                                            <a href="{{ $annonce->entreprise->site_web }}" target="_blank">
-                                                <i class="ti-world"></i>{{ $annonce->entreprise->site_web }}
-                                            </a>
-                                        @endif
 
-                                        @if ($annonce->entreprise->email)
-                                            {{-- <a href="mailto:{{ $annonce->entreprise->email }}"> --}}
-                                            <a href="javascript:void(0)">
-                                                <i class="ti-email"></i>
-                                                {{ $annonce->entreprise->email }}
-                                            </a>
-                                        @endif
-                                        @if ($annonce->entreprise->instagram)
-                                            <a class="social-network" href="{{ $annonce->entreprise->instagram }}" target="_blank"><i class="fa-brands fa-instagram" style="font-size: 17px;"></i> Instagram</a>
-                                        @endif
-                                        @if ($annonce->entreprise->facebook)
-                                            <a class="social-network" href="{{ $annonce->entreprise->facebook }}" target="_blank"><i class="fa-brands fa-facebook" style="font-size: 17px;"></i> Facebook</a>
-                                        @endif
-                                        @if ($annonce->entreprise->whatsapp)
-                                            <a class="social-network" href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 17px;"></i> Whatsapp</a>
-                                        @endif
-                                    </div>
+
                                 </div>
                             </div>
                             <div class="widget-boxed-body padd-top-0">
@@ -130,7 +104,7 @@
                             </div>
                         </div>
 
-                        <div class="widget-boxed padd-bot-10">
+                        <div class="widget-boxed padd-bot-10" id="test">
                             <div class="tab style-1 mrg-bot-40" role="tabpanel">
                                 {{ $annonce->annonceable->getShowInformationHeader() }}
 
@@ -141,6 +115,56 @@
 
                     <div class="col-md-8 col-sm-12">
                         <div class="widget-boxed padd-bot-10">
+                        <div class="annonces row mt-5 gy-4">
+                                        <div class="col-md-12">
+                                            <div class="contact-item">
+                                                <strong>Profile : </strong>
+                                                <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}" class="contact-button">
+                                                    <i class="fa fa-building fa-lg"></i>
+                                                    {{ $annonce->entreprise->nom }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-12">
+                                            <div class="contact-item">
+                                                <strong>Contact : </strong>
+                                                
+                                                @if ($annonce->entreprise->site_web)
+                                                    <a href="{{ $annonce->entreprise->site_web }}" target="_blank" class="contact-button">
+                                                        <i class="ti-world"></i> {{ $annonce->entreprise->site_web }}
+                                                    </a>
+                                                @endif
+                                                
+                                                @if ($annonce->entreprise->email)
+                                                    <a href="mailto:{{ $annonce->entreprise->email }}" class="contact-button">
+                                                        <i class="ti-email"></i> {{ $annonce->entreprise->email }}
+                                                    </a>
+                                                @endif
+                                            </div>
+                                            
+                                            <div class="social-links d-flex align-items-center">
+                                                <strong class="me-3">Socials : </strong>
+                                                <div class="d-flex">
+                                                    @if ($annonce->entreprise->instagram)
+                                                        <a href="{{ $annonce->entreprise->instagram }}" target="_blank" class="social-button instagram me-2">
+                                                            <i class="fa-brands fa-instagram"></i>
+                                                        </a>
+                                                    @endif
+                                                    @if ($annonce->entreprise->facebook)
+                                                        <a href="{{ $annonce->entreprise->facebook }}" target="_blank" class="social-button facebook me-2">
+                                                            <i class="fa-brands fa-facebook"></i>
+                                                        </a>
+                                                    @endif
+                                                    @if ($annonce->entreprise->whatsapp)
+                                                        <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank" class="social-button whatsapp me-2">
+                                                            <i class="fa-brands fa-whatsapp"></i>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             <div class="widget-boxed-header">
                                 <h4><i class="ti-location-pin padd-r-10"></i>Localisation</h4>
                             </div>
@@ -232,3 +256,6 @@
             });
         </script>
     @endsection
+
+
+
