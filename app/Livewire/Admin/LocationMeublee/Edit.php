@@ -156,7 +156,7 @@ class Edit extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->locationMeublee->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
+            'nom' => 'required|string|min:3',
             
             'type' => 'nullable',
             'is_active' => 'required|boolean',

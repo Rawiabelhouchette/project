@@ -122,7 +122,7 @@ class Edit extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->boiteDeNuit->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
+            'nom' => 'required|string|min:3',
             'is_active' => 'required|boolean',
             'description' => 'nullable|min:3',
 

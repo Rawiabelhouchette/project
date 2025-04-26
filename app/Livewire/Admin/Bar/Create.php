@@ -93,7 +93,7 @@ class Create extends Component
     public function rules()
     {
         return [
-            'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
+            'nom' => 'required|string|min:3',
             'description' => 'nullable|string|min:3',
             'entreprise_id' => 'required|integer|exists:entreprises,id',
             'type_bar' => 'nullable|string',
@@ -110,7 +110,7 @@ class Create extends Component
             'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:10',
             'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
-            
+
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
             // // 'image' => 'required',
@@ -155,7 +155,7 @@ class Create extends Component
             'commodites_vie_nocturne.*.required' => 'Une commodité de vie nocturne est obligatoire',
             'commodites_vie_nocturne.*.integer' => 'Une commodité de vie nocturne doit être un entier',
             'commodites_vie_nocturne.*.exists' => 'Une commodité de vie nocturne n\'existe pas',
-            
+
             'image.required' => 'L\'image est obligatoire',
             'image.image' => 'Le fichier doit être une image',
             'image.max' => 'Le fichier ne doit pas dépasser :max Mo',

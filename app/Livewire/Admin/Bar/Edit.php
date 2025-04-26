@@ -118,7 +118,7 @@ class Edit extends Component
     {
         return [
             'entreprise_id' => 'required|exists:entreprises,id',
-            'nom' => 'required|string|min:3|unique:annonces,titre,' . $this->bar->annonce->id . ',id,entreprise_id,' . $this->entreprise_id,
+            'nom' => 'required|string|min:3',
             'description' => 'nullable|string|min:3',
             'type_bar' => 'nullable|string',
             'capacite_accueil' => 'nullable|integer',
