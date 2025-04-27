@@ -344,7 +344,7 @@
 
                 </div>
             </div>
-            <div class="col-6 d-flex justify-content-end">
+            <div class="col-6 d-flex justify-content-end gap-2">
 
 
                 <form style="width: 25%; !important;">
@@ -435,7 +435,7 @@
     <div class="sidebar-mobile" id="sidebar">
         <div class="p-4">
             <div class="d-flex justify-content-between mb-4">
-                <img style="width: 70px;
+                <img onclick="window.location.href='/'" style="width: 70px;
     height: 70px;
     max-height: 80px;"
                     class="logo logo-scrolled d-inline-block align-text-top"
