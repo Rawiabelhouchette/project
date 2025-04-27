@@ -6701,7 +6701,7 @@ span.new-page-badge {
 .tp-author-basic-info li {
     list-style: none;
     display: inline-block;
-    width: 33.333333%;
+    width: 25%;
     padding: 15px 0 10px;
 }
 .tp-author-basic-info li strong {
