@@ -28,13 +28,16 @@ class OffreAbonnement extends Model
         'slug', // unique
         'description',
         'prix',
-        'duree', // en mois
+        'duree',
         'is_active',
         'options',
+        'unite_en', // day, week, month, year
+        'unite_fr', // Jour, Semaine, Mois, Annee
     ];
 
     protected $casts = [
         'options' => 'array',
+        'unite' => 'string',
     ];
 
     // add a scroped query

@@ -220,10 +220,10 @@
                                         </div>
                                         <div class="tp-author-basic-info mrg-top-0">
                                             <ul>
-                                                <!--<li class="padd-top-10 padd-bot-0 text-center">
+                                                <li class="padd-top-10 padd-bot-0 text-center">
                                                     <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
                                                     {{ $annonce->view_count }}
-                                                </li> -->
+                                                </li>
                                                 <li class="padd-top-10 padd-bot-0 text-center">
                                                     <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
                                                     {{ $annonce->favorite_count }}

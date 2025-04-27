@@ -33,11 +33,9 @@
                     </div>
                     <div class="package-info" style="font-family: 'Muli', sans-serif;">
                         <ul>
-                            <li>3 Designs</li>
-                            <li>3 PSD Designs</li>
-                            <li>4 color Option</li>
-                            <li>10GB Disk Space</li>
-                            <li>Full Support</li>
+                            @foreach ($offre->options as $feature)
+                                <li>{{ $feature }}</li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -137,7 +135,7 @@
             $('#phone, #whatsapp_phone').on('input', function(e) {
                 const value = $(this).val();
                 const lastChar = value.slice(-1);
-                
+
                 // Check if the last character is not a digit or space
                 if (lastChar !== '' && !/^[0-9\s]$/.test(lastChar)) {
                     // Alert the user
@@ -147,7 +145,7 @@
                         text: 'Veuillez entrer uniquement des chiffres et des espaces.',
                         confirmButtonText: 'OK'
                     });
-                    
+
                     // Remove the invalid character
                     $(this).val(value.slice(0, -1));
                 }
@@ -179,4 +177,3 @@
         });
     </script>
 @endsection
-

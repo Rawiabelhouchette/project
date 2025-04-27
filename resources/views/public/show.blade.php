@@ -100,6 +100,12 @@
                                     <div class="mrg-r-10">
                                         @livewire('public.favoris', [$annonce])
                                     </div>
+                                    <div class="mrg-r-10">
+                                        <button class="buttons padd-10 btn-default share-button" disabled>
+                                            <i class="fa fa-eye"></i>
+                                            <span class="hidden-xs">{{ $annonce->view_count }}</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
