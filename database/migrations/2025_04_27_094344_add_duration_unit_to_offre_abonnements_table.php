@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('offre_abonnements', function (Blueprint $table) {
             $table->enum('unite_en', ['day', 'week', 'month', 'year'])->default('month');
             $table->enum('unite_fr', ['Jour', 'Semaine', 'Mois', 'Annee'])->default('Mois');
+            $table->boolean('is_free')->default(false);
         });
     }
 
@@ -25,6 +26,7 @@ return new class extends Migration
         Schema::table('offre_abonnements', function (Blueprint $table) {
             $table->dropColumn('unite_en');
             $table->dropColumn('unite_fr');
+            $table->dropColumn('is_free');
         });
     }
 };

@@ -94,7 +94,13 @@ class AbonnementController extends Controller
 
         $isPro = auth()->user()->hasRole('Professionnel');
 
-        $offres = OffreAbonnement::active()->get();
+        $offres = OffreAbonnement::query()->active();
+
+        if (!auth()->user()->hasRole('Usager')) {
+            $offres->where('is_free', false);
+        }
+        $offres = $offres->get();
+
         return view('public.pricing', compact('offres', 'isPro'));
     }
 
@@ -130,6 +136,7 @@ class AbonnementController extends Controller
     public function checkPayment(StoreOffreAbonnementRequest $request)
     {
         $validated = $request->validated();
+
         $ville = Ville::find($validated['ville_id']);
 
         if (!$ville) {
@@ -140,16 +147,24 @@ class AbonnementController extends Controller
         $validated['numero_telephone'] = $ville->pays->indicatif . ' ' . $validated['numero_telephone'];
         $validated['numero_whatsapp'] = $ville->pays->indicatif . ' ' . $validated['numero_whatsapp'];
 
-        // check if numero_telephone and numero_whatsapp are unique
-        $entreprise = Entreprise::where('telephone', $validated['numero_telephone'])
-            ->orWhere('whatsapp', $validated['numero_whatsapp'])
-            ->first();
+        if (auth()->user()->hasRole('Usager')) {
+            // check if numero_telephone and numero_whatsapp are unique
+            $entreprise = Entreprise::where('telephone', $validated['numero_telephone'])
+                ->orWhere('whatsapp', $validated['numero_whatsapp'])
+                ->first();
 
-        if ($entreprise) {
-            return redirect()
-                ->back()
-                ->with('error', 'Le numéro de téléphone ou WhatsApp est déjà utilisé.')
-                ->withInput();
+            if ($entreprise) {
+                return redirect()
+                    ->back()
+                    ->with('error', 'Le numéro de téléphone ou WhatsApp est déjà utilisé.')
+                    ->withInput([
+                        'nom_entreprise' => $validated['nom_entreprise'],
+                        'numero_telephone' => $validated['numero_telephone'],
+                        'numero_whatsapp' => $validated['numero_whatsapp'],
+                        'ville_id' => $validated['ville_id'],
+                        'pays_id' => $ville->pays_id,
+                    ]);
+            }
         }
 
         session()->put('abonnement', $validated);
