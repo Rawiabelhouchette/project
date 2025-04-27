@@ -263,6 +263,9 @@ button:hover, input:hover, input:focus, button:focus{
 	padding: 1.5rem 2rem;
 	transition:all ease 0.4s;
 }
+.theme-bg:hover {
+    background: #de6600;
+}
 .btn-midium{
 	padding: 15px 25px;
 }
@@ -6522,6 +6525,7 @@ button.m-close {
  Bottom To top Scroll
 =====================================*/
 #back2Top {
+    padding: 12px 10px;
     width: 40px;
     line-height: 40px;
     overflow: hidden;
@@ -6533,9 +6537,11 @@ button.m-close {
     right:20px;
     text-align: center;
     font-size:15px;
-	border-top-left-radius:2px;
-	border-top-right-radius:2px;
+    border-radius: 50%;
     text-decoration: none;
+}
+#back2Top i {
+    display: block;
 }
 #back2Top:hover {
     background-color:#f4f5f7;
@@ -6790,44 +6796,68 @@ button.w3-button.w3-teal.w3-xlarge.w3-right {
 
 /*------------ Classic Style -----------*/
 .property_item {
-    background: #fff;
     position: relative;
-	border-radius:6px;
-    overflow: hidden;
-	margin-bottom:30px;
-    box-shadow: 0 0 20px 0 rgba(62,28,131,0.1);
-    -webkit-box-shadow: 0 0 20px 0 rgba(62,28,131,0.1);
-    -moz-box-shadow: 0 0 20px 0 rgba(62,28,131,0.1);
-}
-.image{
-    position: relative;
-	max-height:200px;
-	min-height:200px;
-	overflow:hidden;
+    border-radius: 6px;
+    overflow: visible; /* Allow elements to extend outside */
+    margin-bottom: 40px; /* Increased to accommodate the overflowing element */
+    transition: all 0.3s ease;
 }
 .listing-thumb {
     position: relative;
     display: block;
     max-height: 200px;
+    overflow: hidden; /* Keep this hidden for the state ribbon */
+    border-radius: 6px 6px 0 0;
+}
+.image {
+    position: relative;
+    max-height: 200px;
+    min-height: 200px;
+    overflow: visible;
+    padding: 0;
+}
+.image img.img-responsive {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+    max-height: 200px; /* Ensure image doesn't exceed container height */
+    display: block; /* Remove any default inline spacing */
 }
 .listing-thumb:before {
     background: linear-gradient(to bottom, transparent 17%, #464c63);
     position: absolute;
     content: "";
     bottom: 0;
-    height: 100%;
+    /*height: 100%;*/
     left: 0;
     right: 0;
     display: block;
 	transition:all ease 0.4s;
+    border-radius: 10px
 }
-.property_item:hover .listing-thumb:before{
-	background: linear-gradient(to bottom, transparent 17%, #ff431e);
+@media (min-width: 992px) {
+    .property_item {
+        transition: all 0.3s ease, transform 0.3s ease;
+        transform: translateY(0);
+    }
+    .listing-thumb:hover {
+        transition: all 0.3s ease, transform 0.3s ease;
+        height: 100%;
+    }
+    .property_item:hover {
+        transform: translateY(-10px);
+    }
+    
+    .property_item:hover .listing-thumb:before {
+        background: linear-gradient(to bottom, transparent 17%, #de6600);
+    }
 }
 .listing-price-info{
     position: absolute;
     top:20px;
-    left:20px;
+    right:0px;
     display: inline-block;
     border-radius: 50px;
     font-size: 16px;
@@ -6843,6 +6873,35 @@ button.w3-button.w3-teal.w3-xlarge.w3-right {
     margin-right: 10px;
     color: #505667;
     box-shadow: 0px 0px 0px 5px rgba(255,255,255,0.2);
+    z-index: 0
+}
+.image-listing-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 20px 20px 20px;
+    z-index: 10;
+}
+.listing-thumb .image {
+    border-radius: 5px;
+}
+.image .state {
+    color: #fff;
+    float: left;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: -45px;
+    top: 15px;
+    text-align: center;
+    width: 150px;
+    font-size: 12px;
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
+    line-height: 28px;
+    border-radius: 0 20px 20px 0;
+    z-index: 1;
 }
 a.tag_t {
     position: absolute;
@@ -6856,10 +6915,6 @@ a.tag_t {
 .tag_t i{
 	margin-right:10px;
 	font-size:18px;
-}
-.proerty_content {
-    position: relative;
-    text-align: center;
 }
 .proerty_text {
     display: flex;
@@ -6912,22 +6967,34 @@ a.tag_t {
 	color:#6e778a;
 }
 .list-fx-features {
-    margin-top: 5px;
+    position: absolute;
+    bottom: -25px;
+    left: 10%;
+    right: 10%;
+    padding: 10px;
+    z-index: 999;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     display: flex;
-    width: 100%;
-    position: relative;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius: 50px;
     align-items: center;
-    justify-content: center;
-	text-align: left;
+    max-height: 45px;
 }
-
-/* Remove flex on mobile devices */
-@media screen and (max-width: 768px) {
-    .list-fx-features {
-      display: block;
-    }
-  }
+ .share-btn {
+        font-size: 11px;
+        cursor: normal;
+        background-color: #f0f0f0;
+        border-radius: 30px;
+        transition: all 0.4s;
+        text-align: center;
+        padding: 10px;
+        width: 30px;
+    
+}
+.share-btn i {
+    display: block; /* Ensures the icon behaves properly */
+}
 .listing-card-info-icon {
     display: inline-block;
     padding-left: 18px;
@@ -7738,3 +7805,213 @@ a.cl-box {
         margin: 0 auto !important;
     }
 }
+/* Line Mode Specific CSS with unique class names */
+.line-property-item {
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+  }
+  
+  .line-property-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  .line-listing-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .line-card-container {
+    display: flex;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .line-card-container:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .line-image-container {
+    position: relative;
+    width: 200px;
+    height: 100%;
+    flex-shrink: 0;
+  }
+  
+  .line-property-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px 0 0 5px;
+  }
+  
+  .line-status-badge {
+    color: #fff;
+    float: left;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: -45px;
+    top: 15px;
+    text-align: center;
+    width: 150px;
+    font-size: 12px;
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
+    line-height: 28px;
+    border-radius: 0 20px 20px 0;
+    z-index: 1;
+  }
+
+  
+  .line-status-open {
+    background-color: #28a745;
+  }
+  
+  .line-type-badge {
+        position: absolute;
+        top:20px;
+        right:0px;
+        display: inline-block;
+        border-radius: 50px;
+        font-size: 16px;
+        background-color: #e67e22;
+        color: white;
+        font-size: 10px;
+        font-weight: 400;
+        padding: 5px 10px;
+  }
+  
+  .line-content-container {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    min-height: 150px;
+  }
+  
+  .line-content-top {
+    margin-bottom: 10px;
+  }
+  
+  .line-property-title {
+    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .line-location-container,
+  .line-phone-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .line-icon-location,
+  .line-icon-phone {
+    color: #de6600;
+    margin-right: 5px;
+  }
+  
+  .line-location-text,
+  .line-phone-text {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  .line-description {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #777;
+    line-height: 1.4;
+  }
+  
+  .line-content-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .line-rating-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .line-stars {
+    margin-right: 5px;
+  }
+  
+  .line-star-filled {
+    color: #ffd700;
+  }
+  
+  .line-star-empty {
+    color: #ddd;
+  }
+  
+  .line-rating-count {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  .line-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .line-price-range {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin-right: 10px;
+    font-size: 13px;
+    color: #555;
+  }
+  
+  .line-share-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    transition: all 0.2s ease;
+  }
+  
+  .line-share-button:hover {
+    background-color: #e9ecef;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 767px) {
+    .line-card-container {
+      flex-direction: column;
+    }
+  
+    .line-image-container {
+      width: 100%;
+      height: 180px;
+    }
+  
+    .line-property-image {
+      border-radius: 5px 5px 0 0;
+    }
+  
+    .line-content-container {
+      padding: 15px;
+    }
+  }
+  .btn-inactive{
+    background: #e8edf1;
+    border: 1px solid #e5eaef;
+  }
+  .btn-inactive:hover{
+    border: 1px solid #de6600;
+    color: #de6600
+  }

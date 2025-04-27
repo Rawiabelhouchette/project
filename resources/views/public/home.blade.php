@@ -434,7 +434,26 @@
         }
     </style>
 @endsection
+<script>
+                function shareAnnonce(url, titre, image, type) {
+                var text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + titre + "%0ALien : " + url + " ";
+                var subject = titre;
+                var url = url;
+                var image = image;
+                var annonceType = type;
 
+                $('#annonce-titre').text(subject);
+                $('#annonce-image-url').attr('src', image);
+                $('#annonce-type').text(annonceType);
+
+                $('#annonce-email').attr('href', 'mailto:?subject=' + subject + '&body=' + text);
+                $('#annonce-url').data('url', url);
+                $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url);
+                $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
+                $('#share-page-zone').hide();
+                $('#image-share').show();
+            }
+    </script>
 @section('content')
     @include('components.default-value')
 
@@ -658,7 +677,15 @@
 
     <!-- Listings Section -->
     <section class="sec-bt">
-        <div class="container">
+        <div class="container desktop-container">
+        <style>
+            /* Apply specific width only on desktop (screens larger than 992px) */
+            @media (min-width: 992px) {
+                .desktop-container {
+                    width: 1320px !important;
+                }
+            }
+        </style>
 
             <div class="row">
                 <div class="col-md-10">
@@ -674,106 +701,98 @@
 
                 <!-- Single List -->
                 @foreach ($annonces as $annonce)
-                    <div class="col-lg-4 col-md-6 col-xs-6">
-                        <div class="property_item classical-list">
-                            <div class="image" style="height: 200px important">
-                                <a class="listing-thumb" href="{{ route('show', $annonce->slug) }}">
-                                    @if ($annonce->image)
-                                        <img class="img-responsive"
-                                            src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"
-                                            alt="latest property"
-                                            style="object-fit: cover; object-position: center; width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                                    @else
-                                        <img class="img-responsive" src="http://via.placeholder.com/1200x800"
-                                            alt="latest property">
-                                    @endif
-                                </a>
-                                {{-- <div class="listing-price-info">
-                                <span class="pricetag">{{ $annonce->type }}</span>
-                            </div> --}}
-                            </div>
-
-                            <div class="proerty_content">
-                                <div class="author-avater">
-                                    @if ($annonce->image)
-                                        <img class="author-avater-img"
-                                            src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"
-                                            alt="latest property"
-                                            style="width: 70px; height: 70px; object-fit: cover; object-position: center;">
-                                    @else
-                                        <img class="author-avater-img" src="http://via.placeholder.com/120x120"
-                                            alt="">
-                                    @endif
-                                </div>
-                                <div class="proerty_text">
-                                    <h3 class="captlize">
-                                        <a href="{{ route('show', $annonce->slug) }}">
-                                            {{ $annonce->titre }}
-                                        </a>
-                                        {{-- <span class="veryfied-author"></span> --}}
-                                    </h3>
-                                </div>
-                                <p class="property_add btn-theme">{{ $annonce->type }}</p>
-                                <div class="property_meta">
-                                    <div class="list-fx-features">
-                                        <div class="listing-card-info-icon">
-                                            <span>
-                                            <i class="ti-location-pin"></i>
-                                            </span>
-                                            <span class="inc-fleat inc-add mrg-0">
-                                                @if ($annonce->ville_id)
-                                                    {{ $annonce->adresse_complete->pays }},
-                                                    {{ $annonce->adresse_complete->ville }},
-                                                    {{ $annonce->adresse_complete->quartier }}
-                                                @else
-                                                    {{ $annonce->entreprise->adresse_complete }}
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <div class="listing-card-info-icon">
-                                                <i class="ti-mobile"></i> 
-                                            <span class="inc-fleat inc-call mrg-0">
-                                                @if ($annonce->entreprise->telephone)
-                                                    <a href="tel:{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
-                                                        {{ $annonce->entreprise->telephone }}
-                                                    </a>
-                                                @else
-                                                    <a
-                                                        href="tel:{{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
-                                                        {{ $annonce->entreprise->quartier->ville->pays->indicatif }}
-                                                        {{ $annonce->entreprise->telephone }}
-                                                    </a>
-                                                @endif
-                                            </span>
-                                        </div>
+                    <div class="col-lg-3 col-md-4 col-xs-6 property_item">
+                        <a class="listing-thumb classical-list" href="{{ route('show', $annonce->slug) }}">
+                            <div class="image">
+                                @if ($annonce->entreprise->est_ouverte)
+                                    <div class="state {{ $annonce->entreprise->est_ouverte ? 'bg-success' : 'bg-danger' }}">
+                                        <span>Ouvert</span>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="listing-footer-info">
-                                <div class="listing-cat">
-                                    <a class="cl-1" href="{{ route('entreprise.show', $annonce->entreprise->slug) }}">
-                                        <div class=" d-flex justify-content-center align-items-center">
-                                            <span class="more-cat mrg-l-0" style="">
-                                                <i class="fas fa-building"></i>
-                                            </span>
-                                        </div>
-                                        <div class=" text-center">
-                                        {{ $annonce->entreprise->nom }}
-                                        </div>
-                                    </a>
-                                    <div class="col-md-12 text-center">
-                                    @if ($annonce->entreprise->est_ouverte)
-                                    <span class="place-status">Ouvert</span>
+                               @endif
+                                @if ($annonce->image)
+                                    <img class="img-responsive"
+                                            src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"
+                                        alt="latest property"
+                                        style="object-fit: cover; object-position: center; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 10px;">
                                 @else
-                                    <span class="place-status closed">Fermée</span>
+                                    <img class="img-responsive" src="https://placehold.co/600x400"
+                                        alt="latest property">
                                 @endif
+                                <div class="listing-price-info">
+                                    <span class="pricetag">{{ $annonce->type }}</span>
+                                </div> 
+                                <div class="image-listing-content">
+                                    <div class="proerty_text">
+                                        <h3 class="captlize text-white">
+                                            
+                                                {{ $annonce->titre }}
+                                    
+                                            {{-- <span class="veryfied-author"></span> --}}
+                                        </h3>
+                                    </div>
+                                    <div class="proerty_text">
+                                        <span>
+                                            <i class="ti-location-pin" style="color: #de6600;"></i>
+                                        </span>
+                                        <h4 class="captlize text-white" style="font-weight:400; font-size:14px">
+                                            @if ($annonce->ville_id)
+                                                {{ $annonce->adresse_complete->pays }},
+                                                {{ $annonce->adresse_complete->ville }},
+                                                {{ $annonce->adresse_complete->quartier }}
+                                            @else
+                                                {{ $annonce->entreprise->adresse_complete }}
+                                            @endif
+                                        </h4>
+                                    </div>
+ 
+                                    <div class="proerty_text">
+                                        <span>
+                                         <i class="ti-mobile" style="color: #de6600;"></i> 
+                                        </span>
+                                        <h4 class="captlize text-white" style="font-weight:400; font-size:14px">
+                                            {{ $annonce->entreprise->telephone }}
+                                        </h4>
                                     </div>
                                 </div>
                                 
-                            </div>
+                                <div class="list-fx-features">
+                                    <h4 style="font-weight:400; font-size:11px">
+                                        
+                                        <span class="listing-shot-info rating p-0">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
+                                            @endfor
 
-                        </div>
+                                        </span>
+                                        ({{ $annonce->note }})
+                                    </h4>
+                                    <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share" 
+                                    onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
+                                        <i class="fa fa-share-alt share-icon"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </a>
+                       
+
+                        
+                                
+                                <!--<div class="listing-footer-info">
+                                    <div class="listing-cat">
+                                        <a class="cl-1" href="{{ route('entreprise.show', $annonce->entreprise->slug) }}">
+                                            <div class=" d-flex justify-content-center align-items-center" style="gap: 10px;">
+                                                <span class="more-cat mrg-l-0" style="">
+                                                    <i class="fas fa-building"></i>
+                                                </span>
+                                                <h4 style="font-weight:400; font-size:14px">
+                                                    {{ $annonce->entreprise->nom }}
+                                                </h4>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>-->
+                      
+                                               
                     </div>
                 @endforeach
             </div>
