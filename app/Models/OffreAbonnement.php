@@ -33,6 +33,7 @@ class OffreAbonnement extends Model
         'options',
         'unite_en', // day, week, month, year
         'unite_fr', // Jour, Semaine, Mois, Annee
+        'is_free'
     ];
 
     protected $casts = [

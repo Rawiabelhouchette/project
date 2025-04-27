@@ -53,7 +53,6 @@ class PaiementService
             $customer_zip_code = '1234';
             $currency = 'XOF';
 
-
             //transaction id
             $transaction_id = self::generateTransId();
 
@@ -76,7 +75,7 @@ class PaiementService
             $invoice_data = array(
                 "Nom" => $customer_name . ' ' . $customer_surname,
                 "Email" => $customer_email,
-                "Abonnement" => $offre->duree . " mois",
+                "Abonnement" => $offre->duree . " " . $offre->unite_fr
             );
 
             //
@@ -368,7 +367,7 @@ class PaiementService
         $subscription = $company->abonnements()->create([
             'offre_abonnement_id' => $offre_abonnement->id,
             'date_debut' => date('Y-m-d H:i:s'),
-            'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' month')),
+            'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offre_abonnement->duree . ' ' . $offre_abonnement->unite_en)),
             'montant' => $montantPaye,
         ]);
 
@@ -419,7 +418,7 @@ class PaiementService
         $subscription = $company->abonnements()->create([
             'offre_abonnement_id' => $offreAbonnement->id,
             'date_debut' => $endDate,
-            'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offreAbonnement->duree . ' month', strtotime($endDate))),
+            'date_fin' => date('Y-m-d H:i:s', strtotime('+' . $offreAbonnement->duree . ' ' . $offreAbonnement->unite_en, strtotime($endDate))),
             'montant' => $montantPaye,
         ]);
 
@@ -447,5 +446,34 @@ class PaiementService
         );
 
         return $subscription;
+    }
+
+    public static function addFreeSubscription(array $validated): bool
+    {
+        if (!auth()->user()->hasRole('Usager')) {
+            session()->flash('error', 'Vous n\'êtes pas éligible pour un abonnement gratuit.');
+            return false;
+        }
+
+        $transaction = Transaction::create([
+            'user_id' => auth()->user()->id,
+            'montant' => 0,
+            'trans_id' => null,
+            'method' => 'FREE',
+            'buyer_name' => auth()->user()->prenom . ' ' . auth()->user()->nom,
+            'trans_status' => 'ACCEPTED',
+            'phone' => '90 90 90 90',
+            'statut' => 1,
+            'date_paiement' => now(),
+            'entreprise' => $validated['nom_entreprise'],
+            'numero' => $validated['numero_telephone'],
+            'numero_whatsapp' => $validated['numero_whatsapp'],
+            'ville_id' => $validated['ville_id'],
+            'offre_id' => $validated['offre_id'],
+        ]);
+
+        self::subscription($transaction);
+
+        return true;
     }
 }

@@ -29,7 +29,7 @@
                         <h3>{{ $offre->libelle }}</h3>
                     </div>
                     <div class="package-price" style="">
-                        <h3 class="mrg-top-0" style="font-family: 'Poppins', sans-serif; font-size: 27px !important; color: #26354e; margin-bottom: .25em; ">{{ number_format($offre->prix, 0, ',', ' ') }} <sup style="font-size: 15px;">F CFA </sup><sub>/ {{ $offre->duree }} Mois</sub></h3>
+                        <h3 class="mrg-top-0" style="font-family: 'Poppins', sans-serif; font-size: 27px !important; color: #26354e; margin-bottom: .25em; ">{{ number_format($offre->prix, 0, ',', ' ') }} <sup style="font-size: 15px;">F CFA </sup><sub>/ {{ $offre->duree }} {{ $offre->unite_fr }}</sub></h3>
                     </div>
                     <div class="package-info" style="font-family: 'Muli', sans-serif;">
                         <ul>

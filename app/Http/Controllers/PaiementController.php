@@ -15,8 +15,27 @@ class PaiementController extends Controller
     public function index()
     {
         $validated = session()->get('abonnement');
+
         if (!$validated) {
             return redirect()->route('pricing');
+        }
+
+        $offre = OffreAbonnement::find($validated['offre_id']);
+
+        if ($offre->is_free) {
+            if (!auth()->user()->hasRole('Usager')) {
+                return back()->with('error', 'Votre profil ne peut pas bénéficier de cet abonnement gratuit.');
+            }
+
+            $result = PaiementService::addFreeSubscription($validated);
+            
+            if (!$result) {
+                return back()->with('error', 'Erreur lors de l\'ajout de l\'abonnement.')->withInput($validated);
+            }
+
+            session()->forget('abonnement');
+            session()->flash('success', 'Abonnement ajouté avec succès.');
+            return redirect()->route('public.annonces.create');
         }
 
         // prix et id de l'utilisateur

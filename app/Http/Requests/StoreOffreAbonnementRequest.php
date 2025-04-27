@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOffreAbonnementRequest extends FormRequest
@@ -12,6 +13,24 @@ class StoreOffreAbonnementRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $authenticated = auth()->user()->hasRole('Professionnel');
+
+        if ($authenticated) {
+            $user = User::find(auth()->user()->id);
+            $entreprise = $user->entreprise();
+            $validated['nom_entreprise'] = $entreprise->nom;
+            $validated['numero_telephone'] = $entreprise->telephone;
+            $validated['numero_whatsapp'] = $entreprise->whatsapp;
+            $validated['ville_id'] = $entreprise->ville_id;
+            $this->merge($validated);
+        }
     }
 
     /**
