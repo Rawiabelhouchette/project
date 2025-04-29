@@ -26,13 +26,13 @@
                 @endif
                 <div class="listing-price-info">
                     <span class="pricetag">{{ $annonce->type }}</span>
-                </div> 
+                </div>
                 <div class="image-listing-content">
                     <div class="proerty_text">
                         <h3 class="captlize text-white">
                             {{ $annonce->titre }}
                         </h3>
-                        
+
                     </div>
 
                     <div class="proerty_text">
@@ -52,7 +52,7 @@
 
                     <div class="proerty_text">
                         <span>
-                        <i class="ti-mobile" style="color: #de6600;"></i> 
+                        <i class="ti-mobile" style="color: #de6600;"></i>
                         </span>
                         <h4 class="captlize text-white" style="font-weight:400; font-size:14px">
                             {{ $annonce->entreprise->telephone }}
@@ -61,20 +61,20 @@
                 </div>
                 <div class="image-listing-content">>
                 @if (Auth::check())
-                                                @if ($annonce->est_favoris)
-                                                    <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
-                                                        <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                                    </a>
-                                                @else
-                                                    <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
-                                                        <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                                    </a>
-                                                @endif
-                                            @else
-                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
-                                                    <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                                </a>
-                                            @endif
+                    @if ($annonce->est_favoris)
+                        <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                            <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                        </a>
+                    @else
+                        <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                            <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                        </a>
+                    @endif
+                @else
+                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
+                        <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                    </a>
+                @endif
                 </div>
                 <div class="list-fx-features">
                     <div class="d-flex justify-content-between align-items-center w-100">
@@ -86,11 +86,11 @@
                             </span>
                             ({{ $annonce->note }})
                         </h4>
-                        <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share" 
+                        <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share"
                         onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
                             <i class="fa fa-share-alt theme-cl"></i>
                         </a>
-                        
+
                     </div>
                 </div>
             </div>
@@ -115,18 +115,18 @@
                             src="https://placehold.co/600"
                             alt="{{ $annonce->titre }}">
                     @else
-                        <img class="line-property-image" 
+                        <img class="line-property-image"
                             src="https://placehold.co/600x400"
                             alt="{{ $annonce->titre }}">
                     @endif
                 </div>
-                
+
                 <div class="line-content-container">
                     <div class="line-content-top">
                         <h3 class="line-property-title">
                             {{ $annonce->titre }}
                         </h3>
-                        
+
                         <div class="line-location-container">
                             <i class="ti-location-pin line-icon-location"></i>
                             <span class="line-location-text">
@@ -137,17 +137,17 @@
                                 @endif
                             </span>
                         </div>
-                        
+
                         <div class="line-phone-container">
                             <i class="ti-mobile line-icon-phone"></i>
                             <span class="line-phone-text">{{ $annonce->entreprise->telephone }}</span>
                         </div>
-                        
+
                         <p class="line-description">
                             {{ \Illuminate\Support\Str::limit($annonce->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque.', 100) }}
                         </p>
                     </div>
-                    
+
                     <div class="line-content-bottom">
                         <div class="line-rating-container">
                             <span class="line-stars">
@@ -157,18 +157,27 @@
                             </span>
                             <span class="line-rating-count">({{ $annonce->note }})</span>
                         </div>
-                        
+
                         <div class="line-actions">
-                            @if (isset($annonce->prix_min) && isset($annonce->prix_max))
-                                <div class="line-price-range">
-                                    ${{ $annonce->prix_min }} - ${{ $annonce->prix_max }}
-                                </div>
-                            @endif
-                            
-                            <a href="javascript:void(0)" class="line-share-button" data-toggle="modal" data-target="#share" 
+                            <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share"
                             onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
                                 <i class="fa fa-share-alt theme-cl"></i>
                             </a>
+                            @if (Auth::check())
+                                @if ($annonce->est_favoris)
+                                    <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                                        <span class="btn btn-sm theme-bg text-white" style="padding: 8px 10px;border: 0;"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                    </a>
+                                @else
+                                    <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                                        <span class="btn btn-sm btn-light btn-inactive" style="padding: 8px 10px;border: 0;"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                    </a>
+                                @endif
+                            @else
+                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
+                                    <span class="btn btn-sm btn-light btn-inactive" style="padding: 8px 10px;border: 0;"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>

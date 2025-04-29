@@ -33,7 +33,7 @@
 # Navigation
 	Default Navigation
 	Transparent Navigation
-	
+
 # Home Banner Styles
 	Common Banner Style
 	Home 1 Banner
@@ -48,12 +48,12 @@
 	listing Category Style 1
 	listing Category Style 2
 	listing Category Style 3
-	
+
 # Popular Cities Style
 # Testimonial Styles
 	Testimonial Styles 1
 	Testimonial Styles 2
-	
+
 # Pricing Table Style
 # Services Style
 # Features Style
@@ -69,10 +69,10 @@
 	Component: Tab Style 1
 	Component: Tab Style 2
 	Component: Notify Style
-	Component: Alert Style 
-	
+	Component: Alert Style
+
 # Footer Styles
-	
+
 # Dropper Settings
 
 # Slick Slider
@@ -90,9 +90,9 @@
 	Filter Option
 	TranslateY
 	Manage Listing
-	
+
 # Sidebar Style
-	Opening hour 
+	Opening hour
 	Listing In Sidebar
 	Gallery Style
 	Pages Settings
@@ -104,7 +104,7 @@
 	Blogs Comment Styl
 	Blog Sidebar
 # Icons Style
-# Login And SignUp Style 
+# Login And SignUp Style
 # Bottom To top Scroll
 -----------------------------------------------*/
 
@@ -228,7 +228,7 @@ a.btn.call-btn {
 .heading h2{
 	font-weight:600;
 	margin-top:0;
-	
+
 }
 .heading.light h2, .heading.light p{
 	color:#ffffff;
@@ -361,7 +361,7 @@ button:hover, input:hover, input:focus, button:focus{
 .select2-container {
     height:auto;
 }
-.select2-container--default .select2-selection--single, 
+.select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--multiple {
     display: inline-block !important;
     min-width: 250px;
@@ -457,7 +457,7 @@ body>.select2-container.select2-container--default.select2-container--open {
 .select2-container {
     height:auto;
 }
-.select2-container--default .select2-selection--single, 
+.select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--multiple {
     display: inline-block !important;
     min-width: 250px;
@@ -507,7 +507,7 @@ li.select2-selection__choice {
     border: 1px solid #dde6ef;
 	margin-bottom:10px;
     box-shadow: none;
-    border-radius: 0;
+    border-radius: 3px;
     background: #fbfdff;
     font-size: 15px;
 	color:#445461;
@@ -521,7 +521,7 @@ li.select2-selection__choice {
 .select2-container {
     height:auto;
 }
-.select2-container--default .select2-selection--single, 
+.select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--multiple {
     display: inline-block !important;
     min-width: 250px;
@@ -579,7 +579,7 @@ li.select2-selection__choice {
     font-weight: normal;
     font-size: 14px;
     opacity: 0.5;
-    padding: 1rem 0 3rem 0;
+    padding: 1rem 0
 }
 .btn-form i.fa.fa-pencil {
     margin-left: 10px;
@@ -626,15 +626,15 @@ nav.navbar.shadow.on.menu-center.no-full{
     /* text-transform: capitalize; */
     font-size: 16px;
 }
-.btn-default, 
-.btn-default.active.focus, 
-.btn-default.active:focus, 
-.btn-default.active:hover, 
-.btn-default:active.focus, 
-.btn-default:active:focus, 
-.btn-default:active:hover, 
-.open>.dropdown-toggle.btn-default.focus, 
-.open>.dropdown-toggle.btn-default:focus, 
+.btn-default,
+.btn-default.active.focus,
+.btn-default.active:focus,
+.btn-default.active:hover,
+.btn-default:active.focus,
+.btn-default:active:focus,
+.btn-default:active:hover,
+.open>.dropdown-toggle.btn-default.focus,
+.open>.dropdown-toggle.btn-default:focus,
 .open>.dropdown-toggle.btn-default:hover {
     color: #007a7a;
     background-color: #fff;
@@ -737,7 +737,7 @@ button.btn.dropdown-toggle.btn-default {
     color: #445461;
     height: 50px;
 	line-height: 50px;
-	margin-bottom:10px;    
+	margin-bottom:10px;
 }
 .chosen-container-single .chosen-single div {
     top: 8px;
@@ -897,7 +897,7 @@ button.btn.dropdown-toggle.btn-default {
 .btn.theme-btn-outlined, a.theme-btn-outlined{
 	background:transparent;
 	border:1px solid #de6600;
-	color:#de6600;	
+	color:#de6600;
 }
 .btn.theme-btn-outlined:hover, a.theme-btn-outlined:hover, .btn.theme-btn-outlined:focus, a.theme-btn-outlined:focus{
 	background:#de6600;
@@ -1280,7 +1280,7 @@ html body .normal-height{
 }
 html body .height-10{
 	height:10px;
-}	
+}
 html body .height-20{
 	height:20px;
 }
@@ -1468,7 +1468,7 @@ html body .width-300{
 /*---------- Global Settings: Line Height ---------*/
 html body .line-height-10{
 	line-height:10px;
-}	
+}
 html body .line-height-12{
 	line-height:12px;
 }
@@ -1715,7 +1715,7 @@ html body .label-default{
 .custom-checkbox {
 	position: relative;
 }
-.custom-checkbox input[type="checkbox"] {    
+.custom-checkbox input[type="checkbox"] {
 	opacity: 0;
 	position: absolute;
 	margin: 5px 0 0 3px;
@@ -1937,12 +1937,12 @@ nav.navbar.no-background ul.nav > li > a{
 	color:#677782;
 	font-weight:500;
     font-family: 'Nunito', sans-serif;
-	
+
 }
 nav.navbar ul.nav > li > a{
     color:#677782;
 	font-size:15px;
-	
+
     background-color: transparent !important;
 	font-weight:500;
     font-family: 'Nunito', sans-serif;
@@ -2132,7 +2132,7 @@ nav.navbar-transparent .logo-scrolled {
     color: #fff;
 }
     @media(max-width: 767px) {
-    nav:not(.navbar-transparent) .logo-scrolled, 
+    nav:not(.navbar-transparent) .logo-scrolled,
     nav.navbar-transparent .logo-display {
         display: block;
         width: 80px;
@@ -2272,7 +2272,7 @@ a.pulse.btn-banner-link {
 	position:relative;
 }
 .banner.abn{
-	padding:6% 0 7% 0;	
+	padding:6% 0 7% 0;
 }
 .banner-caption{
 	text-align:left;
@@ -2306,7 +2306,7 @@ a.pulse.btn-banner-link {
 	margin-bottom: 20px;
 }
 .banner h1 span{
-color:#de6600;	
+color:#de6600;
 }
 .banner p {
 	color: #ffffff;
@@ -2316,7 +2316,7 @@ color:#de6600;
 	line-height: 1.8;
 }
 .banner .no-padd{
-	padding:0 0px;	
+	padding:0 0px;
 }
 .banner .btn {
     margin: 5px;
@@ -2586,7 +2586,7 @@ color:#de6600;
 @keyframes cluster-animation{
 	0%,100%{box-shadow: 0px 0px 0px 4px rgba(0,0,0,0.1);
 }
-	
+
 50%{box-shadow: 0px 0px 0px 9px rgba(0,0,0,0.1);}}
 
 .mp-store-call , .mp-location-info {
@@ -2759,7 +2759,7 @@ a.btn.contact-btn {
 a.btn.contact-btn:hover, a.btn.contact-btn:focus{
 	background:#ffffff;
 	border-color:#ffffff;
-	color:#de6600;	
+	color:#de6600;
 }
 a.btn.contact-btn:hover i, a.btn.contact-btn:focus i{
 	color:#de6600;
@@ -3187,6 +3187,7 @@ span.approve-listing {
     font-size: 10px;
     border: 2px solid #9fd402;
     line-height: 21px;
+    z-index: 1;
 }
 span.not-approve-listing {
     width: 25px;
@@ -3299,7 +3300,7 @@ listing Category Style
 /*----------- listing Category Style 1 -----------*/
 .category-boxs {
     height: 100%;
-	
+
 }
 .category-box-full{
     position: relative;
@@ -3452,7 +3453,7 @@ listing Category Style
 	transition: transform 0.35s ease-out;
     transform: translate3d(0,0,0) scale(1);
     image-rendering: -webkit-optimize-contrast;
-	
+
 }
 .cat-box-name {
     padding: 4em 0 2em 0;
@@ -3704,7 +3705,7 @@ Testimonial Styles
     font-weight:600;
     margin: 0;
     color: #de6600;
-    
+
 }
 
 .testimonials-2 .testimonial-detail .post {
@@ -3840,10 +3841,10 @@ button.btn.btn-package {
     border-radius:0px;
 	margin-top:10px;
 	border:none;
-	
+
 }
 button.btn.btn-package:hover, button.btn.btn-package:focus{
-	background:#2a3646;	
+	background:#2a3646;
 }
 
 /*========================================================
@@ -4433,7 +4434,7 @@ Component Style
     border-bottom: 6px solid #007a7a;
     border-radius: 3px;
     font-weight: 800;
-    
+
 }
 .tab .nav-tabs li a{
     font-size: 18px;
@@ -4587,11 +4588,11 @@ section.newsletter.bg-newsletter {
     padding:20px 20px 18px;
 	border-radius:2px;
 	height:70px;
-    
+
 }
 footer .sup-form .form-control{
 	height:60px;
-    
+
 }
 .sup-form .form-control:hover, .sup-form .form-control:focus{
 	border:1px solid #ffffff;
@@ -4606,7 +4607,7 @@ footer .sup-form .form-control{
     padding: 14px 25px 14px;
     text-align: center;
     text-decoration: none;
-    
+
     white-space: normal;
     width: auto;
     border-width: 0;
@@ -5078,7 +5079,7 @@ span.category-tag {
     border: 1px solid #eaeff5;
     box-shadow: 0px 0px 10px 1px rgba(71, 85, 95,0.08);
     -webkit-box-shadow: 0px 0px 10px 1px rgba(71, 85, 95,0.08);
-    -moz-box-shadow: 0px 0px 10px 1px rgba(71, 85, 95,0.08); 
+    -moz-box-shadow: 0px 0px 10px 1px rgba(71, 85, 95,0.08);
 }
 button.btn.remove-field.light-gray-btn {
     margin-left: 15px;
@@ -6344,7 +6345,7 @@ ul.list-inline.social li i:hover, ul.list-inline.social li i:focus{
 .side-list.share-buttons {
     display: flex;
     justify-content: flex-end;
-} 
+}
 .blog-list-img {
     display: inline-block;
     width: 55px;
@@ -6435,6 +6436,8 @@ Login And SignUp Style
 .modal-header {
     padding: 10px 15px;
     border-bottom: 1px solid #ebf1f7;
+    display: flex;
+    justify-content: space-between;
 }
 .modal-header h4 {
     float: left;
@@ -6549,7 +6552,7 @@ button.m-close {
 }
 
 /*===========================================
-	New Pages Styles 
+	New Pages Styles
 =========================================*/
 /*------------ Comon Style -------------*/
 span.new-page-badge {
@@ -6735,7 +6738,7 @@ span.new-page-badge {
 	vertical-align: top;
     text-align: left;
     margin-left: 20px;
-    color: #ffffff;	
+    color: #ffffff;
 }
 .mah-detail-box h4{
     color: #ffffff;
@@ -6849,7 +6852,7 @@ button.w3-button.w3-teal.w3-xlarge.w3-right {
     .property_item:hover {
         transform: translateY(-10px);
     }
-    
+
     .property_item:hover .listing-thumb:before {
         background: linear-gradient(to bottom, transparent 17%, #de6600);
     }
@@ -6857,10 +6860,11 @@ button.w3-button.w3-teal.w3-xlarge.w3-right {
 .listing-price-info{
     position: absolute;
     top:20px;
-    right:0px;
+    left:5px;
     display: inline-block;
     border-radius: 50px;
     font-size: 16px;
+    z-index: 0;
 }
 .listing-price-info span {
     display: inline-block;
@@ -6870,7 +6874,7 @@ button.w3-button.w3-teal.w3-xlarge.w3-right {
     padding: 4px 18px;
     border-radius: 50px;
     font-size: 12px;
-    margin-right: 10px;
+   /* right: 10px;*/
     color: #505667;
     box-shadow: 0px 0px 0px 5px rgba(255,255,255,0.2);
     z-index: 0
@@ -6990,7 +6994,7 @@ a.tag_t {
         text-align: center;
         padding: 10px;
         width: 30px;
-    
+
 }
 .share-btn i {
     display: block; /* Ensures the icon behaves properly */
@@ -7669,7 +7673,7 @@ a.cl-box {
 .contact-item {
     margin-bottom: 15px;
   }
-  
+
   .contact-item strong {
     font-weight: 600;
     color: #333;
@@ -7680,7 +7684,7 @@ a.cl-box {
     color: #333;
     margin-right: 5px;
   }
-  
+
   .contact-button {
     display: inline-flex;
     align-items: center;
@@ -7696,25 +7700,25 @@ a.cl-box {
     transition: all 0.3s ease;
     border: 1px solid #e0e0e0;
   }
-  
+
   .contact-button:hover {
     background-color: #e6e9ed;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: #de6600;
   }
-  
+
   .contact-button i {
     margin-right: 8px;
   }
-  
+
   .social-links {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 10px;
   }
-  
+
   .social-button {
     display: inline-flex;
     align-items: center;
@@ -7726,36 +7730,36 @@ a.cl-box {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
   }
-  
+
   .social-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     color: white;
   }
-  
+
   .social-button i {
     margin-right: 8px;
     font-size: 18px;
   }
-  
+
   .instagram {
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
   }
-  
+
   .facebook {
     background-color: #3b5998;
   }
-  
+
   .whatsapp {
     background-color: #25d366;
   }
-  
+
   @media (max-width: 768px) {
     .social-links {
       flex-direction: column;
       gap: 8px;
     }
-  
+
     .social-button,
     .contact-button {
       width: 100%;
@@ -7774,7 +7778,7 @@ a.cl-box {
       scroll-behavior: smooth; /* Add smooth scrolling */
       padding-bottom: 5px; /* Add some padding to avoid cut-off */
     }
-  
+
     .tab .nav-tabs li,
     .nav-tabs li {
       float: none;
@@ -7783,7 +7787,7 @@ a.cl-box {
       margin-bottom: 0;
       border-right: none;
     }
-  
+
     .tab .nav-tabs li a,
     .tab .nav-tabs li button,
     .nav-tabs li a,
@@ -7791,7 +7795,7 @@ a.cl-box {
       padding: 10px 15px;
       font-size: 14px;
     }
-  
+
     /* Hide scrollbar but keep functionality */
     .tab .nav-tabs::-webkit-scrollbar,
     .nav-tabs::-webkit-scrollbar {
@@ -7810,17 +7814,17 @@ a.cl-box {
     transition: all 0.3s ease;
     margin-bottom: 15px;
   }
-  
+
   .line-property-item:hover {
     transform: translateY(-5px);
   }
-  
+
   .line-listing-link {
     display: block;
     text-decoration: none;
     color: inherit;
   }
-  
+
   .line-card-container {
     display: flex;
     background-color: white;
@@ -7829,25 +7833,25 @@ a.cl-box {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
   }
-  
+
   .line-card-container:hover {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
   }
-  
+
   .line-image-container {
     position: relative;
     width: 200px;
     height: 100%;
     flex-shrink: 0;
   }
-  
+
   .line-property-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 5px 0 0 5px;
   }
-  
+
   .line-status-badge {
     color: #fff;
     float: left;
@@ -7866,11 +7870,11 @@ a.cl-box {
     z-index: 1;
   }
 
-  
+
   .line-status-open {
     background-color: #28a745;
   }
-  
+
   .line-type-badge {
         position: absolute;
         top:20px;
@@ -7884,7 +7888,7 @@ a.cl-box {
         font-weight: 400;
         padding: 5px 10px;
   }
-  
+
   .line-content-container {
     padding: 15px;
     display: flex;
@@ -7893,77 +7897,77 @@ a.cl-box {
     flex: 1;
     min-height: 150px;
   }
-  
+
   .line-content-top {
     margin-bottom: 10px;
   }
-  
+
   .line-property-title {
     margin-bottom: 8px;
     font-size: 18px;
     font-weight: 600;
     color: #333;
   }
-  
+
   .line-location-container,
   .line-phone-container {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
   }
-  
+
   .line-icon-location,
   .line-icon-phone {
     color: #de6600;
     margin-right: 5px;
   }
-  
+
   .line-location-text,
   .line-phone-text {
     font-size: 14px;
     color: #777;
   }
-  
+
   .line-description {
     margin-bottom: 10px;
     font-size: 14px;
     color: #777;
     line-height: 1.4;
   }
-  
+
   .line-content-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .line-rating-container {
     display: flex;
     align-items: center;
   }
-  
+
   .line-stars {
     margin-right: 5px;
   }
-  
+
   .line-star-filled {
     color: #ffd700;
   }
-  
+
   .line-star-empty {
     color: #ddd;
   }
-  
+
   .line-rating-count {
     font-size: 14px;
     color: #777;
   }
-  
+
   .line-actions {
     display: flex;
     align-items: center;
   }
-  
+
   .line-price-range {
     background-color: #f8f9fa;
     border-radius: 4px;
@@ -7972,7 +7976,7 @@ a.cl-box {
     font-size: 13px;
     color: #555;
   }
-  
+
   .line-share-button {
     display: flex;
     align-items: center;
@@ -7983,26 +7987,26 @@ a.cl-box {
     background-color: #f8f9fa;
     transition: all 0.2s ease;
   }
-  
+
   .line-share-button:hover {
     background-color: #e9ecef;
   }
-  
+
   /* Responsive styles */
   @media (max-width: 767px) {
     .line-card-container {
       flex-direction: column;
     }
-  
+
     .line-image-container {
       width: 100%;
       height: 180px;
     }
-  
+
     .line-property-image {
       border-radius: 5px 5px 0 0;
     }
-  
+
     .line-content-container {
       padding: 15px;
     }

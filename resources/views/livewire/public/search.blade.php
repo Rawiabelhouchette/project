@@ -13,25 +13,25 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="align-items-center">
                             <h4 class="mb-0 me-3">Filtrer vos recherches</h4>
-                            
-                        
+
+
                         </div>
                         <!-- Sort dropdown moved to the right -->
                         <div class="mb-0 d-flex align-items-center">
                             <!-- View mode toggle buttons -->
                             <div class="view-mode-buttons me-3 d-none d-md-block">
-                                <button class="btn btn-sm {{ $viewMode === 'row' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}" 
+                                <button class="btn btn-sm {{ $viewMode === 'row' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}"
                                         wire:click="$set('viewMode', 'row')" title="Vue grille"
                                         style="padding: 8px 10px;border: 0;">
                                     <i class="fa fa-th-large"></i>
                                 </button>
-                                <button class="btn btn-sm {{ $viewMode === 'line' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}" 
+                                <button class="btn btn-sm {{ $viewMode === 'line' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}"
                                         wire:click="$set('viewMode', 'line')" title="Vue liste"
                                         style="padding: 8px 10px;border: 0;">
                                     <i class="fa fa-list"></i>
                                 </button>
                             </div>
-                            
+
                             <!-- Sort dropdown -->
                             <select id="select-order" class="fs-5 filter-button" tabindex="-98" wire:model.lazy='sortOrder'>
                                 <option value="" disabled>Trier</option>
@@ -64,11 +64,11 @@
                             </button>
                         </div>
                     </div>
-                    @endif          
+                    @endif
                     <div class="col-12 text-center mb-3">
                         @if ($type || $ville || $quartier || $entreprise)
                             <p id="reset-filters" class="btn theme-btn mb-0" wire:click='resetFilters'>
-                                
+
                                 <i class="fa fa-trash" aria-hidden="true"></i> Effacer tous
 
                             </p>
@@ -78,9 +78,9 @@
                         function toggleMoreFiltersSm() {
                             const moreFilters = document.querySelectorAll('.more-filter-sm');
                             const button = document.getElementById('show-more-filters-sm');
-                            
+
                             let isHidden = moreFilters[0].classList.contains('d-none');
-                            
+
                             moreFilters.forEach(filter => {
                                 if (isHidden) {
                                     filter.classList.remove('d-none');
@@ -91,13 +91,13 @@
                                 }
                             });
                         }
-                        
+
                         function toggleMoreFiltersMd() {
                             const moreFilters = document.querySelectorAll('.more-filter-md');
                             const button = document.getElementById('show-more-filters-md');
-                            
+
                             let isHidden = moreFilters[0].classList.contains('d-none');
-                            
+
                             moreFilters.forEach(filter => {
                                 if (isHidden) {
                                     filter.classList.remove('d-none');
@@ -141,16 +141,14 @@
                         @endif
                     </div>
 
-                    <div class="row mrg-0">
-                        <div class="col-md-4 col-xs-9">
+                    <div class="d-flex justify-content-between px-2">
+                        <div class="">
                             <h4 class="theme-cl-blue">Affichage : {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} trouvé(s)</h4>
                         </div>
 
-                        <div class="col-md-1 col-xs-3" style="">
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#share" onclick="sharePage()">
-                                <i class="fa fa-share-nodes fa-lg" aria-hidden="true"></i>
+                        <a href="javascript:void(0)" class="share-btn" data-target="#share" onclick="sharePage()">
+                                <i class="fa fa-share-nodes" aria-hidden="true"></i>
                             </a>
-                        </div>
                     </div>
 
                     <div class="container mt-5">
@@ -187,7 +185,7 @@
                         {{ $annonces->links() }}
                     </div>
 
-                    
+
                 </div>
                 <div id="contact-zone">
                         <div class="widget-boxed">

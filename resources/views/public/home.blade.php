@@ -92,7 +92,7 @@
         .modal-header {
             border-bottom: none;
             padding: 15px 20px;
-            justify-content: flex-end;
+            justify-content: space-between;
         }
 
         .btn-close {
@@ -105,7 +105,6 @@
 
         .modal-body {
             padding: 0 20px;
-            overflow-y: auto;
         }
 
         /* Custom accordion styling */
@@ -434,26 +433,6 @@
         }
     </style>
 @endsection
-<script>
-                function shareAnnonce(url, titre, image, type) {
-                var text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + titre + "%0ALien : " + url + " ";
-                var subject = titre;
-                var url = url;
-                var image = image;
-                var annonceType = type;
-
-                $('#annonce-titre').text(subject);
-                $('#annonce-image-url').attr('src', image);
-                $('#annonce-type').text(annonceType);
-
-                $('#annonce-email').attr('href', 'mailto:?subject=' + subject + '&body=' + text);
-                $('#annonce-url').data('url', url);
-                $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url);
-                $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
-                $('#share-page-zone').hide();
-                $('#image-share').show();
-            }
-    </script>
 @section('content')
     @include('components.default-value')
 
@@ -711,7 +690,7 @@
                                @endif
                                 @if ($annonce->image)
                                     <img class="img-responsive"
-                                            src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"
+                                            src="https://placehold.co/600"
                                         alt="latest property"
                                         style="object-fit: cover; object-position: center; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 10px;">
                                 @else
@@ -720,13 +699,13 @@
                                 @endif
                                 <div class="listing-price-info">
                                     <span class="pricetag">{{ $annonce->type }}</span>
-                                </div> 
+                                </div>
                                 <div class="image-listing-content">
                                     <div class="proerty_text">
                                         <h3 class="captlize text-white">
-                                            
+
                                                 {{ $annonce->titre }}
-                                    
+
                                             {{-- <span class="veryfied-author"></span> --}}
                                         </h3>
                                     </div>
@@ -744,20 +723,34 @@
                                             @endif
                                         </h4>
                                     </div>
- 
+
                                     <div class="proerty_text">
-                                        <span>
-                                         <i class="ti-mobile" style="color: #de6600;"></i> 
-                                        </span>
+
                                         <h4 class="captlize text-white" style="font-weight:400; font-size:14px">
-                                            {{ $annonce->entreprise->telephone }}
+                                            @if ($annonce->entreprise->telephone)
+                                                <a href="tel:{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
+                                                <span>
+                                                    <i class="ti-mobile" style="color: #de6600;"></i>
+                                                </span>
+                                                {{ $annonce->entreprise->telephone }}
+                                                </a>
+                                            @else
+                                                <a
+                                                    href="tel:{{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
+                                                    <span>
+                                                        <i class="ti-mobile" style="color: #de6600;"></i>
+                                                    </span>
+                                                    {{ $annonce->entreprise->quartier->ville->pays->indicatif }}
+                                                    {{ $annonce->entreprise->telephone }}
+                                                </a>
+                                            @endif
                                         </h4>
                                     </div>
                                 </div>
-                                
+
                                 <div class="list-fx-features">
                                     <h4 style="font-weight:400; font-size:11px">
-                                        
+
                                         <span class="listing-shot-info rating p-0">
                                             @for ($i = 1; $i <= 5; $i++)
                                                 <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
@@ -766,17 +759,17 @@
                                         </span>
                                         ({{ $annonce->note }})
                                     </h4>
-                                    <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share" 
+                                    <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share"
                                     onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
                                         <i class="fa fa-share-alt share-icon"></i>
                                     </a>
                                 </div>
                             </div>
                         </a>
-                       
 
-                        
-                                
+
+
+
                                 <!--<div class="listing-footer-info">
                                     <div class="listing-cat">
                                         <a class="cl-1" href="{{ route('entreprise.show', $annonce->entreprise->slug) }}">
@@ -791,8 +784,8 @@
                                         </a>
                                     </div>
                                 </div>-->
-                      
-                                               
+
+
                     </div>
                 @endforeach
             </div>
@@ -1038,7 +1031,7 @@
             </script>
         @endpush
     </section>
-
+    <x-public.share-modal title="Partager cette annonce" />
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             var images = ['image-1.jpg', 'image-2.jpg', 'image-3.JPEG', 'image-4.jpg'];
@@ -1073,6 +1066,29 @@
                 }
             });
         });
+
+        function shareAnnonce(url, titre, image, type) {
+            console.log("share function called with:", url, titre, image, type);
+            var text = "Salut!%0AJette un œil à l'annonce que j'ai trouvé sur Vamiyi%0ATitre : " + titre + "%0ALien : " + url + " ";
+            var subject = titre;
+
+            // Set content
+            $('#annonce-titre').text(subject);
+            $('#annonce-image-url').attr('src', image);
+            $('#annonce-type').text(type);
+
+            // Set share links
+            $('#annonce-email').attr('href', 'mailto:?subject=' + subject + '&body=' + text);
+            $('#annonce-url').data('url', url);
+            $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url);
+            $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
+
+            // Hide page zone and show modal
+            $('#share-page-zone').hide();
+
+            // Properly open Bootstrap modal
+            $('#share').modal('show');
+        }
     </script>
 @endsection
 
@@ -1320,3 +1336,4 @@
         });
     </script>
 @endsection
+
