@@ -371,10 +371,11 @@
 
                     @if (!auth()->check())
                         <li class="list-none">
-                            <a class="btn theme-btn" style="padding: 10px 15px;" data-bs-toggle="modal"
-                                data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
+                            <a class="btn theme-btn" data-bs-toggle="modal" data-bs-target="#signin"
+                                href="javascript:void(0)" onclick="$('#share').hide()">
                                 <i class="ti-user" aria-hidden="true"></i> <span></span>
                             </a>
+
                         </li>
                     @else
                         <li class="dropdown list-none">
