@@ -288,12 +288,12 @@
             .mobile-card-label {
                 font-weight: 600;
                 color: #6c757d;
-                font-size: 0.8rem;
+                font-size: 1.8rem;
                 margin-bottom: 3px;
             }
 
             .mobile-card-value {
-                font-size: 0.9rem;
+                font-size: 1.5rem;
             }
 
             .mobile-view {

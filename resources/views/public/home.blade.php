@@ -655,7 +655,7 @@
     <!-- Main Banner Section End -->
 
     <!-- Listings Section -->
-    <section class="sec-bt">
+    <section class="sec-bt" >
         <div class="container desktop-container">
         <style>
             /* Apply specific width only on desktop (screens larger than 992px) */
@@ -841,16 +841,16 @@
                     <p>Annonces</p>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-6">
+           {{-- <div class="col-md-3 col-sm-6">
                 <div class="work-count">
                     <span class="theme-cl icon ti-layers"></span>
                     <span class="counter">
                         {{ $nbTypesAnnonces }}
                     </span>
-                    {{-- <span class="counter-incr">+</span> --}}
+                     <span class="counter-incr">+</span>
                     <p>Types d'annonce</p>
                 </div>
-            </div>
+            </div>--}}
             <div class="col-md-3 col-sm-6">
                 <div class="work-count">
                     <span class="theme-cl icon fa fa-building"></span>

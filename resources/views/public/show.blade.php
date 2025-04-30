@@ -21,31 +21,31 @@
     <div class="page-name annonce-detail row">
 
         <!-- ================ Listing Detail Full Information ======================= -->
-        <section class="list-detail padd-bot-10 padd-top-30">
+        <section class="list-detail p-0">
             <div class="container">
                 <div class="row mrg-bot-40">
-                    <div class="col-md-6 col-sm-12 nav-div nav-div-1">
-                        <h5>
+                    <div class="col-sm-12 nav-div nav-div-1">
+                        <h5 style="text-align: left; border-bottom: 1px silver solid;" class="py-5 px-2">
                             <a href="{{ route('search') }}" title="Revenir à la recherche">
                                 <i class="fa fa-fw fa-arrow-left" aria-hidden="true"></i>
                                 Revenir à la recherche
                             </a>
                         </h5>
                     </div>
-                    <div class="col-md-6 col-sm-12 nav-div" style="text-align: right">
-                        <h5>
+                    <div class="col-sm-12 nav-div" style="text-align: right">
+                        <div class="d-flex px-5 py-2" style="justify-content: space-between; align-items: center;border-bottom: 1px silver solid;">
                             <a class="" href="{{ $pagination->previous }}">
                                 <i class="fa fa-fw fa-angle-left"></i>
                                 Précédent
                             </a>
-                            <span class="padd-l-10 padd-r-10 theme-cl">
+                            <span class="padd-l-10 padd-r-10 position-cl">
                                 {{ $pagination->position }}
                             </span>
                             <a class="" href="{{ $pagination->next }}">
                                 Suivant
                                 <i class="fa fa-fw fa-angle-right"></i>
                             </a>
-                        </h5>
+                        </div>
                     </div>
                 </div>
 
