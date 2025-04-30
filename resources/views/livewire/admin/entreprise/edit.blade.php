@@ -23,7 +23,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez le numéro de téléphone</h4>
-                        <input class="form-control" type="text" placeholder="" wire:model.defer='telephone' required>
+                        <input class="form-control" type="text" placeholder="" wire:model.defer='telephone' required  pattern="^\+[0-9\s]+$" title="Veuillez entrer un numéro commençant par + suivi de chiffres et d'espaces.">
                         @error('telephone')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -59,7 +59,7 @@
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez le numéro WhatsApp</h4>
-                        <input class="form-control" type="text" placeholder="" wire:model.defer='whatsapp' required>
+                        <input class="form-control" type="text" placeholder="" wire:model.defer='whatsapp' required pattern="^\+[0-9\s]+$" title="Veuillez entrer un numéro commençant par + suivi de chiffres et d'espaces.">
                         @error('whatsapp')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror

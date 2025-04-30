@@ -90,7 +90,7 @@
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa fa-phone theme-cl"></i></span>
                                     {{-- <span class="input-group-addon phone_indicatif">+00</i></span> --}}
-                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone (+228 xx xx xx xx)" required name="numero_telephone" value="{{ old('numero_telephone') }}" pattern="^\+[0-9\s]+$" title="Veuillez entrer un numéro commençant par + suivi de chiffres et d'espaces." oninput="if(this.value.charAt(0)!=='+' && this.value!=='')this.value='+'+this.value;">
+                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone (+228 xx xx xx xx)" required name="numero_telephone" value="{{ old('numero_telephone') }}" pattern="^\+[0-9\s]+$" title="Veuillez entrer un numéro commençant par + suivi de chiffres et d'espaces.">
                                 </div>
                                 @error('numero_telephone')
                                     <span class="text-danger">{{ $message }}</span>
