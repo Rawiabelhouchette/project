@@ -111,7 +111,8 @@ class Entreprise extends Model
 
     public function getContactAttribute(): string
     {
-        return ($this->quartier->ville->pays->indicatif ?? '') . ' ' . str_replace(' ', '', $this->telephone);
+        // return ($this->quartier->ville->pays->indicatif ?? '') . ' ' . str_replace(' ', '', $this->telephone);
+        return $this->telephone;
     }
 
     protected $casts = [

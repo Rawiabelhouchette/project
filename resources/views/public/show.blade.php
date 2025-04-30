@@ -163,7 +163,7 @@
                                                         </a>
                                                     @endif
                                                     @if ($annonce->entreprise->whatsapp)
-                                                        <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank" class="social-button whatsapp me-2">
+                                                        <a href="https://wa.me/{{ $annonce->entreprise->whatsapp }}" target="_blank" class="social-button whatsapp me-2">
                                                             <i class="fa-brands fa-whatsapp"></i>
                                                         </a>
                                                     @endif

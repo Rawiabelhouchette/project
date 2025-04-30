@@ -144,8 +144,8 @@ class AbonnementController extends Controller
         }
 
         $ville->load('pays');
-        $validated['numero_telephone'] = $ville->pays->indicatif . ' ' . $validated['numero_telephone'];
-        $validated['numero_whatsapp'] = $ville->pays->indicatif . ' ' . $validated['numero_whatsapp'];
+        // $validated['numero_telephone'] = $ville->pays->indicatif . ' ' . $validated['numero_telephone'];
+        // $validated['numero_whatsapp'] = $ville->pays->indicatif . ' ' . $validated['numero_whatsapp'];
 
         if (auth()->user()->hasRole('Usager')) {
             // check if numero_telephone and numero_whatsapp are unique

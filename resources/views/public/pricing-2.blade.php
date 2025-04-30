@@ -89,8 +89,8 @@
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa fa-phone theme-cl"></i></span>
-                                    <span class="input-group-addon phone_indicatif">+00</i></span>
-                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone" required name="numero_telephone" value="{{ old('numero_telephone') }}" pattern="^[0-9\s]+$" title="Veuillez entrer uniquement des chiffres et des espaces.">
+                                    {{-- <span class="input-group-addon phone_indicatif">+00</i></span> --}}
+                                    <input id="phone" class="form-control" type="text" placeholder="Numéro de téléphone (+228 xx xx xx xx)" required name="numero_telephone" value="{{ old('numero_telephone') }}" pattern="^\+[0-9\s]+$" title="Veuillez entrer un numéro commençant par + suivi de chiffres et d'espaces." oninput="if(this.value.charAt(0)!=='+' && this.value!=='')this.value='+'+this.value;">
                                 </div>
                                 @error('numero_telephone')
                                     <span class="text-danger">{{ $message }}</span>
@@ -100,8 +100,8 @@
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa-brands fa-whatsapp theme-cl" style="font-size: 17px;"></i></span>
-                                    <span class="input-group-addon phone_indicatif">+00</i></span>
-                                    <input id="whatsapp_phone" class="form-control" type="text" placeholder="Numéro whatsapp" required name="numero_whatsapp" value="{{ old('numero_whatsapp') }}" pattern="^[0-9\s]+$" title="Veuillez entrer uniquement des chiffres et des espaces.">
+                                    {{-- <span class="input-group-addon phone_indicatif">+00</i></span> --}}
+                                    <input id="whatsapp_phone" class="form-control" type="text" placeholder="Numéro whatsapp (+228 xx xx xx xx)" required name="numero_whatsapp" value="{{ old('numero_whatsapp') }}" pattern="^\+[0-9\s]+$" title="Veuillez entrer un numéro commençant par + suivi de chiffres et d'espaces.">
                                 </div>
                                 @error('numero_whatsapp')
                                     <span class="text-danger">{{ $message }}</span>
@@ -139,12 +139,12 @@
                 // Check if the last character is not a digit or space
                 if (lastChar !== '' && !/^[0-9\s]$/.test(lastChar)) {
                     // Alert the user
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Erreur de saisie',
-                        text: 'Veuillez entrer uniquement des chiffres et des espaces.',
-                        confirmButtonText: 'OK'
-                    });
+                    // Swal.fire({
+                    //     icon: 'error',
+                    //     title: 'Erreur de saisie',
+                    //     text: 'Veuillez entrer uniquement des chiffres et des espaces.',
+                    //     confirmButtonText: 'OK'
+                    // });
 
                     // Remove the invalid character
                     $(this).val(value.slice(0, -1));

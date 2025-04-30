@@ -739,8 +739,7 @@
                                                     </a>
                                                 @else
                                                     <a
-                                                        href="tel:{{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
-                                                        {{ $annonce->entreprise->quartier->ville->pays->indicatif }}
+                                                        href="tel:{{ $annonce->entreprise->telephone }}">
                                                         {{ $annonce->entreprise->telephone }}
                                                     </a>
                                                 @endif
