@@ -149,6 +149,8 @@
                                     @endif
                                 </div>
                                 <div>ID: <strong>{{ $abonnement->id }}</strong></div>
+                                <div>Montant <strong>{{ number_format($abonnement->montant, 0, ',', ' ') }}</strong>
+                                </div>
                             </div>
                             <div class="mobile-card-body">
                                 <div>
@@ -161,12 +163,7 @@
                                     <div class="mobile-card-value">{{ $abonnement->date_fin->format('d-m-Y H:i:s') }}
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="mobile-card-label">Montant</div>
-                                    <div class="mobile-card-value">
-                                        <strong>{{ number_format($abonnement->montant, 0, ',', ' ') }}</strong>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                         <!-- You can add more cards here -->
