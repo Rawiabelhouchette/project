@@ -3,22 +3,18 @@
 @section('title', 'Contactez-nous')
 
 @section('css')
-    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 @endsection
 
 @section('content')
-    <section class="title-transparent page-title" style="background:url(assets_client/img/banner/image-4.jpg);">
-        <div class="container">
-            <div class="title-content">
-                <h1>Vamiyi</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Contactez-nous</span>
-                </div>
-            </div>
-        </div>
-    </section>
+
+    @php
+        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil'], ['label' => 'Contactez-nous']];
+    @endphp
+
+    <x-breadcumb backgroundImage="assets_client/img/banner/image-4.jpg" :showTitle="true" title="Vamiyi" :breadcrumbs="$breadcrumbs" />
+
 
     <div class="clearfix"></div>
 
@@ -26,14 +22,16 @@
         <div class="container">
             <div class="col-md-10 col-md-offset-1 col-sm-12 translateY-60 p-3">
                 <div class="col-md-6 col-sm-6 mr-1 p-3 pb-3">
-                    <div class="detail-wrapper padd-top-40 mrg-bot-10 padd-bot-40 light-bg pb-4 pt-3 text-center" style="background-color: #f7f4f4;">
+                    <div class="detail-wrapper padd-top-40 mrg-bot-10 padd-bot-40 light-bg pb-4 pt-3 text-center"
+                        style="background-color: #f7f4f4;">
                         <i class="theme-cl font-30 ti-location-pin"></i>
                         <h4>Bureau du Togo</h4>
                         Lomé-Adidogomé
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 ml-1 p-3 pb-3">
-                    <div class="detail-wrapper padd-top-40 mrg-bot-10 padd-bot-40 light-bg pb-4 pt-3 text-center" style="background-color: #f7f4f4;">
+                    <div class="detail-wrapper padd-top-40 mrg-bot-10 padd-bot-40 light-bg pb-4 pt-3 text-center"
+                        style="background-color: #f7f4f4;">
                         <i class="theme-cl font-30 ti-email"></i>
                         <h4>contact@numrod.fr</h4>
                         contact@numrod.fr
@@ -71,7 +69,8 @@
             </div>
             <div class="col-md-6 col-sm-6">
                 <div id="singleMap" style="position: relative; overflow: hidden;">
-                    <div id="map" style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+                    <div id="map"
+                        style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
                     </div>
                 </div>
             </div>
@@ -80,7 +79,8 @@
 @endsection
 
 @section('js')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script>
         var mymap = L.map('map').setView([8.6195, 0.8248], 6);

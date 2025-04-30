@@ -3,68 +3,16 @@
         $defaultColor = '#de6600';
     @endphp
     <!-- ================ Start Page Title ======================= -->
-    <section class="title-transparent page-title" style="background:url(assets_client/img/banner/image-1.jpg);">
-        <div class="container">
-            <div class="title-content">
-                <h1>Toutes nos offres</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    @if ($detail)
-                        {{-- <a href="#" style="color: white;"
-                            onclick="event.preventDefault(); history.back();">Recherche</a> --}}
-                        <span class="current">Recherche</span>
-                        <span class="gt3_breadcrumb_divider"></span>
-                        <span class="current">Détail</span>
-                    @else
-                        <span class="current">Recherche</span>
-                    @endif
-                </div>
-            </div>
-            <div class="banner-caption d-none d-md-block">
-                    <!-- <h3 class="text-center">Recherche</h3> -->
-                    <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                            <input name="form_request" type="hidden" value="1">
-                            <div class="col-md-4 col-sm-4 no-padd">
-                                <i class="banner-icon icon-pencil"></i>
-                                <input class="form-control left-radius right-br" name="key" type="text"
-                                    placeholder="Mot clé...">
-                            </div>
-                            <div class="col-md-3 col-sm-3 no-padd">
-                                <div class="form-box">
-                                    <i class="banner-icon icon-map-pin"></i>
-                                    <input id="myInput" class="form-control right-br" name="location" type="text"
-                                        placeholder="Localisation...">
-                                    <div id="autocomplete-results" class="autocomplete-items"></div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-3 no-padd">
-                                <div class="form-box">
-                                    <i class="banner-icon icon-layers"></i>
-                                    <select class="form-control" name="type[]">
-                                        <option class="chosen-select" data-placeholder="{{ __('Types d\'annonce') }}"
-                                            value="" selected>{{ __('Types d\'annonce') }}</option>
-                                        @foreach ($typeAnnonce as $annonce)
-                                            <option value="{{ $annonce }}">{{ $annonce }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
 
-                            <div class="col-md-2 col-sm-3 no-padd">
-                                <div class="form-box">
-                                    <button class="btn theme-btn btn-default" type="submit" style="border-top-left-radius: 0px; !important; border-bottom-left-radius: 0px !important;">
-                                        {{-- <i class="ti-search"></i> --}}
-                                        {{ __('Rechercher') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+    @php
+        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil']];
+    @endphp
+
+    <x-breadcumb :detail="true" :showSearchButton="true"
+        backgroundImage="{{ asset('assets_client/img/banner/image-1.jpg') }}" :showTitle="true" title="Toutes nos offres"
+        :breadcrumbs="$breadcrumbs" :typeAnnonce="$typeAnnonce" />
 
 
-                </div>
-        </div>
-    </section>
     <div class="clearfix"></div>
     <!-- ================ End Page Title ======================= -->
 
@@ -357,7 +305,7 @@
             .modal-footer {
                 justify-content: space-between;
                 border-top: 1px solid rgba(0, 0, 0, 0.1);
-                padding: 20px;
+
                 position: sticky;
                 bottom: 0;
                 background-color: rgba(255, 255, 255, 0.9);
@@ -463,7 +411,7 @@
             <!-- Main Search Bar -->
             <div class="search-container">
                 <div class="search-bar-mobile d-flex align-items-center justify-content-center" data-bs-toggle="modal"
-                    data-bs-target="#searchModalMobile">
+                    data-bs-target="#searchModalMobile" id="searchModalMobileTab">
                     <i class="bi bi-search me-2"></i>
                     <span>Rechercher</span>
                 </div>
@@ -620,7 +568,6 @@
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -675,7 +622,7 @@
                     typesAnnonce: Array.isArray(typeRaw) ? typeRaw : typeRaw ? typeRaw : []
                 };
                 initializeUI()
-                console.log(selections)
+
 
 
 
@@ -791,7 +738,7 @@
 
                 // Clear all selections
                 const clearBtn = document.getElementById('clearBtn');
-                clearBtn.addEventListener('click', function() {
+                clearBtn?.addEventListener('click', function() {
                     // Clear chips
                     document.querySelectorAll('.chip.active').forEach(chip => {
                         chip.classList.remove('active');
@@ -866,16 +813,18 @@
                 }
 
                 // Focus on the first input when modal opens
-                const searchModalMobile = document.getElementById('searchModalMobile');
-                searchModalMobile.addEventListener('shown.bs.modal', function() {
+                const searchModalMobile = document.getElementById('searchModalMobileTab');
+                searchModalMobile?.addEventListener('click', function() {
 
+                    const shareElement = document.querySelector(".modal-open #share");
+                    if (shareElement) {
 
-                    document.getElementById('motCleInput').focus();
-
-
+                        shareElement.style.setProperty('display', 'none', 'important');
+                    }
                 });
+
                 document.getElementById("customCloseBtnMobile").addEventListener("click", function() {
-                    document.querySelector("#share").style.display = "";
+                    document.querySelector(".modal-open #share").style.display = "";
                 });
 
             });
@@ -896,9 +845,7 @@
                 margin: 0 !important
             }
 
-            .modal-open #share {
-                display: none !important
-            }
+
 
             .mobile-show {
                 display: block !important;
@@ -914,9 +861,7 @@
                 margin: 0 !important
             }
 
-            .modal-open #share {
-                display: none !important
-            }
+
 
             .mobile-show {
                 display: block !important;
@@ -933,9 +878,7 @@
             }
 
 
-            .modal-open #share {
-                display: none !important
-            }
+
 
             .mobile-show {
                 display: block !important;

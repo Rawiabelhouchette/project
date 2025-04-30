@@ -3,20 +3,17 @@
 @section('title', 'Ajouter un Hôtel')
 
 @section('content')
-    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-1.jpg') }})">
-        <div class="container">
-            <div class="title-content">
-                <h1>Ajouter un hotel</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <a href="{{ route('public.annonces.create') }}">Deposer une annonce</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Hotel</span>
-                </div>
-            </div>
-        </div>
-    </section>
+
+    @php
+        $breadcrumbs = [
+            ['route' => 'accueil', 'label' => 'Accueil'],
+            ['route' => 'public.annonces.create', 'label' => 'Déposer une annonce'],
+            ['label' => 'Hotel'],
+        ];
+    @endphp
+
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-1.jpg') }}" :showTitle="true"
+        title="Ajouter un Fast-Food" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name auberge row">
         <div class="container text-left">

@@ -344,7 +344,7 @@
 
                 </div>
             </div>
-            <div class="col-6 d-flex justify-content-end">
+            <div class="col-6 d-flex justify-content-end gap-2">
 
 
                 <form style="width: 25%; !important;">
@@ -371,10 +371,11 @@
 
                     @if (!auth()->check())
                         <li class="list-none">
-                            <a class="btn theme-btn" style="padding: 10px 15px;" data-bs-toggle="modal"
-                                data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
+                            <a class="btn theme-btn" data-bs-toggle="modal" data-bs-target="#signin"
+                                href="javascript:void(0)" onclick="$('#share').hide()">
                                 <i class="ti-user" aria-hidden="true"></i> <span></span>
                             </a>
+
                         </li>
                     @else
                         <li class="dropdown list-none">
@@ -435,7 +436,7 @@
     <div class="sidebar-mobile" id="sidebar">
         <div class="p-4">
             <div class="d-flex justify-content-between mb-4">
-                <img style="width: 70px;
+                <img onclick="window.location.href='/'" style="width: 70px;
     height: 70px;
     max-height: 80px;"
                     class="logo logo-scrolled d-inline-block align-text-top"
