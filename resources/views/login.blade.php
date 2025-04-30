@@ -33,11 +33,15 @@
                         <div class="input-group">
 
                             <span class="input-group-addon"><i class="fa fa-envelope theme-cl"></i></span>
-                            <input id="email" class="form-control @error('email') is-invalid @enderror" name="email" type="text" value="{{ old('email') }}" placeholder="Identifiant" required autocomplete="email" autofocus>
+                            <input id="email" class="form-control @error('email') is-invalid @enderror" name="email"
+                                type="text" value="{{ old('email') }}" placeholder="Identifiant" required
+                                autocomplete="email" autofocus>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
-                            <input id="password" class="form-control @error('password') is-invalid @enderror" name="password" type="password" placeholder="Mot de Passe" required autocomplete="current-password">
+                            <input id="password" class="form-control @error('password') is-invalid @enderror"
+                                name="password" type="password" placeholder="Mot de Passe" required
+                                autocomplete="current-password">
                             <span class="input-group-addon" onclick="togglePasswordVisibility('password')">
                                 <i id="toggle-password-icon-password" class="fa fa-eye"></i>
                             </span>
@@ -72,10 +76,14 @@
                             {{ __('Connexion') }}
                         </button>
                     </div>
-
+                    <button type="button" class="login-with-google-btn"
+                        onclick="window.location.href='{{ route('google.login') }}'">
+                        Sign in with Google
+                    </button>
                     <div class="center mrg-top-5">
                         <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
-                        <a class="theme-cl" data-toggle="modal" data-target="#register" href="{{ route('register') }}">{{ __('Créer un compte') }}</a>
+                        <a class="theme-cl" data-toggle="modal" data-target="#register"
+                            href="{{ route('register') }}">{{ __('Créer un compte') }}</a>
                     </div>
                 </form>
 

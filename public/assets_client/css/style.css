@@ -317,6 +317,10 @@ button:focus {
     padding: 15px 25px;
 }
 
+.btn-midium {
+    padding: 15px 25px;
+}
+
 .btn-square {
     width: 44px;
     height: 42px;
