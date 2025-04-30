@@ -3,19 +3,13 @@
 @section('title', 'Créer un compte professionnel')
 
 @section('content')
-    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/cinet_pay.png') }}) no-repeat center center; background-size:cover;">
-        <div class="container">
-            <div class="title-content">
-                <h1>Abonnement</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Tarif</span>
-                </div>
-            </div>
-        </div>
-    </section>
 
+    @php
+        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil'], ['label' => 'Tarif']];
+    @endphp
+
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/cinet_pay.png') }}" :showTitle="true" title="Abonnement"
+        :breadcrumbs="$breadcrumbs" />
     <div class="clearfix"></div>
 
     <section>

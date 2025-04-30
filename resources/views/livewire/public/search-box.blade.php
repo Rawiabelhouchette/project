@@ -3,69 +3,16 @@
         $defaultColor = '#de6600';
     @endphp
     <!-- ================ Start Page Title ======================= -->
-    <section class="title-transparent page-title" style="background:url(assets_client/img/banner/image-1.jpg);">
-        <div class="container">
-            <div class="title-content">
-                <h1>Toutes nos offres</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    @if ($detail)
-                        {{-- <a href="#" style="color: white;"
-                            onclick="event.preventDefault(); history.back();">Recherche</a> --}}
-                        <span class="current">Recherche</span>
-                        <span class="gt3_breadcrumb_divider"></span>
-                        <span class="current">Détail</span>
-                    @else
-                        <span class="current">Recherche</span>
-                    @endif
-                </div>
-            </div>
-            <div class="banner-caption d-none d-md-block">
-                <!-- <h3 class="text-center">Recherche</h3> -->
-                <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                    <input name="form_request" type="hidden" value="1">
-                    <div class="col-md-4 col-sm-4 no-padd">
-                        <i class="banner-icon icon-pencil"></i>
-                        <input class="form-control left-radius right-br" name="key" type="text"
-                            placeholder="Mot clé...">
-                    </div>
-                    <div class="col-md-3 col-sm-3 no-padd">
-                        <div class="form-box">
-                            <i class="banner-icon icon-map-pin"></i>
-                            <input id="myInput" class="form-control right-br" name="location" type="text"
-                                placeholder="Localisation...">
-                            <div id="autocomplete-results" class="autocomplete-items"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 no-padd">
-                        <div class="form-box">
-                            <i class="banner-icon icon-layers"></i>
-                            <select class="form-control" name="type[]">
-                                <option class="chosen-select" data-placeholder="{{ __('Types d\'annonce') }}"
-                                    value="" selected>{{ __('Types d\'annonce') }}</option>
-                                @foreach ($typeAnnonce as $annonce)
-                                    <option value="{{ $annonce }}">{{ $annonce }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
 
-                    <div class="col-md-2 col-sm-3 no-padd">
-                        <div class="form-box">
-                            <button class="btn theme-btn btn-default" type="submit"
-                                style="border-top-left-radius: 0px; !important; border-bottom-left-radius: 0px !important;">
-                                {{-- <i class="ti-search"></i> --}}
-                                {{ __('Rechercher') }}
-                            </button>
-                        </div>
-                    </div>
-                </form>
+    @php
+        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil']];
+    @endphp
+
+    <x-breadcumb :detail="true" :showSearchButton="true"
+        backgroundImage="{{ asset('assets_client/img/banner/image-1.jpg') }}" :showTitle="true" title="Toutes nos offres"
+        :breadcrumbs="$breadcrumbs" :typeAnnonce="$typeAnnonce" />
 
 
-            </div>
-        </div>
-    </section>
     <div class="clearfix"></div>
     <!-- ================ End Page Title ======================= -->
 
