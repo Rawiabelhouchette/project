@@ -11,7 +11,7 @@
     }
 
     section.sec-bt {
-        padding: 70px 0 40px;
+        padding: 25px 0 40px;
     }
 
     .form-control.right-br {
@@ -419,8 +419,9 @@
     }
 
     .heading {
-        padding: 0px 0 20px 0;
+        padding: 20px 0;
         margin-bottom: 0;
+        text-align: center;
     }
 
     .heading p {

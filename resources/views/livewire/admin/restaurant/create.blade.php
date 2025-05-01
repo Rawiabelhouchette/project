@@ -1,7 +1,7 @@
 <div>
     <div class="page-name restaurant row">
         <form wire:submit.prevent="store" enctype="multipart/form-data">
-            <div class="container text-left">
+            <div class="container text-left" style="padding: 0rem 2rem;">
                 <div class="row align-items-start">
                     <div class="col-md-4 col-sm-12 p-0">
                         <div class="col">

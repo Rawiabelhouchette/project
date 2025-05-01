@@ -8,7 +8,7 @@
         $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil'], ['label' => 'Annonces']];
     @endphp
 
-    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-2.jpg') }}" :showTitle="true" title="Mes annonces"
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-2.jpg') }}" :showTitle="true" title="Mes annonces" :showSearchButton="true"
         :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name auberge row">

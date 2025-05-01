@@ -26,17 +26,15 @@
                         <div class="col-md-6 text-center">
                             <div class="row">
 
-                                <div class="col-md-10 p-0">
+                                <div class="col-md-12 p-0">
                                     <input id="comment_search" class="form-control" type="search" value=""
                                         style="margin-top: 6px; margin-bottom: 6px; height: 35px;"
                                         placeholder="Afficher la recherche" wire:model.live.debounce.500ms='search'>
                                 </div>
-                                <div class="col-md-2 p-2">
-                                    <a href="{{ route('pricing') }}" class="btn btn-theme form-control p-4"
-                                        style="height: 36px; ">
-                                        {{-- <i class="fa fa-plus fa-lg"></i> --}}
-                                        Ajouter
-                                    </a>
+                                <div class="col-md-12 p-2">
+                                <button class="add-button" onclick="window.location.href='{{ route('pricing') }}'">
+                                    <i class="bi bi-plus-circle me-2"></i>Ajouter
+                                </button>
                                 </div>
                             </div>
                         </div>
@@ -45,38 +43,38 @@
 
                 <div class="col-md-12">
                     <div class="small-list-wrapper">
-                        <table class="table-bordered table table-hover">
-                            <thead></thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Date Début</th>
-                                <th>Date Fin</th>
-                                <th>Montant</th>
-                                <th>Statut</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($abonnements as $abonnement)
+                    <table class="table">
+                                <thead>
                                     <tr>
-                                        <td>{{ $abonnement->id }}</td>
-                                        <td>{{ $abonnement->date_debut->format('d-m-Y H:i:s') }}</td>
-                                        <td>{{ $abonnement->date_fin->format('d-m-Y H:i:s') }}</td>
-                                        <td>{{ number_format($abonnement->montant, 0, ',', ' ') }}</td>
-                                        <td>
-                                            @if ($abonnement->is_active)
-                                                <span class="badge bg-success">&nbsp;&nbsp;</span>&nbsp;Actif
-                                            @else
-                                                <span class="badge bg-danger">Inactif</span>
-                                            @endif
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Date Début</th>
+                                        <th>Date Fin</th>
+                                        <th>Montant</th>
+                                        <th>Statut</th>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">Aucun abonnement trouvé</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @forelse($abonnements as $abonnement)
+                                        <tr>
+                                            <td>{{ $abonnement->id }}</td>
+                                            <td>{{ $abonnement->date_debut->format('d-m-Y H:i:s') }}</td>
+                                            <td>{{ $abonnement->date_fin->format('d-m-Y H:i:s') }}</td>
+                                            <td>{{ number_format($abonnement->montant, 0, ',', ' ') }}</td>
+                                            <td>
+                                                @if ($abonnement->is_active)
+                                                    <span class="badge bg-success">&nbsp;&nbsp;</span>&nbsp;Actif
+                                                @else
+                                                    <span class="badge bg-danger">Inactif</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center">Aucun abonnement trouvé</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                     </div>
                 </div>
                 <div class="col-md-12 text-center" style="margin: 0px; padding: 0px;">
@@ -91,6 +89,11 @@
             {{ $abonnements->total() }} abonnement(s)
         </span>
         <div class="row mt-2">
+            <div class="col-md-12 p-0">
+                <input id="comment_search" class="form-control" type="search" value=""
+                    style="margin-top: 6px; margin-bottom: 6px; height: 35px;"
+                    placeholder="Afficher la recherche" wire:model.live.debounce.500ms='search'>
+            </div>
             <div class="col-12">
                 <button class="add-button" onclick="window.location.href='{{ route('pricing') }}'">
                     <i class="bi bi-plus-circle me-2"></i>Ajouter
@@ -185,7 +188,23 @@
             display: none;
         }
 
+        .add-button {
+                background-color: #de6600;
+                border: none;
+                color: white;
+                font-weight: 600;
+                padding: 12px 20px;
+                border-radius: 8px;
+                width: 100%;
+                margin-bottom: 15px;
+                transition: all 0.3s ease;
+            }
 
+            .add-button:hover {
+                background-color: #F57C00;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
         /* Mobile optimizations */
         @media (max-width: 767.98px) {
             .table-container {
@@ -214,23 +233,7 @@
                 white-space: nowrap;
             }
 
-            .add-button {
-                background-color: #de6600;
-                border: none;
-                color: white;
-                font-weight: 600;
-                padding: 12px 20px;
-                border-radius: 8px;
-                width: 100%;
-                margin-bottom: 15px;
-                transition: all 0.3s ease;
-            }
 
-            .add-button:hover {
-                background-color: #F57C00;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
 
             .status-badge {
                 width: 12px;

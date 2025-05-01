@@ -13,8 +13,11 @@
         ];
     @endphp
 
-    <x-breadcumb backgroundImage="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" :showTitle="true"
-        title="{{ $annonce->titre }}" :breadcrumbs="$breadcrumbs" />
+    @php
+        $typeList = $typeAnnonce ?? [];
+    @endphp
+    <x-breadcumb backgroundImage="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" :showSearchButton="true" :showTitle="true"
+        title="{{ $annonce->titre }}" :breadcrumbs="$breadcrumbs" :typeList="$typeList" />
 
 
 

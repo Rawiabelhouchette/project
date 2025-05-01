@@ -13,7 +13,7 @@
         $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil'], ['label' => 'Contactez-nous']];
     @endphp
 
-    <x-breadcumb backgroundImage="assets_client/img/banner/image-4.jpg" :showTitle="true" title="Vamiyi" :breadcrumbs="$breadcrumbs" />
+    <x-breadcumb backgroundImage="assets_client/img/banner/image-4.jpg"  :showTitle="true" title="Vamiyi" :breadcrumbs="$breadcrumbs" />
 
 
     <div class="clearfix"></div>

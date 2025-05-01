@@ -5,7 +5,7 @@
 
      @media (max-width: 480px) {
          .page-title {
-             height: 150px !important;
+             height: 100px !important;
          }
 
 
@@ -88,7 +88,7 @@
 
      @media (min-width: 481px) and (max-width: 767px) {
          .page-title {
-             height: 150px !important;
+             height: 100px !important;
          }
 
          #breadcumb-mobile {
@@ -170,7 +170,7 @@
 
      @media (min-width: 768px) and (max-width: 1024px) {
          .page-title {
-             height: 150px !important;
+             height: 100px !important;
          }
 
          #breadcumb-mobile {
@@ -301,9 +301,15 @@
                              <select class="form-control" name="type[]">
                                  <option class="chosen-select" data-placeholder="{{ __('Types d\'annonce') }}"
                                      value="" selected>{{ __('Types d\'annonce') }}</option>
-                                 @foreach ($typeAnnonce as $annonce)
-                                     <option value="{{ $annonce }}">{{ $annonce }}</option>
-                                 @endforeach
+                                 @if(isset($typeList) && is_array($typeList))
+                                     @foreach ($typeList as $annonce)
+                                         <option value="{{ $annonce }}">{{ $annonce }}</option>
+                                     @endforeach
+                                 @elseif(isset($typeAnnonce) && (is_array($typeAnnonce) || is_object($typeAnnonce)))
+                                     @foreach ($typeAnnonce as $annonce)
+                                         <option value="{{ $annonce }}">{{ $annonce }}</option>
+                                     @endforeach
+                                 @endif
                              </select>
                          </div>
                      </div>

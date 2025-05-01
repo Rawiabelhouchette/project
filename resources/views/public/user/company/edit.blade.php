@@ -17,7 +17,7 @@
         ];
     @endphp
 
-    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-2.jpg') }}" :showTitle="true"
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-2.jpg') }}" :showTitle="true" :showSearchButton="true"
         title="Modifier mon entreprise" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name row">

@@ -689,10 +689,11 @@
                                     </div>
                                @endif
                                 @if ($annonce->image)
-                                    <img class="img-responsive"
-                                            src="https://placehold.co/600"
-                                        alt="latest property"
-                                        style="object-fit: cover; object-position: center; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 10px;">
+                                <img class="img-responsive"
+                                    src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"
+                                    alt="{{ $annonce->titre }}"
+                                    onerror="this.onerror=null; this.src='https://placehold.co/600';"
+                                    style="object-fit: cover; object-position: center; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 10px;">
                                 @else
                                     <img class="img-responsive" src="https://placehold.co/600x400"
                                         alt="latest property">
@@ -794,14 +795,13 @@
     </section>
     <!-- End Listings Section -->
 
-    <!-- Category Section -->
-    <section class="bg-image" data-overlay="6" style="background:url(assets_client/img/image-stat.JPEG);">
+<!-- Category Section -->
+<section class="bg-image" data-overlay="6" style="background:url(assets_client/img/image-stat.JPEG);">
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
                     <div class="heading light">
                         <h2>Top <span>Catégories</span></h2>
-                        <p>Les plus populaires</p>
                     </div>
                 </div>
             </div>
@@ -810,227 +810,511 @@
                 <div class="category-slide">
                     @foreach ($listAnnonce as $list)
                         <div class="list-slide-box">
-                            <div class="category-full-widget">
-                                <div class="category-widget-bg" style="background-image: url({{ $list->image }});">
-                                    <i class="bg-{{ $list->bg }} cat-icon {{ $list->icon }}"
-                                        aria-hidden="true"></i>
+                            <div class="category-card">
+                                <div class="category-card-bg" style="background-image: url({{ $list->image }});">
+                                    <div class="category-card-overlay"></div>
+                                    <div class="category-card-icon">
+                                        <i class="bg-{{ $list->bg }} cat-icon {{ $list->icon }}" aria-hidden="true"></i>
+                                    </div>
                                 </div>
-                                <div class="cat-box-name">
-                                    <h4 style="font-size: 16px;">{{ $list->libelle }}</h4>
-                                    <a class="btn-btn-wrowse" href="{{ route('search.key.type', ['', $list->nom]) }}">Parcourir</a>
+                                <div class="category-card-content">
+                                    <h4>{{ $list->libelle }}</h4>
+                                    <a class="btn-browse" href="{{ route('search.key.type', ['', $list->nom]) }}">
+                                       <span class="d-none d-md-block"> Parcourir</span> <i class="fa fa-arrow-right ms-1"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
             </div>
-
         </div>
     </section>
     <!-- End Category Section -->
 
-    <section class="company-state theme-overlap" style="background:url(assets_client/img/image-stat.JPEG);">
-        <div class="container-fluid">
-            <div class="col-md-3 col-sm-6">
-                <div class="work-count">
-                    <span class="theme-cl icon fa fa-briefcase"></span>
-                    <span class="counter">
-                        {{ $nbAnnonces }}
-                    </span>
-                    {{-- <span class="counter-incr">+</span> --}}
-                    <p>Annonces</p>
+    <!-- Creative Counters Section -->
+    <section class="creative-counters" style="background:url(assets_client/img/image-stat.JPEG);">
+        <div class="counter-overlay"></div>
+        <div class="floating-bubbles">
+            @for ($i = 1; $i <= 15; $i++)
+                <div class="bubble" style="--size: {{ rand(20, 80) }}px; --left: {{ rand(1, 100) }}%; --delay: {{ $i * 0.3 }}s;"></div>
+            @endfor
+        </div>
+        
+        <div class="container position-relative">
+            <div class="row justify-content-center counter-row">
+                <div class="col-md-4 col-sm-6 mb-4 mb-md-0">
+                    <div class="counter-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="counter-icon-wrap">
+                            <div class="counter-icon-glow"></div>
+                            <div class="counter-icon">
+                                <i class="fa fa-briefcase"></i>
+                            </div>
+                        </div>
+                        <div class="counter-content">
+                            <div class="counter-number" data-count="{{ $nbAnnonces }}">0</div>
+                            <div class="counter-label">Annonces</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-           {{-- <div class="col-md-3 col-sm-6">
-                <div class="work-count">
-                    <span class="theme-cl icon ti-layers"></span>
-                    <span class="counter">
-                        {{ $nbTypesAnnonces }}
-                    </span>
-                     <span class="counter-incr">+</span>
-                    <p>Types d'annonce</p>
+                
+                <div class="col-md-4 col-sm-6 mb-4 mb-md-0">
+                    <div class="counter-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="counter-icon-wrap">
+                            <div class="counter-icon-glow"></div>
+                            <div class="counter-icon">
+                                <i class="fa fa-building"></i>
+                            </div>
+                        </div>
+                        <div class="counter-content">
+                            <div class="counter-number" data-count="{{ $nbEntreprises }}">0</div>
+                            <div class="counter-label">Entreprises</div>
+                        </div>
+                    </div>
                 </div>
-            </div>--}}
-            <div class="col-md-3 col-sm-6">
-                <div class="work-count">
-                    <span class="theme-cl icon fa fa-building"></span>
-                    <span class="counter">
-                        {{ $nbEntreprises }}
-                    </span>
-                    {{-- <span class="counter-incr">+</span> --}}
-                    <p>Entreprises</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="work-count">
-                    <span class="theme-cl icon ti-user"></span>
-                    <span class="counter">
-                        {{ $nbUtilisateurs }}
-                    </span>
-                    {{-- <span class="counter-incr">+</span> --}}
-                    <p>Utilisateurs</p>
+                
+                <div class="col-md-4 col-sm-6">
+                    <div class="counter-item" data-aos="fade-up" data-aos-delay="300">
+                        <div class="counter-icon-wrap">
+                            <div class="counter-icon-glow"></div>
+                            <div class="counter-icon">
+                                <i class="ti-user"></i>
+                            </div>
+                        </div>
+                        <div class="counter-content">
+                            <div class="counter-number" data-count="{{ $nbUtilisateurs }}">0</div>
+                            <div class="counter-label">Utilisateurs</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <style>
-            .autocomplete {
-                position: relative;
-                display: inline-block;
-            }
-
-            .autocomplete-items {
-                position: absolute;
-                border: 1px solid #d4d4d4;
-                border-bottom: none;
-                border-top: none;
-                z-index: 99;
-                top: 100%;
-                left: 0;
-                right: 0;
-                border-radius: 5px;
-                margin-top: 5px;
-            }
-
-            .autocomplete-items div {
-                padding: 10px;
-                cursor: pointer;
-                background-color: #fff;
-                border-bottom: 1px solid #d4d4d4;
-                text-align: left;
-                /*  */
-                color: #90969e;
-            }
-
-            .autocomplete-items div:hover {
-                background-color: #f6f6f6;
-                /* background-color: #de6600; */
-                /* color: #fff; */
-                color: #90969e;
-            }
-
-            .autocomplete-items div:first-child {
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;
-            }
-
-            .autocomplete-items div:last-child {
-                border-bottom-left-radius: 5px;
-                border-bottom-right-radius: 5px;
-            }
-        </style>
-
-        @push('scripts')
-            <script>
-                let countries = @json($quartiers);
-                console.log(" countries = ", countries)
-                let myInput = document.getElementById('myInput');
-
-                myInput.addEventListener('focus', function(e) {
-                    let a, b, val = this.value;
-                    a = document.createElement("DIV");
-                    a.setAttribute("id", this.id + "autocomplete-list");
-                    a.setAttribute("class", "autocomplete-items");
-                    this.parentNode.appendChild(a);
-                    if (!val) {
-                        for (let i = 0; i < countries.length; i++) {
-                            b = document.createElement("DIV");
-                            b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i];
-                            b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
-                            b.addEventListener("click", function(e) {
-                                document.getElementById('myInput').value = this.getElementsByTagName("input")[0]
-                                    .value;
-                                closeAllLists();
-                            });
-                            a.appendChild(b);
-
-                        }
-                        return;
-
-                    }
-
-                    for (let i = 0; i < countries.length; i++) {
-                        let country = normalize(countries[i]).toUpperCase();
-                        let searchVal = normalize(val).toUpperCase();
-
-                        if (country.includes(searchVal)) {
-                            let startIdx = country.indexOf(searchVal);
-                            let endIdx = startIdx + searchVal.length;
-
-                            b = document.createElement("DIV");
-                            b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i].substr(0, startIdx) +
-                                "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
-                                countries[i].substr(endIdx);
-                            b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
-                            b.addEventListener("click", function(e) {
-                                document.getElementById('myInput').value = this.getElementsByTagName("input")[0]
-                                    .value;
-                                closeAllLists();
-                            });
-                            a.appendChild(b);
-                        }
-                    }
-                });
-
-
-                myInput.addEventListener('input', function(e) {
-                    let a, b, val = this.value;
-                    closeAllLists();
-                    if (!val) {
-                        return false;
-                    }
-                    a = document.createElement("DIV");
-                    a.setAttribute("id", this.id + "autocomplete-list");
-                    a.setAttribute("class", "autocomplete-items");
-                    this.parentNode.appendChild(a);
-                    for (let i = 0; i < countries.length; i++) {
-                        let country = normalize(countries[i]).toUpperCase();
-                        let searchVal = normalize(val).toUpperCase();
-
-                        if (country.includes(searchVal)) {
-                            let startIdx = country.indexOf(searchVal);
-                            let endIdx = startIdx + searchVal.length;
-
-                            b = document.createElement("DIV");
-                            b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i].substr(0, startIdx) +
-                                "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
-                                countries[i].substr(endIdx);
-                            b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
-                            b.addEventListener("click", function(e) {
-                                document.getElementById('myInput').value = this.getElementsByTagName("input")[0]
-                                    .value;
-                                closeAllLists();
-                            });
-                            a.appendChild(b);
-                        }
-                    }
-                });
-
-                function normalize(str) {
-                    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                }
-
-                function closeAllLists(elmnt) {
-                    let x = document.getElementsByClassName("autocomplete-items");
-                    for (let i = 0; i < x.length; i++) {
-                        if (elmnt != x[i] && elmnt != document.getElementById('myInput')) {
-                            x[i].parentNode.removeChild(x[i]);
-                        }
-                    }
-                }
-
-                document.addEventListener("click", function(e) {
-                    closeAllLists(e.target);
-                });
-            </script>
-
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $('select').niceSelect();
-                });
-            </script>
-        @endpush
     </section>
+    <!-- End Creative Counters Section -->
+
+    <style>
+        /* Category Cards Styling */
+        .category-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin: 10px;
+            height: 220px;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .category-card-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        
+        .category-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+            z-index: 2;
+        }
+        
+        .category-card-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 3;
+        }
+        
+        .category-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            z-index: 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .category-card-content h4 {
+            color: white;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .btn-browse {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn-browse:hover {
+            background-color: white;
+            color: #de6600;
+        }
+        
+        /* Creative Counters Styling */
+        .creative-counters {
+            position: relative;
+            padding: 80px 0;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .counter-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(222, 102, 0, 0.9), rgba(255, 153, 0, 0.85));
+            z-index: 1;
+        }
+        
+        .floating-bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            overflow: hidden;
+        }
+        
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: var(--size);
+            height: var(--size);
+            left: var(--left);
+            animation: float 15s infinite ease-in-out;
+            animation-delay: var(--delay);
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-800px);
+                opacity: 0;
+            }
+        }
+        
+        .counter-row {
+            position: relative;
+            z-index: 3;
+        }
+        
+        .counter-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .counter-icon-wrap {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .counter-icon-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            filter: blur(15px);
+            transform: scale(1.5);
+        }
+        
+        .counter-icon {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .counter-icon i {
+            font-size: 32px;
+            color: #de6600;
+        }
+        
+        .counter-item:hover .counter-icon {
+            transform: translateY(-5px);
+        }
+        
+        .counter-content {
+            text-align: center;
+        }
+        
+        .counter-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .counter-label {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+        
+        /* Autocomplete Styling (Preserved from original) */
+        .autocomplete {
+            position: relative;
+            display: inline-block;
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff;
+            border-bottom: 1px solid #d4d4d4;
+            text-align: left;
+            color: #90969e;
+        }
+
+        .autocomplete-items div:hover {
+            background-color: #f6f6f6;
+            color: #90969e;
+        }
+
+        .autocomplete-items div:first-child {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .autocomplete-items div:last-child {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .counter-number {
+                font-size: 36px;
+            }
+            
+            .counter-label {
+                font-size: 16px;
+            }
+            
+            .counter-icon {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .counter-icon i {
+                font-size: 28px;
+            }
+        }
+    </style>
+
+    @push('scripts')
+        <!-- Original autocomplete script preserved -->
+        <script>
+            let countries = @json($quartiers);
+            console.log(" countries = ", countries)
+            let myInput = document.getElementById('myInput');
+
+            myInput.addEventListener('focus', function(e) {
+                let a, b, val = this.value;
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "autocomplete-list");
+                a.setAttribute("class", "autocomplete-items");
+                this.parentNode.appendChild(a);
+                if (!val) {
+                    for (let i = 0; i < countries.length; i++) {
+                        b = document.createElement("DIV");
+                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i];
+                        b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
+                        b.addEventListener("click", function(e) {
+                            document.getElementById('myInput').value = this.getElementsByTagName("input")[0]
+                                .value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+
+                    }
+                    return;
+
+                }
+
+                for (let i = 0; i < countries.length; i++) {
+                    let country = normalize(countries[i]).toUpperCase();
+                    let searchVal = normalize(val).toUpperCase();
+
+                    if (country.includes(searchVal)) {
+                        let startIdx = country.indexOf(searchVal);
+                        let endIdx = startIdx + searchVal.length;
+
+                        b = document.createElement("DIV");
+                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i].substr(0, startIdx) +
+                            "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
+                            countries[i].substr(endIdx);
+                        b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
+                        b.addEventListener("click", function(e) {
+                            document.getElementById('myInput').value = this.getElementsByTagName("input")[0]
+                                .value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+
+
+            myInput.addEventListener('input', function(e) {
+                let a, b, val = this.value;
+                closeAllLists();
+                if (!val) {
+                    return false;
+                }
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "autocomplete-list");
+                a.setAttribute("class", "autocomplete-items");
+                this.parentNode.appendChild(a);
+                for (let i = 0; i < countries.length; i++) {
+                    let country = normalize(countries[i]).toUpperCase();
+                    let searchVal = normalize(val).toUpperCase();
+
+                    if (country.includes(searchVal)) {
+                        let startIdx = country.indexOf(searchVal);
+                        let endIdx = startIdx + searchVal.length;
+
+                        b = document.createElement("DIV");
+                        b.innerHTML = '<i class="icon-map-pin"></i>&nbsp;&nbsp;' + countries[i].substr(0, startIdx) +
+                            "<strong>" + countries[i].substr(startIdx, searchVal.length) + "</strong>" +
+                            countries[i].substr(endIdx);
+                        b.innerHTML += "<input type='hidden' value='" + countries[i] + "'>";
+                        b.addEventListener("click", function(e) {
+                            document.getElementById('myInput').value = this.getElementsByTagName("input")[0]
+                                .value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+
+            function normalize(str) {
+                return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            }
+
+            function closeAllLists(elmnt) {
+                let x = document.getElementsByClassName("autocomplete-items");
+                for (let i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != document.getElementById('myInput')) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+
+            document.addEventListener("click", function(e) {
+                closeAllLists(e.target);
+            });
+        </script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('select').niceSelect();
+                
+                // Counter animation
+                $('.counter-number').each(function() {
+                    const $this = $(this);
+                    const countTo = parseInt($this.attr('data-count'));
+                    
+                    $({ countNum: 0 }).animate({
+                        countNum: countTo
+                    }, {
+                        duration: 2000,
+                        easing: 'swing',
+                        step: function() {
+                            $this.text(Math.floor(this.countNum));
+                        },
+                        complete: function() {
+                            $this.text(this.countNum);
+                        }
+                    });
+                });
+                
+                // Add hover effects to counter items
+                $('.counter-item').hover(
+                    function() {
+                        $(this).find('.counter-icon').css('transform', 'translateY(-5px) scale(1.05)');
+                    },
+                    function() {
+                        $(this).find('.counter-icon').css('transform', 'translateY(0) scale(1)');
+                    }
+                );
+            });
+        </script>
+        
+        <!-- Include AOS library for scroll animations -->
+        <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+        <script>
+            // Initialize AOS
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+        </script>
+    @endpush
+
+
+
     <x-public.share-modal title="Partager cette annonce" />
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {

@@ -4,7 +4,7 @@
     @endphp
 
     <!-- ================ Listing In Grid Style ======================= -->
-    <section class="sec-bt" style="padding: 0;">
+    <section class="sec-bt">
         <div class="container">
             <div class="row">
                 <!-- Start Sidebar -->
