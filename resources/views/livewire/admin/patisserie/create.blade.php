@@ -23,7 +23,7 @@
 
                 <div class="col-md-4 col-sm-12 p-0">
                     <div class="col">
-                        <h3>Nom
+                        <h3>Titre
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
                         <h4>Indiquez le nom de votre patisserie</h4>

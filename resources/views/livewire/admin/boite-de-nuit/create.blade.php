@@ -23,10 +23,10 @@
 
                 <div class="col-md-4 col-xs-12 categorie p-0">
                     <div class="col">
-                        <h3>Nom
+                        <h3>Titre
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Indiquez le nom de votre annonce</h4>
+                        <h4>Indiquez le titre de votre annonce</h4>
                         <input class="form-control" type="text" placeholder="" wire:model.defer='nom' required>
                         @error('nom')
                             <span class="text-danger">{{ $message }}</span>
