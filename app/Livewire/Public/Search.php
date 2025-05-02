@@ -54,6 +54,9 @@ class Search extends Component
     public $quartiers = [];
     public $entreprises = [];
 
+    // Add viewMode property to the existing Search class
+    public $viewMode = 'row';
+
     // Paramètres de l'URL
     protected $queryString = [
         'type',
@@ -64,6 +67,7 @@ class Search extends Component
         'ville',
         'quartier',
         'entreprise',
+        'viewMode',
     ];
 
     /**
@@ -718,3 +722,4 @@ class Search extends Component
         ]);
     }
 }
+

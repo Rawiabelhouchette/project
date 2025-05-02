@@ -3,49 +3,52 @@
 @section('title', 'Détails d\'une annonce')
 
 @section('content')
-    <section class="title-transparent page-title" style="background-image:url({{ asset('storage/' . $annonce->imagePrincipale->chemin) }});">
-        <div class="container">
-            <div class="title-content">
-                <h1>{{ $annonce->titre }}</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <a href="{{ route('search') }}">{{ $annonce->type }}</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">{{ $annonce->titre }}</span>
-                </div>
-            </div>
-        </div>
-    </section>
+
+
+    @php
+        $breadcrumbs = [
+            ['route' => 'accueil', 'label' => 'Accueil'],
+            ['route' => 'search', 'label' => $annonce->type],
+            ['label' => $annonce->titre],
+        ];
+    @endphp
+
+    @php
+        $typeList = $typeAnnonce ?? [];
+    @endphp
+    <x-breadcumb backgroundImage="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" :showSearchButton="true" :showTitle="true"
+        title="{{ $annonce->titre }}" :breadcrumbs="$breadcrumbs" :typeList="$typeList" />
+
+
 
     <div class="page-name annonce-detail row">
 
         <!-- ================ Listing Detail Full Information ======================= -->
-        <section class="list-detail padd-bot-10 padd-top-30">
+        <section class="list-detail p-0">
             <div class="container">
                 <div class="row mrg-bot-40">
-                    <div class="col-md-6 col-sm-12 nav-div nav-div-1">
-                        <h5>
+                    <div class="col-sm-12 nav-div nav-div-1">
+                        <h5 style="text-align: left; border-bottom: 1px silver solid;" class="py-5 px-2">
                             <a href="{{ route('search') }}" title="Revenir à la recherche">
                                 <i class="fa fa-fw fa-arrow-left" aria-hidden="true"></i>
                                 Revenir à la recherche
                             </a>
                         </h5>
                     </div>
-                    <div class="col-md-6 col-sm-12 nav-div" style="text-align: right">
-                        <h5>
+                    <div class="col-sm-12 nav-div" style="text-align: right">
+                        <div class="d-flex px-5 py-2" style="justify-content: space-between; align-items: center;border-bottom: 1px silver solid;">
                             <a class="" href="{{ $pagination->previous }}">
                                 <i class="fa fa-fw fa-angle-left"></i>
                                 Précédent
                             </a>
-                            <span class="padd-l-10 padd-r-10 theme-cl">
+                            <span class="padd-l-10 padd-r-10 position-cl">
                                 {{ $pagination->position }}
                             </span>
                             <a class="" href="{{ $pagination->next }}">
                                 Suivant
                                 <i class="fa fa-fw fa-angle-right"></i>
                             </a>
-                        </h5>
+                        </div>
                     </div>
                 </div>
 
@@ -57,7 +60,8 @@
                                     <h3> {{ $annonce->titre }}
                                         <span class="listing-shot-info rating p-0">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
+                                                <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star"
+                                                    aria-hidden="true"></i>
                                             @endfor
 
                                         </span>
@@ -70,19 +74,27 @@
                                 <div class="side-list no-border gallery-box">
                                     <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
                                         <div class="col-xs-12 col-md-12 p-0">
-                                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                            <div id="carouselExampleIndicators" class="carousel slide"
+                                                data-bs-ride="carousel">
 
                                                 <div class="carousel-inner">
                                                     @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
                                                         <div class="carousel-item {{ $key == 0 ? ' active' : '' }}">
-                                                            <img class="d-block w-100" style="object-fit: cover;" src="{{ asset('storage/' . $image->chemin) }}" alt="...">
+                                                            <img class="d-block w-100" style="object-fit: cover;"
+                                                                src="{{ asset('storage/' . $image->chemin) }}"
+                                                                alt="...">
                                                         </div>
                                                     @endforeach
                                                 </div>
                                                 <div class="carousel-indicators">
                                                     @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
-                                                        <button class="active thumbnail" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" type="button" aria-current="true" aria-label="Slide 1">
-                                                            <img class="d-block w-100" style="object-fit: cover;" src="{{ asset('storage/' . $image->chemin) }}" alt="...">
+                                                        <button class="active thumbnail"
+                                                            data-bs-target="#carouselExampleIndicators"
+                                                            data-bs-slide-to="{{ $key }}" type="button"
+                                                            aria-current="true" aria-label="Slide 1">
+                                                            <img class="d-block w-100" style="object-fit: cover;"
+                                                                src="{{ asset('storage/' . $image->chemin) }}"
+                                                                alt="...">
                                                         </button>
                                                     @endforeach
                                                 </div>
@@ -92,7 +104,8 @@
                                 </div>
                                 <div class="side-list share-buttons">
                                     <div class="mrg-r-10">
-                                        <button class="buttons padd-10 btn-default share-button" data-toggle="modal" data-target="#share">
+                                        <button class="buttons padd-10 btn-default share-button" data-toggle="modal"
+                                            data-target="#share">
                                             <i class="fa fa-share-nodes"></i>
                                             <!-- <span class="hidden-xs">Partager</span> -->
                                         </button>
@@ -121,56 +134,61 @@
 
                     <div class="col-md-8 col-sm-12">
                         <div class="widget-boxed padd-bot-10">
-                        <div class="annonces row mt-5 gy-4">
-                                        <div class="col-md-12">
-                                            <div class="contact-item">
-                                                <strong>Profile : </strong>
-                                                <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}" class="contact-button">
-                                                    <i class="fa fa-building fa-lg"></i>
-                                                    {{ $annonce->entreprise->nom }}
+                            <div class="annonces row mt-5 gy-4">
+                                <div class="col-md-12">
+                                    <div class="contact-item">
+                                        <strong>Profile : </strong>
+                                        <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}"
+                                            class="contact-button">
+                                            <i class="fa fa-building fa-lg"></i>
+                                            {{ $annonce->entreprise->nom }}
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="contact-item">
+                                        <strong>Contact : </strong>
+
+                                        @if ($annonce->entreprise->site_web)
+                                            <a href="{{ $annonce->entreprise->site_web }}" target="_blank"
+                                                class="contact-button">
+                                                <i class="ti-world"></i> {{ $annonce->entreprise->site_web }}
+                                            </a>
+                                        @endif
+
+                                        @if ($annonce->entreprise->email)
+                                            <a href="mailto:{{ $annonce->entreprise->email }}" class="contact-button">
+                                                <i class="ti-email"></i> {{ $annonce->entreprise->email }}
+                                            </a>
+                                        @endif
+                                    </div>
+
+                                    <div class="social-links d-flex align-items-center">
+                                        <strong class="me-3">Socials : </strong>
+                                        <div class="d-flex">
+                                            @if ($annonce->entreprise->instagram)
+                                                <a href="{{ $annonce->entreprise->instagram }}" target="_blank"
+                                                    class="social-button instagram me-2">
+                                                    <i class="fa-brands fa-instagram"></i>
                                                 </a>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-12">
-                                            <div class="contact-item">
-                                                <strong>Contact : </strong>
-                                                
-                                                @if ($annonce->entreprise->site_web)
-                                                    <a href="{{ $annonce->entreprise->site_web }}" target="_blank" class="contact-button">
-                                                        <i class="ti-world"></i> {{ $annonce->entreprise->site_web }}
-                                                    </a>
-                                                @endif
-                                                
-                                                @if ($annonce->entreprise->email)
-                                                    <a href="mailto:{{ $annonce->entreprise->email }}" class="contact-button">
-                                                        <i class="ti-email"></i> {{ $annonce->entreprise->email }}
-                                                    </a>
-                                                @endif
-                                            </div>
-                                            
-                                            <div class="social-links d-flex align-items-center">
-                                                <strong class="me-3">Socials : </strong>
-                                                <div class="d-flex">
-                                                    @if ($annonce->entreprise->instagram)
-                                                        <a href="{{ $annonce->entreprise->instagram }}" target="_blank" class="social-button instagram me-2">
-                                                            <i class="fa-brands fa-instagram"></i>
-                                                        </a>
-                                                    @endif
-                                                    @if ($annonce->entreprise->facebook)
-                                                        <a href="{{ $annonce->entreprise->facebook }}" target="_blank" class="social-button facebook me-2">
-                                                            <i class="fa-brands fa-facebook"></i>
-                                                        </a>
-                                                    @endif
-                                                    @if ($annonce->entreprise->whatsapp)
-                                                        <a href="https://wa.me/{{ $annonce->entreprise->whatsapp }}" target="_blank" class="social-button whatsapp me-2">
-                                                            <i class="fa-brands fa-whatsapp"></i>
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                            </div>
+                                            @endif
+                                            @if ($annonce->entreprise->facebook)
+                                                <a href="{{ $annonce->entreprise->facebook }}" target="_blank"
+                                                    class="social-button facebook me-2">
+                                                    <i class="fa-brands fa-facebook"></i>
+                                                </a>
+                                            @endif
+                                            @if ($annonce->entreprise->whatsapp)
+                                                <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}"
+                                                    target="_blank" class="social-button whatsapp me-2">
+                                                    <i class="fa-brands fa-whatsapp"></i>
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
+                                </div>
+                            </div>
                             <div class="widget-boxed-header">
                                 <h4><i class="ti-location-pin padd-r-10"></i>Localisation</h4>
                             </div>
@@ -200,7 +218,8 @@
                                     <ul>
                                         @foreach ($annonce->entreprise->heure_ouvertures as $key => $ouverture)
                                             @if ($ouverture == 'Fermé')
-                                                <li>{{ $key }} <span class="text-danger">{{ $ouverture }}</span></li>
+                                                <li>{{ $key }} <span
+                                                        class="text-danger">{{ $ouverture }}</span></li>
                                             @else
                                                 <li>{{ $key }} <span>{{ $ouverture }}</span></li>
                                             @endif
@@ -262,6 +281,3 @@
             });
         </script>
     @endsection
-
-
-

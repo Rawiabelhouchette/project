@@ -3,20 +3,15 @@
 @section('title', 'Mon entreprise')
 
 @section('content')
-    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
-        <div class="container">
-            <div class="title-content">
-                <h1>Mon entreprise</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    {{-- <span class="gt3_breadcrumb_divider"></span>
-                    <a href="{{ route('public.annonces.create') }}">Mon entreprise</a> --}}
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Mon entreprise</span>
-                </div>
-            </div>
-        </div>
-    </section>
+
+
+    @php
+        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil'], ['label' => 'Mon entreprise']];
+    @endphp
+
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-2.jpg') }}" :showTitle="true" :showSearchButton="true"
+        title="Mon entreprise" :breadcrumbs="$breadcrumbs" />
+
     <section class="list-detail">
         <div class="container">
             <div class="row bott-wid">
@@ -137,7 +132,8 @@
                                     <ul>
                                         @foreach ($entreprise->heure_ouvertures as $key => $ouverture)
                                             @if ($ouverture == 'Fermé')
-                                                <li>{{ $key }} <span class="text-danger">{{ $ouverture }}</span></li>
+                                                <li>{{ $key }} <span
+                                                        class="text-danger">{{ $ouverture }}</span></li>
                                             @else
                                                 <li>{{ $key }} <span>{{ $ouverture }}</span></li>
                                             @endif
@@ -180,16 +176,22 @@
                                                 <a href="{{ route('show', $annonce->slug) }}" title="Listing">
                                                     <div class="listing-list-img">
                                                         @if ($annonce->image)
-                                                            <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" class="img-responsive" alt="">
+                                                            <img src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"
+                                                                class="img-responsive" alt="">
                                                         @else
-                                                            <img src="http://via.placeholder.com/80x80" class="img-responsive" alt="">
+                                                            <img src="http://via.placeholder.com/80x80"
+                                                                class="img-responsive" alt="">
                                                         @endif
                                                     </div>
                                                 </a>
                                                 <div class="listing-list-info">
-                                                    <h5><a href="{{ route('show', $annonce->slug) }}" title="Listing">{{ $annonce->titre }}</a></h5>
+                                                    <h5><a href="{{ route('show', $annonce->slug) }}"
+                                                            title="Listing">{{ $annonce->titre }}</a></h5>
                                                     <div class="listing-post-meta">
-                                                        <span class="updated">{{ date('d-m-Y', strtotime($annonce->created_at)) }}</span> | <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}" rel="tag">{{ $annonce->type }}</a>
+                                                        <span
+                                                            class="updated">{{ date('d-m-Y', strtotime($annonce->created_at)) }}</span>
+                                                        | <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}"
+                                                            rel="tag">{{ $annonce->type }}</a>
                                                     </div>
                                                 </div>
                                             </li>
@@ -213,7 +215,8 @@
 @endsection
 
 @section('js')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script>
         var mymap = L.map('map').setView([8.6195, 0.8248], 6);

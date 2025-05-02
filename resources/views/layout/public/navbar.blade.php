@@ -276,51 +276,80 @@
         <div class="user-account">
             <ul>
                 {{-- if user is not connected or hasrole Administrateur --}}
-                @if (!auth()->check())
-                    <li class="">
-                        <a class="btn theme-btn" data-bs-toggle="modal" data-bs-target="#signin"
-                            href="javascript:void(0)" onclick="$('#share').hide()">
-                            <i class="ti-user" aria-hidden="true"></i> <span>Connexion</span>
-                        </a>
-                    </li>
-                @else
-                    <li class="dropdown">
-                        <a class="btn theme-btn dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                            aria-expanded="false">
-                            {{-- {{ auth()->user()->nom }} {{ auth()->user()->prenom }} --}}
-                            <i class="fa fa-user" aria-hidden="true"></i> <span>Connecté</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('public.my-account') }}">Mon compte</a></li>
-                            @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
-                                <li><a class="dropdown-item" href="{{ route('public.my-business') }}">Mon
-                                        entreprise</a></li>
-                                <li><a class="dropdown-item" href="{{ route('public.annonces.list') }}">Mes
-                                        annonces</a></li>
-                                <li><a class="dropdown-item" href="{{ route('public.my-subscription') }}">Mes
-                                        abonnements</a></li>
-                            @endif
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="{{ route('public.my-favorites') }}">Mes favoris</a></li>
-                            <li><a class="dropdown-item" href="{{ route('public.my-comments') }}">Mes commentaires</a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
-                                <li><a class="dropdown-item" href="{{ route('home') }}">Espace administrateur</a></li>
-                            @endif
-                            <li><a class="dropdown-item" href="{{ route('contact') }}">Contact</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off"
-                                        aria-hidden="true"></i> <span>Me déconnecter</span></a></li>
-                        </ul>
-                    </li>
-                @endif
+                <!-- Desktop User Menu -->
+<li class="dropdown list-none">
+    @if (!auth()->check())
+        <a class="btn user-menu-btn" data-bs-toggle="modal" data-bs-target="#signin"
+            href="javascript:void(0)" onclick="$('#share').hide()">
+            <span class="user-icon"><i class="fa fa-user-circle"></i></span>
+            <span class="d-none d-md-inline">Se connecter</span>
+        </a>
+    @else
+        <a class="btn user-menu-btn dropdown-toggle" data-bs-toggle="dropdown" href="#"
+            role="button" aria-expanded="false" style="background: #de6600;border: none;color: white;">
+            <span class="user-icon"><i class="fa fa-user-circle"></i></span>
+            <span class="d-none d-md-inline">Connecté</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end user-dropdown">
+            <!-- Mobile only header -->
+            <div class="mobile-user-header d-md-none">
+                <h6>Menu utilisateur</h6>
+                <button type="button" class="mobile-close-btn" data-bs-dismiss="dropdown" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Account section -->
+            <div class="dropdown-section-header d-none d-md-block">Compte</div>
+            <li><a class="dropdown-item" href="{{ route('public.my-account') }}">
+                <i class="fa fa-user"></i> Mon compte
+            </a></li>
+            
+            @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
+                <!-- Professional section -->
+                <li><a class="dropdown-item" href="{{ route('public.my-business') }}">
+                    <i class="fa fa-building"></i> Mon entreprise
+                </a></li>
+                <li><a class="dropdown-item" href="{{ route('public.annonces.list') }}">
+                    <i class="fa fa-bullhorn"></i> Mes annonces
+                </a></li>
+                <li><a class="dropdown-item" href="{{ route('public.my-subscription') }}">
+                    <i class="fa fa-credit-card"></i> Mes abonnements
+                </a></li>
+            @endif
+            
+            <li><hr class="dropdown-divider"></li>
+            
+            <!-- Activity section -->
+            <div class="dropdown-section-header d-none d-md-block">Activité</div>
+            <li><a class="dropdown-item" href="{{ route('public.my-favorites') }}">
+                <i class="fa fa-heart"></i> Mes favoris
+            </a></li>
+            <li><a class="dropdown-item" href="{{ route('public.my-comments') }}">
+                <i class="fa fa-comments"></i> Mes commentaires
+            </a></li>
+            
+            <li><hr class="dropdown-divider"></li>
+            
+            <!-- Other section -->
+            @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
+                <li><a class="dropdown-item" href="{{ route('home') }}">
+                    <i class="fa fa-cog"></i> Espace administrateur
+                </a></li>
+            @endif
+            <li><a class="dropdown-item" href="{{ route('contact') }}">
+                <i class="fa fa-envelope"></i> Contact
+            </a></li>
+            
+            <li><hr class="dropdown-divider"></li>
+            
+            <!-- Logout -->
+            <li ><a class="dropdown-item logout-item" href="{{ route('logout') }}">
+                <i class="fa fa-power-off" style="background: #de6600;padding: 6px;border-radius: 50px;color: white;"></i> Me déconnecter
+            </a></li>
+        </ul>
+    @endif
+</li>
             </ul>
         </div>
     </nav>
@@ -344,25 +373,26 @@
 
                 </div>
             </div>
-            <div class="col-6 d-flex justify-content-end">
+            <div class="col-3"></div>
+            <div class="col-3 d-flex justify-content-end" style="gap: 5px;">
 
 
-                <form style="width: 25%; !important;">
+                <form style="width: 135%;">
                     @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
                         <a class="btn add-annonce" id="btn-deposer-annonce" style="padding: 10px 15px; "
                             href="{{ route('public.annonces.create') }}">
-                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-plus"></i>Annonce
                         </a>
                     @elseif (auth()->check() && auth()->user()->hasRole('Usager'))
                         <a class="btn add-annonce" style="padding: 10px 15px;" id="btn-deposer-annonce"
                             href="{{ route('pricing') }}">
-                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-plus"></i>Annonce
                         </a>
                     @else
                         <a class="btn add-annonce" style="padding: 10px 15px;" id="btn-deposer-annonce"
                             data-bs-toggle="modal" data-bs-target="#signin" href="javascript:void(0)"
                             onclick="$('#share').hide()">
-                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-plus"></i>Annonce
                         </a>
                     @endif
                 </form>
@@ -371,10 +401,11 @@
 
                     @if (!auth()->check())
                         <li class="list-none">
-                            <a class="btn theme-btn" style="padding: 10px 15px;" data-bs-toggle="modal"
-                                data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
+                            <a class="btn theme-btn" data-bs-toggle="modal" data-bs-target="#signin"
+                                href="javascript:void(0)" onclick="$('#share').hide()">
                                 <i class="ti-user" aria-hidden="true"></i> <span></span>
                             </a>
+
                         </li>
                     @else
                         <li class="dropdown list-none">
@@ -412,7 +443,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off"
+                                <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off" style="background: #de6600;padding: 6px;border-radius: 50px;color: white;"
                                             aria-hidden="true"></i> <span>Me
                                             déconnecter</span></a></li>
                             </ul>
@@ -435,7 +466,7 @@
     <div class="sidebar-mobile" id="sidebar">
         <div class="p-4">
             <div class="d-flex justify-content-between mb-4">
-                <img style="width: 70px;
+                <img onclick="window.location.href='/'" style="width: 70px;
     height: 70px;
     max-height: 80px;"
                     class="logo logo-scrolled d-inline-block align-text-top"

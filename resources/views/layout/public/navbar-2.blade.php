@@ -289,7 +289,7 @@
 
                 </div>
             </div>
-            <div class="col-2 d-flex justify-content-end">
+            <div class="col-2 d-flex justify-content-end gap-2">
 
                 <a>
                     <i>
@@ -319,7 +319,7 @@
             <div class="d-flex justify-content-between mb-4">
                 <img style="width: 70px;
     height: 70px;
-    max-height: 80px;"
+    max-height: 80px;" onclick="window.location.href='/'"
                     class="logo logo-scrolled d-inline-block align-text-top"
                     src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="">
 

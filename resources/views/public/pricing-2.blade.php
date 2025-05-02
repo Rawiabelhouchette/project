@@ -3,20 +3,19 @@
 @section('title', 'Créer votre entreprise')
 
 @section('content')
-    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/cinet_pay.png') }}) no-repeat center center; background-size:cover;">
-        <div class="container">
-            <div class="title-content">
-                <h1>Abonnement</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route(name: 'accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <a href="{{ route(name: 'pricing') }}">Tarif</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Créer une entreprise</span>
-                </div>
-            </div>
-        </div>
-    </section>
+
+
+
+    @php
+        $breadcrumbs = [
+            ['route' => 'accueil', 'label' => 'Accueil'],
+            ['route' => 'pricing', 'label' => 'Tarif'],
+            ['label' => 'Tarif'],
+        ];
+    @endphp
+
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/cinet_pay.png') }}" :showTitle="true" title="Abonnement"
+        :breadcrumbs="$breadcrumbs" />
 
     <div class="clearfix"></div>
 
@@ -55,7 +54,9 @@
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa fa-building theme-cl"></i></span>
-                                    <input id="company" class="form-control" type="text" placeholder="Nom de votre entreprise" required name="nom_entreprise" value="{{ old('nom_entreprise') }}">
+                                    <input id="company" class="form-control" type="text"
+                                        placeholder="Nom de votre entreprise" required name="nom_entreprise"
+                                        value="{{ old('nom_entreprise') }}">
                                 </div>
                                 @error('nom_entreprise')
                                     <span class="text-danger">{{ $message }}</span>
@@ -155,7 +156,8 @@
             if (countries && countries.length) {
                 $('#country').empty().append('<option value="" disabled selected>Choisissez un pays</option>');
                 $.each(countries, function(index, country) {
-                    $('#country').append($('<option></option>').val(country.id).text(country.nom).attr('data-indicatif', country.indicatif));
+                    $('#country').append($('<option></option>').val(country.id).text(country.nom).attr(
+                        'data-indicatif', country.indicatif));
                 });
             }
 
@@ -167,7 +169,8 @@
                     .filter(country => country.pays_id == selectedCountry)
                     .sort((a, b) => a.nom.localeCompare(b.nom));
 
-                $('#city').empty().append('<option value="" disabled selected>Choisissez une ville</option>');
+                $('#city').empty().append(
+                    '<option value="" disabled selected>Choisissez une ville</option>');
 
                 $.each(cities, function(index, city) {
                     // Handle cities as objects with id and nom properties

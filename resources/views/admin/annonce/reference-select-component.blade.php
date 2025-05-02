@@ -1,16 +1,16 @@
 @props(['title', 'name', 'options', 'required' => false])
 
 <div class="col-md-4 col-xs-12">
-    <div wire:ignore class="px-4">
+    <div wire:ignore style="padding: 0 2rem;">
         <h3 class="">{{ $title }}
             @if ($required)
                 <b style="color: red; font-size: 100%;">*</b>
             @endif
         </h3>
         <h4 style="font-family: 'Poppins', sans-serif;font-weight: normal;font-size: 14px;opacity: 0.5;padding: 1rem 0 3rem 0;">Sélectionnez un élément dans la liste</h4>
-        
-        <div class="custom-select-container" x-data="{ 
-            open: false, 
+
+        <div class="custom-select-container" x-data="{
+            open: false,
             isMobile: window.innerWidth < 768,
             selected: @entangle('$name').defer,
             init() {
@@ -33,14 +33,14 @@
                 return Array.isArray(this.selected) && this.selected.includes(id);
             },
             getSelectedLabels() {
-                return @js($options).filter(option => 
+                return @js($options).filter(option =>
                     Array.isArray(this.selected) && this.selected.includes(option.id)
                 ).map(option => option.valeur);
             }
         }" @click.away="open = false">
             <!-- Selected items display -->
-            <div 
-                class="form-control select-display" 
+            <div
+                class="form-control select-display"
                 @click="open = true"
                 :class="{ 'has-selections': selected && selected.length > 0 }"
             >
@@ -60,8 +60,8 @@
             </div>
 
             <!-- Desktop dropdown -->
-            <div 
-                x-show="open && !isMobile" 
+            <div
+                x-show="open && !isMobile"
                 class="select-dropdown"
                 x-transition:enter="transition ease-out duration-200"
                 x-transition:enter-start="opacity-0 transform scale-95"
@@ -72,8 +72,8 @@
                 style="display: none;"
             >
                 @foreach ($options as $option)
-                    <div 
-                        class="select-option" 
+                    <div
+                        class="select-option"
                         @click.stop="toggleOption({{ $option->id }}); $event.preventDefault();"
                         :class="{ 'selected': isSelected({{ $option->id }}) }"
                     >
@@ -83,8 +83,8 @@
             </div>
 
             <!-- Mobile modal -->
-            <div 
-                x-show="open && isMobile" 
+            <div
+                x-show="open && isMobile"
                 class="select-modal-backdrop"
                 x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0"
@@ -94,7 +94,7 @@
                 x-transition:leave-end="opacity-0"
                 style="display: none;"
             >
-                <div 
+                <div
                     class="select-modal"
                     x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0 transform translate-y-10"
@@ -110,8 +110,8 @@
                     </div>
                     <div class="select-modal-body">
                         @foreach ($options as $option)
-                            <div 
-                                class="select-option" 
+                            <div
+                                class="select-option"
                                 @click.stop="toggleOption({{ $option->id }})"
                                 :class="{ 'selected': isSelected({{ $option->id }}) }"
                             >
