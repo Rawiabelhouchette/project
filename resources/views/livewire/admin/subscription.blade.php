@@ -46,7 +46,7 @@
                     <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>N°</th>
                                         <th>Date Début</th>
                                         <th>Date Fin</th>
                                         <th>Montant</th>
@@ -56,7 +56,7 @@
                                 <tbody>
                                     @forelse($abonnements as $abonnement)
                                         <tr>
-                                            <td>{{ $abonnement->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $abonnement->date_debut->format('d-m-Y H:i:s') }}</td>
                                             <td>{{ $abonnement->date_fin->format('d-m-Y H:i:s') }}</td>
                                             <td>{{ number_format($abonnement->montant, 0, ',', ' ') }}</td>
