@@ -1,10 +1,11 @@
-@props(['annonce', 'mode' => 'row'])
+@props(['annonces', 'mode' => 'row'])
 
 @php
     $containerClass = $mode === 'row' ? 'col-md-4 col-xs-6 property_item' : 'col-12 line-property-item mb-3';
 @endphp
-
+@foreach ($annonces as $annonce)
 <div class="{{ $containerClass }}">
+    
     @if ($mode === 'row')
         {{-- Original Row Mode Layout --}}
         <a class="listing-thumb classical-list" href="{{ route('show', $annonce->slug) }}">
@@ -15,14 +16,13 @@
                     </div>
                 @endif
                 @if ($annonce->image)
-                    <img class="img-responsive"
-                        src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"
-                        alt="{{ $annonce->titre }}"
-                        onerror="this.onerror=null; this.src='https://placehold.co/600';"
-                        style="object-fit: cover; object-position: center; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 10px;">
+                <img class="img-responsive"
+                    src="https://placehold.co/600"
+                    alt="{{ $annonce->titre }}"
+                    wire:ignore>
                 @else
-                    <img class="img-responsive" src="https://placehold.co/600x400"
-                        alt="{{ $annonce->titre }}">
+                    <img class="img-responsive" src="https://placehold.co/600"
+                        alt="latest property">
                 @endif
                 <div class="listing-price-info">
                     <span class="pricetag">{{ $annonce->type }}</span>
@@ -59,22 +59,22 @@
                         </h4>
                     </div>
                 </div>
-                <div class="image-listing-content">>
-                @if (Auth::check())
-                    @if ($annonce->est_favoris)
-                        <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
-                            <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                        </a>
+                <div class="image-listing-content">
+                    @if (Auth::check())
+                        @if ($annonce->est_favoris)
+                            <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                                <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                            </a>
+                        @else
+                            <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                                <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                            </a>
+                        @endif
                     @else
-                        <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
                             <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                         </a>
                     @endif
-                @else
-                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
-                        <span class="like-listing alt style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                    </a>
-                @endif
                 </div>
                 <div class="list-fx-features">
                     <div class="d-flex justify-content-between align-items-center w-100">
@@ -159,30 +159,39 @@
                         </div>
 
                         <div class="line-actions">
-                            <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share"
+
+                            @if (isset($annonce->prix_min) && isset($annonce->prix_max))
+                                <div class="line-price-range">
+                                    ${{ $annonce->prix_min }} - ${{ $annonce->prix_max }}
+                                </div>
+                            @endif
+                            
+                            <a href="javascript:void(0)" class="btn btn-sm btn-light" style="padding: 8px 10px;     color: #de6600;    border: 1px solid #de6600;" data-toggle="modal" data-target="#share" 
                             onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
                                 <i class="fa fa-share-alt theme-cl"></i>
                             </a>
+
                             @if (Auth::check())
                                 @if ($annonce->est_favoris)
                                     <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
-                                        <span class="btn btn-sm theme-bg text-white" style="padding: 8px 10px;border: 0;"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                        <span class="btn btn-sm theme-bg" style="padding: 8px 10px; border: 0;"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                     </a>
                                 @else
                                     <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
-                                        <span class="btn btn-sm btn-light btn-inactive" style="padding: 8px 10px;border: 0;"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                        <span class="btn btn-sm btn-light btn-inactive " style="padding: 8px 10px;     border: 1px solid #de6600;     color: #de6600;"><i class="fa fa-heart-o"></i></span>
                                     </a>
                                 @endif
-                            @else
-                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
-                                    <span class="btn btn-sm btn-light btn-inactive" style="padding: 8px 10px;border: 0;"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                </a>
-                            @endif
+                                @else
+                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
+                                        <span class="btn btn-sm btn-light btn-inactive" style="padding: 8px 10px;     color: #de6600;    border: 1px solid #de6600;"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                    </a>
+                                @endif
                         </div>
+
                     </div>
                 </div>
             </div>
         </a>
     @endif
 </div>
-
+@endforeach
