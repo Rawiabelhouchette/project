@@ -7,7 +7,7 @@
                 <h3 class="">Image à la une
                     <b style="color: red; font-size: 100%;">*</b>
                 </h3>
-                <h4>Choisissez une image principale pour votre annonce</h4>
+                <h4>Choisissez une image principale pour votre annonce (.jpeg, .png, .jpg, .heic)</h4>
             </div>
         </div>
         <div class="row">
@@ -24,8 +24,7 @@
                 </label>
             </div>
         </div>
-        <input id="upload-image" type="file" style="display: none;" wire:model="image" accept="image/*" name="image"
-            required> <br>
+        <input id="upload-image" type="file" style="display: none;" wire:model="image" accept="image/jpeg,image/png,image/jpg,image/heic" name="image" required> <br>
         <div class="text-center gallery-box">
             <div class="row">
                 <div class="col-md-3 padd-bot-0">
@@ -52,7 +51,7 @@
         <div class="row">
             <div class="col col-md-12" style="padding-left: 0; padding-right: 0;">
                 <h3 class="">Galérie</h3>
-                <h4>Ajoutez des images pour votre annonce</h4>
+                <h4>Ajoutez des images pour votre annonce (.jpeg, .png, .jpg, .heic)</h4>
             </div>
             <div class="col-md-4" style="padding-left: 0; padding-right: 0;">
                 <label class="btn btn-sm theme-btn" for="upload" style="padding: 6px">
@@ -66,7 +65,7 @@
                     &nbsp; &nbsp;
                 </label>
                 <input id="upload" type="file" style="display: none;" wire:model="selected_images" name="images"
-                    accept="image/*" multiple> <br>
+                accept="image/jpeg,image/png,image/jpg,image/heic" multiple> <br>
             </div>
             <div class="col-md-4">
                 @if (count($galerie) != 0)
