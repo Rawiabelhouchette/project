@@ -51,8 +51,7 @@
             </span>
         </div>
         <div class="col-12 col-md-4 mb-md-0 mb-2 p-0">
-            <select class="form-control custom-field-filter" wire:model.live="type"
-                style="padding-top: 0; padding-bottom: 0;">
+            <select class="form-control custom-field-filter" wire:model.live="type" style="padding-top: 0; padding-bottom: 0;">
                 <option value="">Tous les types</option>
                 @foreach ($types as $type)
                     <option value="{{ $type->valeur }}">{{ $type->nom }}</option>
@@ -60,16 +59,14 @@
             </select>
         </div>
         <div class="col-12 col-md-4 mb-md-0 mb-2">
-            <select class="form-control custom-field-filter" wire:model.live="is_published"
-                style="padding-top: 0; padding-bottom: 0;">
+            <select class="form-control custom-field-filter" wire:model.live="is_published" style="padding-top: 0; padding-bottom: 0;">
                 <option value="">Toutes les annonces</option>
                 <option value="1">Annonces publiées</option>
                 <option value="0">Annonces non publiées</option>
             </select>
         </div>
         <div class="col-12 col-md-4 p-0">
-            <input id="favorite_search" class="form-control custom-field-filter" type="search" value=""
-                placeholder="Rechercher" wire:model.live.debounce.500ms='search'>
+            <input id="favorite_search" class="form-control custom-field-filter" type="search" value="" placeholder="Rechercher" wire:model.live.debounce.500ms='search'>
         </div>
     </div>
     <div class="card">
@@ -87,11 +84,9 @@
                                     <div class="listing-shot-img">
                                         <a href="{{ route('show', $annonce->slug) }}">
                                             @if ($annonce->image)
-                                                <img class="img-responsive" src="https://placehold.co/600"
-                                                    alt="">
+                                                <img class="img-responsive" src="https://placehold.co/600" alt="">
                                             @else
-                                                <img class="img-responsive" src="http://via.placeholder.com/800x800"
-                                                    alt="">
+                                                <img class="img-responsive" src="http://via.placeholder.com/800x800" alt="">
                                             @endif
                                         </a>
                                         @if ($annonce->is_active && $annonce->date_validite >= now())
@@ -109,15 +104,11 @@
                                             <h4>{{ Str::limit($annonce->titre, 24, '...') }}</h4>
                                             <span class="listing-location">{{ $annonce->description_courte }}</span>
                                         </a>
-                                        <a class="listing-shot-edit"
-                                            href="{{ $annonce->annonceable->public_edit_url ?? '#' }}">
-                                            <span class="like-listing alt style-2" style="right: 50px;"><i
-                                                    class="fa fa-trash" aria-hidden="true"></i></span>
+                                        <a class="listing-shot-edit" wire:confirm="Êtes-vous sûr de vouloir supprimer cette annonce ?" wire:click="delete({{ $annonce->id }})" href="javascript:void(0)">
+                                            <span class="like-listing alt style-2" style="right: 50px;"><i class="fa fa-trash" aria-hidden="true"></i></span>
                                         </a>
-                                        <a class="listing-shot-edit"
-                                            href="{{ $annonce->annonceable->public_edit_url ?? '#' }}">
-                                            <span class="like-listing alt style-2" style="right: 5px;"><i
-                                                    class="fa fa-pencil" aria-hidden="true"></i></span>
+                                        <a class="listing-shot-edit" href="{{ $annonce->annonceable->public_edit_url ?? '#' }}">
+                                            <span class="like-listing alt style-2" style="right: 5px;"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                                         </a>
                                     </div>
                                     <div class="listing-price-info">
@@ -156,8 +147,7 @@
                                             </div>
                                             <div class="text-center">
                                                 @for ($i = 1; $i <= 5; $i++)
-                                                    <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star"
-                                                        aria-hidden="true"></i>
+                                                    <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
                                                 @endfor
                                                 &nbsp;&nbsp;
                                                 {{ $annonce->note }}

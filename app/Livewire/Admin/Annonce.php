@@ -20,6 +20,20 @@ class Annonce extends Component
     public $types;
     public $type;
 
+    public function delete($id)
+    {
+        $annonce = User::find(auth()->user()->id)->annonces()->find($id);
+        if ($annonce) {
+            $annonce->annonceable->delete();
+            $annonce->delete();
+            $this->dispatch('swal:modal', [
+                'icon' => 'success',
+                'title' => __('Annonce supprimée avec succès'),
+                'message' => __('L\'annonce a été supprimée avec succès.'),
+            ]);
+        }
+    }
+
     public function render()
     {
         $this->types = AnnoncesUtils::getFilterAnnonceTypeList();
