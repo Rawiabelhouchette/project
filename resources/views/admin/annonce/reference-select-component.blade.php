@@ -130,7 +130,7 @@
                 class="hidden-select" 
                 multiple 
                 name="{{ $name }}[]" 
-                @if ($required) required @endif
+                {{-- @if ($required) required @endif --}}
                 x-model="selected"
             >
                 @foreach ($options as $option)

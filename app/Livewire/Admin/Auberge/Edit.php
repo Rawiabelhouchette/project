@@ -6,6 +6,7 @@ use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -18,7 +19,7 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit;
+    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
 
     public $auberge;
     public $is_active;
@@ -162,12 +163,18 @@ class Edit extends Component
             'nombre_chambre' => 'nullable|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'types_lit' => 'nullable',
+
             'commodites' => 'nullable',
             'services' => 'nullable',
+
+            'types_lit' => 'required|array',
+            'types_lit.*' => 'required|exists:reference_valeurs,id',
+
+            'equipements_cuisine' => 'required|array',
+            'equipements_cuisine.*' => 'required|exists:reference_valeurs,id',
+
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
-            'equipements_cuisine' => 'nullable',
 
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
@@ -195,6 +202,28 @@ class Edit extends Component
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
 
+            'description.min' => 'La description doit contenir au moins 3 caractères',
+
+            'nombre_chambre.numeric' => 'Le nombre de chambres doit être un nombre',
+            'nombre_personne.numeric' => 'Le nombre de personnes doit être un nombre',
+            'nombre_salles_bain.numeric' => 'Le nombre de salles de bain doit être un nombre',
+            'superficie.numeric' => 'La superficie doit être un nombre',
+
+            'types_lit.required' => 'Le type de lit est obligatoire',
+            'types_lit.array' => 'Format des types de lit invalide',
+            'types_lit.*.required' => 'Le type de lit est obligatoire',
+            'types_lit.*.exists' => 'Le type de lit sélectionné n\'existe pas',
+
+            'equipements_cuisine.required' => 'L\'équipement de cuisine est obligatoire',
+            'equipements_cuisine.array' => 'Format des équipements de cuisine invalide',
+            'equipements_cuisine.*.required' => 'L\'équipement de cuisine est obligatoire',
+            'equipements_cuisine.*.exists' => 'L\'équipement de cuisine sélectionné n\'existe pas',
+
+            'equipements_herbegement.array' => 'Format des équipements d\'hébergement invalide',
+            'equipements_salle_bain.array' => 'Format des équipements de salle de bain invalide',
+            'commodites.array' => 'Format des commodités invalide',
+            'services.array' => 'Format des services invalide',
+
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
@@ -216,6 +245,7 @@ class Edit extends Component
             'galerie.*.max' => 'Le fichier ne doit pas dépasser 5 Mo',
             'galerie.max' => 'Vous ne pouvez pas charger plus de :max images',
             'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
+            'galerie.array' => 'Format de la galerie invalide',
         ];
     }
 
@@ -241,7 +271,9 @@ class Edit extends Component
 
     public function update()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         try {
             DB::beginTransaction();

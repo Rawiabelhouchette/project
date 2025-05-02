@@ -11,16 +11,18 @@ use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate;
+    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
 
     public $nom;
     public $type;
@@ -64,6 +66,7 @@ class Create extends Component
 
     public $image;
     public $galerie = [];
+    public $errorMessage = null;
 
     public function mount()
     {
@@ -74,6 +77,7 @@ class Create extends Component
     {
         if (\Auth::user()->hasRole('Professionnel')) {
             $this->entreprises = \Auth::user()->entreprises;
+            $this->entreprise_id = $this->entreprises->first()->id;
         } else {
             $this->entreprises = Entreprise::all();
         }
@@ -142,12 +146,17 @@ class Create extends Component
             'nombre_chambre' => 'nullable|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'types_lit' => 'nullable',
+
+            'types_lit' => 'required|array',
+            'types_lit.*' => 'required|exists:reference_valeurs,id',
+
+            'equipements_cuisine' => 'required|array',
+            'equipements_cuisine.*' => 'required|exists:reference_valeurs,id',
+
             'commodites' => 'nullable',
             'services' => 'nullable',
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
-            'equipements_cuisine' => 'nullable',
 
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
@@ -171,6 +180,22 @@ class Create extends Component
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
             'nom.required' => 'Le nom est obligatoire',
+            'nom.string' => 'Le nom doit être une chaîne de caractères',
+            'nom.min' => 'Le nom doit contenir au moins :min caractères',
+            'description.min' => 'La description doit contenir au moins :min caractères',
+            'nombre_chambre.numeric' => 'Le nombre de chambres doit être un nombre',
+            'nombre_personne.numeric' => 'Le nombre de personnes doit être un nombre',
+            'superficie.numeric' => 'La superficie doit être un nombre',
+            
+            'types_lit.required' => 'Le type de lit est obligatoire',
+            'types_lit.array' => 'Le format des types de lit est invalide',
+            'types_lit.*.exists' => 'Un type de lit sélectionné n\'existe pas',
+            'types_lit.*.required' => 'Veuillez sélectionner un type de lit valide',
+            
+            'equipements_cuisine.required' => 'Les équipements de cuisine sont obligatoires',
+            'equipements_cuisine.array' => 'Le format des équipements de cuisine est invalide',
+            'equipements_cuisine.*.exists' => 'Un équipement de cuisine sélectionné n\'existe pas',
+            'equipements_cuisine.*.required' => 'Veuillez sélectionner un équipement de cuisine valide',
 
             'image.required' => 'L\'image est obligatoire',
             'image.image' => 'Le fichier doit être une image',
@@ -192,8 +217,13 @@ class Create extends Component
             'ville_id.required' => 'La ville est obligatoire',
             'ville_id.exists' => 'La ville n\'existe pas',
             'quartier_id.required' => 'Le quartier est obligatoire',
+            'quartier_id.string' => 'Le quartier doit être une chaîne de caractères',
+            'quartier_id.max' => 'Le quartier ne doit pas dépasser :max caractères',
 
             'longitude.required' => 'La localisation est obligatoire.',
+            'latitude.required' => 'La localisation est obligatoire.',
+            'longitude.string' => 'La longitude doit être une chaîne de caractères',
+            'latitude.string' => 'La latitude doit être une chaîne de caractères',
         ];
     }
 
@@ -219,7 +249,9 @@ class Create extends Component
 
     public function store()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         try {
             DB::beginTransaction();
