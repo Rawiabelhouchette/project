@@ -8,6 +8,7 @@ use App\Models\Modele;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -20,7 +21,7 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit;
+    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
 
     public $nom;
     public $type;
@@ -113,6 +114,7 @@ class Edit extends Component
     {
         if (\Auth::user()->hasRole('Professionnel')) {
             $this->entreprises = \Auth::user()->entreprises;
+            $this->entreprise_id = $this->entreprises->first()->id;
         } else {
             $this->entreprises = Entreprise::all();
         }
@@ -161,8 +163,8 @@ class Edit extends Component
             'boite_vitesse' => 'nullable|string|exists:reference_valeurs,valeur',
             'nombre_portes' => 'required|integer|min:1|max:20',
             'nombre_places' => 'nullable|integer|min:0|max:100',
-            'types_vehicule' => 'nullable|array',
-            'types_vehicule.*' => 'nullable|integer|exists:reference_valeurs,id',
+            'types_vehicule' => 'required|array',
+            'types_vehicule.*' => 'required|integer|exists:reference_valeurs,id',
             'equipements_vehicule' => 'nullable|array',
             'equipements_vehicule.*' => 'nullable|integer|exists:reference_valeurs,id',
             'conditions_location' => 'nullable|array',
@@ -197,6 +199,12 @@ class Edit extends Component
             'modele_id.required' => __('Veuillez choisir un modèle'),
             'modele_id.integer' => __('Modèle invalide'),
             'modele_id.exists' => __('Modèle invalide'),
+
+            'types_vehicule.required' => __('Type de véhicule obligatoire'),
+            'types_vehicule.array' => __('Format des types de véhicule invalide'),
+            'types_vehicule.*.required' => __('Type de véhicule invalide'),
+            'types_vehicule.*.integer' => __('Type de véhicule invalide'),
+            'types_vehicule.*.exists' => __('Type de véhicule invalide'),
 
             'annee.integer' => __('Année invalide'),
             'annee.min' => __('L\'année doit être supérieure ou égale à :min'),
@@ -261,7 +269,9 @@ class Edit extends Component
 
     public function update()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         try {
             DB::beginTransaction();

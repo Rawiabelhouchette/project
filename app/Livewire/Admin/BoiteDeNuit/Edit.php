@@ -6,6 +6,7 @@ use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -18,7 +19,7 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit;
+    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
 
     public $nom;
     public $type;
@@ -191,7 +192,9 @@ class Edit extends Component
 
     public function update()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         try {
             DB::beginTransaction();
@@ -207,7 +210,6 @@ class Edit extends Component
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
             ]);
-
 
             // $this->boiteDeNuit->update([]);
 

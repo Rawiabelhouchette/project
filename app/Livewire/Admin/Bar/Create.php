@@ -11,6 +11,7 @@ use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Log;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate;
+    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
 
     public $nom;
     public $type;
@@ -30,8 +31,8 @@ class Create extends Component
     public $type_bar;
     public $capacite_accueil;
 
-    public $prix_min = 0;
-    public $prix_max = 0;
+    public $prix_min;
+    public $prix_max;
 
     public $equipements_vie_nocturne = [];
     public $list_equipements_vie_nocturne = [];
@@ -66,6 +67,7 @@ class Create extends Component
     {
         if (\Auth::user()->hasRole('Professionnel')) {
             $this->entreprises = \Auth::user()->entreprises;
+            $this->entreprise_id = $this->entreprises->first()->id; 
         } else {
             $this->entreprises = Entreprise::all();
         }
@@ -205,7 +207,9 @@ class Create extends Component
 
     public function store()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         try {
             DB::beginTransaction();

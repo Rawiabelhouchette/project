@@ -163,12 +163,16 @@ class Edit extends Component
             'nombre_chambre' => 'nullable|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'types_lit' => 'nullable',
             'commodites' => 'nullable',
             'services' => 'nullable',
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
-            'equipements_cuisine' => 'nullable',
+
+            'types_lit' => 'required|array',
+            'types_lit.*' => 'required|exists:reference_valeurs,id',
+
+            'equipements_cuisine' => 'required|array',
+            'equipements_cuisine.*' => 'required|exists:reference_valeurs,id',
 
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
@@ -229,7 +233,9 @@ class Edit extends Component
 
     public function update()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         try {
             DB::beginTransaction();

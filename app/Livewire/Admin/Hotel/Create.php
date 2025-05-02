@@ -11,6 +11,7 @@ use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,7 +21,7 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate;
+    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
 
     public $nom;
     public $type;
@@ -71,6 +72,7 @@ class Create extends Component
     {
         if (\Auth::user()->hasRole('Professionnel')) {
             $this->entreprises = \Auth::user()->entreprises;
+            $this->entreprise_id = $this->entreprises->first()->id;
         } else {
             $this->entreprises = Entreprise::all();
         }
@@ -140,12 +142,17 @@ class Create extends Component
             'nombre_chambre' => 'nullable|numeric',
             'nombre_personne' => 'nullable|numeric',
             'superficie' => 'nullable|numeric',
-            'types_lit' => 'nullable',
+
+            'types_lit' => 'required|array',
+            'types_lit.*' => 'required|exists:reference_valeurs,id',
+
+            'equipements_cuisine' => 'required|array',
+            'equipements_cuisine.*' => 'required|exists:reference_valeurs,id',
+
             'commodites' => 'nullable',
             'services' => 'nullable',
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
-            'equipements_cuisine' => 'nullable',
 
             'prix_min' => 'nullable|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
@@ -180,6 +187,16 @@ class Create extends Component
             'ville_id.required' => 'La ville est obligatoire',
             'ville_id.exists' => 'La ville n\'existe pas',
             'quartier_id.required' => 'Le quartier est obligatoire',
+
+            'types_lit.required' => 'Le type de lit est obligatoire',
+            'types_lit.array' => 'Le format des types de lit est invalide',
+            'types_lit.*.exists' => 'Un type de lit sélectionné n\'existe pas',
+            'types_lit.*.required' => 'Veuillez sélectionner un type de lit valide',
+
+            'equipements_cuisine.required' => 'Les équipements de cuisine sont obligatoires',
+            'equipements_cuisine.array' => 'Le format des équipements de cuisine est invalide',
+            'equipements_cuisine.*.exists' => 'Un équipement de cuisine sélectionné n\'existe pas',
+            'equipements_cuisine.*.required' => 'Veuillez sélectionner un équipement de cuisine valide',
 
             'longitude.required' => 'La localisation est obligatoire.',
 
@@ -217,7 +234,9 @@ class Create extends Component
 
     public function store()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         try {
             DB::beginTransaction();

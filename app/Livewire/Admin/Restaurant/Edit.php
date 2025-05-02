@@ -3,14 +3,13 @@
 namespace App\Livewire\Admin\Restaurant;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
-use App\Models\Annonce;
 use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
-use App\Models\Restaurant;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use App\Utils\Utils;
 use Livewire\Attributes\On;
@@ -21,7 +20,7 @@ use Illuminate\Support\Facades\Log;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit;
+    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
 
     public $restaurant;
     public $is_active;
@@ -460,8 +459,9 @@ class Edit extends Component
 
     public function update()
     {
-        $this->validate();
-
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         if (!$this->checkUniqueEntree(true) || !$this->checkUniquePlat(true) || !$this->checkUniqueDessert(true)) {
             return;

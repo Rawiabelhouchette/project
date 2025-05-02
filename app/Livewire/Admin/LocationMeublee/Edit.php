@@ -6,6 +6,7 @@ use App\Livewire\Admin\AnnonceBaseEdit;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -18,7 +19,7 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit;
+    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
 
     public $locationMeublee;
     public $is_active;
@@ -109,6 +110,7 @@ class Edit extends Component
     {
         if (\Auth::user()->hasRole('Professionnel')) {
             $this->entreprises = \Auth::user()->entreprises;
+            $this->entreprise_id = $this->entreprises->first()->id;
         } else {
             $this->entreprises = Entreprise::all();
         }
@@ -242,7 +244,9 @@ class Edit extends Component
 
     public function update()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         try {
             DB::beginTransaction();

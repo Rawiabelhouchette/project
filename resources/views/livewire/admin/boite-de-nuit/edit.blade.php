@@ -80,14 +80,15 @@
                     'name' => 'equipements_vie_nocturne',
                     'options' => $list_equipements_vie_nocturne,
                 ])
-            </div>
-
-            <div class="row align-items-start">
+                
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Commodités',
                     'name' => 'commodites',
                     'options' => $list_commodites,
                 ])
+            </div>
+
+            <div class="row align-items-start">
 
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Services proposés',

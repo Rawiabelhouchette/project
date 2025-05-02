@@ -11,6 +11,7 @@ use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Restaurant;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use App\Utils\Utils;
 use Livewire\Attributes\On;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Log;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate;
+    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
 
     public $nom;
     public $type;
@@ -122,6 +123,7 @@ class Create extends Component
     {
         if (\Auth::user()->hasRole('Professionnel')) {
             $this->entreprises = \Auth::user()->entreprises;
+            $this->entreprise_id = $this->entreprises->first()->id;
         } else {
             $this->entreprises = Entreprise::all();
         }
@@ -157,32 +159,8 @@ class Create extends Component
             'nom' => 'required|string|min:3',
             'description' => 'nullable|string|min:3',
             'entreprise_id' => 'required|integer|exists:entreprises,id',
-            // 'e_nom' => 'required|string|min:3',
-            // 'e_ingredients' => 'nullable|string|min:3',
-            // 'e_prix_min' => 'nullable|integer|min:0|lte:e_prix_max',
-            // 'e_prix_max' => 'nullable|integer|min:0',
-            // 'p_nom' => 'required|string|min:3',
-            // 'p_ingredients' => 'nullable|string|min:3',
-            // 'p_prix_min' => 'nullable|integer|min:0|lte:p_prix_max',
-            // 'p_prix_max' => 'nullable|integer|min:0',
-            // 'd_nom' => 'required|string|min:3',
-            // 'd_ingredients' => 'nullable|string|min:3',
-            // 'd_prix_min' => 'nullable|integer|min:0|lte:d_prix_max',
-            // 'd_prix_max' => 'nullable|integer|min:0',
-            // 'equipements_restauration' => 'nullable|array',
-            // 'equipements_restauration.*' => 'nullable|integer|exists:reference_valeurs,id',
-            // 'specialites' => 'nullable|array',
-            // 'specialites.*' => 'nullable|integer|exists:reference_valeurs,id',
-            // 'carte_consommation' => 'nullable|array',
-            // 'carte_consommation.*' => 'nullable|integer|exists:reference_valeurs,id',
 
             'entrees' => 'required|array|min:1',
-            // 'entrees.*.nom' => 'required|string|min:3',
-            // 'entrees.*.ingredients' => 'nullable|string|min:3',
-            // 'entrees.*.prix_min' => 'required|integer|min:0',
-            // 'entrees.*.prix_max' => 'required|integer|min:0',
-            // 'entrees.*.image' => 'required|image',
-
 
             'services' => 'nullable',
 
@@ -206,36 +184,6 @@ class Create extends Component
             'entreprise_id.required' => 'L\'entreprise est obligatoire.',
             'entreprise_id.integer' => 'L\'entreprise doit être un entier.',
             'entreprise_id.exists' => 'L\'entreprise sélectionnée n\'existe pas.',
-            'e_nom.required' => 'Le nom de l\'entrée est obligatoire.',
-            'e_nom.string' => 'Le nom de l\'entrée doit être une chaîne de caractères.',
-            'e_nom.min' => 'Le nom de l\'entrée doit contenir au moins :min caractères.',
-            'e_ingredients.string' => 'Les ingrédients de l\'entrée doivent être une chaîne de caractères.',
-            'e_ingredients.min' => 'Les ingrédients de l\'entrée doivent contenir au moins :min caractères.',
-            'e_prix_min.integer' => 'Le prix minimum de l\'entrée doit être un entier.',
-            'e_prix_min.min' => 'Le prix minimum de l\'entrée doit être au moins :min.',
-            'e_prix_min.lte' => 'Le prix minimum de l\'entrée doit être inférieur ou égal au prix maximum.',
-            'e_prix_max.integer' => 'Le prix maximum de l\'entrée doit être un entier.',
-            'e_prix_max.min' => 'Le prix maximum de l\'entrée doit être au moins :min.',
-            'p_nom.required' => 'Le nom du plat est obligatoire.',
-            'p_nom.string' => 'Le nom du plat doit être une chaîne de caractères.',
-            'p_nom.min' => 'Le nom du plat doit contenir au moins :min caractères.',
-            'p_ingredients.string' => 'Les ingrédients du plat doivent être une chaîne de caractères.',
-            'p_ingredients.min' => 'Les ingrédients du plat doivent contenir au moins :min caractères.',
-            'p_prix_min.integer' => 'Le prix minimum du plat doit être un entier.',
-            'p_prix_min.min' => 'Le prix minimum du plat doit être au moins :min.',
-            'p_prix_min.lte' => 'Le prix minimum du plat doit être inférieur ou égal au prix maximum.',
-            'p_prix_max.integer' => 'Le prix maximum du plat doit être un entier.',
-            'p_prix_max.min' => 'Le prix maximum du plat doit être au moins :min.',
-            'd_nom.required' => 'Le nom du dessert est obligatoire.',
-            'd_nom.string' => 'Le nom du dessert doit être une chaîne de caractères.',
-            'd_nom.min' => 'Le nom du dessert doit contenir au moins :min caractères.',
-            'd_ingredients.string' => 'Les ingrédients du dessert doivent être une chaîne de caractères.',
-            'd_ingredients.min' => 'Les ingrédients du dessert doivent contenir au moins :min caractères.',
-            'd_prix_min.integer' => 'Le prix minimum du dessert doit être un entier.',
-            'd_prix_min.min' => 'Le prix minimum du dessert doit être au moins :min.',
-            'd_prix_min.lte' => 'Le prix minimum du dessert doit être inférieur ou égal au prix maximum.',
-            'd_prix_max.integer' => 'Le prix maximum du dessert doit être un entier.',
-            'd_prix_max.min' => 'Le prix maximum du dessert doit être au moins :min.',
             'equipements_restauration.array' => 'Les équipements de restauration doivent être un tableau.',
             'equipements_restauration.*.integer' => 'Les équipements de restauration doivent être des entiers.',
             'equipements_restauration.*.exists' => 'Les équipements de restauration sélectionnés sont invalides.',
@@ -451,7 +399,9 @@ class Create extends Component
 
     public function store()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         $separator = Utils::getRestaurantValueSeparator();
         $separator2 = Utils::getRestaurantImageSeparator();

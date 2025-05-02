@@ -11,6 +11,7 @@ use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use App\Utils\Utils;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate;
+    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
 
     public $nom;
     public $type;
@@ -81,6 +82,7 @@ class Create extends Component
     {
         if (\Auth::user()->hasRole('Professionnel')) {
             $this->entreprises = \Auth::user()->entreprises;
+            $this->entreprise_id = $this->entreprises->first()->id; 
         } else {
             $this->entreprises = Entreprise::all();
         }
@@ -236,7 +238,9 @@ class Create extends Component
 
     public function store()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         $separator = Utils::getRestaurantValueSeparator();
         $separator2 = Utils::getRestaurantImageSeparator();

@@ -13,6 +13,7 @@ use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +23,7 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate;
+    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
 
     public $nom;
     public $type;
@@ -77,6 +78,7 @@ class Create extends Component
     {
         if (\Auth::user()->hasRole('Professionnel')) {
             $this->entreprises = \Auth::user()->entreprises;
+            $this->entreprise_id = $this->entreprises->first()->id;
         } else {
             $this->entreprises = Entreprise::all();
         }
@@ -126,8 +128,10 @@ class Create extends Component
             'boite_vitesses' => 'nullable|string|exists:reference_valeurs,valeur',
             'nombre_portes' => 'nullable|integer|min:0|max:20',
             'nombre_places' => 'nullable|integer|min:0|max:100',
-            'types_vehicule' => 'nullable|array',
-            'types_vehicule.*' => 'nullable|integer|exists:reference_valeurs,id',
+
+            'types_vehicule' => 'required|array',
+            'types_vehicule.*' => 'required|integer|exists:reference_valeurs,id',
+
             'equipements_vehicule' => 'nullable|array',
             'equipements_vehicule.*' => 'nullable|integer|exists:reference_valeurs,id',
             'conditions_location' => 'nullable|array',
@@ -182,13 +186,38 @@ class Create extends Component
             'nombre_portes.integer' => __('Nombre de portes invalide'),
             'nombre_portes.min' => __('Le nombre de portes doit être supérieur ou égal à :min'),
             'nombre_portes.max' => __('Le nombre de portes doit être inférieur ou égal à :max'),
+
+            'nombre_places.integer' => __('Nombre de places invalide'),
+            'nombre_places.min' => __('Le nombre de places doit être supérieur ou égal à :min'),
+            'nombre_places.max' => __('Le nombre de places doit être inférieur ou égal à :max'),
+
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',
             'ville_id.required' => 'La ville est obligatoire',
             'ville_id.exists' => 'La ville n\'existe pas',
             'quartier_id.required' => 'Le quartier est obligatoire',
+            'quartier_id.string' => __('Format du quartier invalide'),
+            'quartier_id.max' => __('Le quartier ne doit pas dépasser :max caractères'),
 
             'longitude.required' => 'La localisation est obligatoire.',
+            'longitude.string' => __('Format de la longitude invalide'),
+
+            'latitude.required' => __('La localisation est obligatoire'),
+            'latitude.string' => __('Format de la latitude invalide'),
+
+            'types_vehicule.required' => __('Type de véhicule obligatoire'),
+            'types_vehicule.array' => __('Format des types de véhicule invalide'),
+            'types_vehicule.*.required' => __('Type de véhicule invalide'),
+            'types_vehicule.*.integer' => __('Type de véhicule invalide'),
+            'types_vehicule.*.exists' => __('Type de véhicule invalide'),
+
+            'equipements_vehicule.array' => __('Format des équipements invalide'),
+            'equipements_vehicule.*.integer' => __('Équipement invalide'),
+            'equipements_vehicule.*.exists' => __('Équipement invalide'),
+
+            'conditions_location.array' => __('Format des conditions de location invalide'),
+            'conditions_location.*.integer' => __('Condition de location invalide'),
+            'conditions_location.*.exists' => __('Condition de location invalide'),
 
             'image.required' => 'L\'image est obligatoire',
             'image.image' => 'Le fichier doit être une image',
@@ -230,7 +259,9 @@ class Create extends Component
 
     public function store()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         try {
             DB::beginTransaction();

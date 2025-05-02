@@ -3,14 +3,13 @@
 namespace App\Livewire\Admin\Patisserie;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
-use App\Models\Annonce;
-use App\Models\Patisserie;
 use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use App\Utils\Utils;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +20,7 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit;
+    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
 
     public $patisserie;
     public $is_active;
@@ -280,7 +279,9 @@ class Edit extends Component
 
     public function update()
     {
-        $this->validate();
+        if (!$this->validateWithCustom()) {
+            return;
+        }
 
         if (!$this->checkUniqueProduit(true)) {
             return;
