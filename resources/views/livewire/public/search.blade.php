@@ -159,8 +159,15 @@
                         <div class="col-md-12 col-sm-12" wire:loading.delay wire:transition>
                             @include('components.public.loader')
                         </div>
-                        <div class="row">
-                                <x-public.property-item :annonces="$annonces" :mode="$viewMode" />
+                        <style>
+                            .property-grid {
+                                display: flex;
+                                flex-wrap: wrap;
+                                margin: 0 -10px; /* Negative margin to offset the padding */
+                            }
+                        </style>
+                        <div class="property-grid">
+                            <x-public.property-item :annonces="$annonces" :mode="$viewMode" />
                         </div>
                         <div id="annonces-zone" class="row mt-5 p-0" >
 
@@ -201,6 +208,8 @@
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
 </div>
+
+
 
 
 

@@ -158,12 +158,12 @@
                             <div class="mobile-card-body">
                                 <div>
                                     <div class="mobile-card-label">Date Début</div>
-                                    <div class="mobile-card-value">{{ $abonnement->date_debut->format('d-m-Y H:i:s') }}
+                                    <div class="mobile-card-value">{{ $abonnement->date_debut->format('d-m-Y') }}
                                     </div>
                                 </div>
                                 <div>
                                     <div class="mobile-card-label">Date Fin</div>
-                                    <div class="mobile-card-value">{{ $abonnement->date_fin->format('d-m-Y H:i:s') }}
+                                    <div class="mobile-card-value">{{ $abonnement->date_fin->format('d-m-Y') }}
                                     </div>
                                 </div>
 
