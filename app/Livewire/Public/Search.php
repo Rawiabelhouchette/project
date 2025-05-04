@@ -5,16 +5,21 @@ namespace App\Livewire\Public;
 use App\Models\Annonce;
 use App\Models\Entreprise;
 use App\Models\Favoris;
+use App\Models\LocationMeublee;
+use App\Models\Marque;
+use App\Models\LocationVehicule;
+use App\Models\Modele;
 use App\Models\Quartier;
 use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use App\Utils\CustomSession;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Composant Livewire pour la recherche d'annonces
- * 
+ *
  * Cette classe gère la recherche d'annonces avec différents filtres (type, ville, quartier, entreprise)
  * et affiche les résultats avec pagination.
  */
@@ -37,6 +42,15 @@ class Search extends Component
     public $quartier = [];
     public $entreprise = [];
 
+    public $marque = [];
+
+    public $boiteVitesse = [];
+
+    public $nombrePersonne = [];
+
+    public $typeVehicule = [];
+
+
     // Tri
     public $column = '';
     public $direction = '';
@@ -48,11 +62,27 @@ class Search extends Component
     public string $quartierFilterValue = '';
     public string $entrepriseFilterValue = '';
 
+    public string $marqueFilterValue = '';
+
+    public string $boiteVitesseFilterValue = "";
+
+    public string $typeVehiculeFilterValue = "";
+
+    public string $nombrePersonneFilterValue = "";
+
     // Données des facettes
     public $typeAnnonces = [];
     public $villes = [];
     public $quartiers = [];
     public $entreprises = [];
+
+    public $marques = [];
+
+    public $boiteVitesses = [];
+
+    public $nombrePersonnes = [];
+
+    public $typeVehicules = [];
 
     // Paramètres de l'URL
     protected $queryString = [
@@ -64,6 +94,10 @@ class Search extends Component
         'ville',
         'quartier',
         'entreprise',
+        'marque',
+        'boiteVitesse',
+        'nombrePersonne',
+        'typeVehicule'
     ];
 
     /**
@@ -97,6 +131,11 @@ class Search extends Component
         $this->column = $session->column;
         $this->direction = $session->direction;
         $this->ville = $session->ville;
+        $this->marque = $session->marque;
+        $this->boiteVitesse = $session->boiteVitesse;
+        $this->nombrePersonne = $session->nombrePersonne;
+        $this->typeVehicule = $session->typeVehicule;
+
         $this->quartier = $session->quartier;
         $this->entreprise = $session->entreprise;
         $this->sortOrder = $session->sortOrder;
@@ -116,6 +155,11 @@ class Search extends Component
 
         $this->type = array_filter($this->type ?? []);
         $this->ville = array_filter($this->ville ?? []);
+        $this->marque = array_filter($this->marque ?? []);
+        $this->boiteVitesse = array_filter($this->boiteVitesse ?? []);
+        $this->nombrePersonne = array_filter($this->nombrePersonne ?? []);
+        $this->typeVehicule = array_filter($this->typeVehicule ?? []);
+
         $this->quartier = array_filter($this->quartier ?? []);
         $this->entreprise = array_filter($this->entreprise ?? []);
     }
@@ -128,6 +172,10 @@ class Search extends Component
         $this->getAllEntreprises();
         $this->getVillesParType();
         $this->getQuartiersParVilles();
+        $this->getMarques();
+        $this->getBoiteVitesse();
+        $this->getNombrePersonne();
+        $this->getTypeVehicule();
     }
 
     /**
@@ -162,7 +210,7 @@ class Search extends Component
     private function buildInitialUrl()
     {
         $url = url()->current();
-        $properties = ['type', 'ville', 'quartier'];
+        $properties = ['type', 'ville', 'quartier', 'marque', 'boiteVitesse', 'nombrePersonne', 'typeVehicule'];
         $hasFirst = false;
 
         if ($this->key) {
@@ -220,7 +268,7 @@ class Search extends Component
 
     /**
      * Change l'état d'un filtre de recherche
-     * 
+     *
      * @param string $value Valeur du filtre
      * @param string $category Catégorie du filtre (type, ville, quartier, entreprise)
      * @param bool $remove Indique si la valeur doit être supprimée
@@ -237,7 +285,7 @@ class Search extends Component
         }
 
         // Vérifier si la catégorie est valide
-        $validCategories = ['type', 'ville', 'quartier', 'entreprise'];
+        $validCategories = ['type', 'ville', 'quartier', 'entreprise', 'marque', 'boiteVitesse', 'nombrePersonne', 'typeVehicule'];
         if (!in_array($category, $validCategories)) {
             return;
         }
@@ -318,6 +366,8 @@ class Search extends Component
         }
     }
 
+
+
     /**
      * Récupère toutes les entreprises qui ont des annonces publiques
      */
@@ -336,6 +386,110 @@ class Search extends Component
             }
         }
     }
+
+
+    /**
+     * Récupère les boite vitesse
+     */
+
+    public function getBoiteVitesse()
+    {
+        $this->boiteVitesses = [];
+        $this->boiteVitesses = LocationVehicule::select('boite_vitesse')
+            ->join('annonces', function ($join) {
+                $join->on('location_vehicules.id', '=', 'annonces.annonceable_id')
+                    ->where('annonces.annonceable_type', '=', LocationVehicule::class);
+            })
+            ->groupBy('boite_vitesse')
+            ->selectRaw('boite_vitesse, COUNT(annonces.id) as annonces_count')
+            ->get()
+            ->map(function ($row) {
+                return [
+                    'value' => $row->boite_vitesse,
+                    'count' => $row->annonces_count,
+                ];
+            });
+    }
+
+
+    /**
+     * Récupère les nombre personne
+     */
+
+    public function getNombrePersonne()
+    {
+        $this->nombrePersonnes = [];
+        $this->nombrePersonnes = LocationMeublee::select('nombre_personne')
+            ->join('annonces', function ($join) {
+                $join->on('location_meublees.id', '=', 'annonces.annonceable_id')
+                    ->where('annonces.annonceable_type', '=', LocationMeublee::class);
+            })
+            ->groupBy('nombre_personne')
+            ->selectRaw('nombre_personne, COUNT(annonces.id) as annonces_count')
+            ->get()
+            ->map(function ($row) {
+                return [
+                    'value' => $row->nombre_personne,
+                    'count' => $row->annonces_count,
+                ];
+            });
+    }
+
+
+
+    /**
+     * Récupère les marques
+     */
+
+    public function getMarques()
+    {
+        $this->marques = [];
+        $this->marques = Marque::withCount([
+            'modeles as annonces_count' => function ($query) {
+                $query->join('location_vehicules', 'modeles.id', '=', 'location_vehicules.modele_id')
+                    ->join('annonces', function ($join) {
+                        $join->on('location_vehicules.id', '=', 'annonces.annonceable_id')
+                            ->where('annonces.annonceable_type', '=', \App\Models\LocationVehicule::class);
+                    })
+                    ->selectRaw('count(annonces.id)');
+            }
+        ])->get()->map(function ($marque) {
+            return [
+                'value' => $marque->nom,
+                'count' => $marque->annonces_count,
+            ];
+        });
+
+    }
+
+    /**
+     * Récupère les type vehicule
+     */
+
+    public function getTypeVehicule()
+    {
+        $this->typeVehicules = [];
+        $this->typeVehicules = Modele::withCount([
+            'locationVehicules as annonces_count' => function ($query) {
+                $query->join('annonces', function ($join) {
+                    $join->on('location_vehicules.id', '=', 'annonces.annonceable_id')
+                        ->where('annonces.annonceable_type', '=', \App\Models\LocationVehicule::class);
+                })->selectRaw('count(annonces.id)');
+            }
+        ])->get()->map(function ($modele) {
+            return [
+                'value' => $modele->nom,
+                'count' => $modele->annonces_count,
+            ];
+        });
+
+
+
+    }
+
+
+
+
 
     /**
      * Récupère les quartiers en fonction des villes sélectionnées
@@ -407,6 +561,7 @@ class Search extends Component
     {
         $annonces = Annonce::public()->with('entreprise');
         $annonces = $this->filters($annonces);
+
         return $annonces;
     }
 
@@ -421,10 +576,14 @@ class Search extends Component
         $this->ville = [];
         $this->quartier = [];
         $this->entreprise = [];
+        $this->marque = [];
+        $this->boiteVitesse = [];
+        $this->typeVehicule = [];
+        $this->nombrePersonne = [];
         $this->column = '';
         $this->direction = '';
         $this->sortOrder = 'created_at|desc';
-        $this->reset('typeFilterValue', 'villeFilterValue', 'quartierFilterValue', 'entrepriseFilterValue', 'ville');
+        $this->reset('typeFilterValue', 'villeFilterValue', 'quartierFilterValue', 'entrepriseFilterValue', 'ville', 'marqueFilterValue', 'boiteVitesseFilterValue', 'nombrePersonneFilterValue', 'typeVehiculeFilterValue');
         $this->dispatch('resetSearchBox');
     }
 
@@ -433,12 +592,18 @@ class Search extends Component
      */
     protected function filters($annonces)
     {
+        Log::info('Filtered annonces:', ['data' => $annonces]);
         $filters = [
             'filterByEntreprise',
             'filterByVille',
             'filterByQuartier',
             'filterAnnoncesByTypeKeyLocation',
             'filterByOrder',
+            'filterByMarque',
+            'filterByBoiteVitesse',
+            'filterByNombrePersonne',
+            'filterByTypeVehicule'
+
         ];
 
         foreach ($filters as $filter) {
@@ -541,6 +706,112 @@ class Search extends Component
     }
 
     /**
+     * Filtre les annonces par marque
+     */
+    protected function filterByMarque($annonces)
+    {
+
+
+        if ($this->marque) {
+            $marques = $this->marque;
+
+
+            $annonces = $annonces->where('annonces.annonceable_type', '=', \App\Models\LocationVehicule::class)
+                ->whereHas('annonceable', function ($query) use ($marques) {
+                    // Apply 'model.marque' filter only if the annonceable is of type LocationVehicule
+                    if ($query->getModel() instanceof \App\Models\LocationVehicule) {
+                        $query->whereHas('modele.marque', function ($query) use ($marques) {
+                            $query->whereIn('nom', $marques);  // Filtering by marque names
+                        });
+                    }
+                });
+
+
+        }
+
+        return $annonces;
+    }
+
+    /**
+     * Filtre les annonces par type vehicule
+     */
+    protected function filterByTypeVehicule($annonces)
+    {
+
+
+        if ($this->typeVehicule) {
+            $modeles = $this->typeVehicule;
+
+            $annonces = $annonces->where('annonces.annonceable_type', LocationVehicule::class)
+                ->whereHas('annonceable', function ($query) use ($modeles) {
+                    // Apply 'modele' filter only if the annonceable is of type LocationVehicule
+                    if ($query->getModel() instanceof LocationVehicule) {
+                        $query->whereHas('modele', function ($query) use ($modeles) {
+                            $query->whereIn('nom', $modeles); // Filtering by modele names (typeVehicule)
+                        });
+                    }
+                });
+
+
+        }
+
+        return $annonces;
+    }
+
+
+
+    /**
+     * Filtre les annonces par marque
+     */
+    protected function filterByBoiteVitesse($annonces)
+    {
+
+
+        if ($this->boiteVitesse) {
+            $boiteVitesseList = $this->boiteVitesse;
+
+
+            $annonces = $annonces->where('annonces.annonceable_type', LocationVehicule::class)
+                ->whereHas('annonceable', function ($query) use ($boiteVitesseList) {
+                    if ($query->getModel() instanceof LocationVehicule) {
+                        $query->whereIn('boite_vitesse', $boiteVitesseList);
+                    }
+                });
+
+
+        }
+
+        return $annonces;
+    }
+
+    /**
+     * Filtre les annonces par nombre personne
+     */
+    protected function filterByNombrePersonne($annonces)
+    {
+
+
+        if ($this->nombrePersonne) {
+            $nombre_personneList = $this->nombrePersonne;
+
+
+            $annonces = $annonces->where('annonces.annonceable_type', LocationMeublee::class)
+                ->whereHas('annonceable', function ($query) use ($nombre_personneList) {
+                    if ($query->getModel() instanceof LocationMeublee) {
+                        $query->whereIn('nombre_personne', $nombre_personneList);
+                    }
+                });
+
+
+        }
+
+        return $annonces;
+    }
+
+
+
+
+    /**
      * Applique le tri aux résultats
      */
     protected function filterByOrder($annonces)
@@ -604,6 +875,47 @@ class Search extends Component
                 'icon' => 'ti-briefcase',
                 'filterModel' => 'entrepriseFilterValue',
             ],
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Marque',
+                'category' => 'marque',
+                'items' => $this->marques,
+                'selectedItems' => $this->marque,
+                'icon' => 'ti-briefcase',
+                'filterModel' => 'marqueFilterValue',
+            ],
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Boite Vitesse',
+                'category' => 'boiteVitesse',
+                'items' => $this->boiteVitesses,
+                'selectedItems' => $this->boiteVitesse,
+                'icon' => 'ti-briefcase',
+                'filterModel' => 'boiteVitesseFilterValue',
+            ],
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Nombre de Personne',
+                'category' => 'nombrePersonne',
+                'items' => $this->nombrePersonnes,
+                'selectedItems' => $this->nombrePersonne,
+                'icon' => 'ti-briefcase',
+                'filterModel' => 'nombrePersonneFilterValue',
+            ],
+            (object) [
+                'id' => uniqid(),
+                'title' => 'Type vehicule',
+                'category' => 'typeVehicule',
+                'items' => $this->typeVehicules,
+                'selectedItems' => $this->typeVehicule,
+                'icon' => 'ti-briefcase',
+                'filterModel' => 'typeVehiculeFilterValue',
+            ],
+
+
+
+
+
         ];
     }
 
@@ -641,6 +953,7 @@ class Search extends Component
         $this->prepareTypeAnnonces();
         $annonces = $this->search()->paginate($this->perPage);
         $this->saveVariableToSession();
+        Log::info(json_encode($annonces));
 
         return view('livewire.public.search', [
             'annonces' => $annonces,
@@ -703,6 +1016,10 @@ class Search extends Component
             'direction' => $this->direction,
             'ville' => $this->ville,
             'quartier' => $this->quartier,
+            'marque' => $this->marque,
+            'boiteVitesse' => $this->boiteVitesse,
+            'nombrePersonne' => $this->nombrePersonne,
+            'typeVehicule' => $this->typeVehicule,
             'entreprise' => $this->entreprise,
             'sortOrder' => $this->sortOrder,
             'page' => $this->search()->paginate($this->perPage)->currentPage(),
