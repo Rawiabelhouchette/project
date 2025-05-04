@@ -40,6 +40,7 @@
                                 <option value="created_at|asc">Date: Ancien à récent</option>
                                 <option value="created_at|desc">Date: Récent à ancien</option>
                             </select>
+                            
                         </div>
                     </div>
                     <div class="sidebar" class="row col-md-12 col-sm-12">
@@ -208,6 +209,7 @@
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
 </div>
+
 
 
 

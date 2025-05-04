@@ -656,7 +656,7 @@
 
     <!-- Listings Section -->
     <section class="sec-bt" >
-        <div class="container desktop-container">
+        <div class="container desktop-container" style="padding-right: 5px;padding-left: 5px;">
         <style>
             /* Apply specific width only on desktop (screens larger than 992px) */
             @media (min-width: 992px) {

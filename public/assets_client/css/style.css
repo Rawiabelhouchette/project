@@ -8257,7 +8257,10 @@ a.tag_t {
 @media (max-width: 767px) {
     .countprice {
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
+    }
+    .proerty_text .captlize {
+        font-size: 12px !important;
     }
 }
 .proerty_text div span {
@@ -9552,4 +9555,7 @@ a.cl-box {
   .login-with-google-btn:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.15);
+  }
+  .mobile-user-header {
+    padding: 5px 15px 0 20px;
   }

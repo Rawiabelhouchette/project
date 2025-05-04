@@ -214,6 +214,43 @@
     .list-none {
         list-style: none;
     }
+    /* Custom styles for the dropdown menu */
+.dropdown-menu {
+  width: 280px;
+  border-radius: 0.5rem;
+}
+
+.dropdown-item {
+  transition: background-color 0.2s;
+  border-radius: 0.25rem;
+  margin: 0 0.5rem;
+  width: auto;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(0, 128, 128, 0.1);
+}
+
+.text-teal-700 {
+  color: #0f766e;
+}
+
+
+
+.mobile-user-header {
+  text-align: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+
+.logout-item {
+  color: #dc3545;
+}
+
+.logout-item:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
 </style>
 <!-- Main Header -->
 
@@ -277,79 +314,79 @@
             <ul>
                 {{-- if user is not connected or hasrole Administrateur --}}
                 <!-- Desktop User Menu -->
-<li class="dropdown list-none">
-    @if (!auth()->check())
-        <a class="btn user-menu-btn" data-bs-toggle="modal" data-bs-target="#signin"
-            href="javascript:void(0)" onclick="$('#share').hide()">
-            <span class="user-icon"><i class="fa fa-user-circle"></i></span>
-            <span class="d-none d-md-inline">Se connecter</span>
-        </a>
-    @else
-        <a class="btn user-menu-btn dropdown-toggle" data-bs-toggle="dropdown" href="#"
-            role="button" aria-expanded="false" style="background: #de6600;border: none;color: white;">
-            <span class="user-icon"><i class="fa fa-user-circle"></i></span>
-            <span class="d-none d-md-inline">Connecté</span>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end user-dropdown">
-            <!-- Mobile only header -->
-            <div class="mobile-user-header d-md-none">
-                <h6>Menu utilisateur</h6>
-                <button type="button" class="mobile-close-btn" data-bs-dismiss="dropdown" aria-label="Close">
-                    <i class="fa fa-times"></i>
-                </button>
-            </div>
-            
-            <!-- Account section -->
-            <div class="dropdown-section-header d-none d-md-block">Compte</div>
-            <li><a class="dropdown-item" href="{{ route('public.my-account') }}">
-                <i class="fa fa-user"></i> Mon compte
-            </a></li>
-            
-            @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
-                <!-- Professional section -->
-                <li><a class="dropdown-item" href="{{ route('public.my-business') }}">
-                    <i class="fa fa-building"></i> Mon entreprise
-                </a></li>
-                <li><a class="dropdown-item" href="{{ route('public.annonces.list') }}">
-                    <i class="fa fa-bullhorn"></i> Mes annonces
-                </a></li>
-                <li><a class="dropdown-item" href="{{ route('public.my-subscription') }}">
-                    <i class="fa fa-credit-card"></i> Mes abonnements
-                </a></li>
-            @endif
-            
-            <li><hr class="dropdown-divider"></li>
-            
-            <!-- Activity section -->
-            <div class="dropdown-section-header d-none d-md-block">Activité</div>
-            <li><a class="dropdown-item" href="{{ route('public.my-favorites') }}">
-                <i class="fa fa-heart"></i> Mes favoris
-            </a></li>
-            <li><a class="dropdown-item" href="{{ route('public.my-comments') }}">
-                <i class="fa fa-comments"></i> Mes commentaires
-            </a></li>
-            
-            <li><hr class="dropdown-divider"></li>
-            
-            <!-- Other section -->
-            @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
-                <li><a class="dropdown-item" href="{{ route('home') }}">
-                    <i class="fa fa-cog"></i> Espace administrateur
-                </a></li>
-            @endif
-            <li><a class="dropdown-item" href="{{ route('contact') }}">
-                <i class="fa fa-envelope"></i> Contact
-            </a></li>
-            
-            <li><hr class="dropdown-divider"></li>
-            
-            <!-- Logout -->
-            <li ><a class="dropdown-item logout-item" href="{{ route('logout') }}">
-                <i class="fa fa-power-off" style="background: #de6600;padding: 6px;border-radius: 50px;color: white;"></i> Me déconnecter
-            </a></li>
-        </ul>
-    @endif
-</li>
+                <li class="dropdown list-none">
+                    @if (!auth()->check())
+                        <a class="btn user-menu-btn" data-bs-toggle="modal" data-bs-target="#signin"
+                            href="javascript:void(0)" onclick="$('#share').hide()">
+                            <span class="user-icon"><i class="fa fa-user-circle"></i></span>
+                            <span class="d-none d-md-inline">Se connecter</span>
+                        </a>
+                    @else
+                        <a class="btn user-menu-btn dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                            role="button" aria-expanded="false" style="background: #de6600;border: none;color: white;">
+                            <span class="user-icon"><i class="fa fa-user-circle"></i></span>
+                            <span class="d-none d-md-inline">Connecté</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end user-dropdown">
+                            <!-- Mobile only header -->
+                            <div class="mobile-user-header d-md-none">
+                                <h6>Menu utilisateur</h6>
+                                <button type="button" class="mobile-close-btn" data-bs-dismiss="dropdown" aria-label="Close">
+                                    <i class="fa fa-times text-teal-700 me-2"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Account section -->
+                            <div class="dropdown-section-header d-none d-md-block">Compte</div>
+                            <li><a class="dropdown-item" href="{{ route('public.my-account') }}">
+                                <i class="text-teal-700 me-2 fa fa-user"></i> Mon compte
+                            </a></li>
+                            
+                            @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
+                                <!-- Professional section -->
+                                <li><a class="dropdown-item" href="{{ route('public.my-business') }}">
+                                    <i class="text-teal-700 me-2 fa fa-building"></i> Mon entreprise
+                                </a></li>
+                                <li><a class="dropdown-item" href="{{ route('public.annonces.list') }}">
+                                    <i class="text-teal-700 me-2 fa fa-bullhorn"></i> Mes annonces
+                                </a></li>
+                                <li><a class="dropdown-item" href="{{ route('public.my-subscription') }}">
+                                    <i class="text-teal-700 me-2 fa fa-credit-card"></i> Mes abonnements
+                                </a></li>
+                            @endif
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            
+                            <!-- Activity section -->
+                            <div class="dropdown-section-header d-none d-md-block">Activité</div>
+                            <li><a class="dropdown-item" href="{{ route('public.my-favorites') }}">
+                                <i class="text-teal-700 me-2 fa fa-heart"></i> Mes favoris
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ route('public.my-comments') }}">
+                                <i class="text-teal-700 me-2 fa fa-comments"></i> Mes commentaires
+                            </a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            
+                            <!-- Other section -->
+                            @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
+                                <li><a class="dropdown-item" href="{{ route('home') }}">
+                                    <i class="text-teal-700 me-2 fa fa-cog"></i> Espace administrateur
+                                </a></li>
+                            @endif
+                            <li><a class="dropdown-item" href="{{ route('contact') }}">
+                                <i class="text-teal-700 me-2 fa fa-envelope"></i> Contact
+                            </a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            
+                            <!-- Logout -->
+                            <li ><a class="dropdown-item logout-item text-danger" href="{{ route('logout') }}">
+                                <i class="text-danger me-2 fa fa-power-off" style="padding: 6px;border-radius: 50px;color: white;"></i> Me déconnecter
+                            </a></li>
+                        </ul>
+                    @endif
+                </li>
             </ul>
         </div>
     </nav>
@@ -409,43 +446,82 @@
                         </li>
                     @else
                         <li class="dropdown list-none">
-                            <a class="btn theme-btn dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                            <a data-bs-toggle="dropdown" href="#"
                                 role="button" aria-expanded="false">
-                                {{-- {{ auth()->user()->nom }} {{ auth()->user()->prenom }} --}}
-                                <i class="fa fa-user" aria-hidden="true"></i> <span></span>
+                                <i class="fa fa-user-circle btn theme-btn dropdown-toggle" aria-hidden="true"></i> <span></span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('public.my-account') }}">Mon
-                                        compte</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 py-0">
+                                <!-- Menu Header -->
+                                <li class="py-3 text-center border-bottom">
+                                    <h4 class="mb-0 fw-semibold text-secondary">Menu utilisateur</h4>
+                                </li>
+                                
+                                <!-- Account section -->
+                                <li class="d-none d-md-block px-3 py-2 small text-muted fw-medium">Compte</li>
+                                <li>
+                                    <a class="dropdown-item py-2 px-3" href="{{ route('public.my-account') }}">
+                                        <i class="bi bi-person text-teal-700 me-2"></i> Mon compte
+                                    </a>
+                                </li>
+                                
                                 @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
-                                    <li><a class="dropdown-item" href="{{ route('public.my-business') }}">Mon
-                                            entreprise</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('public.annonces.list') }}">Mes
-                                            annonces</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('public.my-subscription') }}">Mes
-                                            abonnements</a></li>
+                                    <!-- Professional section -->
+                                    <li>
+                                        <a class="dropdown-item py-2 px-3" href="{{ route('public.my-business') }}">
+                                            <i class="bi bi-building text-teal-700 me-2"></i> Mon entreprise
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-2 px-3" href="{{ route('public.annonces.list') }}">
+                                            <i class="bi bi-megaphone text-teal-700 me-2"></i> Mes annonces
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-2 px-3" href="{{ route('public.my-subscription') }}">
+                                            <i class="bi bi-credit-card text-teal-700 me-2"></i> Mes abonnements
+                                        </a>
+                                    </li>
                                 @endif
+                                
+                                <li><hr class="dropdown-divider my-1"></li>
+                                
+                                <!-- Activity section -->
+                                <li class="d-none d-md-block px-3 py-2 small text-muted fw-medium">Activité</li>
                                 <li>
-                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item py-2 px-3" href="{{ route('public.my-favorites') }}">
+                                        <i class="bi bi-heart text-teal-700 me-2"></i> Mes favoris
+                                    </a>
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('public.my-favorites') }}">Mes
-                                        favoris</a></li>
-                                <li><a class="dropdown-item" href="{{ route('public.my-comments') }}">Mes
-                                        commentaires</a></li>
                                 <li>
-                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item py-2 px-3" href="{{ route('public.my-comments') }}">
+                                        <i class="bi bi-chat-square-text text-teal-700 me-2"></i> Mes commentaires
+                                    </a>
                                 </li>
+                                
+                                <li><hr class="dropdown-divider my-1"></li>
+                                
+                                <!-- Other section -->
                                 @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
-                                    <li><a class="dropdown-item" href="{{ route('home') }}">Espace
-                                            administrateur</a></li>
+                                    <li>
+                                        <a class="dropdown-item py-2 px-3" href="{{ route('home') }}">
+                                            <i class="bi bi-gear text-teal-700 me-2"></i> Espace administrateur
+                                        </a>
+                                    </li>
                                 @endif
-                                <li><a class="dropdown-item" href="{{ route('contact') }}">Contact</a></li>
                                 <li>
-                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item py-2 px-3" href="{{ route('contact') }}">
+                                        <i class="bi bi-envelope text-teal-700 me-2"></i> Contact
+                                    </a>
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-power-off" style="background: #de6600;padding: 6px;border-radius: 50px;color: white;"
-                                            aria-hidden="true"></i> <span>Me
-                                            déconnecter</span></a></li>
+                                
+                                <li><hr class="dropdown-divider my-1"></li>
+                                
+                                <!-- Logout -->
+                                <li>
+                                    <a class="dropdown-item py-2 px-3 text-danger" href="{{ route('logout') }}">
+                                        <i class="bi bi-power text-danger me-2"></i> Me déconnecter
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     @endif
@@ -534,3 +610,4 @@
         });
     </script>
 </div>
+
