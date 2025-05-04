@@ -120,18 +120,7 @@
     margin-right: 0.5rem;
 }
 
-/* Enhanced counter styles */
-.counter-container {
-    display: flex;
-    gap: 1rem;
-}
 
-.counter-item {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    color: #6b7280;
-}
 
 
 </style>
@@ -305,9 +294,11 @@
                     </div>
                     @endif
                     @if ($annonce->image)
-                        <img class="line-property-image"
-                            src="https://placehold.co/600"
-                            alt="{{ $annonce->titre }}">
+                    <img class="line-property-image"
+                        src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"
+                        alt="{{ $annonce->titre }}"
+                        onerror="this.onerror=null; this.src='https://placehold.co/600';"
+                        style="object-fit: cover; object-position: center; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 10px;">
                     @else
                         <img class="line-property-image"
                             src="https://placehold.co/600x400"
@@ -322,7 +313,7 @@
                             {{-- Price tag for line view --}}
                             <div class="line-price-tag">
                                 <span class="pricetag bg-success">
-                                    {{ $annonce->prix ?? 150 }} $
+                                    {{ $annonce->prix ?? 150 }} <i class="fa fa-dollar"></i>
                                 </span>
                             </div>
                         </div>
@@ -358,21 +349,20 @@
                     </div>
 
                     <div class="line-content-bottom">
-                    <div class="counter-container" style="margin-right: 1rem;">
-                                <div class="counter-item">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                    <span>{{ $annonce->view_count }}</span>
-                                </div>
-                                <div class="counter-item">
-                                    <i class="fa fa-heart" aria-hidden="true"></i>
-                                    <span>{{ $annonce->favorite_count }}</span>
-                                </div>
-                                <div class="counter-item">
-                                    <i class="fa fa-comment" aria-hidden="true"></i>
-                                    <span>{{ $annonce->comment_count }}</span>
-                                </div>
+                        <div class="counter-container" style="margin-right: 1rem;">
+                            <div class="counter-item">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                <span>{{ $annonce->view_count }}</span>
                             </div>
-
+                            <div class="counter-item">
+                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                <span>{{ $annonce->favorite_count }}</span>
+                            </div>
+                            <div class="counter-item">
+                                <i class="fa fa-comment" aria-hidden="true"></i>
+                                <span>{{ $annonce->comment_count }}</span>
+                            </div>
+                        </div>
                         <div class="line-actions">
                             {{-- Enhanced counter section for line view --}}    
                             <a href="javascript:void(0)" class="btn btn-sm btn-light" style="padding: 8px 10px; color: #de6600; border: 1px solid #de6600;" data-toggle="modal" data-target="#share" 

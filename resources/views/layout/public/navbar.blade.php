@@ -270,12 +270,9 @@
                     src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="">
                 <span>Vamiyi</span>
             </a>
-            <button class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#navbar-list"
-                type="button" aria-controls="navbar-list" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+
             <div class="collapse navbar-collapse" id="navbar-list">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" style="white-space: nowrap;">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('search', ['se_loger' => 1]) }}">Se loger</a>
                     </li>
@@ -316,7 +313,7 @@
                 <!-- Desktop User Menu -->
                 <li class="dropdown list-none">
                     @if (!auth()->check())
-                        <a class="btn user-menu-btn" data-bs-toggle="modal" data-bs-target="#signin"
+                        <a class="btn user-menu-btn theme-btn" data-bs-toggle="modal" data-bs-target="#signin"
                             href="javascript:void(0)" onclick="$('#share').hide()">
                             <span class="user-icon"><i class="fa fa-user-circle"></i></span>
                             <span class="d-none d-md-inline">Se connecter</span>
@@ -414,7 +411,7 @@
             <div class="col-3 d-flex justify-content-end" style="gap: 5px;">
 
 
-                <form style="width: 135%;">
+                <form style="width: auto;">
                     @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
                         <a class="btn add-annonce" id="btn-deposer-annonce" style="padding: 10px 15px; "
                             href="{{ route('public.annonces.create') }}">
@@ -438,9 +435,9 @@
 
                     @if (!auth()->check())
                         <li class="list-none">
-                            <a class="btn theme-btn" data-bs-toggle="modal" data-bs-target="#signin"
+                            <a data-bs-toggle="modal" data-bs-target="#signin"
                                 href="javascript:void(0)" onclick="$('#share').hide()">
-                                <i class="ti-user" aria-hidden="true"></i> <span></span>
+                                <i class="fa fa-user-circle btn theme-btn" style="padding: 10px;font-size: 20px;" aria-hidden="true"></i><span></span>
                             </a>
 
                         </li>
@@ -448,7 +445,7 @@
                         <li class="dropdown list-none">
                             <a data-bs-toggle="dropdown" href="#"
                                 role="button" aria-expanded="false">
-                                <i class="fa fa-user-circle btn theme-btn dropdown-toggle" aria-hidden="true"></i> <span></span>
+                                <i class="fa fa-user-circle btn theme-btn" style="padding: 10px;font-size: 20px;" aria-hidden="true"></i> <span></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 py-0">
                                 <!-- Menu Header -->
