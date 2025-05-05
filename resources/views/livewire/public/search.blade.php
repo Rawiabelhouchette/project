@@ -19,8 +19,8 @@
                         <!-- Sort dropdown moved to the right -->
                         <div class="mb-0 d-flex align-items-center">
                             <!-- View mode toggle buttons -->
-                            <div class="view-mode-buttons me-3 d-none d-md-block">
-                                <button class="btn btn-sm {{ $viewMode === 'row' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}"
+                            <div class="view-mode-buttons me-3 d-flex" style="gap: 5px;">
+                                <button class="btn btn-sm {{ $viewMode === 'row' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}" 
                                         wire:click="$set('viewMode', 'row')" title="Vue grille"
                                         style="padding: 8px 10px;border: 0;">
                                     <i class="fa fa-th-large"></i>
@@ -40,6 +40,7 @@
                                 <option value="created_at|asc">Date: Ancien à récent</option>
                                 <option value="created_at|desc">Date: Récent à ancien</option>
                             </select>
+                            
                         </div>
                     </div>
                     <div class="sidebar" class="row col-md-12 col-sm-12">
@@ -159,10 +160,15 @@
                         <div class="col-md-12 col-sm-12" wire:loading.delay wire:transition>
                             @include('components.public.loader')
                         </div>
-                        <div class="row">
-                            @foreach ($annonces as $annonce)
-                                <x-public.property-item :annonce="$annonce" :mode="$viewMode" />
-                            @endforeach
+                        <style>
+                            .property-grid {
+                                display: flex;
+                                flex-wrap: wrap;
+                                margin: 0 -10px; /* Negative margin to offset the padding */
+                            }
+                        </style>
+                        <div class="property-grid">
+                            <x-public.property-item :annonces="$annonces" :mode="$viewMode" />
                         </div>
                         <div id="annonces-zone" class="row mt-5 p-0" >
 
@@ -203,6 +209,9 @@
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
 </div>
+
+
+
 
 
 

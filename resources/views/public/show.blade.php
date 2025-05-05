@@ -26,6 +26,7 @@
         <!-- ================ Listing Detail Full Information ======================= -->
         <section class="list-detail p-0">
             <div class="container">
+                <!-- Start: Pagination Wrapper -->
                 <div class="row mrg-bot-40">
                     <div class="col-sm-12 nav-div nav-div-1">
                         <h5 style="text-align: left; border-bottom: 1px silver solid;" class="py-5 px-2">
@@ -51,121 +52,64 @@
                         </div>
                     </div>
                 </div>
+                <!-- End: Pagination Wrapper -->
 
                 <div class="row">
-                    <div class="col-md-12 col-sm-12">
+                    <div class="col-md-8 col-sm-12">
                         <div class="widget-boxed padd-bot-10">
                             <div class="widget-boxed-header">
                                 <div class="listing-title-bar">
-                                    <h3> {{ $annonce->titre }}
-                                        <span class="listing-shot-info rating p-0">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star"
-                                                    aria-hidden="true"></i>
-                                            @endfor
-
-                                        </span>
+                                    
+                                    <h3> {{ $annonce->titre }} 
+                                        <span class="mrg-l-5 category-tag"> {{ $annonce->type }} </span>    
                                     </h3>
-
+                                    
 
                                 </div>
                             </div>
                             <div class="widget-boxed-body padd-top-0">
-                                <div class="side-list no-border gallery-box">
-                                    <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
-                                        <div class="col-xs-12 col-md-12 p-0">
-                                            <div id="carouselExampleIndicators" class="carousel slide"
-                                                data-bs-ride="carousel">
-
-                                                <div class="carousel-inner">
-                                                    @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
-                                                        <div class="carousel-item {{ $key == 0 ? ' active' : '' }}">
-                                                            <img class="d-block w-100" style="object-fit: cover;"
-                                                                src="{{ asset('storage/' . $image->chemin) }}"
-                                                                alt="...">
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                                <div class="carousel-indicators">
-                                                    @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
-                                                        <button class="active thumbnail"
-                                                            data-bs-target="#carouselExampleIndicators"
-                                                            data-bs-slide-to="{{ $key }}" type="button"
-                                                            aria-current="true" aria-label="Slide 1">
-                                                            <img class="d-block w-100" style="object-fit: cover;"
-                                                                src="{{ asset('storage/' . $image->chemin) }}"
-                                                                alt="...">
-                                                        </button>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="side-list share-buttons">
-                                    <div class="mrg-r-10">
-                                        <button class="buttons padd-10 btn-default share-button" data-toggle="modal"
-                                            data-target="#share">
-                                            <i class="fa fa-share-nodes"></i>
-                                            <!-- <span class="hidden-xs">Partager</span> -->
-                                        </button>
-                                    </div>
-                                    <div class="mrg-r-10">
-                                        @livewire('public.favoris', [$annonce])
-                                    </div>
-                                    <div class="mrg-r-10">
-                                        <button class="buttons padd-10 btn-default share-button" disabled>
-                                            <i class="fa fa-eye"></i>
-                                            <span class="hidden-xs">{{ $annonce->view_count }}</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="widget-boxed padd-bot-10" id="test">
-                            <div class="tab style-1 mrg-bot-40" role="tabpanel">
-                                {{ $annonce->annonceable->getShowInformationHeader() }}
-
-                                {{ $annonce->annonceable->getShowInformationBody() }}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-8 col-sm-12">
-                        <div class="widget-boxed padd-bot-10">
-                            <div class="annonces row mt-5 gy-4">
-                                <div class="col-md-12">
+                            <div class="annonces row gy-4">
+                                
                                     <div class="contact-item">
-                                        <strong>Profile : </strong>
-                                        <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}"
-                                            class="contact-button">
-                                            <i class="fa fa-building fa-lg"></i>
+                                        <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}">
+                                            <i class="fa fa-building fa-lg" style="color: #de6600"></i>
                                             {{ $annonce->entreprise->nom }}
                                         </a>
                                     </div>
-                                </div>
+                                
 
-                                <div class="col-md-12">
+                               
                                     <div class="contact-item">
-                                        <strong>Contact : </strong>
 
                                         @if ($annonce->entreprise->site_web)
-                                            <a href="{{ $annonce->entreprise->site_web }}" target="_blank"
-                                                class="contact-button">
-                                                <i class="ti-world"></i> {{ $annonce->entreprise->site_web }}
+                                            <a href="{{ $annonce->entreprise->site_web }}" target="_blank">
+                                                <i class="ti-world" style="color: #de6600"></i> {{ $annonce->entreprise->site_web }}
                                             </a>
                                         @endif
 
                                         @if ($annonce->entreprise->email)
-                                            <a href="mailto:{{ $annonce->entreprise->email }}" class="contact-button">
-                                                <i class="ti-email"></i> {{ $annonce->entreprise->email }}
+                                            <a href="mailto:{{ $annonce->entreprise->email }}">
+                                                <i class="ti-email" style="color: #de6600"></i> {{ $annonce->entreprise->email }}
                                             </a>
                                         @endif
                                     </div>
+                                    <div class="counter-container" style="margin-right: 1rem;">
+                                        <div class="counter-item">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                            <span style="white-space: nowrap;">{{ $annonce->view_count }} vue(s)</span>
+                                        </div>
+                                        <div class="counter-item">
+                                            <i class="fa fa-heart" aria-hidden="true"></i>
+                                            <span style="white-space: nowrap;">{{ $annonce->favorite_count }} favori(s)</span>
+                                        </div>
+                                        <div class="counter-item">
+                                            <i class="fa fa-comment" aria-hidden="true"></i>
+                                            <span style="white-space: nowrap;">{{ $annonce->comment_count }} commentaire(s)</span>
+                                        </div>
 
-                                    <div class="social-links d-flex align-items-center">
-                                        <strong class="me-3">Socials : </strong>
+                                    </div>
+                                    <div class="social-links d-flex">
+                                        
                                         <div class="d-flex">
                                             @if ($annonce->entreprise->instagram)
                                                 <a href="{{ $annonce->entreprise->instagram }}" target="_blank"
@@ -187,8 +131,83 @@
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="side-list share-buttons">
+                                        <div class="mrg-r-10">
+                                            <button class="buttons padd-10 btn-default share-button" data-toggle="modal"
+                                                data-target="#share">
+                                                <i class="fa fa-share-nodes"></i>
+                                                <!-- <span class="hidden-xs">Partager</span> -->
+                                            </button>
+                                        </div>
+                                        <div class="mrg-r-10">
+                                            @livewire('public.favoris', [$annonce])
+                                        </div>
+                                    </div>
+                               
+                            </div>
+                            </div>
+                        </div>
+                        <div class="widget-boxed padd-bot-10">
+                            <div class="widget-boxed-header">
+                                <div class="listing-title-bar">
+                                    
+                                    <h4 style="padding: 14px 0;border-bottom: 1px solid #eaeff5;"> 
+                                        <i class="ti ti-gallery"></i>
+                                        Galérie
+                                    </h4>
                                 </div>
                             </div>
+                            <div class="widget-boxed-body padd-top-0">
+                                <div class="side-list no-border gallery-box">
+                                    <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
+                                        <div class="col-xs-12 col-md-12 p-0">
+                                            <div id="carouselExampleIndicators" class="carousel slide"
+                                                data-bs-ride="carousel">
+
+                                                <div class="carousel-inner">
+                                                    @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
+                                                        <div class="carousel-item {{ $key == 0 ? ' active' : '' }}">
+                                                        <img  class="d-block w-100" style="object-fit: cover;"
+                                                                src="{{ asset('storage/' . $image->chemin)}}"
+                                                                alt="{{ $annonce->titre }}"
+                                                                onerror="this.onerror=null; this.src='https://placehold.co/600';">
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <div class="carousel-indicators">
+                                                    @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
+                                                        <button class="active thumbnail"
+                                                            data-bs-target="#carouselExampleIndicators"
+                                                            data-bs-slide-to="{{ $key }}" type="button"
+                                                            aria-current="true" aria-label="Slide 1">
+                                                            <!-- <img class="d-block w-100" style="object-fit: cover;"
+                                                                src="{{ asset('storage/' . $image->chemin) }}"
+                                                                alt="..."> -->
+                                                                <img  class="d-block w-100" style="object-fit: cover;"
+                                                                src="{{ asset('storage/' . $image->chemin)}}"
+                                                                alt="{{ $annonce->titre }}"
+                                                                onerror="this.onerror=null; this.src='https://placehold.co/600';">
+                                                        </button>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-boxed padd-bot-10" id="test">
+                            <div class="tab style-1 mrg-bot-40" role="tabpanel">
+                                {{ $annonce->annonceable->getShowInformationHeader() }}
+
+                                {{ $annonce->annonceable->getShowInformationBody() }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <!-- Start: Localisation -->
+                        <div class="widget-boxed padd-bot-10">
+
                             <div class="widget-boxed-header">
                                 <h4><i class="ti-location-pin padd-r-10"></i>Localisation</h4>
                             </div>
@@ -206,8 +225,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12">
+                        <!-- End: Localisation -->
+
                         <!-- Start: Opening hour -->
                         <div class="widget-boxed padd-bot-10">
                             <div class="widget-boxed-header">
@@ -229,7 +248,12 @@
                             </div>
                         </div>
                         <!-- End: Opening hour -->
+
                     </div>
+                    <div class="col-md-4 col-sm-12">
+
+                    </div>
+
                 </div>
             </div>
 

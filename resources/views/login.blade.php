@@ -71,15 +71,20 @@
                             @enderror
                     </div>
 
-                    <div class="mrg-bot-20 text-center">
+                    <div class="mrg-bot-20 text-center d-flex justify-content-center" style="gap: 5px;">
                         <button class="btn theme-btn width-200 btn-radius" type="submit">
                             {{ __('Connexion') }}
                         </button>
                     </div>
-                    <button type="button" class="login-with-google-btn"
-                        onclick="window.location.href='{{ route('google.login') }}'">
-                        Sign in with Google
-                    </button>
+                    <div class="mrg-bot-20 text-center d-flex flex-column justify-content-center align-items-center" style="gap: 5px;">
+                        Ou conntectez vous avec compte google
+                        <button type="button" class="login-with-google-btn"
+                            onclick="window.location.href='{{ route('google.login') }}'">
+                            Sign in with Google
+                        </button>
+                    </div>
+
+
                     <div class="center mrg-top-5">
                         <div class="bottom-login text-center"> {{ __("Vous n'avez pas de compte ?") }}</div>
                         <a class="theme-cl" data-toggle="modal" data-target="#register"

@@ -656,7 +656,7 @@
 
     <!-- Listings Section -->
     <section class="sec-bt" >
-        <div class="container desktop-container">
+        <div class="container desktop-container" style="padding-right: 5px;padding-left: 5px;">
         <style>
             /* Apply specific width only on desktop (screens larger than 992px) */
             @media (min-width: 992px) {
@@ -675,120 +675,17 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-
-                <!-- Single List -->
-                @foreach ($annonces as $annonce)
-                    <div class="col-lg-3 col-md-4 col-xs-6 property_item">
-                        <a class="listing-thumb classical-list" href="{{ route('show', $annonce->slug) }}">
-                            <div class="image">
-                                @if ($annonce->entreprise->est_ouverte)
-                                    <div class="state {{ $annonce->entreprise->est_ouverte ? 'bg-success' : 'bg-danger' }}">
-                                        <span>Ouvert</span>
-                                    </div>
-                               @endif
-                                @if ($annonce->image)
-                                <img class="img-responsive"
-                                    src="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}"
-                                    alt="{{ $annonce->titre }}"
-                                    onerror="this.onerror=null; this.src='https://placehold.co/600';"
-                                    style="object-fit: cover; object-position: center; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 10px;">
-                                @else
-                                    <img class="img-responsive" src="https://placehold.co/600x400"
-                                        alt="latest property">
-                                @endif
-                                <div class="listing-price-info">
-                                    <span class="pricetag">{{ $annonce->type }}</span>
-                                </div>
-                                <div class="image-listing-content">
-                                    <div class="proerty_text">
-                                        <h3 class="captlize text-white">
-
-                                                {{ $annonce->titre }}
-
-                                            {{-- <span class="veryfied-author"></span> --}}
-                                        </h3>
-                                    </div>
-                                    <div class="proerty_text">
-                                        <span>
-                                            <i class="ti-location-pin" style="color: #de6600;"></i>
-                                        </span>
-                                        <h4 class="captlize text-white" style="font-weight:400; font-size:14px">
-                                            @if ($annonce->ville_id)
-                                                {{ $annonce->adresse_complete->pays }},
-                                                {{ $annonce->adresse_complete->ville }},
-                                                {{ $annonce->adresse_complete->quartier }}
-                                            @else
-                                                {{ $annonce->entreprise->adresse_complete }}
-                                            @endif
-                                        </h4>
-                                    </div>
-
-                                    <div class="proerty_text">
-
-                                        <h4 class="captlize text-white" style="font-weight:400; font-size:14px">
-                                            @if ($annonce->entreprise->telephone)
-                                                <a href="tel:{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
-                                                <span>
-                                                    <i class="ti-mobile" style="color: #de6600;"></i>
-                                                </span>
-                                                {{ $annonce->entreprise->telephone }}
-                                                </a>
-                                            @else
-                                                <a
-                                                    href="tel:{{ $annonce->entreprise->quartier->ville->pays->indicatif }}{{ str_replace(' ', '', $annonce->entreprise->telephone) }}">
-                                                    <span>
-                                                        <i class="ti-mobile" style="color: #de6600;"></i>
-                                                    </span>
-                                                    {{ $annonce->entreprise->quartier->ville->pays->indicatif }}
-                                                    {{ $annonce->entreprise->telephone }}
-                                                </a>
-                                            @endif
-                                        </h4>
-                                    </div>
-                                </div>
-
-                                <div class="list-fx-features">
-                                    <h4 style="font-weight:400; font-size:11px">
-
-                                        <span class="listing-shot-info rating p-0">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
-                                            @endfor
-
-                                        </span>
-                                        ({{ $annonce->note }})
-                                    </h4>
-                                    <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share"
-                                    onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
-                                        <i class="fa fa-share-alt share-icon"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </a>
-
-
-
-
-                                <!--<div class="listing-footer-info">
-                                    <div class="listing-cat">
-                                        <a class="cl-1" href="{{ route('entreprise.show', $annonce->entreprise->slug) }}">
-                                            <div class=" d-flex justify-content-center align-items-center" style="gap: 10px;">
-                                                <span class="more-cat mrg-l-0" style="">
-                                                    <i class="fas fa-building"></i>
-                                                </span>
-                                                <h4 style="font-weight:400; font-size:14px">
-                                                    {{ $annonce->entreprise->nom }}
-                                                </h4>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>-->
-
-
-                    </div>
-                @endforeach
+            <style>                            
+                .property-grid {    
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin: 0 -10px; /* Negative margin to offset the padding */
+                }
+        </style>
+            <div class="container mt-5">
+                <div class="property-grid">
+                    <x-public.property-item :annonces="$annonces" :mode="'row'" />
+                </div>
             </div>
 
         </div>
@@ -842,8 +739,8 @@
         </div>
         
         <div class="container position-relative">
-            <div class="row justify-content-center counter-row">
-                <div class="col-md-4 col-sm-6 mb-4 mb-md-0">
+            <div class="d-flex counter-row flex-wrap" style="justify-content: space-around;">
+                <div class="mb-4 mb-md-0">
                     <div class="counter-item" data-aos="fade-up" data-aos-delay="100">
                         <div class="counter-icon-wrap">
                             <div class="counter-icon-glow"></div>
@@ -858,7 +755,7 @@
                     </div>
                 </div>
                 
-                <div class="col-md-4 col-sm-6 mb-4 mb-md-0">
+                <div class=" mb-4 mb-md-0">
                     <div class="counter-item" data-aos="fade-up" data-aos-delay="200">
                         <div class="counter-icon-wrap">
                             <div class="counter-icon-glow"></div>
@@ -873,7 +770,7 @@
                     </div>
                 </div>
                 
-                <div class="col-md-4 col-sm-6">
+                <div class="">
                     <div class="counter-item" data-aos="fade-up" data-aos-delay="300">
                         <div class="counter-icon-wrap">
                             <div class="counter-icon-glow"></div>
@@ -948,7 +845,12 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+        @media (max-width: 768px) {
+            .category-card-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
         .category-card-content h4 {
             color: white;
             margin: 0;
@@ -1035,10 +937,9 @@
         
         .counter-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 20px;
-            transition: all 0.3s ease;
+            gap: 0.25rem;
+            color: #6b7280;
         }
         
         .counter-icon-wrap {
