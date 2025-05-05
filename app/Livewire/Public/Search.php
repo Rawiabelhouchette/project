@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Public;
 use App\Models\Auberge;
+use App\Models\Hotel;
 use Illuminate\Support\Str;
 use App\Models\Annonce;
 use App\Models\Entreprise;
@@ -422,43 +423,51 @@ class Search extends Component
         $this->nombrePersonnes = [];
         $hasLocation = in_array('Location meublée', $this->type);
         $hasAuberge = in_array('Auberge', $this->type);
+        $hasHotel = in_array('Hôtel', $this->type);
 
-        if ($hasLocation && !$hasAuberge) {
-            // Only Location meublée selected
+        if ($hasLocation && !$hasAuberge && !$hasHotel) {
             $this->nombrePersonnes = $this->getNombrePersonnesFrom(LocationMeublee::class, 'location_meublees');
 
-        } elseif ($hasAuberge && !$hasLocation) {
-            // Only Auberge selected
+        } elseif ($hasAuberge && !$hasLocation && !$hasHotel) {
             $this->nombrePersonnes = $this->getNombrePersonnesFrom(Auberge::class, 'auberges');
 
-        } else {
-            // Both Location meublée and Auberge selected (or neither)
-            $locationData = $this->getNombrePersonnesFrom(LocationMeublee::class, 'location_meublees');
-            $aubergeData = $this->getNombrePersonnesFrom(Auberge::class, 'auberges');
+        } elseif ($hasHotel && !$hasLocation && !$hasAuberge) {
+            $this->nombrePersonnes = $this->getNombrePersonnesFrom(Hotel::class, 'hotels');
 
-            // Merge and sum counts by nombre_personne
+        } else {
+            // Any combination of two or more types
             $merged = collect();
 
-            $all = $locationData->concat($aubergeData);
+            $all = collect();
+
+            if ($hasLocation) {
+                $all = $all->concat($this->getNombrePersonnesFrom(LocationMeublee::class, 'location_meublees'));
+            }
+            if ($hasAuberge) {
+                $all = $all->concat($this->getNombrePersonnesFrom(Auberge::class, 'auberges'));
+            }
+            if ($hasHotel) {
+                $all = $all->concat($this->getNombrePersonnesFrom(Hotel::class, 'hotels'));
+            }
 
             foreach ($all as $item) {
-                $merged->transform(function ($existing) use ($item) {
-                    if ($existing['value'] === $item['value']) {
-                        $existing['count'] += $item['count'];
-                    }
-                    return $existing;
-                });
-
-                if (!$merged->contains('value', $item['value'])) {
+                $existing = $merged->firstWhere('value', $item['value']);
+                if ($existing) {
+                    $merged = $merged->map(function ($el) use ($item) {
+                        if ($el['value'] === $item['value']) {
+                            $el['count'] += $item['count'];
+                        }
+                        return $el;
+                    });
+                } else {
                     $merged->push($item);
                 }
             }
 
             $this->nombrePersonnes = $merged;
-
-
         }
     }
+
 
 
     /**
@@ -857,12 +866,22 @@ class Search extends Component
                                 $q->whereIn('nombre_personne', $nombrePersonneList);
                             }
                         );
+                })->orWhere(function ($subQuery) use ($nombrePersonneList) {
+                    $subQuery->where('annonces.annonceable_type', Hotel::class)
+                        ->whereHasMorph(
+                            'annonceable',
+                            [Hotel::class],
+                            function ($q) use ($nombrePersonneList) {
+                                $q->whereIn('nombre_personne', $nombrePersonneList);
+                            }
+                        );
                 });
             });
         }
 
         return $annonces;
     }
+
 
 
 
