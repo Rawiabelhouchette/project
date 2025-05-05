@@ -4,10 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Annonce;
 use App\Models\Restaurant;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
 
 class RemoveAllRestaurantSeeder extends Seeder
 {

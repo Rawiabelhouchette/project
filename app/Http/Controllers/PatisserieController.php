@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Patisserie;
 use App\Http\Requests\StorePatisserieRequest;
 use App\Http\Requests\UpdatePatisserieRequest;
+use App\Models\Patisserie;
 
 class PatisserieController extends Controller
 {

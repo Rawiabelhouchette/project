@@ -16,10 +16,9 @@ return new class extends Migration
             $table->string('nom');
             $table->string('slug');
             $table->foreignId('pays_id')->constrained('pays');
-            $table->unique(['nom', 'pays_id']);            
+            $table->unique(['nom', 'pays_id']);
             $table->timestamps();
             $table->softDeletes();
-
 
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

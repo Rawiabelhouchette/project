@@ -8,30 +8,49 @@ use App\Models\Quartier;
 use App\Models\Ville;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class Index extends Component
 {
     public $nom = '';
+
     public $description = '';
+
     public $site_web = '';
+
     public $email = '';
+
     public $telephone = '';
+
     public $instagram = '';
+
     public $facebook = '';
+
     public $whatsapp = '';
+
     public $logo = '';
+
     public $longitude = '';
+
     public $latitude = '';
+
     public $pays_id = '';
+
     public $ville_id = '';
+
     public $quartier_id = '';
+
     public $nbr_planning = 1;
+
     public $pays;
+
     public $villes = [];
+
     public $quartiers = [];
+
     public $autreJour = false;
+
     public $tousLesJours = true;
 
     public $plannings = [
@@ -39,7 +58,7 @@ class Index extends Component
             'jour' => '',
             'heure_debut' => '',
             'heure_fin' => '',
-        ]
+        ],
     ];
 
     public function mount()
@@ -88,9 +107,9 @@ class Index extends Component
 
     public function addPlanning()
     {
-        if (!$this->autreJour)
+        if (! $this->autreJour) {
             return;
-
+        }
 
         if ($this->nbr_planning < 7) {
             $this->nbr_planning++;
@@ -114,19 +133,18 @@ class Index extends Component
         }
     }
 
-
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function store()
     {
         $validated = $this->validate();
 
-        // check if date is not repeated 
+        // check if date is not repeated
         $jours = [];
         $jour_tmp = '';
         foreach ($this->plannings as $planning) {
@@ -134,21 +152,22 @@ class Index extends Component
                 $index = array_search($planning, $this->plannings) + 1;
                 $jour_tmp = $planning['jour'];
                 $this->dispatch('alert:modal', [
-                    'message' => __('Jour [' . $jour_tmp . '] est déjà sélectionné'),
+                    'message' => __('Jour ['.$jour_tmp.'] est déjà sélectionné'),
                 ]);
+
                 return;
             }
             $jours[] = $planning['jour'];
         }
-
 
         // Verifier si l'heure de debut est inferieur à l'heure de fin
         foreach ($this->plannings as $planning) {
             if ($planning['heure_debut'] > $planning['heure_fin']) {
                 $index = array_search($planning, $this->plannings) + 1;
                 $this->dispatch('alert:modal', [
-                    'message' => __('Heure de fermeture [' . $index . '] doit être supérieur à heure de d\'ouverture'),
+                    'message' => __('Heure de fermeture ['.$index.'] doit être supérieur à heure de d\'ouverture'),
                 ]);
+
                 return;
             }
         }
@@ -167,6 +186,7 @@ class Index extends Component
                 'title' => __('Opération échouée'),
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'entreprise'),
             ]);
+
             return;
         }
 

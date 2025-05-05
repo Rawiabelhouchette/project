@@ -41,6 +41,7 @@ class StoreOffreAbonnementRequest extends FormRequest
     public function rules(): array
     {
         $authenticated = auth()->user()->hasRole('Professionnel');
+
         return [
             'offre_id' => 'required|exists:offre_abonnements,id',
             'nom_entreprise' => $authenticated ? 'nullable' : 'required|string|unique:entreprises,nom',

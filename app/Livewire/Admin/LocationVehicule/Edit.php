@@ -3,70 +3,94 @@
 namespace App\Livewire\Admin\LocationVehicule;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
+use App\Models\Entreprise;
 use App\Models\Marque;
 use App\Models\Modele;
 use App\Models\Pays;
 use App\Models\Quartier;
+use App\Models\Reference;
+use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
-use Livewire\Attributes\On;
-use Livewire\Component;
-use App\Models\Entreprise;
-use App\Models\Reference;
-use App\Models\ReferenceValeur;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
+    use AnnonceBaseEdit, CustomValidation, WithFileUploads;
 
     public $nom;
+
     public $type;
+
     public $description;
+
     public $marque_id;
+
     public $modele_id;
+
     public $annee;
+
     public $carburant;
+
     public $kilometrage;
+
     public $boite_vitesse;
+
     public $nombre_portes;
+
     public $nombre_places;
+
     public $is_active;
+
     public $locationVehicule;
 
     public $entreprise_id;
+
     public $entreprises = [];
 
     public $types_vehicule = [];
+
     public $list_types_vehicule = [];
 
     public $equipements_vehicule = [];
+
     public $list_equipements_vehicule = [];
 
     public $list_boites_vitesse = [];
+
     public $boite_vitesses;
 
     public $list_marques = [];
+
     public $list_modeles = [];
+
     public $list_types_carburant = [];
 
     public $conditions_location = [];
+
     public $list_conditions_location = [];
 
     public $date_validite;
+
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
+
     public $longitude;
 
     public function mount($locationVehicule)
@@ -98,7 +122,6 @@ class Edit extends Component
         $this->modele_id = $locationVehicule->modele_id;
         $this->marque_id = $locationVehicule->modele->marque_id;
         $this->list_modeles = Modele::where('marque_id', $this->marque_id)->orderBy('nom')->get();
-
 
         $this->pays = Pays::orderBy('nom')->get();
         $this->pays_id = $locationVehicule->annonce->ville->pays_id;
@@ -244,8 +267,8 @@ class Edit extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -269,7 +292,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -287,7 +310,6 @@ class Edit extends Component
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
             ]);
-
 
             $this->locationVehicule->update([
                 'annee' => $this->annee,
@@ -319,12 +341,14 @@ class Edit extends Component
                 'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
-        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        // ! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', __('L\'annonce a été modifiée avec succès'));
+
         return redirect()->route('public.annonces.list');
     }
 

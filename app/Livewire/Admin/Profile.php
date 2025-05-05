@@ -4,28 +4,35 @@ namespace App\Livewire\Admin;
 
 use App\Http\Controllers\AuthenticationController;
 use App\Models\User;
-use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
 
 class Profile extends Component
 {
     public $user;
+
     public $editInfo = false;
+
     public $editPass = false;
 
     public $username;
-    public $nom;
-    public $prenom;
-    public $email;
-    public $password;
-    public $password_confirmation;
-    public $password_old;
 
+    public $nom;
+
+    public $prenom;
+
+    public $email;
+
+    public $password;
+
+    public $password_confirmation;
+
+    public $password_old;
 
     public function mount()
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('connexion');
         }
 
@@ -109,10 +116,10 @@ class Profile extends Component
 
         if ($this->editInfo) {
             $validated = $this->validate([
-                'username' => 'required|min:3|max:255|unique:users,username,' . $this->user->id,
+                'username' => 'required|min:3|max:255|unique:users,username,'.$this->user->id,
                 'nom' => 'required|min:3|max:255',
                 'prenom' => 'required|min:3|max:255',
-                'email' => 'required|email|min:3|max:255|unique:users,email,' . $this->user->id,
+                'email' => 'required|email|min:3|max:255|unique:users,email,'.$this->user->id,
             ]);
         } else {
             $validated = $this->validate([
@@ -120,7 +127,7 @@ class Profile extends Component
                 'password' => 'required|min:4|max:255|confirmed',
             ]);
 
-            if (!Hash::check($this->password_old, $this->user->password)) {
+            if (! Hash::check($this->password_old, $this->user->password)) {
                 $validator = Validator::make([], []); // Empty data and rules
 
                 // Add an error message to the password_old field
@@ -137,6 +144,7 @@ class Profile extends Component
 
         if ($this->editPass) {
             AuthenticationController::logout(request());
+
             // return redirect('/');
             return redirect()->route('login');
         }
@@ -153,7 +161,7 @@ class Profile extends Component
             'title' => __('Opération réussie'),
             'message' => __('Profil mis à jour avec succès'),
         ]);
-        return;
+
     }
 
     public function render()

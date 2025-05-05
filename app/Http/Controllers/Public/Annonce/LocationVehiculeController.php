@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Public\Annonce;
 
 use App\Http\Controllers\Controller;
 use App\Models\LocationVehicule;
-use Illuminate\Http\Request;
 
 class LocationVehiculeController extends Controller
 {

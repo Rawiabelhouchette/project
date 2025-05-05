@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class EntrepriseSeeder extends Seeder
@@ -22,7 +21,7 @@ class EntrepriseSeeder extends Seeder
             'longitude' => '1.2315569747663',
             'latitude' => '6.1443779257375',
             'ville_id' => 1,
-            'quartier' => 'Adidogomé'
+            'quartier' => 'Adidogomé',
         ]);
 
         $entreprise->heure_ouverture()->create([
@@ -30,7 +29,6 @@ class EntrepriseSeeder extends Seeder
             'heure_debut' => '12:00:00',
             'heure_fin' => '23:59:00',
         ]);
-
 
         $user = User::find(1);
 
@@ -40,7 +38,7 @@ class EntrepriseSeeder extends Seeder
                 'is_active' => true,
                 'date_debut' => now(),
                 'date_fin' => null, // ou une date si tu veux
-            ]
+            ],
         ]);
 
         $user = User::find(2);
@@ -51,7 +49,7 @@ class EntrepriseSeeder extends Seeder
                 'is_active' => true,
                 'date_debut' => now(),
                 'date_fin' => null, // ou une date si tu veux
-            ]
+            ],
         ]);
 
         $abonnement = \App\Models\Abonnement::create([

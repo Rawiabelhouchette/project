@@ -20,32 +20,46 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
+    use AnnonceBaseEdit, CustomValidation, WithFileUploads;
 
     public $fastFood;
+
     public $is_active;
+
     public $nom;
+
     public $type;
+
     public $description;
+
     public $date_validite;
+
     public $entreprise_id;
+
     public $accompagnement;
 
     public $services = [];
+
     public $list_services = [];
 
     public $produits_fast_food = [];
+
     public $list_produits_fast_food = [];
 
     public $equipements_restauration = [];
+
     public $list_equipements_restauration = [];
 
     public $entreprises = [];
 
     public $nom_produit;
+
     public $prix_produit;
+
     public $image_produit;
+
     public $accompagnements_produit;
+
     public $last_produit_id = 0;
 
     public $produits = [
@@ -56,7 +70,7 @@ class Edit extends Component
             'accompagnements' => '',
             'image_id' => null,
             'is_new' => true,
-        ]
+        ],
     ];
 
     public $old_produits = [];
@@ -64,20 +78,25 @@ class Edit extends Component
     public $produits_error = '';
 
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
+
     public $longitude;
 
     public $image;
 
     public $galerie = [];
+
     public $old_galerie = [];
 
     public function mount($fastFood)
@@ -145,7 +164,6 @@ class Edit extends Component
             'nom' => 'required|string|min:3',
             'description' => 'nullable|min:3|max:255',
 
-
             'produits' => 'required|array|min:1',
 
             'pays_id' => 'required|exists:pays,id',
@@ -203,8 +221,8 @@ class Edit extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -223,7 +241,7 @@ class Edit extends Component
     public function addProduit()
     {
         $result = $this->checkUniqueProduit();
-        if (!$result) {
+        if (! $result) {
             return;
         }
 
@@ -246,12 +264,14 @@ class Edit extends Component
             $i = $length - 1;
             if (empty($this->produits[$i]['nom']) || empty($this->produits[$i]['prix']) || empty($this->produits[$i]['image']) || empty($this->produits[$i]['accompagnements'])) {
                 $this->produits_error = 'Veuillez remplir tous les champs';
+
                 return false;
             }
 
             foreach ($this->produits as $key => $produit) {
-                if ($key == $i)
+                if ($key == $i) {
                     continue;
+                }
                 if ($produit['nom'] == $this->produits[$i]['nom']) {
                     $this->produits_error = 'Ce nom de produit existe déjà';
 
@@ -280,11 +300,11 @@ class Edit extends Component
 
     public function update()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
-        if (!$this->checkUniqueProduit(true)) {
+        if (! $this->checkUniqueProduit(true)) {
             return;
         }
 
@@ -296,19 +316,18 @@ class Edit extends Component
 
             // Put all produits in the same variable
             foreach ($this->produits as $index => $produit) {
-                $this->nom_produit .= $produit['nom'] . $separator;
-                $this->prix_produit .= $produit['prix'] . $separator;
-                $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
-
+                $this->nom_produit .= $produit['nom'].$separator;
+                $this->prix_produit .= $produit['prix'].$separator;
+                $this->accompagnements_produit .= $produit['accompagnements'].$separator;
 
                 // check if $produit image is a string or an object
                 if (is_string($produit['image'])) {
                     $oldProduitsCollection = collect($this->old_produits);
                     $tmp_produit = $oldProduitsCollection->where('id', $produit['id'])->first();
-                    $this->image_produit .= $tmp_produit['image_id'] . $separator2;
+                    $this->image_produit .= $tmp_produit['image_id'].$separator2;
+
                     continue;
                 }
-
 
                 // dump($produit);
                 // dd($this->old_produits);
@@ -322,7 +341,6 @@ class Edit extends Component
                     $this->image_produit .= "{$uploadResult->id}{$separator2}";
                 }
             }
-
 
             // dump($this->produits);
             // dd($this->old_produits);
@@ -363,10 +381,12 @@ class Edit extends Component
                 'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
         session()->flash('success', 'L\'annonce a bien été modifiée');
+
         return redirect()->route('public.annonces.list');
     }
 

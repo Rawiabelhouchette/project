@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OffreAbonnement;
 use App\Http\Requests\StoreOffreAbonnementRequest;
 use App\Http\Requests\UpdateOffreAbonnementRequest;
+use App\Models\OffreAbonnement;
 
 class OffreAbonnementController extends Controller
 {

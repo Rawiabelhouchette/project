@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 
 class UserController extends Controller
@@ -15,6 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with('roles', 'entreprises')->get();
+
         // dd($users);
         return view('admin.user.index', compact('users'));
     }
@@ -41,6 +42,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $id = $user->id;
+
         return view('admin.user.edit', compact('id'));
     }
 
@@ -68,24 +70,23 @@ class UserController extends Controller
         //
     }
 
-
-    public function getDataTable() {
+    public function getDataTable()
+    {
         $perPage = request()->input('length') ?? 30;
         $users = User::latest();
         $columns = Schema::getColumnListing('users');
 
-
-        if(request()->input('search')) {
+        if (request()->input('search')) {
             $search = request()->input('search');
             $users = $users->where(function ($query) use ($search, $columns) {
                 foreach ($columns as $column) {
-                    $query->orWhere($column, 'like', '%' . $search . '%');
+                    $query->orWhere($column, 'like', '%'.$search.'%');
                 }
             })
-            ->orWhereHas('roles', function ($query) use ($search) {
-                $query->orWhere('name', 'like', '%' . $search . '%');
-            })
-            ->orderBy('id', 'asc');
+                ->orWhereHas('roles', function ($query) use ($search) {
+                    $query->orWhere('name', 'like', '%'.$search.'%');
+                })
+                ->orderBy('id', 'asc');
         }
 
         // if (request()->input('order.0.column')) {

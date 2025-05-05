@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
-use Illuminate\Support\Str;
-
 
 class Usager extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $table = 'users';
+
     protected $fillable = [
         'nom',
         'prenom',

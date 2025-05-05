@@ -2,22 +2,28 @@
 
 namespace App\Livewire\Admin\Pays;
 
+use App\Models\Pays;
 use DB;
 use Livewire\Component;
-use App\Models\Pays;
-use Illuminate\Support\Str;
 
 class Create extends Component
 {
     public $nom;
+
     public $code;
+
     public $indicatif;
+
     public $langue;
+
     public $isEdit = false;
+
     public $pays;
+
     public $formIcon = 'save';
 
     public $libelle = 'Enregistrer un pays';
+
     public $buttonLibelle = 'Enregistrer';
 
     public function mount($paysId = null)
@@ -65,12 +71,13 @@ class Create extends Component
     {
         if ($this->isEdit) {
             return [
-                'nom' => 'required|string|min:3|unique:pays,nom,' . $this->pays->id,
-                'code' => 'required|string|unique:pays,code,' . $this->pays->id,
-                'indicatif' => 'required|string|min:3|unique:pays,indicatif,' . $this->pays->id,
+                'nom' => 'required|string|min:3|unique:pays,nom,'.$this->pays->id,
+                'code' => 'required|string|unique:pays,code,'.$this->pays->id,
+                'indicatif' => 'required|string|min:3|unique:pays,indicatif,'.$this->pays->id,
                 'langue' => 'required|string|min:3',
             ];
         }
+
         return [
             'nom' => 'required|string|min:3|max:255|unique:pays',
             'code' => 'required|string|min:2|max:255|unique:pays',
@@ -101,6 +108,7 @@ class Create extends Component
     {
         if ($this->isEdit) {
             $this->update();
+
             return;
         }
 
@@ -135,7 +143,6 @@ class Create extends Component
 
         $this->exitEdit();
     }
-
 
     public function delete($paysId)
     {

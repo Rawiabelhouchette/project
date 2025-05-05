@@ -5,11 +5,17 @@ namespace App\Utils;
 class CustomSessionAlt
 {
     public $key = '';
+
     public $type = '';
+
     public $sortOrder = '';
+
     public $column = '';
+
     public $direction = '';
+
     public $url = '';
+
     public $annonces;
 
     public function __construct()
@@ -26,17 +32,18 @@ class CustomSessionAlt
     public static function create($data = [])
     {
         if (empty($data)) {
-            return new self();
+            return new self;
         }
 
         session(['search_key' => $data['key'] ?? '']);
         session(['search_type' => $data['type'] ?? '']);
-        session(['search_sortOrder' => !session()->get('search_sortOrder') ? $data['sortOrder'] ?? '' : session()->get('search_sortOrder')]);
-        session(['search_column' => !session()->get('search_column') ? $data['column'] ?? '' : session()->get('search_column')]);
-        session(['search_direction' => !session()->get('search_direction') ? $data['direction'] ?? '' : session()->get('search_direction')]);
+        session(['search_sortOrder' => ! session()->get('search_sortOrder') ? $data['sortOrder'] ?? '' : session()->get('search_sortOrder')]);
+        session(['search_column' => ! session()->get('search_column') ? $data['column'] ?? '' : session()->get('search_column')]);
+        session(['search_direction' => ! session()->get('search_direction') ? $data['direction'] ?? '' : session()->get('search_direction')]);
         session(['search_url' => $data['url'] ?? '']);
         session(['search_annonces' => $data['annonces'] ?? null]);
-        return new self();
+
+        return new self;
     }
 
     public function save()

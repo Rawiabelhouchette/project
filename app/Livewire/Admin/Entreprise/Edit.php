@@ -13,27 +13,43 @@ use Livewire\Component;
 class Edit extends Component
 {
     public $nom = '';
+
     public $description = '';
+
     public $site_web = '';
+
     public $email = '';
+
     public $telephone = '';
+
     public $instagram = '';
+
     public $facebook = '';
+
     public $whatsapp = '';
+
     public $logo = '';
+
     public $longitude = '';
+
     public $latitude = '';
 
     public $pays_id = '';
+
     public $ville_id = '';
+
     public $quartier_id = '';
 
     public $nbr_planning = 1;
 
     public $pays;
+
     public $villes = [];
+
     public $quartiers = [];
+
     public $autreJour = true;
+
     public $entreprise;
 
     public $plannings = [
@@ -59,7 +75,7 @@ class Edit extends Component
         $this->logo = $entreprise->logo;
         $this->longitude = $entreprise->longitude;
         $this->latitude = $entreprise->latitude;
-        if (!empty($entreprise->heure_ouverture->toArray())) {
+        if (! empty($entreprise->heure_ouverture->toArray())) {
             $this->plannings = $entreprise->heure_ouverture->toArray();
         }
         $this->nbr_planning = count($this->plannings);
@@ -80,7 +96,7 @@ class Edit extends Component
     public function rules()
     {
         return [
-            'nom' => 'required|string|min:3|unique:entreprises,nom,' . $this->entreprise->id . ',id', //,quartier_id,' . $this->quartier_id,
+            'nom' => 'required|string|min:3|unique:entreprises,nom,'.$this->entreprise->id.',id', // ,quartier_id,' . $this->quartier_id,
             'description' => 'nullable|string|min:3',
             'site_web' => 'nullable|string|min:3',
             'email' => 'required|string|email|min:3',
@@ -147,14 +163,16 @@ class Edit extends Component
 
     public function addPlanning()
     {
-        if (!$this->autreJour)
+        if (! $this->autreJour) {
             return;
+        }
 
         // verifier si le precedent est a pour non tous les jours
         if ($this->nbr_planning == 1 && $this->plannings[0]['jour'] == '') {
             $this->dispatch('alert:modal', [
                 'message' => __('Veuillez sélectionner un jour avant d\'ajouter un autre'),
             ]);
+
             return;
         }
 
@@ -162,6 +180,7 @@ class Edit extends Component
             $this->dispatch('alert:modal', [
                 'message' => __('Impossible d\'ajouter un autre jour car "Tous les jours" est déjà sélectionné.'),
             ]);
+
             return;
         }
 
@@ -206,8 +225,9 @@ class Edit extends Component
                 $index = array_search($planning, $this->plannings) + 1;
                 $jour_tmp = $planning['jour'];
                 $this->dispatch('alert:modal', [
-                    'message' => __('Jour [' . $jour_tmp . '] est déjà sélectionné'),
+                    'message' => __('Jour ['.$jour_tmp.'] est déjà sélectionné'),
                 ]);
+
                 return;
             }
             $jours[] = $planning['jour'];
@@ -218,8 +238,9 @@ class Edit extends Component
             if ($planning['heure_debut'] > $planning['heure_fin']) {
                 $index = array_search($planning, $this->plannings) + 1;
                 $this->dispatch('alert:modal', [
-                    'message' => __('Heure de fermeture [' . $index . '] doit être supérieur à heure de d\'ouverture'),
+                    'message' => __('Heure de fermeture ['.$index.'] doit être supérieur à heure de d\'ouverture'),
                 ]);
+
                 return;
             }
         }
@@ -240,10 +261,12 @@ class Edit extends Component
                 'title' => __('Opération échouée'),
                 'message' => __('Une erreur est survenue.'),
             ]);
+
             return;
         }
 
         session()->flash('success', 'Entreprise modifiée avec succès.');
+
         return redirect()->route('public.my-business');
     }
 

@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Abonnement;
 use App\Models\Annonce;
-use App\Models\Document;
 use App\Models\Entreprise;
-use App\Models\Message;
 use App\Models\Reference;
-use App\Models\ReferenceValeur;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,10 +13,10 @@ class AdminController extends Controller
 {
     public function welcome()
     {
-        $sexes = null;//Reference::where('type', 'Comptes')->where('nom', 'Sexe')->first();
+        $sexes = null; // Reference::where('type', 'Comptes')->where('nom', 'Sexe')->first();
+
         return view('welcome', compact('sexes'));
     }
-
 
     public function home()
     {
@@ -36,16 +33,16 @@ class AdminController extends Controller
                     'nombre' => $annonces->public()->count(),
                     'nom' => 'Annonces',
                     'lien' => route('annonces.index'),
-                    'icon' => 'fa-solid fa-book'
+                    'icon' => 'fa-solid fa-book',
                 ],
                 [
                     'id' => 'fin-abonnement',
-                    'nombre' => "<span style='font-size: 25px;'>" . date('d/m/Y', strtotime($lastDateAbonnement->date_fin)) . "</span>",
+                    'nombre' => "<span style='font-size: 25px;'>".date('d/m/Y', strtotime($lastDateAbonnement->date_fin)).'</span>',
                     'nom' => 'Fin aboonnement',
                     'lien' => route('abonnements.index'),
                     'icon' => 'fa-solid fa-calendar',
-                    'couleur' => strtotime($lastDateAbonnement->date_fin) > time() ? '#33FF57' : '#FF8733' // Couleur verte si l'abonnement est actif, rouge sinon
-                ]
+                    'couleur' => strtotime($lastDateAbonnement->date_fin) > time() ? '#33FF57' : '#FF8733', // Couleur verte si l'abonnement est actif, rouge sinon
+                ],
             ];
         }
 
@@ -59,21 +56,21 @@ class AdminController extends Controller
                     'nom' => 'Annonces',
                     'lien' => route('annonces.index'),
                     'icon' => 'fa-solid fa-book',
-                    'couleur' => '#3390FF'
+                    'couleur' => '#3390FF',
                 ],
                 [
                     'id' => 'abonnements',
                     'nombre' => Abonnement::where('is_active', true)->count(),
                     'nom' => 'Abonnements actifs',
                     'lien' => route('abonnements.index'),
-                    'icon' => 'fa-solid fa-calendar'
+                    'icon' => 'fa-solid fa-calendar',
                 ],
                 [
                     'id' => 'entreprises',
                     'nombre' => Entreprise::count(),
                     'nom' => 'Entreprises',
                     'lien' => route('entreprises.index'),
-                    'icon' => 'fa-solid fa-building'
+                    'icon' => 'fa-solid fa-building',
                 ],
                 [
                     'id' => 'comptes-usagers',
@@ -82,7 +79,7 @@ class AdminController extends Controller
                     })->count(),
                     'nom' => 'Comptes Usagers',
                     'lien' => route('users.index'),
-                    'icon' => 'fa-solid fa-user'
+                    'icon' => 'fa-solid fa-user',
                 ],
                 [
                     'id' => 'comptes-professionnels',
@@ -91,7 +88,7 @@ class AdminController extends Controller
                     })->count(),
                     'nom' => 'Comptes Professionnels',
                     'lien' => route('users.index'),
-                    'icon' => 'fa-solid fa-users'
+                    'icon' => 'fa-solid fa-users',
                 ],
                 [
                     // nombre de comptes professionnels
@@ -101,7 +98,7 @@ class AdminController extends Controller
                     })->count(),
                     'nom' => 'Comptes Admin',
                     'lien' => route('users.index'),
-                    'icon' => 'fa-solid fa-user-shield'
+                    'icon' => 'fa-solid fa-user-shield',
                 ],
             ];
         }

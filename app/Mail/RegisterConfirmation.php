@@ -2,11 +2,8 @@
 
 namespace App\Mail;
 
-use App\Models\Abonnement;
-use App\Models\OffreAbonnement;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -17,10 +14,11 @@ class RegisterConfirmation extends Mailable
     use Queueable, SerializesModels;
 
     public $firstName;
+
     public $username;
+
     public $email;
 
-    
     /**
      * Create a new message instance.
      */

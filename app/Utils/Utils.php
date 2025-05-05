@@ -21,8 +21,9 @@ class Utils
     {
         try {
             $dateTime = new \DateTime($date);
-            $start = $dateTime->format('Y-m-d') . ' 00:00:00';
-            $end = $dateTime->format('Y-m-d') . ' 23:59:59';
+            $start = $dateTime->format('Y-m-d').' 00:00:00';
+            $end = $dateTime->format('Y-m-d').' 23:59:59';
+
             return [$start, $end];
         } catch (Exception $e) {
             // Handle the exception, for example, by logging the error or returning a default value
@@ -30,6 +31,4 @@ class Utils
             return [null, null];
         }
     }
-
-
 }

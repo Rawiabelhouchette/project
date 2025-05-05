@@ -2,11 +2,10 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\User;
 use App\Utils\AnnoncesUtils;
 use Livewire\Component;
-use App\Models\User;
 use Livewire\WithPagination;
-
 
 class Annonce extends Component
 {
@@ -15,9 +14,13 @@ class Annonce extends Component
     protected $paginationTheme = 'bootstrap';
 
     private $perPage = 9;
+
     public $search = '';
+
     public $is_published;
+
     public $types;
+
     public $type;
 
     public function delete($id)

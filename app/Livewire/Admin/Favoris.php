@@ -2,10 +2,9 @@
 
 namespace App\Livewire\Admin;
 
-use Livewire\Component;
 use App\Models\User;
+use Livewire\Component;
 use Livewire\WithPagination;
-
 
 class Favoris extends Component
 {
@@ -14,6 +13,7 @@ class Favoris extends Component
     protected $paginationTheme = 'bootstrap';
 
     private $perPage = 9;
+
     public $search = '';
 
     protected $listeners = ['updateFavoris'];
@@ -36,11 +36,10 @@ class Favoris extends Component
         $search = $this->search;
         $user = User::find(auth()->user()->id);
         $annonces = $user->favorisAnnonces()->where(function ($query) use ($search) {
-            $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($search) . '%'])
-                ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
+            $query->orWhereRaw('LOWER(titre) LIKE ?', ['%'.strtolower($search).'%'])
+                ->orWhereRaw('LOWER(description) LIKE ?', ['%'.strtolower($search).'%']);
         })->paginate($this->perPage);
 
         return view('livewire.admin.favoris', compact('annonces'));
     }
 }
-

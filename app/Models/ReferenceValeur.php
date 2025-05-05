@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Wildside\Userstamps\Userstamps;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Wildside\Userstamps\Userstamps;
 
 class ReferenceValeur extends Model
 {
@@ -22,7 +22,6 @@ class ReferenceValeur extends Model
     protected $casts = [
         'valeur' => PurifyHtmlOnGet::class,
     ];
-
 
     public function reference(): BelongsTo
     {
@@ -38,5 +37,4 @@ class ReferenceValeur extends Model
     {
         return $this->hasMany(AnnonceReference::class, 'reference_valeur_id');
     }
-
 }

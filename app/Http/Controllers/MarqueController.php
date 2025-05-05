@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Marque;
 use App\Utils\Utils;
-use Illuminate\Http\Request;
 
 class MarqueController extends Controller
 {
@@ -35,7 +34,7 @@ class MarqueController extends Controller
             } else {
                 $marque = $marque->where(function ($query) use ($search, $searchableColumns) {
                     foreach ($searchableColumns as $column) {
-                        $query->orWhere($column, 'like', '%' . $search . '%');
+                        $query->orWhere($column, 'like', '%'.$search.'%');
                     }
                 });
             }

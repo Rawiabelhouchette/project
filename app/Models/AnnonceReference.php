@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
-use Illuminate\Support\Str;
+
 class AnnonceReference extends Model
 {
     use HasFactory, Userstamps;
@@ -36,5 +37,4 @@ class AnnonceReference extends Model
         'description' => PurifyHtmlOnGet::class,
         'reference_valeur_id' => PurifyHtmlOnGet::class,
     ];
-
 }

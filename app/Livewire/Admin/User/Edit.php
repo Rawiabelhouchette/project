@@ -11,21 +11,29 @@ use Spatie\Permission\Models\Role;
 class Edit extends Component
 {
     public $userId;
+
     public $nom;
+
     public $prenom;
+
     public $email;
+
     public $username;
+
     public $telephone;
+
     public $is_active;
+
     public $role = '';
+
     public $entreprise_id;
+
     public $isProfessionnel = false;
 
-
     public $roles = [];
+
     public $entreprises = [];
 
-        
     public function mount($userId)
     {
         $this->entreprises = Entreprise::orderBy('nom', 'asc')->select('nom', 'id')->get();
@@ -46,13 +54,14 @@ class Edit extends Component
         }
     }
 
-    public function rules() {
-        $rules =  [
+    public function rules()
+    {
+        $rules = [
             'nom' => 'required|string|min:3',
             'prenom' => 'nullable|string|min:3',
-            'email' => 'nullable|email|unique:users,email,' . $this->userId,
-            'username' => 'required|string|min:3|unique:users,username,' . $this->userId,
-            'telephone' => 'nullable|string|min:3|unique:users,telephone,' . $this->userId,
+            'email' => 'nullable|email|unique:users,email,'.$this->userId,
+            'username' => 'required|string|min:3|unique:users,username,'.$this->userId,
+            'telephone' => 'nullable|string|min:3|unique:users,telephone,'.$this->userId,
             'is_active' => 'required|boolean',
             'role' => 'required|string|exists:roles,name',
         ];
@@ -85,7 +94,7 @@ class Edit extends Component
     public function update()
     {
         $validated = $this->validate();
-        if (!$this->isProfessionnel) {
+        if (! $this->isProfessionnel) {
             $validated['entreprise_id'] = null;
         }
         DB::beginTransaction();
@@ -98,9 +107,10 @@ class Edit extends Component
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
+
             return $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Une erreur s\'est produite'),
+                'title' => __('Une erreur s\'est produite'),
                 'message' => __('Utilisateur ajouté avec succès'),
             ]);
         }
@@ -108,16 +118,14 @@ class Edit extends Component
         session()->flash('success', 'Utilisateur modifié avec succès.');
 
         return redirect()->route('users.index');
-        
 
         // $this->dispatch('swal:modal', [
         //     'icon' => 'success',
         //     'title'   => __('Opération réussie'),
         //     'message' => __('Utilisateur ajouté avec succès'),
-        // ]);        
+        // ]);
 
         // $this->reset();
-        
 
         // $this->roles = Role::orderBy('id', 'desc')->select('name', 'id')->get();
     }
@@ -127,4 +135,3 @@ class Edit extends Component
         return view('livewire.admin.user.edit');
     }
 }
-

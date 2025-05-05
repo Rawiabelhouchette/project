@@ -3,59 +3,71 @@
 namespace App\Livewire\Admin\BoiteDeNuit;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
+use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
+use App\Models\Reference;
+use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
-use Livewire\Attributes\On;
-use Livewire\Component;
-use App\Models\Entreprise;
-use App\Models\Reference;
-use App\Models\ReferenceValeur;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
+    use AnnonceBaseEdit, CustomValidation, WithFileUploads;
 
     public $nom;
+
     public $type;
+
     public $description;
+
     public $date_validite;
+
     public $entreprise_id;
 
     public $boiteDeNuit;
 
     public $commodites = [];
+
     public $list_commodites = [];
 
     public $services = [];
+
     public $list_services = [];
 
     public $types_musique = [];
+
     public $list_types_musique = [];
 
     public $equipements_vie_nocturne = [];
+
     public $list_equipements_vie_nocturne = [];
 
     public $entreprises = [];
 
     public $is_active;
+
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
-    public $longitude;
 
+    public $longitude;
 
     public function mount($boiteDeNuit)
     {
@@ -72,7 +84,6 @@ class Edit extends Component
         $this->equipements_vie_nocturne = $boiteDeNuit->annonce->references('equipements-vie-nocturne')->pluck('id')->toArray();
         $this->old_galerie = $boiteDeNuit->annonce->galerie()->get();
         $this->old_image = $boiteDeNuit->annonce->imagePrincipale;
-
 
         $this->pays_id = $boiteDeNuit->annonce->ville->pays_id;
         $this->ville_id = $boiteDeNuit->annonce->ville_id;
@@ -106,7 +117,6 @@ class Edit extends Component
             $this->list_types_musique = ReferenceValeur::where('reference_id', $tmp_types_musique->id)->select('valeur', 'id')->get() :
             $this->list_types_musique = [];
 
-
         $tmp_types_musique = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'types-de-musique')->first();
         $tmp_types_musique ?
             $this->list_types_musique = ReferenceValeur::where('reference_id', $tmp_types_musique->id)->select('valeur', 'id')->get() :
@@ -119,6 +129,7 @@ class Edit extends Component
 
         $this->pays = Pays::orderBy('nom')->get();
     }
+
     public function rules()
     {
         return [
@@ -173,8 +184,8 @@ class Edit extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -192,7 +203,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -233,12 +244,14 @@ class Edit extends Component
                 'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
-        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        // ! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
+
         return redirect()->route('public.annonces.list');
     }
 

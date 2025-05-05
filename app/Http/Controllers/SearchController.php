@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Annonce;
+use App\Models\View;
 use App\Utils\CustomSession;
 use Illuminate\Http\Request;
-use App\Models\View;
 
 class SearchController extends Controller
 {
@@ -13,7 +13,7 @@ class SearchController extends Controller
     {
         $hasSessionValue = false;
 
-        $session = new CustomSession();
+        $session = new CustomSession;
         if ($session->annonces) {
             $hasSessionValue = true;
         }
@@ -33,6 +33,7 @@ class SearchController extends Controller
         if ($form_request) {
             $hasSessionValue = false;
         }
+
         return view('public.search', compact('hasSessionValue'));
     }
 
@@ -43,7 +44,7 @@ class SearchController extends Controller
         $query = Annonce::with(['galerie', 'entreprise', 'commentaires', 'favoris'])->where('slug', $slug);
         $annonce = $query->first(); // Appel unique
 
-        if (!$annonce) {
+        if (! $annonce) {
             return view('errors.404');
         }
 
@@ -51,7 +52,7 @@ class SearchController extends Controller
         $isAdmin = $user && $user->hasRole('Administrateur');
         $isPro = $user && $user->hasRole('Professionnel') && in_array($annonce->entreprise_id, $user->entreprises->pluck('id')->toArray());
 
-        if (!$isAdmin && !$isPro && !$annonce->is_active) {
+        if (! $isAdmin && ! $isPro && ! $annonce->is_active) {
             return view('errors.404');
         }
 
@@ -67,10 +68,10 @@ class SearchController extends Controller
         $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
 
         // Session personnalisée
-        $session = new CustomSession();
+        $session = new CustomSession;
         $sessAnnonces = $session->annonces ?? [];
 
-        if (!in_array($annonce->id, $sessAnnonces)) {
+        if (! in_array($annonce->id, $sessAnnonces)) {
             $sessAnnonces[] = $annonce->id;
             CustomSession::create([
                 'annonces' => $sessAnnonces,
@@ -85,7 +86,7 @@ class SearchController extends Controller
         $next = Annonce::public()->find($result->next);
 
         $pagination = (object) [
-            'position' => "{$result->position}/" . max(count($sessAnnonces), 1),
+            'position' => "{$result->position}/".max(count($sessAnnonces), 1),
             'previous' => $previous ? route('show', $previous->slug) : 'javascript:void(0)',
             'next' => $next ? route('show', $next->slug) : 'javascript:void(0)',
         ];
@@ -93,7 +94,7 @@ class SearchController extends Controller
         return view('public.show', compact('annonce', 'type', 'key', 'annonces', 'typeAnnonce', 'pagination'));
     }
 
-    function findElement($array, $element)
+    public function findElement($array, $element)
     {
         $position = array_search($element, $array);
 
@@ -101,7 +102,7 @@ class SearchController extends Controller
             return (object) [
                 'position' => 1,
                 'previous' => 0,
-                'next' => 0
+                'next' => 0,
             ];
         }
 
@@ -113,8 +114,7 @@ class SearchController extends Controller
         return (object) [
             'position' => ++$position,
             'previous' => $previous,
-            'next' => $next
+            'next' => $next,
         ];
     }
-
 }

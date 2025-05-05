@@ -22,9 +22,9 @@ trait CustomValidation
         if ($validator->fails()) {
             $errors = '';
             foreach ($validator->errors()->all() as $error) {
-                $errors .= $error . "<br>";
+                $errors .= $error.'<br>';
             }
-            $this->errorMessage = "Veuillez corriger les erreurs ci-dessous.";
+            $this->errorMessage = 'Veuillez corriger les erreurs ci-dessous.';
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Validation échouée'),
@@ -32,6 +32,7 @@ trait CustomValidation
             ]);
 
             $this->setErrorBag($validator->errors());
+
             return false;
         }
 

@@ -10,17 +10,23 @@ use Livewire\Component;
 class Add extends Component
 {
     public $id = null;
+
     public $type = '';
+
     public $nom = '';
+
     public $valeur = '';
 
     public $libelle = 'Créer une référence';
+
     public $buttonLibelle = 'Enregistrer';
+
     public $formIcon = 'save';
 
     public $isEdit = false;
 
     public $typeList = [];
+
     public $nomList = [];
 
     public function mount()
@@ -84,7 +90,7 @@ class Add extends Component
         $this->validate();
 
         $reference = Reference::where('type', $this->type)->where('nom', $this->nom)->first();
-        if (!$reference) {
+        if (! $reference) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Opération échouée'),
@@ -100,6 +106,7 @@ class Add extends Component
                     'title' => __('Opération échouée'),
                     'message' => __('Cette référence existe déjà.'),
                 ]);
+
                 return;
             }
 
@@ -110,6 +117,7 @@ class Add extends Component
             ];
             $this->update($ref, $validated);
             $this->typeList = References::getList();
+
             return;
         }
 
@@ -125,7 +133,8 @@ class Add extends Component
                 $hasOneValideValue = true;
                 $referenceValeur = ReferenceValeur::where('valeur', $valeur)->where('reference_id', $reference->id)->first();
                 if ($referenceValeur) {
-                    $existingValues .= $valeur . ', ';
+                    $existingValues .= $valeur.', ';
+
                     continue;
                 }
                 $hasOneNewValue = true;
@@ -140,30 +149,33 @@ class Add extends Component
                 'title' => __('Opération échouée'),
                 'message' => __('Une erreur est survenue lors de l\'enregistrement de la référence'),
             ]);
+
             return;
         }
 
-        if (!$hasOneValideValue) {
+        if (! $hasOneValideValue) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Opération échouée'),
                 'message' => __('Veuillez saisir une valeur valide.'),
             ]);
+
             return;
         }
 
-        if (!$hasOneNewValue) {
+        if (! $hasOneNewValue) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Opération échouée'),
-                'message' => __('Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ')),
+                'message' => __('Les valeurs suivantes existent déjà : '.rtrim($existingValues, ', ')),
             ]);
+
             return;
         }
 
         $message = 'Référence(s) ajoutée(s) avec succès';
         if ($existingValues) {
-            $message .= ' <br>Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ');
+            $message .= ' <br>Les valeurs suivantes existent déjà : '.rtrim($existingValues, ', ');
         }
 
         $this->dispatch('swal:modal', [

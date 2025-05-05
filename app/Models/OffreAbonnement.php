@@ -33,7 +33,7 @@ class OffreAbonnement extends Model
         'options',
         'unite_en', // day, week, month, year
         'unite_fr', // Jour, Semaine, Mois, Annee
-        'is_free'
+        'is_free',
     ];
 
     protected $casts = [
@@ -47,7 +47,6 @@ class OffreAbonnement extends Model
         return $query->where('is_active', true);
     }
 
-
     protected $appends = [
         'offres',
     ];
@@ -55,6 +54,7 @@ class OffreAbonnement extends Model
     public function getOffresAttribute(): array
     {
         $offres = [];
+
         return $offres;
     }
 }

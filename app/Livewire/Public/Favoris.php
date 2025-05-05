@@ -9,6 +9,7 @@ class Favoris extends Component
     public $isEnabled = false;
 
     public $annonceId;
+
     public $favorisId;
 
     public function mount($annonce)
@@ -16,7 +17,7 @@ class Favoris extends Component
         if (auth()->guest()) {
             return;
         }
-        
+
         $this->annonceId = $annonce->id;
         $favoris = \App\Models\Favoris::where('annonce_id', $this->annonceId)
             ->where('user_id', auth()->user()->id)

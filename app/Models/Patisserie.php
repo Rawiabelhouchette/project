@@ -9,9 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\View\View;
-use Wildside\Userstamps\Userstamps;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
-
+use Wildside\Userstamps\Userstamps;
 
 class Patisserie extends Model implements AnnonceInterface
 {
@@ -85,6 +84,7 @@ class Patisserie extends Model implements AnnonceInterface
             return [];
         }
         $tmp = explode($separator, $string);
+
         return array_filter($tmp, function ($value) {
             return $value !== null && $value !== '';
         });
@@ -95,7 +95,7 @@ class Patisserie extends Model implements AnnonceInterface
         $attributes = [];
 
         return array_filter($attributes, function ($value) {
-            return !is_null($value);
+            return ! is_null($value);
         });
     }
 

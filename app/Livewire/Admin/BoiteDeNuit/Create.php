@@ -13,46 +13,58 @@ use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
+    use AnnonceBaseCreate, CustomValidation, WithFileUploads;
 
     public $nom;
+
     public $type;
+
     public $description;
+
     public $date_validite;
+
     public $entreprise_id;
+
     public $entreprises;
 
-
     public $commodites = [];
+
     public $list_commodites = [];
 
     public $services = [];
+
     public $list_services = [];
 
     public $types_musique = [];
+
     public $list_types_musique = [];
 
     public $equipements_vie_nocturne = [];
+
     public $list_equipements_vie_nocturne = [];
 
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
+
     public $longitude;
 
     public function mount()
@@ -165,8 +177,8 @@ class Create extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -184,7 +196,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -228,15 +240,16 @@ class Create extends Component
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
-        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        // ! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
+
         return redirect()->route('public.annonces.list');
     }
-
 
     public function render()
     {

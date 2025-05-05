@@ -4,23 +4,31 @@ namespace App\Livewire\Admin\Quartier;
 
 use App\Models\Pays;
 use App\Models\Quartier;
+use App\Models\Ville;
 use DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
-use App\Models\Ville;
-use Illuminate\Support\Str;
 
 class Create extends Component
 {
     public $nom;
+
     public $isEdit = false;
+
     public $pays;
+
     public $pays_id;
+
     public $villes;
+
     public $ville_id;
+
     public $quartier;
+
     public $libelle = 'Enregistrer un quartier';
+
     public $buttonLibelle = 'Enregistrer';
+
     public $formIcon = 'save';
 
     public function mount($quartierId = null)
@@ -78,10 +86,11 @@ class Create extends Component
     {
         if ($this->isEdit) {
             return [
-                'nom' => 'required|string|min:3|unique:quartiers,nom,' . $this->quartier->id . ',id,ville_id,' . $this->ville_id,
+                'nom' => 'required|string|min:3|unique:quartiers,nom,'.$this->quartier->id.',id,ville_id,'.$this->ville_id,
                 'ville_id' => 'required|integer|exists:villes,id',
             ];
         }
+
         return [
             'nom' => 'required|string|min:3|unique:quartiers,nom,id,ville_id',
             'ville_id' => 'required|integer|exists:villes,id',
@@ -102,6 +111,7 @@ class Create extends Component
     {
         if ($this->isEdit) {
             $this->update();
+
             return;
         }
 
@@ -111,8 +121,6 @@ class Create extends Component
         $hasOneNewValue = false;
         $hasOneValideValue = false;
 
-
-
         // les valeurs sont stockées séparément par des virgules
         $noms = array_filter(array_map('trim', explode(',', $this->nom)));
 
@@ -120,7 +128,8 @@ class Create extends Component
             $hasOneValideValue = true;
             $quartier = Quartier::where('nom', $nom)->where('ville_id', $this->ville_id)->first();
             if ($quartier) {
-                $existingValues .= $nom . ', ';
+                $existingValues .= $nom.', ';
+
                 continue;
             }
 
@@ -131,21 +140,21 @@ class Create extends Component
             ]);
         }
 
-        if (!$hasOneValideValue) {
+        if (! $hasOneValideValue) {
             throw ValidationException::withMessages([
                 'nom' => __('Veuillez saisir une valeur valide.'),
             ]);
         }
 
-        if (!$hasOneNewValue) {
+        if (! $hasOneNewValue) {
             throw ValidationException::withMessages([
-                'nom' => __('Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ')),
+                'nom' => __('Les valeurs suivantes existent déjà : '.rtrim($existingValues, ', ')),
             ]);
         }
 
         $message = 'Quartier(s) ajouté(s) avec succès';
         if ($existingValues) {
-            $message .= ' <br>Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ');
+            $message .= ' <br>Les valeurs suivantes existent déjà : '.rtrim($existingValues, ', ');
         }
 
         $this->dispatch('swal:modal', [
@@ -192,7 +201,6 @@ class Create extends Component
 
         $this->villes = Ville::all();
     }
-
 
     public function delete($quartierId)
     {

@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Wildside\Userstamps\Userstamps;
-use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Illuminate\Support\Str;
+use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Wildside\Userstamps\Userstamps;
 
 class Ville extends Model
 {
@@ -38,9 +38,8 @@ class Ville extends Model
     ];
 
     protected $appends = [
-        'nombre_annonce'
+        'nombre_annonce',
     ];
-
 
     public function pays()
     {
@@ -59,6 +58,7 @@ class Ville extends Model
         $count = Annonce::public()->whereHas('entreprise.ville', function ($query) use ($ville) {
             $query->where('nom', $ville);
         })->count();
+
         return $count;
     }
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AnnonceReference;
 use App\Http\Requests\StoreAnnonceReferenceRequest;
 use App\Http\Requests\UpdateAnnonceReferenceRequest;
+use App\Models\AnnonceReference;
 
 class AnnonceReferenceController extends Controller
 {

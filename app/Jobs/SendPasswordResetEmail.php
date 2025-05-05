@@ -15,6 +15,7 @@ class SendPasswordResetEmail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $user;
+
     private $resetLink;
 
     /**

@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
-use Illuminate\Support\Str;
 
 class Entreprise extends Model
 {
@@ -76,7 +76,8 @@ class Entreprise extends Model
         $quartier = $this->quartier;
         $ville = $this->ville->nom ?? '';
         $pays = $this->ville->pays->nom ?? '';
-        return $pays . ', ' . $ville . ', ' . $quartier;
+
+        return $pays.', '.$ville.', '.$quartier;
     }
 
     public function getHeureOuverturesAttribute(): array
@@ -97,13 +98,14 @@ class Entreprise extends Model
         if ($tous_les_jours) {
             $tmp = [];
             foreach ($jours as $key => $jour) {
-                $tmp[ucfirst($key)] = date('H:i', strtotime($tous_les_jours->heure_debut)) . ' - ' . date('H:i', strtotime($tous_les_jours->heure_fin));
+                $tmp[ucfirst($key)] = date('H:i', strtotime($tous_les_jours->heure_debut)).' - '.date('H:i', strtotime($tous_les_jours->heure_fin));
             }
+
             return $tmp;
         }
 
         foreach ($jours_ouvertures as $jour) {
-            $jours[$jour->jour] = date('H:i', strtotime($jour->heure_debut)) . ' - ' . date('H:i', strtotime($jour->heure_fin));
+            $jours[$jour->jour] = date('H:i', strtotime($jour->heure_debut)).' - '.date('H:i', strtotime($jour->heure_fin));
         }
 
         return $jours;
@@ -128,7 +130,6 @@ class Entreprise extends Model
         'longitude' => PurifyHtmlOnGet::class,
         'latitude' => PurifyHtmlOnGet::class,
     ];
-
 
     public function heure_ouverture()
     {

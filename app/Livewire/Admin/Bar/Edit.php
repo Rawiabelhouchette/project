@@ -10,53 +10,67 @@ use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit;
+    use AnnonceBaseEdit, WithFileUploads;
 
     public $nom;
+
     public $type;
+
     public $description;
+
     public $date_validite;
+
     public $entreprise_id;
+
     public $type_bar;
+
     public $capacite_accueil;
+
     public $is_active;
 
     public $bar;
 
     public $prix_min;
+
     public $prix_max;
 
     public $types_musique = [];
+
     public $list_types_musique = [];
 
     public $equipements_vie_nocturne = [];
+
     public $list_equipements_vie_nocturne = [];
 
     public $commodites_vie_nocturne = [];
+
     public $list_commodites_vie_nocturne = [];
 
     public $entreprises = [];
 
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
-    public $longitude;
 
+    public $longitude;
 
     public function mount($bar)
     {
@@ -196,8 +210,8 @@ class Edit extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -215,7 +229,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -233,7 +247,6 @@ class Edit extends Component
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
             ]);
-
 
             $this->bar->update([
                 'type_bar' => $this->type_bar,
@@ -261,11 +274,13 @@ class Edit extends Component
                 'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
-        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        // ! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
         session()->flash('success', 'L\'annonce a bien été ajoutée');
+
         return redirect()->route('public.annonces.list');
     }
 

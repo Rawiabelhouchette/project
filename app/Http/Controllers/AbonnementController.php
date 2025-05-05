@@ -9,7 +9,6 @@ use App\Models\OffreAbonnement;
 use App\Models\Pays;
 use App\Models\User;
 use App\Models\Ville;
-use App\Services\Paiement\PaiementService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -25,6 +24,7 @@ class AbonnementController extends Controller
     public function create()
     {
         $offres = OffreAbonnement::all();
+
         return view('admin.abonnement.create', compact('offres'));
     }
 
@@ -74,7 +74,8 @@ class AbonnementController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('' . $e->getMessage());
+            Log::error(''.$e->getMessage());
+
             return back()->with('error', 'Une erreur est survenue lors de l\'enregistrement de votre abonnement');
         }
 
@@ -84,7 +85,7 @@ class AbonnementController extends Controller
     // redirection vers la page de choix d'abonnement
     public function choiceIndex(Request $request)
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('connexion');
         }
 
@@ -96,7 +97,7 @@ class AbonnementController extends Controller
 
         $offres = OffreAbonnement::query()->active();
 
-        if (!auth()->user()->hasRole('Usager')) {
+        if (! auth()->user()->hasRole('Usager')) {
             $offres->where('is_free', false);
         }
         $offres = $offres->get();
@@ -106,11 +107,11 @@ class AbonnementController extends Controller
 
     public function createCompany(Request $request)
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('connexion');
         }
 
-        if (!auth()->user()->hasRole('Usager')) {
+        if (! auth()->user()->hasRole('Usager')) {
             return redirect()->back();
         }
 
@@ -118,7 +119,7 @@ class AbonnementController extends Controller
 
         $abonnement = OffreAbonnement::active()->where('id', $abonnementId)->first();
 
-        if (!$abonnement) {
+        if (! $abonnement) {
             return redirect()->route('pricing');
         }
 
@@ -139,7 +140,7 @@ class AbonnementController extends Controller
 
         $ville = Ville::find($validated['ville_id']);
 
-        if (!$ville) {
+        if (! $ville) {
             return redirect()->back()->with('error', 'La ville sélectionnée est invalide.');
         }
 
@@ -168,6 +169,7 @@ class AbonnementController extends Controller
         }
 
         session()->put('abonnement', $validated);
+
         return redirect()->route('payments.index');
     }
 
@@ -186,19 +188,19 @@ class AbonnementController extends Controller
             $search_columns = ['date_debut', 'date_fin'];
             $search = request()->input('search');
             $abonnements = $abonnements
-                ->where(function ($query) use ($search, $columns, $search_columns) {
+                ->where(function ($query) {
                     // foreach ($search_columns as $column) {
                     //     $query->orWhereRaw("LOWER({$column}) LIKE ?", ['%' . Str::lower($search) . '%']);
                     // }
-    
+
                     // $query->orWhereHas('entreprises', function ($query) use ($search) {
                     //     $query->whereRaw("LOWER(nom) LIKE ?", ['%' . Str::lower($search) . '%']);
                     // });
-    
+
                     // $query->orWhereHas('offre', function ($query) use ($search) {
                     //     $query->whereRaw("LOWER(libelle) LIKE ?", ['%' . Str::lower($search) . '%']);
                     // });
-    
+
                     // if (Str::lower($search) == 'actif') {
                     //     $query->orWhere('is_active', true);
                     // } elseif (Str::lower($search) == 'inactif') {

@@ -2,22 +2,27 @@
 
 namespace App\Livewire\Admin\Modele;
 
+use App\Models\Marque;
+use App\Models\Modele;
 use DB;
 use Livewire\Component;
-use App\Models\Modele;
-use App\Models\Marque;
-use Illuminate\Support\Str;
 
 class Create extends Component
 {
     public $nom;
+
     public $marque_id;
+
     public $isEdit = false;
+
     public $modele;
+
     public $formIcon = 'save';
+
     public $marques;
 
     public $libelle = 'Enregistrer un modèle';
+
     public $buttonLibelle = 'Enregistrer';
 
     public function mount($modeleId = null)
@@ -66,10 +71,11 @@ class Create extends Component
     {
         if ($this->isEdit) {
             return [
-                'nom' => 'required|string|min:3|unique:modeles,nom,' . $this->modele->id,
+                'nom' => 'required|string|min:3|unique:modeles,nom,'.$this->modele->id,
                 'marque_id' => 'required|exists:marques,id',
             ];
         }
+
         return [
             'nom' => 'required',
             'marque_id' => 'required|exists:marques,id',
@@ -87,6 +93,7 @@ class Create extends Component
     {
         if ($this->isEdit) {
             $this->update();
+
             return;
         }
 
@@ -104,7 +111,8 @@ class Create extends Component
                 $hasOneValideValue = true;
                 $modele = Modele::where('nom', $valeur)->where('marque_id', $this->marque_id)->first();
                 if ($modele) {
-                    $existingValues .= $valeur . ', ';
+                    $existingValues .= $valeur.', ';
+
                     continue;
                 }
                 $hasOneNewValue = true;
@@ -119,30 +127,33 @@ class Create extends Component
                 'title' => __('Opération échouée'),
                 'message' => __('Une erreur est survenue lors de l\'enregistrement du modèle'),
             ]);
+
             return;
         }
 
-        if (!$hasOneValideValue) {
+        if (! $hasOneValideValue) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Opération échouée'),
                 'message' => __('Veuillez saisir une valeur valide.'),
             ]);
+
             return;
         }
 
-        if (!$hasOneNewValue) {
+        if (! $hasOneNewValue) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Opération échouée'),
-                'message' => __('Les valeurs suivantes existent déjà pour la marque sélectionnée : ' . rtrim($existingValues, ', ')),
+                'message' => __('Les valeurs suivantes existent déjà pour la marque sélectionnée : '.rtrim($existingValues, ', ')),
             ]);
+
             return;
         }
 
         $message = 'Modèle(s) ajouté(s) avec succès';
         if ($existingValues) {
-            $message .= ' <br>Les valeurs suivantes existent déjà pour la marque sélectionnée : ' . rtrim($existingValues, ', ');
+            $message .= ' <br>Les valeurs suivantes existent déjà pour la marque sélectionnée : '.rtrim($existingValues, ', ');
         }
 
         $this->dispatch('swal:modal', [
@@ -173,6 +184,7 @@ class Create extends Component
                 'title' => __('Opération échouée'),
                 'message' => __('Un modèle avec ce nom existe déjà pour la marque sélectionnée.'),
             ]);
+
             return;
         }
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entreprise;
 use App\Http\Requests\StoreEntrepriseRequest;
 use App\Http\Requests\UpdateEntrepriseRequest;
+use App\Models\Entreprise;
 use Illuminate\Support\Facades\Auth;
 
 class EntrepriseController extends Controller
@@ -45,9 +45,10 @@ class EntrepriseController extends Controller
     public function show(Entreprise $entreprise)
     {
         // check if the user is the owner of the entreprise
-        if (!Auth::user()->hasRole('Administrateur') && !Auth::user()->entreprises->contains($entreprise)) {
+        if (! Auth::user()->hasRole('Administrateur') && ! Auth::user()->entreprises->contains($entreprise)) {
             return redirect()->route('home');
         }
+
         return view('admin.entreprise.show', compact('entreprise'));
     }
 
@@ -57,9 +58,10 @@ class EntrepriseController extends Controller
     public function edit(Entreprise $entreprise)
     {
         // check if the user is the owner of the entreprise
-        if (!Auth::user()->hasRole('Administrateur') && !Auth::user()->entreprises->contains($entreprise)) {
+        if (! Auth::user()->hasRole('Administrateur') && ! Auth::user()->entreprises->contains($entreprise)) {
             return redirect()->route('home');
         }
+
         return view('admin.entreprise.edit', compact('entreprise'));
     }
 

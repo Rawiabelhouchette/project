@@ -3,24 +3,28 @@
 namespace App\Livewire\Admin\Reference;
 
 use App\Models\Reference;
-use App\Utils\References;
 use Livewire\Component;
 
 class AddNom extends Component
 {
     public $id = null;
-    public $type ='';
-    public $nom ='';
+
+    public $type = '';
+
+    public $nom = '';
 
     public $libelle = 'Créer un nouveau nom de référence';
+
     public $buttonLibelle = 'Enregistrer';
+
     public $formIcon = 'save';
 
     public $isEdit = false;
 
     public $typeList = [];
 
-    public function mount() {
+    public function mount()
+    {
         $this->typeList = Reference::select('type')->distinct()->get()->pluck('type')->toArray();
     }
 
@@ -35,7 +39,7 @@ class AddNom extends Component
         $this->buttonLibelle = 'Modifier';
 
         $this->typeList = Reference::select('type')->distinct()->get()->pluck('type')->toArray();
-        
+
         $this->id = $ref->id;
         $this->type = $ref->type;
         $this->nom = $ref->nom;
@@ -51,31 +55,34 @@ class AddNom extends Component
         'nom' => 'required',
     ];
 
-    public function store() {
+    public function store()
+    {
         $validated = $this->validate();
 
         $isUnique = Reference::where('type', $this->type)->where('nom', $this->nom)->first();
 
-        if($isUnique) {
+        if ($isUnique) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Opération échouée'),
+                'title' => __('Opération échouée'),
                 'message' => __('Nom de référence existe déjà'),
             ]);
+
             return;
         }
 
-        if($this->isEdit) {
+        if ($this->isEdit) {
             $ref = Reference::find($this->id);
             $this->update($ref, $validated);
+
             return;
         }
 
         Reference::create($validated);
-        
+
         $this->dispatch('swal:modal', [
             'icon' => 'success',
-            'title'   => __('Opération réussie'),
+            'title' => __('Opération réussie'),
             'message' => __('Nom de référence ajouté avec succès'),
         ]);
 
@@ -84,12 +91,13 @@ class AddNom extends Component
         $this->reset();
     }
 
-    public function update(Reference $ref, $validated) {
+    public function update(Reference $ref, $validated)
+    {
         $ref->update($validated);
-        
+
         $this->dispatch('swal:modal', [
             'icon' => 'success',
-            'title'   => __('Opération réussie'),
+            'title' => __('Opération réussie'),
             'message' => __('Nom de référence modifié avec succès'),
         ]);
 

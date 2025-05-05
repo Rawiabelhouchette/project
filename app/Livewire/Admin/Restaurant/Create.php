@@ -14,44 +14,60 @@ use App\Models\Ville;
 use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use App\Utils\Utils;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
+    use AnnonceBaseCreate, CustomValidation, WithFileUploads;
 
     public $nom;
+
     public $type;
+
     public $description;
+
     public $date_validite;
+
     public $entreprise_id;
 
     public $e_nom;
+
     public $e_ingredients;
+
     public $e_prix_min = 0;
+
     public $e_prix_max = 0;
+
     public $e_image;
 
     public $p_nom;
+
     public $p_ingredients;
+
     public $p_accompagnements;
+
     public $p_prix_min = 0;
+
     public $p_prix_max = 0;
+
     public $p_image;
 
     public $d_nom;
+
     public $d_ingredients;
+
     public $d_prix_min = 0;
+
     public $d_prix_max = 0;
+
     public $d_image;
 
-
     public $entrees_error = '';
+
     public $entrees = [
         [
             'nom' => '',
@@ -61,9 +77,11 @@ class Create extends Component
             'image' => null,
         ],
     ];
+
     public $entrees_count = 1;
 
     public $plats_error = '';
+
     public $plats = [
         [
             'nom' => '',
@@ -74,9 +92,11 @@ class Create extends Component
             'image' => null,
         ],
     ];
+
     public $plats_count = 1;
 
     public $desserts_error = '';
+
     public $desserts = [
         [
             'nom' => '',
@@ -86,32 +106,41 @@ class Create extends Component
             'image' => null,
         ],
     ];
+
     public $desserts_count = 1;
 
-
     public $equipements_restauration = [];
+
     public $list_equipements_restauration = [];
 
     public $specialites = [];
+
     public $list_specialites = [];
 
     public $carte_consommation = [];
+
     public $list_carte_consommation = [];
+
     public $services = [];
+
     public $list_services = [];
 
     public $entreprises = [];
 
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
+
     public $longitude;
 
     public function mount()
@@ -229,9 +258,10 @@ class Create extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
+
     public function updatedPaysId($pays_id)
     {
         $this->ville_id = null;
@@ -261,10 +291,12 @@ class Create extends Component
 
             // check if nom is unique
             foreach ($this->entrees as $key => $entree) {
-                if ($key == $i)
+                if ($key == $i) {
                     continue;
+                }
                 if ($entree['nom'] == $this->entrees[$i]['nom']) {
                     $this->entrees_error = 'Ce nom d\'entrée existe déjà';
+
                     return;
                 }
             }
@@ -294,10 +326,12 @@ class Create extends Component
             $this->plats[$i]['prix_max'] = $this->plats[$i]['prix_min'];
 
             foreach ($this->plats as $key => $plat) {
-                if ($key == $i)
+                if ($key == $i) {
                     continue;
+                }
                 if ($plat['nom'] == $this->plats[$i]['nom']) {
                     $this->plats_error = 'Ce nom de plat existe déjà';
+
                     return;
                 }
             }
@@ -329,10 +363,12 @@ class Create extends Component
             $this->desserts[$i]['prix_max'] = $this->desserts[$i]['prix_min'];
 
             foreach ($this->desserts as $key => $dessert) {
-                if ($key == $i)
+                if ($key == $i) {
                     continue;
+                }
                 if ($dessert['nom'] == $this->desserts[$i]['nom']) {
                     $this->desserts_error = 'Ce nom de dessert existe déjà';
+
                     return;
                 }
             }
@@ -399,7 +435,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -408,41 +444,40 @@ class Create extends Component
 
         // Put all entrees in the same variable
         foreach ($this->entrees as $entree) {
-            $this->e_nom .= $entree['nom'] . $separator;
-            $this->e_ingredients .= $entree['ingredients'] . $separator;
-            $this->e_prix_min .= $entree['prix_min'] . $separator;
-            $this->e_prix_max .= $entree['prix_min'] . $separator;
+            $this->e_nom .= $entree['nom'].$separator;
+            $this->e_ingredients .= $entree['ingredients'].$separator;
+            $this->e_prix_min .= $entree['prix_min'].$separator;
+            $this->e_prix_max .= $entree['prix_min'].$separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($entree['image'], 'restaurants');
-            $this->e_image .= $uploadResult->id . $separator2;
+            $this->e_image .= $uploadResult->id.$separator2;
         }
 
         // Put all plats in the same variable
         foreach ($this->plats as $plat) {
-            $this->p_nom .= $plat['nom'] . $separator;
-            $this->p_ingredients .= $plat['ingredients'] . $separator;
-            $this->p_accompagnements .= $plat['accompagnements'] . $separator;
-            $this->p_prix_min .= $plat['prix_min'] . $separator;
-            $this->p_prix_max .= $plat['prix_min'] . $separator;
+            $this->p_nom .= $plat['nom'].$separator;
+            $this->p_ingredients .= $plat['ingredients'].$separator;
+            $this->p_accompagnements .= $plat['accompagnements'].$separator;
+            $this->p_prix_min .= $plat['prix_min'].$separator;
+            $this->p_prix_max .= $plat['prix_min'].$separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($plat['image'], 'restaurants');
-            $this->p_image .= $uploadResult->id . $separator2;
+            $this->p_image .= $uploadResult->id.$separator2;
         }
 
         // Put all desserts in the same variable
         foreach ($this->desserts as $dessert) {
-            $this->d_nom .= $dessert['nom'] . $separator;
-            $this->d_ingredients .= $dessert['ingredients'] . $separator;
-            $this->d_prix_min .= $dessert['prix_min'] . $separator;
-            $this->d_prix_max .= $dessert['prix_min'] . $separator;
+            $this->d_nom .= $dessert['nom'].$separator;
+            $this->d_ingredients .= $dessert['ingredients'].$separator;
+            $this->d_prix_min .= $dessert['prix_min'].$separator;
+            $this->d_prix_max .= $dessert['prix_min'].$separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($dessert['image'], 'restaurants');
-            $this->d_image .= $uploadResult->id . $separator2;
+            $this->d_image .= $uploadResult->id.$separator2;
         }
-
 
         try {
             DB::beginTransaction();
@@ -503,10 +538,12 @@ class Create extends Component
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
+
         return redirect()->route('public.annonces.list');
     }
 

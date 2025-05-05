@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notation;
 use App\Http\Requests\StoreNotationRequest;
 use App\Http\Requests\UpdateNotationRequest;
+use App\Models\Notation;
 
 class NotationController extends Controller
 {

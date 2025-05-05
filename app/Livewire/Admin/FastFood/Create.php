@@ -4,8 +4,8 @@ namespace App\Livewire\Admin\FastFood;
 
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
-use App\Models\FastFood;
 use App\Models\Entreprise;
+use App\Models\FastFood;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
@@ -22,29 +22,40 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
+    use AnnonceBaseCreate, CustomValidation, WithFileUploads;
 
     public $nom;
+
     public $type;
+
     public $description;
+
     public $date_validite;
+
     public $entreprise_id;
+
     public $accompagnement;
 
     public $services = [];
+
     public $list_services = [];
 
     public $produits_fast_food = [];
+
     public $list_produits_fast_food = [];
 
     public $equipements_restauration = [];
+
     public $list_equipements_restauration = [];
 
     public $entreprises = [];
 
     public $nom_produit;
+
     public $prix_produit;
+
     public $image_produit;
+
     public $accompagnements_produit;
 
     public $produits = [
@@ -53,24 +64,29 @@ class Create extends Component
             'prix' => '',
             'image' => '',
             'accompagnements' => '',
-        ]
+        ],
     ];
 
     public $produits_error = '';
 
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
+
     public $longitude;
 
     public $galerie = [];
+
     public $old_galerie = [];
 
     public function mount()
@@ -170,8 +186,8 @@ class Create extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -190,7 +206,7 @@ class Create extends Component
     public function addProduit()
     {
         $result = $this->checkUniqueProduit();
-        if (!$result) {
+        if (! $result) {
             return;
         }
 
@@ -211,14 +227,17 @@ class Create extends Component
             $i = $length - 1;
             if (empty($this->produits[$i]['nom']) || empty($this->produits[$i]['prix']) || empty($this->produits[$i]['image']) || empty($this->produits[$i]['accompagnements'])) {
                 $this->produits_error = 'Veuillez remplir tous les champs';
+
                 return false;
             }
 
             foreach ($this->produits as $key => $produit) {
-                if ($key == $i)
+                if ($key == $i) {
                     continue;
+                }
                 if ($produit['nom'] == $this->produits[$i]['nom']) {
                     $this->produits_error = 'Ce nom de produit existe déjà';
+
                     return false;
                 }
             }
@@ -236,7 +255,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -246,9 +265,9 @@ class Create extends Component
 
         // Put all produits in the same variable
         foreach ($this->produits as $produit) {
-            $this->nom_produit .= $produit['nom'] . $separator;
-            $this->prix_produit .= $produit['prix'] . $separator;
-            $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
+            $this->nom_produit .= $produit['nom'].$separator;
+            $this->prix_produit .= $produit['prix'].$separator;
+            $this->accompagnements_produit .= $produit['accompagnements'].$separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'fast-foods');
@@ -296,10 +315,12 @@ class Create extends Component
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
         session()->flash('success', 'L\'annonce a bien été ajoutée');
+
         return redirect()->route('public.annonces.list');
     }
 

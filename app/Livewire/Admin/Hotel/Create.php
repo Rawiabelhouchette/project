@@ -4,8 +4,8 @@ namespace App\Livewire\Admin\Hotel;
 
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
-use App\Models\Hotel;
 use App\Models\Entreprise;
+use App\Models\Hotel;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
@@ -21,46 +21,76 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
+    use AnnonceBaseCreate, CustomValidation, WithFileUploads;
 
     public $nom;
+
     public $type;
+
     public $types_hebergement;
+
     public $description;
+
     public $nombre_chambre;
+
     public $nombre_personne;
+
     public $nombre_salles_bain;
+
     public $superficie;
+
     public $prix_min;
+
     public $prix_max;
+
     public $entreprise_id;
+
     public $entreprises = [];
+
     public $types_lit = [];
+
     public $list_types_lit = [];
+
     public $commodites = [];
+
     public $list_commodites = [];
+
     public $services = [];
+
     public $list_services = [];
+
     public $equipements_herbegement = [];
+
     public $list_equipements_herbegement = [];
+
     public $equipements_salle_bain = [];
+
     public $list_equipements_salle_bain = [];
+
     public $equipements_cuisine = [];
+
     public $list_equipements_cuisine = [];
+
     public $list_types_hebergement = [];
+
     public $date_validite;
+
     public $heure_validite;
 
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
+
     public $longitude;
 
     public function mount()
@@ -127,7 +157,6 @@ class Create extends Component
             : ($this->list_types_hebergement = []);
 
         $this->pays = Pays::orderBy('nom')->get();
-
 
         $this->date_validite = auth()->user()->activeAbonnements()->date_fin->format('Y-m-d');
     }
@@ -215,8 +244,8 @@ class Create extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -234,7 +263,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -272,7 +301,7 @@ class Create extends Component
                 ['Equipements hébergement', $this->equipements_herbegement],
                 ['Equipements salle de bain', $this->equipements_salle_bain],
                 ['Accessoires de cuisine', $this->equipements_cuisine],
-                ['Types hébergement', $this->types_hebergement]
+                ['Types hébergement', $this->types_hebergement],
             ];
 
             AnnoncesUtils::createManyReference($annonce, $references);
@@ -288,11 +317,13 @@ class Create extends Component
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
-        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        // ! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
         session()->flash('success', 'L\'annonce a bien été ajoutée');
+
         return redirect()->route('public.annonces.list');
     }
 

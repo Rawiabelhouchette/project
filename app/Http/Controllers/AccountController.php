@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendPasswordResetEmail;
 use App\Models\User;
 use App\Utils\CustomSession;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use App\Jobs\SendPasswordResetEmail;
 
 class AccountController extends Controller
 {
@@ -18,9 +17,10 @@ class AccountController extends Controller
     {
         CustomSession::reset();
 
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('connexion');
         }
+
         return view('admin.profile');
     }
 
@@ -28,7 +28,7 @@ class AccountController extends Controller
     {
         CustomSession::reset();
 
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('connexion');
         }
 
@@ -61,7 +61,7 @@ class AccountController extends Controller
 
         // check if the email exists
         $user = User::where('email', $request->email)->first();
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('notification.rest-password.success');
         }
 
@@ -69,7 +69,7 @@ class AccountController extends Controller
         $token = Password::createToken($user);
 
         // Create the password reset link
-        $resetLink = url(config('app.url') . route('password.reset', ['token' => $token, 'email' => $request->email], false));
+        $resetLink = url(config('app.url').route('password.reset', ['token' => $token, 'email' => $request->email], false));
 
         // Envoyer l'email de réinitialisation
         // Mail::send(new \App\Mail\PasswordReset($user, $resetLink));
@@ -105,7 +105,7 @@ class AccountController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => $password
+                    'password' => $password,
                 ])->setRememberToken(Str::random(60));
 
                 $user->save();
@@ -132,7 +132,7 @@ class AccountController extends Controller
             'nom' => 'required|string',
             'email' => 'required|email',
             'objet' => 'required|string',
-            'message' => 'required|string'
+            'message' => 'required|string',
         ]);
 
         return back()->with('success', 'Votre message a été envoyé avec succès');

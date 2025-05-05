@@ -50,7 +50,6 @@ class Hotel extends Model implements AnnonceInterface
         'public_edit_url',
     ];
 
-
     public function getShowUrlAttribute(): string
     {
         return route('hotels.show', $this);
@@ -125,7 +124,7 @@ class Hotel extends Model implements AnnonceInterface
         ];
 
         return array_filter($attributes, function ($value) {
-            return !is_null($value);
+            return ! is_null($value);
         });
     }
 
@@ -133,5 +132,4 @@ class Hotel extends Model implements AnnonceInterface
     {
         return route('public.hotels.edit', $this);
     }
-
 }

@@ -3,62 +3,94 @@
 namespace App\Livewire\Admin\Auberge;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
+use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
+use App\Models\Reference;
+use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
-use Livewire\Attributes\On;
-use Livewire\Component;
-use App\Models\Entreprise;
-use App\Models\Reference;
-use App\Models\ReferenceValeur;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
+    use AnnonceBaseEdit, CustomValidation, WithFileUploads;
 
     public $auberge;
+
     public $is_active;
+
     public $nom;
+
     public $type;
+
     public $types_hebergement;
+
     public $description;
+
     public $nombre_chambre;
+
     public $nombre_personne;
+
     public $nombre_salles_bain;
+
     public $superficie;
+
     public $prix_min;
+
     public $prix_max;
+
     public $entreprise_id;
+
     public $entreprises = [];
+
     public $types_lit = [];
+
     public $list_types_lit = [];
+
     public $commodites = [];
+
     public $list_commodites = [];
+
     public $services = [];
+
     public $list_services = [];
+
     public $equipements_herbegement = [];
+
     public $list_equipements_herbegement = [];
+
     public $equipements_salle_bain = [];
+
     public $list_equipements_salle_bain = [];
+
     public $equipements_cuisine = [];
+
     public $list_equipements_cuisine = [];
+
     public $list_types_hebergement = [];
+
     public $date_validite;
+
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
+
     public $longitude;
 
     public function mount($auberge)
@@ -85,7 +117,6 @@ class Edit extends Component
         $this->types_hebergement = $auberge->annonce->references('types-hebergement')->pluck('id')->toArray();
         $this->old_galerie = $auberge->annonce->galerie()->get();
         $this->old_image = $auberge->annonce->imagePrincipale;
-
 
         $this->pays_id = $auberge->annonce->ville->pays_id;
         $this->ville_id = $auberge->annonce->ville_id;
@@ -252,8 +283,8 @@ class Edit extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -271,7 +302,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -322,12 +353,14 @@ class Edit extends Component
                 'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
-        //! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
+        // ! CHECKME : Est ce que les fichiers temporaires sont supprimés automatiquement apres 24h ?
 
         session()->flash('success', 'L\'annonce a bien été modifiée.');
+
         return redirect()->route('public.annonces.list');
     }
 

@@ -53,7 +53,6 @@ class LocationMeublee extends Model implements AnnonceInterface
         'public_edit_url',
     ];
 
-
     public function getShowUrlAttribute(): string
     {
         return route('location-meublees.show', $this);
@@ -128,7 +127,7 @@ class LocationMeublee extends Model implements AnnonceInterface
         ];
 
         return array_filter($attributes, function ($value) {
-            return !is_null($value);
+            return ! is_null($value);
         });
     }
 

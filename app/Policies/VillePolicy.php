@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Ville;
-use Illuminate\Auth\Access\Response;
 
 class VillePolicy
 {

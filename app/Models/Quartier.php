@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Wildside\Userstamps\Userstamps;
-use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Illuminate\Support\Str;
+use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Wildside\Userstamps\Userstamps;
 
 class Quartier extends Model
 {
@@ -20,7 +20,7 @@ class Quartier extends Model
     ];
 
     protected $appends = [
-        'nombre_annonce'
+        'nombre_annonce',
     ];
 
     // mount
@@ -42,7 +42,6 @@ class Quartier extends Model
         'ville_id' => PurifyHtmlOnGet::class,
     ];
 
-
     public function ville()
     {
         return $this->belongsTo(Ville::class);
@@ -55,8 +54,9 @@ class Quartier extends Model
         $quartiers = Quartier::with('ville.pays')->get();
         $quartiersArray = [];
         foreach ($quartiers as $quartier) {
-            $quartiersArray[] = $quartier->nom . ', ' . $quartier->ville->nom . ', ' . $quartier->ville->pays->nom;
+            $quartiersArray[] = $quartier->nom.', '.$quartier->ville->nom.', '.$quartier->ville->pays->nom;
         }
+
         return $quartiersArray;
     }
 
@@ -66,6 +66,7 @@ class Quartier extends Model
         $count = Annonce::public()->whereHas('entreprise.ville', function ($query) use ($ville) {
             $query->where('nom', $ville);
         })->count();
+
         return $count;
     }
 

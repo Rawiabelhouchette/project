@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\HeureOuverture;
 use App\Http\Requests\StoreHeureOuvertureRequest;
 use App\Http\Requests\UpdateHeureOuvertureRequest;
+use App\Models\HeureOuverture;
 
 class HeureOuvertureController extends Controller
 {

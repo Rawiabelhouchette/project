@@ -190,7 +190,6 @@ class ReferenceSeeder extends Seeder
             'updated_by' => User::first()->id,
         ]);
 
-
         // Type de carburant
         Reference::updateOrCreate([
             'type' => 'Location de véhicule',
@@ -240,7 +239,6 @@ class ReferenceSeeder extends Seeder
             'created_by' => User::first()->id,
             'updated_by' => User::first()->id,
         ]);
-
 
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Quartier;
 use App\Http\Requests\StoreQuartierRequest;
 use App\Http\Requests\UpdateQuartierRequest;
+use App\Models\Quartier;
 use App\Utils\Utils;
 
 class QuartierController extends Controller
@@ -15,7 +15,8 @@ class QuartierController extends Controller
     public function index()
     {
         $quartiers = Quartier::with('ville')->get();
-        return view("admin.localisation.quartier.index", compact("quartiers"));
+
+        return view('admin.localisation.quartier.index', compact('quartiers'));
     }
 
     /**
@@ -23,7 +24,7 @@ class QuartierController extends Controller
      */
     public function create()
     {
-        return view("admin.localisation.quartier.create");
+        return view('admin.localisation.quartier.create');
     }
 
     /**
@@ -47,7 +48,7 @@ class QuartierController extends Controller
      */
     public function edit(Quartier $quartier)
     {
-        return view("admin.localisation.quartier.edit", compact("quartier"));
+        return view('admin.localisation.quartier.edit', compact('quartier'));
     }
 
     /**
@@ -68,8 +69,9 @@ class QuartierController extends Controller
 
     public function localisation()
     {
-        $quartiers = Quartier::with("ville")->get();
-        return view("admin.localisation.index", compact("quartiers"));
+        $quartiers = Quartier::with('ville')->get();
+
+        return view('admin.localisation.index', compact('quartiers'));
     }
 
     public function getDataTable()
@@ -91,14 +93,14 @@ class QuartierController extends Controller
             } else {
                 $quartiers = $quartiers->where(function ($query) use ($search, $searchableColumns) {
                     foreach ($searchableColumns as $column) {
-                        $query->orWhere($column, 'like', '%' . $search . '%');
+                        $query->orWhere($column, 'like', '%'.$search.'%');
                     }
                 })
                     ->orWhereHas('ville', function ($query) use ($search) {
-                        $query->where('nom', 'like', '%' . $search . '%');
+                        $query->where('nom', 'like', '%'.$search.'%');
                     })
                     ->orWhereHas('ville.pays', function ($query) use ($search) {
-                        $query->where('nom', 'like', '%' . $search . '%');
+                        $query->where('nom', 'like', '%'.$search.'%');
                     });
             }
         }

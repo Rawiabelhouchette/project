@@ -6,7 +6,6 @@ use App\Models\Abonnement;
 use App\Models\OffreAbonnement;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -17,14 +16,19 @@ class SubscriptionInformation extends Mailable
     use Queueable, SerializesModels;
 
     public $clientName;
+
     public $offerName;
+
     public $duration;
+
     public $amount;
+
     public $startDate;
+
     public $endDate;
+
     public $company;
 
-    
     /**
      * Create a new message instance.
      */
@@ -32,7 +36,7 @@ class SubscriptionInformation extends Mailable
     {
         $offre = OffreAbonnement::find($offre_id);
 
-        $this->clientName = $user->nom . ' ' . $user->prenom;
+        $this->clientName = $user->nom.' '.$user->prenom;
         $this->offerName = $offre->libelle;
         $this->duration = $offre->duree;
         $this->amount = $offre->prix;
@@ -47,7 +51,7 @@ class SubscriptionInformation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Notification sur un abonnement à ' . config('app.name'),
+            subject: 'Notification sur un abonnement à '.config('app.name'),
             to: ['billali.sonhouin@numrod.fr', 'martin.anika@numrod.fr']
         );
     }

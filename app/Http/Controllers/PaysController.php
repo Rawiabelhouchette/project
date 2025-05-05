@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pays;
 use App\Http\Requests\StorePaysRequest;
 use App\Http\Requests\UpdatePaysRequest;
+use App\Models\Pays;
 use App\Utils\Utils;
 
 class PaysController extends Controller
@@ -15,6 +15,7 @@ class PaysController extends Controller
     public function index()
     {
         $pays = Pays::all();
+
         return view('admin.localisation.pays.index', compact('pays'));
     }
 
@@ -29,10 +30,7 @@ class PaysController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePaysRequest $request)
-    {
-
-    }
+    public function store(StorePaysRequest $request) {}
 
     /**
      * Display the specified resource.
@@ -91,7 +89,7 @@ class PaysController extends Controller
             } else {
                 $pays = $pays->where(function ($query) use ($search, $searchableColumns) {
                     foreach ($searchableColumns as $column) {
-                        $query->orWhere($column, 'like', '%' . $search . '%');
+                        $query->orWhere($column, 'like', '%'.$search.'%');
                     }
                 });
             }

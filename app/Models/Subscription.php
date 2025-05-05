@@ -2,7 +2,4 @@
 
 namespace App\Models;
 
-
-class Subscription extends Abonnement
-{
-}
+class Subscription extends Abonnement {}

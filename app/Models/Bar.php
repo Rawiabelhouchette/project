@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\View\View;
-use Wildside\Userstamps\Userstamps;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Wildside\Userstamps\Userstamps;
 
 class Bar extends Model implements AnnonceInterface
 {
@@ -77,7 +77,6 @@ class Bar extends Model implements AnnonceInterface
         ]);
     }
 
-
     public function getCaracteristiquesAttribute(): array
     {
         $attributes = [
@@ -89,7 +88,7 @@ class Bar extends Model implements AnnonceInterface
         ];
 
         return array_filter($attributes, function ($value) {
-            return !is_null($value);
+            return ! is_null($value);
         });
     }
 

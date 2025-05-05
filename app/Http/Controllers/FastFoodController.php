@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FastFood;
 use App\Http\Requests\StoreFastFoodRequest;
 use App\Http\Requests\UpdateFastFoodRequest;
+use App\Models\FastFood;
 
 class FastFoodController extends Controller
 {

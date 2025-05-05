@@ -4,20 +4,8 @@ use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnonceController;
-use App\Http\Controllers\MarqueController;
-use App\Http\Controllers\ModeleController;
-use App\Http\Controllers\Public\AnnonceController as PublicAnnonceController;
 use App\Http\Controllers\AubergeController;
-use App\Http\Controllers\Public\Annonce\AubergeController as PublicAubergeController;
-use App\Http\Controllers\Public\Annonce\HotelController as PublicHotelController;
-use App\Http\Controllers\Public\Annonce\LocationVehiculeController as PublicLocationVehiculeController;
-use App\Http\Controllers\Public\Annonce\LocationMeubleeController as PublicLocationMeubleeController;
-use App\Http\Controllers\Public\Annonce\BoiteDeNuitController as PublicBoiteDeNuitController;
-use App\Http\Controllers\Public\Annonce\FastFoodController as PublicFastFoodController;
-use App\Http\Controllers\Public\Annonce\RestaurantController as PublicRestaurantController;
-use App\Http\Controllers\Public\Annonce\BarController as PublicBarController;
-use App\Http\Controllers\Public\Annonce\PatisserieController as PublicPatisserieController;
-use App\Http\Controllers\Public\UserController as PublicUserController;
+use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BarController;
 use App\Http\Controllers\BoiteDeNuitController;
@@ -26,9 +14,22 @@ use App\Http\Controllers\FastFoodController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\LocationMeubleeController;
 use App\Http\Controllers\LocationVehiculeController;
+use App\Http\Controllers\MarqueController;
+use App\Http\Controllers\ModeleController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PatisserieController;
 use App\Http\Controllers\PaysController;
+use App\Http\Controllers\Public\Annonce\AubergeController as PublicAubergeController;
+use App\Http\Controllers\Public\Annonce\BarController as PublicBarController;
+use App\Http\Controllers\Public\Annonce\BoiteDeNuitController as PublicBoiteDeNuitController;
+use App\Http\Controllers\Public\Annonce\FastFoodController as PublicFastFoodController;
+use App\Http\Controllers\Public\Annonce\HotelController as PublicHotelController;
+use App\Http\Controllers\Public\Annonce\LocationMeubleeController as PublicLocationMeubleeController;
+use App\Http\Controllers\Public\Annonce\LocationVehiculeController as PublicLocationVehiculeController;
+use App\Http\Controllers\Public\Annonce\PatisserieController as PublicPatisserieController;
+use App\Http\Controllers\Public\Annonce\RestaurantController as PublicRestaurantController;
+use App\Http\Controllers\Public\AnnonceController as PublicAnnonceController;
+use App\Http\Controllers\Public\UserController as PublicUserController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\QuartierController;
 use App\Http\Controllers\ReferenceController;
@@ -39,7 +40,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
 use App\Services\Paiement\PaiementService;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\GoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +56,7 @@ Route::get('/login', function () {
     if (auth()->check()) {
         return redirect('/');
     }
+
     return view('login');
 })->name('connexion');
 
@@ -63,6 +64,7 @@ Route::get('/register', function () {
     if (auth()->check()) {
         return redirect('/');
     }
+
     return view('register');
 })->name('register');
 
@@ -78,7 +80,6 @@ Route::post('login', [AuthenticationController::class, 'login'])->name('login');
 Route::get('password/reset', [AuthenticationController::class, 'reset'])->name('password.reset');
 
 Route::post('password-link', [AccountController::class, 'resetPassword'])->name('password.reset.post');
-
 
 Route::get('notification/reset-password', [AccountController::class, 'notificationSuccess'])->name('notification.rest-password.success');
 Route::post('reset-password', [AccountController::class, 'newPassword'])->name('password.update');
@@ -121,9 +122,6 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
             Route::resource('users', UserController::class);
             Route::get('users/list/datatable', [UserController::class, 'getDataTable'])->name('users.datatable');
 
-
-
-
             // Route::middleware('App\Http\Middleware\Professionnel')->group(function () {
 
             Route::resource('entreprises', EntrepriseController::class);
@@ -155,12 +153,9 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
             Route::resource('subscriptions', SubscriptionController::class);
             Route::get('subscriptions/list/datatable', [AbonnementController::class, 'getDataTable'])->name('subscription.datatable');
 
-
             // });
 
         });
-
-
 
         Route::get('dashboard', [AdminController::class, 'home'])->name('home');
 
@@ -181,63 +176,63 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
             'names' => [
                 'create' => 'public.hostels.create',
                 'edit' => 'public.hostels.edit',
-            ]
+            ],
         ]);
 
         Route::resource('adverts/hotels', PublicHotelController::class, [
             'names' => [
                 'create' => 'public.hotels.create',
                 'edit' => 'public.hotels.edit',
-            ]
+            ],
         ]);
 
         Route::resource('adverts/vehicle-rentals', PublicLocationVehiculeController::class, [
             'names' => [
                 'create' => 'public.vehicle-rentals.create',
                 'edit' => 'public.vehicle-rentals.edit',
-            ]
+            ],
         ]);
 
         Route::resource('adverts/furnished-rentals', PublicLocationMeubleeController::class, [
             'names' => [
                 'create' => 'public.furnished-rentals.create',
                 'edit' => 'public.furnished-rentals.edit',
-            ]
+            ],
         ]);
 
         Route::resource('adverts/night-clubs', PublicBoiteDeNuitController::class, [
             'names' => [
                 'create' => 'public.night-clubs.create',
                 'edit' => 'public.night-clubs.edit',
-            ]
+            ],
         ]);
 
         Route::resource('adverts/fast-foods', PublicFastFoodController::class, [
             'names' => [
                 'create' => 'public.fast-foods.create',
                 'edit' => 'public.fast-foods.edit',
-            ]
+            ],
         ]);
 
         Route::resource('adverts/restaurants', PublicRestaurantController::class, [
             'names' => [
                 'create' => 'public.restaurants.create',
                 'edit' => 'public.restaurants.edit',
-            ]
+            ],
         ]);
 
         Route::resource('adverts/bars', PublicBarController::class, [
             'names' => [
                 'create' => 'public.bars.create',
                 'edit' => 'public.bars.edit',
-            ]
+            ],
         ]);
 
         Route::resource('adverts/pastry-shops', PublicPatisserieController::class, [
             'names' => [
                 'create' => 'public.pastry-shops.create',
                 'edit' => 'public.pastry-shops.edit',
-            ]
+            ],
         ]);
 
         // annonces
@@ -268,7 +263,6 @@ Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {
     Route::resource('payments', PaiementController::class);
 });
 
-
 // route for 404
 Route::get('404', function () {
     return view('errors.404');
@@ -281,8 +275,6 @@ Route::get('500', function () {
 
 // Redirection after payment
 Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'])->name('payment.redirection');
-
-
 
 // Route::get('/test', function () {
 //     // return route('payment.notification');
@@ -300,4 +292,3 @@ Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'
 //     $user = \App\Models\User::first(); // Get the first user as an example
 //     $user->notify(new ResetPassword('token123')); // Replace 'token123' with your actual token
 // });
-

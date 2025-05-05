@@ -5,15 +5,25 @@ namespace App\Utils;
 class CustomSession
 {
     public $annonces = [];
+
     public $type = '';
+
     public $key = '';
+
     public $location = '';
+
     public $column = '';
+
     public $direction = '';
+
     public $ville = '';
+
     public $quartier = '';
+
     public $entreprise = '';
+
     public $sortOrder = '';
+
     public $page;
 
     public function __construct()
@@ -34,7 +44,7 @@ class CustomSession
     public static function create($data = [])
     {
         if (empty($data)) {
-            return new self();
+            return new self;
         }
         session([
             'search_annonces' => $data['annonces'] ?? null,
@@ -49,7 +59,8 @@ class CustomSession
             'sortOrder' => $data['sortOrder'] ?? null,
             'page' => $data['page'] ?? null,
         ]);
-        return new self();
+
+        return new self;
     }
 
     public function save()
@@ -95,7 +106,7 @@ class CustomSession
         //     'entreprise' => [],
         //     'sortOrder' => '',
         //     'page' => 1,
-            
+
         // ]);
         self::clear();
     }

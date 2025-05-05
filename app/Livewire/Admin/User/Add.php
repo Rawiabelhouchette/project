@@ -11,18 +11,29 @@ use Spatie\Permission\Models\Role;
 class Add extends Component
 {
     public $nom;
+
     public $prenom;
+
     public $email;
+
     public $username;
+
     public $telephone;
+
     public $is_active;
+
     public $password;
+
     public $password_confirmation;
+
     public $role = '';
+
     public $entreprise_id;
+
     public $isProfessionnel = false;
 
     public $roles = [];
+
     public $entreprises = [];
 
     public function mount()
@@ -33,8 +44,8 @@ class Add extends Component
 
     public function rules()
     {
-        // dd($this->entreprise_id);    
-       $rules = [
+        // dd($this->entreprise_id);
+        $rules = [
             'nom' => 'required|string|min:3',
             'prenom' => 'required|string|min:3',
             'email' => 'required|email|unique:users,email',
@@ -52,6 +63,7 @@ class Add extends Component
 
         return $rules;
     }
+
     protected $messages = [
         'username.unique' => 'Identifiant déjà pris.',
         'email.unique' => 'Adresse email déjà prise.',
@@ -81,7 +93,7 @@ class Add extends Component
     public function store()
     {
         $validated = $this->validate();
-        
+
         DB::beginTransaction();
 
         try {
@@ -90,21 +102,21 @@ class Add extends Component
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
+
             return $this->dispatch('swal:modal', [
                 'icon' => 'error',
-                'title'   => __('Une erreur s\'est produite'),
+                'title' => __('Une erreur s\'est produite'),
                 'message' => __('Utilisateur ajouté avec succès'),
-            ]);   
+            ]);
         }
 
         $this->dispatch('swal:modal', [
             'icon' => 'success',
-            'title'   => __('Opération réussie'),
+            'title' => __('Opération réussie'),
             'message' => __('Utilisateur ajouté avec succès'),
-        ]);        
+        ]);
 
         $this->reset();
-        
 
         $this->roles = Role::orderBy('name', 'asc')->select('name', 'id')->get();
     }

@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\View\View;
-use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
 
 class BoiteDeNuit extends Model implements AnnonceInterface
@@ -85,7 +84,7 @@ class BoiteDeNuit extends Model implements AnnonceInterface
         $attributes = [];
 
         return array_filter($attributes, function ($value) {
-            return !is_null($value);
+            return ! is_null($value);
         });
     }
 
@@ -93,5 +92,4 @@ class BoiteDeNuit extends Model implements AnnonceInterface
     {
         return route('public.night-clubs.edit', $this);
     }
-
 }

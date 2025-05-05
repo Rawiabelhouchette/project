@@ -18,13 +18,13 @@ return new class extends Migration
             $table->text('e_ingredients')->nullable();
             $table->integer('e_prix_min')->nullable();
             $table->integer('e_prix_max')->nullable();
-            
+
             $table->string('p_nom');
             $table->string('p_slug');
             $table->text('p_ingredients')->nullable();
             $table->integer('p_prix_min')->nullable();
             $table->integer('p_prix_max')->nullable();
-            
+
             $table->string('d_nom');
             $table->string('d_slug');
             $table->text('d_ingredients')->nullable();
@@ -37,7 +37,6 @@ return new class extends Migration
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();
-
 
         });
     }

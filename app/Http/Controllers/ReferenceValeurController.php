@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReferenceValeur;
 use App\Http\Requests\StoreReferenceValeurRequest;
 use App\Http\Requests\UpdateReferenceValeurRequest;
+use App\Models\ReferenceValeur;
 
 class ReferenceValeurController extends Controller
 {

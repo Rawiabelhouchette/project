@@ -12,43 +12,59 @@ use App\Models\Ville;
 use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use App\Utils\Utils;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class Edit extends Component
 {
-    use WithFileUploads, AnnonceBaseEdit, CustomValidation;
+    use AnnonceBaseEdit, CustomValidation, WithFileUploads;
 
     public $restaurant;
+
     public $is_active;
+
     public $nom;
+
     public $type;
+
     public $description;
+
     public $date_validite;
+
     public $entreprise_id;
 
-
     public $e_nom;
+
     public $e_ingredients;
+
     public $e_prix_min = 0;
+
     public $e_prix_max = 0;
+
     public $e_image;
 
     public $p_nom;
+
     public $p_ingredients;
+
     public $p_prix_min = 0;
+
     public $p_prix_max = 0;
+
     public $p_image;
 
     public $d_nom;
-    public $d_ingredients;
-    public $d_prix_min = 0;
-    public $d_prix_max = 0;
-    public $d_image;
 
+    public $d_ingredients;
+
+    public $d_prix_min = 0;
+
+    public $d_prix_max = 0;
+
+    public $d_image;
 
     public $entrees = [
         [
@@ -60,10 +76,12 @@ class Edit extends Component
             'is_new' => true,
         ],
     ];
-    public $old_entrees = [];
-    public $entrees_count = 1;
-    public $entrees_error = '';
 
+    public $old_entrees = [];
+
+    public $entrees_count = 1;
+
+    public $entrees_error = '';
 
     public $plats = [
         [
@@ -75,8 +93,11 @@ class Edit extends Component
             'is_new' => true,
         ],
     ];
+
     public $old_plats = [];
+
     public $plats_count = 1;
+
     public $plats_error = '';
 
     public $desserts = [
@@ -89,37 +110,51 @@ class Edit extends Component
             'is_new' => true,
         ],
     ];
+
     public $old_desserts = [];
+
     public $desserts_count = 1;
+
     public $desserts_error = '';
 
     public $equipements_restauration = [];
+
     public $list_equipements_restauration = [];
 
     public $specialites = [];
+
     public $list_specialites = [];
 
     public $carte_consommation = [];
+
     public $list_carte_consommation = [];
+
     public $services = [];
+
     public $list_services = [];
 
     public $entreprises = [];
 
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
+
     public $longitude;
 
     public $image;
+
     public $galerie = [];
+
     public $old_galerie = [];
 
     public function mount($restaurant)
@@ -195,7 +230,6 @@ class Edit extends Component
             'nom' => 'required|string|min:3',
             'description' => 'nullable|min:3|max:255',
 
-
             'entrees' => 'required|array|min:1',
             'plats' => 'required|array|min:1',
             'desserts' => 'required|array|min:1',
@@ -265,8 +299,8 @@ class Edit extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -285,7 +319,7 @@ class Edit extends Component
     public function addEntree()
     {
         $result = $this->checkUniqueEntree();
-        if (!$result) {
+        if (! $result) {
             return;
         }
 
@@ -308,12 +342,14 @@ class Edit extends Component
             $i = $length - 1;
             if (empty($this->entrees[$i]['nom']) || empty($this->entrees[$i]['ingredients']) || empty($this->entrees[$i]['prix_min']) || empty($this->entrees[$i]['image'])) {
                 $this->entrees_error = 'Veuillez remplir tous les champs';
+
                 return false;
             }
 
             foreach ($this->entrees as $key => $entree) {
-                if ($key == $i)
+                if ($key == $i) {
                     continue;
+                }
                 if ($entree['nom'] == $this->entrees[$i]['nom']) {
                     $this->entrees_error = 'Ce nom d\'entrée existe déjà';
 
@@ -336,7 +372,7 @@ class Edit extends Component
     public function addPlat()
     {
         $result = $this->checkUniquePlat();
-        if (!$result) {
+        if (! $result) {
             return;
         }
 
@@ -360,12 +396,14 @@ class Edit extends Component
             $i = $length - 1;
             if (empty($this->plats[$i]['nom']) || empty($this->plats[$i]['ingredients']) || empty($this->plats[$i]['prix_min']) || empty($this->plats[$i]['image'])) {
                 $this->plats_error = 'Veuillez remplir tous les champs';
+
                 return false;
             }
 
             foreach ($this->plats as $key => $plat) {
-                if ($key == $i)
+                if ($key == $i) {
                     continue;
+                }
                 if ($plat['nom'] == $this->plats[$i]['nom']) {
                     $this->plats_error = 'Ce nom de plat existe déjà';
 
@@ -388,7 +426,7 @@ class Edit extends Component
     public function addDessert()
     {
         $result = $this->checkUniqueDessert();
-        if (!$result) {
+        if (! $result) {
             return;
         }
 
@@ -411,12 +449,14 @@ class Edit extends Component
             $i = $length - 1;
             if (empty($this->desserts[$i]['nom']) || empty($this->desserts[$i]['ingredients']) || empty($this->desserts[$i]['prix_min']) || empty($this->desserts[$i]['image'])) {
                 $this->desserts_error = 'Veuillez remplir tous les champs';
+
                 return false;
             }
 
             foreach ($this->desserts as $key => $dessert) {
-                if ($key == $i)
+                if ($key == $i) {
                     continue;
+                }
                 if ($dessert['nom'] == $this->desserts[$i]['nom']) {
                     $this->desserts_error = 'Ce nom de dessert existe déjà';
 
@@ -459,11 +499,11 @@ class Edit extends Component
 
     public function update()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
-        if (!$this->checkUniqueEntree(true) || !$this->checkUniquePlat(true) || !$this->checkUniqueDessert(true)) {
+        if (! $this->checkUniqueEntree(true) || ! $this->checkUniquePlat(true) || ! $this->checkUniqueDessert(true)) {
             return;
         }
 
@@ -475,15 +515,16 @@ class Edit extends Component
 
             // Put all entrees in the same variable
             foreach ($this->entrees as $index => $entree) {
-                $this->e_nom .= $entree['nom'] . $separator;
-                $this->e_ingredients .= $entree['ingredients'] . $separator;
-                $this->e_prix_min .= $entree['prix_min'] . $separator;
-                $this->e_prix_max .= $entree['prix_min'] . $separator;
+                $this->e_nom .= $entree['nom'].$separator;
+                $this->e_ingredients .= $entree['ingredients'].$separator;
+                $this->e_prix_min .= $entree['prix_min'].$separator;
+                $this->e_prix_max .= $entree['prix_min'].$separator;
 
                 if (is_string($entree['image'])) {
                     $oldEntreesCollection = collect($this->old_entrees);
                     $tmp_entree = $oldEntreesCollection->where('id', $entree['id'])->first();
-                    $this->e_image .= $tmp_entree['image_id'] . $separator2;
+                    $this->e_image .= $tmp_entree['image_id'].$separator2;
+
                     continue;
                 }
 
@@ -498,15 +539,16 @@ class Edit extends Component
 
             // Put all plats in the same variable
             foreach ($this->plats as $index => $plat) {
-                $this->p_nom .= $plat['nom'] . $separator;
-                $this->p_ingredients .= $plat['ingredients'] . $separator;
-                $this->p_prix_min .= $plat['prix_min'] . $separator;
-                $this->p_prix_max .= $plat['prix_min'] . $separator;
+                $this->p_nom .= $plat['nom'].$separator;
+                $this->p_ingredients .= $plat['ingredients'].$separator;
+                $this->p_prix_min .= $plat['prix_min'].$separator;
+                $this->p_prix_max .= $plat['prix_min'].$separator;
 
                 if (is_string($plat['image'])) {
                     $oldPlatsCollection = collect($this->old_plats);
                     $tmp_plat = $oldPlatsCollection->where('id', $plat['id'])->first();
-                    $this->p_image .= $tmp_plat['image_id'] . $separator2;
+                    $this->p_image .= $tmp_plat['image_id'].$separator2;
+
                     continue;
                 }
 
@@ -521,15 +563,16 @@ class Edit extends Component
 
             // Put all desserts in the same variable
             foreach ($this->desserts as $index => $dessert) {
-                $this->d_nom .= $dessert['nom'] . $separator;
-                $this->d_ingredients .= $dessert['ingredients'] . $separator;
-                $this->d_prix_min .= $dessert['prix_min'] . $separator;
-                $this->d_prix_max .= $dessert['prix_min'] . $separator;
+                $this->d_nom .= $dessert['nom'].$separator;
+                $this->d_ingredients .= $dessert['ingredients'].$separator;
+                $this->d_prix_min .= $dessert['prix_min'].$separator;
+                $this->d_prix_max .= $dessert['prix_min'].$separator;
 
                 if (is_string($dessert['image'])) {
                     $oldDessertsCollection = collect($this->old_desserts);
                     $tmp_dessert = $oldDessertsCollection->where('id', $dessert['id'])->first();
-                    $this->d_image .= $tmp_dessert['image_id'] . $separator2;
+                    $this->d_image .= $tmp_dessert['image_id'].$separator2;
+
                     continue;
                 }
 
@@ -595,10 +638,12 @@ class Edit extends Component
                 'message' => __('Une erreur est survenue lors de la modification de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
         session()->flash('success', 'L\'annonce a bien été mise à jour');
+
         return redirect()->route('public.annonces.list');
     }
 

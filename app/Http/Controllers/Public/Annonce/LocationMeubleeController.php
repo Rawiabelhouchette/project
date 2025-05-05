@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Public\Annonce;
 
 use App\Http\Controllers\Controller;
 use App\Models\LocationMeublee;
-use Illuminate\Http\Request;
 
 class LocationMeubleeController extends Controller
 {

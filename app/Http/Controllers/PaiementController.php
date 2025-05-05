@@ -16,25 +16,26 @@ class PaiementController extends Controller
     {
         $validated = session()->get('abonnement');
 
-        if (!$validated) {
+        if (! $validated) {
             return redirect()->route('pricing');
         }
 
         $offre = OffreAbonnement::find($validated['offre_id']);
 
         if ($offre->is_free) {
-            if (!auth()->user()->hasRole('Usager')) {
+            if (! auth()->user()->hasRole('Usager')) {
                 return back()->with('error', 'Votre profil ne peut pas bénéficier de cet abonnement gratuit.');
             }
 
             $result = PaiementService::addFreeSubscription($validated);
-            
-            if (!$result) {
+
+            if (! $result) {
                 return back()->with('error', 'Erreur lors de l\'ajout de l\'abonnement.')->withInput($validated);
             }
 
             session()->forget('abonnement');
             session()->flash('success', 'Abonnement ajouté avec succès.');
+
             return redirect()->route('public.annonces.create');
         }
 
@@ -44,7 +45,8 @@ class PaiementController extends Controller
         if ($guichet->status == 'success') {
             return redirect($guichet->url);
         } else {
-            Log::error('' . $guichet->status);
+            Log::error(''.$guichet->status);
+
             return back()->with('error', $guichet->message)->withInput([
                 'offre_id' => $validated['offre_id'],
                 'nom_entreprise' => $validated['nom_entreprise'],
@@ -102,12 +104,7 @@ class PaiementController extends Controller
         //
     }
 
+    public function returnURL() {}
 
-    public function returnURL()
-    {
-    }
-
-    public function notifyURL()
-    {
-    }
+    public function notifyURL() {}
 }

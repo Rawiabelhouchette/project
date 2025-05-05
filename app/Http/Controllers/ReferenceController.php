@@ -7,7 +7,6 @@ use App\Models\ReferenceValeur;
 use App\Utils\Utils;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
 
 class ReferenceController extends Controller
 {
@@ -46,12 +45,12 @@ class ReferenceController extends Controller
         $request->validate([
             'type' => 'required|string',
             'nom' => 'required|string',
-            'valeur' => 'required|string'
+            'valeur' => 'required|string',
         ]);
 
         // Verifier si la combinaison type/nom existe
         $reference = Reference::where('type', $request->type)->where('nom', $request->nom)->first();
-        if (!$reference) {
+        if (! $reference) {
             return back()->with('error', 'Cette combinaison type/nom n\'existe pas.');
         }
 
@@ -62,7 +61,7 @@ class ReferenceController extends Controller
         }
 
         // Enregistrer la nouvelle valeur de référence
-        $referenceValeur = new ReferenceValeur();
+        $referenceValeur = new ReferenceValeur;
         $referenceValeur->valeur = $request->valeur;
         $referenceValeur->reference_id = $reference->id;
         $referenceValeur->save();
@@ -78,7 +77,7 @@ class ReferenceController extends Controller
         // Valider les données
         $request->validate([
             'type' => 'required|string',
-            'nom' => 'required|min:3'
+            'nom' => 'required|min:3',
         ]);
 
         // Verifier si la combinaison type/nom existe déjà
@@ -88,7 +87,7 @@ class ReferenceController extends Controller
         }
 
         // Enregistrer le nouveau nom de référence
-        $reference = new Reference();
+        $reference = new Reference;
         $reference->type = $request->type;
         $reference->nom = $request->nom;
         $reference->save();
@@ -111,6 +110,7 @@ class ReferenceController extends Controller
     {
         // Edit a reference
         $reference_valeur = ReferenceValeur::find($id);
+
         return view('admin.reference.edit', compact('reference_valeur'));
     }
 
@@ -123,12 +123,12 @@ class ReferenceController extends Controller
         $request->validate([
             'type' => 'required|string',
             'nom' => 'required|string',
-            'valeur' => 'required|string'
+            'valeur' => 'required|string',
         ]);
 
         // Verifier si la combinaison type/nom existe
         $reference = Reference::where('type', $request->type)->where('nom', $request->nom)->first();
-        if (!$reference) {
+        if (! $reference) {
             return back()->with('error', 'Cette combinaison type/nom n\'existe pas.');
         }
 
@@ -160,7 +160,6 @@ class ReferenceController extends Controller
         //
     }
 
-
     /**
      * Recuperer un nom de référence en fonction de son type
      */
@@ -168,6 +167,7 @@ class ReferenceController extends Controller
     {
         // Récupérer les données correspondantes à la valeur envoyée
         $references = Reference::where('type', $type)->get();
+
         return $references;
     }
 
@@ -192,13 +192,12 @@ class ReferenceController extends Controller
             } else {
                 $references = $references->where(function ($query) use ($search, $searchableColumns) {
                     foreach ($searchableColumns as $column) {
-                        $query->orWhere($column, 'like', '%' . $search . '%');
+                        $query->orWhere($column, 'like', '%'.$search.'%');
                     }
                 });
                 // ->orderBy('id', 'asc');
             }
         }
-
 
         $sortableColumns = [
             'id',
@@ -270,12 +269,12 @@ class ReferenceController extends Controller
             } else {
                 $references = $references->where(function ($query) use ($search, $searchableColumns) {
                     foreach ($searchableColumns as $column) {
-                        $query->orWhere($column, 'like', '%' . $search . '%');
+                        $query->orWhere($column, 'like', '%'.$search.'%');
                     }
                 })
                     ->orWhereHas('reference', function ($query) use ($search) {
-                        $query->where('type', 'like', '%' . $search . '%');
-                        $query->orWhere('nom', 'like', '%' . $search . '%');
+                        $query->where('type', 'like', '%'.$search.'%');
+                        $query->orWhere('nom', 'like', '%'.$search.'%');
                     });
             }
         }
@@ -303,7 +302,7 @@ class ReferenceController extends Controller
                         break;
                     default:
                         $columnIndex = $order['column']; // Index de la colonne à trier
-                        if (!in_array($columnIndex, [0, 3, 4])) {
+                        if (! in_array($columnIndex, [0, 3, 4])) {
                             break;
                         }
 
@@ -335,7 +334,4 @@ class ReferenceController extends Controller
             200
         );
     }
-
 }
-
-

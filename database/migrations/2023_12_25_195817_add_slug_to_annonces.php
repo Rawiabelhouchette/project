@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('annonces', function (Blueprint $table) {
-            $table->string('slug')->unique()->after('titre')->default('slug' . rand(1, 1000));
+            $table->string('slug')->unique()->after('titre')->default('slug'.rand(1, 1000));
 
             foreach (\App\Models\Annonce::all() as $annonce) {
                 $annonce->slug = \Illuminate\Support\Str::slug($annonce->titre);

@@ -16,6 +16,7 @@ class ClearSessionDataMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         session()->forget('search_annonces');
+
         return $next($request);
     }
 }

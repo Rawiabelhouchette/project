@@ -3,21 +3,27 @@
 namespace App\Livewire\Admin\Ville;
 
 use App\Models\Pays;
+use App\Models\Ville;
 use DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
-use App\Models\Ville;
-use Illuminate\Support\Str;
 
 class Create extends Component
 {
     public $nom;
+
     public $isEdit = false;
+
     public $pays;
+
     public $ville;
+
     public $pays_id;
+
     public $libelle = 'Enregistrer une ville';
+
     public $buttonLibelle = 'Enregistrer';
+
     public $formIcon = 'save';
 
     public function mount($villeId = null)
@@ -66,10 +72,11 @@ class Create extends Component
     {
         if ($this->isEdit) {
             return [
-                'nom' => 'required|string|min:3|unique:villes,nom,' . $this->ville->id,
+                'nom' => 'required|string|min:3|unique:villes,nom,'.$this->ville->id,
                 'pays_id' => 'required|exists:pays,id',
             ];
         }
+
         return [
             'nom' => 'required|string|min:3|max:255',
             'pays_id' => 'required|exists:pays,id',
@@ -88,6 +95,7 @@ class Create extends Component
     {
         if ($this->isEdit) {
             $this->update();
+
             return;
         }
 
@@ -104,7 +112,8 @@ class Create extends Component
             $hasOneValideValue = true;
             $ville = Ville::where('nom', $nom)->where('pays_id', $this->pays_id)->first();
             if ($ville) {
-                $existingValues .= $nom . ', ';
+                $existingValues .= $nom.', ';
+
                 continue;
             }
             $hasOneNewValue = true;
@@ -114,21 +123,21 @@ class Create extends Component
             ]);
         }
 
-        if (!$hasOneValideValue) {
+        if (! $hasOneValideValue) {
             throw ValidationException::withMessages([
                 'nom' => __('Veuillez saisir une valeur valide.'),
             ]);
         }
 
-        if (!$hasOneNewValue) {
+        if (! $hasOneNewValue) {
             throw ValidationException::withMessages([
-                'nom' => __('Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ')),
+                'nom' => __('Les valeurs suivantes existent déjà : '.rtrim($existingValues, ', ')),
             ]);
         }
 
         $message = 'Ville(s) ajoutée(s) avec succès';
         if ($existingValues) {
-            $message .= ' <br>Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ');
+            $message .= ' <br>Les valeurs suivantes existent déjà : '.rtrim($existingValues, ', ');
         }
 
         $this->dispatch('swal:modal', [
@@ -172,7 +181,6 @@ class Create extends Component
 
         $this->exitEdit();
     }
-
 
     public function delete($villeId)
     {

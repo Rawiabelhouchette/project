@@ -51,7 +51,6 @@ class Auberge extends Model implements AnnonceInterface
         'public_edit_url',
     ];
 
-
     public function getShowUrlAttribute(): string
     {
         return route('auberges.show', $this);
@@ -125,7 +124,7 @@ class Auberge extends Model implements AnnonceInterface
         ];
 
         return array_filter($attributes, function ($value) {
-            return !is_null($value);
+            return ! is_null($value);
         });
     }
 
@@ -133,5 +132,4 @@ class Auberge extends Model implements AnnonceInterface
     {
         return route('public.hostels.edit', $this);
     }
-
 }

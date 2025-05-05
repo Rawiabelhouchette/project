@@ -6,7 +6,6 @@ use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\User;
 use App\Models\Ville;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PaysSeeder extends Seeder

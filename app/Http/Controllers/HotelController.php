@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Hotel;
 use App\Http\Requests\StoreHotelRequest;
 use App\Http\Requests\UpdateHotelRequest;
+use App\Models\Hotel;
 
 class HotelController extends Controller
 {
@@ -37,7 +37,7 @@ class HotelController extends Controller
      */
     public function show(Hotel $hotel)
     {
-        
+
         return view('admin.hotel.show', compact('hotel'));
     }
 

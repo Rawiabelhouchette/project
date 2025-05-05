@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ville;
 use App\Http\Requests\StoreVilleRequest;
 use App\Http\Requests\UpdateVilleRequest;
+use App\Models\Ville;
 use App\Utils\Utils;
 
 class VilleController extends Controller
@@ -15,6 +15,7 @@ class VilleController extends Controller
     public function index()
     {
         $villes = Ville::with('quartiers')->get();
+
         return view('admin.localisation.ville.index', compact('villes'));
     }
 
@@ -88,11 +89,11 @@ class VilleController extends Controller
             } else {
                 $ville = $ville->where(function ($query) use ($search, $searchableColumns) {
                     foreach ($searchableColumns as $column) {
-                        $query->orWhere($column, 'like', '%' . $search . '%');
+                        $query->orWhere($column, 'like', '%'.$search.'%');
                     }
                 })
                     ->orWhereHas('pays', function ($query) use ($search) {
-                        $query->where('nom', 'like', '%' . $search . '%');
+                        $query->where('nom', 'like', '%'.$search.'%');
                     });
             }
         }

@@ -29,7 +29,7 @@ class Abonnement extends Model
 
     public function entreprise($id = null)
     {
-        if (!$id) {
+        if (! $id) {
             return $this->entreprises()->first();
         }
 

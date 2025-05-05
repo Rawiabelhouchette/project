@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bar;
 use App\Http\Requests\StoreBarRequest;
 use App\Http\Requests\UpdateBarRequest;
+use App\Models\Bar;
 
 class BarController extends Controller
 {

@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Wildside\Userstamps\Userstamps;
 
-
 class HeureOuverture extends Model
 {
     use HasFactory, softDeletes, Userstamps;
@@ -17,7 +16,7 @@ class HeureOuverture extends Model
         'jour',
         'heure_debut',
         'heure_fin',
-        'entreprise_id'
+        'entreprise_id',
     ];
 
     protected $casts = [
@@ -30,6 +29,4 @@ class HeureOuverture extends Model
     {
         return $this->belongsTo(Entreprise::class, 'entreprise_id');
     }
-
-    
 }

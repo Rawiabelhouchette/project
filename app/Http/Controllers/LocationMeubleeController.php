@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LocationMeublee;
 use App\Http\Requests\StoreLocationMeubleeRequest;
 use App\Http\Requests\UpdateLocationMeubleeRequest;
+use App\Models\LocationMeublee;
 
 class LocationMeubleeController extends Controller
 {

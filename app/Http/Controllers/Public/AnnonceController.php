@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Utils\AnnoncesUtils;
 use Auth;
-use Illuminate\Http\Request;
 
 class AnnonceController extends Controller
 {
@@ -16,7 +15,7 @@ class AnnonceController extends Controller
             $entrepises = Auth::user()->entreprises;
             // dd($entrepises);
             foreach ($entrepises as $entreprise) {
-                if (!$entreprise->quartier) {
+                if (! $entreprise->quartier) {
                     // if user is entreprise admin
                     if ($entreprise->pivot->is_admin) {
                         // return redirect()->route('entreprises.edit', $entreprise->id)->with('error', 'Veuillez renseigner le quartier de votre entreprise');
@@ -29,6 +28,7 @@ class AnnonceController extends Controller
         }
 
         $typeAnnonces = AnnoncesUtils::getAnnonceListAlt();
+
         return view('public.user.annonce.create', compact('typeAnnonces'));
     }
 

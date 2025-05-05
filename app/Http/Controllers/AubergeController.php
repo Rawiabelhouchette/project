@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Auberge;
 use App\Http\Requests\StoreAubergeRequest;
 use App\Http\Requests\UpdateAubergeRequest;
+use App\Models\Auberge;
 
 class AubergeController extends Controller
 {
@@ -37,7 +37,7 @@ class AubergeController extends Controller
      */
     public function show(Auberge $auberge)
     {
-        
+
         return view('admin.auberge.show', compact('auberge'));
     }
 

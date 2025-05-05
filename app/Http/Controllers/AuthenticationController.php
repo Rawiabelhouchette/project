@@ -13,28 +13,29 @@ class AuthenticationController extends Controller
         $remember = $request->has('remember');
         if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             $request->merge([
-                'email' => $request->email
+                'email' => $request->email,
             ]);
             $credentials = $request->only('email', 'password');
         } else {
             $request->merge([
-                'username' => $request->email
+                'username' => $request->email,
             ]);
             $credentials = $request->only('username', 'password');
         }
 
-        if (!Auth::attempt($credentials, $remember)) {
+        if (! Auth::attempt($credentials, $remember)) {
             return (object) [
                 'status' => false,
-                'message' => 'Identifiant ou mot de passe incorrect.'
+                'message' => 'Identifiant ou mot de passe incorrect.',
             ];
         }
 
         if (auth()->user()->is_active == 0) {
             AuthenticationController::logout($request);
+
             return (object) [
                 'status' => false,
-                'message' => 'Votre compte est désactivé. Veuillez contacter l\'administrateur.'
+                'message' => 'Votre compte est désactivé. Veuillez contacter l\'administrateur.',
             ];
         }
 
@@ -47,12 +48,12 @@ class AuthenticationController extends Controller
         // $request->session()->regenerate();
 
         if (auth()->user()->hasRole('Administateur')) {
-            Log::channel('login')->info('Connexion de l\'utilisateur : (' . auth()->user()->id . ') ' . auth()->user()->username);
+            Log::channel('login')->info('Connexion de l\'utilisateur : ('.auth()->user()->id.') '.auth()->user()->username);
         }
 
         return (object) [
             'status' => true,
-            'message' => 'Connexion réussie.'
+            'message' => 'Connexion réussie.',
         ];
     }
 
@@ -71,11 +72,12 @@ class AuthenticationController extends Controller
 
         $login = AuthenticationController::loginService($request);
 
-        if (!$login->status) {
+        if (! $login->status) {
             return back()->withErrors([
                 'email' => $login->message,
             ]);
         }
+
         return back();
     }
 
@@ -89,7 +91,7 @@ class AuthenticationController extends Controller
 
         return (object) [
             'status' => true,
-            'message' => 'Déconnexion réussie.'
+            'message' => 'Déconnexion réussie.',
         ];
     }
 
@@ -97,7 +99,7 @@ class AuthenticationController extends Controller
     {
         $logout = AuthenticationController::logoutService($request);
 
-        if (!$logout->status) {
+        if (! $logout->status) {
             return back()->withErrors([
                 'email' => $logout->message,
             ]);

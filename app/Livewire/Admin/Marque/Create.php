@@ -2,19 +2,22 @@
 
 namespace App\Livewire\Admin\Marque;
 
+use App\Models\Marque;
 use DB;
 use Livewire\Component;
-use App\Models\Marque;
-use Illuminate\Support\Str;
 
 class Create extends Component
 {
     public $marque;
+
     public $nom;
+
     public $isEdit = false;
+
     public $formIcon = 'save';
 
     public $libelle = 'Enregistrer une marque';
+
     public $buttonLibelle = 'Enregistrer';
 
     public function mount($marqueId = null)
@@ -59,9 +62,10 @@ class Create extends Component
     {
         if ($this->isEdit) {
             return [
-                'nom' => 'required|string|min:3|unique:marques,nom,' . $this->marque->id,
+                'nom' => 'required|string|min:3|unique:marques,nom,'.$this->marque->id,
             ];
         }
+
         return [
             'nom' => 'required',
         ];
@@ -75,6 +79,7 @@ class Create extends Component
     {
         if ($this->isEdit) {
             $this->update();
+
             return;
         }
 
@@ -92,7 +97,8 @@ class Create extends Component
                 $hasOneValideValue = true;
                 $marque = Marque::where('nom', $valeur)->first();
                 if ($marque) {
-                    $existingValues .= $valeur . ', ';
+                    $existingValues .= $valeur.', ';
+
                     continue;
                 }
                 $hasOneNewValue = true;
@@ -106,30 +112,33 @@ class Create extends Component
                 'title' => __('Opération échouée'),
                 'message' => __('Une erreur est survenue lors de l\'enregistrement de la marque'),
             ]);
+
             return;
         }
 
-        if (!$hasOneValideValue) {
+        if (! $hasOneValideValue) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Opération échouée'),
                 'message' => __('Veuillez saisir une valeur valide.'),
             ]);
+
             return;
         }
 
-        if (!$hasOneNewValue) {
+        if (! $hasOneNewValue) {
             $this->dispatch('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Opération échouée'),
-                'message' => __('Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ')),
+                'message' => __('Les valeurs suivantes existent déjà : '.rtrim($existingValues, ', ')),
             ]);
+
             return;
         }
 
         $message = 'Marque(s) ajoutée(s) avec succès';
         if ($existingValues) {
-            $message .= ' <br>Les valeurs suivantes existent déjà : ' . rtrim($existingValues, ', ');
+            $message .= ' <br>Les valeurs suivantes existent déjà : '.rtrim($existingValues, ', ');
         }
 
         $this->dispatch('swal:modal', [
@@ -159,7 +168,6 @@ class Create extends Component
 
         $this->exitEdit();
     }
-
 
     public function delete($marqueId)
     {

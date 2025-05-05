@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Hash;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,7 +30,7 @@ class View extends Model
             ->where('created_at', '>=', now()->subHours(1))
             ->first();
 
-        if (!$existingView) {
+        if (! $existingView) {
             View::create([
                 'annonce_id' => $annonce_id,
                 'user_id' => auth()->id(),

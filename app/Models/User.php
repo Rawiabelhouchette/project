@@ -5,18 +5,17 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Wildside\Userstamps\Userstamps;
-use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
+use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Wildside\Userstamps\Userstamps;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Userstamps, softDeletes, HasRoles;
-
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, softDeletes, Userstamps;
 
     /**
      * The attributes that are mass assignable.
@@ -64,7 +63,6 @@ class User extends Authenticatable
     //     $this->notify(new ResetPassword($token));
     // }
 
-
     /**
      * Get the entreprise that owns the user.
      */
@@ -81,7 +79,6 @@ class User extends Authenticatable
     {
         return $this->entreprises->first();
     }
-
 
     /**
      * Get the favoris annonces for the user.
@@ -110,12 +107,14 @@ class User extends Authenticatable
     public function annonces()
     {
         $entreprises_id = $this->entreprises->pluck('id');
+
         return Annonce::with('entreprise', 'annonceable')->whereIn('entreprise_id', $entreprises_id)->latest();
     }
 
     public function abonnements()
     {
         $entreprises_id = $this->entreprises->pluck('id');
+
         return Abonnement::with('offre', 'entreprises')->whereHas('entreprises', function ($query) use ($entreprises_id) {
             $query->whereIn('entreprise_id', $entreprises_id);
         });

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Annonce;
 use App\Http\Requests\StoreAnnonceRequest;
 use App\Http\Requests\UpdateAnnonceRequest;
+use App\Models\Annonce;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
@@ -30,7 +30,7 @@ class AnnonceController extends Controller
             $entrepises = Auth::user()->entreprises;
             // dd($entrepises);
             foreach ($entrepises as $entreprise) {
-                if (!$entreprise->quartier) {
+                if (! $entreprise->quartier) {
                     // if user is entreprise admin
                     if ($entreprise->pivot->is_admin) {
                         // return redirect()->route('entreprises.edit', $entreprise->id)->with('error', 'Veuillez renseigner le quartier de votre entreprise');
@@ -43,6 +43,7 @@ class AnnonceController extends Controller
         }
 
         $typeAnnonces = AnnoncesUtils::getAnnonceList();
+
         return view('admin.annonce.create', compact('typeAnnonces'));
     }
 
@@ -101,13 +102,13 @@ class AnnonceController extends Controller
             $search_columns = ['titre', 'description', 'type', 'date_validite'];
             $search = request()->input('search');
             $annonces = $annonces
-                ->where(function ($query) use ($search, $columns, $search_columns) {
+                ->where(function ($query) use ($search, $search_columns) {
                     foreach ($search_columns as $column) {
-                        $query->orWhereRaw("LOWER({$column}) LIKE ?", ['%' . Str::lower($search) . '%']);
+                        $query->orWhereRaw("LOWER({$column}) LIKE ?", ['%'.Str::lower($search).'%']);
                     }
 
                     $query->orWhereHas('entreprise', function ($query) use ($search) {
-                        $query->whereRaw("LOWER(nom) LIKE ?", ['%' . Str::lower($search) . '%']);
+                        $query->whereRaw('LOWER(nom) LIKE ?', ['%'.Str::lower($search).'%']);
                     });
 
                     if (Str::lower($search) == 'actif') {

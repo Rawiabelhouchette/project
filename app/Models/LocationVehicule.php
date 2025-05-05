@@ -6,9 +6,9 @@ use App\Utils\AnnonceInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\View\View;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Wildside\Userstamps\Userstamps;
 
 class LocationVehicule extends Model implements AnnonceInterface
@@ -107,7 +107,7 @@ class LocationVehicule extends Model implements AnnonceInterface
         ];
 
         $attributes = array_filter($attributes, function ($value) {
-            return !is_null($value);
+            return ! is_null($value);
         });
 
         foreach ($attributes as $key => $value) {

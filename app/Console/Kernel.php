@@ -4,11 +4,11 @@ namespace App\Console;
 
 use App\Models\Abonnement;
 use App\Models\Annonce;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -72,13 +72,12 @@ class Kernel extends ConsoleKernel
         }
     }
 
-
     /**
      * Register the commands for the application.
      */
     protected function commands(): void
     {
-        $this->load(__DIR__ . '/Commands');
+        $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
     }

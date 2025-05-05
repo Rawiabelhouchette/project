@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -14,11 +13,14 @@ class ReSubscriptionConfirmation extends Mailable
     use Queueable, SerializesModels;
 
     public $clientName;
-    public $startDate;
-    public $endDate;
-    public $service;
-    public $recipient;
 
+    public $startDate;
+
+    public $endDate;
+
+    public $service;
+
+    public $recipient;
 
     /**
      * Create a new message instance.
@@ -38,7 +40,7 @@ class ReSubscriptionConfirmation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Confirmation de réabonnement à ' . config('app.name'),
+            subject: 'Confirmation de réabonnement à '.config('app.name'),
             to: [$this->recipient],
         );
     }

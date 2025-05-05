@@ -5,14 +5,17 @@ namespace App\Livewire\Public;
 use App\Models\Annonce;
 use App\Models\Quartier;
 use App\Utils\AnnoncesUtils;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\Attributes\On; 
 
 class SearchBox extends Component
 {
     public $detail;
+
     public $location;
+
     public $type;
+
     public $key;
 
     public function mount($detail = false)

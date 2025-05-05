@@ -8,11 +8,17 @@ use Livewire\Component;
 class Comment extends Component
 {
     public $annonce_id;
+
     public $annonce;
+
     public $comment;
+
     public $note;
+
     public $perPage = 10;
+
     public $message = [];
+
     public $hasMessage = false;
 
     protected $listeners = ['updateNoteValue' => 'setNoteValue'];
@@ -27,7 +33,7 @@ class Comment extends Component
     {
         return [
             'note' => 'required|integer|min:1|max:5',
-            'comment' => 'required|min:5'
+            'comment' => 'required|min:5',
         ];
     }
 
@@ -38,7 +44,7 @@ class Comment extends Component
             'note.integer' => 'La note doit être un nombre entier',
             'note.min' => 'La note doit être comprise entre 1 et 5',
             'comment.required' => 'Le champ commentaire est obligatoire',
-            'comment.min' => 'Le champ commentaire doit contenir au moins 5 caractères'
+            'comment.min' => 'Le champ commentaire doit contenir au moins 5 caractères',
         ];
     }
 
@@ -59,7 +65,7 @@ class Comment extends Component
     {
         $this->validate();
 
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('connexion');
         }
 
@@ -68,24 +74,25 @@ class Comment extends Component
             $this->annonce->commentaires()->create([
                 'user_id' => auth()->id(),
                 'note' => $this->note,
-                'contenu' => $this->comment
+                'contenu' => $this->comment,
             ]);
         } catch (\Exception $e) {
             $this->message = (object) [
                 'type' => 'danger',
-                'message' => 'Une erreur est survenue lors de l\'ajout du commentaire'
+                'message' => 'Une erreur est survenue lors de l\'ajout du commentaire',
             ];
+
             return;
         }
 
         // session()->flash('success', 'Commentaire ajouté avec succès');
-        // 
+        //
 
         $this->message = (object) [
             'type' => 'success',
-            'message' => 'Commentaire ajouté avec succès'
+            'message' => 'Commentaire ajouté avec succès',
         ];
-        // 
+        //
 
         $this->comment = '';
     }
@@ -101,7 +108,7 @@ class Comment extends Component
 
         return view('livewire.public.comment', [
             'commentaires' => $this->annonce->commentaires()->latest()->paginate($this->perPage),
-            'count' => $count
+            'count' => $count,
         ]);
     }
 }

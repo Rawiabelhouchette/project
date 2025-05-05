@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\View\View;
-use Wildside\Userstamps\Userstamps;
-use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Illuminate\Support\Str;
-
+use Illuminate\View\View;
+use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+use Wildside\Userstamps\Userstamps;
 
 class Restaurant extends Model implements AnnonceInterface
 {
@@ -146,6 +145,7 @@ class Restaurant extends Model implements AnnonceInterface
             return [];
         }
         $tmp = explode($separator, $string);
+
         return array_filter($tmp, function ($value) {
             return $value !== null && $value !== '';
         });

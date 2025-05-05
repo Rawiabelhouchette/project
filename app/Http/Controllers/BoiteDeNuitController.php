@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BoiteDeNuit;
 use App\Http\Requests\StoreBoiteDeNuitRequest;
 use App\Http\Requests\UpdateBoiteDeNuitRequest;
+use App\Models\BoiteDeNuit;
 
 class BoiteDeNuitController extends Controller
 {

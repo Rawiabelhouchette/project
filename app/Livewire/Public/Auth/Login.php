@@ -9,10 +9,15 @@ use Livewire\Component;
 class Login extends Component
 {
     public $error = false;
+
     public $message = '';
+
     public $email;
+
     public $password;
+
     public $remember = false;
+
     public $recaptcha;
 
     public function login()
@@ -38,10 +43,11 @@ class Login extends Component
         $request = new Request($validated);
 
         $login = AuthenticationController::loginService($request);
-        if (!$login->status) {
+        if (! $login->status) {
             $this->error = true;
             $this->password = '';
             $this->message = $login->message;
+
             return;
         }
 
@@ -51,7 +57,6 @@ class Login extends Component
 
         $this->dispatch('page:reload', []);
     }
-
 
     public function render()
     {

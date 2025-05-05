@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Storage;
 
-
 class AnnoncesUtils
 {
     public static function getAnnonceList(): object
@@ -18,56 +17,56 @@ class AnnoncesUtils
                 'nom' => 'Auberge',
                 'icon' => 'fas fa-hotel',
                 'route' => 'auberges.create',
-                'color' => 'info'
+                'color' => 'info',
             ],
             (object) [
                 'nom' => 'Hôtel',
                 'icon' => 'fas fa-hotel',
                 'route' => 'hotels.create',
-                'color' => 'sucess'
+                'color' => 'sucess',
             ],
             (object) [
                 'nom' => 'Location de véhicule',
                 'icon' => 'fas fa-car',
                 'route' => 'location-vehicules.create',
-                'color' => 'warning'
+                'color' => 'warning',
             ],
             (object) [
                 'nom' => 'Location meublée',
                 'icon' => 'fas fa-home',
                 'route' => 'location-meublees.create',
-                'color' => 'info'
+                'color' => 'info',
             ],
             (object) [
                 'nom' => 'Boite de nuit',
                 'icon' => 'fas fa-glass-cheers',
                 'route' => 'boite-de-nuits.create',
-                'color' => 'danger'
+                'color' => 'danger',
             ],
             (object) [
                 'nom' => 'Fast-food',
                 'icon' => 'fas fa-utensils',
                 'route' => 'fast-foods.create',
-                'color' => 'info'
+                'color' => 'info',
             ],
             (object) [
                 'nom' => 'Restaurant',
                 'icon' => 'fas fa-burger',
                 'route' => 'restaurants.create',
-                'color' => 'sucess'
+                'color' => 'sucess',
             ],
             (object) [
                 'nom' => 'Patisserie',
                 'icon' => 'fas fa-birthday-cake',
                 'route' => 'patisseries.create',
-                'color' => 'warning'
+                'color' => 'warning',
             ],
             (object) [
                 'nom' => 'Bar & Rooftop',
                 'icon' => 'fas fa-glass-martini-alt',
                 'route' => 'bars.create',
-                'color' => 'info'
-            ]
+                'color' => 'info',
+            ],
         ]);
     }
 
@@ -111,62 +110,63 @@ class AnnoncesUtils
                 'nom' => 'Auberge',
                 'icon' => 'fas fa-hotel',
                 'route' => 'public.hostels.create',
-                'color' => 'info'
+                'color' => 'info',
             ],
             (object) [
                 'nom' => 'Hôtel',
                 'icon' => 'fas fa-hotel',
                 'route' => 'public.hotels.create',
-                'color' => 'sucess'
+                'color' => 'sucess',
             ],
             (object) [
                 'nom' => 'Location de véhicule',
                 'icon' => 'fas fa-car',
                 'route' => 'public.vehicle-rentals.create',
-                'color' => 'warning'
+                'color' => 'warning',
             ],
             (object) [
                 'nom' => 'Location meublée',
                 'icon' => 'fas fa-home',
                 'route' => 'public.furnished-rentals.create',
-                'color' => 'info'
+                'color' => 'info',
             ],
             (object) [
                 'nom' => 'Boite de nuit',
                 'icon' => 'fas fa-glass-cheers',
                 'route' => 'public.night-clubs.create',
-                'color' => 'danger'
+                'color' => 'danger',
             ],
             (object) [
                 'nom' => 'Fast-food',
                 'icon' => 'fas fa-utensils',
                 'route' => 'public.fast-foods.create',
-                'color' => 'info'
+                'color' => 'info',
             ],
             (object) [
                 'nom' => 'Restaurant',
                 'icon' => 'fas fa-burger',
                 'route' => 'public.restaurants.create',
-                'color' => 'sucess'
+                'color' => 'sucess',
             ],
             (object) [
                 'nom' => 'Patisserie',
                 'icon' => 'fas fa-birthday-cake',
                 'route' => 'public.pastry-shops.create',
-                'color' => 'warning'
+                'color' => 'warning',
             ],
             (object) [
                 'nom' => 'Bar & Rooftop',
                 'icon' => 'fas fa-glass-martini-alt',
                 'route' => 'public.bars.create',
-                'color' => 'info'
-            ]
+                'color' => 'info',
+            ],
         ]);
     }
 
     public static function getPublicAnnonceList(): object
     {
         $img_path = 'assets_client/img/type-annonce/';
+
         return collect([
             (object) [
                 'nom' => 'Hôtel',
@@ -175,7 +175,7 @@ class AnnoncesUtils
                 'route' => '',
                 'color' => 'cl-success',
                 'bg' => 'h',
-                'image' => $img_path . 'hotel.jpg',
+                'image' => $img_path.'hotel.jpg',
             ],
             (object) [
                 'nom' => 'Véhicule',
@@ -184,7 +184,7 @@ class AnnoncesUtils
                 'route' => '',
                 'color' => 'cl-warning',
                 'bg' => 'v',
-                'image' => $img_path . 'vehicule.jpg',
+                'image' => $img_path.'vehicule.jpg',
             ],
             (object) [
                 'nom' => 'Auberge',
@@ -193,7 +193,7 @@ class AnnoncesUtils
                 'route' => '',
                 'color' => 'cl-info',
                 'bg' => 'a',
-                'image' => $img_path . 'hotel.jpg',
+                'image' => $img_path.'hotel.jpg',
             ],
             (object) [
                 'nom' => 'Meuble',
@@ -202,7 +202,7 @@ class AnnoncesUtils
                 'route' => '',
                 'color' => 'cl-info',
                 'bg' => 'm',
-                'image' => $img_path . 'meuble.jpg',
+                'image' => $img_path.'meuble.jpg',
             ],
             (object) [
                 'nom' => 'Boite de nuit',
@@ -211,7 +211,7 @@ class AnnoncesUtils
                 'route' => '',
                 'color' => 'cl-danger',
                 'bg' => 'b',
-                'image' => $img_path . 'boite.jpg',
+                'image' => $img_path.'boite.jpg',
             ],
             (object) [
                 'nom' => 'Bar',
@@ -220,7 +220,7 @@ class AnnoncesUtils
                 'route' => '',
                 'color' => 'cl-info',
                 'bg' => 'f',
-                'image' => $img_path . 'bar.jpg',
+                'image' => $img_path.'bar.jpg',
             ],
             (object) [
                 'nom' => 'Restaurant',
@@ -229,7 +229,7 @@ class AnnoncesUtils
                 'route' => '',
                 'color' => 'cl-success',
                 'bg' => 'd',
-                'image' => $img_path . 'restaurant.jpg',
+                'image' => $img_path.'restaurant.jpg',
             ],
             (object) [
                 'nom' => 'Patisserie',
@@ -238,7 +238,7 @@ class AnnoncesUtils
                 'route' => '',
                 'color' => 'cl-warning',
                 'bg' => 'p',
-                'image' => $img_path . 'patisserie.jpg',
+                'image' => $img_path.'patisserie.jpg',
             ],
             (object) [
                 'nom' => 'Fast-Food',
@@ -247,7 +247,7 @@ class AnnoncesUtils
                 'route' => '',
                 'color' => 'cl-info',
                 'bg' => 'f',
-                'image' => $img_path . 'fast-food.jpg',
+                'image' => $img_path.'fast-food.jpg',
             ],
         ]);
     }
@@ -308,6 +308,7 @@ class AnnoncesUtils
             }
         }
     }
+
     public static function updateReference($model, $variable, $title, $slug): void
     {
         $model->removeReferences($slug);
@@ -324,8 +325,9 @@ class AnnoncesUtils
 
     public static function createManyReference($model, $references)
     {
-        if (!$references)
+        if (! $references) {
             return;
+        }
 
         try {
             for ($i = 0; $i < count($references); $i++) {
@@ -338,8 +340,9 @@ class AnnoncesUtils
 
     public static function updateManyReference($model, $references)
     {
-        if (!$references)
+        if (! $references) {
             return;
+        }
 
         try {
             for ($i = 0; $i < count($references); $i++) {
@@ -354,10 +357,10 @@ class AnnoncesUtils
     {
         // dump($folder_name);
         if ($image) {
-            $image->store('public/' . $folder_name);
+            $image->store('public/'.$folder_name);
             $fichier = Fichier::create([
                 'nom' => $image->hashName(),
-                'chemin' => $folder_name . '/' . $image->hashName(),
+                'chemin' => $folder_name.'/'.$image->hashName(),
                 'extension' => $image->extension(),
             ]);
 
@@ -367,10 +370,10 @@ class AnnoncesUtils
 
         if ($variable) {
             foreach ($variable as $image) {
-                $image->store('public/' . $folder_name);
+                $image->store('public/'.$folder_name);
                 $fichier = Fichier::create([
                     'nom' => $image->hashName(),
-                    'chemin' => $folder_name . '/' . $image->hashName(),
+                    'chemin' => $folder_name.'/'.$image->hashName(),
                     'extension' => $image->extension(),
                 ]);
 
@@ -382,10 +385,10 @@ class AnnoncesUtils
     public static function updateGalerie($image, $model, $variable, $delete_galerie, $folder_name): void
     {
         if ($image) {
-            $image->store('public/' . $folder_name);
+            $image->store('public/'.$folder_name);
             $fichier = Fichier::create([
                 'nom' => $image->hashName(),
-                'chemin' => $folder_name . '/' . $image->hashName(),
+                'chemin' => $folder_name.'/'.$image->hashName(),
                 'extension' => $image->extension(),
             ]);
 
@@ -396,10 +399,10 @@ class AnnoncesUtils
         if ($variable || $delete_galerie) {
             $model->removeGalerie($delete_galerie);
             foreach ($variable as $image) {
-                $image->store('public/' . $folder_name);
+                $image->store('public/'.$folder_name);
                 $fichier = Fichier::create([
                     'nom' => $image->hashName(),
-                    'chemin' => $folder_name . '/' . $image->hashName(),
+                    'chemin' => $folder_name.'/'.$image->hashName(),
                     'extension' => $image->extension(),
                 ]);
 
@@ -432,16 +435,15 @@ class AnnoncesUtils
     /**
      * Function to store an image and return the file path
      *
-     * @param \Illuminate\Http\UploadedFile $image
-     * @param string $folder_name
-     * @return object
+     * @param  \Illuminate\Http\UploadedFile  $image
+     * @param  string  $folder_name
      */
     public static function storeImage($image, $folder_name): object
     {
-        $image->store('public/' . $folder_name);
+        $image->store('public/'.$folder_name);
         $fichier = Fichier::create([
             'nom' => $image->hashName(),
-            'chemin' => $folder_name . '/' . $image->hashName(),
+            'chemin' => $folder_name.'/'.$image->hashName(),
             'extension' => $image->extension(),
         ]);
 
@@ -451,19 +453,19 @@ class AnnoncesUtils
         ];
     }
 
-    public static function updateImage($image, string $folder_name, int|null $image_id): object
+    public static function updateImage($image, string $folder_name, ?int $image_id): object
     {
-        $image->store('public/' . $folder_name);
+        $image->store('public/'.$folder_name);
         $fichier = Fichier::find($image_id);
 
         if ($fichier) {
-            Storage::delete('public/' . $fichier->chemin);
+            Storage::delete('public/'.$fichier->chemin);
             $fichier->delete();
         }
 
         $fichier = Fichier::create([
             'nom' => $image->hashName(),
-            'chemin' => $folder_name . '/' . $image->hashName(),
+            'chemin' => $folder_name.'/'.$image->hashName(),
             'extension' => $image->extension(),
         ]);
 
@@ -482,13 +484,12 @@ class AnnoncesUtils
         $randomNumber = random_int(100000, 999999);
 
         // Vérifie si ce nombre existe déjà dans les slugs
-        while (Annonce::where('slug', 'like', $slug . '-' . $randomNumber)->exists()) {
+        while (Annonce::where('slug', 'like', $slug.'-'.$randomNumber)->exists()) {
             // Si le nombre existe déjà, génère un autre nombre aléatoire
             $randomNumber = random_int(100000, 999999);
         }
 
         // Combine le slug et le nombre aléatoire pour créer un slug unique
-        return $slug . '-' . $randomNumber;
+        return $slug.'-'.$randomNumber;
     }
 }
-

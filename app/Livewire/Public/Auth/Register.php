@@ -5,26 +5,37 @@ namespace App\Livewire\Public\Auth;
 use App\Http\Controllers\AuthenticationController;
 use App\Mail\RegisterConfirmation;
 use App\Models\User;
-use Livewire\Component;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Livewire\Component;
 
 class Register extends Component
 {
     public $error = false;
+
     public $message = '';
 
     public $type = 'Usager';
+
     public $nom;
+
     public $prenom;
+
     public $sexe;
+
     public $telephone;
+
     public $email;
+
     public $username;
+
     public $password;
+
     public $password_confirmation;
+
     public $remember = false;
+
     public $recaptcha;
 
     public function rules()
@@ -67,7 +78,7 @@ class Register extends Component
     {
         $this->dispatch('recaptcha:reset');
         $this->validate();
-        // TODO : check if email is valid 
+        // TODO : check if email is valid
 
         DB::beginTransaction();
 
@@ -87,12 +98,12 @@ class Register extends Component
             DB::rollback();
             $this->error = true;
             $this->message = 'Erreur lors de l\'enregistrement';
+
             return;
         }
 
         Mail::to($this->email)
             ->send(new RegisterConfirmation($user));
-
 
         $request = new Request([
             'email' => $this->username,
@@ -110,10 +121,11 @@ class Register extends Component
         // }
 
         $login = AuthenticationController::loginService($request);
-        if (!$login->status) {
+        if (! $login->status) {
             $this->error = true;
             $this->message = $login->message;
             $this->password = '';
+
             return;
         }
 

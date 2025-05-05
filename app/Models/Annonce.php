@@ -11,11 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Stevebauman\Purify\Facades\Purify;
 use Wildside\Userstamps\Userstamps;
-use Illuminate\Support\Str;
-
 
 class Annonce extends Model
 {
@@ -63,6 +62,7 @@ class Annonce extends Model
     public function getContentAttribute($value)
     {
         $config = ['HTML.Allowed' => 'div,b,a[href]'];
+
         return Purify::clean($value, $config);
     }
 
@@ -106,7 +106,6 @@ class Annonce extends Model
         }
     }
 
-
     /* ######################## RELATIONS ##############################
     ###################################################################### */
 
@@ -131,6 +130,7 @@ class Annonce extends Model
         if ($this->imagePrincipale) {
             $galerie->prepend($this->imagePrincipale);
         }
+
         return $galerie;
     }
 
@@ -145,6 +145,7 @@ class Annonce extends Model
         if (is_null($slug)) {
             return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->withPivot('slug', 'titre');
         }
+
         return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->where('slug', $slug)->get();
     }
 
@@ -183,7 +184,6 @@ class Annonce extends Model
         return $this->belongsTo(Ville::class, 'ville_id');
     }
 
-
     /* ########################## METHODS ##############################
     ###################################################################### */
 
@@ -193,19 +193,19 @@ class Annonce extends Model
         $references = $this->references()->get();
         $display = [];
         foreach ($references as $reference) {
-            if (!array_key_exists($reference->pivot->titre, $display)) {
+            if (! array_key_exists($reference->pivot->titre, $display)) {
                 $display[$reference->pivot->titre] = [];
             }
             $display[$reference->pivot->titre][] = $reference->valeur;
         }
+
         return $display;
     }
 
-    public function removeGalerie(array $image_ids = null)
+    public function removeGalerie(?array $image_ids = null)
     {
         // $this->galerie()->detach();
         $this->galerie()->detach($image_ids);
-
 
     }
 
@@ -213,14 +213,13 @@ class Annonce extends Model
     private function formatNumber($number)
     {
         if ($number >= 1000000) {
-            return number_format($number / 1000000, 1) . 'M';
+            return number_format($number / 1000000, 1).'M';
         } elseif ($number >= 1000) {
-            return number_format($number / 1000, 1) . 'k';
+            return number_format($number / 1000, 1).'k';
         } else {
             return $number;
         }
     }
-
 
     /* ###################### ATTRIBUTES (APPENDED) ######################
     ###################################################################### */
@@ -229,13 +228,14 @@ class Annonce extends Model
         $date = $this->date_validite;
         $now = date('Y-m-d');
         $diff = strtotime($date) - strtotime($now);
+
         return round($diff / 86400) + 1;
     }
 
     // description courte de l'annonce en 70 caractères
     public function getDescriptionCourteAttribute(): string
     {
-        if (!$this->description) {
+        if (! $this->description) {
             return 'Pas de description';
         }
 
@@ -256,6 +256,7 @@ class Annonce extends Model
     {
         // $avg = $this->notation()->avg('note');
         $avg = $this->commentaires()->avg('note');
+
         return number_format($avg, 1);
 
         // // si la moyenne est null, on retourne 0
@@ -274,8 +275,10 @@ class Annonce extends Model
 
     public function getEstFavorisAttribute(): bool
     {
-        if (!auth()->check())
+        if (! auth()->check()) {
             return false;
+        }
+
         return $this->favoris()->where('user_id', auth()->user()->id)->exists();
     }
 
@@ -312,7 +315,6 @@ class Annonce extends Model
         ];
     }
 
-
     /* ######################## SCOPE ##############################
     ###################################################################### */
     public function scopePublic(Builder $query): void
@@ -324,7 +326,7 @@ class Annonce extends Model
             ->whereHas('entreprise', function ($query) {
                 $query->whereHas('abonnements', function ($query) {
                     $query->where('is_active', true)
-                        ->whereDate('date_fin', '>=', date('Y-m-d') . ' 23:59:59');
+                        ->whereDate('date_fin', '>=', date('Y-m-d').' 23:59:59');
                 });
             })
             // check if the annonce is still valid

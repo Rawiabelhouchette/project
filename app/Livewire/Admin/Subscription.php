@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Admin;
 
-
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,6 +13,7 @@ class Subscription extends Component
     protected $paginationTheme = 'bootstrap';
 
     private $perPage = 20;
+
     public $search = '';
 
     public function updatingSearch()
@@ -25,10 +25,11 @@ class Subscription extends Component
     {
         $search = $this->search;
         $user = User::find(auth()->user()->id);
-        $abonnements = $user->abonnements()->where(function ($query) use ($search) {
+        $abonnements = $user->abonnements()->where(function ($query) {
             // $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($search) . '%'])
             //     ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
         })->paginate($this->perPage);
+
         return view('livewire.admin.subscription', compact('abonnements'));
     }
 }

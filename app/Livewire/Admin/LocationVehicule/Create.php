@@ -4,8 +4,8 @@ namespace App\Livewire\Admin\LocationVehicule;
 
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
-use App\Models\LocationVehicule;
 use App\Models\Entreprise;
+use App\Models\LocationVehicule;
 use App\Models\Marque;
 use App\Models\Modele;
 use App\Models\Pays;
@@ -23,51 +23,73 @@ use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads, AnnonceBaseCreate, CustomValidation;
+    use AnnonceBaseCreate, CustomValidation, WithFileUploads;
 
     public $nom;
+
     public $type;
+
     public $description;
+
     public $marque_id;
+
     public $modele_id;
+
     public $annee;
+
     public $carburant;
+
     public $kilometrage;
+
     public $boite_vitesses;
+
     public $nombre_portes;
+
     public $nombre_places;
 
     public $entreprise_id;
+
     public $entreprises = [];
 
     public $types_vehicule = [];
+
     public $list_types_vehicule = [];
 
     public $equipements_vehicule = [];
+
     public $list_equipements_vehicule = [];
 
     public $list_boites_vitesse = [];
+
     public $list_marques = [];
+
     public $list_modeles = [];
+
     public $list_types_carburant = [];
 
     public $conditions_location = [];
+
     public $list_conditions_location = [];
+
     public $date_validite;
+
     public $heure_validite;
 
     public $pays = [];
+
     public $pays_id;
 
     public $villes = [];
+
     public $ville_id;
 
     public $quartiers = [];
+
     public $quartier_id;
 
     public $latitude;
-    public $longitude;
 
+    public $longitude;
 
     public function mount()
     {
@@ -234,8 +256,8 @@ class Create extends Component
     #[On('setLocation')]
     public function setLocation($location)
     {
-        $this->longitude = (String) $location['lon'];
-        $this->latitude = (String) $location['lat'];
+        $this->longitude = (string) $location['lon'];
+        $this->latitude = (string) $location['lat'];
     }
 
     public function updatedPaysId($pays_id)
@@ -259,7 +281,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -311,13 +333,14 @@ class Create extends Component
                 'message' => __('Une erreur est survenue lors de l\'ajout de l\'annonce'),
             ]);
             Log::error($th->getMessage());
+
             return;
         }
 
         session()->flash('success', __('Annonce enregistrée avec succès'));
+
         return redirect()->route('public.annonces.list');
     }
-
 
     public function render()
     {

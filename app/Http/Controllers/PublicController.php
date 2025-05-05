@@ -8,7 +8,6 @@ use App\Models\Quartier;
 use App\Models\User;
 use App\Utils\AnnoncesUtils;
 use App\Utils\CustomSession;
-use Auth;
 
 class PublicController extends Controller
 {
@@ -28,7 +27,7 @@ class PublicController extends Controller
         foreach ($typeAnnonce as $type) {
             $statsAnnonce[] = (object) [
                 'type' => $type,
-                'count' => Annonce::where('type', $type)->count()
+                'count' => Annonce::where('type', $type)->count(),
             ];
         }
 
@@ -59,6 +58,7 @@ class PublicController extends Controller
     {
         $entreprise = Entreprise::where('slug', $slug)->firstOrFail();
         $annonces = Annonce::public()->with('annonceable', 'entreprise')->where('entreprise_id', $entreprise->id)->take(4)->get();
+
         return view('public.company', compact('entreprise', 'annonces'));
     }
 }

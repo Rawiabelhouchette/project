@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Public\Annonce;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bar;
-use Illuminate\Http\Request;
 
 class BarController extends Controller
 {

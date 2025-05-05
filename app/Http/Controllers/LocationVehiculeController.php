@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LocationVehicule;
 use App\Http\Requests\StoreLocationVehiculeRequest;
 use App\Http\Requests\UpdateLocationVehiculeRequest;
+use App\Models\LocationVehicule;
 
 class LocationVehiculeController extends Controller
 {
