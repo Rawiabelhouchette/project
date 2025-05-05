@@ -98,6 +98,7 @@ class Create extends Component
     {
         if (\Auth::user()->hasRole('Professionnel')) {
             $this->entreprises = \Auth::user()->entreprises;
+            $this->entreprise_id = $this->entreprises->first()->id;
         } else {
             $this->entreprises = Entreprise::all();
         }
