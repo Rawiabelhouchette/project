@@ -49,27 +49,17 @@
             </div>
 
             <div class="row align-items-start">
-                <div class="col-md-4 col-xs-12 min-price p-0">
-                    <div class="col">
-                        <h3>Prix minimum</h3>
-                        <h4>Indiquez le prix minimum</h4>
-                        <input class="form-control" name="prix_min" type="number" placeholder="" wire:model='prix_min'>
-                        @error('prix_min')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
+                @include('admin.annonce.price-component', [
+                    'title' => 'Prix minimum',
+                    'description' => 'Indiquez le prix minimum',
+                    'name' => 'prix_min',
+                ])
 
-                <div class="col-md-4 col-xs-12 max-price p-0">
-                    <div class="col">
-                        <h3>Prix maximum</h3>
-                        <h4>Indiquez le prix maximum</h4>
-                        <input class="form-control" name="prix_max" type="number" placeholder="" wire:model='prix_max'>
-                        @error('prix_max')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
+                @include('admin.annonce.price-component', [
+                    'title' => 'Prix maximum',
+                    'description' => 'Indiquez le prix maximum',
+                    'name' => 'prix_max',
+                ])
 
                 <div class="col-md-4 col-xs-12 nombre-salles-bain p-0">
                     <div class="col">
