@@ -50,15 +50,13 @@
 
             <div class="row align-items-start">
                 @include('admin.annonce.price-component', [
-                    'title' => 'Prix minimum',
-                    'description' => 'Indiquez le prix minimum',
-                    'name' => 'prix_min',
+                    'min' => true,
+                    'required' => true,
                 ])
 
                 @include('admin.annonce.price-component', [
-                    'title' => 'Prix maximum',
-                    'description' => 'Indiquez le prix maximum',
-                    'name' => 'prix_max',
+                    'min' => false,
+                    'required' => true,
                 ])
 
                 <div class="col-md-4 col-xs-12 nombre-salles-bain p-0">
