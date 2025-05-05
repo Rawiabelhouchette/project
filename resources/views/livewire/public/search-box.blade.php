@@ -4,13 +4,7 @@
     @endphp
     <!-- ================ Start Page Title ======================= -->
 
-    @php
-        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil']];
-    @endphp
 
-    <x-breadcumb :detail="true" :showSearchButton="true"
-        backgroundImage="{{ asset('assets_client/img/banner/image-1.jpg') }}" :showTitle="true" title="Toutes nos offres"
-        :breadcrumbs="$breadcrumbs" :typeAnnonce="$typeAnnonce" />
 
 
     <div class="clearfix"></div>
@@ -31,17 +25,19 @@
 
             .search-container {
                 max-width: 600px;
-                margin: 50px auto;
+                margin: 0px auto;
             }
 
             .search-bar-mobile {
                 border-radius: 30px;
                 padding: 15px 20px;
-                margin: 50px;
+                /* margin: 50px; */
                 cursor: pointer;
                 color: white;
                 background-color: #de6600;
                 transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+                z-index: 1;
+                position: relative;
             }
 
             .search-bar-mobile:hover {
@@ -405,6 +401,40 @@
                 100% {
                     box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
                 }
+            }
+
+            .title-transparent::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(10, 147, 150, 0.8);
+                /* Semi-transparent overlay */
+                z-index: 1; /* Keep this positive so it shows above the background */
+                pointer-events: none; /* This is the key - it makes the overlay non-interactive */
+            }
+
+            /* Add these styles to ensure buttons are clickable */
+            .form-box, 
+            .form-box button,
+            .search-btn,
+            .banner-caption,
+            .form-verticle {
+                position: relative;
+                z-index: 2; /* Higher than the overlay */
+            }
+
+            .btn.theme-btn.btn-default {
+                z-index: 10;
+                position: relative;
+            }
+
+            .search-btn,
+            .form-box button {
+                z-index: 10;
+                position: relative;
             }
         </style>
         <div class="form-verticle-mobile">
@@ -896,7 +926,7 @@
             border: 1px solid #d4d4d4;
             border-bottom: none;
             border-top: none;
-            z-index: 99;
+            z-index: 3;
             top: 100%;
             left: 0;
             right: 0;

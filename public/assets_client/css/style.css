@@ -5047,6 +5047,7 @@ Page Title Settings
     text-align: center;
     color: #ffffff;
     margin-top: 70px;
+    z-index: 1;
 }
 
 @media(max-width: 767px) {
@@ -9560,9 +9561,11 @@ a.cl-box {
   }
 
   /* Enhanced counter styles */
-.counter-container {
+  .listing-title-bar, .counter-container {
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .counter-item {
@@ -9570,4 +9573,13 @@ a.cl-box {
     align-items: center;
     gap: 0.25rem;
     color: #6b7280;
+}
+.counter-item-alt {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #6b7280;
+    border: #6b7280 solid 1px;
+    border-radius: 3px;
+    padding: 5px 10px;
 }

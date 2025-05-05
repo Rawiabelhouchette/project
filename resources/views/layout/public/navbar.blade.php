@@ -216,7 +216,7 @@
     }
     /* Custom styles for the dropdown menu */
 .dropdown-menu {
-  width: 280px;
+  width: 360px;
   border-radius: 0.5rem;
 }
 
@@ -456,7 +456,7 @@
                                 <!-- Account section -->
                                 <li class="d-none d-md-block px-3 py-2 small text-muted fw-medium">Compte</li>
                                 <li>
-                                    <a class="dropdown-item py-2 px-3" href="{{ route('public.my-account') }}">
+                                    <a class="dropdown-item py-4 px-3" href="{{ route('public.my-account') }}">
                                         <i class="bi bi-person text-teal-700 me-2"></i> Mon compte
                                     </a>
                                 </li>
@@ -464,17 +464,17 @@
                                 @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
                                     <!-- Professional section -->
                                     <li>
-                                        <a class="dropdown-item py-2 px-3" href="{{ route('public.my-business') }}">
+                                        <a class="dropdown-item py-4 px-3" href="{{ route('public.my-business') }}">
                                             <i class="bi bi-building text-teal-700 me-2"></i> Mon entreprise
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item py-2 px-3" href="{{ route('public.annonces.list') }}">
+                                        <a class="dropdown-item py-4 px-3" href="{{ route('public.annonces.list') }}">
                                             <i class="bi bi-megaphone text-teal-700 me-2"></i> Mes annonces
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item py-2 px-3" href="{{ route('public.my-subscription') }}">
+                                        <a class="dropdown-item py-4 px-3" href="{{ route('public.my-subscription') }}">
                                             <i class="bi bi-credit-card text-teal-700 me-2"></i> Mes abonnements
                                         </a>
                                     </li>
@@ -485,12 +485,12 @@
                                 <!-- Activity section -->
                                 <li class="d-none d-md-block px-3 py-2 small text-muted fw-medium">Activité</li>
                                 <li>
-                                    <a class="dropdown-item py-2 px-3" href="{{ route('public.my-favorites') }}">
+                                    <a class="dropdown-item py-4 px-3" href="{{ route('public.my-favorites') }}">
                                         <i class="bi bi-heart text-teal-700 me-2"></i> Mes favoris
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item py-2 px-3" href="{{ route('public.my-comments') }}">
+                                    <a class="dropdown-item py-4 px-3" href="{{ route('public.my-comments') }}">
                                         <i class="bi bi-chat-square-text text-teal-700 me-2"></i> Mes commentaires
                                     </a>
                                 </li>
@@ -500,13 +500,13 @@
                                 <!-- Other section -->
                                 @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
                                     <li>
-                                        <a class="dropdown-item py-2 px-3" href="{{ route('home') }}">
+                                        <a class="dropdown-item py-4 px-3" href="{{ route('home') }}">
                                             <i class="bi bi-gear text-teal-700 me-2"></i> Espace administrateur
                                         </a>
                                     </li>
                                 @endif
                                 <li>
-                                    <a class="dropdown-item py-2 px-3" href="{{ route('contact') }}">
+                                    <a class="dropdown-item py-4 px-3" href="{{ route('contact') }}">
                                         <i class="bi bi-envelope text-teal-700 me-2"></i> Contact
                                     </a>
                                 </li>
@@ -515,7 +515,7 @@
                                 
                                 <!-- Logout -->
                                 <li>
-                                    <a class="dropdown-item py-2 px-3 text-danger" href="{{ route('logout') }}">
+                                    <a class="dropdown-item py-4 px-3 text-danger" href="{{ route('logout') }}">
                                         <i class="bi bi-power text-danger me-2"></i> Me déconnecter
                                     </a>
                                 </li>

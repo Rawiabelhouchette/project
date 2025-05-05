@@ -2,7 +2,13 @@
     @php
         $defaultColor = '#de6600';
     @endphp
+    @php
+        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil']];
+    @endphp
 
+    <x-breadcumb :detail="true" :showSearchButton="true"
+        backgroundImage="{{ asset('assets_client/img/banner/image-1.jpg') }}" :showTitle="true" title="Toutes nos offres"
+        :breadcrumbs="$breadcrumbs" :typeAnnonce="$typeAnnonces" />
     <!-- ================ Listing In Grid Style ======================= -->
     <section class="sec-bt">
         <div class="container">

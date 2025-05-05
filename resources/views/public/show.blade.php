@@ -61,9 +61,9 @@
                                 <div class="listing-title-bar">
                                     
                                     <h3> {{ $annonce->titre }} 
-                                        <span class="mrg-l-5 category-tag"> {{ $annonce->type }} </span>    
+                                         
                                     </h3>
-                                    
+                                    <span class="mrg-l-5 category-tag"> {{ $annonce->type }} </span>   
 
                                 </div>
                             </div>
@@ -94,15 +94,15 @@
                                         @endif
                                     </div>
                                     <div class="counter-container" style="margin-right: 1rem;">
-                                        <div class="counter-item">
+                                        <div class="counter-item-alt">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                             <span style="white-space: nowrap;">{{ $annonce->view_count }} vue(s)</span>
                                         </div>
-                                        <div class="counter-item">
+                                        <div class="counter-item-alt">
                                             <i class="fa fa-heart" aria-hidden="true"></i>
                                             <span style="white-space: nowrap;">{{ $annonce->favorite_count }} favori(s)</span>
                                         </div>
-                                        <div class="counter-item">
+                                        <div class="counter-item-alt">
                                             <i class="fa fa-comment" aria-hidden="true"></i>
                                             <span style="white-space: nowrap;">{{ $annonce->comment_count }} commentaire(s)</span>
                                         </div>
