@@ -28,6 +28,8 @@
                 } else {
                     this.selected = [id];
                 }
+                // Send the updated value to Livewire component immediately
+                @this.set('{{ $name }}', this.selected);
             },
             isSelected(id) {
                 return Array.isArray(this.selected) && this.selected.includes(id);
@@ -130,7 +132,6 @@
                 class="hidden-select" 
                 multiple 
                 name="{{ $name }}[]" 
-                {{-- @if ($required) required @endif --}}
                 x-model="selected"
             >
                 @foreach ($options as $option)
