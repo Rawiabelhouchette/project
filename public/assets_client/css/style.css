@@ -9566,6 +9566,7 @@ a.cl-box {
     gap: 1rem;
     flex-wrap: wrap;
     align-items: center;
+    font-size: 12px;
 }
 
 .counter-item {

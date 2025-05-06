@@ -9,15 +9,14 @@
         $breadcrumbs = [
             ['route' => 'accueil', 'label' => 'Accueil'],
             ['route' => 'search', 'label' => $annonce->type],
-            ['label' => $annonce->titre],
         ];
     @endphp
 
     @php
         $typeList = $typeAnnonce ?? [];
     @endphp
-    <x-breadcumb backgroundImage="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" :showSearchButton="true" :showTitle="true"
-        title="{{ $annonce->titre }}" :breadcrumbs="$breadcrumbs" :typeList="$typeList" />
+    <x-breadcumb backgroundImage="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" :showSearchButton="true" :showTitle="false"
+     :breadcrumbs="$breadcrumbs" :typeList="$typeList" />
 
 
 
@@ -27,7 +26,7 @@
         <section class="list-detail p-0">
             <div class="container">
                 <!-- Start: Pagination Wrapper -->
-                <div class="row mrg-bot-40">
+                <div class="row">
                     <div class="col-sm-12 nav-div nav-div-1">
                         <h5 style="text-align: left; border-bottom: 1px silver solid;" class="py-5 px-2">
                             <a href="{{ route('search') }}" title="Revenir à la recherche">
@@ -133,8 +132,7 @@
                                     </div>
                                     <div class="side-list share-buttons">
                                         <div class="mrg-r-10">
-                                            <button class="buttons padd-10 btn-default share-button" data-toggle="modal"
-                                                data-target="#share">
+                                            <button class="buttons padd-10 btn-default share-button"  data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
                                                 <i class="fa fa-share-nodes"></i>
                                                 <!-- <span class="hidden-xs">Partager</span> -->
                                             </button>
@@ -167,10 +165,12 @@
                                                 <div class="carousel-inner">
                                                     @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
                                                         <div class="carousel-item {{ $key == 0 ? ' active' : '' }}">
-                                                        <img  class="d-block w-100" style="object-fit: cover;"
-                                                                src="{{ asset('storage/' . $image->chemin)}}"
-                                                                alt="{{ $annonce->titre }}"
-                                                                onerror="this.onerror=null; this.src='https://placehold.co/600';">
+                                                            <a href="{{ asset('storage/' . $image->chemin)}}" data-fancybox="gallery">
+                                                                <img class="d-block w-100" style="object-fit: cover;"
+                                                                    src="{{ asset('storage/' . $image->chemin)}}"
+                                                                    alt="{{ $annonce->titre }}"
+                                                                    onerror="this.onerror=null; this.src='https://placehold.co/600';">
+                                                            </a>
                                                         </div>
                                                     @endforeach
                                                 </div>
@@ -180,13 +180,12 @@
                                                             data-bs-target="#carouselExampleIndicators"
                                                             data-bs-slide-to="{{ $key }}" type="button"
                                                             aria-current="true" aria-label="Slide 1">
-                                                            <!-- <img class="d-block w-100" style="object-fit: cover;"
-                                                                src="{{ asset('storage/' . $image->chemin) }}"
-                                                                alt="..."> -->
-                                                                <img  class="d-block w-100" style="object-fit: cover;"
-                                                                src="{{ asset('storage/' . $image->chemin)}}"
-                                                                alt="{{ $annonce->titre }}"
-                                                                onerror="this.onerror=null; this.src='https://placehold.co/600';">
+                                                            <a href="{{ asset('storage/' . $image->chemin)}}" data-fancybox="gallery-thumbs">
+                                                                <img class="d-block w-100" style="object-fit: cover;"
+                                                                    src="{{ asset('storage/' . $image->chemin)}}"
+                                                                    alt="{{ $annonce->titre }}"
+                                                                    onerror="this.onerror=null; this.src='https://placehold.co/600';">
+                                                            </a>
                                                         </button>
                                                     @endforeach
                                                 </div>
@@ -290,6 +289,70 @@
 
             marker = L.marker([lat, lon]).addTo(mymap);
             mymap.setView([lat, lon], 10);
+
+
+            // Initialize Fancybox for gallery images
+            $(document).ready(function() {
+                $('[data-fancybox="gallery"]').fancybox({
+                    buttons: [
+                        "zoom",
+                        "share",
+                        "slideShow",
+                        "fullScreen",
+                        "download",
+                        "thumbs",
+                        "close"
+                    ],
+                    animationEffect: "fade",
+                    transitionEffect: "fade",
+                    loop: true,
+                    protect: true,
+                    modal: false,
+                    idleTime: 3,
+                    clickContent: function(current, event) {
+                        return current.type === "image" ? "zoom" : false;
+                    }
+                });
+                
+                $('[data-fancybox="gallery-thumbs"]').fancybox({
+                    buttons: [
+                        "zoom",
+                        "share",
+                        "slideShow",
+                        "fullScreen",
+                        "download",
+                        "thumbs",
+                        "close"
+                    ],
+                    animationEffect: "fade",
+                    transitionEffect: "fade",
+                    loop: true,
+                    protect: true
+                });
+            });
+
+            function shareAnnonce(url, titre, image, type) {
+                console.log("share function called with:", url, titre, image, type);
+                var text = "Salut!%0AJette un œil à l'annonce que j'ai trouvé sur Vamiyi%0ATitre : " + titre + "%0ALien : " + url + " ";
+                var subject = titre;
+
+                // Set content
+                $('#annonce-titre').text(subject);
+                $('#annonce-image-url').attr('src', image);
+                $('#annonce-type').text(type);
+
+                // Set share links
+                $('#annonce-email').attr('href', 'mailto:?subject=' + subject + '&body=' + text);
+                $('#annonce-url').data('url', url);
+                $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url);
+                $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
+
+                // Hide page zone and show modal
+                $('#share-page-zone').hide();
+
+                // Properly open Bootstrap modal
+                $('#share').modal('show');
+            }
         </script>
 
         <script>
@@ -305,3 +368,37 @@
             });
         </script>
     @endsection
+
+    @section('css')
+    <style>
+        /* Fancybox customization */
+        .fancybox-bg {
+            background: #000;
+        }
+        
+        .fancybox-is-open .fancybox-bg {
+            opacity: 0.9;
+        }
+        
+        .fancybox-caption {
+            font-size: 16px;
+        }
+        
+        /* Make carousel images clickable */
+        .carousel-item a {
+            cursor: zoom-in;
+            display: block;
+        }
+        
+        /* Fix for thumbnail buttons */
+        .carousel-indicators button a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    @endsection
+
+
+
+
