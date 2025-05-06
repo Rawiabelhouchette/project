@@ -9,6 +9,7 @@ use App\Models\Quartier;
 use App\Models\Reference;
 use App\Models\ReferenceValeur;
 use App\Models\Ville;
+use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +19,7 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use AnnonceBaseEdit, WithFileUploads;
+    use AnnonceBaseEdit, WithFileUploads, CustomValidation;
 
     public $hotel;
 
