@@ -297,10 +297,7 @@
                     buttons: [
                         "zoom",
                         "share",
-                        "slideShow",
                         "fullScreen",
-                        "download",
-                        "thumbs",
                         "close"
                     ],
                     animationEffect: "fade",
@@ -318,10 +315,7 @@
                     buttons: [
                         "zoom",
                         "share",
-                        "slideShow",
                         "fullScreen",
-                        "download",
-                        "thumbs",
                         "close"
                     ],
                     animationEffect: "fade",
@@ -398,6 +392,8 @@
         }
     </style>
     @endsection
+
+
 
 
 
