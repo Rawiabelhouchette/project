@@ -80,7 +80,7 @@
                     'name' => 'equipements_vie_nocturne',
                     'options' => $list_equipements_vie_nocturne,
                 ])
-                
+
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Commodités',
                     'name' => 'commodites',
@@ -124,15 +124,8 @@
                 @this.set('description', description);
             });
 
-            $('.select2').select2({
-                height: '25px',
-                width: '100%',
-            });
-            $('.select2').on('change', function(e) {
-                var data = $(this).val();
-                var nom = $(this).data('nom');
-                @this.set(nom, data);
-            });
+
+
         });
     </script>
 @endpush

@@ -340,16 +340,9 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('.select2').select2({
-                height: '25px',
-                width: '100%',
-            });
 
-            $('.select2').on('change', function(e) {
-                var data = $(this).val();
-                var nom = $(this).data('nom');
-                @this.set(nom, data);
-            });
+
+
 
         });
     </script>
