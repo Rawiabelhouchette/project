@@ -199,7 +199,6 @@
                     'title' => 'Type de voiture',
                     'name' => 'types_vehicule',
                     'options' => $list_types_vehicule,
-                    'required' => true,
                 ])
 
                 @include('admin.annonce.reference-select-component', [

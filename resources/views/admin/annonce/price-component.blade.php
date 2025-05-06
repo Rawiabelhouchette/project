@@ -1,4 +1,4 @@
-@props(['min' => false, 'required' => true])
+@props(['min' => false, 'required' => false])
 
 <div class="col-md-4 col-xs-12 {{ $min ? 'min-price' : 'max-price' }} p-0">
     <div class="col">

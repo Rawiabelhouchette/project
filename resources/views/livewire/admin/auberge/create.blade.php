@@ -51,12 +51,10 @@
             <div class="row align-items-start">
                 @include('admin.annonce.price-component', [
                     'min' => true,
-                    'required' => true,
                 ])
 
                 @include('admin.annonce.price-component', [
                     'min' => false,
-                    'required' => true,
                 ])
 
                 <div class="col-md-4 col-xs-12 nombre-salles-bain p-0">
@@ -103,7 +101,6 @@
                     'title' => 'Type de lit',
                     'name' => 'types_lit',
                     'options' => $list_types_lit,
-                    'required' => true,
                 ])
 
                 @include('admin.annonce.reference-select-component', [
@@ -133,7 +130,6 @@
                     'title' => 'Accessoires de cuisine',
                     'name' => 'equipements_cuisine',
                     'options' => $list_equipements_cuisine,
-                    'required' => true,
                 ])
             </div>
 
