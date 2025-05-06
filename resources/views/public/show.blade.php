@@ -296,7 +296,6 @@
                 $('[data-fancybox="gallery"]').fancybox({
                     buttons: [
                         "zoom",
-                        "share",
                         "fullScreen",
                         "close"
                     ],
@@ -314,7 +313,6 @@
                 $('[data-fancybox="gallery-thumbs"]').fancybox({
                     buttons: [
                         "zoom",
-                        "share",
                         "fullScreen",
                         "close"
                     ],
