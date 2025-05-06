@@ -120,6 +120,7 @@
                     'title' => 'Type de lit',
                     'name' => 'types_lit',
                     'options' => $list_types_lit,
+                    'required' => true,
                 ])
 
                 @include('admin.annonce.reference-select-component', [

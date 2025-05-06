@@ -116,6 +116,7 @@
                     'title' => 'Type de lit',
                     'name' => 'types_lit',
                     'options' => $list_types_lit,
+                    'required' => true,
                 ])
 
                 @include('admin.annonce.reference-select-component', [
@@ -144,6 +145,7 @@
                     'title' => 'Accessoires de cuisine',
                     'name' => 'equipements_cuisine',
                     'options' => $list_equipements_cuisine,
+                    'required' => true,
                 ])
             </div>
 

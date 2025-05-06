@@ -89,12 +89,14 @@
                     'title' => 'Equipements vie nocturne',
                     'name' => 'equipements_vie_nocturne',
                     'options' => $list_equipements_vie_nocturne,
+                    'required' => true,
                 ])
 
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Commodités vie nocturne',
                     'name' => 'commodites_vie_nocturne',
                     'options' => $list_commodites_vie_nocturne,
+                    'required' => true,
                 ])
 
                 @include('admin.annonce.reference-select-component', [
