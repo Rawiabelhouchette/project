@@ -19,7 +19,7 @@ use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
-    use AnnonceBaseEdit, WithFileUploads, CustomValidation;
+    use AnnonceBaseEdit, CustomValidation, WithFileUploads;
 
     public $nom;
 

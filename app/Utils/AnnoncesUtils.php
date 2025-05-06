@@ -122,19 +122,19 @@ class AnnoncesUtils
                 'nom' => 'Auberge',
                 'icon' => 'fas fa-hotel',
                 'route' => 'public.hostels.create',
-                'color' => 'info'
+                'color' => 'info',
             ],
             (object) [
                 'nom' => 'Restaurant',
                 'icon' => 'fas fa-burger',
                 'route' => 'public.restaurants.create',
-                'color' => 'sucess'
+                'color' => 'sucess',
             ],
             (object) [
                 'nom' => 'Fast-food',
                 'icon' => 'fas fa-utensils',
                 'route' => 'public.fast-foods.create',
-                'color' => 'info'
+                'color' => 'info',
             ],
             (object) [
                 'nom' => 'Patisserie',
@@ -146,20 +146,20 @@ class AnnoncesUtils
                 'nom' => 'Bar & Rooftop',
                 'icon' => 'fas fa-glass-martini-alt',
                 'route' => 'public.bars.create',
-                'color' => 'info'
+                'color' => 'info',
             ],
             (object) [
                 'nom' => 'Location de véhicule',
                 'icon' => 'fas fa-car',
                 'route' => 'public.vehicle-rentals.create',
-                'color' => 'warning'
+                'color' => 'warning',
             ],
             (object) [
                 'nom' => 'Boite de nuit',
                 'icon' => 'fas fa-glass-cheers',
                 'route' => 'public.night-clubs.create',
-                'color' => 'danger'
-            ]
+                'color' => 'danger',
+            ],
         ]);
     }
 
@@ -493,5 +493,3 @@ class AnnoncesUtils
         return $slug.'-'.$randomNumber;
     }
 }
-
-
