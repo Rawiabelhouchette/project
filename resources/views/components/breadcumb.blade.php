@@ -43,7 +43,6 @@
              width: 100%;
              max-width: 1200px;
              margin: 0 auto;
-             padding: 0 15px;
          }
 
          .title-content {
@@ -348,13 +347,13 @@
 
 
              .title-transparent {
-                 padding: 20px 0;
+                 padding: 5px 0;
              }
 
              .title-content h1 {
                  font-size: 24px;
                  margin-bottom: 8px;
-                 text-align: left;
+                 text-align: center;
              }
 
              .breadcrumbs {
@@ -370,12 +369,14 @@
         <section class="title-transparent page-title" id="breadcumb-mobile"
             style="background: url({{ asset($backgroundImage) }});">
             <div class="container">
+
+                @livewire('public.search-box')
                 <div class="title-content">
                     @if ($showTitle)
                         <h1>{{ $title ?? 'Title' }}</h1>
                     @endif
 
-                    <div class="breadcrumbs">
+                    <div class="breadcrumbs d-flex justify-content-center">
                         @foreach ($breadcrumbs as $breadcrumb)
                             @if (!$loop->first)
                                 <span class="gt3_breadcrumb_divider"></span>
@@ -389,7 +390,6 @@
                         @endforeach
                     </div>
                 </div>
-                @livewire('public.search-box')
             </div>
             
         </section>

@@ -328,6 +328,7 @@
 
         /* Footer Styling */
         .modal-footer {
+            display: flex;
             justify-content: space-between;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -335,6 +336,9 @@
             bottom: 0;
             background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
+        }
+        .btn-container {
+            flex: 2;
         }
 
         .clear-btn {
@@ -564,7 +568,7 @@
                                                                     placeholder="Rechercher une localisation">
                                                                 <i class="bi bi-geo-alt input-icon"></i>
                                                             </div>
-                                                            <div class="chips-container" id="localisationChips">
+                                                            <div class="chips-container" id="localisationChips" style="display: none;">
                                                                 @foreach ($quartiers as $quartier)
                                                                     <div class="chip" data-section="localisation">
                                                                         {{ $quartier }}
@@ -617,11 +621,15 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="clear-btn" id="clearBtn">Tout effacer</button>
-                                            <button type="button" class="search-btn" id="searchBtn">
-                                                <i class="bi bi-search"></i>
-                                                <span>{{ __('Rechercher') }}</span>
-                                            </button>
+                                            <div class="btn-container">
+                                                <button type="button" class="clear-btn" id="clearBtn">Tout effacer</button>
+                                            </div>
+                                             <div class="btn-container">
+                                                <button type="button" class="search-btn" id="searchBtn">
+                                                    <i class="bi bi-search"></i>
+                                                    <span>{{ __('Rechercher') }}</span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -679,7 +687,6 @@
                 .property-grid {    
                     display: flex;
                     flex-wrap: wrap;
-                    margin: 0 -10px; /* Negative margin to offset the padding */
                 }
         </style>
             <div class="container mt-5">
@@ -1518,7 +1525,19 @@
             searchModal.addEventListener('shown.bs.modal', function() {
                 document.getElementById('motCleInput').focus();
             });
+
+            // Show location chips when user types in the input
+            document.getElementById('localisationInput').addEventListener('input', function() {
+                const chipsContainer = document.getElementById('localisationChips');
+                if (this.value.trim() !== '') {
+                    chipsContainer.style.display = 'flex';
+                } else {
+                    chipsContainer.style.display = 'none';
+                }
+            });
         });
     </script>
 @endsection
+
+
 

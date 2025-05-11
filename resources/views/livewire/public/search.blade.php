@@ -25,18 +25,7 @@
                         <!-- Sort dropdown moved to the right -->
                         <div class="mb-0 d-flex align-items-center">
                             <!-- View mode toggle buttons -->
-                            <div class="view-mode-buttons me-3 d-flex" style="gap: 5px;">
-                                <button class="btn btn-sm {{ $viewMode === 'row' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}" 
-                                        wire:click="$set('viewMode', 'row')" title="Vue grille"
-                                        style="padding: 8px 10px;border: 0;">
-                                    <i class="fa fa-th-large"></i>
-                                </button>
-                                <button class="btn btn-sm {{ $viewMode === 'line' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}"
-                                        wire:click="$set('viewMode', 'line')" title="Vue liste"
-                                        style="padding: 8px 10px;border: 0;">
-                                    <i class="fa fa-list"></i>
-                                </button>
-                            </div>
+
 
                             <!-- Sort dropdown -->
                             <select id="select-order" class="fs-5 filter-button" tabindex="-98" wire:model.lazy='sortOrder'>
@@ -63,13 +52,29 @@
                             </div>
                         @endforeach
                     </div>
+                    </div>
                     @if(count($facettes) > 2)
-                    <div class="row col-md-12 col-sm-12">
-                        <div class="col-md-3 text-center mb-3 mt-2 d-block d-md-none">
-                            <button id="show-more-filters-sm" class="filter-button" onclick="toggleMoreFiltersSm()">
-                            <i class="fa fa-sliders me-2"></i> Plus de filtres
+                    <div class="d-flex justify-content-between p-0">
+                            <button id="show-more-filters-sm" class="filter-button d-block d-md-none" onclick="toggleMoreFiltersSm()">
+                            <i class="fa fa-sliders"></i> Plus de filtres
                             </button>
-                        </div>
+             
+                        <div class="d-flex" style="gap: 5px;">
+                            <div>
+                                <button class="btn btn-sm {{ $viewMode === 'row' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}" 
+                                        wire:click="$set('viewMode', 'row')" title="Vue grille"
+                                        style="padding: 8px 10px;border: 0;">
+                                    <i class="fa fa-th-large"></i>
+                                </button>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm {{ $viewMode === 'line' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}"
+                                        wire:click="$set('viewMode', 'line')" title="Vue liste"
+                                        style="padding: 8px 10px;border: 0;">
+                                    <i class="fa fa-list"></i>
+                                </button>
+                            </div>
+                            </div>
                     </div>
                     @endif
                     <div class="col-12 text-center mb-3">
@@ -116,7 +121,7 @@
                             });
                         }
                     </script>
-                </div>
+                
                 <!-- End Start Sidebar -->
 
                 <!-- Start All Listing -->
@@ -170,7 +175,6 @@
                             .property-grid {
                                 display: flex;
                                 flex-wrap: wrap;
-                                margin: 0 -10px; /* Negative margin to offset the padding */
                             }
                         </style>
                         <div class="property-grid">
@@ -215,6 +219,7 @@
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
 </div>
+
 
 
 

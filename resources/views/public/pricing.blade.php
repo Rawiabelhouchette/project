@@ -31,7 +31,7 @@
                     </ul>
                 </div>
             @endif
-            <div class="row gy-5">
+            <div class="row gy-5 mb-2">
                 @foreach ($offres as $offre)
                     @include('components.pricing-card', ['offre' => $offre, 'isPro' => $isPro])
                 @endforeach

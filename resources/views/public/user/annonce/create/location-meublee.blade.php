@@ -16,7 +16,7 @@
         title="Ajouter une location meublée" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name location-meublee row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.location-meublee.create')
         </div>
     </div>

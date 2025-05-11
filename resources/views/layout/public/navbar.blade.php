@@ -133,14 +133,14 @@
     .sidebar-mobile {
         position: fixed;
         top: 0;
-        left: 0;
+        right: 0;
         width: 80%;
         /* Not full width as per design */
         height: 100%;
         background: white;
         z-index: 1050;
         overflow-y: auto;
-        transform: translateX(-100%);
+        transform: translateX(100%);
         transition: transform 0.3s ease-in-out;
     }
 
@@ -394,9 +394,7 @@
     <header class="container-fluid py-3">
         <div class="row align-items-center">
             <div class="col-6 d-flex align-items-center">
-                <button class="btn p-0 border-0 ms-1" id="menuToggle">
-                    <i class="bi bi-list fs-4" style="font-size:32px !important"></i>
-                </button>
+
                 <div class="logo ms-2">
                     <img onclick="window.location.href='/'"
                         style="width: 70px;
@@ -409,8 +407,9 @@
             </div>
             <div class="col-3"></div>
             <div class="col-3 d-flex justify-content-end" style="gap: 5px;">
-
-
+                        <div class="d-flex align-items-center justify-content-center">
+               
+             
                 <form style="width: auto;">
                     @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
                         <a class="btn add-annonce" id="btn-deposer-annonce" style="padding: 10px 15px; "
@@ -429,7 +428,9 @@
                             <i class="fa-solid fa-plus"></i>Annonce
                         </a>
                     @endif
-                </form>
+                </form>   
+        </div>
+
 
                 <div>
 
@@ -525,11 +526,14 @@
 
                 </div>
 
-
+                 <button class="btn p-0 border-0 ms-1" id="menuToggle">
+                    <i class="bi bi-list fs-4" style="font-size:32px !important"></i>
+                </button>
             </div>
 
 
         </div>
+
     </header>
 
     <!-- Background Overlay -->
@@ -584,6 +588,8 @@
                 </div>
                 <i class="bi bi-chevron-right"></i>
             </div>
+
+            
 
         </div>
     </div>

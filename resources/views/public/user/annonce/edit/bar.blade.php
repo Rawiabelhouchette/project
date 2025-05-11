@@ -17,7 +17,7 @@
         title="Modifier un Bar & RoofTop" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.bar.edit', ['bar' => $bar])
         </div>
     </div>

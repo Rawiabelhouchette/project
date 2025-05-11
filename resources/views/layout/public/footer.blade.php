@@ -336,31 +336,7 @@
 </style>
 
 <footer class="vamiyi-footer">
-    <!-- Newsletter Section -->
-    <div class="vamiyi-newsletter">
-        <div class="vamiyi-container">
-            <div class="vamiyi-newsletter-content">
-                <div class="vamiyi-newsletter-text">
-                    <h3 class="vamiyi-newsletter-title">Restez informé</h3>
-                    <p class="vamiyi-newsletter-desc">
-                        Inscrivez-vous à notre newsletter pour recevoir nos dernières offres et actualités
-                    </p>
-                </div>
-                <div class="vamiyi-newsletter-form">
-                    <form class="vamiyi-form-group">
-                        <input type="email" class="vamiyi-input" placeholder="Votre adresse email" required>
-                        <button type="submit" class="vamiyi-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 2L11 13"></path>
-                                <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
-                            </svg>
-                            S'inscrire
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Main Footer Content -->
     <div class="vamiyi-main-footer">
@@ -525,8 +501,45 @@
                                     Nous rejoindre
                                 </a>
                             </li>
+                            <li class="vamiyi-list-item">
+                                <a href="#" class="vamiyi-list-link">
+                                    <span class="vamiyi-arrow">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            <polyline points="12 5 19 12 12 19"></polyline>
+                                        </svg>
+                                    </span>
+                                    Cookies
+                                </a>
+                            </li>
                         </ul>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Newsletter Section -->
+    <div class="vamiyi-newsletter">
+        <div class="vamiyi-container">
+            <div class="vamiyi-newsletter-content">
+                <div class="vamiyi-newsletter-text">
+                    <h3 class="vamiyi-newsletter-title">Restez informé</h3>
+                    <p class="vamiyi-newsletter-desc">
+                        Inscrivez-vous à notre newsletter pour recevoir nos dernières offres et actualités
+                    </p>
+                </div>
+                <div class="vamiyi-newsletter-form">
+                    <form class="vamiyi-form-group">
+                        <input type="email" class="vamiyi-input" placeholder="Votre adresse email" required>
+                        <button type="submit" class="vamiyi-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 2L11 13"></path>
+                                <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+                            </svg>
+                            S'inscrire
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -540,11 +553,11 @@
                     Copyright &copy; {{ date('Y') }} Vamiyi. Tous droits réservés. Propulsé par 
                     <a href="https://www.numrod.com" class="vamiyi-copyright-link">Numrod</a>
                 </p>
-                <div class="vamiyi-footer-links">
+                <!--<div class="vamiyi-footer-links">
                     <a href="#" class="vamiyi-footer-link">Conditions</a>
                     <a href="#" class="vamiyi-footer-link">Confidentialité</a>
-                    <a href="#" class="vamiyi-footer-link">Cookies</a>
-                </div>
+                    
+                </div>-->
             </div>
         </div>
     </div>

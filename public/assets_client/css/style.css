@@ -3572,7 +3572,7 @@ ul.popular-categories-list li a:focus {
 }
 
 .list-detail h3 {
-    font-size: 32px;
+    font-size: 24px;
 }
 
 .list-detail h3 span {
@@ -5019,7 +5019,7 @@ Page Title Settings
     background-size: cover !important;
     background-position: center !important;
     position: relative;
-    height: 420px;
+    height: auto;
 }
 
 @media (max-width: 767px) {
@@ -5341,6 +5341,38 @@ Component Style
     margin-top: 2rem;
     font-weight: normal;
     opacity: 0.6;
+}
+
+/* Add this at the end of the file to prevent horizontal scrolling */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+/* Fix for potential issues with containers extending beyond viewport */
+.container, .container-fluid, .row {
+    max-width: 100%;
+}
+
+/* Ensure images don't cause overflow */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fix for mobile horizontal scrolling in sliders */
+.slick-slider {
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Fix for tabs on mobile */
+@media (max-width: 767px) {
+    .tab .nav-tabs, .nav-tabs {
+        width: 100%;
+        padding-right: 0;
+    }
 }
 
 @media only screen and (max-width: 480px) {
@@ -6010,12 +6042,11 @@ Pages Settings
 }
 
 span.category-tag {
-    font-size: 16px !important;
+    font-size: 12px !important;
     color: #de6600;
     border: 1px solid #de6600;
-    padding: 5px 15px;
+    padding: 0px 10px;
     border-radius: 50px;
-    top: -3px;
     position: relative;
 }
 
@@ -6040,7 +6071,7 @@ span.category-tag {
 }
 
 .annonces {
-    margin-top: 12px;
+    margin-top: 0px;
 }
 
 .annonces a {
@@ -6649,10 +6680,9 @@ Sidebar Style
     border-radius: 16px;
     transform: translate3d(0, 0, 0);
     z-index: 90;
-    margin-bottom: 35px;
+    margin: 10px 0 10px 0px;
     position: relative;
-    padding: 2rem;
-    margin: 10px 20px;
+    padding: 1rem;
     /*	padding:0 12px 32px 20px;
     border: 1px solid #eaeff5;
     box-shadow: 0px 0px 10px 1px rgba(71, 85, 95,0.08);
@@ -9356,14 +9386,28 @@ a.cl-box {
     margin-bottom: 5px;
 }
 
+.line-money-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    border: 1px solid #00796b;
+    border-radius: 5px;
+    padding: 3px;
+}
+
 .line-icon-location,
 .line-icon-phone {
     color: #de6600;
     margin-right: 5px;
 }
+.line-icon-money {
+    color: #00796b;
+    margin-right: 5px;
+}
 
 .line-location-text,
-.line-phone-text {
+.line-phone-text,
+.line-money-text {
     font-size: 14px;
     color: #777;
 }
@@ -9467,7 +9511,7 @@ a.cl-box {
     background: #de6600;
     color: white;
     font-weight:500;
-    padding: 15px 10px;
+    padding: 10px 8px;
     border-radius: 10px;
 
 }
@@ -9567,6 +9611,7 @@ a.cl-box {
     flex-wrap: wrap;
     align-items: center;
     font-size: 12px;
+    margin-top: 5px;
 }
 
 .counter-item {
@@ -9584,3 +9629,46 @@ a.cl-box {
     border-radius: 3px;
     padding: 5px 10px;
 }
+
+/* Modify the previous fix to prevent horizontal scrolling while maintaining proper alignment */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
+/* Fix for container alignment on mobile */
+@media (max-width: 767px) {
+    .container, .container-fluid {
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    /* Fix for search results and product view alignment */
+    .property-grid, 
+    .listing-shot,
+    .listing-detail,
+    .detail-wrapper,
+    .col-md-12,
+    .row {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
+    
+    /* Ensure content is centered */
+    .text-center-xs {
+        text-align: center !important;
+    }
+    
+    /* Fix for any negative margins that might be causing issues */
+    .mob-extra-mrg {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+

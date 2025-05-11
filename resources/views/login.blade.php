@@ -48,7 +48,7 @@
                         </div>
 
                         @if (Route::has('password.reset'))
-                            <div class="text-right">
+                            <div class="text-center">
                                 <a class="btn-link theme-cl" href="{{ route('password.reset') }}">
                                     {{ __('Mot de passe oublié ?') }}
                                 </a>
@@ -80,7 +80,7 @@
                         Ou conntectez vous avec compte google
                         <button type="button" class="login-with-google-btn"
                             onclick="window.location.href='{{ route('google.login') }}'">
-                            Sign in with Google
+                            Connecter avec Google
                         </button>
                     </div>
 

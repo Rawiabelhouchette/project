@@ -17,7 +17,7 @@
         title="Ajouter un Fast-Food" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name auberge row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.fast-food.create')
         </div>
     </div>

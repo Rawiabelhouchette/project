@@ -26,6 +26,9 @@
             .search-container {
                 max-width: 600px;
                 margin: 0px auto;
+                display: flex;
+                justify-content: center;
+                padding: 10px 0 5px 0;
             }
 
             .search-bar-mobile {
@@ -38,6 +41,7 @@
                 transition: transform var(--transition-speed), box-shadow var(--transition-speed);
                 z-index: 1;
                 position: relative;
+                width: 50%;
             }
 
             .search-bar-mobile:hover {
@@ -299,13 +303,17 @@
 
             /* Footer Styling */
             .modal-footer {
+                display: flex;
                 justify-content: space-between;
                 border-top: 1px solid rgba(0, 0, 0, 0.1);
-
+                padding: 20px;
                 position: sticky;
                 bottom: 0;
                 background-color: rgba(255, 255, 255, 0.9);
                 backdrop-filter: blur(10px);
+            }
+            .btn-container {
+                flex: 2;
             }
 
             .clear-btn {
@@ -511,7 +519,7 @@
                                                     placeholder="Rechercher une localisation">
                                                 <i class="bi bi-geo-alt input-icon"></i>
                                             </div>
-                                            <div class="chips-container" id="localisationChips">
+                                            <div class="chips-container" id="localisationChips" style="display: none;">
                                                 @foreach ($quartiers as $quartier)
                                                     <div class="chip" data-section="localisation">
                                                         {{ $quartier }}
@@ -566,7 +574,7 @@
                         </div>
                         <div class="modal-footer">
 
-                            <div>
+                            <div class="btn-container">
 
                                 <form class="form-verticle" method="GET" action="{{ route('search') }}">
                                     <input type="hidden" value="1" name="form_request">
@@ -579,7 +587,7 @@
                                     </button>
                                 </form>
                             </div>
-                            <div>
+                            <div class="btn-container">
                                 <form class="form-verticle" method="GET" action="{{ route('search') }}">
                                     <input type="hidden" value="1" name="form_request">
                                     <input type="hidden" name="type[]" id="typeMobile" value="" />
@@ -856,7 +864,14 @@
                 document.getElementById("customCloseBtnMobile").addEventListener("click", function() {
                     document.querySelector(".modal-open #share").style.display = "";
                 });
-
+                document.getElementById('localisationInput').addEventListener('input', function() {
+                    const chipsContainer = document.getElementById('localisationChips');
+                    if (this.value.trim() !== '') {
+                        chipsContainer.style.display = 'flex';
+                    } else {
+                        chipsContainer.style.display = 'none';
+                    }
+                });
             });
         </script>
     </div>

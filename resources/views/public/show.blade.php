@@ -28,7 +28,7 @@
                 <!-- Start: Pagination Wrapper -->
                 <div class="row">
                     <div class="col-sm-12 nav-div nav-div-1">
-                        <h5 style="text-align: left; border-bottom: 1px silver solid;" class="py-5 px-2">
+                        <h5 style="text-align: left; border-bottom: 1px silver solid;" class="py-4 px-1">
                             <a href="{{ route('search') }}" title="Revenir à la recherche">
                                 <i class="fa fa-fw fa-arrow-left" aria-hidden="true"></i>
                                 Revenir à la recherche
@@ -36,7 +36,7 @@
                         </h5>
                     </div>
                     <div class="col-sm-12 nav-div" style="text-align: right">
-                        <div class="d-flex px-5 py-2" style="justify-content: space-between; align-items: center;border-bottom: 1px silver solid;">
+                        <div class="d-flex px-4 py-1" style="justify-content: space-between; align-items: center;border-bottom: 1px silver solid;">
                             <a class="" href="{{ $pagination->previous }}">
                                 <i class="fa fa-fw fa-angle-left"></i>
                                 Précédent
@@ -105,42 +105,48 @@
                                             <i class="fa fa-comment" aria-hidden="true"></i>
                                             <span style="white-space: nowrap;">{{ $annonce->comment_count }} commentaire(s)</span>
                                         </div>
+                                        <div class="counter-item-alt theme-btn text-white border-0">
+                                            <span style="white-space: nowrap;">{{ $annonce->note }}/5</span>
+                                        </div>
 
                                     </div>
                                     <div class="social-links d-flex">
                                         
-                                        <div class="d-flex">
-                                            @if ($annonce->entreprise->instagram)
-                                                <a href="{{ $annonce->entreprise->instagram }}" target="_blank"
-                                                    class="social-button instagram me-2">
-                                                    <i class="fa-brands fa-instagram"></i>
-                                                </a>
-                                            @endif
-                                            @if ($annonce->entreprise->facebook)
-                                                <a href="{{ $annonce->entreprise->facebook }}" target="_blank"
-                                                    class="social-button facebook me-2">
-                                                    <i class="fa-brands fa-facebook"></i>
-                                                </a>
-                                            @endif
-                                            @if ($annonce->entreprise->whatsapp)
-                                                <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}"
-                                                    target="_blank" class="social-button whatsapp me-2">
-                                                    <i class="fa-brands fa-whatsapp"></i>
-                                                </a>
-                                            @endif
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex">
+                                                @if ($annonce->entreprise->instagram)
+                                                    <a href="{{ $annonce->entreprise->instagram }}" target="_blank"
+                                                        class="social-button instagram me-2">
+                                                        <i class="fa-brands fa-instagram"></i>
+                                                    </a>
+                                                @endif
+                                                @if ($annonce->entreprise->facebook)
+                                                    <a href="{{ $annonce->entreprise->facebook }}" target="_blank"
+                                                        class="social-button facebook me-2">
+                                                        <i class="fa-brands fa-facebook"></i>
+                                                    </a>
+                                                @endif
+                                                @if ($annonce->entreprise->whatsapp)
+                                                    <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}"
+                                                        target="_blank" class="social-button whatsapp me-2">
+                                                        <i class="fa-brands fa-whatsapp"></i>
+                                                    </a>
+                                                @endif
+                                            </div>
+                                            <div class="side-list share-buttons">
+                                                <div class="mrg-r-10">
+                                                    <button class="buttons padd-10 btn-default share-button"  data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
+                                                        <i class="fa fa-share-nodes"></i>
+                                                        <!-- <span class="hidden-xs">Partager</span> -->
+                                                    </button>
+                                                </div>
+                                                <div class="mrg-r-10">
+                                                    @livewire('public.favoris', [$annonce])
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="side-list share-buttons">
-                                        <div class="mrg-r-10">
-                                            <button class="buttons padd-10 btn-default share-button"  data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
-                                                <i class="fa fa-share-nodes"></i>
-                                                <!-- <span class="hidden-xs">Partager</span> -->
-                                            </button>
-                                        </div>
-                                        <div class="mrg-r-10">
-                                            @livewire('public.favoris', [$annonce])
-                                        </div>
-                                    </div>
+
                                
                             </div>
                             </div>
@@ -201,6 +207,16 @@
 
                                 {{ $annonce->annonceable->getShowInformationBody() }}
                             </div>
+                            
+                            <!-- Comments Section -->
+                            <div class="widget-boxed padd-bot-10">
+                                <div class="widget-boxed-header">
+                                    <h4><i class="fa fa-comments padd-r-10"></i>Commentaires</h4>
+                                </div>
+                                <div class="widget-boxed-body">
+                                    @livewire('public.comment', [$annonce])
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-12">
@@ -213,10 +229,10 @@
                             <div class="widget-boxed-body padd-top-5">
                                 <div class="side-list">
                                     <ul>
-                                        <li>{{ $annonce->adresse_complete->pays ?? '-' }} -
-                                            {{ $annonce->adresse_complete->ville ?? '-' }},
-                                            {{ $annonce->adresse_complete->quartier ?? '-' }}
-                                        </li>
+                                        <li>Pays : <b>{{ $annonce->adresse_complete->pays ?? '-' }}</b></li>
+                                        <li>Ville : <b>{{ $annonce->adresse_complete->ville ?? '-' }}</b></li>
+                                        <li>Quartier : <b>{{ $annonce->adresse_complete->quartier ?? '-' }}</b></li>
+                                        
                                         <li>
                                             <div id="map" class="full-width" style="height:252px;"></div>
                                         </li>
@@ -264,10 +280,11 @@
             'couverture' => $annonce->imagePrincipale,
         ])
 
-        @include('components.public.share-modal-alt', [
-            'title' => 'Partager cette annonce',
-            'annonce' => $annonce,
-        ])
+
+        @include('components.public.share-modal', [
+                            'title' => 'Partager cette annonce',
+                            'annonce' => $annonce,
+                        ])
     @endsection
 
     @section('js')
@@ -390,6 +407,7 @@
         }
     </style>
     @endsection
+
 
 
 

@@ -17,7 +17,7 @@
         title="Modifier une Boite de nuit" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.boite-de-nuit.edit', ['boiteDeNuit' => $boiteDeNuit])
         </div>
     </div>

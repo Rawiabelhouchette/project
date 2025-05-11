@@ -7,7 +7,6 @@
                 <b style="color: red; font-size: 100%;">*</b>
             @endif
         </h3>
-        <h4 style="font-family: 'Poppins', sans-serif;font-weight: normal;font-size: 14px;opacity: 0.5;padding: 1rem 0 3rem 0;">Sélectionnez un élément dans la liste</h4>
 
         <div class="custom-select-container" x-data="{
             open: false,
