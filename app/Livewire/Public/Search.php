@@ -14,7 +14,7 @@ use Livewire\WithPagination;
 
 /**
  * Composant Livewire pour la recherche d'annonces
- * 
+ *
  * Cette classe gère la recherche d'annonces avec différents filtres (type, ville, quartier, entreprise)
  * et affiche les résultats avec pagination.
  */
@@ -224,7 +224,7 @@ class Search extends Component
 
     /**
      * Change l'état d'un filtre de recherche
-     * 
+     *
      * @param string $value Valeur du filtre
      * @param string $category Catégorie du filtre (type, ville, quartier, entreprise)
      * @param bool $remove Indique si la valeur doit être supprimée
@@ -532,13 +532,14 @@ class Search extends Component
 
         if ($this->quartier) {
             $quartiers = $this->quartier;
-            $annonces = $annonces->whereHas('entreprise.quartier', function ($query) use ($quartiers) {
+            $annonces = $annonces->whereHas('entreprise', function ($query) use ($quartiers) {
                 $query->where(function ($query) use ($quartiers) {
                     foreach ($quartiers as $quartier) {
-                        $query->orWhere('nom', 'like', '%' . $quartier . '%');
+                        $query->orWhere('quartier', 'like', '%' . $quartier . '%');
                     }
                 });
             });
+
         }
 
         return $annonces;
