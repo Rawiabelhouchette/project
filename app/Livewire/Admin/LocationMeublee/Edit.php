@@ -316,7 +316,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->locationMeublee->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->locationMeublee->annonce, $this->galerie, $this->deleted_old_galerie, 'locationMeublees');
+            AnnoncesUtils::updateGalerie($this->image, $this->locationMeublee->annonce, $this->galerie, $this->deleted_old_galerie, 'location-meublees');
 
             DB::commit();
         } catch (\Throwable $th) {

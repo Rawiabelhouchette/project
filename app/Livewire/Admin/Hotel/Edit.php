@@ -307,7 +307,7 @@ class Edit extends Component
 
             AnnoncesUtils::updateManyReference($this->hotel->annonce, $references);
 
-            AnnoncesUtils::updateGalerie($this->image, $this->hotel->annonce, $this->galerie, $this->deleted_old_galerie, 'annonces');
+            AnnoncesUtils::updateGalerie($this->image, $this->hotel->annonce, $this->galerie, $this->deleted_old_galerie, 'hotels');
 
             DB::commit();
         } catch (\Throwable $th) {
