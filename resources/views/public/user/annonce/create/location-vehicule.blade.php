@@ -3,30 +3,29 @@
 @section('title', 'Ajouter une location de véhicule')
 
 @section('content')
-    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-1.jpg') }})">
-        <div class="container">
-            <div class="title-content">
-                <h1>Ajouter un véhicule</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <a href="{{ route('public.annonces.create') }}">Déposer une annonce</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Location de véhicule</span>
-                </div>
-            </div>
-        </div>
-    </section>
+
+
+    @php
+        $breadcrumbs = [
+            ['route' => 'accueil', 'label' => 'Accueil'],
+            ['route' => 'public.annonces.create', 'label' => 'Location meublée'],
+            ['label' => 'Location de véhicule'],
+        ];
+    @endphp
+
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-1.jpg') }}" :showTitle="true"
+        title="Ajouter un véhicule" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name auberge row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.location-vehicule.create')
         </div>
     </div>
 @endsection
 
 @section('js')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
     <script>
         var mymap = L.map('map').setView([8.6195, 0.8248], 6);

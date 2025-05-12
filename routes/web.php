@@ -39,6 +39,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VilleController;
 use App\Services\Paiement\PaiementService;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\GoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +83,8 @@ Route::post('password-link', [AccountController::class, 'resetPassword'])->name(
 Route::get('notification/reset-password', [AccountController::class, 'notificationSuccess'])->name('notification.rest-password.success');
 Route::post('reset-password', [AccountController::class, 'newPassword'])->name('password.update');
 
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 // Auth middleware
 Route::group(['middleware' => 'App\Http\Middleware\Auth'], function () {

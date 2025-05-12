@@ -3,29 +3,32 @@
 @section('title', 'Recherche')
 
 @section('content')
-    @livewire('public.search-box')
 
     @livewire('public.search', ['hasSessionValue' => $hasSessionValue])
 
     @push('scripts')
         <script>
             function shareAnnonce(url, titre, image, type) {
-                var text = "Salut!%0AJette un œil à l'annonce que j’ai trouvé sur Vamiyi%0ATitre : " + titre + "%0ALien : " + url + " ";
+                console.log("share function called with:", url, titre, image, type);
+                var text = "Salut!%0AJette un œil à l'annonce que j'ai trouvé sur Vamiyi%0ATitre : " + titre + "%0ALien : " + url + " ";
                 var subject = titre;
-                var url = url;
-                var image = image;
-                var annonceType = type;
 
+                // Set content
                 $('#annonce-titre').text(subject);
                 $('#annonce-image-url').attr('src', image);
-                $('#annonce-type').text(annonceType);
+                $('#annonce-type').text(type);
 
+                // Set share links
                 $('#annonce-email').attr('href', 'mailto:?subject=' + subject + '&body=' + text);
                 $('#annonce-url').data('url', url);
                 $('#annonce-facebook').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url);
                 $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
+
+                // Hide page zone and show modal
                 $('#share-page-zone').hide();
-                $('#image-share').show();
+
+                // Properly open Bootstrap modal
+                $('#share').modal('show');
             }
 
             function sharePage() {
@@ -39,6 +42,9 @@
                 $('#annonce-whatsapp').attr('href', 'whatsapp://send?text=' + text);
                 $('#share-page-zone').show();
                 $('#image-share').hide();
+
+                 // Properly open Bootstrap modal
+                 $('#share').modal('show');
             }
 
             $('#annonce-url').click(function() {

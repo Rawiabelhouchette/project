@@ -3,23 +3,20 @@
 @section('title', 'Modifier un Hôtel')
 
 @section('content')
-    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
-        <div class="container">
-            <div class="title-content">
-                <h1>Modifier un Hotel</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <a href="{{ route('public.annonces.list') }}">Mes annonces</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Hotel</span>
-                </div>
-            </div>
-        </div>
-    </section>
+
+     @php
+        $breadcrumbs = [
+            ['route' => 'accueil', 'label' => 'Accueil'],
+            ['route' => 'public.annonces.list', 'label' => 'Mes annonces'],
+            ['label' => 'Hotel'],
+        ];
+    @endphp
+
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-2.jpg') }}" :showTitle="true"
+        title="Modifier un Hotel" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name hotel row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.hotel.edit', ['hotel' => $hotel])
         </div>
     </div>

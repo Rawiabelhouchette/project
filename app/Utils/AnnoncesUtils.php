@@ -108,22 +108,10 @@ class AnnoncesUtils
     {
         return collect([
             (object) [
-                'nom' => 'Auberge',
-                'icon' => 'fas fa-hotel',
-                'route' => 'public.hostels.create',
-                'color' => 'info'
-            ],
-            (object) [
                 'nom' => 'Hôtel',
                 'icon' => 'fas fa-hotel',
                 'route' => 'public.hotels.create',
                 'color' => 'sucess'
-            ],
-            (object) [
-                'nom' => 'Location de véhicule',
-                'icon' => 'fas fa-car',
-                'route' => 'public.vehicle-rentals.create',
-                'color' => 'warning'
             ],
             (object) [
                 'nom' => 'Location meublée',
@@ -132,15 +120,9 @@ class AnnoncesUtils
                 'color' => 'info'
             ],
             (object) [
-                'nom' => 'Boite de nuit',
-                'icon' => 'fas fa-glass-cheers',
-                'route' => 'public.night-clubs.create',
-                'color' => 'danger'
-            ],
-            (object) [
-                'nom' => 'Fast-food',
-                'icon' => 'fas fa-utensils',
-                'route' => 'public.fast-foods.create',
+                'nom' => 'Auberge',
+                'icon' => 'fas fa-hotel',
+                'route' => 'public.hostels.create',
                 'color' => 'info'
             ],
             (object) [
@@ -148,6 +130,12 @@ class AnnoncesUtils
                 'icon' => 'fas fa-burger',
                 'route' => 'public.restaurants.create',
                 'color' => 'sucess'
+            ],
+            (object) [
+                'nom' => 'Fast-food',
+                'icon' => 'fas fa-utensils',
+                'route' => 'public.fast-foods.create',
+                'color' => 'info'
             ],
             (object) [
                 'nom' => 'Patisserie',
@@ -160,6 +148,18 @@ class AnnoncesUtils
                 'icon' => 'fas fa-glass-martini-alt',
                 'route' => 'public.bars.create',
                 'color' => 'info'
+            ],
+            (object) [
+                'nom' => 'Location de véhicule',
+                'icon' => 'fas fa-car',
+                'route' => 'public.vehicle-rentals.create',
+                'color' => 'warning'
+            ],
+            (object) [
+                'nom' => 'Boite de nuit',
+                'icon' => 'fas fa-glass-cheers',
+                'route' => 'public.night-clubs.create',
+                'color' => 'danger'
             ]
         ]);
     }
@@ -491,4 +491,5 @@ class AnnoncesUtils
         return $slug . '-' . $randomNumber;
     }
 }
+
 

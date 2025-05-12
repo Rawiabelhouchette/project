@@ -6,21 +6,16 @@
 
 @section('content')
 
-    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
-        <div class="container">
-            <div class="title-content">
-                <h1>Mon profil</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Profil</span>
-                </div>
-            </div>
-        </div>
-    </section>
+
+    @php
+        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil'], ['label' => 'Profil']];
+    @endphp
+
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-2.jpg') }}" :showTitle="true" title="Mon profil" :showSearchButton="true"
+        :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name auberge row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.profile')
         </div>
     </div>

@@ -16,7 +16,7 @@ class PublicController extends Controller
     {
         $listAnnonce = AnnoncesUtils::getPublicAnnonceList();
         $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
-        $annonces = Annonce::public()->with('annonceable', 'entreprise')->inRandomOrder()->take(6)->get();
+        $annonces = Annonce::public()->with('annonceable', 'entreprise')->inRandomOrder()->take(8)->get();
 
         $nbAnnonces = Annonce::public()->count();
         $nbEntreprises = Entreprise::count();

@@ -3,30 +3,28 @@
 @section('title', 'Modifier une Pâtisserie')
 
 @section('content')
-    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
-        <div class="container">
-            <div class="title-content">
-                <h1>Modifier une Pâtisserie</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <a href="{{ route('public.annonces.list') }}">Mes annonces</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Pâtisserie</span>
-                </div>
-            </div>
-        </div>
-    </section>
+
+    @php
+        $breadcrumbs = [
+            ['route' => 'accueil', 'label' => 'Accueil'],
+            ['route' => 'public.annonces.list', 'label' => 'Mes annonces'],
+            ['label' => 'Pâtisserie'],
+        ];
+    @endphp
+
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-2.jpg') }}" :showTitle="true"
+        title="Modifier une Pâtisserie" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name auberge row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.patisserie.edit', ['patisserie' => $patisserie])
         </div>
     </div>
 @endsection
 
 @section('js')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
     <script>
         var mymap = L.map('map').setView([8.6195, 0.8248], 6);

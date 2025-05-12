@@ -3,68 +3,10 @@
         $defaultColor = '#de6600';
     @endphp
     <!-- ================ Start Page Title ======================= -->
-    <section class="title-transparent page-title" style="background:url(assets_client/img/banner/image-1.jpg);">
-        <div class="container">
-            <div class="title-content">
-                <h1>Toutes nos offres</h1>
-                <div class="breadcrumbs">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    @if ($detail)
-                        {{-- <a href="#" style="color: white;"
-                            onclick="event.preventDefault(); history.back();">Recherche</a> --}}
-                        <span class="current">Recherche</span>
-                        <span class="gt3_breadcrumb_divider"></span>
-                        <span class="current">Détail</span>
-                    @else
-                        <span class="current">Recherche</span>
-                    @endif
-                </div>
-            </div>
-            <div class="banner-caption d-none d-md-block">
-                    <!-- <h3 class="text-center">Recherche</h3> -->
-                    <form class="form-verticle" method="GET" action="{{ route('search') }}">
-                            <input name="form_request" type="hidden" value="1">
-                            <div class="col-md-4 col-sm-4 no-padd">
-                                <i class="banner-icon icon-pencil"></i>
-                                <input class="form-control left-radius right-br" name="key" type="text"
-                                    placeholder="Mot clé...">
-                            </div>
-                            <div class="col-md-3 col-sm-3 no-padd">
-                                <div class="form-box">
-                                    <i class="banner-icon icon-map-pin"></i>
-                                    <input id="myInput" class="form-control right-br" name="location" type="text"
-                                        placeholder="Localisation...">
-                                    <div id="autocomplete-results" class="autocomplete-items"></div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-3 no-padd">
-                                <div class="form-box">
-                                    <i class="banner-icon icon-layers"></i>
-                                    <select class="form-control" name="type[]">
-                                        <option class="chosen-select" data-placeholder="{{ __('Types d\'annonce') }}"
-                                            value="" selected>{{ __('Types d\'annonce') }}</option>
-                                        @foreach ($typeAnnonce as $annonce)
-                                            <option value="{{ $annonce }}">{{ $annonce }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2 col-sm-3 no-padd">
-                                <div class="form-box">
-                                    <button class="btn theme-btn btn-default" type="submit" style="border-top-left-radius: 0px; !important; border-bottom-left-radius: 0px !important;">
-                                        {{-- <i class="ti-search"></i> --}}
-                                        {{ __('Rechercher') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
 
 
-                </div>
-        </div>
-    </section>
+
+
     <div class="clearfix"></div>
     <!-- ================ End Page Title ======================= -->
 
@@ -83,17 +25,23 @@
 
             .search-container {
                 max-width: 600px;
-                margin: 50px auto;
+                margin: 0px auto;
+                display: flex;
+                justify-content: center;
+                padding: 10px 0 5px 0;
             }
 
             .search-bar-mobile {
                 border-radius: 30px;
                 padding: 15px 20px;
-                margin: 50px;
+                /* margin: 50px; */
                 cursor: pointer;
                 color: white;
                 background-color: #de6600;
                 transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+                z-index: 1;
+                position: relative;
+                width: 50%;
             }
 
             .search-bar-mobile:hover {
@@ -355,6 +303,7 @@
 
             /* Footer Styling */
             .modal-footer {
+                display: flex;
                 justify-content: space-between;
                 border-top: 1px solid rgba(0, 0, 0, 0.1);
                 padding: 20px;
@@ -362,6 +311,9 @@
                 bottom: 0;
                 background-color: rgba(255, 255, 255, 0.9);
                 backdrop-filter: blur(10px);
+            }
+            .btn-container {
+                flex: 2;
             }
 
             .clear-btn {
@@ -458,12 +410,46 @@
                     box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
                 }
             }
+
+            .title-transparent::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(10, 147, 150, 0.8);
+                /* Semi-transparent overlay */
+                z-index: 1; /* Keep this positive so it shows above the background */
+                pointer-events: none; /* This is the key - it makes the overlay non-interactive */
+            }
+
+            /* Add these styles to ensure buttons are clickable */
+            .form-box, 
+            .form-box button,
+            .search-btn,
+            .banner-caption,
+            .form-verticle {
+                position: relative;
+                z-index: 2; /* Higher than the overlay */
+            }
+
+            .btn.theme-btn.btn-default {
+                z-index: 10;
+                position: relative;
+            }
+
+            .search-btn,
+            .form-box button {
+                z-index: 10;
+                position: relative;
+            }
         </style>
         <div class="form-verticle-mobile">
             <!-- Main Search Bar -->
             <div class="search-container">
                 <div class="search-bar-mobile d-flex align-items-center justify-content-center" data-bs-toggle="modal"
-                    data-bs-target="#searchModalMobile">
+                    data-bs-target="#searchModalMobile" id="searchModalMobileTab">
                     <i class="bi bi-search me-2"></i>
                     <span>Rechercher</span>
                 </div>
@@ -533,7 +519,7 @@
                                                     placeholder="Rechercher une localisation">
                                                 <i class="bi bi-geo-alt input-icon"></i>
                                             </div>
-                                            <div class="chips-container" id="localisationChips">
+                                            <div class="chips-container" id="localisationChips" style="display: none;">
                                                 @foreach ($quartiers as $quartier)
                                                     <div class="chip" data-section="localisation">
                                                         {{ $quartier }}
@@ -588,7 +574,7 @@
                         </div>
                         <div class="modal-footer">
 
-                            <div>
+                            <div class="btn-container">
 
                                 <form class="form-verticle" method="GET" action="{{ route('search') }}">
                                     <input type="hidden" value="1" name="form_request">
@@ -601,7 +587,7 @@
                                     </button>
                                 </form>
                             </div>
-                            <div>
+                            <div class="btn-container">
                                 <form class="form-verticle" method="GET" action="{{ route('search') }}">
                                     <input type="hidden" value="1" name="form_request">
                                     <input type="hidden" name="type[]" id="typeMobile" value="" />
@@ -620,7 +606,6 @@
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -675,7 +660,7 @@
                     typesAnnonce: Array.isArray(typeRaw) ? typeRaw : typeRaw ? typeRaw : []
                 };
                 initializeUI()
-                console.log(selections)
+
 
 
 
@@ -791,7 +776,7 @@
 
                 // Clear all selections
                 const clearBtn = document.getElementById('clearBtn');
-                clearBtn.addEventListener('click', function() {
+                clearBtn?.addEventListener('click', function() {
                     // Clear chips
                     document.querySelectorAll('.chip.active').forEach(chip => {
                         chip.classList.remove('active');
@@ -866,18 +851,27 @@
                 }
 
                 // Focus on the first input when modal opens
-                const searchModalMobile = document.getElementById('searchModalMobile');
-                searchModalMobile.addEventListener('shown.bs.modal', function() {
+                const searchModalMobile = document.getElementById('searchModalMobileTab');
+                searchModalMobile?.addEventListener('click', function() {
 
+                    const shareElement = document.querySelector(".modal-open #share");
+                    if (shareElement) {
 
-                    document.getElementById('motCleInput').focus();
-
-
+                        shareElement.style.setProperty('display', 'none', 'important');
+                    }
                 });
+
                 document.getElementById("customCloseBtnMobile").addEventListener("click", function() {
-                    document.querySelector("#share").style.display = "";
+                    document.querySelector(".modal-open #share").style.display = "";
                 });
-
+                document.getElementById('localisationInput').addEventListener('input', function() {
+                    const chipsContainer = document.getElementById('localisationChips');
+                    if (this.value.trim() !== '') {
+                        chipsContainer.style.display = 'flex';
+                    } else {
+                        chipsContainer.style.display = 'none';
+                    }
+                });
             });
         </script>
     </div>
@@ -896,9 +890,7 @@
                 margin: 0 !important
             }
 
-            .modal-open #share {
-                display: none !important
-            }
+
 
             .mobile-show {
                 display: block !important;
@@ -914,9 +906,7 @@
                 margin: 0 !important
             }
 
-            .modal-open #share {
-                display: none !important
-            }
+
 
             .mobile-show {
                 display: block !important;
@@ -933,9 +923,7 @@
             }
 
 
-            .modal-open #share {
-                display: none !important
-            }
+
 
             .mobile-show {
                 display: block !important;
@@ -953,7 +941,7 @@
             border: 1px solid #d4d4d4;
             border-bottom: none;
             border-top: none;
-            z-index: 99;
+            z-index: 3;
             top: 100%;
             left: 0;
             right: 0;

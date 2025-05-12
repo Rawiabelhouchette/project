@@ -3,43 +3,29 @@
 @section('title', 'Ajouter une Auberge')
 
 @section('content')
-    <section class="title-transparent page-title" style="background:url({{ asset('assets_client/img/banner/image-2.jpg') }})">
-        <div class="container">
-            <div class="title-content">
-                <h1>Ajouter une auberge</h1>
-                <div class="breadcrumbs d-none d-md-block">
-                    <a href="{{ route('accueil') }}">Accueil</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <a href="{{ route('public.annonces.create') }}">Déposer une annonce</a>
-                    <span class="gt3_breadcrumb_divider"></span>
-                    <span class="current">Auberge</span>
-                </div>
-                <div class="breadcrumbs d-block d-md-none">
-                    <div>
-                        <a href="{{ route('accueil') }}">Accueil</a>
-                        <span class="gt3_breadcrumb_divider"></span>
-                    </div>
-                    <div>
-                        <a href="{{ route('public.annonces.create') }}">Déposer une annonce</a>
-                        <span class="gt3_breadcrumb_divider"></span>
-                    </div>
-                    <div>
-                        <span class="current">Auberge</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
+
+    @php
+        $breadcrumbs = [
+            ['route' => 'accueil', 'label' => 'Accueil'],
+            ['route' => 'public.annonces.create', 'label' => 'Déposer une annonce'],
+            ['label' => 'Auberge'],
+        ];
+    @endphp
+
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-2.jpg') }}" :showTitle="true"
+        title="Ajouter une auberge" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name auberge row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.auberge.create')
         </div>
     </div>
 @endsection
 
 @section('js')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script>
         var mymap = L.map('map').setView([8.6195, 0.8248], 6);
