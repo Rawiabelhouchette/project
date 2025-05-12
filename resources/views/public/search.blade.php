@@ -3,7 +3,6 @@
 @section('title', 'Recherche')
 
 @section('content')
-    @livewire('public.search-box')
 
     @livewire('public.search', ['hasSessionValue' => $hasSessionValue])
 

@@ -85,7 +85,5 @@
             </ul>
         </div>
     </div>
-    <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
-        @livewire('public.comment', [$annonce])
-    </div>
+
 </div>

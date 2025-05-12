@@ -8,7 +8,7 @@
                         <h3>Entreprise
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Sélectionnez l'entreprise</h4>
+                        
                         <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
@@ -39,7 +39,7 @@
                         <h3>Date de validité
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Indiquez la date d'expiration de l'annonce</h4>
+                        
                         <input class="form-control" type="date" placeholder="" disabled wire:model.defer='date_validite' required>
                         @error('date_validite')
                             <span class="text-danger">{{ $message }}</span>

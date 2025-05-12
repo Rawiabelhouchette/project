@@ -17,7 +17,7 @@
         title="Modifier un véhicule" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.location-vehicule.edit', ['locationVehicule' => $locationVehicule])
         </div>
     </div>

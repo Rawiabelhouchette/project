@@ -133,14 +133,14 @@
     .sidebar-mobile {
         position: fixed;
         top: 0;
-        left: 0;
+        right: 0;
         width: 80%;
         /* Not full width as per design */
         height: 100%;
         background: white;
         z-index: 1050;
         overflow-y: auto;
-        transform: translateX(-100%);
+        transform: translateX(100%);
         transition: transform 0.3s ease-in-out;
     }
 
@@ -216,7 +216,7 @@
     }
     /* Custom styles for the dropdown menu */
 .dropdown-menu {
-  width: 280px;
+  width: 360px;
   border-radius: 0.5rem;
 }
 
@@ -394,9 +394,7 @@
     <header class="container-fluid py-3">
         <div class="row align-items-center">
             <div class="col-6 d-flex align-items-center">
-                <button class="btn p-0 border-0 ms-1" id="menuToggle">
-                    <i class="bi bi-list fs-4" style="font-size:32px !important"></i>
-                </button>
+
                 <div class="logo ms-2">
                     <img onclick="window.location.href='/'"
                         style="width: 70px;
@@ -409,8 +407,9 @@
             </div>
             <div class="col-3"></div>
             <div class="col-3 d-flex justify-content-end" style="gap: 5px;">
-
-
+                        <div class="d-flex align-items-center justify-content-center">
+               
+             
                 <form style="width: auto;">
                     @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
                         <a class="btn add-annonce" id="btn-deposer-annonce" style="padding: 10px 15px; "
@@ -429,7 +428,9 @@
                             <i class="fa-solid fa-plus"></i>Annonce
                         </a>
                     @endif
-                </form>
+                </form>   
+        </div>
+
 
                 <div>
 
@@ -456,7 +457,7 @@
                                 <!-- Account section -->
                                 <li class="d-none d-md-block px-3 py-2 small text-muted fw-medium">Compte</li>
                                 <li>
-                                    <a class="dropdown-item py-2 px-3" href="{{ route('public.my-account') }}">
+                                    <a class="dropdown-item py-4 px-3" href="{{ route('public.my-account') }}">
                                         <i class="bi bi-person text-teal-700 me-2"></i> Mon compte
                                     </a>
                                 </li>
@@ -464,17 +465,17 @@
                                 @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
                                     <!-- Professional section -->
                                     <li>
-                                        <a class="dropdown-item py-2 px-3" href="{{ route('public.my-business') }}">
+                                        <a class="dropdown-item py-4 px-3" href="{{ route('public.my-business') }}">
                                             <i class="bi bi-building text-teal-700 me-2"></i> Mon entreprise
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item py-2 px-3" href="{{ route('public.annonces.list') }}">
+                                        <a class="dropdown-item py-4 px-3" href="{{ route('public.annonces.list') }}">
                                             <i class="bi bi-megaphone text-teal-700 me-2"></i> Mes annonces
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item py-2 px-3" href="{{ route('public.my-subscription') }}">
+                                        <a class="dropdown-item py-4 px-3" href="{{ route('public.my-subscription') }}">
                                             <i class="bi bi-credit-card text-teal-700 me-2"></i> Mes abonnements
                                         </a>
                                     </li>
@@ -485,12 +486,12 @@
                                 <!-- Activity section -->
                                 <li class="d-none d-md-block px-3 py-2 small text-muted fw-medium">Activité</li>
                                 <li>
-                                    <a class="dropdown-item py-2 px-3" href="{{ route('public.my-favorites') }}">
+                                    <a class="dropdown-item py-4 px-3" href="{{ route('public.my-favorites') }}">
                                         <i class="bi bi-heart text-teal-700 me-2"></i> Mes favoris
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item py-2 px-3" href="{{ route('public.my-comments') }}">
+                                    <a class="dropdown-item py-4 px-3" href="{{ route('public.my-comments') }}">
                                         <i class="bi bi-chat-square-text text-teal-700 me-2"></i> Mes commentaires
                                     </a>
                                 </li>
@@ -500,13 +501,13 @@
                                 <!-- Other section -->
                                 @if (auth()->check() && auth()->user()->hasRole('Administrateur'))
                                     <li>
-                                        <a class="dropdown-item py-2 px-3" href="{{ route('home') }}">
+                                        <a class="dropdown-item py-4 px-3" href="{{ route('home') }}">
                                             <i class="bi bi-gear text-teal-700 me-2"></i> Espace administrateur
                                         </a>
                                     </li>
                                 @endif
                                 <li>
-                                    <a class="dropdown-item py-2 px-3" href="{{ route('contact') }}">
+                                    <a class="dropdown-item py-4 px-3" href="{{ route('contact') }}">
                                         <i class="bi bi-envelope text-teal-700 me-2"></i> Contact
                                     </a>
                                 </li>
@@ -515,7 +516,7 @@
                                 
                                 <!-- Logout -->
                                 <li>
-                                    <a class="dropdown-item py-2 px-3 text-danger" href="{{ route('logout') }}">
+                                    <a class="dropdown-item py-4 px-3 text-danger" href="{{ route('logout') }}">
                                         <i class="bi bi-power text-danger me-2"></i> Me déconnecter
                                     </a>
                                 </li>
@@ -525,11 +526,14 @@
 
                 </div>
 
-
+                 <button class="btn p-0 border-0 ms-1" id="menuToggle">
+                    <i class="bi bi-list fs-4" style="font-size:32px !important"></i>
+                </button>
             </div>
 
 
         </div>
+
     </header>
 
     <!-- Background Overlay -->
@@ -584,6 +588,8 @@
                 </div>
                 <i class="bi bi-chevron-right"></i>
             </div>
+
+            
 
         </div>
     </div>

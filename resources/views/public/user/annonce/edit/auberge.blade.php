@@ -16,7 +16,7 @@
         title="Modifier une Auberge" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name auberge row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.auberge.edit', ['auberge' => $auberge])
         </div>
     </div>

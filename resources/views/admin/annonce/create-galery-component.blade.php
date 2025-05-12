@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12" style="padding-left: 0; padding-right: 0;">
+            <div class="col-md-12 d-flex justify-content-center" style="padding-left: 0; padding-right: 0;">
                 <label class="btn btn-sm theme-btn" for="upload-image" style="padding: 6px">
                     <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
                     &nbsp; &nbsp; &nbsp;
@@ -53,7 +53,7 @@
                 <h3 class="">Galérie</h3>
                 <h4>Ajoutez des images pour votre annonce (.jpeg, .png, .jpg, .heic)</h4>
             </div>
-            <div class="col-md-4" style="padding-left: 0; padding-right: 0;">
+            <div class="col-md-12 d-flex justify-content-center mb-2" style="padding-left: 0; padding-right: 0;">
                 <label class="btn btn-sm theme-btn" for="upload" style="padding: 6px">
                     <i class="fa fa-upload fa-lg" style="margin-left: 10px;"></i>
                     &nbsp; &nbsp; &nbsp;
@@ -67,7 +67,7 @@
                 <input id="upload" type="file" style="display: none;" wire:model="selected_images" name="images"
                 accept="image/jpeg,image/png,image/jpg,image/heic" multiple> <br>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-12 d-flex justify-content-center">
                 @if (count($galerie) != 0)
                     <a class="btn btn-sm theme-btn-outlined" href="javascript:void(0)" style="padding: 6px"
                         wire:click='removeAllImages' wire:confirm="Confirmez-vous cette action ?"
@@ -91,9 +91,9 @@
             </div>
         </div>
         <div class="text-center">
-            <div class="text-center gallery-box mrg-top-15">
+            <div class="text-center gallery-box mrg-top-15 row">
                 @foreach ($galerie as $index => $image)
-                    <div class="col-xs-12 col-md-4 col-lg-3">
+                    <div class="col-xs-6 col-md-6 col-lg-3">
                         <div class="listing-shot grid-style padd-0">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">

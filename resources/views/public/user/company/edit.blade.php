@@ -21,7 +21,7 @@
         title="Modifier mon entreprise" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name row">
-        <div class="container text-left">
+        <div class="container text-left p-0">
             @livewire('admin.entreprise.edit', ['entreprise' => $entreprise])
         </div>
     </div>

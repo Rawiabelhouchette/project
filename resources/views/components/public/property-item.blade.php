@@ -1,4 +1,4 @@
-@props(['annonces', 'mode' => 'row'])
+@props(['annonces', 'mode' => 'row', 'showDelete' => false, 'deleteType' => 'favorite'])
 
 <style>
 /* Add these styles to ensure proper hiding/showing of modes */
@@ -185,20 +185,26 @@
                     onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
                         <i class="fa fa-share-alt theme-cl"></i>
                     </a>
-                    @if (Auth::check())
-                        @if ($annonce->est_favoris)
-                            <a href="javascript:void(0)" class="like-listing style-2" wire:click='updateFavoris({{ $annonce->id }})'>
-                                <i class="fa fa-heart-o" aria-hidden="true"></i>
-                            </a>
+                    @if ($showDelete)
+                        <a href="javascript:void(0)" class="like-listing alt style-2" onclick="{{ $deleteType === 'favorite' ? 'confirmRemoveFavorite(' . $annonce->id . ')' : 'confirmDeleteAnnonce(' . $annonce->id . ')' }}">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    @else
+                        @if (Auth::check())
+                            @if ($annonce->est_favoris)
+                                <a href="javascript:void(0)" class="like-listing style-2" wire:click='updateFavoris({{ $annonce->id }})'>
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                            @else
+                                <a href="javascript:void(0)" class="like-listing alt style-2" wire:click='updateFavoris({{ $annonce->id }})'>
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                            @endif
                         @else
-                            <a href="javascript:void(0)" class="like-listing alt style-2" wire:click='updateFavoris({{ $annonce->id }})'>
+                            <a href="javascript:void(0)" class="like-listing alt style-2" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
                                 <i class="fa fa-heart-o" aria-hidden="true"></i>
                             </a>
                         @endif
-                    @else
-                        <a href="javascript:void(0)" class="like-listing alt style-2" data-bs-toggle="modal" data-bs-target="#signin" onclick="$('#share').hide()">
-                            <i class="fa fa-heart-o" aria-hidden="true"></i>
-                        </a>
                     @endif
                 </div>
             </div>
@@ -231,6 +237,15 @@
                     {{ $annonce->entreprise->telephone }}
                 </h4>
             </div>
+            
+            <div class="proerty_text">
+                <span>
+                <i class="ti-money" style="color: #00796b;"></i>
+                </span>
+                <h4 class="captlize" style="font-weight:400; font-size:14px">
+                    {{ $annonce->prix ?? '0.00' }}
+                </h4>
+            </div>
 
             {{-- Enhanced counter and price section --}}
             <div class="proerty_text countprice">
@@ -248,9 +263,6 @@
                         <span>{{ $annonce->comment_count }}</span>
                     </div>
                 </div>
-                <span class="pricetag bg-success">
-                    {{ $annonce->prix ?? 150 }} $
-                </span>
             </div>
         </div>
     </div>           
@@ -311,11 +323,10 @@
                         <div class="d-flex justify-content-between">
                             <span class="line-property-title">{{ $annonce->titre }}</span>
                             {{-- Price tag for line view --}}
-                            <div class="line-price-tag">
-                                <span class="pricetag bg-success">
-                                    {{ $annonce->prix ?? 150 }} <i class="fa fa-dollar"></i>
-                                </span>
-                            </div>
+                            <div class="line-money-container">
+                                <i class="ti-money line-icon-money"></i>
+                            <span class="line-money-text">  {{ $annonce->prix ?? '0.00' }}</span>
+                        </div>
                         </div>
                         
 
@@ -333,6 +344,11 @@
                         <div class="line-phone-container">
                             <i class="ti-mobile line-icon-phone"></i>
                             <span class="line-phone-text">{{ $annonce->entreprise->telephone }}</span>
+                        </div>
+
+                        <div class="line-phone-container">
+                            <i class="ti-money line-icon-money"></i>
+                            <span class="line-money-text">  {{ $annonce->prix ?? '0.00' }}</span>
                         </div>
 
                         <p class="line-description">
@@ -392,3 +408,36 @@
         </a>
     </div>
 @endforeach
+
+@if ($showDelete)
+<script>
+    function confirmRemoveFavorite(annonceId) {
+        const params = {
+            message: 'Voulez-vous vraiment retirer cette annonce de vos favoris ?',
+            icon: 'warning',
+            confirmButtonText: 'Oui, retirer',
+            onConfirm: function() {
+                Livewire.dispatch('updateFavoris', [annonceId]);
+            }
+        };
+        
+        showConfirmationNotification(params);
+    }
+    
+    function confirmDeleteAnnonce(annonceId) {
+        const params = {
+            message: 'Voulez-vous vraiment supprimer cette annonce ?',
+            icon: 'warning',
+            confirmButtonText: 'Oui, supprimer',
+            onConfirm: function() {
+                Livewire.dispatch('deleteAnnonce', [annonceId]);
+            }
+        };
+        
+        showConfirmationNotification(params);
+    }
+</script>
+@endif
+
+
+

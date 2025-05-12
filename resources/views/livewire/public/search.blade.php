@@ -2,7 +2,13 @@
     @php
         $defaultColor = '#de6600';
     @endphp
+    @php
+        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil']];
+    @endphp
 
+    <x-breadcumb :detail="true" :showSearchButton="true"
+        backgroundImage="{{ asset('assets_client/img/banner/image-1.jpg') }}" :showTitle="true" title="Toutes nos offres"
+        :breadcrumbs="$breadcrumbs" :typeAnnonce="$typeAnnonces" />
     <!-- ================ Listing In Grid Style ======================= -->
     <section class="sec-bt">
         <div class="container">
@@ -16,36 +22,26 @@
 
 
                         </div>
-                        <!-- Sort dropdown moved to the right -->
-                        <div class="mb-0 d-flex align-items-center">
-                            <!-- View mode toggle buttons -->
-                            <div class="view-mode-buttons me-3 d-flex" style="gap: 5px;">
-                                <button class="btn btn-sm {{ $viewMode === 'row' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}" 
-                                        wire:click="$set('viewMode', 'row')" title="Vue grille"
-                                        style="padding: 8px 10px;border: 0;">
-                                    <i class="fa fa-th-large"></i>
-                                </button>
-                                <button class="btn btn-sm {{ $viewMode === 'line' ? 'theme-bg text-white' : 'btn-light btn-inactive' }}"
-                                        wire:click="$set('viewMode', 'line')" title="Vue liste"
-                                        style="padding: 8px 10px;border: 0;">
-                                    <i class="fa fa-list"></i>
-                                </button>
-                            </div>
 
-                            <!-- Sort dropdown -->
-                            <select id="select-order" class="fs-5 filter-button" tabindex="-98" wire:model.lazy='sortOrder'>
+                        <!-- Sort dropdown moved to the right -->
+                        <div class="mb-0">
+                            <select id="select-order" class="fs-5 filter-button" tabindex="-98"
+                                wire:model.lazy='sortOrder'>
                                 <option value="" disabled>Trier</option>
                                 <option value="titre|asc">Titre: A à Z</option>
                                 <option value="titre|desc">Titre: Z à A</option>
                                 <option value="created_at|asc">Date: Ancien à récent</option>
                                 <option value="created_at|desc">Date: Récent à ancien</option>
                             </select>
-                            
                         </div>
                     </div>
+
+
                     <div class="sidebar" class="row col-md-12 col-sm-12">
+
                         @foreach ($facettes as $index => $facette)
-                            <div wire:key='{{ $facette->id }}' class="{{ $index >= 2 ? 'd-md-block more-filter-sm d-none' : ($index >= 4 ? 'more-filter-md d-none' : '') }}">
+                            <div wire:key='{{ $facette->id }}'
+                                class="{{ $index >= 2 ? 'd-md-block more-filter-sm d-none' : ($index >= 4 ? 'more-filter-md d-none' : '') }}">
                                 @include('components.public.filter-view', [
                                     'title' => $facette->title,
                                     'category' => $facette->category,
@@ -57,17 +53,18 @@
                             </div>
                         @endforeach
                     </div>
-                    @if(count($facettes) > 2)
-                    <div class="row col-md-12 col-sm-12">
-                        <div class="col-md-3 text-center mb-3 mt-2 d-block d-md-none">
-                            <button id="show-more-filters-sm" class="filter-button" onclick="toggleMoreFiltersSm()">
-                            <i class="fa fa-sliders me-2"></i> Plus de filtres
-                            </button>
+
+                    @if (count($facettes) > 2)
+                        <div class="row col-md-12 col-sm-12">
+                            <div class="col-md-3 text-center mb-3 mt-2 d-block d-md-none">
+                                <button id="show-more-filters-sm" class="filter-button" onclick="toggleMoreFiltersSm()">
+                                    <i class="fa fa-sliders me-2"></i> Plus de filtres
+                                </button>
+                            </div>
                         </div>
-                    </div>
                     @endif
                     <div class="col-12 text-center mb-3">
-                        @if ($type || $ville || $quartier || $entreprise)
+                        @if ($type || $ville || $quartier || $entreprise || $marque || $boiteVitesse || $nombrePersonne || $typeVehicule)
                             <p id="reset-filters" class="btn theme-btn mb-0" wire:click='resetFilters'>
 
                                 <i class="fa fa-trash" aria-hidden="true"></i> Effacer tous
@@ -117,22 +114,30 @@
                 <div class="col-md-12 col-sm-12 p-0" wire:key='filterShow'>
                     <!-- Filter option -->
                     <div id="research-zone">
-                        @if ($type || $ville || $quartier || $entreprise || $key)
+
+                        @if ($type || $ville || $quartier || $entreprise || $key || $marque || $boiteVitesse || $nombrePersonne || $typeVehicule)
+
                             <div class="row mrg-0 mrg-bot-10">
                                 <div class="col-md-12 mrg-top-10">
-                                    <div class="col-md-12" style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
+                                    <div class="col-md-12"
+                                        style="margin-left: 0px; padding-left: 0px; display: ''; align-items: center; ">
                                         Recherche : &nbsp;
                                         @if ($key)
-                                            <span id="key-filter" class="badge height-25 theme-bg" data-value="{{ $key }}">
+                                            <span id="key-filter" class="badge height-25 theme-bg"
+                                                data-value="{{ $key }}">
                                                 {{ $key }}
-                                                <a href="javascript:void(0)" class="selectedOption text-white" wire:click='changeState("{{ $key }}", "key", true)'> x </a>
+                                                <a href="javascript:void(0)" class="selectedOption text-white"
+                                                    wire:click='changeState("{{ $key }}", "key", true)'> x </a>
                                             </span> &nbsp;
                                         @endif
                                         @foreach ($facettes as $facette)
                                             @foreach ($facette->selectedItems as $item)
-                                                <span class="badge height-25 theme-bg search-elt" wire:key='sub-facette-filter-{{ $loop->index }}'>
+                                                <span class="badge height-25 theme-bg search-elt"
+                                                    wire:key='sub-facette-filter-{{ $loop->index }}'>
                                                     {{ $item }}
-                                                    <a href="javascript:void(0)" class="selectedOption text-white" wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'> x </a>
+                                                    <a href="javascript:void(0)" class="selectedOption text-white"
+                                                        wire:click='changeState("{{ $item }}", "{{ $facette->category }}", true)'>
+                                                        x </a>
                                                 </span> &nbsp;
                                             @endforeach
                                         @endforeach
@@ -142,9 +147,11 @@
                         @endif
                     </div>
 
-                    <div class="d-flex justify-content-between px-2">
-                        <div class="">
-                            <h4 class="theme-cl-blue">Affichage : {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }} trouvé(s)</h4>
+                    <div class="row mrg-0">
+                        <div class="col-md-4 col-xs-9">
+                            <h4 class="theme-cl-blue">Affichage :
+                                {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }}
+                                trouvé(s)</h4>
                         </div>
 
                         <a href="javascript:void(0)" class="share-btn" data-target="#share" onclick="sharePage()">
@@ -164,7 +171,6 @@
                             .property-grid {
                                 display: flex;
                                 flex-wrap: wrap;
-                                margin: 0 -10px; /* Negative margin to offset the padding */
                             }
                         </style>
                         <div class="property-grid">
@@ -194,29 +200,18 @@
 
                 </div>
                 <div id="contact-zone">
-                        <div class="widget-boxed">
-                            <div class="widget-boxed-body padd-top-40 padd-bot-40 text-center">
-                                <div class="help-support">
-                                    <i class="ti-headphone-alt font-60 theme-cl mrg-bot-15"></i>
-                                    <p>Vous avez une question ? <br> Contactez-nous</p>
-                                    <h4 class="mrg-top-0">contact@numrod.fr</h4>
-                                </div>
+                    <div class="widget-boxed">
+                        <div class="widget-boxed-body padd-top-40 padd-bot-40 text-center">
+                            <div class="help-support">
+                                <i class="ti-headphone-alt font-60 theme-cl mrg-bot-15"></i>
+                                <p>Vous avez une question ? <br> Contactez-nous</p>
+                                <h4 class="mrg-top-0">contact@numrod.fr</h4>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
 </div>
-
-
-
-
-
-
-
-
-
-
-

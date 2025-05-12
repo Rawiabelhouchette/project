@@ -1,3 +1,4 @@
+
  <style>
      #breadcumb-mobile {
          display: none;
@@ -5,7 +6,7 @@
 
      @media (max-width: 480px) {
          .page-title {
-             height: 100px !important;
+             height: auto !important;
          }
 
 
@@ -42,7 +43,6 @@
              width: 100%;
              max-width: 1200px;
              margin: 0 auto;
-             padding: 0 15px;
          }
 
          .title-content {
@@ -88,7 +88,7 @@
 
      @media (min-width: 481px) and (max-width: 767px) {
          .page-title {
-             height: 100px !important;
+             height: auto !important;
          }
 
          #breadcumb-mobile {
@@ -170,7 +170,7 @@
 
      @media (min-width: 768px) and (max-width: 1024px) {
          .page-title {
-             height: 100px !important;
+             height: auto !important;
          }
 
          #breadcumb-mobile {
@@ -253,30 +253,30 @@
  <section class="title-transparent page-title" id="breadcumb-desktop"
      style="background: url({{ asset($backgroundImage) }});">
      <div class="container">
-         <div class="title-content">
-             @if ($showTitle)
-                 <h1>{{ $title ?? 'Title' }}</h1>
-             @endif
+            <div class="title-content">
+                @if ($showTitle)
+                    <h1>{{ $title ?? 'Title' }}</h1>
+                @endif
 
-             <div class="breadcrumbs">
-                 @foreach ($breadcrumbs as $breadcrumb)
-                     @if (!$loop->first)
-                         <span class="gt3_breadcrumb_divider"></span>
-                     @endif
+                <div class="breadcrumbs">
+                    @foreach ($breadcrumbs as $breadcrumb)
+                        @if (!$loop->first)
+                            <span class="gt3_breadcrumb_divider"></span>
+                        @endif
 
-                     @if (isset($breadcrumb['route']))
-                         <a href="{{ route($breadcrumb['route']) }}">{{ $breadcrumb['label'] }}</a>
-                     @else
-                         <span class="current">{{ $breadcrumb['label'] }}</span>
-                     @endif
-                 @endforeach
-                 {{-- Add conditional extra breadcrumb --}}
-                 @if (!empty($detail))
-                     <span class="gt3_breadcrumb_divider"></span>
-                     <span class="current">Détail</span>
-                 @endif
-             </div>
-         </div>
+                        @if (isset($breadcrumb['route']))
+                            <a href="{{ route($breadcrumb['route']) }}">{{ $breadcrumb['label'] }}</a>
+                        @else
+                            <span class="current">{{ $breadcrumb['label'] }}</span>
+                        @endif
+                    @endforeach
+                    {{-- Add conditional extra breadcrumb --}}
+                    @if (!empty($detail))
+                        <span class="gt3_breadcrumb_divider"></span>
+                        <span class="current">Détail</span>
+                    @endif
+                </div>
+            </div>
          @if (!empty($showSearchButton))
              <div class="banner-caption d-none d-md-block">
                  <!-- <h3 class="text-center">Recherche</h3> -->
@@ -307,7 +307,7 @@
                                      @endforeach
                                  @elseif(isset($typeAnnonce) && (is_array($typeAnnonce) || is_object($typeAnnonce)))
                                      @foreach ($typeAnnonce as $annonce)
-                                         <option value="{{ $annonce }}">{{ $annonce }}</option>
+                                         <option value="{{ $annonce['value'] }}">{{ $annonce['value'] }}</option>
                                      @endforeach
                                  @endif
                              </select>
@@ -327,6 +327,7 @@
 
 
              </div>
+             
          @endif
      </div>
  </section>
@@ -337,7 +338,7 @@
          @media (max-width: 768px) {
 
              .title-content {
-                 margin-top: 10px !important
+                 margin: 10px !important
              }
 
              span.gt3_breadcrumb_divider {
@@ -346,13 +347,13 @@
 
 
              .title-transparent {
-                 padding: 20px 0;
+                 padding: 5px 0;
              }
 
              .title-content h1 {
                  font-size: 24px;
                  margin-bottom: 8px;
-                 text-align: left;
+                 text-align: center;
              }
 
              .breadcrumbs {
@@ -365,28 +366,32 @@
              }
          }
      </style>
-     <section class="title-transparent page-title" id="breadcumb-mobile"
-         style="background: url({{ asset($backgroundImage) }});">
-         <div class="container">
-             <div class="title-content">
-                 @if ($showTitle)
-                     <h1>{{ $title ?? 'Title' }}</h1>
-                 @endif
+        <section class="title-transparent page-title" id="breadcumb-mobile"
+            style="background: url({{ asset($backgroundImage) }});">
+            <div class="container">
 
-                 <div class="breadcrumbs">
-                     @foreach ($breadcrumbs as $breadcrumb)
-                         @if (!$loop->first)
-                             <span class="gt3_breadcrumb_divider"></span>
-                         @endif
+                @livewire('public.search-box')
+                <div class="title-content">
+                    @if ($showTitle)
+                        <h1>{{ $title ?? 'Title' }}</h1>
+                    @endif
 
-                         @if (isset($breadcrumb['route']))
-                             <a href="{{ route($breadcrumb['route']) }}">{{ $breadcrumb['label'] }}</a>
-                         @else
-                             <span class="current">{{ $breadcrumb['label'] }}</span>
-                         @endif
-                     @endforeach
-                 </div>
-             </div>
-         </div>
-     </section>
- </div>
+                    <div class="breadcrumbs d-flex justify-content-center">
+                        @foreach ($breadcrumbs as $breadcrumb)
+                            @if (!$loop->first)
+                                <span class="gt3_breadcrumb_divider"></span>
+                            @endif
+
+                            @if (isset($breadcrumb['route']))
+                                <a href="{{ route($breadcrumb['route']) }}">{{ $breadcrumb['label'] }}</a>
+                            @else
+                                <span class="current">{{ $breadcrumb['label'] }}</span>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+    </div>
+

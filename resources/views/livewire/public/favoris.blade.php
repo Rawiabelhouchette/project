@@ -9,11 +9,15 @@
             <!-- <span class="hidden-xs">Favoris</span> -->
         </button>
     @else
-        <button data-toggle="modal" data-target="#signin" class="buttons padd-10 favoris-btn-show" style="background: white;">
+        <button data-bs-toggle="modal" data-bs-target="#signin" class="buttons padd-10 favoris-btn-show" style="background: white;" onclick="$('#share').hide()">
             <i class="fa fa-heart"></i>
             <!-- <span class="hidden-xs">Favoris</span> -->
         </button>
     @endif
+    
+
+
+
 
     @push('scripts')
         <script>
@@ -26,3 +30,4 @@
         </script>
     @endpush
 </div>
+

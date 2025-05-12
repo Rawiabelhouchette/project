@@ -8,7 +8,7 @@
                         <h3>Entreprise
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Sélectionnez l'entreprise</h4>
+                        
                         <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($entreprises as $entreprise)
@@ -39,7 +39,7 @@
                         <h3>Date de validité
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Indiquez la date d'expiration de l'annonce</h4>
+                        
                         <input class="form-control" type="date" placeholder="" disabled wire:model.defer='date_validite' required>
                         @error('date_validite')
                             <span class="text-danger">{{ $message }}</span>
@@ -54,7 +54,7 @@
                         <h3>Marque
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Indiquez la marque de la voiture</h4>
+                        
                         <select id="marque" class="form-control" data-nom="marque_id" wire:model.lazy='marque_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($list_marques as $marque)
@@ -72,7 +72,7 @@
                         <h3>Modèle
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Indiquez le modèle de la voiture</h4>
+                        
                         <select class="form-control" data-nom="modele_id" wire:model.lazy='modele_id' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($list_modeles as $modele)
@@ -88,7 +88,7 @@
                 <div class="col-md-4 col-xs-12 p-0">
                     <div class="col">
                         <h3>Année</h3>
-                        <h4>Indiquez l'année du modèle</h4>
+                        
                         <input class="form-control" type="number" placeholder="" wire:model.defer='annee'>
                         @error('annee')
                             <span class="text-danger">{{ $message }}</span>
@@ -99,7 +99,7 @@
                 <div class="col-md-4 col-xs-12 p-0">
                     <div class="col">
                         <h3>Kilométrage</h3>
-                        <h4>Indiquez le kilométrage</h4>
+                        
                         <input class="form-control" type="number" placeholder="" wire:model.defer='kilometrage'>
                         @error('kilometrage')
                             <span class="text-danger">{{ $message }}</span>
@@ -112,7 +112,7 @@
                         <h3>Nombre de places
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Indiquez le nombre de places</h4>
+                        
                         <input class="form-control" type="number" placeholder="" wire:model.defer='nombre_places'>
                         @error('nombre_places')
                             <span class="text-danger">{{ $message }}</span>
@@ -125,7 +125,7 @@
                         <h3>Nombre de portes
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Indiquez le nombre de portes</h4>
+                        
                         <select class="form-control" data-nom="nombre_portes" wire:model.lazy='nombre_portes' required>
                             <option value="">-- Sélectionner --</option>
                             <option value="2">2</option>
@@ -144,7 +144,7 @@
                         <h3>Type de moteur
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Indiquez le type de moteur</h4>
+                        
                         <select id="carburant" class="form-control" data-nom="carburant" wire:model.defer='carburant' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($list_types_carburant as $item)
@@ -162,7 +162,7 @@
                         <h3>Boite de vitesses
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Indiquez la boite de vitesses</h4>
+                        
                         <select id="boite_vitesses" class="form-control" data-nom="boite_vitesses" wire:model.defer='boite_vitesses' required>
                             <option value="">-- Sélectionner --</option>
                             @foreach ($list_boites_vitesse as $item)
@@ -218,8 +218,8 @@
             <div class="row padd-bot-15">
                 <div class="form-group">
                     <div class="col text-right">
-                        <button id="submit-btn" class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:loading.attr='disabled'>
-                            <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
+                        <button id="submit-btn" class="btn theme-btn" type="submit"  wire:loading.attr='disabled'>
+                            <i class="fa fa-save fa-lg"></i>
                             Enregistrer
                         </button>
                     </div>
