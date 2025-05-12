@@ -14,6 +14,12 @@ class CustomSession
     public $quartier = '';
     public $entreprise = '';
     public $sortOrder = '';
+    public $marque = '';
+    public $boiteVitesse = '';
+
+    public $nombrePersonne = '';
+
+    public $typeVehicule = '';
     public $page;
 
     public function __construct()
@@ -27,6 +33,12 @@ class CustomSession
         $this->ville = session()->get('ville');
         $this->quartier = session()->get('quartier');
         $this->entreprise = session()->get('entreprise');
+        $this->marque = session()->get('marque');
+        $this->boiteVitesse = session()->get('boiteVitesse');
+        $this->typeVehicule = session()->get('typeVehicule');
+
+        $this->nombrePersonne = session()->get('nombrePersonne');
+
         $this->sortOrder = session()->get('sortOrder');
         $this->page = session()->get('page');
     }
@@ -46,6 +58,11 @@ class CustomSession
             'ville' => $data['ville'] ?? null,
             'quartier' => $data['quartier'] ?? null,
             'entreprise' => $data['entreprise'] ?? null,
+            'marque' => $data['marque'] ?? null,
+            'boiteVitesse' => $data['boiteVitesse'] ?? null,
+            'nombrePersonne' => $data['nombrePersonne'] ?? null,
+            'typeVehicule' => $data['typeVehicule'] ?? null,
+
             'sortOrder' => $data['sortOrder'] ?? null,
             'page' => $data['page'] ?? null,
         ]);
@@ -67,6 +84,11 @@ class CustomSession
         session()->forget('direction');
         session()->forget('ville');
         session()->forget('quartier');
+        session()->forget('marque');
+        session()->forget('boiteVitesse');
+        session()->forget('nombrePersonne');
+        session()->forget('typeVehicule');
+
         session()->forget('entreprise');
         session()->forget('sortOrder');
         session()->forget('page');
@@ -95,7 +117,7 @@ class CustomSession
         //     'entreprise' => [],
         //     'sortOrder' => '',
         //     'page' => 1,
-            
+
         // ]);
         self::clear();
     }
