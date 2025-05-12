@@ -108,45 +108,6 @@
                         }
                     </script>
                 </div>
-                            </p>
-                        @endif
-                    </div>
-                    <script>
-                        function toggleMoreFiltersSm() {
-                            const moreFilters = document.querySelectorAll('.more-filter-sm');
-                            const button = document.getElementById('show-more-filters-sm');
-
-                            let isHidden = moreFilters[0].classList.contains('d-none');
-
-                            moreFilters.forEach(filter => {
-                                if (isHidden) {
-                                    filter.classList.remove('d-none');
-                                    button.innerHTML = '<i class="fa fa-sliders me-2"></i> Moins de filtres';
-                                } else {
-                                    filter.classList.add('d-none');
-                                    button.innerHTML = '<i class="fa fa-sliders me-2"></i> Plus de filtres';
-                                }
-                            });
-                        }
-
-                        function toggleMoreFiltersMd() {
-                            const moreFilters = document.querySelectorAll('.more-filter-md');
-                            const button = document.getElementById('show-more-filters-md');
-
-                            let isHidden = moreFilters[0].classList.contains('d-none');
-
-                            moreFilters.forEach(filter => {
-                                if (isHidden) {
-                                    filter.classList.remove('d-none');
-                                    button.innerHTML = '<i class="fa fa-filter me-2"></i> Moins de filtres';
-                                } else {
-                                    filter.classList.add('d-none');
-                                    button.innerHTML = '<i class="fa fa-filter me-2"></i> Plus de filtres';
-                                }
-                            });
-                        }
-                    </script>
-                
                 <!-- End Start Sidebar -->
 
                 <!-- Start All Listing -->
@@ -186,8 +147,8 @@
                         @endif
                     </div>
 
-                    <div class="d-flex justify-content-between px-2">
-                        <div class="">
+                    <div class="row mrg-0">
+                        <div class="col-md-4 col-xs-9">
                             <h4 class="theme-cl-blue">Affichage :
                                 {{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur {{ $annonces->total() }}
                                 trouvé(s)</h4>
@@ -254,15 +215,3 @@
     </section>
     <!-- ================ End Listing In Grid Style ======================= -->
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
