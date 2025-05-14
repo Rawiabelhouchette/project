@@ -41,19 +41,18 @@ class SearchController extends Controller
     {
         $user = auth()->user();
 
-        $annonce = Annonce::with(['galerie', 'entreprise', 'commentaires', 'favoris'])
-            ->where('slug', $slug)
-            ->first();
+        $query = Annonce::with(['galerie', 'entreprise', 'commentaires', 'favoris'])->where('slug', $slug);
+        $annonce = $query->first(); // Appel unique
 
-        if (! $annonce) {
+        if (!$annonce) {
             return view('errors.404');
         }
 
+        // Accès selon rôles
         $isAdmin = $user && $user->hasRole('Administrateur');
-        $isPro = $user && $user->hasRole('Professionnel') &&
-            $user->entreprises->contains('id', $annonce->entreprise_id);
+        $isPro = $user && $user->hasRole('Professionnel') && in_array($annonce->entreprise_id, $user->entreprises->pluck('id')->toArray());
 
-        if ((! $isAdmin && ! $isPro) || (! auth()->check() && ! $annonce->is_active)) {
+        if (!$isAdmin && !$isPro && !$annonce->is_active) {
             return view('errors.404');
         }
 
@@ -72,7 +71,7 @@ class SearchController extends Controller
         $session = new CustomSession;
         $sessAnnonces = $session->annonces ?? [];
 
-        if (! in_array($annonce->id, $sessAnnonces)) {
+        if (!in_array($annonce->id, $sessAnnonces)) {
             $sessAnnonces[] = $annonce->id;
             CustomSession::create([
                 'annonces' => $sessAnnonces,
@@ -87,7 +86,7 @@ class SearchController extends Controller
         $next = Annonce::public()->find($result->next);
 
         $pagination = (object) [
-            'position' => "{$result->position}/".max(count($sessAnnonces), 1),
+            'position' => "{$result->position}/" . max(count($sessAnnonces), 1),
             'previous' => $previous ? route('show', $previous->slug) : 'javascript:void(0)',
             'next' => $next ? route('show', $next->slug) : 'javascript:void(0)',
         ];
