@@ -23,4 +23,15 @@ class Fichier extends Model
         'chemin' => PurifyHtmlOnGet::class,
         'extension' => PurifyHtmlOnGet::class,
     ];
+
+    public function getUrl(bool $isSmall = false): string
+    {
+        $param = '?path=' . $this->chemin;
+
+        if ($isSmall) {
+            $param .= '&width=300&height=200';
+        }
+
+        return route('file.get') . $param;
+    }
 }

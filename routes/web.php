@@ -11,6 +11,7 @@ use App\Http\Controllers\BarController;
 use App\Http\Controllers\BoiteDeNuitController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\FastFoodController;
+use App\Http\Controllers\FichierController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\LocationMeubleeController;
 use App\Http\Controllers\LocationVehiculeController;
@@ -275,6 +276,8 @@ Route::get('500', function () {
 
 // Redirection after payment
 Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'])->name('payment.redirection');
+
+Route::get('/image', [FichierController::class, 'getImage'])->name('file.get');
 
 // Route::get('/test', function () {
 //     // return route('payment.notification');
