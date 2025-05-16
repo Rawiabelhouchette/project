@@ -1,5 +1,7 @@
 @extends('layout.public.app')
 
+@section('title',  config('app.name'))
+
 @section('css')
     <style>
         #banner {

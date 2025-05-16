@@ -46,7 +46,7 @@
 
 <body>
     <div class="header">
-        <img src="{{ asset('assets/img/logo-vamiyi-by-numrod-white.png') }}" alt="Midjo Logo">
+        <img src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="Vamiyi Logo">
     </div>
 
     <div class="email-container">
@@ -65,7 +65,7 @@
             <p>Merci,<br>L'équipe {{ config('app.name') }}</p>
         </div>
         <div class="footer">
-            <p>&copy; {{ date('Y') }} Midjo. Tous droits réservés.</p>
+            <p>&copy; {{ date('Y') }} Vamiyi. Tous droits réservés.</p>
         </div>
     </div>
     <div style="height: 30px;"></div>
