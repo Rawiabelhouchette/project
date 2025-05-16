@@ -23,19 +23,6 @@ class FichierController extends Controller
         $mime = mime_content_type($chemin);
 
         // Charger image selon le type
-        // switch ($mime) {
-        //     case 'image/jpeg':
-        //         $srcImage = imagecreatefromjpeg($chemin);
-        //         break;
-        //     case 'image/png':
-        //         $srcImage = imagecreatefrompng($chemin);
-        //         break;
-        //     case 'image/gif':
-        //         $srcImage = imagecreatefromgif($chemin);
-        //         break;
-        //     default:
-        //         abort(415, 'Unsupported image type.');
-        // }
         switch ($mime) {
             case 'image/jpeg':
                 $srcImage = imagecreatefromjpeg($chemin);
@@ -46,15 +33,9 @@ class FichierController extends Controller
             case 'image/gif':
                 $srcImage = imagecreatefromgif($chemin);
                 break;
-            case 'image/heic':
-                $imagick = new Imagick($chemin);
-                $imagick->setImageFormat('jpeg');  // Convertit HEIC en JPEG
-                $srcImage = imagecreatefromstring($imagick->getImageBlob());
-                break;
             default:
                 abort(415, 'Unsupported image type.');
         }
-
 
         list($origWidth, $origHeight) = getimagesize($chemin);
 
@@ -111,5 +92,6 @@ class FichierController extends Controller
     }
 
     public function getResizedImage()
-    {}
+    {
+    }
 }

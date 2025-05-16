@@ -129,8 +129,7 @@
     {{-- Row Mode Layout --}}
     <div wire:key="row-{{ $annonce->id }}" class="property_item mode-row {{ $mode !== 'row' ? 'hidden-mode' : '' }}">
         <a class="listing-thumb image" href="{{ route('show', $annonce->slug) }}" 
-
-        style="background-image: url('{{ $annonce->image ? asset('storage/' . $annonce->imagePrincipale->chemin) : 'https://placehold.co/600' }}'); 
+        style="background-image: url('{{ $annonce->image ? $annonce->imagePrincipale->getUrl(true) : 'https://placehold.co/600' }}'); 
                 background-size: cover; 
                 background-position: center; 
                 display: block; 
