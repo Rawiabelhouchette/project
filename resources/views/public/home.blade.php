@@ -1,5 +1,9 @@
 @extends('layout.public.app')
 
+@section('title')
+Vamiyi
+@endsection
+
 @section('css')
     <style>
         #banner {
