@@ -46,19 +46,24 @@
 
 <body>
     <div class="header">
-        <img src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="Vamiyi Logo">
+        <img src="{{ config('app.name') . '/assets/img/logo-vamiyi-vacances-togo.svg' }}" alt="Vamiyi Logo">
     </div>
 
     <div class="email-container">
         <div class="content">
             <h3>Bonjour !</h3>
-            <p>Vous avez demandé à réinitialiser votre mot de passe pour votre compte {{ config('app.name') }}. Veuillez cliquer sur le bouton ci-dessous pour réinitialiser votre mot de passe :</p>
+            <p>Vous avez demandé à réinitialiser votre mot de passe pour votre compte {{ config('app.name') }}. Veuillez
+                cliquer sur le bouton ci-dessous pour réinitialiser votre mot de passe :</p>
             <p style="text-align: center;">
-                <a href="{{ $resetUrl }}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Réinitialiser le mot de passe</a>
+                <a href="{{ $resetUrl }}"
+                    style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Réinitialiser
+                    le mot de passe</a>
             </p>
-            <p>Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer cet email. Votre mot de passe ne sera pas modifié.</p>
+            <p>Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer cet email. Votre mot de passe ne sera
+                pas modifié.</p>
             <hr>
-            <p>Si vous rencontrez des difficultés pour cliquer sur le bouton "Réinitialiser", copiez et collez l'URL ci-dessous dans votre navigateur web :</p>
+            <p>Si vous rencontrez des difficultés pour cliquer sur le bouton "Réinitialiser", copiez et collez l'URL
+                ci-dessous dans votre navigateur web :</p>
             <p style="word-break: break-all;">
                 <a href="{{ $resetUrl }}">{{ $resetUrl }}</a>
             </p>

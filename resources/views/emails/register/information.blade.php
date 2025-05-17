@@ -46,7 +46,7 @@
 
     <body>
         <div class="header">
-            <img src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="Vamiyi Logo">
+            <img src="{{ config('app.name') . '/assets/img/logo-vamiyi-vacances-togo.svg' }}" alt="Vamiyi Logo">
         </div>
 
         <div class="email-container">
