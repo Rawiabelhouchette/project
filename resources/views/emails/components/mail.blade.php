@@ -92,8 +92,7 @@
 
     <body style="background-color:#f3f3f5;">
         <div class="header">
-            <img src="https://midjo.numrod.fr/assets/img/logo-vamiyi-vacances-togo.svg" alt="Vamiyi Logo">
-            {{-- <img src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="Vamiyi Logo"> --}}
+            <img src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="Vamiyi Logo">
         </div>
         <div style="background-color:#f3f3f5;">
             <div style="background:#cfd7e1;background-color:#cfd7e1;margin:0px auto;border-radius:4px 4px 0 0;max-width:600px;">
@@ -132,7 +131,6 @@
                                                         Pour toute question ou assistance, veuillez nous contacter par
                                                         <a href="https://wa.me/{{ str_replace(' ', '', env('APP_PHONE')) }}" target="_blank">
                                                             WhatsApp
-                                                            {{-- <img src="https://midjo.numrod.fr/assets/img/logo-vamiyi-vacances-togo.svg" alt="Contactez-nous via WhatsApp" width="100" height="100"> --}}
                                                             {{-- <img src="{{ asset('assets/img/whatsapp_logo.png') }}" alt="Contactez-nous via WhatsApp"> --}}
                                                         </a>.
                                                     </p>
