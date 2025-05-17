@@ -33,7 +33,7 @@ class GoogleController extends Controller
             $user = User::create([
                 'username' => $fullName.Str::uuid()->toString(),
                 'prenom' => $parts[0],
-                'nom' => $parts[1] ?? '',
+                'nom' => $parts[1] ?? $parts[0],
 
                 'telephone' => null,
                 'email' => $googleUser->getEmail(),       // ajoute l'email ici           // à définir ou laisser vide
