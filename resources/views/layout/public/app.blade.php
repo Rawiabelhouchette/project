@@ -5,19 +5,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="icon">
-        <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}') }}" rel="shortcut icon">
-
-        {{-- <title>{{ env('APP_NAME') }} @yield('title')</title> --}}
-        <title>@yield('title')</title>
-
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Les meilleurs bars, restaurants, boites de nuit, location de voiture et hébergements du Togo">
         <meta name="keywords" content="restaurants, bars, Togo, boîtes de nuit, location de voiture, hébergements, logements">
         <meta name="robots" content="index,follow">
+
+        <title>@yield('title')</title>
 
         <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}" rel="icon">
         <link type="image/x-icon" href="{{ asset('assets/img/logo-vamiyi-vacances-white.svg') }}" rel="shortcut icon">
