@@ -70,7 +70,7 @@ class PaiementService
              sur la facture de CinetPay(Supporte trois variables
              que vous nommez à votre convenance)*/
             $invoice_data = [
-                'Nom' => $customer_name.' '.$customer_surname,
+                'Nom' => $customer_name.' '.$customer_surname ?? $customer_name,
                 'Email' => $customer_email,
                 'Abonnement' => $offre->duree.' '.$offre->unite_fr,
             ];
