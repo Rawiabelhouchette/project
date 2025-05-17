@@ -81,7 +81,7 @@ class PaiementService
                 'amount' => $offre->prix,
                 'currency' => $currency,
                 'customer_surname' => $customer_name,
-                'customer_name' => $customer_surname ?? $customer_name,,
+                'customer_name' => $customer_surname ?? $customer_name,
                 'description' => $description,
                 'notify_url' => $notify_url,
                 'return_url' => $return_url,
