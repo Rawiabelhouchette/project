@@ -25,7 +25,6 @@
                         <h3>Titre
                             <b style="color: red; font-size: 100%;">*</b>
                         </h3>
-                        <h4>Indiquez le titre de votre patisserie</h4>
                         <input class="form-control" name="nom" type="text" placeholder="" wire:model.defer='nom' required>
                         @error('nom')
                             <span class="text-danger">{{ $message }}</span>

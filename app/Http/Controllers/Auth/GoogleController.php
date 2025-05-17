@@ -28,17 +28,17 @@ class GoogleController extends Controller
         $parts = explode(' ', $fullName, 2);
 
         DB::beginTransaction();
-        if (! $user) {
+        if (!$user) {
             // Create a new user if not exists
             $user = User::create([
-                'username' => $fullName.Str::uuid()->toString(),
+                'username' => $fullName . '-' . Str::uuid()->toString(),
                 'prenom' => $parts[0],
                 'nom' => $parts[1] ?? $parts[0],
 
                 'telephone' => null,
                 'email' => $googleUser->getEmail(),       // ajoute l'email ici           // à définir ou laisser vide
 
-                'password' => 'vamiyi', // You can generate a random password
+                'password' => Str::random(),
             ]);
             $user->assignRole($this->type);
             DB::commit();

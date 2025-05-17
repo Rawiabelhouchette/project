@@ -92,7 +92,7 @@
 
     <body style="background-color:#f3f3f5;">
         <div class="header">
-            <img src="{{ asset('assets/img/logo-vamiyi-vacances-togo.svg') }}" alt="Vamiyi Logo">
+            <img src="https://vamiyi.com/assets/img/logo-vamiyi-vacances-togo.svg" alt="Vamiyi Logo">
         </div>
         <div style="background-color:#f3f3f5;">
             <div style="background:#cfd7e1;background-color:#cfd7e1;margin:0px auto;border-radius:4px 4px 0 0;max-width:600px;">
