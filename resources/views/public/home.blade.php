@@ -628,6 +628,7 @@
                             Publiez dès maintenant votre annonce sur Vamiyi et touchez plus de clients
                         </h4>
                     </div>
+
                     {{-- <div class="logo-home col-md-4" style="
                         background-image:url(assets/img/logo-vamiyi-vacances-white.svg);
                         background-size: 50%; /* Ajuste le pourcentage selon tes besoins */
@@ -1023,6 +1024,9 @@
             right: 0;
             border-radius: 5px;
             margin-top: 5px;
+            max-height: 220px; /* ou la hauteur que tu veux */
+            overflow-y: auto; /* active le scroll vertical si nécessaire */
+            /* z-index: 99999 !important; */
         }
 
         .autocomplete-items div {
