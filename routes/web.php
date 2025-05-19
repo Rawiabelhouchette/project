@@ -276,6 +276,8 @@ Route::get('500', function () {
 // Redirection after payment
 Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'])->name('payment.redirection');
 
+Route::get('liens-utiles', [PublicController::class, 'liensUtiles'])->name('liens-utiles');
+
 // Route::get('/test', function () {
 //     // return route('payment.notification');
 //     // send a mail
@@ -292,3 +294,6 @@ Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'
 //     $user = \App\Models\User::first(); // Get the first user as an example
 //     $user->notify(new ResetPassword('token123')); // Replace 'token123' with your actual token
 // });
+
+
+

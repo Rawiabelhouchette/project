@@ -61,4 +61,11 @@ class PublicController extends Controller
 
         return view('public.company', compact('entreprise', 'annonces'));
     }
+
+    public function liensUtiles()
+    {
+        return view('public.static.liens-utiles');
+    }
 }
+
+
