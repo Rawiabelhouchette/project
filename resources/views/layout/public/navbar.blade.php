@@ -290,16 +290,16 @@
                         @if (auth()->check() && (auth()->user()->hasRole('Professionnel') || auth()->user()->hasRole('Administrateur')))
                             <a class="btn add-annonce" id="btn-deposer-annonce"
                                 href="{{ route('public.annonces.create') }}">
-                                <i class="fa-solid fa-plus"></i>Déposer une annonce
+                                <i class="fa-solid fa-plus"></i> Déposer une annonce
                             </a>
                         @elseif (auth()->check() && auth()->user()->hasRole('Usager'))
                             <a class="btn add-annonce" id="btn-deposer-annonce" href="{{ route('pricing') }}">
-                                <i class="fa-solid fa-plus"></i>Déposer une annonce
+                                <i class="fa-solid fa-plus"></i> Déposer une annonce
                             </a>
                         @else
                             <a class="btn add-annonce" id="btn-deposer-annonce" data-bs-toggle="modal"
                                 data-bs-target="#signin" href="javascript:void(0)" onclick="$('#share').hide()">
-                                <i class="fa-solid fa-plus"></i>Déposer une annonce
+                                <i class="fa-solid fa-plus"></i> Déposer une annonce
                             </a>
                         @endif
                     </form>
