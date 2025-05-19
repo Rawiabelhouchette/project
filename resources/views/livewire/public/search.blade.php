@@ -205,7 +205,8 @@
                             <div class="help-support">
                                 <i class="ti-headphone-alt font-60 theme-cl mrg-bot-15"></i>
                                 <p>Vous avez une question ? <br> Contactez-nous</p>
-                                <h4 class="mrg-top-0">contact@numrod.fr</h4>
+                                <h4 class="mrg-top-0">service.client@vamiyi.com</h4>
+                                <h3> {{ env('APP_PHONE') }}/h3>
                             </div>
                         </div>
                     </div>
