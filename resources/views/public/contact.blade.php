@@ -53,11 +53,11 @@
 
         .btn.theme-btn {
             /* background-color: #ff6b00;
-                border: none;
-                border-radius: 8px;
-                padding: 12px 24px;
-                font-weight: 600;
-                transition: background-color 0.2s ease; */
+                    border: none;
+                    border-radius: 8px;
+                    padding: 12px 24px;
+                    font-weight: 600;
+                    transition: background-color 0.2s ease; */
         }
 
         .btn.theme-btn:hover {
@@ -168,7 +168,7 @@
                                     <i class="ti-email font-30"></i>
                                 </div>
                                 <h4 class="mb-2">Email</h4>
-                                <a href="mailto:service.client@vamiyi.com" class="text-primary">service.client@vamiyi.com</a>
+                                <a href="mailto:{{ env('APP_EMAIL') }}" class="text-primary">{{ env('APP_EMAIL') }}</a>
                             </div>
                         </div>
                     </div>
@@ -185,21 +185,21 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script>
-        var mymap = L.map('map').setView([8.6195, 0.8248], 6);
+        var mymap = L.map('map').setView([8.6195, 0.8248], 7);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 15
+            // maxZoom: 11
         }).addTo(mymap);
 
-        var marker;
+        // var marker;
 
-        var lon = '0.72143577039242';
-        var lat = '9.6757766943938';
-        if (marker) {
-            mymap.removeLayer(marker);
-        }
+        // var lon = '0.72143577039242';
+        // var lat = '9.6757766943938';
+        // if (marker) {
+        //     mymap.removeLayer(marker);
+        // }
 
-        marker = L.marker([lat, lon]).addTo(mymap);
-        mymap.setView([lat, lon], 8);
+        // marker = L.marker([lat, lon]).addTo(mymap);
+        // mymap.setView([lat, lon], 8);
     </script>
 @endsection

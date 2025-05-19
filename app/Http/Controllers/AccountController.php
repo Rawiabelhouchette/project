@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
+
 
 class AccountController extends Controller
 {
@@ -17,7 +19,7 @@ class AccountController extends Controller
     {
         CustomSession::reset();
 
-        if (! auth()->check()) {
+        if (!auth()->check()) {
             return redirect()->route('connexion');
         }
 
@@ -28,7 +30,7 @@ class AccountController extends Controller
     {
         CustomSession::reset();
 
-        if (! auth()->check()) {
+        if (!auth()->check()) {
             return redirect()->route('connexion');
         }
 
@@ -61,7 +63,7 @@ class AccountController extends Controller
 
         // check if the email exists
         $user = User::where('email', $request->email)->first();
-        if (! $user) {
+        if (!$user) {
             return redirect()->route('notification.rest-password.success');
         }
 
@@ -69,7 +71,7 @@ class AccountController extends Controller
         $token = Password::createToken($user);
 
         // Create the password reset link
-        $resetLink = url(config('app.url').route('password.reset', ['token' => $token, 'email' => $request->email], false));
+        $resetLink = url(config('app.url') . route('password.reset', ['token' => $token, 'email' => $request->email], false));
 
         // Envoyer l'email de réinitialisation
         // Mail::send(new \App\Mail\PasswordReset($user, $resetLink));
@@ -128,13 +130,33 @@ class AccountController extends Controller
 
     public function contactUs(Request $request)
     {
-        $validated = $request->validate([
-            'nom' => 'required|string',
+        $messages = [
+            'name.required' => 'Le nom est obligatoire.',
+            'name.string' => 'Le nom doit être une chaîne de caractères.',
+            'email.required' => 'L\'adresse e-mail est obligatoire.',
+            'email.email' => 'L\'adresse e-mail doit être valide.',
+            'objet.required' => 'L\'objet est obligatoire.',
+            'objet.string' => 'L\'objet doit être une chaîne de caractères.',
+            'message.required' => 'Le message est obligatoire.',
+            'message.string' => 'Le message doit être une chaîne de caractères.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
             'email' => 'required|email',
             'objet' => 'required|string',
             'message' => 'required|string',
-        ]);
+        ], $messages);
 
-        return back()->with('success', 'Votre message a été envoyé avec succès');
+
+        if ($validator->fails()) {
+            session()->flash('error', $validator->errors()->first()); // Affiche le premier message d’erreur
+            return back()->withInput();
+        }
+
+        // Si la validation passe
+        session()->flash('success', 'Votre message a été envoyé avec succès');
+
+        return back();
     }
 }
