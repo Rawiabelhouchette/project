@@ -4,40 +4,18 @@
 
 @section('content')
 
-
-
     @php
-        $breadcrumbs = [
-            ['route' => 'accueil', 'label' => 'Accueil'],
-            ['route' => 'pricing', 'label' => 'Tarif'],
-            ['label' => 'Tarif'],
-        ];
+        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil'], ['route' => 'pricing', 'label' => 'Tarif'], ['label' => 'Tarif']];
     @endphp
 
-    <x-breadcumb backgroundImage="{{ asset('assets_client/img/cinet_pay.png') }}" :showTitle="true" title="Abonnement"
-        :breadcrumbs="$breadcrumbs" />
+    <x-breadcumb backgroundImage="{{ asset('assets_client/img/cinet_pay.png') }}" :showTitle="true" title="Abonnement" :breadcrumbs="$breadcrumbs" />
 
     <div class="clearfix"></div>
 
     <section>
         <div class="container">
             <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="package-box">
-                    <div class="package-header">
-                        <i class="fa fa-cog" aria-hidden="true"></i>
-                        <h3>{{ $offre->libelle }}</h3>
-                    </div>
-                    <div class="package-price" style="">
-                        <h3 class="mrg-top-0" style="font-family: 'Poppins', sans-serif; font-size: 27px !important; color: #26354e; margin-bottom: .25em; ">{{ number_format($offre->prix, 0, ',', ' ') }} <sup style="font-size: 15px;">F CFA </sup><sub>/ {{ $offre->duree }} {{ $offre->unite_fr }}</sub></h3>
-                    </div>
-                    <div class="package-info" style="font-family: 'Muli', sans-serif;">
-                        <ul>
-                            @foreach ($offre->options as $feature)
-                                <li>{{ $feature }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
+                @include('components.pricing-card', ['offre' => $offre, 'isPro' => false])
             </div>
 
             <div class="col-md-8 col-sm-6 col-xs-12">
@@ -54,9 +32,7 @@
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-4">
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="fa fa-building theme-cl"></i></span>
-                                    <input id="company" class="form-control" type="text"
-                                        placeholder="Nom de votre entreprise" required name="nom_entreprise"
-                                        value="{{ old('nom_entreprise') }}">
+                                    <input id="company" class="form-control" type="text" placeholder="Nom de votre entreprise" required name="nom_entreprise" value="{{ old('nom_entreprise') }}">
                                 </div>
                                 @error('nom_entreprise')
                                     <span class="text-danger">{{ $message }}</span>

@@ -449,10 +449,11 @@
                 <div class="col-md-12 col-sm-12 banner-text mt-0">
 
                     <div class="text-center">
-                        <img class="logo-home" src="assets/img/logo-vamiyi-vacances-white.svg" alt="Logo Vamiyi Vacances" style="width: 150px; height: 150px; display: block; margin: 0 auto;">
+                        <img class="logo-home" src="assets/img/logo-vamiyi-vacances-white.svg" alt="Logo Vamiyi Vacances" style="width: 175px; height: 175px; display: block; margin: 0 auto;">
                     </div>
-
                     <div class="form-home col-md-12">
+                        <h2>Avec Vamiyi, l'aventure commence ici</h2>
+
                         <!-- Search form for desktop -->
                         <form class="form-verticle" method="GET" action="{{ route('search') }}">
                             <input name="form_request" type="hidden" value="1">
@@ -621,12 +622,20 @@
                         </div>
                     </div>
 
-                    <div class="search-home col-md-12">
-                        <h4 class="text-center">
+                    <div class="form-verticle-mobile search-home col-md-12">
+                        <p class="text-center">
                             Vous proposez une location de véhicule, un logement meublé, un hôtel, un fast-food, un restaurant, bar, une boîte de nuit ou une pâtisserie au Togo ou au Bénin?
                             <br>
                             Publiez dès maintenant votre annonce sur Vamiyi et touchez plus de clients
-                        </h4>
+                        </p>
+                    </div>
+
+                    <div class="form-verticle search-home col-md-12">
+                        <p class="text-center" style="padding-left: 13%; padding-right: 13%">
+                            Vous proposez une location de véhicule, un logement meublé, un hôtel, un fast-food, un restaurant, bar, une boîte de nuit ou une pâtisserie au Togo ou au Bénin?
+                            <br>
+                            Publiez dès maintenant votre annonce sur Vamiyi et touchez plus de clients
+                        </p>
                     </div>
 
                     {{-- <div class="logo-home col-md-4" style="
@@ -1024,8 +1033,10 @@
             right: 0;
             border-radius: 5px;
             margin-top: 5px;
-            max-height: 220px; /* ou la hauteur que tu veux */
-            overflow-y: auto; /* active le scroll vertical si nécessaire */
+            max-height: 220px;
+            /* ou la hauteur que tu veux */
+            overflow-y: auto;
+            /* active le scroll vertical si nécessaire */
             /* z-index: 99999 !important; */
         }
 
