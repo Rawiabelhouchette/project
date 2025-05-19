@@ -35,7 +35,7 @@ class Search extends Component
     // États de base
     public $booted = true;
 
-    public $perPage = 10;
+    public $perPage = 12;
 
     private $initURL = '';
 
@@ -142,7 +142,7 @@ class Search extends Component
      */
     private function initializeFromSession($hasSessionValue)
     {
-        if (! $hasSessionValue) {
+        if (!$hasSessionValue) {
             return;
         }
 
@@ -205,7 +205,7 @@ class Search extends Component
      */
     private function processLocation()
     {
-        if (! $this->location) {
+        if (!$this->location) {
             return;
         }
 
@@ -237,7 +237,7 @@ class Search extends Component
 
         if ($this->key) {
             $url .= $hasFirst ? '&' : '?';
-            $url .= 'key='.$this->key;
+            $url .= 'key=' . $this->key;
             $hasFirst = true;
         }
 
@@ -245,7 +245,7 @@ class Search extends Component
             if ($this->$property) {
                 foreach ($this->$property as $key => $value) {
                     $url .= $hasFirst ? '&' : '?';
-                    $url .= $property.'['.$key.']='.$value;
+                    $url .= $property . '[' . $key . ']=' . $value;
                     $hasFirst = true;
                 }
             }
@@ -260,7 +260,7 @@ class Search extends Component
      */
     public function changeTypeName()
     {
-        if (! $this->type) {
+        if (!$this->type) {
             $this->type = [];
         }
 
@@ -276,7 +276,7 @@ class Search extends Component
      */
     public function updatedSortOrder()
     {
-        if (! $this->sortOrder) {
+        if (!$this->sortOrder) {
             return;
         }
 
@@ -368,7 +368,7 @@ class Search extends Component
         foreach (Quartier::all() as $quartier) {
             $tmp = ['value' => $quartier->nom, 'count' => $quartier->nombre_annonce];
             $tmp = array_unique($tmp, SORT_REGULAR);
-            if (! in_array($tmp, $this->quartiers)) {
+            if (!in_array($tmp, $this->quartiers)) {
                 $this->quartiers[] = $tmp;
             }
         }
@@ -383,7 +383,7 @@ class Search extends Component
         foreach (Ville::all() as $ville) {
             $tmp = ['value' => $ville->nom, 'count' => $ville->nombre_annonce];
             $tmp = array_unique($tmp, SORT_REGULAR);
-            if (! in_array($tmp, $this->villes)) {
+            if (!in_array($tmp, $this->villes)) {
                 $this->villes[] = $tmp;
             }
         }
@@ -404,7 +404,7 @@ class Search extends Component
         foreach ($entreprises as $entreprise) {
             $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonces];
             $tmp = array_unique($tmp, SORT_REGULAR);
-            if (! in_array($tmp, $this->entreprises)) {
+            if (!in_array($tmp, $this->entreprises)) {
                 $this->entreprises[] = $tmp;
             }
         }
@@ -697,7 +697,7 @@ class Search extends Component
         if ($this->type) {
             $annonces = $annonces->where(function ($query) {
                 foreach ($this->type as $type) {
-                    $query->orWhere('type', 'like', '%'.$type.'%');
+                    $query->orWhere('type', 'like', '%' . $type . '%');
                 }
             });
         }
@@ -705,8 +705,8 @@ class Search extends Component
         if ($this->key) {
             $key = $this->key;
             $annonces = $annonces->where(function ($query) use ($key) {
-                $query->orWhereRaw('LOWER(titre) LIKE ?', ['%'.strtolower($key).'%'])
-                    ->orWhereRaw('LOWER(description) LIKE ?', ['%'.strtolower($key).'%']);
+                $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])
+                    ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
             });
         }
 
@@ -716,7 +716,7 @@ class Search extends Component
             if (count($parts) > 0) {
                 $quartier = trim($parts[0]);
                 $annonces = $annonces->whereHas('entreprise.quartier', function ($query) use ($quartier) {
-                    $query->where('nom', 'like', '%'.$quartier.'%');
+                    $query->where('nom', 'like', '%' . $quartier . '%');
                 });
             }
         }
@@ -736,7 +736,7 @@ class Search extends Component
             $annonces = $annonces->whereHas('entreprise.ville', function ($query) use ($villes) {
                 $query->where(function ($query) use ($villes) {
                     foreach ($villes as $ville) {
-                        $query->orWhere('nom', 'like', '%'.$ville.'%');
+                        $query->orWhere('nom', 'like', '%' . $ville . '%');
                     }
                 });
             });
@@ -771,7 +771,7 @@ class Search extends Component
             $quartiers = $this->quartier;
             $annonces = $annonces->where(function ($query) use ($quartiers) {
                 foreach ($quartiers as $quartier) {
-                    $query->orWhere('quartier', 'like', '%'.$quartier.'%');
+                    $query->orWhere('quartier', 'like', '%' . $quartier . '%');
                 }
             });
 
@@ -912,15 +912,15 @@ class Search extends Component
      */
     protected function filterByOrder($annonces)
     {
-        if (! in_array($this->direction, ['asc', 'desc'])) {
+        if (!in_array($this->direction, ['asc', 'desc'])) {
             $this->direction = 'desc';
         }
 
-        if (! in_array($this->column, ['created_at', 'titre'])) {
+        if (!in_array($this->column, ['created_at', 'titre'])) {
             $this->column = 'created_at';
         }
 
-        $this->sortOrder = $this->column.'|'.$this->direction;
+        $this->sortOrder = $this->column . '|' . $this->direction;
 
         if ($this->column && $this->direction) {
             $annonces = $annonces->orderBy($this->column, $this->direction);
@@ -1085,7 +1085,7 @@ class Search extends Component
 
         // Ajoute les types manquants avec un compte à 0
         foreach ($tmpTypeAnnonces as $type) {
-            if (! in_array($type, array_column($this->typeAnnonces, 'value'))) {
+            if (!in_array($type, array_column($this->typeAnnonces, 'value'))) {
                 $this->typeAnnonces[] = ['value' => $type, 'count' => 0];
             }
         }
@@ -1096,7 +1096,7 @@ class Search extends Component
      */
     public function rendering()
     {
-        if (! $this->booted) {
+        if (!$this->booted) {
             $this->dispatch('custom:element-removal', [
                 'element' => $this->search()->get()->pluck('id')->toArray(),
                 'perPage' => $this->perPage,
