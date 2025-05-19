@@ -1,6 +1,6 @@
 @extends('layout.public.app')
 
-@section('title',  config('app.name'))
+@section('title', config('app.name'))
 
 @section('css')
     <style>
@@ -56,7 +56,6 @@
             --dark-color: #212529;
             --transition-speed: 0.3s;
         }
-
 
         .search-container {
             max-width: 600px;
@@ -339,6 +338,7 @@
             background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
         }
+
         .btn-container {
             flex: 2;
         }
@@ -443,33 +443,27 @@
     @include('components.default-value')
 
     <!-- Main Banner Section Start -->
-    <div id="banner" class="banner dark-opacity" data-overlay="8"
-        style="background-image:url(assets_client/img/banner/image-1.jpg);">
+    <div id="banner" class="banner dark-opacity" data-overlay="8" style="background-image:url(assets_client/img/banner/image-1.jpg);">
         <div class="container">
             <div class="banner-caption">
-                <div class="col-md-12 col-sm-12 banner-text">
-                    <div class="logo-home col-md-4" style="background-image:url(assets/img/logo-vamiyi-vacances-white.svg);">
+                <div class="col-md-12 col-sm-12 banner-text mt-0">
+
+                    <div class="text-center">
+                        <img class="logo-home" src="assets/img/logo-vamiyi-vacances-white.svg" alt="Logo Vamiyi Vacances" style="width: 150px; height: 150px; display: block; margin: 0 auto;">
                     </div>
 
-                    <div class="search-home col-md-12">
-                        <!-- <h1>Vamiyi</h1> -->
-                        <h2>L'aventure commence ici</h2>
-                        <p>Explorez les meilleurs hébergements, des restaurants et plus encore...</p>
-                    </div>
                     <div class="form-home col-md-12">
                         <!-- Search form for desktop -->
                         <form class="form-verticle" method="GET" action="{{ route('search') }}">
                             <input name="form_request" type="hidden" value="1">
                             <div class="col-md-4 col-sm-4 no-padd">
                                 <i class="banner-icon icon-pencil"></i>
-                                <input class="form-control left-radius right-br" name="key" type="text"
-                                    placeholder="Mot clé...">
+                                <input class="form-control left-radius right-br" name="key" type="text" placeholder="Mot clé...">
                             </div>
                             <div class="col-md-3 col-sm-3 no-padd">
                                 <div class="form-box">
                                     <i class="banner-icon icon-map-pin"></i>
-                                    <input id="myInput" class="form-control right-br" name="location" type="text"
-                                        placeholder="Localisation...">
+                                    <input id="myInput" class="form-control right-br" name="location" type="text" placeholder="Localisation...">
                                     <div id="autocomplete-results" class="autocomplete-items"></div>
                                 </div>
                             </div>
@@ -477,8 +471,7 @@
                                 <div class="form-box">
                                     <i class="banner-icon icon-layers"></i>
                                     <select class="form-control" name="type[]">
-                                        <option class="chosen-select" data-placeholder="{{ __('Types d\'annonce') }}"
-                                            value="" selected>{{ __('Types d\'annonce') }}</option>
+                                        <option class="chosen-select" data-placeholder="{{ __('Types d\'annonce') }}" value="" selected>{{ __('Types d\'annonce') }}</option>
                                         @foreach ($typeAnnonce as $annonce)
                                             <option value="{{ $annonce }}">{{ $annonce }}</option>
                                         @endforeach
@@ -500,34 +493,30 @@
                         <div class="form-verticle-mobile">
                             <!-- Main Search Bar -->
                             <div class="search-container">
-                                <div class="search-bar d-flex align-items-center justify-content-center"
-                                    data-bs-toggle="modal" data-bs-target="#searchModal">
+                                <div class="search-bar d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#searchModal">
                                     <i class="bi bi-search me-2"></i>
                                     <span>Commencer ma recherche</span>
                                 </div>
                             </div>
 
                             <!-- Full Screen Search Modal -->
-                            <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel"
-                                aria-hidden="true">
+                            <div id="searchModal" class="modal fade" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-fullscreen">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="search-accordion" id="searchAccordion">
+                                            <div id="searchAccordion" class="search-accordion">
                                                 <!-- Mot clé Accordion -->
-                                                <div class="search-accordion-item active" id="motCleSection">
+                                                <div id="motCleSection" class="search-accordion-item active">
                                                     <div class="search-accordion-header">
-                                                        <button class="search-accordion-button" type="button"
-                                                            data-section="motCle">
+                                                        <button class="search-accordion-button" type="button" data-section="motCle">
                                                             <div class="icon-container">
                                                                 <i class="bi bi-search"></i>
                                                             </div>
                                                             <span class="title">Mot clé</span>
-                                                            <span class="selection-text" id="motCleSelection"></span>
+                                                            <span id="motCleSelection" class="selection-text"></span>
                                                             <div class="toggle-icon">
                                                                 <i class="bi bi-chevron-down"></i>
                                                             </div>
@@ -536,28 +525,25 @@
                                                     <div class="search-accordion-content" style="max-height: 500px;">
                                                         <div class="search-accordion-body">
                                                             <div class="input-container">
-                                                                <input type="text" id="motCleInput"
-                                                                    placeholder="Rechercher par mot clé">
+                                                                <input id="motCleInput" type="text" placeholder="Rechercher par mot clé">
                                                                 <i class="bi bi-search input-icon"></i>
                                                             </div>
                                                             <div class="progress-container">
-                                                                <div class="progress-bar" id="motCleProgress"></div>
+                                                                <div id="motCleProgress" class="progress-bar"></div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <!-- Localisation Accordion -->
-                                                <div class="search-accordion-item" id="localisationSection">
+                                                <div id="localisationSection" class="search-accordion-item">
                                                     <div class="search-accordion-header">
-                                                        <button class="search-accordion-button" type="button"
-                                                            data-section="localisation">
+                                                        <button class="search-accordion-button" type="button" data-section="localisation">
                                                             <div class="icon-container">
                                                                 <i class="bi bi-geo-alt"></i>
                                                             </div>
                                                             <span class="title">Localisation</span>
-                                                            <span class="selection-text"
-                                                                id="localisationSelection"></span>
+                                                            <span id="localisationSelection" class="selection-text"></span>
                                                             <div class="toggle-icon">
                                                                 <i class="bi bi-chevron-down"></i>
                                                             </div>
@@ -566,11 +552,10 @@
                                                     <div class="search-accordion-content">
                                                         <div class="search-accordion-body">
                                                             <div class="input-container">
-                                                                <input type="text" id="localisationInput"
-                                                                    placeholder="Rechercher une localisation">
+                                                                <input id="localisationInput" type="text" placeholder="Rechercher une localisation">
                                                                 <i class="bi bi-geo-alt input-icon"></i>
                                                             </div>
-                                                            <div class="chips-container" id="localisationChips" style="display: none;">
+                                                            <div id="localisationChips" class="chips-container" style="display: none;">
                                                                 @foreach ($quartiers as $quartier)
                                                                     <div class="chip" data-section="localisation">
                                                                         {{ $quartier }}
@@ -578,23 +563,21 @@
                                                                 @endforeach
                                                             </div>
                                                             <div class="progress-container">
-                                                                <div class="progress-bar" id="localisationProgress"></div>
+                                                                <div id="localisationProgress" class="progress-bar"></div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <!-- Types d'annonce Accordion -->
-                                                <div class="search-accordion-item" id="typesAnnonceSection">
+                                                <div id="typesAnnonceSection" class="search-accordion-item">
                                                     <div class="search-accordion-header">
-                                                        <button class="search-accordion-button" type="button"
-                                                            data-section="typesAnnonce">
+                                                        <button class="search-accordion-button" type="button" data-section="typesAnnonce">
                                                             <div class="icon-container">
                                                                 <i class="bi bi-tag"></i>
                                                             </div>
                                                             <span class="title">Types d'annonce</span>
-                                                            <span class="selection-text"
-                                                                id="typesAnnonceSelection"></span>
+                                                            <span id="typesAnnonceSelection" class="selection-text"></span>
                                                             <div class="toggle-icon">
                                                                 <i class="bi bi-chevron-down"></i>
                                                             </div>
@@ -603,18 +586,17 @@
                                                     <div class="search-accordion-content">
                                                         <div class="search-accordion-body">
                                                             <div class="input-container">
-                                                                <input type="text" id="typesAnnonceInput"
-                                                                    placeholder="Rechercher un type d'annonce">
+                                                                <input id="typesAnnonceInput" type="text" placeholder="Rechercher un type d'annonce">
                                                                 <i class="bi bi-tag input-icon"></i>
                                                             </div>
-                                                            <div class="chips-container" id="typesAnnonceChips">
+                                                            <div id="typesAnnonceChips" class="chips-container">
                                                                 @foreach ($typeAnnonce as $annonce)
                                                                     <div class="chip" data-section="typesAnnonce">
                                                                         {{ $annonce }}</div>
                                                                 @endforeach
                                                             </div>
                                                             <div class="progress-container">
-                                                                <div class="progress-bar" id="typesAnnonceProgress"></div>
+                                                                <div id="typesAnnonceProgress" class="progress-bar"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -624,10 +606,10 @@
                                         </div>
                                         <div class="modal-footer">
                                             <div class="btn-container">
-                                                <button type="button" class="clear-btn" id="clearBtn">Tout effacer</button>
+                                                <button id="clearBtn" type="button" class="clear-btn">Tout effacer</button>
                                             </div>
-                                             <div class="btn-container">
-                                                <button type="button" class="search-btn" id="searchBtn">
+                                            <div class="btn-container">
+                                                <button id="searchBtn" type="button" class="search-btn">
                                                     <i class="bi bi-search"></i>
                                                     <span>{{ __('Rechercher') }}</span>
                                                 </button>
@@ -638,6 +620,19 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="search-home col-md-12">
+                        <h4 class="text-center">
+                            Vous proposez une location de véhicule, un logement meublé, un hôtel, un fast-food, un restaurant, bar, une boîte de nuit ou une pâtisserie au Togo ou au Bénin?
+                            <br>
+                            Publiez dès maintenant votre annonce sur Vamiyi et touchez plus de clients
+                        </h4>
+                    </div>
+                    {{-- <div class="logo-home col-md-4" style="
+                        background-image:url(assets/img/logo-vamiyi-vacances-white.svg);
+                        background-size: 50%; /* Ajuste le pourcentage selon tes besoins */
+                        ">
+                    </div> --}}
 
                     {{-- <div class="popular-categories">
                         <ul class="popular-categories-list">
@@ -665,16 +660,16 @@
     <!-- Main Banner Section End -->
 
     <!-- Listings Section -->
-    <section class="sec-bt" >
-        <div class="container desktop-container" style="padding-right: 5px;padding-left: 5px;">
-        <style>
-            /* Apply specific width only on desktop (screens larger than 992px) */
-            @media (min-width: 992px) {
-                .desktop-container {
-                    width: 1320px !important;
+    <section class="sec-bt">
+        <div class="desktop-container container" style="padding-right: 5px;padding-left: 5px;">
+            <style>
+                /* Apply specific width only on desktop (screens larger than 992px) */
+                @media (min-width: 992px) {
+                    .desktop-container {
+                        width: 1320px !important;
+                    }
                 }
-            }
-        </style>
+            </style>
 
             <div class="row">
                 <div class="col-md-10">
@@ -685,12 +680,12 @@
                     </div>
                 </div>
             </div>
-            <style>                            
-                .property-grid {    
+            <style>
+                .property-grid {
                     display: flex;
                     flex-wrap: wrap;
                 }
-        </style>
+            </style>
             <div class="container mt-5">
                 <div class="property-grid">
                     <x-public.property-item :annonces="$annonces" :mode="'row'" />
@@ -701,8 +696,8 @@
     </section>
     <!-- End Listings Section -->
 
-<!-- Category Section -->
-<section class="bg-image" data-overlay="6" style="background:url(assets_client/img/image-stat.JPEG);">
+    <!-- Category Section -->
+    <section class="bg-image" data-overlay="6" style="background:url(assets_client/img/image-stat.JPEG);">
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
@@ -726,7 +721,7 @@
                                 <div class="category-card-content">
                                     <h4>{{ $list->libelle }}</h4>
                                     <a class="btn-browse" href="{{ route('search.key.type', ['', $list->nom]) }}">
-                                       <span class="d-none d-md-block"> Parcourir</span> <i class="fa fa-arrow-right ms-1"></i>
+                                        <span class="d-none d-md-block"> Parcourir</span> <i class="fa fa-arrow-right ms-1"></i>
                                     </a>
                                 </div>
                             </div>
@@ -746,10 +741,10 @@
                 <div class="bubble" style="--size: {{ rand(20, 80) }}px; --left: {{ rand(1, 100) }}%; --delay: {{ $i * 0.3 }}s;"></div>
             @endfor
         </div>
-        
-        <div class="container position-relative">
+
+        <div class="position-relative container">
             <div class="d-flex counter-row flex-wrap" style="justify-content: space-around;">
-                <div class="mb-4 mb-md-0">
+                <div class="mb-md-0 mb-4">
                     <div class="counter-item" data-aos="fade-up" data-aos-delay="100">
                         <div class="counter-icon-wrap">
                             <div class="counter-icon-glow"></div>
@@ -763,8 +758,8 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class=" mb-4 mb-md-0">
+
+                <div class="mb-md-0 mb-4">
                     <div class="counter-item" data-aos="fade-up" data-aos-delay="200">
                         <div class="counter-icon-wrap">
                             <div class="counter-icon-glow"></div>
@@ -778,7 +773,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="">
                     <div class="counter-item" data-aos="fade-up" data-aos-delay="300">
                         <div class="counter-icon-wrap">
@@ -809,12 +804,12 @@
             margin: 10px;
             height: 220px;
         }
-        
+
         .category-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
-        
+
         .category-card-bg {
             position: absolute;
             top: 0;
@@ -825,24 +820,24 @@
             background-position: center;
             z-index: 1;
         }
-        
+
         .category-card-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
             z-index: 2;
         }
-        
+
         .category-card-icon {
             position: absolute;
             top: 20px;
             left: 20px;
             z-index: 3;
         }
-        
+
         .category-card-content {
             position: absolute;
             bottom: 0;
@@ -854,19 +849,21 @@
             justify-content: space-between;
             align-items: center;
         }
+
         @media (max-width: 768px) {
             .category-card-content {
                 flex-direction: column;
                 gap: 10px;
             }
         }
+
         .category-card-content h4 {
             color: white;
             margin: 0;
             font-size: 18px;
             font-weight: 600;
         }
-        
+
         .btn-browse {
             background-color: rgba(255, 255, 255, 0.2);
             color: white;
@@ -878,12 +875,12 @@
             text-decoration: none;
             backdrop-filter: blur(5px);
         }
-        
+
         .btn-browse:hover {
             background-color: white;
             color: #de6600;
         }
-        
+
         /* Creative Counters Styling */
         .creative-counters {
             position: relative;
@@ -892,7 +889,7 @@
             background-size: cover;
             background-position: center;
         }
-        
+
         .counter-overlay {
             position: absolute;
             top: 0;
@@ -902,7 +899,7 @@
             background: linear-gradient(135deg, rgba(222, 102, 0, 0.9), rgba(255, 153, 0, 0.85));
             z-index: 1;
         }
-        
+
         .floating-bubbles {
             position: absolute;
             width: 100%;
@@ -912,7 +909,7 @@
             z-index: 2;
             overflow: hidden;
         }
-        
+
         .bubble {
             position: absolute;
             bottom: -100px;
@@ -924,38 +921,40 @@
             animation: float 15s infinite ease-in-out;
             animation-delay: var(--delay);
         }
-        
+
         @keyframes float {
             0% {
                 transform: translateY(0);
                 opacity: 0;
             }
+
             10% {
                 opacity: 0.5;
             }
+
             100% {
                 transform: translateY(-800px);
                 opacity: 0;
             }
         }
-        
+
         .counter-row {
             position: relative;
             z-index: 3;
         }
-        
+
         .counter-item {
             display: flex;
             align-items: center;
             gap: 0.25rem;
             color: #6b7280;
         }
-        
+
         .counter-icon-wrap {
             position: relative;
             margin-bottom: 20px;
         }
-        
+
         .counter-icon-glow {
             position: absolute;
             width: 100%;
@@ -965,7 +964,7 @@
             filter: blur(15px);
             transform: scale(1.5);
         }
-        
+
         .counter-icon {
             position: relative;
             width: 80px;
@@ -979,20 +978,20 @@
             z-index: 1;
             transition: all 0.3s ease;
         }
-        
+
         .counter-icon i {
             font-size: 32px;
             color: #de6600;
         }
-        
+
         .counter-item:hover .counter-icon {
             transform: translateY(-5px);
         }
-        
+
         .counter-content {
             text-align: center;
         }
-        
+
         .counter-number {
             font-size: 48px;
             font-weight: 700;
@@ -1000,13 +999,13 @@
             line-height: 1;
             margin-bottom: 5px;
         }
-        
+
         .counter-label {
             font-size: 18px;
             color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
         }
-        
+
         /* Autocomplete Styling (Preserved from original) */
         .autocomplete {
             position: relative;
@@ -1049,22 +1048,22 @@
             border-bottom-left-radius: 5px;
             border-bottom-right-radius: 5px;
         }
-        
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .counter-number {
                 font-size: 36px;
             }
-            
+
             .counter-label {
                 font-size: 16px;
             }
-            
+
             .counter-icon {
                 width: 70px;
                 height: 70px;
             }
-            
+
             .counter-icon i {
                 font-size: 28px;
             }
@@ -1179,13 +1178,15 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('select').niceSelect();
-                
+
                 // Counter animation
                 $('.counter-number').each(function() {
                     const $this = $(this);
                     const countTo = parseInt($this.attr('data-count'));
-                    
-                    $({ countNum: 0 }).animate({
+
+                    $({
+                        countNum: 0
+                    }).animate({
                         countNum: countTo
                     }, {
                         duration: 2000,
@@ -1198,7 +1199,7 @@
                         }
                     });
                 });
-                
+
                 // Add hover effects to counter items
                 $('.counter-item').hover(
                     function() {
@@ -1210,7 +1211,7 @@
                 );
             });
         </script>
-        
+
         <!-- Include AOS library for scroll animations -->
         <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
@@ -1222,8 +1223,6 @@
             });
         </script>
     @endpush
-
-
 
     <x-public.share-modal title="Partager cette annonce" />
     <script>
@@ -1540,6 +1539,3 @@
         });
     </script>
 @endsection
-
-
-
