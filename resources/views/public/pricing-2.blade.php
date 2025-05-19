@@ -15,7 +15,7 @@
     <section>
         <div class="container">
             <div class="col-md-4 col-sm-6 col-xs-12">
-                @include('components.pricing-card', ['offre' => $offre, 'isPro' => false])
+                @include('components.pricing-card', ['offre' => $offre, 'isPro' => false, 'withButton' => false])
             </div>
 
             <div class="col-md-8 col-sm-6 col-xs-12">
