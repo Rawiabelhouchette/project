@@ -1,4 +1,4 @@
-@props(['offre', 'isPro' => false])
+@props(['offre', 'isPro' => false, 'withButton' => true])
 
 <div class="amiyi-pricing-card">
     <!-- Card Header -->
@@ -30,20 +30,22 @@
         @endforeach
     </div>
 
-    <!-- Button Section -->
-    <div class="amiyi-card-footer">
-        <input type="hidden" name="offre_id" value="{{ $offre->id }}">
+    @if ($withButton)
+        <!-- Button Section -->
+        <div class="amiyi-card-footer">
+            <input type="hidden" name="offre_id" value="{{ $offre->id }}">
 
-        @if ($isPro)
-            <form action="{{ route('abonnements.payement.check') }}" method="POST">
-                @csrf
-                <input type="hidden" name="offre_id" value="{{ $offre->id }}">
-                <button type="submit" class="amiyi-subscribe-button">Souscrire</button>
-            </form>
-        @else
-            <button type="button" onclick="window.location.href='{{ route('pricing-2', ['subscription' => $offre->id]) }}'" class="amiyi-subscribe-button">Souscrire</button>
-        @endif
-    </div>
+            @if ($isPro)
+                <form action="{{ route('abonnements.payement.check') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="offre_id" value="{{ $offre->id }}">
+                    <button type="submit" class="amiyi-subscribe-button">Souscrire</button>
+                </form>
+            @else
+                <button type="button" onclick="window.location.href='{{ route('pricing-2', ['subscription' => $offre->id]) }}'" class="amiyi-subscribe-button">Souscrire</button>
+            @endif
+        </div>
+    @endif
 </div>
 
 <style>
