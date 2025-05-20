@@ -280,12 +280,14 @@ class Create extends Component
 
     public function store()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 
         try {
             DB::beginTransaction();
+
+            // dd($this->prix_min);
 
             $auberge = Auberge::create([
                 'nombre_chambre' => $this->nombre_chambre,
@@ -295,6 +297,16 @@ class Create extends Component
                 'prix_max' => $this->prix_max,
                 'nombre_salles_bain' => $this->nombre_salles_bain,
             ]);
+
+            $prix = '';
+
+            if ($this->prix_min) {
+                $prix = $this->prix_min;
+            }
+
+            if ($this->prix_max) {
+                $prix .= '- ' . $this->prix_max;
+            }
 
             $annonce = new Annonce([
                 'titre' => $this->nom,
@@ -307,6 +319,9 @@ class Create extends Component
 
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
+
+                'prix' => $prix,
+
             ]);
 
             $auberge->annonce()->save($annonce);
