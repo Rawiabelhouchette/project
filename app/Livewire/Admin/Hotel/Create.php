@@ -288,6 +288,8 @@ class Create extends Component
 
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
+
+                'prix' => $this->prix_min,
             ]);
 
             $hotel->annonce()->save($annonce);

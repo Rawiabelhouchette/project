@@ -284,8 +284,6 @@ class Create extends Component
         try {
             DB::beginTransaction();
 
-            // dd($this->prix_min);
-
             $auberge = Auberge::create([
                 'nombre_chambre' => $this->nombre_chambre,
                 'nombre_personne' => $this->nombre_personne,
@@ -294,16 +292,6 @@ class Create extends Component
                 'prix_max' => $this->prix_max,
                 'nombre_salles_bain' => $this->nombre_salles_bain,
             ]);
-
-            $prix = '';
-
-            if ($this->prix_min) {
-                $prix = $this->prix_min;
-            }
-
-            if ($this->prix_max) {
-                $prix .= '- ' . $this->prix_max;
-            }
 
             $annonce = new Annonce([
                 'titre' => $this->nom,
@@ -317,8 +305,7 @@ class Create extends Component
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
 
-                'prix' => $prix,
-
+                'prix' => $this->prix_min,
             ]);
 
             $auberge->annonce()->save($annonce);

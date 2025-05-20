@@ -314,8 +314,11 @@ class Edit extends Component
 
                 'ville_id' => $this->ville_id,
                 'quartier' => $this->quartier_id,
+                
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
+
+                'prix' => $this->prix_min,
             ]);
 
             $this->auberge->update([
