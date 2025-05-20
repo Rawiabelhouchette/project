@@ -142,7 +142,7 @@ class Edit extends Component
             'types_musique.*' => 'nullable|integer|exists:reference_valeurs,id',
 
             'is_active' => 'required|boolean',
-            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_min' => 'required|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
             'longitude' => 'required',
@@ -180,6 +180,8 @@ class Edit extends Component
             'commodites_vie_nocturne.*.exists' => 'Les commodités de vie nocturne n\'existent pas',
             'is_active.required' => 'Le statut est obligatoire',
             'is_active.boolean' => 'Le statut doit être un booléen',
+
+            'prix_min.required' => 'Le prix minimum est obligatoire',
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',

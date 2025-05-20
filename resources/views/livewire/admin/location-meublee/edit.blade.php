@@ -98,6 +98,7 @@
 
                 @include('admin.annonce.price-component', [
                     'min' => true,
+                    'required' => true,
                 ])
 
                 @include('admin.annonce.price-component', [

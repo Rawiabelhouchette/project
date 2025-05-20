@@ -203,7 +203,7 @@ class Edit extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
 
-            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_min' => 'required|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
             'longitude' => 'required',
@@ -251,6 +251,7 @@ class Edit extends Component
             'commodites.array' => 'Format des commodités invalide',
             'services.array' => 'Format des services invalide',
 
+            'prix_min.required' => 'Le prix minimum est obligatoire',
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',

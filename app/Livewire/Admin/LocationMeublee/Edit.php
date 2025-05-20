@@ -200,7 +200,7 @@ class Edit extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'nullable',
-            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_min' => 'required|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
             'longitude' => 'required',
@@ -226,6 +226,8 @@ class Edit extends Component
             'entreprise_id.required' => 'L\'entreprise est obligatoire',
             'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
             'heure_validite.required' => 'L\'heure de validité est obligatoire',
+
+            'prix_min.required' => 'Le prix minimum est obligatoire',
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',

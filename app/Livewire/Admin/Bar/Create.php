@@ -121,7 +121,7 @@ class Create extends Component
             'galerie' => 'array|max:10',
             'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
 
-            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_min' => 'required|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
             // // 'image' => 'required',
             'pays_id' => 'required|exists:pays,id',
@@ -177,6 +177,7 @@ class Create extends Component
             'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
 
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
+            'prix_min.required' => 'Le prix minimum est obligatoire',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
 
