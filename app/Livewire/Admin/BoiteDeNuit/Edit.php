@@ -96,11 +96,7 @@ class Edit extends Component
 
     private function initialization()
     {
-        if (\Auth::user()->hasRole('Professionnel')) {
-            $this->entreprises = \Auth::user()->entreprises;
-        } else {
-            $this->entreprises = Entreprise::all();
-        }
+        $this->entreprises = \Auth::user()->entreprises;
 
         $tmp_commodite = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'commodites-hebergement')->first();
         $tmp_commodite ?
@@ -203,7 +199,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 

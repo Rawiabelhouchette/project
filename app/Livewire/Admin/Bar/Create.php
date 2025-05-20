@@ -78,12 +78,8 @@ class Create extends Component
 
     private function initialization()
     {
-        if (\Auth::user()->hasRole('Professionnel')) {
-            $this->entreprises = \Auth::user()->entreprises;
-            $this->entreprise_id = $this->entreprises->first()->id;
-        } else {
-            $this->entreprises = Entreprise::all();
-        }
+        $this->entreprises = \Auth::user()->entreprises;
+        $this->entreprise_id = $this->entreprises->first()->id;
 
         $tmp_types_musique = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'types-de-musique')->first();
         $tmp_types_musique ?
@@ -219,7 +215,7 @@ class Create extends Component
 
     public function store()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 

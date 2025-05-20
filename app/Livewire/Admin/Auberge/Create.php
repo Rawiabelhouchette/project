@@ -106,12 +106,8 @@ class Create extends Component
 
     private function initialization()
     {
-        if (\Auth::user()->hasRole('Professionnel')) {
-            $this->entreprises = \Auth::user()->entreprises;
-            $this->entreprise_id = $this->entreprises->first()->id;
-        } else {
-            $this->entreprises = Entreprise::all();
-        }
+        $this->entreprises = \Auth::user()->entreprises;
+        $this->entreprise_id = $this->entreprises->first()->id;
 
         $tmp_commodite = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'commodites-hebergement')->first();
         $tmp_commodite

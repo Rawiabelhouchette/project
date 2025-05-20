@@ -161,7 +161,6 @@
                     @endphp
                     <i class="{{ $iconClass }}"></i>
                 </span>
-
             </div>
         </a>
 
@@ -182,7 +181,7 @@
                             <i class="fa fa-share-alt theme-cl"></i>
                         </a>
                     @endif
-                    
+
                     @if ($showEdit)
                         <a href="{{ $annonce->annonceable->public_edit_url }}" class="like-listing alt style-2">
                             <i class="fa fa-edit" aria-hidden="true"></i>

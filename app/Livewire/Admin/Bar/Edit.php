@@ -105,11 +105,7 @@ class Edit extends Component
 
     private function initialization()
     {
-        if (\Auth::user()->hasRole('Professionnel')) {
-            $this->entreprises = \Auth::user()->entreprises;
-        } else {
-            $this->entreprises = Entreprise::all();
-        }
+        $this->entreprises = \Auth::user()->entreprises;
 
         $tmp_types_musique = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'types-de-musique')->first();
         $tmp_types_musique ?
@@ -230,7 +226,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 
