@@ -58,7 +58,7 @@ class Comment extends Component
     {
         $this->hasMessage = false;
         $this->perPage = $perPage + 5;
-        $this->annonce = Annonce::find($id);
+        $this->annonce = Annonce::with('commentaires')->find($id);
     }
 
     public function addComment()
@@ -99,7 +99,7 @@ class Comment extends Component
 
     public function render()
     {
-        $count = $this->annonce->commentaires()->count();
+        $count = $this->annonce->commentaires->count();
 
         $this->dispatch('update:comment-value', [
             'value' => $count,
@@ -107,7 +107,7 @@ class Comment extends Component
         ]);
 
         return view('livewire.public.comment', [
-            'commentaires' => $this->annonce->commentaires()->latest()->paginate($this->perPage),
+            'commentaires' => $this->annonce->commentaires()->paginate($this->perPage),
             'count' => $count,
         ]);
     }

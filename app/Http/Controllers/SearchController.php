@@ -41,7 +41,7 @@ class SearchController extends Controller
     {
         $user = auth()->user();
 
-        $query = Annonce::with(['galerie', 'entreprise', 'commentaires', 'favoris'])->where('slug', $slug);
+        $query = Annonce::eagerLoad()->where('slug', $slug);
         $annonce = $query->first(); // Appel unique
 
         if (!$annonce) {
@@ -57,7 +57,7 @@ class SearchController extends Controller
         }
 
         // Vues similaires
-        $annonces = Annonce::public()->where('type', $annonce->type)->latest()->take(4)->get();
+        // $annonces = Annonce::public()->where('type', $annonce->type)->latest()->take(4)->get();
         $type = $annonce->type;
         $key = '';
 
@@ -82,16 +82,38 @@ class SearchController extends Controller
         // Position + pagination
         $result = $this->findElement($sessAnnonces, $annonce->id);
 
-        $previous = Annonce::public()->find($result->previous);
-        $next = Annonce::public()->find($result->next);
+        // $previous = Annonce::public()->find($result->previous);
+        // $next = Annonce::public()->find($result->next);
+
+        // $pagination = (object) [
+        //     'position' => "{$result->position}/" . max(count($sessAnnonces), 1),
+        //     'previous' => $previous ? route('show', $previous->slug) : 'javascript:void(0)',
+        //     'next' => $next ? route('show', $next->slug) : 'javascript:void(0)',
+        // ];
+        $neighbors = Annonce::public()
+            ->whereIn('id', [$result->previous, $result->next])
+            ->get()
+            ->keyBy('id');
 
         $pagination = (object) [
             'position' => "{$result->position}/" . max(count($sessAnnonces), 1),
-            'previous' => $previous ? route('show', $previous->slug) : 'javascript:void(0)',
-            'next' => $next ? route('show', $next->slug) : 'javascript:void(0)',
+            'previous' => isset($neighbors[$result->previous])
+                ? route('show', $neighbors[$result->previous]->slug)
+                : 'javascript:void(0)',
+            'next' => isset($neighbors[$result->next])
+                ? route('show', $neighbors[$result->next]->slug)
+                : 'javascript:void(0)',
         ];
 
-        return view('public.show', compact('annonce', 'type', 'key', 'annonces', 'typeAnnonce', 'pagination'));
+
+        return view('public.show', compact(
+            'annonce',
+            'type',
+            'key',
+            // 'annonces',
+            'typeAnnonce',
+            'pagination'
+        ));
     }
 
     public function findElement($array, $element)

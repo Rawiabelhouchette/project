@@ -370,7 +370,7 @@
             style="background: url({{ asset($backgroundImage) }});">
             <div class="container">
 
-                @livewire('public.search-box')
+                @livewire('public.search-box', ['typeAnnonce' => $typeList ?? []])
                 <div class="title-content">
                     @if ($showTitle)
                         <h1>{{ $title ?? 'Title' }}</h1>

@@ -18,9 +18,12 @@ class SearchBox extends Component
 
     public $key;
 
-    public function mount($detail = false)
+    public $typeAnnonce;
+
+    public function mount($typeAnnonce = [], $detail = false)
     {
         $this->detail = $detail;
+        $this->typeAnnonce = $typeAnnonce;
     }
 
     #[On('resetSearchBox')]
@@ -34,7 +37,7 @@ class SearchBox extends Component
 
     public function render()
     {
-        $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
+        // $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
 
         $params = AnnoncesUtils::getQueryParams();
         $this->key = $params->key ?? '';
@@ -44,7 +47,6 @@ class SearchBox extends Component
         $quartiers = Quartier::getAllQuartiers();
 
         return view('livewire.public.search-box', [
-            'typeAnnonce' => $typeAnnonce,
             'quartiers' => $quartiers,
         ]);
     }

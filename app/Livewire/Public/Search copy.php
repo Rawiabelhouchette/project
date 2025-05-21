@@ -30,10 +30,6 @@ class Search extends Component
 {
     use WithPagination;
 
-    private $annonces;
-
-    private $preparingAnnonces;
-
     protected $paginationTheme = 'bootstrap';
 
     // États de base
@@ -195,13 +191,13 @@ class Search extends Component
      */
     private function loadAllFilters()
     {
-        $this->getAllEntreprises();
-        $this->getVillesParType();
-        $this->getQuartiersParVilles();
-        $this->getMarques();
-        $this->getBoiteVitesse();
+        // $this->getAllEntreprises();
+        // $this->getVillesParType();
+        // $this->getQuartiersParVilles();
+        // $this->getMarques();
+        // $this->getBoiteVitesse();
 
-        $this->getTypeVehicule();
+        // $this->getTypeVehicule();
     }
 
     /**
@@ -653,15 +649,10 @@ class Search extends Component
      */
     public function search()
     {
-        $annonces = Annonce::eagerLoad()
-            ->with(
-                'entreprise.annonces',
-                'entreprise.annonces',
-                'entreprise.ville.pays'
-            )
-            ->public();
-        $this->preparingAnnonces = $annonces;
-        return $this->filters();
+        $annonces = Annonce::eagerLoad()->public();
+        $annonces = $this->filters($annonces);
+
+        return $annonces;
     }
 
     /**
@@ -689,9 +680,8 @@ class Search extends Component
     /**
      * Applique tous les filtres dans un ordre défini
      */
-    protected function filters()
+    protected function filters($annonces)
     {
-        $annonces = $this->preparingAnnonces;
         $this->getNombrePersonne();
         $filters = [
             'filterByEntreprise',
@@ -1082,12 +1072,12 @@ class Search extends Component
     public function render()
     {
         $this->prepareTypeAnnonces();
-        $this->annonces = $this->search()->paginate($this->perPage);
+        $annonces = $this->search()->paginate($this->perPage);
         $this->saveVariableToSession();
 
 
         return view('livewire.public.search', [
-            'annonces' => $this->annonces,
+            'annonces' => $annonces,
             'facettes' => $this->getFacettes(),
         ]);
     }
@@ -1152,7 +1142,7 @@ class Search extends Component
         CustomSession::clear();
 
         CustomSession::create([
-            'annonces' => $this->annonces->pluck('id')->toArray(),
+            'annonces' => $this->search()->get()->pluck('id')->toArray(),
             'type' => $this->type,
             'key' => $this->key,
             'location' => $this->location,
@@ -1166,7 +1156,7 @@ class Search extends Component
             'typeVehicule' => $this->typeVehicule,
             'entreprise' => $this->entreprise,
             'sortOrder' => $this->sortOrder,
-            'page' => $this->annonces->currentPage(),
+            'page' => $this->search()->paginate($this->perPage)->currentPage(),
         ]);
     }
 

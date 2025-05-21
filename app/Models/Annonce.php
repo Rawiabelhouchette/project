@@ -126,7 +126,7 @@ class Annonce extends Model
 
     public function galerieAvecImagePrincipale(): Collection
     {
-        $galerie = $this->galerie->get();
+        $galerie = $this->galerie;
         if ($this->imagePrincipale) {
             $galerie->prepend($this->imagePrincipale);
         }
@@ -161,7 +161,7 @@ class Annonce extends Model
 
     public function commentaires()
     {
-        return $this->hasMany(Commentaire::class);
+        return $this->hasMany(Commentaire::class)->latest();
     }
 
     // public function notation()
@@ -190,7 +190,7 @@ class Annonce extends Model
     // Retrieve all reference value as array
     public function referenceDisplay(): array
     {
-        $references = $this->references->get();
+        $references = $this->references;
         $display = [];
         foreach ($references as $reference) {
             if (!array_key_exists($reference->pivot->titre, $display)) {
