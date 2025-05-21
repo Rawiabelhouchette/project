@@ -96,12 +96,8 @@ class Create extends Component
 
     private function initialization()
     {
-        if (\Auth::user()->hasRole('Professionnel')) {
-            $this->entreprises = \Auth::user()->entreprises;
-            $this->entreprise_id = $this->entreprises->first()->id;
-        } else {
-            $this->entreprises = Entreprise::all();
-        }
+        $this->entreprises = \Auth::user()->entreprises;
+        $this->entreprise_id = $this->entreprises->first()->id;
 
         $tmp_produit_fast_food = Reference::where('slug_type', 'restauration')->where('slug_nom', 'produits-patisserie')->first();
         $tmp_produit_fast_food ?
@@ -207,7 +203,7 @@ class Create extends Component
     public function addProduit()
     {
         $result = $this->checkUniqueProduit();
-        if (! $result) {
+        if (!$result) {
             return;
         }
 
@@ -256,7 +252,7 @@ class Create extends Component
 
     public function store()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 
@@ -266,9 +262,9 @@ class Create extends Component
 
         // Put all produits in the same variable
         foreach ($this->produits as $produit) {
-            $this->nom_produit .= $produit['nom'].$separator;
-            $this->prix_produit .= $produit['prix'].$separator;
-            $this->accompagnements_produit .= $produit['accompagnements'].$separator;
+            $this->nom_produit .= $produit['nom'] . $separator;
+            $this->prix_produit .= $produit['prix'] . $separator;
+            $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'patisseries');
