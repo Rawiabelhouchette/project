@@ -98,12 +98,8 @@ class Create extends Component
 
     private function initialization()
     {
-        if (\Auth::user()->hasRole('Professionnel')) {
-            $this->entreprises = \Auth::user()->entreprises;
-            $this->entreprise_id = $this->entreprises->first()->id;
-        } else {
-            $this->entreprises = Entreprise::all();
-        }
+        $this->entreprises = \Auth::user()->entreprises;
+        $this->entreprise_id = $this->entreprises->first()->id;
 
         $tmp_commodite = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'commodites-hebergement')->first();
         $tmp_commodite ?
@@ -162,7 +158,7 @@ class Create extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'required',
-            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_min' => 'required|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
             'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic',
@@ -201,6 +197,8 @@ class Create extends Component
             'equipements_herbegement.required' => __('Le champ est obligatoire'),
             'equipements_salle_bain.required' => __('Le champ est obligatoire'),
             'equipements_cuisine.required' => __('Le champ est obligatoire'),
+            
+            'prix_min.required' => 'Le prix minimum est obligatoire',
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
@@ -236,7 +234,7 @@ class Create extends Component
 
     public function store()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 
@@ -263,6 +261,8 @@ class Create extends Component
 
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
+
+                'prix' => $this->prix_min,
             ]);
 
             $hotel->annonce()->save($annonce);
