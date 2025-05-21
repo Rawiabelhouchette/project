@@ -51,13 +51,9 @@ class Quartier extends Model
     // return array of string
     public static function getAllQuartiers(): array
     {
-        $quartiers = Quartier::with('ville.pays')->get();
-        $quartiersArray = [];
-        foreach ($quartiers as $quartier) {
-            $quartiersArray[] = $quartier->nom.', '.$quartier->ville->nom.', '.$quartier->ville->pays->nom;
-        }
-
-        return $quartiersArray;
+        return Quartier::with('ville.pays')->get()
+            ->map(fn($quartier) => "{$quartier->nom}, {$quartier->ville->nom}, {$quartier->ville->pays->nom}")
+            ->toArray();
     }
 
     public function getNombreAnnonceAttribute()

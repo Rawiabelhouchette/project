@@ -126,7 +126,7 @@ class Annonce extends Model
 
     public function galerieAvecImagePrincipale(): Collection
     {
-        $galerie = $this->galerie()->get();
+        $galerie = $this->galerie->get();
         if ($this->imagePrincipale) {
             $galerie->prepend($this->imagePrincipale);
         }
@@ -146,7 +146,7 @@ class Annonce extends Model
             return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->withPivot('slug', 'titre');
         }
 
-        return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->where('slug', $slug)->get();
+        return $this->belongsToMany(ReferenceValeur::class, 'annonce_reference_valeur', 'annonce_id', 'reference_valeur_id')->where('slug', $slug);
     }
 
     public function removeReferences($slug)
@@ -190,10 +190,10 @@ class Annonce extends Model
     // Retrieve all reference value as array
     public function referenceDisplay(): array
     {
-        $references = $this->references()->get();
+        $references = $this->references->get();
         $display = [];
         foreach ($references as $reference) {
-            if (! array_key_exists($reference->pivot->titre, $display)) {
+            if (!array_key_exists($reference->pivot->titre, $display)) {
                 $display[$reference->pivot->titre] = [];
             }
             $display[$reference->pivot->titre][] = $reference->valeur;
@@ -205,7 +205,7 @@ class Annonce extends Model
     public function removeGalerie(?array $image_ids = null)
     {
         // $this->galerie()->detach();
-        $this->galerie()->detach($image_ids);
+        $this->galerie->detach($image_ids);
 
     }
 
@@ -213,9 +213,9 @@ class Annonce extends Model
     private function formatNumber($number)
     {
         if ($number >= 1000000) {
-            return number_format($number / 1000000, 1).'M';
+            return number_format($number / 1000000, 1) . 'M';
         } elseif ($number >= 1000) {
-            return number_format($number / 1000, 1).'k';
+            return number_format($number / 1000, 1) . 'k';
         } else {
             return $number;
         }
@@ -235,7 +235,7 @@ class Annonce extends Model
     // description courte de l'annonce en 70 caractères
     public function getDescriptionCourteAttribute(): string
     {
-        if (! $this->description) {
+        if (!$this->description) {
             return 'Pas de description';
         }
 
@@ -255,7 +255,7 @@ class Annonce extends Model
     public function getNoteAttribute()
     {
         // $avg = $this->notation()->avg('note');
-        $avg = $this->commentaires()->avg('note');
+        $avg = $this->commentaires->avg('note');
 
         return number_format($avg, 1);
 
@@ -275,26 +275,26 @@ class Annonce extends Model
 
     public function getEstFavorisAttribute(): bool
     {
-        if (! auth()->check()) {
+        if (!auth()->check()) {
             return false;
         }
 
-        return $this->favoris()->where('user_id', auth()->user()->id)->exists();
+        return $this->favoris->where('user_id', auth()->user()->id)->count() > 0 ? true : false;
     }
 
     public function getViewCountAttribute(): int
     {
-        return $this->views()->count();
+        return $this->views->count();
     }
 
     public function getFavoriteCountAttribute(): int
     {
-        return $this->favoris()->count();
+        return $this->favoris->count();
     }
 
     public function getCommentCountAttribute(): int
     {
-        return $this->commentaires()->count();
+        return $this->commentaires->count();
     }
 
     // public function getNotationCountAttribute(): int
@@ -304,8 +304,8 @@ class Annonce extends Model
 
     public function getAdresseCompleteAttribute(): object
     {
-        $ville = $this->ville()->first();
-        $pays = $ville ? $ville->pays()->first() : null;
+        $ville = $this->ville;
+        $pays = $ville ? $ville->pays : null;
         $quartier = $this->quartier;
 
         return (object) [
@@ -326,11 +326,24 @@ class Annonce extends Model
             ->whereHas('entreprise', function ($query) {
                 $query->whereHas('abonnements', function ($query) {
                     $query->where('is_active', true)
-                        ->whereDate('date_fin', '>=', date('Y-m-d').' 23:59:59');
+                        ->whereDate('date_fin', '>=', date('Y-m-d') . ' 23:59:59');
                 });
             })
             // check if the annonce is still valid
             ->whereDate('date_validite', '>=', date('Y-m-d'));
+    }
+
+    public function scopeEagerLoad(Builder $query): void
+    {
+        $query->with(
+            'annonceable',
+            'commentaires',
+            'entreprise.heure_ouverture',
+            'imagePrincipale',
+            'favoris',
+            'views',
+            'ville.pays'
+        );
     }
 
     // public function scopeAll(Builder $query): void
