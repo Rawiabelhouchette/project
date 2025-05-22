@@ -78,12 +78,8 @@ class Create extends Component
 
     private function initialization()
     {
-        if (\Auth::user()->hasRole('Professionnel')) {
-            $this->entreprises = \Auth::user()->entreprises;
-            $this->entreprise_id = $this->entreprises->first()->id;
-        } else {
-            $this->entreprises = Entreprise::all();
-        }
+        $this->entreprises = \Auth::user()->entreprises;
+        $this->entreprise_id = $this->entreprises->first()->id;
 
         $tmp_types_musique = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'types-de-musique')->first();
         $tmp_types_musique ?
@@ -125,7 +121,7 @@ class Create extends Component
             'galerie' => 'array|max:10',
             'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
 
-            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_min' => 'required|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
             // // 'image' => 'required',
             'pays_id' => 'required|exists:pays,id',
@@ -181,6 +177,7 @@ class Create extends Component
             'galerie.*.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
 
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
+            'prix_min.required' => 'Le prix minimum est obligatoire',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
 
@@ -219,7 +216,7 @@ class Create extends Component
 
     public function store()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 
@@ -244,6 +241,8 @@ class Create extends Component
 
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
+
+                'prix' => $this->prix_min,
             ]);
 
             $bar->annonce()->save($annonce);

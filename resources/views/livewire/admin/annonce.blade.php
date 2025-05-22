@@ -73,12 +73,12 @@
         <div class="card-body padd-l-0 padd-r-0">
             <div class="col-md-12">
                 <div class="small-list-wrapper">
-                    <div id="table" class="row">
+                    <div class="row" id="table">
                         <div class="col-md-12 col-sm-12" wire:loading wire:transition>
                             <h4 class="mt-3 text-center">Chargement...</h4>
                         </div>
 
-                        <x-public.property-item :annonces="$annonces" :mode="'row'" showDelete="true" :deleteType="'delete'"/>
+                        <x-public.property-item :annonces="$annonces" :mode="'row'" showDelete="true" showEdit="true" :deleteType="'delete'"/>
 
                         @empty($annonces->items())
                             <div class="col-md-12 col-sm-12">

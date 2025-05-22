@@ -194,11 +194,7 @@ class Edit extends Component
 
     private function initialization()
     {
-        if (\Auth::user()->hasRole('Professionnel')) {
-            $this->entreprises = \Auth::user()->entreprises;
-        } else {
-            $this->entreprises = Entreprise::all();
-        }
+        $this->entreprises = \Auth::user()->entreprises;
 
         $tmp_equipement_restauration = Reference::where('slug_type', 'restauration')->where('slug_nom', 'equipements-restauration')->first();
         $tmp_equipement_restauration ?
@@ -319,7 +315,7 @@ class Edit extends Component
     public function addEntree()
     {
         $result = $this->checkUniqueEntree();
-        if (! $result) {
+        if (!$result) {
             return;
         }
 
@@ -372,7 +368,7 @@ class Edit extends Component
     public function addPlat()
     {
         $result = $this->checkUniquePlat();
-        if (! $result) {
+        if (!$result) {
             return;
         }
 
@@ -426,7 +422,7 @@ class Edit extends Component
     public function addDessert()
     {
         $result = $this->checkUniqueDessert();
-        if (! $result) {
+        if (!$result) {
             return;
         }
 
@@ -499,11 +495,11 @@ class Edit extends Component
 
     public function update()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 
-        if (! $this->checkUniqueEntree(true) || ! $this->checkUniquePlat(true) || ! $this->checkUniqueDessert(true)) {
+        if (!$this->checkUniqueEntree(true) || !$this->checkUniquePlat(true) || !$this->checkUniqueDessert(true)) {
             return;
         }
 
@@ -515,15 +511,15 @@ class Edit extends Component
 
             // Put all entrees in the same variable
             foreach ($this->entrees as $index => $entree) {
-                $this->e_nom .= $entree['nom'].$separator;
-                $this->e_ingredients .= $entree['ingredients'].$separator;
-                $this->e_prix_min .= $entree['prix_min'].$separator;
-                $this->e_prix_max .= $entree['prix_min'].$separator;
+                $this->e_nom .= $entree['nom'] . $separator;
+                $this->e_ingredients .= $entree['ingredients'] . $separator;
+                $this->e_prix_min .= $entree['prix_min'] . $separator;
+                $this->e_prix_max .= $entree['prix_min'] . $separator;
 
                 if (is_string($entree['image'])) {
                     $oldEntreesCollection = collect($this->old_entrees);
                     $tmp_entree = $oldEntreesCollection->where('id', $entree['id'])->first();
-                    $this->e_image .= $tmp_entree['image_id'].$separator2;
+                    $this->e_image .= $tmp_entree['image_id'] . $separator2;
 
                     continue;
                 }
@@ -539,15 +535,15 @@ class Edit extends Component
 
             // Put all plats in the same variable
             foreach ($this->plats as $index => $plat) {
-                $this->p_nom .= $plat['nom'].$separator;
-                $this->p_ingredients .= $plat['ingredients'].$separator;
-                $this->p_prix_min .= $plat['prix_min'].$separator;
-                $this->p_prix_max .= $plat['prix_min'].$separator;
+                $this->p_nom .= $plat['nom'] . $separator;
+                $this->p_ingredients .= $plat['ingredients'] . $separator;
+                $this->p_prix_min .= $plat['prix_min'] . $separator;
+                $this->p_prix_max .= $plat['prix_min'] . $separator;
 
                 if (is_string($plat['image'])) {
                     $oldPlatsCollection = collect($this->old_plats);
                     $tmp_plat = $oldPlatsCollection->where('id', $plat['id'])->first();
-                    $this->p_image .= $tmp_plat['image_id'].$separator2;
+                    $this->p_image .= $tmp_plat['image_id'] . $separator2;
 
                     continue;
                 }
@@ -563,15 +559,15 @@ class Edit extends Component
 
             // Put all desserts in the same variable
             foreach ($this->desserts as $index => $dessert) {
-                $this->d_nom .= $dessert['nom'].$separator;
-                $this->d_ingredients .= $dessert['ingredients'].$separator;
-                $this->d_prix_min .= $dessert['prix_min'].$separator;
-                $this->d_prix_max .= $dessert['prix_min'].$separator;
+                $this->d_nom .= $dessert['nom'] . $separator;
+                $this->d_ingredients .= $dessert['ingredients'] . $separator;
+                $this->d_prix_min .= $dessert['prix_min'] . $separator;
+                $this->d_prix_max .= $dessert['prix_min'] . $separator;
 
                 if (is_string($dessert['image'])) {
                     $oldDessertsCollection = collect($this->old_desserts);
                     $tmp_dessert = $oldDessertsCollection->where('id', $dessert['id'])->first();
-                    $this->d_image .= $tmp_dessert['image_id'].$separator2;
+                    $this->d_image .= $tmp_dessert['image_id'] . $separator2;
 
                     continue;
                 }

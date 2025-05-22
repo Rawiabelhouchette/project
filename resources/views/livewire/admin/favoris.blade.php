@@ -80,8 +80,9 @@
             <div class="col-md-12">
                 <div class="small-list-wrapper">
                     <div class="row" id="table">
-
+                        
                         <x-public.property-item :annonces="$annonces" :mode="'row'" showDelete="true"/>
+
                         @empty($annonces->items())
                             <div class="col-md-12 col-sm-12">
                                 <div class="listing-shot grid-style">
