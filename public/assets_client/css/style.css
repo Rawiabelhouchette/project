@@ -7214,11 +7214,11 @@ form {
 .modal .form-control {
     height: 52px;
     padding: 0 15px;
-    border: 1px solid #d7dfea;
+    border: 0px;
     color: #727272;
     width: 100%;
     margin: 0 auto;
-    margin-bottom: 12px;
+    /* margin-bottom: 12px; */
     font-size: 15px;
     border-radius: 2px;
     box-shadow: none;
@@ -7701,11 +7701,41 @@ Login And SignUp Style
 
 button.m-close {
     float: right;
-    background: #eaeef5;
+    /* background: #eaeef5; */
     border: none;
     border-radius: 2px;
 }
-
+.utf-login_with {
+    position: relative;
+    text-align: center;
+    margin: 15px 0px;
+}
+.utf-login_with .txt {
+    display: inline-block;
+    text-transform: uppercase;
+    color: rgb(50, 50, 50);
+    font-weight: 600;
+    font-size: 14px;
+    background: rgb(232, 232, 232);
+    padding: 0px 10px;
+    border-radius: 34px;
+}
+.login-tab-active {
+    background: #de6600;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    border-radius: 3px;
+}
+.login-tab {
+    background: rgb(244, 244, 244);
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    color: black;
+    border-radius: 3px;
+}
 .modal-body {
     position: relative;
     padding: 2em 2em 1em;
@@ -7756,6 +7786,7 @@ button.m-close {
 }
 
 .log-box {
+    background: white;
     margin: 5em 0;
     padding: 2em 3em 4em;
     border-radius: 10px;
@@ -9582,7 +9613,7 @@ a.cl-box {
     display: flex;  /* Added flex display */
     align-items: center;  /* Vertically center the content */
     height: 40px;  /* Fixed height */
-    width: 200px;
+    width: auto;
     line-height: 1;  /* Reset line height */
     text-align: center;
   }

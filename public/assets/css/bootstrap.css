@@ -3903,7 +3903,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #555;
   text-align: center;
   background-color: #eee;
-  border: 1px solid #ccc;
+  border: 0px;
   border-radius: 4px;
 }
 .input-group-addon.input-sm {

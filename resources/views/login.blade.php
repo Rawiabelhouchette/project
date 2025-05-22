@@ -117,3 +117,9 @@
     }
 </script>
 @endsection
+<style>.log-wrapper {
+    background-image: url("{{ asset('assets/img/tropical-icons.png') }}");
+    background-size: cover; /* or 'contain' if you want the whole image visible */
+    background-repeat: no-repeat;
+    background-position: center;
+}</style>

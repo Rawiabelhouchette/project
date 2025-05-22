@@ -4886,7 +4886,7 @@ textarea.input-group-sm>.input-group-btn>.btn {
     color: #555;
     text-align: center;
     background-color: #eee;
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
     border-radius: 4px
 }
 
