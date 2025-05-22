@@ -18,16 +18,16 @@ class UserSeeder extends Seeder
             'username' => 'bill',
             'email' => 'bill@bill.com',
             'telephone' => '90 90 90 90',
-            'password' => 'bill',
+            'password' => 'ZtfqnuX1LZ14Ba3',
         ])->assignRole('Administrateur');
 
         User::create([
             'nom' => 'martin',
             'prenom' => 'martin',
             'username' => 'martin',
-            'email' => 'martin@numdoc.fr',
+            'email' => 'martin@vamiyi.com',
             'telephone' => '90 90 90 87',
-            'password' => 'martin',
+            'password' => 'l3jfbY4YR1EEDFk',
         ])->assignRole('Administrateur');
     }
 }

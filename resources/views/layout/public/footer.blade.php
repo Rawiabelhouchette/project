@@ -9,26 +9,26 @@
         color: #ffffff;
         font-family: 'Arial', sans-serif;
     }
-    
+
     .vamiyi-container {
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 15px;
     }
-    
+
     .vamiyi-row {
         display: flex;
         flex-wrap: wrap;
         margin: 0 -15px;
     }
-    
+
     .vamiyi-col {
         padding: 0 15px;
         flex: 0 0 100%;
         max-width: 100%;
     }
-    
+
     /* Updated column widths for 3-column layout */
     @media (min-width: 768px) {
         .vamiyi-col {
@@ -36,64 +36,64 @@
             max-width: 50%;
         }
     }
-    
+
     @media (min-width: 992px) {
         .vamiyi-col {
             flex: 0 0 33.333333%;
             max-width: 33.333333%;
         }
-        
+
         /* Make the first column wider for better balance */
         .vamiyi-col-wide {
             flex: 0 0 40%;
             max-width: 40%;
         }
-        
+
         .vamiyi-col-narrow {
             flex: 0 0 30%;
             max-width: 30%;
         }
     }
-    
+
     /* Newsletter section styles */
     .vamiyi-newsletter {
         padding: 30px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
+
     .vamiyi-newsletter-content {
         display: flex;
         flex-direction: column;
         gap: 20px;
     }
-    
+
     @media (min-width: 768px) {
         .vamiyi-newsletter-content {
             flex-direction: row;
             align-items: center;
         }
-        
+
         .vamiyi-newsletter-text {
             flex: 0 0 50%;
         }
-        
+
         .vamiyi-newsletter-form {
             flex: 0 0 45%;
             margin-left: auto;
         }
     }
-    
+
     .vamiyi-newsletter-title {
         font-size: 20px;
         font-weight: 600;
         margin-bottom: 8px;
     }
-    
+
     .vamiyi-newsletter-desc {
         color: rgba(255, 255, 255, 0.8);
         margin-bottom: 10px;
     }
-    
+
     /* Fixed form styles for better responsiveness */
     .vamiyi-form-group {
         display: flex;
@@ -101,7 +101,7 @@
         gap: 10px;
         width: 100%;
     }
-    
+
     .vamiyi-input {
         width: 100%;
         padding: 12px 15px;
@@ -110,11 +110,11 @@
         color: #ffffff;
         border-radius: 4px;
     }
-    
+
     .vamiyi-input::placeholder {
         color: rgba(255, 255, 255, 0.5);
     }
-    
+
     .vamiyi-btn {
         width: 100%;
         padding: 12px 20px;
@@ -130,34 +130,34 @@
         gap: 8px;
         transition: background-color 0.3s;
     }
-    
+
     .vamiyi-btn:hover {
         background-color: #e0f2f1;
     }
-    
+
     /* Responsive form adjustments */
     @media (min-width: 480px) {
         .vamiyi-form-group {
             flex-direction: row;
         }
-        
+
         .vamiyi-input {
             flex: 1;
         }
-        
+
         .vamiyi-btn {
             width: auto;
         }
     }
-    
+
     .vamiyi-main-footer {
         padding: 60px 0;
     }
-    
+
     .vamiyi-widget {
         margin-bottom: 30px;
     }
-    
+
     .vamiyi-widget-title {
         font-size: 18px;
         font-weight: 700;
@@ -165,7 +165,7 @@
         position: relative;
         padding-bottom: 10px;
     }
-    
+
     .vamiyi-widget-title:after {
         content: '';
         position: absolute;
@@ -175,19 +175,19 @@
         height: 2px;
         background-color: #4db6ac;
     }
-    
+
     .vamiyi-widget-text {
         color: rgba(255, 255, 255, 0.8);
         line-height: 1.6;
         margin-bottom: 20px;
     }
-    
+
     .vamiyi-social {
         display: flex;
         gap: 12px;
         margin-top: 20px;
     }
-    
+
     .vamiyi-social-link {
         display: flex;
         align-items: center;
@@ -199,21 +199,21 @@
         color: #ffffff;
         transition: background-color 0.3s;
     }
-    
+
     .vamiyi-social-link:hover {
         background-color: #4db6ac;
     }
-    
+
     .vamiyi-list {
         list-style: none;
         padding: 0;
         margin: 0;
     }
-    
+
     .vamiyi-list-item {
         margin-bottom: 10px;
     }
-    
+
     .vamiyi-list-link {
         color: rgba(255, 255, 255, 0.8);
         text-decoration: none;
@@ -221,55 +221,55 @@
         align-items: center;
         transition: color 0.3s;
     }
-    
+
     .vamiyi-list-link:hover {
         color: #ffffff;
     }
-    
+
     .vamiyi-list-link:hover .vamiyi-arrow {
         opacity: 1;
     }
-    
+
     .vamiyi-arrow {
         margin-right: 8px;
         opacity: 0;
         transition: opacity 0.3s;
     }
-    
+
     .vamiyi-contact-item {
         display: flex;
         align-items: flex-start;
         margin-bottom: 15px;
         color: rgba(255, 255, 255, 0.8);
     }
-    
+
     .vamiyi-contact-icon {
         margin-right: 10px;
         color: #4db6ac;
     }
-    
+
     .vamiyi-contact-link {
         color: rgba(255, 255, 255, 0.8);
         text-decoration: none;
         transition: color 0.3s;
     }
-    
+
     .vamiyi-contact-link:hover {
         color: #ffffff;
     }
-    
+
     .vamiyi-copyright {
         background-color: rgba(0, 0, 0, 0.1);
         padding: 20px 0;
         text-align: center;
     }
-    
+
     .vamiyi-copyright-content {
         display: flex;
         flex-direction: column;
         gap: 15px;
     }
-    
+
     @media (min-width: 768px) {
         .vamiyi-copyright-content {
             flex-direction: row;
@@ -277,38 +277,38 @@
             align-items: center;
         }
     }
-    
+
     .vamiyi-copyright-text {
         color: rgba(255, 255, 255, 0.7);
         font-size: 14px;
     }
-    
+
     .vamiyi-copyright-link {
         color: #ffffff;
         text-decoration: none;
         transition: color 0.3s;
     }
-    
+
     .vamiyi-copyright-link:hover {
         color: #4db6ac;
     }
-    
+
     .vamiyi-footer-links {
         display: flex;
         gap: 20px;
     }
-    
+
     .vamiyi-footer-link {
         color: rgba(255, 255, 255, 0.7);
         text-decoration: none;
         font-size: 14px;
         transition: color 0.3s;
     }
-    
+
     .vamiyi-footer-link:hover {
         color: #ffffff;
     }
-    
+
     /* Back to top button */
     .vamiyi-back-to-top {
         position: fixed;
@@ -327,7 +327,7 @@
         transition: background-color 0.3s, transform 0.3s;
         z-index: 99;
     }
-    
+
     .vamiyi-back-to-top:hover {
         background-color: white;
         color: #de6600;
@@ -336,7 +336,6 @@
 </style>
 
 <footer class="vamiyi-footer">
-
 
     <!-- Main Footer Content -->
     <div class="vamiyi-main-footer">
@@ -347,22 +346,28 @@
                     <div class="vamiyi-widget">
                         <h3 class="vamiyi-widget-title">Vamiyi</h3>
                         <p class="vamiyi-widget-text">
-                            Nous sommes une plateforme qui permet aux professionnels de différents secteurs (restaurants, hôtels, locations de véhicules, divertissement, etc.) de publier des annonces, de créer leur site vitrine et de gagner en visibilité. Avec Vamiyi, connectez-vous à votre clientèle et développez votre activité en toute simplicité !
+                            {{-- Nous sommes une plateforme qui permet aux professionnels de différents secteurs (restaurants, hôtels, locations de véhicules, divertissement, etc.) de publier des annonces, de créer leur site vitrine et de gagner en visibilité. Avec Vamiyi, connectez-vous à votre clientèle et développez votre activité en toute simplicité ! --}}
+                            Vamiyi est une plateforme tout-en-un conçue pour les professionnels du tourisme, de la restauration, de la location de véhicule et des loisirs.
+                            <br>
+                            Grâce à Vamiyi, vous pouvez facilement publier vos annonces, créer votre propre mini-site, présenter vos services en quelques clics et booster votre visibilité en ligne.
+                            Gagnez en visibilité, attirez de nouveaux clients et gérez votre activité depuis une interface simple et intuitive.
+                            <br>
+                            Avec Vamiyi, vous êtes visible là où vos clients vous cherchent.
                         </p>
                         <div class="vamiyi-social">
-                            <a href="#" class="vamiyi-social-link">
+                            <a href="{{ env('FACEBOOK_URL') }}" class="vamiyi-social-link">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                                 </svg>
                             </a>
-                            <a href="#" class="vamiyi-social-link">
+                            <a href="{{ env('INSTAGRAM_URL') }}" class="vamiyi-social-link">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                                 </svg>
                             </a>
-                            <a href="#" class="vamiyi-social-link">
+                            {{-- <a href="#" class="vamiyi-social-link">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
                                 </svg>
@@ -371,6 +376,11 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
                                     <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                                </svg>
+                            </a> --}}
+                            <a href="{{ env('TIKTOK_URL') }}" class="vamiyi-social-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 8.5a5 5 0 0 0 4 0V6.1a6.7 6.7 0 0 1-4-1.3V2h-3v13a2.5 2.5 0 1 1-2.5-2.5" />
                                 </svg>
                             </a>
                         </div>
@@ -390,7 +400,7 @@
                                     </svg>
                                 </span>
                                 <a href="https://goo.gl/maps/MBJGNz6obPGrMjjH6" class="vamiyi-contact-link" target="_blank">
-                                    Lomé-Adidogomé
+                                    Togo - France
                                 </a>
                             </div>
                             <div class="vamiyi-contact-item">
@@ -400,8 +410,8 @@
                                         <polyline points="22,6 12,13 2,6"></polyline>
                                     </svg>
                                 </span>
-                                <a href="mailto:contact@numrod.fr" class="vamiyi-contact-link">
-                                    contact@numrod.fr
+                                <a href="mailto:service.client@vamiyi.com" class="vamiyi-contact-link">
+                                    service.client@vamiyi.com
                                 </a>
                             </div>
                             <div class="vamiyi-contact-item">
@@ -410,11 +420,22 @@
                                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                                     </svg>
                                 </span>
-                                <a href="tel:+22890454591" class="vamiyi-contact-link">
-                                    +228 90 45 45 91
+                                <a href="tel:{{ env('APP_PHONE') }}" class="vamiyi-contact-link">
+                                    {{ env('APP_PHONE') }}
                                 </a>
                             </div>
                             <div class="vamiyi-contact-item">
+                                <span class="vamiyi-contact-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M16.72 13.06c-.29-.15-1.71-.84-1.98-.93-.27-.09-.47-.15-.67.15s-.77.93-.95 1.12c-.17.18-.35.2-.65.06-.3-.15-1.25-.46-2.38-1.48-.88-.79-1.47-1.77-1.64-2.07-.17-.3 0-.46.13-.61.14-.15.3-.35.45-.52.15-.18.2-.3.3-.5.1-.21.05-.39-.02-.55-.06-.15-.67-1.6-.92-2.19-.24-.58-.5-.5-.67-.51-.17-.01-.37-.01-.57-.01s-.53.08-.81.39c-.28.3-1.06 1.04-1.06 2.53 0 1.49 1.09 2.93 1.25 3.13.15.2 2.13 3.26 5.18 4.57.72.31 1.29.5 1.73.64.73.23 1.39.2 1.92.12.59-.09 1.81-.74 2.07-1.46.26-.72.26-1.34.18-1.46-.07-.13-.26-.2-.55-.34z" />
+                                        <path d="M12 2a10 10 0 0 0-8.1 15.8L2 22l4.3-1.1A10 10 0 1 0 12 2z" />
+                                    </svg>
+                                </span>
+                                <a href="https://wa.me/{{ str_replace(' ', '', '337 66 91 10 98') }}" class="vamiyi-contact-link">
+                                    {{ env('APP_PHONE') }}
+                                </a>
+                            </div>
+                            {{-- <div class="vamiyi-contact-item">
                                 <span class="vamiyi-contact-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"></circle>
@@ -425,7 +446,7 @@
                                 <a href="http://numdoc.numrod.fr/" class="vamiyi-contact-link" target="_blank">
                                     www.numrod.com
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -518,7 +539,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Newsletter Section -->
     <div class="vamiyi-newsletter">
         <div class="vamiyi-container">
@@ -550,7 +571,7 @@
         <div class="vamiyi-container">
             <div class="vamiyi-copyright-content">
                 <p class="vamiyi-copyright-text">
-                    Copyright &copy; {{ date('Y') }} Vamiyi. Tous droits réservés. Propulsé par 
+                    Copyright &copy; {{ date('Y') }} Vamiyi. Tous droits réservés. Propulsé par
                     <a href="https://www.numrod.com" class="vamiyi-copyright-link">Numrod</a>
                 </p>
                 <!--<div class="vamiyi-footer-links">
@@ -563,7 +584,7 @@
     </div>
 
     <!-- Back to top button -->
-    <a href="#" class="vamiyi-back-to-top" id="back-to-top">
+    <a id="back-to-top" href="#" class="vamiyi-back-to-top">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="18 15 12 9 6 15"></polyline>
         </svg>
@@ -574,7 +595,7 @@
     // Back to top button functionality
     document.addEventListener('DOMContentLoaded', function() {
         var backToTopButton = document.getElementById('back-to-top');
-        
+
         // Show/hide button based on scroll position
         window.addEventListener('scroll', function() {
             if (window.pageYOffset > 300) {
@@ -583,14 +604,14 @@
                 backToTopButton.style.display = 'none';
             }
         });
-        
+
         // Initial check
         if (window.pageYOffset > 300) {
             backToTopButton.style.display = 'flex';
         } else {
             backToTopButton.style.display = 'none';
         }
-        
+
         // Smooth scroll to top when clicked
         backToTopButton.addEventListener('click', function(e) {
             e.preventDefault();

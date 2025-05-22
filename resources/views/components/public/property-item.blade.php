@@ -1,4 +1,4 @@
-@props(['annonces', 'mode' => 'row', 'showDelete' => false, 'deleteType' => 'favorite'])
+@props(['annonces', 'mode' => 'row', 'showDelete' => false, 'showShare' => true, 'showEdit' => false, 'deleteType' => 'favorite'])
 
 <style>
     /* Add these styles to ensure proper hiding/showing of modes */
@@ -125,7 +125,7 @@
 @foreach ($annonces as $annonce)
     {{-- Row Mode Layout --}}
     <div wire:key="row-{{ $annonce->id }}" class="property_item mode-row {{ $mode !== 'row' ? 'hidden-mode' : '' }}">
-        <a class="listing-thumb image" href="{{ route('show', $annonce->slug) }}" style="background-image: url('{{ $annonce->image ? $annonce->imagePrincipale->getUrl(true) : 'https://placehold.co/600' }}'); 
+        <a class="listing-thumb image" href="{{ route('show', $annonce->slug) }}" style="background-image: url('{{ $annonce->image ? asset('storage/' . $annonce->imagePrincipale->chemin) : 'https://placehold.co/600' }}'); 
                 background-size: cover; 
                 background-position: center; 
                 display: block; 
@@ -162,7 +162,6 @@
                     @endphp
                     <i class="{{ $iconClass }}"></i>
                 </span>
-
             </div>
         </a>
 
@@ -178,9 +177,18 @@
 
                 </div>
                 <div class="d-flex align-items-center" style="gap:2px;">
-                    <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
-                        <i class="fa fa-share-alt theme-cl"></i>
-                    </a>
+                    @if ($showShare)
+                        <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
+                            <i class="fa fa-share-alt theme-cl"></i>
+                        </a>
+                    @endif
+
+                    @if ($showEdit)
+                        <a href="{{ $annonce->annonceable->public_edit_url }}" class="like-listing alt style-2">
+                            <i class="fa fa-edit" aria-hidden="true"></i>
+                        </a>
+                    @endif
+
                     @if ($showDelete)
                         <a href="javascript:void(0)" class="like-listing alt style-2" onclick="{{ $deleteType === 'favorite' ? 'confirmRemoveFavorite(' . $annonce->id . ')' : 'confirmDeleteAnnonce(' . $annonce->id . ')' }}">
                             <i class="fa fa-trash" aria-hidden="true"></i>

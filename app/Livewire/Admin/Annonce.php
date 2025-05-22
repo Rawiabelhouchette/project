@@ -13,7 +13,7 @@ class Annonce extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    private $perPage = 9;
+    private $perPage = 12;
 
     public $search = '';
 

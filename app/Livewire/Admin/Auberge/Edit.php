@@ -138,11 +138,7 @@ class Edit extends Component
 
     private function initialization()
     {
-        if (\Auth::user()->hasRole('Professionnel')) {
-            $this->entreprises = \Auth::user()->entreprises;
-        } else {
-            $this->entreprises = Entreprise::all();
-        }
+        $this->entreprises = \Auth::user()->entreprises;
 
         $tmp_commodite = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'commodites-hebergement')->first();
         $tmp_commodite ?
@@ -207,7 +203,7 @@ class Edit extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
 
-            'prix_min' => 'nullable|numeric|lt:prix_max',
+            'prix_min' => 'required|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
             'longitude' => 'required',
@@ -255,6 +251,7 @@ class Edit extends Component
             'commodites.array' => 'Format des commodités invalide',
             'services.array' => 'Format des services invalide',
 
+            'prix_min.required' => 'Le prix minimum est obligatoire',
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
@@ -302,7 +299,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 
@@ -317,8 +314,11 @@ class Edit extends Component
 
                 'ville_id' => $this->ville_id,
                 'quartier' => $this->quartier_id,
+                
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
+
+                'prix' => $this->prix_min,
             ]);
 
             $this->auberge->update([

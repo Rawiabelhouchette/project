@@ -84,6 +84,7 @@
 
                 @include('admin.annonce.price-component', [
                     'min' => true,
+                    'required' => true,
                 ])
 
                 @include('admin.annonce.price-component', [
@@ -133,6 +134,7 @@
                     'title' => 'Equipements de cuisine',
                     'name' => 'equipements_cuisine',
                     'options' => $list_equipements_cuisine,
+                    'required' => true,
                 ])
             </div>
 

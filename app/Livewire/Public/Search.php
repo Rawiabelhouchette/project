@@ -39,7 +39,7 @@ class Search extends Component
     // États de base
     public $booted = true;
 
-    public $perPage = 10;
+    public $perPage = 12;
 
     private $initURL = '';
 
@@ -1121,12 +1121,12 @@ class Search extends Component
 
         $allTypes = Annonce::pluck('type')->unique();
 
-        $this->typeAnnonces = $allTypes->map(function ($type) use ($publicCounts) {
-            return [
-                'value' => $type,
-                'count' => $publicCounts->get($type, 0),
-            ];
-        })->values()->all();
+        // Ajoute les types manquants avec un compte à 0
+        foreach ($tmpTypeAnnonces as $type) {
+            if (!in_array($type, array_column($this->typeAnnonces, 'value'))) {
+                $this->typeAnnonces[] = ['value' => $type, 'count' => 0];
+            }
+        }
     }
 
     /**

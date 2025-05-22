@@ -1,36 +1,36 @@
-@props(['offre', 'isPro' => false])
+@props(['offre', 'isPro' => false, 'withButton' => true])
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <div class="amiyi-pricing-card">
-        <!-- Card Header -->
-        <div class="amiyi-card-header">
-            <div class="amiyi-icon-wrapper">
-                <!-- Crown icon instead of gear -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="amiyi-icon">
-                    <path d="M2.5 18.5H21.5V20.5H2.5V18.5ZM20 8L14 10L12 4L10 10L4 8L6 15H18L20 8Z" fill="currentColor" />
+<div class="amiyi-pricing-card">
+    <!-- Card Header -->
+    <div class="amiyi-card-header">
+        <div class="amiyi-icon-wrapper">
+            <!-- Crown icon instead of gear -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="amiyi-icon">
+                <path d="M2.5 18.5H21.5V20.5H2.5V18.5ZM20 8L14 10L12 4L10 10L4 8L6 15H18L20 8Z" fill="currentColor" />
+            </svg>
+        </div>
+        <h3 class="amiyi-plan-title">{{ $offre->libelle }}</h3>
+    </div>
+
+    <!-- Price Section -->
+    <div class="amiyi-price-section">
+        <h2 class="amiyi-price">{{ number_format($offre->prix, 0, ',', ' ') }}<span class="amiyi-currency">F CFA</span></h2>
+        <div class="amiyi-duration">{{ $offre->duree }} {{ $offre->unite_fr }}</div>
+    </div>
+
+    <!-- Features List -->
+    <div class="amiyi-features-list">
+        @foreach ($offre->options as $feature)
+            <div class="amiyi-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" class="amiyi-feature-icon">
+                    <path d="M16.172 11L10.808 5.636L12.222 4.222L20 12L12.222 19.778L10.808 18.364L16.172 13H4V11H16.172Z" fill="currentColor" />
                 </svg>
+                <span class="amiyi-feature-text">{{ $feature }}</span>
             </div>
-            <h3 class="amiyi-plan-title">{{ $offre->libelle }}</h3>
-        </div>
+        @endforeach
+    </div>
 
-        <!-- Price Section -->
-        <div class="amiyi-price-section">
-            <h2 class="amiyi-price">{{ number_format($offre->prix, 0, ',', ' ') }}<span class="amiyi-currency">F CFA</span></h2>
-            <div class="amiyi-duration">{{ $offre->duree }} {{ $offre->unite_fr }}</div>
-        </div>
-
-        <!-- Features List -->
-        <div class="amiyi-features-list">
-            @foreach ($offre->options as $feature)
-                <div class="amiyi-feature">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" class="amiyi-feature-icon">
-                        <path d="M16.172 11L10.808 5.636L12.222 4.222L20 12L12.222 19.778L10.808 18.364L16.172 13H4V11H16.172Z" fill="currentColor" />
-                    </svg>
-                    <span class="amiyi-feature-text">{{ $feature }}</span>
-                </div>
-            @endforeach
-        </div>
-
+    @if ($withButton)
         <!-- Button Section -->
         <div class="amiyi-card-footer">
             <input type="hidden" name="offre_id" value="{{ $offre->id }}">
@@ -45,7 +45,7 @@
                 <button type="button" onclick="window.location.href='{{ route('pricing-2', ['subscription' => $offre->id]) }}'" class="amiyi-subscribe-button">Souscrire</button>
             @endif
         </div>
-    </div>
+    @endif
 </div>
 
 <style>

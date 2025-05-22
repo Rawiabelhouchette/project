@@ -35,6 +35,7 @@ class Annonce extends Model
         'latitude',
         'quartier',
         'ville_id',
+        'prix',
     ];
 
     protected $appends = [

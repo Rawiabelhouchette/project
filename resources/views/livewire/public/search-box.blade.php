@@ -948,7 +948,7 @@
             border-radius: 5px;
             margin-top: 5px;
 
-            max-height: 300px;
+            max-height: 220px;
             overflow-y: auto;
             overflow-x: hidden;
         }
