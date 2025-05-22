@@ -345,7 +345,7 @@
                 <div class="vamiyi-col vamiyi-col-wide">
                     <div class="vamiyi-widget">
                         <h3 class="vamiyi-widget-title">Vamiyi</h3>
-                        <p class="vamiyi-widget-text">
+                         <p class="vamiyi-widget-text">
                             {{-- Nous sommes une plateforme qui permet aux professionnels de différents secteurs (restaurants, hôtels, locations de véhicules, divertissement, etc.) de publier des annonces, de créer leur site vitrine et de gagner en visibilité. Avec Vamiyi, connectez-vous à votre clientèle et développez votre activité en toute simplicité ! --}}
                             Vamiyi est une plateforme tout-en-un conçue pour les professionnels du tourisme, de la restauration, de la location de véhicule et des loisirs.
                             <br>
@@ -457,7 +457,7 @@
                         <h3 class="vamiyi-widget-title">Liens utiles</h3>
                         <ul class="vamiyi-list">
                             <li class="vamiyi-list-item">
-                                <a href="#" class="vamiyi-list-link">
+                                <a href="{{ route('liens-utiles') }}#about-us" class="vamiyi-list-link scroll-link" data-section="about-us">
                                     <span class="vamiyi-arrow">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -468,7 +468,7 @@
                                 </a>
                             </li>
                             <li class="vamiyi-list-item">
-                                <a href="#" class="vamiyi-list-link">
+                                <a href="{{ route('liens-utiles') }}#how-it-works" class="vamiyi-list-link scroll-link" data-section="how-it-works">
                                     <span class="vamiyi-arrow">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -479,7 +479,7 @@
                                 </a>
                             </li>
                             <li class="vamiyi-list-item">
-                                <a href="#" class="vamiyi-list-link">
+                                <a href="{{ route('liens-utiles') }}#faq" class="vamiyi-list-link scroll-link" data-section="faq">
                                     <span class="vamiyi-arrow">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -490,7 +490,7 @@
                                 </a>
                             </li>
                             <li class="vamiyi-list-item">
-                                <a href="#" class="vamiyi-list-link">
+                                <a href="{{ route('liens-utiles') }}#terms" class="vamiyi-list-link scroll-link" data-section="terms">
                                     <span class="vamiyi-arrow">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -501,7 +501,7 @@
                                 </a>
                             </li>
                             <li class="vamiyi-list-item">
-                                <a href="#" class="vamiyi-list-link">
+                                <a href="{{ route('liens-utiles') }}#privacy" class="vamiyi-list-link scroll-link" data-section="privacy">
                                     <span class="vamiyi-arrow">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -512,7 +512,7 @@
                                 </a>
                             </li>
                             <li class="vamiyi-list-item">
-                                <a href="#" class="vamiyi-list-link">
+                                <a href="{{ route('liens-utiles') }}#join-us" class="vamiyi-list-link scroll-link" data-section="join-us">
                                     <span class="vamiyi-arrow">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -523,7 +523,7 @@
                                 </a>
                             </li>
                             <li class="vamiyi-list-item">
-                                <a href="#" class="vamiyi-list-link">
+                                <a href="{{ route('liens-utiles') }}#cookies" class="vamiyi-list-link scroll-link" data-section="cookies">
                                     <span class="vamiyi-arrow">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -593,7 +593,7 @@
 
 <script>
     // Back to top button functionality
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {    
         var backToTopButton = document.getElementById('back-to-top');
 
         // Show/hide button based on scroll position
@@ -619,6 +619,84 @@
                 top: 0,
                 behavior: 'smooth'
             });
+        });
+        
+        // Handle scroll links in footer
+        const scrollLinks = document.querySelectorAll('.scroll-link');
+        console.log('Found scroll links:', scrollLinks.length);
+        
+        scrollLinks.forEach(function(link) {
+            console.log('Adding click listener to:', link.getAttribute('data-section'));
+            
+            link.addEventListener('click', function(e) {
+                console.log('Link clicked:', this.getAttribute('data-section'));
+                
+                const currentPath = window.location.pathname;
+                const liensUtilesPath = "{{ route('liens-utiles') }}".split('?')[0]; // Remove any query parameters
+                const targetSection = this.getAttribute('data-section');
+                
+                console.log('Current path:', currentPath);
+                console.log('Liens utiles path:', liensUtilesPath);
+                
+                // If we're already on the liens-utiles page
+                if (currentPath === liensUtilesPath || currentPath === liensUtilesPath + '/') {
+                    e.preventDefault();
+                    console.log('On liens-utiles page, preventing default');
+                    
+                    const targetElement = document.getElementById(targetSection);
+                    console.log('Target element:', targetElement);
+                    
+                    if (targetElement) {
+                        // Get the header height for offset calculation
+                        const headerHeight = document.querySelector('header') ? document.querySelector('header').offsetHeight : 100;
+                        
+                        console.log('Scrolling to section:', targetSection);
+                        console.log('Element position:', targetElement.offsetTop);
+                        console.log('Header height:', headerHeight);
+                        
+                        // Smooth scroll to the element with proper offset
+                        window.scrollTo({
+                            top: targetElement.offsetTop - headerHeight - 20, // Additional 20px for spacing
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        console.error('Target element not found:', targetSection);
+                    }
+                } else {
+                    console.log('Not on liens-utiles page, allowing default navigation');
+                    // Let the default link behavior happen
+                }
+            });
+        });
+        
+        // Check if we need to scroll to a section after page load (coming from another page)
+        window.addEventListener('load', function() {
+            console.log('Page loaded, checking for hash');
+            
+            // If there's a hash in the URL
+            if (window.location.hash) {
+                const targetId = window.location.hash.substring(1); // Remove the # character
+                console.log('Hash found:', targetId);
+                
+                const targetElement = document.getElementById(targetId);
+                console.log('Target element from hash:', targetElement);
+                
+                if (targetElement) {
+                    // Get the header height for offset calculation
+                    const headerHeight = document.querySelector('header') ? document.querySelector('header').offsetHeight : 100;
+                    
+                    // Add a slight delay to ensure the page is fully loaded
+                    setTimeout(function() {
+                        console.log('Scrolling to hash target');
+                        window.scrollTo({
+                            top: targetElement.offsetTop - headerHeight - 20, // Additional 20px for spacing
+                            behavior: 'smooth'
+                        });
+                    }, 500); // Increased delay for better reliability
+                } else {
+                    console.error('Target element not found:', targetId);
+                }
+            }
         });
     });
 </script>

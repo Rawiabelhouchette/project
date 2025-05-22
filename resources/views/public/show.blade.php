@@ -112,7 +112,7 @@
                                     </div>
                                     <div class="social-links d-flex">
                                         
-                                        <div class="d-flex justify-content-between">
+                                        <div class="d-flex justify-content-between" style="width: 100%;">
                                             <div class="d-flex">
                                                 @if ($annonce->entreprise->instagram)
                                                     <a href="{{ $annonce->entreprise->instagram }}" target="_blank"
