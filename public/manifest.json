@@ -1,20 +1,60 @@
 {
   "name": "Vamiyi - Les meilleurs bars, restaurants, boites de nuit, location de voiture et hébergements du Togo",
   "short_name": "Vamiyi",
+  "description": "Vamiyi est une plateforme tout-en-un conçue pour les professionnels du tourisme, de la restauration, de la location de véhicule et des loisirs.",
   "start_url": "/",
+  "display_override": ["fullscreen", "minimal-ui"],
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#00796b",
+  "theme_color": "#de6600",
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "/assets/img/logo-vamiyi-vacances-white-carre.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+        "src": "/assets/img/logo-vamiyi-vacances-togo-carre.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    },
+    {
+      "src": "/assets/img/logo-vamiyi-vacances-togo.svg",
+      "sizes": "908x807",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/assets/img/logo-vamiyi-vacances-white.svg",
+      "sizes": "908x807",
+      "type": "image/svg+xml"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/img/screenshots/desktop-home.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Page d'accueil sur ordinateur"
+    },
+    {
+      "src": "/assets/img/screenshots/desktop-search.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Page de recherche sur ordinateur"
+    },
+    {
+      "src": "/assets/img/screenshots/mobile-home.png",
+      "sizes": "358x801",
+      "type": "image/png",
+      "label": "Page d'accueil sur mobile"
+    },
+    {
+      "src": "/assets/img/screenshots/mobile-search.png",
+      "sizes": "356x799",
+      "type": "image/png",
+      "label": "Page de recherche sur mobile"
     }
   ]
 }
