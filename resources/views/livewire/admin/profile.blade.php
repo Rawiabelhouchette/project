@@ -2,7 +2,7 @@
     <form wire:submit.prevent='update'>
         @csrf
         <div class="col-md-12">
-            <div class="text-center">
+            <div class="text-center py-5">
                 <style>
                     @media (max-width: 768px) {
                         .profile-edit-button {
@@ -24,7 +24,7 @@
                     <div class="widget-boxed-header">
                         <h4><i class="fa fa-user" aria-hidden="true"></i>Informations Personnelles</h4>
                     </div>
-                    <div class="widget-boxed-body padd-top-0">
+                    <div class="widget-boxed-body p-5">
                         <div class="row no-ext-mrg sm-plix">
                             <div class="col-sm-6">
                                 <label>Nom</label>
