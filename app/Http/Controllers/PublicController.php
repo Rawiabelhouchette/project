@@ -68,7 +68,7 @@ class PublicController extends Controller
 
     public function liensUtiles()
     {
-        return view('public.static.liens-utiles');
+        return view('public.static.useful-links');
     }
 }
 

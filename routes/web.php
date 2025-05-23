@@ -279,7 +279,7 @@ Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'
 
 Route::get('/image', [FichierController::class, 'getImage'])->name('file.get');
 
-Route::get('useful-links', [PublicController::class, 'liensUtiles'])->name('liens-utiles');
+Route::get('useful-links', [PublicController::class, 'liensUtiles'])->name('useful-links');
 
 
 // Route::get('/test-notification', function () {
