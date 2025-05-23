@@ -1097,29 +1097,16 @@ class Search extends Component
      */
     private function prepareTypeAnnonces()
     {
-        // $this->typeAnnonces = Annonce::public()
-        //     ->pluck('type')
-        //     ->countBy()
-        //     ->map(function ($count, $type) {
-        //         return ['value' => $type, 'count' => $count];
-        //     })
-        //     ->values()
-        //     ->all();
-
-        // $tmpTypeAnnonces = Annonce::pluck('type')->unique();
-
-        // // Ajoute les types manquants avec un compte à 0
-        // foreach ($tmpTypeAnnonces as $type) {
-        //     if (!in_array($type, array_column($this->typeAnnonces, 'value'))) {
-        //         $this->typeAnnonces[] = ['value' => $type, 'count' => 0];
-        //     }
-        // }
-
-        $publicCounts = Annonce::public()
+        $this->typeAnnonces = Annonce::public()
             ->pluck('type')
-            ->countBy();
+            ->countBy()
+            ->map(function ($count, $type) {
+                return ['value' => $type, 'count' => $count];
+            })
+            ->values()
+            ->all();
 
-        $allTypes = Annonce::pluck('type')->unique();
+        $tmpTypeAnnonces = Annonce::pluck('type')->unique();
 
         // Ajoute les types manquants avec un compte à 0
         foreach ($tmpTypeAnnonces as $type) {

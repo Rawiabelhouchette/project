@@ -57,7 +57,11 @@ class PublicController extends Controller
     public function showEntreprise($slug)
     {
         $entreprise = Entreprise::where('slug', $slug)->firstOrFail();
-        $annonces = Annonce::public()->with('annonceable', 'entreprise')->where('entreprise_id', $entreprise->id)->take(4)->get();
+        $annonces = Annonce::with('annonceable', 'entreprise', 'imagePrincipale')
+            ->public()
+            ->where('entreprise_id', $entreprise->id)
+            ->take(4)
+            ->get();
 
         return view('public.company', compact('entreprise', 'annonces'));
     }

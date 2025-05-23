@@ -41,8 +41,10 @@ class SearchController extends Controller
     {
         $user = auth()->user();
 
-        $query = Annonce::eagerLoad()->where('slug', $slug);
-        $annonce = $query->first(); // Appel unique
+        $annonce = Annonce::eagerLoad()
+            ->with('commentaires.user')
+            ->where('slug', $slug)
+            ->first();
 
         if (!$annonce) {
             return view('errors.404');
