@@ -2,6 +2,7 @@
   "name": "Vamiyi - Les meilleurs bars, restaurants, boites de nuit, location de voiture et hébergements du Togo",
   "short_name": "Vamiyi",
   "description": "Vamiyi est une plateforme tout-en-un conçue pour les professionnels du tourisme, de la restauration, de la location de véhicule et des loisirs.",
+  "id": "/",
   "start_url": "/",
   "display_override": ["fullscreen", "minimal-ui"],
   "display": "standalone",
@@ -9,12 +10,12 @@
   "theme_color": "#de6600",
   "icons": [
     {
-      "src": "/assets/img/logo-vamiyi-vacances-white-carre.png",
-      "sizes": "192x192",
-      "type": "image/png"
+        "src": "/assets/img/logo-vamiyi-vacances-togo-carre.png",
+        "sizes": "192x192",
+        "type": "image/png"
     },
     {
-        "src": "/assets/img/logo-vamiyi-vacances-togo-carre.png",
+        "src": "/assets/img/logo-vamiyi-vacances-white-carre.png",
         "sizes": "192x192",
         "type": "image/png"
     },
