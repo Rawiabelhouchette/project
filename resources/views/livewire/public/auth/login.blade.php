@@ -12,8 +12,8 @@
 
             <div class="modal-body">
                 <div class="d-flex gap-2 mt-3">
-                    <div class="login-tab login-tab-active" id="login-tab" onclick="switchTab('login')">LOG IN</div>
-                    <div class="login-tab" id="register-tab" onclick="switchTab('register')">REGISTER</div>
+                    <div class="login-tab login-tab-active" id="login-tab" onclick="switchTab('login')">CONNEXION</div>
+                    <div class="login-tab" id="register-tab" onclick="switchTab('register')">INSCRIPTION</div>
                 </div>
 
                 <!-- Login Form -->
@@ -34,7 +34,8 @@
 
                     <form id="demo-form" wire:submit.prevent="login">
                         @csrf
-                        <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user theme-cl"></i></span>
                             <input class="form-control form-control-sm" name="email" type="text" minlength="4"
                                 placeholder="Identifiant / Email" wire:model='email' required>
                             @error('email')
@@ -42,7 +43,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group position-relative">
+                        <!-- <div class="form-group position-relative">
                             <input class="form-control" name="password" type="password"
                                 placeholder="Mot de passe" wire:model='password' id="password-field" required>
 
@@ -50,6 +51,13 @@
                                 onclick="togglePasswordVisibility()" style="z-index: 5;background: #de6600;color: #fff;padding: 10px 12px;right: 5px;top: 25px">
                                 <i class="fa fa-eye" id="toggle-password-icon"></i>
                             </button>
+                        </div> -->
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span>
+                            <input id="password" class="form-control" type="password" placeholder="Mot de passe" required wire:model="password">
+                            <span class="input-group-addon" onclick="togglePasswordVisibility('password')">
+                                <i id="toggle-password-icon-password" class="fa fa-eye"></i>
+                            </span>
                         </div>
 
                         <div class="form-group">
@@ -163,10 +171,9 @@
         });
 
         // Password visibility toggle
-        function togglePasswordVisibility(fieldId = 'password-field') {
+        function togglePasswordVisibility(fieldId) {
             const input = document.getElementById(fieldId);
-            const icon = document.getElementById(`toggle-password-icon${fieldId === 'password-field' ? '' : '-' + fieldId}`);
-            
+            const icon = document.getElementById(`toggle-password-icon-${fieldId}`);
             if (input.type === 'password') {
                 input.type = 'text';
                 icon.classList.remove('fa-eye');
