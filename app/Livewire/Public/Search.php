@@ -426,6 +426,8 @@ class Search extends Component
             ->groupBy('boite_vitesse')
             ->selectRaw('boite_vitesse, COUNT(annonces.id) as annonces_count')
             ->get()
+            
+            ->filter(fn($modele) => $modele->annonces_count > 0)
             ->map(function ($row) {
                 return [
                     'value' => $row->boite_vitesse,
@@ -528,7 +530,9 @@ class Search extends Component
                     })
                     ->selectRaw('count(annonces.id)');
             }
-        ])->get()->map(function ($marque) {
+        ])->get()
+        ->filter(fn($modele) => $modele->annonces_count > 0)
+        ->map(function ($marque) {
             return [
                 'value' => $marque->nom,
                 'count' => $marque->annonces_count,
@@ -549,9 +553,13 @@ class Search extends Component
                 $query->join('annonces', function ($join) {
                     $join->on('location_vehicules.id', '=', 'annonces.annonceable_id')
                         ->where('annonces.annonceable_type', '=', \App\Models\LocationVehicule::class);
-                })->selectRaw('count(annonces.id)');
+                })->selectRaw('count(annonces.id)')
+               
+                ;
             }
-        ])->get()->map(function ($modele) {
+        ])->get()
+        ->filter(fn($modele) => $modele->annonces_count > 0)
+        ->map(function ($modele) {
             return [
                 'value' => $modele->nom,
                 'count' => $modele->annonces_count,
@@ -990,6 +998,15 @@ class Search extends Component
                 'icon' => 'ti-briefcase',
                 'filterModel' => 'marqueFilterValue',
             ];
+               $facettes[] = (object) [
+                'id' => uniqid(),
+                'title' => 'Modèle',
+                'category' => 'typeVehicule',
+                'items' => $this->typeVehicules,
+                'selectedItems' => $this->typeVehicule,
+                'icon' => 'ti-briefcase',
+                'filterModel' => 'typeVehiculeFilterValue',
+            ];
             $facettes[] = (object) [
                 'id' => uniqid(),
                 'title' => 'Boite Vitesse',
@@ -999,15 +1016,7 @@ class Search extends Component
                 'icon' => 'ti-briefcase',
                 'filterModel' => 'boiteVitesseFilterValue',
             ];
-            $facettes[] = (object) [
-                'id' => uniqid(),
-                'title' => 'Type vehicule',
-                'category' => 'typeVehicule',
-                'items' => $this->typeVehicules,
-                'selectedItems' => $this->typeVehicule,
-                'icon' => 'ti-briefcase',
-                'filterModel' => 'typeVehiculeFilterValue',
-            ];
+         
         }
         if ($isHotel || $isAuberge || $isLocationMeublee) {
             $facettes[] = (object) [
