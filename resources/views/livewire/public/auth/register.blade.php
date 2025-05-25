@@ -1,6 +1,6 @@
 <div>
     <div class="wel-back">
-        <h2>Bienvenue! <span class="theme-cl">Nouveau compte ?</span></h2>
+        <h2 style="font-weight: 900;">Bienvenue! <span class="theme-cl" style="font-weight: 900;">Nouveau compte ?</span></h2>
     </div>
 
     @if ($error)
@@ -104,7 +104,7 @@
         </span> --}}
 
         <div class="center">
-            <button id="signup" class="btn btn-midium theme-btn btn-radius width-200" type="submit" wire:loading.attr='disabled'>
+            <button id="signup" class="btn btn-midium theme-btn btn-radius" style="width: 100%;border-radius: 5px;" type="submit" wire:loading.attr='disabled'>
                 <span style="display: inline-flex; align-items: center;">
                     <b wire:loading>@include('components.public.loader', ['withText' => false, 'color' => '#de6600'])</b>
                     {{ __('Enregistrer') }}
@@ -117,6 +117,12 @@
         <div class="bottom-login text-center">Déjà un compte ? </div>
         <a id="btn-login" class="theme-cl" href="{{ route('login') }}">{{ __('Se Connecter') }}</a>
     </div>
+    <style>.log-wrapper {
+    background-image: url("{{ asset('assets/img/tropical-icons.png') }}");
+    background-size: cover; /* or 'contain' if you want the whole image visible */
+    background-repeat: no-repeat;
+    background-position: center;
+}</style>
 </div>
 
 @push('scripts')

@@ -103,7 +103,15 @@
         margin-top: 20px;
         width: auto;
         display: flex;
-        justify-content: right;
+        justify-content: space-between;
+    }
+        @media (max-width: 780px) {
+              .contact-info { 
+                    flex-direction: column;
+              }
+         }
+    .vamiyi-contact-link {
+        color: black !important;
     }
     .contact-info p {
         margin-bottom: 5px;
@@ -327,7 +335,39 @@
                     
                     
                     <div class="contact-info">
-                        <p><strong>Contact :</strong> contact@vamiyi.com / +337 66 91 10 98</p>
+                        <strong>Contact :</strong> 
+                            <div class="vamiyi-contact-item">
+                                <span class="vamiyi-contact-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </span>
+                                <a href="mailto:service.client@vamiyi.com" class="vamiyi-contact-link">
+                                    service.client@vamiyi.com
+                                </a>
+                            </div>
+                            <div class="vamiyi-contact-item">
+                                <span class="vamiyi-contact-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                    </svg>
+                                </span>
+                                <a href="tel:{{ env('APP_PHONE') }}" class="vamiyi-contact-link">
+                                    {{ env('APP_PHONE') }}
+                                </a>
+                            </div>
+                            <div class="vamiyi-contact-item">
+                                <span class="vamiyi-contact-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M16.72 13.06c-.29-.15-1.71-.84-1.98-.93-.27-.09-.47-.15-.67.15s-.77.93-.95 1.12c-.17.18-.35.2-.65.06-.3-.15-1.25-.46-2.38-1.48-.88-.79-1.47-1.77-1.64-2.07-.17-.3 0-.46.13-.61.14-.15.3-.35.45-.52.15-.18.2-.3.3-.5.1-.21.05-.39-.02-.55-.06-.15-.67-1.6-.92-2.19-.24-.58-.5-.5-.67-.51-.17-.01-.37-.01-.57-.01s-.53.08-.81.39c-.28.3-1.06 1.04-1.06 2.53 0 1.49 1.09 2.93 1.25 3.13.15.2 2.13 3.26 5.18 4.57.72.31 1.29.5 1.73.64.73.23 1.39.2 1.92.12.59-.09 1.81-.74 2.07-1.46.26-.72.26-1.34.18-1.46-.07-.13-.26-.2-.55-.34z" />
+                                        <path d="M12 2a10 10 0 0 0-8.1 15.8L2 22l4.3-1.1A10 10 0 1 0 12 2z" />
+                                    </svg>
+                                </span>
+                                <a href="https://wa.me/{{ str_replace(' ', '', '337 66 91 10 98') }}" class="vamiyi-contact-link">
+                                    {{ env('APP_PHONE') }}
+                                </a>
+                            </div>
                     </div>
                 </div>
             </div>
