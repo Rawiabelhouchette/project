@@ -18,15 +18,16 @@ class OffreAbonnementSeeder extends Seeder
                 'slug' => 'offre-decouverte',
                 'description' => 'Offre découverte',
                 'prix' => 0,
-                'duree' => 5,
+                'duree' => 0,
                 'is_active' => true,
                 'options' => [
                     'Assistance par mail',
-                    '-',
+                    'Assistance par mail / Whatsapp',
                 ],
                 'unite_en' => 'day',
                 'unite_fr' => 'Jour',
                 'is_free' => true,
+                'expires_at' => date('Y-m-d H:i:s', strtotime('2026-01-01')),
             ],
             [
                 'id' => 2,
@@ -35,7 +36,7 @@ class OffreAbonnementSeeder extends Seeder
                 'description' => 'Offre Trimestrielle',
                 'prix' => 11000,
                 'duree' => 3,
-                'is_active' => true,
+                'is_active' => false,
                 'options' => [
                     'Statistiques de consultation',
                     'Assistance par mail / Whatsapp',
@@ -48,7 +49,7 @@ class OffreAbonnementSeeder extends Seeder
                 'description' => 'Offre Semestrielle',
                 'prix' => 20000,
                 'duree' => 6,
-                'is_active' => true,
+                'is_active' => false,
                 'options' => [
                     'Statistiques',
                     'Assistance par mail / Whatsapp',
@@ -61,7 +62,7 @@ class OffreAbonnementSeeder extends Seeder
                 'description' => 'Offre Annuelle',
                 'prix' => 35000,
                 'duree' => 12,
-                'is_active' => true,
+                'is_active' => false,
                 'options' => [
                     'Statistiques avancées',
                     'Assistance par mail / Whatsapp',

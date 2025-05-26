@@ -358,12 +358,17 @@ class PaiementService
 
         // TODO : check if the offer is promotional and apply the discount
         $montantPaye = $offre_abonnement->prix;
+        if (!$offre_abonnement->expires_at) {
+            $dateFin = date('Y-m-d H:i:s', strtotime('+'.$offre_abonnement->duree.' '.$offre_abonnement->unite_en));
+        } else {
+            $dateFin = $offre_abonnement->expires_at;
+        }
 
         // Create a new subscription for the company
         $subscription = $company->abonnements()->create([
             'offre_abonnement_id' => $offre_abonnement->id,
             'date_debut' => date('Y-m-d H:i:s'),
-            'date_fin' => date('Y-m-d H:i:s', strtotime('+'.$offre_abonnement->duree.' '.$offre_abonnement->unite_en)),
+            'date_fin' => $dateFin,
             'montant' => $montantPaye,
         ]);
 

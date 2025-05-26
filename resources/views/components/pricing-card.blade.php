@@ -15,7 +15,9 @@
     <!-- Price Section -->
     <div class="amiyi-price-section">
         <h2 class="amiyi-price">{{ number_format($offre->prix, 0, ',', ' ') }}<span class="amiyi-currency">F CFA</span></h2>
-        <div class="amiyi-duration">{{ $offre->duree }} {{ $offre->unite_fr }}</div>
+        @if (!$offre->expires_at)
+            <div class="amiyi-duration">{{ $offre->duree }} {{ $offre->unite_fr }}</div>
+        @endif
     </div>
 
     <!-- Features List -->
