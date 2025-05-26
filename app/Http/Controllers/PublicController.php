@@ -19,7 +19,9 @@ class PublicController extends Controller
 
         $nbAnnonces = Annonce::public()->count();
         $nbEntreprises = Entreprise::count();
-        $nbUtilisateurs = User::count();
+        $nbUtilisateurs = User::whereHas('roles', function ($query) {
+            $query->where('name', '!=', 'Administrateur');
+        })->count();
         $nbTypesAnnonces = count($typeAnnonce);
 
         $statsAnnonce = [];
@@ -27,7 +29,7 @@ class PublicController extends Controller
         foreach ($typeAnnonce as $type) {
             $statsAnnonce[] = (object) [
                 'type' => $type,
-                'count' => Annonce::where('type', $type)->count(),
+                'count' => Annonce::public()->where('type', $type)->count(),
             ];
         }
 

@@ -328,7 +328,7 @@ class Annonce extends Model
             'imagePrincipale',
             'favoris',
             'views',
-            'ville.pays'
+            'ville.pays',
         );
     }
 

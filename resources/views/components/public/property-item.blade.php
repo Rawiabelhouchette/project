@@ -426,7 +426,7 @@
                 icon: 'warning',
                 confirmButtonText: 'Oui, supprimer',
                 onConfirm: function() {
-                    Livewire.dispatch('deleteAnnonce', [annonceId]);
+                    @this.call('delete', annonceId);
                 }
             };
 

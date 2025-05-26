@@ -369,7 +369,8 @@ class Search extends Component
     private function getAllQuartiers(): void
     {
         $this->quartiers = [];
-        foreach (Quartier::all() as $quartier) {
+        $quartiers = Quartier::with('annonces')->get();
+        foreach ($quartiers as $quartier) {
             $tmp = ['value' => $quartier->nom, 'count' => $quartier->nombre_annonce];
             $tmp = array_unique($tmp, SORT_REGULAR);
             if (!in_array($tmp, $this->quartiers)) {
@@ -384,7 +385,8 @@ class Search extends Component
     private function getAllVilles(): void
     {
         $this->villes = [];
-        foreach (Ville::all() as $ville) {
+        $villes = Ville::with('annonces')->get();
+        foreach ($villes as $ville) {
             $tmp = ['value' => $ville->nom, 'count' => $ville->nombre_annonce];
             $tmp = array_unique($tmp, SORT_REGULAR);
             if (!in_array($tmp, $this->villes)) {
@@ -405,7 +407,8 @@ class Search extends Component
         $entreprises = Entreprise::with('annonces')
             ->whereHas('annonces', function ($query) {
                 $query->public();
-            })->get();
+            })
+            ->get();
         foreach ($entreprises as $entreprise) {
             $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonces];
             $tmp = array_unique($tmp, SORT_REGULAR);
@@ -657,7 +660,7 @@ class Search extends Component
             ->with(
                 'entreprise.annonces',
                 'entreprise.annonces',
-                'entreprise.ville.pays'
+                'entreprise.ville',
             )
             ->public();
         $this->preparingAnnonces = $annonces;

@@ -54,16 +54,22 @@ class Ville extends Model
     // nombre d'annonce liees a la ville
     public function getNombreAnnonceAttribute()
     {
-        $ville = $this->nom;
-        $count = Annonce::public()->whereHas('entreprise.ville', function ($query) use ($ville) {
-            $query->where('nom', $ville);
-        })->count();
+        // $ville = $this->nom;
+        // $count = Annonce::public()->whereHas('entreprise.ville', function ($query) use ($ville) {
+        //     $query->where('nom', $ville);
+        // })->count();
 
-        return $count;
+        // return $count;
+        return $this->annonces->count();
     }
 
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function annonces()
+    {
+        return $this->hasMany(Annonce::class);
     }
 }
