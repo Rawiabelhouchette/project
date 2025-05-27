@@ -37,10 +37,7 @@ class Favoris extends Component
     public function render()
     {
         $search = $this->search;
-        $user = User::with('favorisAnnonces')
-            ->find(auth()->user()->id);
-
-        // dd($user->favorisAnnonces);
+        $user = User::find(auth()->user()->id);
 
         $annonces = $user->favorisAnnonces()->where(function ($query) use ($search) {
             $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($search) . '%'])

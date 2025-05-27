@@ -39,17 +39,7 @@ class Annonce extends Model
     ];
 
     protected $appends = [
-        'jour_restant',
         'description_courte',
-        'note',
-        'est_favoris',
-
-        'view_count',
-        'favorite_count',
-        'comment_count',
-        // 'notation_count',
-
-        'adresse_complete',
     ];
 
     protected $casts = [
@@ -60,7 +50,7 @@ class Annonce extends Model
         'type' => PurifyHtmlOnGet::class,
     ];
 
-    public function getContentAttribute($value)
+    public function getContentAttribute($value): array|string
     {
         $config = ['HTML.Allowed' => 'div,b,a[href]'];
 
@@ -224,7 +214,7 @@ class Annonce extends Model
 
     /* ###################### ATTRIBUTES (APPENDED) ######################
     ###################################################################### */
-    public function getJourRestantAttribute(): int
+    public function getJourRestant(): int
     {
         $date = $this->date_validite;
         $now = date('Y-m-d');
@@ -253,13 +243,13 @@ class Annonce extends Model
     }
 
     // moyen de notation de l'annonce
-    public function getNoteAttribute()
+    public function getNote()
     {
         $avg = $this->commentaires->avg('note');
         return number_format($avg, 1);
     }
 
-    public function getEstFavorisAttribute(): bool
+    public function getEstFavoris(): bool
     {
         if (!auth()->check()) {
             return false;
@@ -268,17 +258,17 @@ class Annonce extends Model
         return $this->favoris->where('user_id', auth()->user()->id)->count() > 0 ? true : false;
     }
 
-    public function getViewCountAttribute(): int
+    public function getViewCount(): int
     {
         return $this->views->count();
     }
 
-    public function getFavoriteCountAttribute(): int
+    public function getFavoriteCount(): int
     {
         return $this->favoris->count();
     }
 
-    public function getCommentCountAttribute(): int
+    public function getCommentCount(): int
     {
         return $this->commentaires->count();
     }
@@ -288,7 +278,7 @@ class Annonce extends Model
     //     return $this->notation()->count();
     // }
 
-    public function getAdresseCompleteAttribute(): object
+    public function getAdresseComplete(): object
     {
         $ville = $this->ville;
         $pays = $ville ? $ville->pays : null;

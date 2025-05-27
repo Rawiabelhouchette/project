@@ -4,21 +4,14 @@
 
 @section('content')
 
-
     @php
-        $breadcrumbs = [
-            ['route' => 'accueil', 'label' => 'Accueil'],
-            ['route' => 'search', 'label' => $annonce->type],
-        ];
+        $breadcrumbs = [['route' => 'accueil', 'label' => 'Accueil'], ['route' => 'search', 'label' => $annonce->type]];
     @endphp
 
     @php
         $typeList = $typeAnnonce ?? [];
     @endphp
-    <x-breadcumb backgroundImage="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" :showSearchButton="true" :showTitle="false"
-     :breadcrumbs="$breadcrumbs" :typeList="$typeList" />
-
-
+    <x-breadcumb backgroundImage="{{ asset('storage/' . $annonce->imagePrincipale->chemin) }}" :showSearchButton="true" :showTitle="false" :breadcrumbs="$breadcrumbs" :typeList="$typeList" />
 
     <div class="page-name annonce-detail row">
 
@@ -28,7 +21,7 @@
                 <!-- Start: Pagination Wrapper -->
                 <div class="row">
                     <div class="col-sm-12 nav-div nav-div-1">
-                        <h5 style="text-align: left; border-bottom: 1px silver solid;" class="py-4 px-1">
+                        <h5 style="text-align: left; border-bottom: 1px silver solid;" class="px-1 py-4">
                             <a href="{{ route('search') }}" title="Revenir à la recherche">
                                 <i class="fa fa-fw fa-arrow-left" aria-hidden="true"></i>
                                 Revenir à la recherche
@@ -58,26 +51,24 @@
                         <div class="widget-boxed padd-bot-10">
                             <div class="widget-boxed-header">
                                 <div class="listing-title-bar">
-                                    
-                                    <h3> {{ $annonce->titre }} 
-                                         
+
+                                    <h3> {{ $annonce->titre }}
+
                                     </h3>
-                                    <span class="mrg-l-5 category-tag"> {{ $annonce->type }} </span>   
+                                    <span class="mrg-l-5 category-tag"> {{ $annonce->type }} </span>
 
                                 </div>
                             </div>
                             <div class="widget-boxed-body padd-top-0">
-                            <div class="annonces row gy-4">
-                                
+                                <div class="annonces row gy-4">
+
                                     <div class="contact-item">
                                         <a href="{{ route('entreprise.show', $annonce->entreprise->slug) }}">
                                             <i class="fa fa-building fa-lg" style="color: #de6600"></i>
                                             {{ $annonce->entreprise->nom }}
                                         </a>
                                     </div>
-                                
 
-                               
                                     <div class="contact-item">
 
                                         @if ($annonce->entreprise->site_web)
@@ -95,47 +86,44 @@
                                     <div class="counter-container" style="margin-right: 1rem;">
                                         <div class="counter-item-alt">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
-                                            <span style="white-space: nowrap;">{{ $annonce->view_count }} vue(s)</span>
+                                            <span style="white-space: nowrap;">{{ $annonce->getViewCount() }} vue(s)</span>
                                         </div>
                                         <div class="counter-item-alt">
                                             <i class="fa fa-heart" aria-hidden="true"></i>
-                                            <span style="white-space: nowrap;">{{ $annonce->favorite_count }} favori(s)</span>
+                                            <span style="white-space: nowrap;">{{ $annonce->getFavoriteCount() }} favori(s)</span>
                                         </div>
                                         <div class="counter-item-alt">
                                             <i class="fa fa-comment" aria-hidden="true"></i>
-                                            <span style="white-space: nowrap;">{{ $annonce->comment_count }} commentaire(s)</span>
+                                            <span style="white-space: nowrap;">{{ $annonce->getCommentCount() }} commentaire(s)</span>
                                         </div>
-                                        <div class="counter-item-alt theme-btn text-white border-0">
-                                            <span style="white-space: nowrap;">{{ $annonce->note }}/5</span>
+                                        <div class="counter-item-alt theme-btn border-0 text-white">
+                                            <span style="white-space: nowrap;">{{ $annonce->getNote() }}/5</span>
                                         </div>
 
                                     </div>
                                     <div class="social-links d-flex">
-                                        
+
                                         <div class="d-flex justify-content-between" style="width: 100%;">
                                             <div class="d-flex">
                                                 @if ($annonce->entreprise->instagram)
-                                                    <a href="{{ $annonce->entreprise->instagram }}" target="_blank"
-                                                        class="social-button instagram me-2">
+                                                    <a href="{{ $annonce->entreprise->instagram }}" target="_blank" class="social-button instagram me-2">
                                                         <i class="fa-brands fa-instagram"></i>
                                                     </a>
                                                 @endif
                                                 @if ($annonce->entreprise->facebook)
-                                                    <a href="{{ $annonce->entreprise->facebook }}" target="_blank"
-                                                        class="social-button facebook me-2">
+                                                    <a href="{{ $annonce->entreprise->facebook }}" target="_blank" class="social-button facebook me-2">
                                                         <i class="fa-brands fa-facebook"></i>
                                                     </a>
                                                 @endif
                                                 @if ($annonce->entreprise->whatsapp)
-                                                    <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}"
-                                                        target="_blank" class="social-button whatsapp me-2">
+                                                    <a href="https://wa.me/{{ $annonce->entreprise->quartier->ville->pays->indicatif ?? '' }}{{ str_replace(' ', '', $annonce->entreprise->whatsapp) }}" target="_blank" class="social-button whatsapp me-2">
                                                         <i class="fa-brands fa-whatsapp"></i>
                                                     </a>
                                                 @endif
                                             </div>
                                             <div class="side-list share-buttons">
                                                 <div class="mrg-r-10">
-                                                    <button class="buttons padd-10 btn-default share-button"  data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
+                                                    <button class="buttons padd-10 btn-default share-button" data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
                                                         <i class="fa fa-share-nodes"></i>
                                                         <!-- <span class="hidden-xs">Partager</span> -->
                                                     </button>
@@ -147,15 +135,14 @@
                                         </div>
                                     </div>
 
-                               
-                            </div>
+                                </div>
                             </div>
                         </div>
                         <div class="widget-boxed padd-bot-10">
                             <div class="widget-boxed-header">
                                 <div class="listing-title-bar">
-                                    
-                                    <h4 style="padding: 14px 0;border-bottom: 1px solid #eaeff5;"> 
+
+                                    <h4 style="padding: 14px 0;border-bottom: 1px solid #eaeff5;">
                                         <i class="ti ti-gallery"></i>
                                         Galérie
                                     </h4>
@@ -165,32 +152,22 @@
                                 <div class="side-list no-border gallery-box">
                                     <div class="row mrg-l-5 mrg-r-10 mrg-bot-5">
                                         <div class="col-xs-12 col-md-12 p-0">
-                                            <div id="carouselExampleIndicators" class="carousel slide"
-                                                data-bs-ride="carousel">
+                                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 
                                                 <div class="carousel-inner">
                                                     @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
                                                         <div class="carousel-item {{ $key == 0 ? ' active' : '' }}">
-                                                            <a href="{{ asset('storage/' . $image->chemin)}}" data-fancybox="gallery">
-                                                                <img class="d-block w-100" style="object-fit: cover;"
-                                                                    src="{{ asset('storage/' . $image->chemin)}}"
-                                                                    alt="{{ $annonce->titre }}"
-                                                                    onerror="this.onerror=null; this.src='https://placehold.co/600';">
+                                                            <a href="{{ asset('storage/' . $image->chemin) }}" data-fancybox="gallery">
+                                                                <img class="d-block w-100" style="object-fit: cover;" src="{{ asset('storage/' . $image->chemin) }}" alt="{{ $annonce->titre }}" onerror="this.onerror=null; this.src='https://placehold.co/600';">
                                                             </a>
                                                         </div>
                                                     @endforeach
                                                 </div>
                                                 <div class="carousel-indicators">
                                                     @foreach ($annonce->galerieAvecImagePrincipale() as $key => $image)
-                                                        <button class="active thumbnail"
-                                                            data-bs-target="#carouselExampleIndicators"
-                                                            data-bs-slide-to="{{ $key }}" type="button"
-                                                            aria-current="true" aria-label="Slide 1">
-                                                            <a href="{{ asset('storage/' . $image->chemin)}}" data-fancybox="gallery-thumbs">
-                                                                <img class="d-block w-100" style="object-fit: cover;"
-                                                                    src="{{ asset('storage/' . $image->chemin)}}"
-                                                                    alt="{{ $annonce->titre }}"
-                                                                    onerror="this.onerror=null; this.src='https://placehold.co/600';">
+                                                        <button class="active thumbnail" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" type="button" aria-current="true" aria-label="Slide 1">
+                                                            <a href="{{ asset('storage/' . $image->chemin) }}" data-fancybox="gallery-thumbs">
+                                                                <img class="d-block w-100" style="object-fit: cover;" src="{{ asset('storage/' . $image->chemin) }}" alt="{{ $annonce->titre }}" onerror="this.onerror=null; this.src='https://placehold.co/600';">
                                                             </a>
                                                         </button>
                                                     @endforeach
@@ -201,13 +178,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="widget-boxed padd-bot-10" id="test">
+                        <div id="test" class="widget-boxed padd-bot-10">
                             <div class="tab style-1 mrg-bot-40" role="tabpanel">
                                 {{ $annonce->annonceable->getShowInformationHeader() }}
 
                                 {{ $annonce->annonceable->getShowInformationBody() }}
                             </div>
-                            
+
                             <!-- Comments Section -->
                             <div class="widget-boxed padd-bot-10">
                                 <div class="widget-boxed-header">
@@ -229,10 +206,10 @@
                             <div class="widget-boxed-body padd-top-5">
                                 <div class="side-list">
                                     <ul>
-                                        <li>Pays : <b>{{ $annonce->adresse_complete->pays ?? '-' }}</b></li>
-                                        <li>Ville : <b>{{ $annonce->adresse_complete->ville ?? '-' }}</b></li>
-                                        <li>Quartier : <b>{{ $annonce->adresse_complete->quartier ?? '-' }}</b></li>
-                                        
+                                        <li>Pays : <b>{{ $annonce->getAdresseComplete()->pays ?? '-' }}</b></li>
+                                        <li>Ville : <b>{{ $annonce->getAdresseComplete()->ville ?? '-' }}</b></li>
+                                        <li>Quartier : <b>{{ $annonce->getAdresseComplete()->quartier ?? '-' }}</b></li>
+
                                         <li>
                                             <div id="map" class="full-width" style="height:252px;"></div>
                                         </li>
@@ -252,8 +229,7 @@
                                     <ul>
                                         @foreach ($annonce->entreprise->heure_ouvertures as $key => $ouverture)
                                             @if ($ouverture == 'Fermé')
-                                                <li>{{ $key }} <span
-                                                        class="text-danger">{{ $ouverture }}</span></li>
+                                                <li>{{ $key }} <span class="text-danger">{{ $ouverture }}</span></li>
                                             @else
                                                 <li>{{ $key }} <span>{{ $ouverture }}</span></li>
                                             @endif
@@ -280,11 +256,10 @@
             'couverture' => $annonce->imagePrincipale,
         ])
 
-
         @include('components.public.share-modal', [
-                            'title' => 'Partager cette annonce',
-                            'annonce' => $annonce,
-                        ])
+            'title' => 'Partager cette annonce',
+            'annonce' => $annonce,
+        ])
     @endsection
 
     @section('js')
@@ -326,7 +301,7 @@
                         return current.type === "image" ? "zoom" : false;
                     }
                 });
-                
+
                 $('[data-fancybox="gallery-thumbs"]').fancybox({
                     buttons: [
                         "zoom",
@@ -379,38 +354,31 @@
     @endsection
 
     @section('css')
-    <style>
-        /* Fancybox customization */
-        .fancybox-bg {
-            background: #000;
-        }
-        
-        .fancybox-is-open .fancybox-bg {
-            opacity: 0.9;
-        }
-        
-        .fancybox-caption {
-            font-size: 16px;
-        }
-        
-        /* Make carousel images clickable */
-        .carousel-item a {
-            cursor: zoom-in;
-            display: block;
-        }
-        
-        /* Fix for thumbnail buttons */
-        .carousel-indicators button a {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+        <style>
+            /* Fancybox customization */
+            .fancybox-bg {
+                background: #000;
+            }
+
+            .fancybox-is-open .fancybox-bg {
+                opacity: 0.9;
+            }
+
+            .fancybox-caption {
+                font-size: 16px;
+            }
+
+            /* Make carousel images clickable */
+            .carousel-item a {
+                cursor: zoom-in;
+                display: block;
+            }
+
+            /* Fix for thumbnail buttons */
+            .carousel-indicators button a {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
     @endsection
-
-
-
-
-
-
-

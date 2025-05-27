@@ -387,7 +387,7 @@ class Search extends Component
         $this->villes = [];
         $villes = Ville::with('annonces')->get();
         foreach ($villes as $ville) {
-            $tmp = ['value' => $ville->nom, 'count' => $ville->nombre_annonce];
+            $tmp = ['value' => $ville->nom, 'count' => $ville->getNombreAnnonce()];
             $tmp = array_unique($tmp, SORT_REGULAR);
             if (!in_array($tmp, $this->villes)) {
                 $this->villes[] = $tmp;

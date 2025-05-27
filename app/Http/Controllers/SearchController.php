@@ -42,7 +42,7 @@ class SearchController extends Controller
         $user = auth()->user();
 
         $annonce = Annonce::eagerLoad()
-            ->with('commentaires.user')
+            ->with('commentaires.auteur')
             ->where('slug', $slug)
             ->first();
 

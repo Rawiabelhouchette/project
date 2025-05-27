@@ -65,7 +65,7 @@ class Comment extends Component
     {
         $this->validate();
 
-        if (! auth()->check()) {
+        if (!auth()->check()) {
             return redirect()->route('connexion');
         }
 
@@ -99,11 +99,11 @@ class Comment extends Component
 
     public function render()
     {
-        $count = $this->annonce->commentaires->count();
+        $count = $this->annonce->getCommentCount();
 
         $this->dispatch('update:comment-value', [
             'value' => $count,
-            'note' => $this->annonce->note,
+            'note' => $this->annonce->getNote(),
         ]);
 
         return view('livewire.public.comment', [
