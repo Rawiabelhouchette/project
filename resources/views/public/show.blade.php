@@ -94,10 +94,10 @@
                                         </div>
                                         <div class="counter-item-alt">
                                             <i class="fa fa-comment" aria-hidden="true"></i>
-                                            <span style="white-space: nowrap;">{{ $annonce->getCommentCount() }} commentaire(s)</span>
+                                            <span id="annonce-commentaire" style="white-space: nowrap;">{{ $annonce->getCommentCount() }} commwentaire(s)</span>
                                         </div>
                                         <div class="counter-item-alt theme-btn border-0 text-white">
-                                            <span style="white-space: nowrap;">{{ $annonce->getNote() }}/5</span>
+                                            <span id="annonce-note" style="white-space: nowrap;">{{ $annonce->getNote() }}/5</span>
                                         </div>
 
                                     </div>

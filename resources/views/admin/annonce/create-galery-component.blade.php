@@ -32,8 +32,7 @@
                         <div class="listing-shot grid-style padd-0">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
-                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}"
-                                        alt="">
+                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}" style="object-fit: cover;" alt="">
                                 </a>
                             </div>
                         </div>
@@ -97,8 +96,7 @@
                         <div class="listing-shot grid-style padd-0">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
-                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}"
-                                        alt="">
+                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}"  style="object-fit: cover;" alt="">
                                 </a>
                                 <span class="approve-listing" style="background-color: red;">
                                     <a href="javascript:void(0)" style="color: white;"

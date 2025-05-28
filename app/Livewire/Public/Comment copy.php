@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Public;
 
+use App\Models\Annonce;
 use App\Models\Commentaire;
 use Livewire\Component;
 
@@ -15,7 +16,7 @@ class Comment extends Component
 
     public $note;
 
-    public $perPage = 10;
+    public $perPage = 1;
 
     public $message = [];
 

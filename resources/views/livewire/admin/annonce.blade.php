@@ -43,6 +43,7 @@
             height: 40px !important; */
         }
     </style>
+
     <div class="container">
         <div style="margin-top: 10px;">
             <span id="nbre-favoris" class="mrg-l-10">
@@ -69,33 +70,31 @@
             <input id="favorite_search" class="form-control custom-field-filter" type="search" value="" placeholder="Rechercher" wire:model.live.debounce.500ms='search'>
         </div>
     </div>
-    <div class="card">
-        <div class="card-body padd-l-0 padd-r-0">
-            <div class="col-md-12">
-                <div class="small-list-wrapper">
-                    <div class="row" id="table">
-                        <div class="col-md-12 col-sm-12" wire:loading wire:transition>
-                            <h4 class="mt-3 text-center">Chargement...</h4>
-                        </div>
+    <div class="padd-l-0 padd-r-0">
+        <div class="col-md-12">
+            <div class="small-list-wrapper">
+                <div id="table" class="row">
+                    <div class="col-md-12 col-sm-12" wire:loading wire:transition>
+                        <h4 class="mt-3 text-center">Chargement...</h4>
+                    </div>
 
-                        <x-public.property-item :annonces="$annonces" :mode="'row'" showDelete="true" showEdit="true" :deleteType="'delete'"/>
+                    <x-public.property-item :annonces="$annonces" :mode="'row'" showDelete="true" showEdit="true" :deleteType="'delete'" />
 
-                        @empty($annonces->items())
-                            <div class="col-md-12 col-sm-12">
-                                <div class="listing-shot grid-style">
-                                    <div class="listing-shot-caption mrg-top-20 mrg-bot-20 text-center">
-                                        <h4>Aucune annonce trouvée</h4>
-                                    </div>
+                    @empty($annonces->items())
+                        <div class="col-md-12 col-sm-12">
+                            <div class="listing-shot grid-style">
+                                <div class="listing-shot-caption mrg-top-20 mrg-bot-20 text-center">
+                                    <h4>Aucune annonce trouvée</h4>
                                 </div>
                             </div>
-                        @endempty
-                    </div>
+                        </div>
+                    @endempty
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-12">
-                {{ $annonces->links() }}
-            </div>
+        <div class="col-md-12">
+            {{ $annonces->links() }}
         </div>
     </div>
 </div>

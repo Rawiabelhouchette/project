@@ -32,15 +32,13 @@
                         @if ($image)
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
-                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}"
-                                        alt="">
+                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}"  style="object-fit: cover;" alt="">
                                 </a>
                             </div>
                         @elseif ($old_image)
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ asset('storage/' . $old_image->chemin) }}">
-                                    <img class="listing-shot-img" class="img-responsive"
-                                        src="{{ asset('storage/' . $old_image->chemin) }}" alt="">
+                                    <img class="listing-shot-img" class="img-responsive" src="{{ asset('storage/' . $old_image->chemin) }}"  style="object-fit: cover;"  alt="">
                                 </a>
                             </div>
                         @endif
@@ -128,8 +126,7 @@
                         <div class="listing-shot grid-style">
                             <div style="display: flex; justify-content: center; align-items: center;">
                                 <a data-fancybox="gallery" href="{{ $image->temporaryUrl() }}">
-                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}"
-                                        alt="">
+                                    <img class="listing-shot-img" class="img-responsive" src="{{ $image->temporaryUrl() }}"  style="object-fit: cover;" alt="">
                                 </a>
                                 <span class="approve-listing" style="background-color: red;">
                                     <a href="javascript:void(0)" style="color: white;"
