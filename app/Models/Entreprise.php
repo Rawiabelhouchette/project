@@ -49,7 +49,7 @@ class Entreprise extends Model
 
     public function getNombreAnnoncesAttribute()
     {
-        return $this->annonces()->count();
+        return $this->annonces->count();
     }
 
     public function getEstOuverteAttribute()
@@ -57,8 +57,8 @@ class Entreprise extends Model
         $date = new \DateTime('now', new \DateTimeZone('Africa/Lome'));
         $jour = \IntlDateFormatter::formatObject($date, 'eeee', 'fr');
         $heure = date('H:i:s');
-        $heure_ouverture = $this->heure_ouverture()->where('jour', $jour)->first();
-        if ($this->heure_ouverture()->where('jour', 'Tous les jours')->first()) {
+        $heure_ouverture = $this->heure_ouverture->where('jour', $jour)->first();
+        if ($this->heure_ouverture->where('jour', 'Tous les jours')->first()) {
             return true;
         }
 
@@ -92,9 +92,9 @@ class Entreprise extends Model
             'Dimanche' => 'Fermé',
         ];
 
-        $jours_ouvertures = $this->heure_ouverture()->get();
+        $jours_ouvertures = $this->heure_ouverture;
 
-        $tous_les_jours = $this->heure_ouverture()->where('jour', 'Tous les jours')->first();
+        $tous_les_jours = $this->heure_ouverture->where('jour', 'Tous les jours')->first();
         if ($tous_les_jours) {
             $tmp = [];
             foreach ($jours as $key => $jour) {
@@ -158,6 +158,6 @@ class Entreprise extends Model
 
     public function abonnement($id)
     {
-        return $this->abonnements()->where('abonnement_id', $id)->first();
+        return $this->abonnements->where('abonnement_id', $id)->first();
     }
 }

@@ -20,31 +20,17 @@
                 </p>
             </div>
 
-            {{-- display errors --}}
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <div class="row gy-5 mb-2">
-                @foreach ($offres as $offre)
+                @forelse ($offres as $offre)
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         @include('components.pricing-card', ['offre' => $offre, 'isPro' => $isPro])
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                        <p class="text-uppercase">Aucune offre disponible</p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            applyMask('Togo');
-        });
-    </script>
-@endpush

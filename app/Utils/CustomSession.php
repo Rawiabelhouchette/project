@@ -23,12 +23,15 @@ class CustomSession
     public $entreprise = '';
 
     public $sortOrder = '';
+
     public $marque = '';
+
     public $boiteVitesse = '';
 
     public $nombrePersonne = '';
 
     public $typeVehicule = '';
+
     public $page;
 
     public function __construct()

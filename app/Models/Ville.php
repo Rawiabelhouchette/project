@@ -37,10 +37,6 @@ class Ville extends Model
         'nom' => PurifyHtmlOnGet::class,
     ];
 
-    protected $appends = [
-        'nombre_annonce',
-    ];
-
     public function pays()
     {
         return $this->belongsTo(Pays::class);
@@ -52,18 +48,18 @@ class Ville extends Model
     }
 
     // nombre d'annonce liees a la ville
-    public function getNombreAnnonceAttribute()
+    public function getNombreAnnonce()
     {
-        $ville = $this->nom;
-        $count = Annonce::public()->whereHas('entreprise.ville', function ($query) use ($ville) {
-            $query->where('nom', $ville);
-        })->count();
-
-        return $count;
+        return $this->annonces->count();
     }
 
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function annonces()
+    {
+        return $this->hasMany(Annonce::class);
     }
 }

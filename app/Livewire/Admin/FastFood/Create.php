@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\FastFood;
 
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
-use App\Models\Entreprise;
 use App\Models\FastFood;
 use App\Models\Pays;
 use App\Models\Quartier;
@@ -203,7 +202,7 @@ class Create extends Component
     public function addProduit()
     {
         $result = $this->checkUniqueProduit();
-        if (!$result) {
+        if (! $result) {
             return;
         }
 
@@ -252,7 +251,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -262,9 +261,9 @@ class Create extends Component
 
         // Put all produits in the same variable
         foreach ($this->produits as $produit) {
-            $this->nom_produit .= $produit['nom'] . $separator;
-            $this->prix_produit .= $produit['prix'] . $separator;
-            $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
+            $this->nom_produit .= $produit['nom'].$separator;
+            $this->prix_produit .= $produit['prix'].$separator;
+            $this->accompagnements_produit .= $produit['accompagnements'].$separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'fast-foods');

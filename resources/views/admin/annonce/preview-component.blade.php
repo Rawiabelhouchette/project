@@ -90,7 +90,7 @@
                     </p>
                 </a>
                 @if (Auth::check())
-                    @if ($annonce->est_favoris)
+                    @if ($annonce->getEstFavoris())
                         <a href="javascript:void(0)">
                             <span class="like-listing style-2"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                         </a>
@@ -124,9 +124,9 @@
                 </div>
 
                 <div class="rating padd-0">
-                    {{ $annonce->note }}
+                    {{ $annonce->getNote() }}
                     @for ($i = 1; $i <= 5; $i++)
-                        <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
+                        <i class="{{ $i <= $annonce->getNote() ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
                     @endfor
 
                     {{-- <a href="javascript:void(0)" data-toggle="modal" data-target="#share"
@@ -142,15 +142,15 @@
                 <ul>
                     <li class="text-center padd-top-10 padd-bot-0">
                         <i class="fa fa-eye fa-lg" aria-hidden="true"></i>
-                        {{ $annonce->view_count }}
+                        {{ $annonce->getViewCount() }}
                     </li>
                     <li class="text-center padd-top-10 padd-bot-0">
                         <i class="fa fa-heart fa-lg" aria-hidden="true"></i>
-                        {{ $annonce->favorite_count }}
+                        {{ $annonce->getFavoriteCount }}
                     </li>
                     <li class="text-center padd-top-10 padd-bot-0">
                         <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
-                        {{ $annonce->comment_count }}
+                        {{ $annonce->getCommentCount() }}
                     </li>
                 </ul>
             </div>

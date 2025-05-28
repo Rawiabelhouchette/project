@@ -134,19 +134,19 @@
                                                     <i class="fa fa-share-alt" aria-hidden="true"></i>
                                                 </a> {{ $annonce->nb_partage }}
                                                 &nbsp;&nbsp;
-                                                <i class="fa fa-eye" aria-hidden="true"></i> {{ $annonce->view_count }}
+                                                <i class="fa fa-eye" aria-hidden="true"></i> {{ $annonce->getViewCount() }}
                                                 &nbsp;&nbsp;
                                                 <i class="fa fa-comment" aria-hidden="true"></i>
-                                                {{ $annonce->comment_count }}
+                                                {{ $annonce->getCommentCount() }}
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                                                     @for ($i = 1; $i <= 5; $i++)
-                                                        <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star"
+                                                        <i class="{{ $i <= $annonce->getNote() ? 'color' : '' }} fa fa-star"
                                                             aria-hidden="true"></i>
                                                     @endfor
                                                     &nbsp;&nbsp;
-                                                    {{ $annonce->note }}
+                                                    {{ $annonce->getNote() }}
                                                 </div>
                                             </div>
                                         </div>

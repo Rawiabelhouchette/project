@@ -39,7 +39,7 @@ class Quartier extends Model
 
     protected $casts = [
         'nom' => PurifyHtmlOnGet::class,
-        'ville_id' => PurifyHtmlOnGet::class,
+        'ville_id' => 'integer',
     ];
 
     public function ville()
@@ -51,27 +51,30 @@ class Quartier extends Model
     // return array of string
     public static function getAllQuartiers(): array
     {
-        $quartiers = Quartier::with('ville.pays')->get();
-        $quartiersArray = [];
-        foreach ($quartiers as $quartier) {
-            $quartiersArray[] = $quartier->nom.', '.$quartier->ville->nom.', '.$quartier->ville->pays->nom;
-        }
-
-        return $quartiersArray;
+        return Quartier::with('ville.pays')->get()
+            ->map(fn ($quartier) => "{$quartier->nom}, {$quartier->ville->nom}, {$quartier->ville->pays->nom}")
+            ->toArray();
     }
 
     public function getNombreAnnonceAttribute()
     {
-        $ville = $this->nom;
-        $count = Annonce::public()->whereHas('entreprise.ville', function ($query) use ($ville) {
-            $query->where('nom', $ville);
-        })->count();
+        // $ville = $this->nom;
+        // $count = Annonce::public()->whereHas('entreprise.ville', function ($query) use ($ville) {
+        //     $query->where('nom', $ville);
+        // })->count();
 
-        return $count;
+        // return $count;
+
+        return $this->annonces->count();
     }
 
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function annonces()
+    {
+        return $this->hasMany(Annonce::class, 'quartier', 'nom');
     }
 }

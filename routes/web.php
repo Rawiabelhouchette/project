@@ -11,6 +11,7 @@ use App\Http\Controllers\BarController;
 use App\Http\Controllers\BoiteDeNuitController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\FastFoodController;
+use App\Http\Controllers\FichierController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\LocationMeubleeController;
 use App\Http\Controllers\LocationVehiculeController;
@@ -276,24 +277,11 @@ Route::get('500', function () {
 // Redirection after payment
 Route::get('/payment/return', [PaiementService::class, 'redirectionAfterPayment'])->name('payment.redirection');
 
-Route::get('liens-utiles', [PublicController::class, 'liensUtiles'])->name('liens-utiles');
+Route::get('/image', [FichierController::class, 'getImage'])->name('file.get');
 
-// Route::get('/test', function () {
-//     // return route('payment.notification');
-//     // send a mail
-//     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\SubscriptionConfirmation('Billal', 'Abonnement', '01/01/2021', '01/01/2022', 'SIMTOGO'));
-
-//     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\RegisterConfirmation(\App\Models\User::first()));
-
-//     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\PasswordReset(\App\Models\User::first(), 'http://localhost:8000/reset-password?token=123456'));
-
-//     Mail::to('billali.sonhouin@numrod.fr')->send(new App\Mail\ReSubscriptionConfirmation('Billal', '01/01/2021', '01/01/2022', 'SIMTOGO'));
-// });
+Route::get('useful-links', [PublicController::class, 'liensUtiles'])->name('useful-links');
 
 // Route::get('/test-notification', function () {
 //     $user = \App\Models\User::first(); // Get the first user as an example
 //     $user->notify(new ResetPassword('token123')); // Replace 'token123' with your actual token
 // });
-
-
-

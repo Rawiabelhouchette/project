@@ -149,8 +149,8 @@
 
         <script>
             window.addEventListener('update:comment-value', event => {
-                $('#annonce-commentaire').html(event.detail[0].value);
-                $('#annonce-note').html(event.detail[0].note);
+                $('#annonce-commentaire').html(event.detail[0].value + ' commentaire(s)');
+                $('#annonce-note').html(event.detail[0].note + '/5');
             });
         </script>
     @endpush

@@ -115,9 +115,7 @@ class AbonnementController extends Controller
             return redirect()->back();
         }
 
-        $abonnementId = $request->subscription;
-
-        $abonnement = OffreAbonnement::active()->where('id', $abonnementId)->first();
+        $abonnement = OffreAbonnement::active()->where('id', $request->subscription)->first();
 
         if (! $abonnement) {
             return redirect()->route('pricing');

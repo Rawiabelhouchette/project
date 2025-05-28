@@ -87,6 +87,17 @@ class User extends Authenticatable
     {
         return $this
             ->belongsToMany(Annonce::class, 'favoris', 'user_id', 'annonce_id')
+            // ->public()
+            // ->eagerLoad()
+            ->with(
+                'entreprise.heure_ouverture',
+                'annonceable',
+                'imagePrincipale',
+                'commentaires',
+                'ville.pays',
+                'views',
+                'favoris'
+            )
             ->withPivot('id')
             ->latest();
     }
@@ -108,7 +119,9 @@ class User extends Authenticatable
     {
         $entreprises_id = $this->entreprises->pluck('id');
 
-        return Annonce::with('entreprise', 'annonceable')->whereIn('entreprise_id', $entreprises_id)->latest();
+        return Annonce::eagerLoad()
+            ->whereIn('entreprise_id', $entreprises_id)
+            ->latest();
     }
 
     public function abonnements()

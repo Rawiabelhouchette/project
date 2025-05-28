@@ -68,17 +68,17 @@ class LocationVehicule extends Model implements AnnonceInterface
     // }
     public function getTypesVehiculeAttribute(): string
     {
-        return $this->annonce->references('types-de-voiture');
+        return $this->annonce->references('types-de-voiture')->get();
     }
 
     public function getEquipementsVehiculeAttribute(): string
     {
-        return $this->annonce->references('options-accessoires');
+        return $this->annonce->references('options-accessoires')->get();
     }
 
     public function getConditionsLocationAttribute(): string
     {
-        return $this->annonce->references('conditions-de-location');
+        return $this->annonce->references('conditions-de-location')->get();
     }
 
     public function getShowInformationHeader(): View

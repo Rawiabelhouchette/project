@@ -5,7 +5,6 @@ namespace App\Livewire\Admin\Bar;
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
 use App\Models\Bar;
-use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
@@ -216,7 +215,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 

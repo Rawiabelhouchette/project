@@ -25,7 +25,10 @@ class Favoris extends Component
 
     public function updateFavoris($annonceId)
     {
-        $favorite = \App\Models\Favoris::where('annonce_id', $annonceId)->where('user_id', auth()->user()->id)->first();
+        $favorite = \App\Models\Favoris::where('annonce_id', $annonceId)
+            ->where('user_id', auth()->user()->id)
+            ->first();
+
         if ($favorite) {
             $favorite->delete();
         }
@@ -35,6 +38,7 @@ class Favoris extends Component
     {
         $search = $this->search;
         $user = User::find(auth()->user()->id);
+
         $annonces = $user->favorisAnnonces()->where(function ($query) use ($search) {
             $query->orWhereRaw('LOWER(titre) LIKE ?', ['%'.strtolower($search).'%'])
                 ->orWhereRaw('LOWER(description) LIKE ?', ['%'.strtolower($search).'%']);

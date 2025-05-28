@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\Hotel;
 
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
-use App\Models\Entreprise;
 use App\Models\Hotel;
 use App\Models\Pays;
 use App\Models\Quartier;
@@ -202,7 +201,7 @@ class Create extends Component
             'entreprise_id.exists' => 'L\'entreprise n\'existe pas',
             'nom.required' => 'Le nom est obligatoire',
             'heure_validite.required' => 'L\'heure de validité est obligatoire',
-            
+
             'prix_min.required' => 'Le prix minimum est obligatoire',
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
@@ -261,7 +260,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 

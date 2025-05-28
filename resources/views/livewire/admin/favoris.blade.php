@@ -60,62 +60,56 @@
         }
     </style>
 
-    <div class="card">
-        <div class="card-body padd-l-0 padd-r-0">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6" style="margin-top: 10px;">
-                        <span class="mrg-l-10"
-                            id="nbre-favoris">{{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur
-                            {{ $annonces->total() }} favori(s)</span>
-                    </div>
-                    <div class="col-md-6 text-center">
-                        <input class="form-control" id="favorite_search" type="text" value=""
-                            style="margin-top: 6px; margin-bottom: 6px; height: 35px;"
-                            placeholder="Afficher la recherche" wire:model.live.debounce.500ms='search'>
-                    </div>
+    <div class="padd-l-0 padd-r-0">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6" style="margin-top: 10px;">
+                    <span id="nbre-favoris" class="mrg-l-10">{{ $annonces->firstItem() }}-{{ $annonces->lastItem() }} sur
+                        {{ $annonces->total() }} favori(s)</span>
+                </div>
+                <div class="col-md-6 text-center">
+                    <input id="favorite_search" class="form-control" type="text" value="" style="margin-top: 6px; margin-bottom: 6px; height: 35px;" placeholder="Afficher la recherche" wire:model.live.debounce.500ms='search'>
                 </div>
             </div>
-            
-            <div class="col-md-12">
-                <div class="small-list-wrapper">
-                    <div class="row" id="table">
-                        
-                        <x-public.property-item :annonces="$annonces" :mode="'row'" showDelete="true"/>
+        </div>
 
-                        @empty($annonces->items())
-                            <div class="col-md-12 col-sm-12">
-                                <div class="listing-shot grid-style">
-                                    <div class="listing-shot-caption text-center mrg-top-20 mrg-bot-20">
-                                        <h4>Aucun favori trouvé</h4>
-                                    </div>
+        <div class="col-md-12">
+            <div class="small-list-wrapper">
+                <div id="table" class="row">
+
+                    <x-public.property-item :annonces="$annonces" :mode="'row'" showDelete="true" />
+
+                    @empty($annonces->items())
+                        <div class="col-md-12 col-sm-12">
+                            <div class="listing-shot grid-style">
+                                <div class="listing-shot-caption mrg-top-20 mrg-bot-20 text-center">
+                                    <h4>Aucun favori trouvé</h4>
                                 </div>
                             </div>
-                        @endempty
-                    </div>
+                        </div>
+                    @endempty
                 </div>
             </div>
-            <div class="col-md-12">
-                {{ $annonces->links() }}
-            </div>
+        </div>
+        <div class="col-md-12">
+            {{ $annonces->links() }}
         </div>
     </div>
 </div>
 
 @push('scripts')
-<script>
-    function confirmRemoveFavorite(annonceId) {
-        const params = {
-            message: 'Voulez-vous vraiment retirer cette annonce de vos favoris ?',
-            icon: 'warning',
-            confirmButtonText: 'Oui, retirer',
-            onConfirm: function() {
-                Livewire.dispatch('updateFavoris', [annonceId]);
-            }
-        };
-        
-        showConfirmationNotification(params);
-    }
-</script>
-@endpush
+    <script>
+        function confirmRemoveFavorite(annonceId) {
+            const params = {
+                message: 'Voulez-vous vraiment retirer cette annonce de vos favoris ?',
+                icon: 'warning',
+                confirmButtonText: 'Oui, retirer',
+                onConfirm: function() {
+                    Livewire.dispatch('updateFavoris', [annonceId]);
+                }
+            };
 
+            showConfirmationNotification(params);
+        }
+    </script>
+@endpush

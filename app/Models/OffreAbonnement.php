@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class OffreAbonnement extends Model
 {
@@ -15,11 +16,11 @@ class OffreAbonnement extends Model
         parent::boot();
 
         static::saving(function ($model) {
-            $model->slug = \Str::slug($model->libelle);
+            $model->slug = Str::slug($model->libelle);
         });
 
         static::updating(function ($model) {
-            $model->slug = \Str::slug($model->libelle);
+            $model->slug = Str::slug($model->libelle);
         });
     }
 
@@ -34,11 +35,13 @@ class OffreAbonnement extends Model
         'unite_en', // day, week, month, year
         'unite_fr', // Jour, Semaine, Mois, Annee
         'is_free',
+        'expires_at',
     ];
 
     protected $casts = [
         'options' => 'array',
         'unite' => 'string',
+        'expires_at' => 'datetime',
     ];
 
     // add a scroped query

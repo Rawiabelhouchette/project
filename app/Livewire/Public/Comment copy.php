@@ -15,7 +15,7 @@ class Comment extends Component
 
     public $note;
 
-    public $perPage = 10;
+    public $perPage = 1;
 
     public $message = [];
 

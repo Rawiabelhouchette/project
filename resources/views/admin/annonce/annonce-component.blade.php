@@ -37,5 +37,5 @@
 {{-- Date de validite --}}
 <tr>
     <td style="font-weight: bold;" width="30%">Date de validité</td>
-    <td>{{ date('d-m-Y', strtotime($annonce->date_validite)) }} | {{ $annonce->jour_restant }} jour(s) restant(s)</td>
+    <td>{{ date('d-m-Y', strtotime($annonce->date_validite)) }} | {{ $annonce->getJourRestant() }} jour(s) restant(s)</td>
 </tr>

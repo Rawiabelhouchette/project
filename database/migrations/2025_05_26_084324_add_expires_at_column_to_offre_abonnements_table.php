@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('annonces', function (Blueprint $table) {
-            $table->float('prix')->default(0);
+        Schema::table('offre_abonnements', function (Blueprint $table) {
+            $table->timestamp('expires_at')->nullable();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('annonces', function (Blueprint $table) {
-            $table->dropColumn('prix');
+        Schema::table('offre_abonnements', function (Blueprint $table) {
+            $table->dropColumn('expires_at');
         });
     }
 };

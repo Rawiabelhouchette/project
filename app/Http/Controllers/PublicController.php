@@ -15,11 +15,13 @@ class PublicController extends Controller
     {
         $listAnnonce = AnnoncesUtils::getPublicAnnonceList();
         $typeAnnonce = Annonce::public()->pluck('type')->unique()->toArray();
-        $annonces = Annonce::public()->with('annonceable', 'entreprise')->inRandomOrder()->take(8)->get();
+        $annonces = Annonce::eagerLoad()->public()->inRandomOrder()->take(8)->get();
 
         $nbAnnonces = Annonce::public()->count();
         $nbEntreprises = Entreprise::count();
-        $nbUtilisateurs = User::count();
+        $nbUtilisateurs = User::whereHas('roles', function ($query) {
+            $query->where('name', '!=', 'Administrateur');
+        })->count();
         $nbTypesAnnonces = count($typeAnnonce);
 
         $statsAnnonce = [];
@@ -27,7 +29,7 @@ class PublicController extends Controller
         foreach ($typeAnnonce as $type) {
             $statsAnnonce[] = (object) [
                 'type' => $type,
-                'count' => Annonce::where('type', $type)->count(),
+                'count' => Annonce::public()->where('type', $type)->count(),
             ];
         }
 
@@ -57,15 +59,17 @@ class PublicController extends Controller
     public function showEntreprise($slug)
     {
         $entreprise = Entreprise::where('slug', $slug)->firstOrFail();
-        $annonces = Annonce::public()->with('annonceable', 'entreprise')->where('entreprise_id', $entreprise->id)->take(4)->get();
+        $annonces = Annonce::with('annonceable', 'entreprise', 'imagePrincipale')
+            ->public()
+            ->where('entreprise_id', $entreprise->id)
+            ->take(4)
+            ->get();
 
         return view('public.company', compact('entreprise', 'annonces'));
     }
 
     public function liensUtiles()
     {
-        return view('public.static.liens-utiles');
+        return view('public.static.useful-links');
     }
 }
-
-

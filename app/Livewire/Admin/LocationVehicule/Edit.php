@@ -3,7 +3,6 @@
 namespace App\Livewire\Admin\LocationVehicule;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
-use App\Models\Entreprise;
 use App\Models\Marque;
 use App\Models\Modele;
 use App\Models\Pays;
@@ -288,7 +287,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 

@@ -136,6 +136,7 @@
                     <span>Ouvert</span>
                 </div>
             @endif
+
             <div class="listing-price-info">
                 <span class="categorytag">
                     @php
@@ -169,9 +170,9 @@
                 <div class="ratingtag flex items-center bg-white px-2 py-1 shadow-sm">
                     <span class="listing-shot-info rating p-0">
                         @for ($i = 1; $i <= 5; $i++)
-                            <i class="{{ $i <= $annonce->note ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
+                            <i class="{{ $i <= $annonce->getNote() ? 'color' : '' }} fa fa-star" aria-hidden="true"></i>
                         @endfor
-                        {{ $annonce->note }}
+                        {{ $annonce->getNote() }}
                     </span>
 
                 </div>
@@ -194,7 +195,7 @@
                         </a>
                     @else
                         @if (Auth::check())
-                            @if ($annonce->est_favoris)
+                            @if ($annonce->getEstFavoris())
                                 <a href="javascript:void(0)" class="like-listing style-2" wire:click='updateFavoris({{ $annonce->id }})'>
                                     <i class="fa fa-heart-o" aria-hidden="true"></i>
                                 </a>
@@ -223,9 +224,9 @@
                 </span>
                 <h4 class="captlize" style="font-weight:400; font-size:14px">
                     @if ($annonce->ville_id)
-                        {{ $annonce->adresse_complete->pays }},
-                        {{ $annonce->adresse_complete->ville }},
-                        {{ $annonce->adresse_complete->quartier }}
+                        {{ $annonce->getAdresseComplete()->pays }},
+                        {{ $annonce->getAdresseComplete()->ville }},
+                        {{ $annonce->getAdresseComplete()->quartier }}
                     @else
                         {{ $annonce->entreprise->adresse_complete }}
                     @endif
@@ -246,7 +247,7 @@
                     <i class="ti-money" style="color: #00796b;"></i>
                 </span>
                 <h4 class="captlize" style="font-weight:400; font-size:14px">
-                    {{ $annonce->prix ?? '0.00' }}
+                    {{ number_format($annonce->prix ?? 0, 0, '', ' ') }}
                 </h4>
             </div>
 
@@ -255,15 +256,15 @@
                 <div class="counter-container">
                     <div class="counter-item">
                         <i class="fa fa-eye" aria-hidden="true"></i>
-                        <span>{{ $annonce->view_count }}</span>
+                        <span>{{ $annonce->getViewCount() }}</span>
                     </div>
                     <div class="counter-item">
                         <i class="fa fa-heart" aria-hidden="true"></i>
-                        <span>{{ $annonce->favorite_count }}</span>
+                        <span>{{ $annonce->getFavoriteCount() }}</span>
                     </div>
                     <div class="counter-item">
                         <i class="fa fa-comment" aria-hidden="true"></i>
-                        <span>{{ $annonce->comment_count }}</span>
+                        <span>{{ $annonce->getCommentCount() }}</span>
                     </div>
                 </div>
             </div>
@@ -322,7 +323,9 @@
                             {{-- Price tag for line view --}}
                             <div class="line-money-container">
                                 <i class="ti-money line-icon-money"></i>
-                                <span class="line-money-text"> {{ $annonce->prix ?? '0.00' }}</span>
+                                <span class="line-money-text">
+                                    {{ number_format($annonce->prix ?? 0, 0, '', ' ') }}
+                                </span>
                             </div>
                         </div>
 
@@ -330,7 +333,7 @@
                             <i class="ti-location-pin line-icon-location"></i>
                             <span class="line-location-text">
                                 @if ($annonce->ville_id)
-                                    {{ $annonce->adresse_complete->ville }}, {{ $annonce->adresse_complete->pays }}
+                                    {{ $annonce->getAdresseComplete()->ville }}, {{ $annonce->getAdresseComplete()->pays }}
                                 @else
                                     {{ $annonce->entreprise->adresse_complete }}
                                 @endif
@@ -344,7 +347,9 @@
 
                         <div class="line-phone-container">
                             <i class="ti-money line-icon-money"></i>
-                            <span class="line-money-text"> {{ $annonce->prix ?? '0.00' }}</span>
+                            <span class="line-money-text">
+                                {{ number_format($annonce->prix ?? 0, 0, '', ' ') }}
+                            </span>
                         </div>
 
                         <p class="line-description">
@@ -353,10 +358,10 @@
                         <div class="line-rating-container">
                             <span class="line-stars">
                                 @for ($i = 1; $i <= 5; $i++)
-                                    <i class="{{ $i <= $annonce->note ? 'line-star-filled' : 'line-star-empty' }} fa fa-star" aria-hidden="true"></i>
+                                    <i class="{{ $i <= $annonce->getNote() ? 'line-star-filled' : 'line-star-empty' }} fa fa-star" aria-hidden="true"></i>
                                 @endfor
                             </span>
-                            <span class="line-rating-count">{{ $annonce->note }}</span>
+                            <span class="line-rating-count">{{ $annonce->getNote() }}</span>
                         </div>
                     </div>
 
@@ -368,11 +373,11 @@
                             </div>
                             <div class="counter-item">
                                 <i class="fa fa-heart" aria-hidden="true"></i>
-                                <span>{{ $annonce->favorite_count }}</span>
+                                <span>{{ $annonce->getFavoriteCount() }}</span>
                             </div>
                             <div class="counter-item">
                                 <i class="fa fa-comment" aria-hidden="true"></i>
-                                <span>{{ $annonce->comment_count }}</span>
+                                <span>{{ $annonce->getCommentCount() }}</span>
                             </div>
                         </div>
                         <div class="line-actions">
@@ -382,7 +387,7 @@
                             </a>
 
                             @if (Auth::check())
-                                @if ($annonce->est_favoris)
+                                @if ($annonce->getEstFavoris())
                                     <a href="javascript:void(0)" wire:click='updateFavoris({{ $annonce->id }})'>
                                         <span class="btn btn-sm theme-bg" style="padding: 8px 10px; border: 0;"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                     </a>
@@ -425,7 +430,7 @@
                 icon: 'warning',
                 confirmButtonText: 'Oui, supprimer',
                 onConfirm: function() {
-                    Livewire.dispatch('deleteAnnonce', [annonceId]);
+                    @this.call('delete', annonceId);
                 }
             };
 
