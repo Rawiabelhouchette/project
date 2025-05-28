@@ -94,6 +94,7 @@
             border-bottom: none;
             padding: 15px 20px;
             justify-content: space-between;
+            background: #de6600;
         }
 
         .btn-close {
