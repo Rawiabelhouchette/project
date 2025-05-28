@@ -281,7 +281,6 @@ Route::get('/image', [FichierController::class, 'getImage'])->name('file.get');
 
 Route::get('useful-links', [PublicController::class, 'liensUtiles'])->name('useful-links');
 
-
 // Route::get('/test-notification', function () {
 //     $user = \App\Models\User::first(); // Get the first user as an example
 //     $user->notify(new ResetPassword('token123')); // Replace 'token123' with your actual token

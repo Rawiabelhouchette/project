@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\Restaurant;
 
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
-use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
@@ -431,7 +430,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -440,39 +439,39 @@ class Create extends Component
 
         // Put all entrees in the same variable
         foreach ($this->entrees as $entree) {
-            $this->e_nom .= $entree['nom'] . $separator;
-            $this->e_ingredients .= $entree['ingredients'] . $separator;
-            $this->e_prix_min .= $entree['prix_min'] . $separator;
-            $this->e_prix_max .= $entree['prix_min'] . $separator;
+            $this->e_nom .= $entree['nom'].$separator;
+            $this->e_ingredients .= $entree['ingredients'].$separator;
+            $this->e_prix_min .= $entree['prix_min'].$separator;
+            $this->e_prix_max .= $entree['prix_min'].$separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($entree['image'], 'restaurants');
-            $this->e_image .= $uploadResult->id . $separator2;
+            $this->e_image .= $uploadResult->id.$separator2;
         }
 
         // Put all plats in the same variable
         foreach ($this->plats as $plat) {
-            $this->p_nom .= $plat['nom'] . $separator;
-            $this->p_ingredients .= $plat['ingredients'] . $separator;
-            $this->p_accompagnements .= $plat['accompagnements'] . $separator;
-            $this->p_prix_min .= $plat['prix_min'] . $separator;
-            $this->p_prix_max .= $plat['prix_min'] . $separator;
+            $this->p_nom .= $plat['nom'].$separator;
+            $this->p_ingredients .= $plat['ingredients'].$separator;
+            $this->p_accompagnements .= $plat['accompagnements'].$separator;
+            $this->p_prix_min .= $plat['prix_min'].$separator;
+            $this->p_prix_max .= $plat['prix_min'].$separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($plat['image'], 'restaurants');
-            $this->p_image .= $uploadResult->id . $separator2;
+            $this->p_image .= $uploadResult->id.$separator2;
         }
 
         // Put all desserts in the same variable
         foreach ($this->desserts as $dessert) {
-            $this->d_nom .= $dessert['nom'] . $separator;
-            $this->d_ingredients .= $dessert['ingredients'] . $separator;
-            $this->d_prix_min .= $dessert['prix_min'] . $separator;
-            $this->d_prix_max .= $dessert['prix_min'] . $separator;
+            $this->d_nom .= $dessert['nom'].$separator;
+            $this->d_ingredients .= $dessert['ingredients'].$separator;
+            $this->d_prix_min .= $dessert['prix_min'].$separator;
+            $this->d_prix_max .= $dessert['prix_min'].$separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($dessert['image'], 'restaurants');
-            $this->d_image .= $uploadResult->id . $separator2;
+            $this->d_image .= $uploadResult->id.$separator2;
         }
 
         try {

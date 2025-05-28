@@ -3,7 +3,6 @@
 namespace App\Livewire\Admin\FastFood;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
-use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
@@ -237,7 +236,7 @@ class Edit extends Component
     public function addProduit()
     {
         $result = $this->checkUniqueProduit();
-        if (!$result) {
+        if (! $result) {
             return;
         }
 
@@ -296,11 +295,11 @@ class Edit extends Component
 
     public function update()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
-        if (!$this->checkUniqueProduit(true)) {
+        if (! $this->checkUniqueProduit(true)) {
             return;
         }
 
@@ -312,15 +311,15 @@ class Edit extends Component
 
             // Put all produits in the same variable
             foreach ($this->produits as $index => $produit) {
-                $this->nom_produit .= $produit['nom'] . $separator;
-                $this->prix_produit .= $produit['prix'] . $separator;
-                $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
+                $this->nom_produit .= $produit['nom'].$separator;
+                $this->prix_produit .= $produit['prix'].$separator;
+                $this->accompagnements_produit .= $produit['accompagnements'].$separator;
 
                 // check if $produit image is a string or an object
                 if (is_string($produit['image'])) {
                     $oldProduitsCollection = collect($this->old_produits);
                     $tmp_produit = $oldProduitsCollection->where('id', $produit['id'])->first();
-                    $this->image_produit .= $tmp_produit['image_id'] . $separator2;
+                    $this->image_produit .= $tmp_produit['image_id'].$separator2;
 
                     continue;
                 }

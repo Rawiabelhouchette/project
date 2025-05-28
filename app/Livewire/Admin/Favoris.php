@@ -40,8 +40,8 @@ class Favoris extends Component
         $user = User::find(auth()->user()->id);
 
         $annonces = $user->favorisAnnonces()->where(function ($query) use ($search) {
-            $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($search) . '%'])
-                ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
+            $query->orWhereRaw('LOWER(titre) LIKE ?', ['%'.strtolower($search).'%'])
+                ->orWhereRaw('LOWER(description) LIKE ?', ['%'.strtolower($search).'%']);
         })->paginate($this->perPage);
 
         return view('livewire.admin.favoris', compact('annonces'));

@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Public;
 
-use App\Models\Annonce;
 use App\Models\Commentaire;
 use Livewire\Component;
 
@@ -65,7 +64,7 @@ class Comment extends Component
     {
         $this->validate();
 
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('connexion');
         }
 

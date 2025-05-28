@@ -26,12 +26,12 @@ class Fichier extends Model
 
     public function getUrl(bool $isSmall = false): string
     {
-        $param = '?path=' . $this->chemin;
+        $param = '?path='.$this->chemin;
 
         if ($isSmall) {
             $param .= '&width=300&height=200';
         }
 
-        return route('file.get') . $param;
+        return route('file.get').$param;
     }
 }

@@ -64,7 +64,7 @@ class Comment extends Component
     {
         $this->validate();
 
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('connexion');
         }
 

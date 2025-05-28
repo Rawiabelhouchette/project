@@ -46,7 +46,7 @@ class SearchController extends Controller
             ->where('slug', $slug)
             ->first();
 
-        if (!$annonce) {
+        if (! $annonce) {
             return view('errors.404');
         }
 
@@ -54,7 +54,7 @@ class SearchController extends Controller
         $isAdmin = $user && $user->hasRole('Administrateur');
         $isPro = $user && $user->hasRole('Professionnel') && in_array($annonce->entreprise_id, $user->entreprises->pluck('id')->toArray());
 
-        if (!$isAdmin && !$isPro && !$annonce->is_active) {
+        if (! $isAdmin && ! $isPro && ! $annonce->is_active) {
             return view('errors.404');
         }
 
@@ -73,7 +73,7 @@ class SearchController extends Controller
         $session = new CustomSession;
         $sessAnnonces = $session->annonces ?? [];
 
-        if (!in_array($annonce->id, $sessAnnonces)) {
+        if (! in_array($annonce->id, $sessAnnonces)) {
             $sessAnnonces[] = $annonce->id;
             CustomSession::create([
                 'annonces' => $sessAnnonces,
@@ -98,7 +98,7 @@ class SearchController extends Controller
             ->keyBy('id');
 
         $pagination = (object) [
-            'position' => "{$result->position}/" . max(count($sessAnnonces), 1),
+            'position' => "{$result->position}/".max(count($sessAnnonces), 1),
             'previous' => isset($neighbors[$result->previous])
                 ? route('show', $neighbors[$result->previous]->slug)
                 : 'javascript:void(0)',
@@ -106,7 +106,6 @@ class SearchController extends Controller
                 ? route('show', $neighbors[$result->next]->slug)
                 : 'javascript:void(0)',
         ];
-
 
         return view('public.show', compact(
             'annonce',

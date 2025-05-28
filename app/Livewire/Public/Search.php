@@ -1,23 +1,23 @@
 <?php
 
 namespace App\Livewire\Public;
-use App\Models\Auberge;
-use App\Models\Hotel;
-use Illuminate\Support\Str;
+
 use App\Models\Annonce;
+use App\Models\Auberge;
 use App\Models\Entreprise;
 use App\Models\Favoris;
+use App\Models\Hotel;
 use App\Models\LocationMeublee;
-use App\Models\Marque;
 use App\Models\LocationVehicule;
+use App\Models\Marque;
 use App\Models\Modele;
 use App\Models\Quartier;
 use App\Models\Ville;
 use App\Utils\AnnoncesUtils;
 use App\Utils\CustomSession;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Composant Livewire pour la recherche d'annonces
@@ -64,7 +64,6 @@ class Search extends Component
 
     public $typeVehicule = [];
 
-
     // Tri
     public $column = '';
 
@@ -83,11 +82,11 @@ class Search extends Component
 
     public string $marqueFilterValue = '';
 
-    public string $boiteVitesseFilterValue = "";
+    public string $boiteVitesseFilterValue = '';
 
-    public string $typeVehiculeFilterValue = "";
+    public string $typeVehiculeFilterValue = '';
 
-    public string $nombrePersonneFilterValue = "";
+    public string $nombrePersonneFilterValue = '';
 
     // Données des facettes
     public $typeAnnonces = [];
@@ -123,7 +122,7 @@ class Search extends Component
         'marque',
         'boiteVitesse',
         'nombrePersonne',
-        'typeVehicule'
+        'typeVehicule',
     ];
 
     /**
@@ -146,7 +145,7 @@ class Search extends Component
      */
     private function initializeFromSession($hasSessionValue)
     {
-        if (!$hasSessionValue) {
+        if (! $hasSessionValue) {
             return;
         }
 
@@ -209,7 +208,7 @@ class Search extends Component
      */
     private function processLocation()
     {
-        if (!$this->location) {
+        if (! $this->location) {
             return;
         }
 
@@ -241,7 +240,7 @@ class Search extends Component
 
         if ($this->key) {
             $url .= $hasFirst ? '&' : '?';
-            $url .= 'key=' . $this->key;
+            $url .= 'key='.$this->key;
             $hasFirst = true;
         }
 
@@ -249,7 +248,7 @@ class Search extends Component
             if ($this->$property) {
                 foreach ($this->$property as $key => $value) {
                     $url .= $hasFirst ? '&' : '?';
-                    $url .= $property . '[' . $key . ']=' . $value;
+                    $url .= $property.'['.$key.']='.$value;
                     $hasFirst = true;
                 }
             }
@@ -264,7 +263,7 @@ class Search extends Component
      */
     public function changeTypeName()
     {
-        if (!$this->type) {
+        if (! $this->type) {
             $this->type = [];
         }
 
@@ -280,7 +279,7 @@ class Search extends Component
      */
     public function updatedSortOrder()
     {
-        if (!$this->sortOrder) {
+        if (! $this->sortOrder) {
             return;
         }
 
@@ -313,7 +312,7 @@ class Search extends Component
 
         // Vérifier si la catégorie est valide
         $validCategories = ['type', 'ville', 'quartier', 'entreprise', 'marque', 'boiteVitesse', 'nombrePersonne', 'typeVehicule'];
-        if (!in_array($category, $validCategories)) {
+        if (! in_array($category, $validCategories)) {
             return;
         }
 
@@ -373,7 +372,7 @@ class Search extends Component
         foreach ($quartiers as $quartier) {
             $tmp = ['value' => $quartier->nom, 'count' => $quartier->nombre_annonce];
             $tmp = array_unique($tmp, SORT_REGULAR);
-            if (!in_array($tmp, $this->quartiers)) {
+            if (! in_array($tmp, $this->quartiers)) {
                 $this->quartiers[] = $tmp;
             }
         }
@@ -389,13 +388,11 @@ class Search extends Component
         foreach ($villes as $ville) {
             $tmp = ['value' => $ville->nom, 'count' => $ville->getNombreAnnonce()];
             $tmp = array_unique($tmp, SORT_REGULAR);
-            if (!in_array($tmp, $this->villes)) {
+            if (! in_array($tmp, $this->villes)) {
                 $this->villes[] = $tmp;
             }
         }
     }
-
-
 
     /**
      * Récupère toutes les entreprises qui ont des annonces publiques
@@ -412,17 +409,15 @@ class Search extends Component
         foreach ($entreprises as $entreprise) {
             $tmp = ['value' => $entreprise->nom, 'count' => $entreprise->nombre_annonces];
             $tmp = array_unique($tmp, SORT_REGULAR);
-            if (!in_array($tmp, $this->entreprises)) {
+            if (! in_array($tmp, $this->entreprises)) {
                 $this->entreprises[] = $tmp;
             }
         }
     }
 
-
     /**
      * Récupère les boite vitesse
      */
-
     public function getBoiteVitesse()
     {
         $this->boiteVitesses = [];
@@ -442,11 +437,9 @@ class Search extends Component
             });
     }
 
-
     /**
      * Récupère les nombre personne
      */
-
     public function getNombrePersonne()
     {
         $this->nombrePersonnes = [];
@@ -454,13 +447,13 @@ class Search extends Component
         $hasAuberge = in_array('Auberge', $this->type);
         $hasHotel = in_array('Hôtel', $this->type);
 
-        if ($hasLocation && !$hasAuberge && !$hasHotel) {
+        if ($hasLocation && ! $hasAuberge && ! $hasHotel) {
             $this->nombrePersonnes = $this->getNombrePersonnesFrom(LocationMeublee::class, 'location_meublees');
 
-        } elseif ($hasAuberge && !$hasLocation && !$hasHotel) {
+        } elseif ($hasAuberge && ! $hasLocation && ! $hasHotel) {
             $this->nombrePersonnes = $this->getNombrePersonnesFrom(Auberge::class, 'auberges');
 
-        } elseif ($hasHotel && !$hasLocation && !$hasAuberge) {
+        } elseif ($hasHotel && ! $hasLocation && ! $hasAuberge) {
             $this->nombrePersonnes = $this->getNombrePersonnesFrom(Hotel::class, 'hotels');
 
         } else {
@@ -486,6 +479,7 @@ class Search extends Component
                         if ($el['value'] === $item['value']) {
                             $el['count'] += $item['count'];
                         }
+
                         return $el;
                     });
                 } else {
@@ -496,8 +490,6 @@ class Search extends Component
             $this->nombrePersonnes = $merged;
         }
     }
-
-
 
     /**
      * Get nombre_personne and count from a specific model
@@ -519,11 +511,9 @@ class Search extends Component
             });
     }
 
-
     /**
      * Récupère les marques
      */
-
     public function getMarques()
     {
         $this->marques = [];
@@ -535,7 +525,7 @@ class Search extends Component
                             ->where('annonces.annonceable_type', '=', \App\Models\LocationVehicule::class);
                     })
                     ->selectRaw('count(annonces.id)');
-            }
+            },
         ])->get()->map(function ($marque) {
             return [
                 'value' => $marque->nom,
@@ -548,7 +538,6 @@ class Search extends Component
     /**
      * Récupère les type vehicule
      */
-
     public function getTypeVehicule()
     {
         $this->typeVehicules = [];
@@ -558,7 +547,7 @@ class Search extends Component
                     $join->on('location_vehicules.id', '=', 'annonces.annonceable_id')
                         ->where('annonces.annonceable_type', '=', \App\Models\LocationVehicule::class);
                 })->selectRaw('count(annonces.id)');
-            }
+            },
         ])->get()->map(function ($modele) {
             return [
                 'value' => $modele->nom,
@@ -566,13 +555,7 @@ class Search extends Component
             ];
         });
 
-
-
     }
-
-
-
-
 
     /**
      * Récupère les quartiers en fonction des villes sélectionnées
@@ -610,7 +593,6 @@ class Search extends Component
             //         ];
             //     })
             //     ->toArray();
-
 
             $this->quartiers = $quartierData;
         } else {
@@ -664,6 +646,7 @@ class Search extends Component
             )
             ->public();
         $this->preparingAnnonces = $annonces;
+
         return $this->filters();
     }
 
@@ -707,7 +690,6 @@ class Search extends Component
             'filterByNombrePersonne',
             'filterByTypeVehicule',
 
-
         ];
 
         foreach ($filters as $filter) {
@@ -725,7 +707,7 @@ class Search extends Component
         if ($this->type) {
             $annonces = $annonces->where(function ($query) {
                 foreach ($this->type as $type) {
-                    $query->orWhere('type', 'like', '%' . $type . '%');
+                    $query->orWhere('type', 'like', '%'.$type.'%');
                 }
             });
         }
@@ -733,8 +715,8 @@ class Search extends Component
         if ($this->key) {
             $key = $this->key;
             $annonces = $annonces->where(function ($query) use ($key) {
-                $query->orWhereRaw('LOWER(titre) LIKE ?', ['%' . strtolower($key) . '%'])
-                    ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($key) . '%']);
+                $query->orWhereRaw('LOWER(titre) LIKE ?', ['%'.strtolower($key).'%'])
+                    ->orWhereRaw('LOWER(description) LIKE ?', ['%'.strtolower($key).'%']);
             });
         }
 
@@ -744,7 +726,7 @@ class Search extends Component
             if (count($parts) > 0) {
                 $quartier = trim($parts[0]);
                 $annonces = $annonces->whereHas('entreprise.quartier', function ($query) use ($quartier) {
-                    $query->where('nom', 'like', '%' . $quartier . '%');
+                    $query->where('nom', 'like', '%'.$quartier.'%');
                 });
             }
         }
@@ -764,7 +746,7 @@ class Search extends Component
             $annonces = $annonces->whereHas('entreprise.ville', function ($query) use ($villes) {
                 $query->where(function ($query) use ($villes) {
                     foreach ($villes as $ville) {
-                        $query->orWhere('nom', 'like', '%' . $ville . '%');
+                        $query->orWhere('nom', 'like', '%'.$ville.'%');
                     }
                 });
             });
@@ -799,7 +781,7 @@ class Search extends Component
             $quartiers = $this->quartier;
             $annonces = $annonces->where(function ($query) use ($quartiers) {
                 foreach ($quartiers as $quartier) {
-                    $query->orWhere('quartier', 'like', '%' . $quartier . '%');
+                    $query->orWhere('quartier', 'like', '%'.$quartier.'%');
                 }
             });
 
@@ -814,10 +796,8 @@ class Search extends Component
     protected function filterByMarque($annonces)
     {
 
-
         if ($this->marque) {
             $marques = $this->marque;
-
 
             $annonces = $annonces->where('annonces.annonceable_type', '=', \App\Models\LocationVehicule::class)
                 ->whereHas('annonceable', function ($query) use ($marques) {
@@ -829,7 +809,6 @@ class Search extends Component
                     }
                 });
 
-
         }
 
         return $annonces;
@@ -840,7 +819,6 @@ class Search extends Component
      */
     protected function filterByTypeVehicule($annonces)
     {
-
 
         if ($this->typeVehicule) {
             $modeles = $this->typeVehicule;
@@ -855,13 +833,10 @@ class Search extends Component
                     }
                 });
 
-
         }
 
         return $annonces;
     }
-
-
 
     /**
      * Filtre les annonces par marque
@@ -869,10 +844,8 @@ class Search extends Component
     protected function filterByBoiteVitesse($annonces)
     {
 
-
         if ($this->boiteVitesse) {
             $boiteVitesseList = $this->boiteVitesse;
-
 
             $annonces = $annonces->where('annonces.annonceable_type', LocationVehicule::class)
                 ->whereHas('annonceable', function ($query) use ($boiteVitesseList) {
@@ -880,7 +853,6 @@ class Search extends Component
                         $query->whereIn('boite_vitesse', $boiteVitesseList);
                     }
                 });
-
 
         }
 
@@ -892,7 +864,7 @@ class Search extends Component
      */
     protected function filterByNombrePersonne($annonces)
     {
-        if (!empty($this->nombrePersonne)) {
+        if (! empty($this->nombrePersonne)) {
             $nombrePersonneList = $this->nombrePersonne;
 
             $annonces = $annonces->where(function ($query) use ($nombrePersonneList) {
@@ -930,25 +902,20 @@ class Search extends Component
         return $annonces;
     }
 
-
-
-
-
-
     /**
      * Applique le tri aux résultats
      */
     protected function filterByOrder($annonces)
     {
-        if (!in_array($this->direction, ['asc', 'desc'])) {
+        if (! in_array($this->direction, ['asc', 'desc'])) {
             $this->direction = 'desc';
         }
 
-        if (!in_array($this->column, ['created_at', 'titre'])) {
+        if (! in_array($this->column, ['created_at', 'titre'])) {
             $this->column = 'created_at';
         }
 
-        $this->sortOrder = $this->column . '|' . $this->direction;
+        $this->sortOrder = $this->column.'|'.$this->direction;
 
         if ($this->column && $this->direction) {
             $annonces = $annonces->orderBy($this->column, $this->direction);
@@ -964,10 +931,10 @@ class Search extends Component
     {
         $typeArray = (array) $this->type;
 
-        $isLocationVoiture = collect($typeArray)->contains(fn($val) => is_string($val) && Str::contains($val, 'Location de véhicule'));
-        $isHotel = collect($typeArray)->contains(fn($val) => is_string($val) && Str::contains($val, 'Hôtel'));
-        $isAuberge = collect($typeArray)->contains(fn($val) => is_string($val) && Str::contains($val, 'Auberge'));
-        $isLocationMeublee = collect($typeArray)->contains(fn($val) => is_string($val) && Str::contains($val, 'Location meublée'));
+        $isLocationVoiture = collect($typeArray)->contains(fn ($val) => is_string($val) && Str::contains($val, 'Location de véhicule'));
+        $isHotel = collect($typeArray)->contains(fn ($val) => is_string($val) && Str::contains($val, 'Hôtel'));
+        $isAuberge = collect($typeArray)->contains(fn ($val) => is_string($val) && Str::contains($val, 'Auberge'));
+        $isLocationMeublee = collect($typeArray)->contains(fn ($val) => is_string($val) && Str::contains($val, 'Location meublée'));
         // Common base
         $facettes = [
             (object) [
@@ -1049,7 +1016,6 @@ class Search extends Component
             ];
         }
 
-
         return $facettes;
     }
 
@@ -1088,7 +1054,6 @@ class Search extends Component
         $this->annonces = $this->search()->paginate($this->perPage);
         $this->saveVariableToSession();
 
-
         return view('livewire.public.search', [
             'annonces' => $this->annonces,
             'facettes' => $this->getFacettes(),
@@ -1113,7 +1078,7 @@ class Search extends Component
 
         // Ajoute les types manquants avec un compte à 0
         foreach ($tmpTypeAnnonces as $type) {
-            if (!in_array($type, array_column($this->typeAnnonces, 'value'))) {
+            if (! in_array($type, array_column($this->typeAnnonces, 'value'))) {
                 $this->typeAnnonces[] = ['value' => $type, 'count' => 0];
             }
         }
@@ -1124,7 +1089,7 @@ class Search extends Component
      */
     public function rendering()
     {
-        if (!$this->booted) {
+        if (! $this->booted) {
             $this->dispatch('custom:element-removal', [
                 'element' => $this->search()->get()->pluck('id')->toArray(),
                 'perPage' => $this->perPage,

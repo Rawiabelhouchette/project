@@ -184,7 +184,7 @@ class Annonce extends Model
         $references = $this->references;
         $display = [];
         foreach ($references as $reference) {
-            if (!array_key_exists($reference->pivot->titre, $display)) {
+            if (! array_key_exists($reference->pivot->titre, $display)) {
                 $display[$reference->pivot->titre] = [];
             }
             $display[$reference->pivot->titre][] = $reference->valeur;
@@ -204,9 +204,9 @@ class Annonce extends Model
     private function formatNumber($number)
     {
         if ($number >= 1000000) {
-            return number_format($number / 1000000, 1) . 'M';
+            return number_format($number / 1000000, 1).'M';
         } elseif ($number >= 1000) {
-            return number_format($number / 1000, 1) . 'k';
+            return number_format($number / 1000, 1).'k';
         } else {
             return $number;
         }
@@ -226,7 +226,7 @@ class Annonce extends Model
     // description courte de l'annonce en 70 caractères
     public function getDescriptionCourteAttribute(): string
     {
-        if (!$this->description) {
+        if (! $this->description) {
             return 'Pas de description';
         }
 
@@ -246,12 +246,13 @@ class Annonce extends Model
     public function getNote()
     {
         $avg = $this->commentaires->avg('note');
+
         return number_format($avg, 1);
     }
 
     public function getEstFavoris(): bool
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return false;
         }
 
@@ -302,7 +303,7 @@ class Annonce extends Model
             ->whereHas('entreprise', function ($query) {
                 $query->whereHas('abonnements', function ($query) {
                     $query->where('is_active', true)
-                        ->whereDate('date_fin', '>=', date('Y-m-d') . ' 23:59:59');
+                        ->whereDate('date_fin', '>=', date('Y-m-d').' 23:59:59');
                 });
             })
             // check if the annonce is still valid

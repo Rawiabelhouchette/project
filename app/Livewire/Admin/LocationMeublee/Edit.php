@@ -3,7 +3,6 @@
 namespace App\Livewire\Admin\LocationMeublee;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
-use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
@@ -274,7 +273,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 

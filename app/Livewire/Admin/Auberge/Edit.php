@@ -3,7 +3,6 @@
 namespace App\Livewire\Admin\Auberge;
 
 use App\Livewire\Admin\AnnonceBaseEdit;
-use App\Models\Entreprise;
 use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Reference;
@@ -299,7 +298,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 
@@ -314,7 +313,7 @@ class Edit extends Component
 
                 'ville_id' => $this->ville_id,
                 'quartier' => $this->quartier_id,
-                
+
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
 

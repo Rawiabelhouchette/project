@@ -299,8 +299,8 @@ class PaiementService
     public static function checkPayment($transaction_id)
     {
         $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-            ])
+            'Content-Type' => 'application/json',
+        ])
             ->post('https://api-checkout.cinetpay.com/v2/payment/check', [
                 'apikey' => env('CP_API_KEY'),
                 'site_id' => env('CP_SITE_ID'),
@@ -358,7 +358,7 @@ class PaiementService
 
         // TODO : check if the offer is promotional and apply the discount
         $montantPaye = $offre_abonnement->prix;
-        if (!$offre_abonnement->expires_at) {
+        if (! $offre_abonnement->expires_at) {
             $dateFin = date('Y-m-d H:i:s', strtotime('+'.$offre_abonnement->duree.' '.$offre_abonnement->unite_en));
         } else {
             $dateFin = $offre_abonnement->expires_at;

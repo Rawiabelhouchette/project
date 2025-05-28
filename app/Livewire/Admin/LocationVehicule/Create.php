@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\LocationVehicule;
 
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
-use App\Models\Entreprise;
 use App\Models\LocationVehicule;
 use App\Models\Marque;
 use App\Models\Modele;
@@ -277,7 +276,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 

@@ -73,5 +73,3 @@ class PublicController extends Controller
         return view('public.static.useful-links');
     }
 }
-
-

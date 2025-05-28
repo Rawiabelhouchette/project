@@ -52,7 +52,7 @@ class Quartier extends Model
     public static function getAllQuartiers(): array
     {
         return Quartier::with('ville.pays')->get()
-            ->map(fn($quartier) => "{$quartier->nom}, {$quartier->ville->nom}, {$quartier->ville->pays->nom}")
+            ->map(fn ($quartier) => "{$quartier->nom}, {$quartier->ville->nom}, {$quartier->ville->pays->nom}")
             ->toArray();
     }
 
@@ -77,5 +77,4 @@ class Quartier extends Model
     {
         return $this->hasMany(Annonce::class, 'quartier', 'nom');
     }
-
 }

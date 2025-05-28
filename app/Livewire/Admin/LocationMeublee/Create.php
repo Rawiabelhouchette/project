@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\LocationMeublee;
 
 use App\Livewire\Admin\AnnonceBaseCreate;
 use App\Models\Annonce;
-use App\Models\Entreprise;
 use App\Models\LocationMeublee;
 use App\Models\Pays;
 use App\Models\Quartier;
@@ -197,7 +196,7 @@ class Create extends Component
             'equipements_herbegement.required' => __('Le champ est obligatoire'),
             'equipements_salle_bain.required' => __('Le champ est obligatoire'),
             'equipements_cuisine.required' => __('Le champ est obligatoire'),
-            
+
             'prix_min.required' => 'Le prix minimum est obligatoire',
             'prix_min.numeric' => 'Le prix minimum doit être un nombre',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
@@ -234,7 +233,7 @@ class Create extends Component
 
     public function store()
     {
-        if (!$this->validateWithCustom()) {
+        if (! $this->validateWithCustom()) {
             return;
         }
 

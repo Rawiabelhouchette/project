@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class FichierController extends Controller
@@ -15,7 +14,7 @@ class FichierController extends Controller
 
         $chemin = storage_path("app/public/{$imageUrl}");
 
-        if (!file_exists($chemin)) {
+        if (! file_exists($chemin)) {
             abort(404);
         }
 
@@ -37,7 +36,7 @@ class FichierController extends Controller
                 abort(415, 'Unsupported image type.');
         }
 
-        list($origWidth, $origHeight) = getimagesize($chemin);
+        [$origWidth, $origHeight] = getimagesize($chemin);
 
         // Si pas de dimensions, on garde l'original
         $newWidth = $width ?? $origWidth;
@@ -91,7 +90,5 @@ class FichierController extends Controller
         ]);
     }
 
-    public function getResizedImage()
-    {
-    }
+    public function getResizedImage() {}
 }
