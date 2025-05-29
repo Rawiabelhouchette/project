@@ -13,7 +13,7 @@
     @endphp
 
     <x-breadcumb backgroundImage="{{ asset('assets_client/img/banner/image-1.jpg') }}" :showTitle="true"
-        title="Ajouter un Fast-Food" :breadcrumbs="$breadcrumbs" />
+        title="Ajouter un Hotel" :breadcrumbs="$breadcrumbs" />
 
     <div class="page-name auberge row">
         <div class="container text-left p-0">

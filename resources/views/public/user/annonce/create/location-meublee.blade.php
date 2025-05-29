@@ -7,8 +7,8 @@
     @php
         $breadcrumbs = [
             ['route' => 'accueil', 'label' => 'Accueil'],
-            ['route' => 'public.annonces.create', 'label' => 'Location meublée'],
-            ['label' => 'Hotel'],
+            ['route' => 'public.annonces.create', 'label' => 'Déposer une annonce'],
+            ['label' => 'Location meublée'],
         ];
     @endphp
 

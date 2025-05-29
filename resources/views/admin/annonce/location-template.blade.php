@@ -1,6 +1,51 @@
-@props(['pays', 'villes', 'quartiers'])
+@props(['pays', 'villes', 'quartiers','entreprises'])
 
 <div>
+                       <div class="row align-items-start">
+                        <div class="col-md-4 col-sm-12 p-0">
+                            <div class="col">
+                                <h3>Entreprise
+                                    <b style="color: red; font-size: 100%;">*</b>
+                                </h3>
+                                
+                                <select class="form-control" name="entreprise_id" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
+                                    <option value="">-- Sélectionner --</option>
+                                    @foreach ($entreprises as $entreprise)
+                                        <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
+                                    @endforeach
+                                </select>
+                                @error('entreprise_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-12 p-0">
+                            <div class="col">
+                                <h3>Nom
+                                    <b style="color: red; font-size: 100%;">*</b>
+                                </h3>
+                                
+                                <input class="form-control" name="nom" data-nom="nom" type="text" placeholder="" wire:model.defer='nom' required>
+                                @error('nom')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-12 p-0">
+                            <div class="col">
+                                <h3>Date de validité
+                                    <b style="color: red; font-size: 100%;">*</b>
+                                </h3>
+                                
+                                <input class="form-control" name="date_validite" data-nom="date_validite" type="date" placeholder="" disabled wire:model.defer='date_validite' required>
+                                @error('date_validite')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
     <div class="row align-items-start">
         <div class="col-md-4 col-sm-12 p-0">
             <div class="col">
@@ -42,7 +87,7 @@
         </div>
     </div>
 
-    <div class="row align-items-start">
+    <div class="row align-items-start m-0 p-2">
         <div class="row">
             <div class="col-md-12 col-sm-12" style="margin-top: 10px;">
                 <button class="btn btn-sm btn-success locate-me" type="button">

@@ -1,339 +1,338 @@
 <div>
-    <div class="page-name restaurant row">
-        <form wire:submit.prevent="store" enctype="multipart/form-data">
-            <div class="container text-left p-0" style="padding: 0rem 2rem;">
-                <div class="row align-items-start">
-                    <div class="col-md-4 col-sm-12 p-0">
-                        <div class="col">
-                            <h3>Entreprise
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3>
-                            
-                            <select class="form-control" data-nom="entreprise_id" wire:model.defer='entreprise_id' required>
-                                <option value="">-- Sélectionner --</option>
-                                @foreach ($entreprises as $entreprise)
-                                    <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
-                                @endforeach
-                            </select>
-                            @error('entreprise_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-12 p-0">
-                        <div class="col">
-                            <h3>Titre
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3>
-                            <input class="form-control" type="text" placeholder="" wire:model.defer='nom' required>
-                            @error('nom')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-12 p-0">
-                        <div class="col">
-                            <h3>Date de validité
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3>
-                            
-                            <input class="form-control" type="date" placeholder="" disabled wire:model.defer='date_validite' required>
-                            @error('date_validite')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row align-items-start">
-                    @include('admin.annonce.reference-select-component', [
-                        'title' => 'Equipements',
-                        'name' => 'equipements_restauration',
-                        'options' => $list_equipements_restauration,
-                    ])
-
-                    @include('admin.annonce.reference-select-component', [
-                        'title' => 'Boissons disponibles',
-                        'name' => 'carte_consommation',
-                        'options' => $list_carte_consommation,
-                    ])
-
-                    @include('admin.annonce.reference-select-component', [
-                        'title' => 'Services proposés',
-                        'name' => 'services',
-                        'options' => $list_services,
-                    ])
-                </div>
-
-                <div class="row align-items-start">
-                    <div class="col-md-4 col-sm-12 p-0">
-                        <div class="col">
-                            <h3>Entrées ({{ count($entrees) }})
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3>
-                            <h4>Carte des entrées</h4>
-                            <div id="entrees-container">
-                                <!-- Plat 1 par défaut -->
-                                @foreach ($entrees as $index => $entree)
-                                    <div id="entree-item-{{ $index + 1 }}" class="form-group entree-item">
-                                        <div>
-                                            <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#entree-{{ $index + 1 }}" type="button" aria-controls="entree-{{ $index + 1 }}">
-                                                {{ Str::limit('Entrée ' . ($index + 1) . ' : ' . $entree['nom'], 40) }} <i class="fa fa-pencil"></i> </button>
-                                        </div>
-                                        <div id="entree-{{ $index + 1 }}" class="offcanvas offcanvas-end" data-bs-scroll="true" aria-labelledby="entree-{{ $index + 1 }}" tabindex="-1">
-                                            <div class="offcanvas-header">
-                                                <h5 class="offcanvas-title">Entrée {{ $index + 1 }}</h5>
-                                                <button id="entrees-close-{{ $index + 1 }}" class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
-                                            </div>
-                                            <div class="offcanvas-body">
-                                                <div class="form-group">
-                                                    <label for="entree-name-{{ $index + 1 }}">Nom<b style="color: red; font-size: 100%;">*</b></label>
-                                                    <input id="entree-name-{{ $index + 1 }}" class="form-control required-field" type="text" wire:model="entrees.{{ $index }}.nom">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="entree-description-{{ $index + 1 }}">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
-                                                    <textarea id="entree-description-{{ $index + 1 }}" class="form-control required-field" wire:model="entrees.{{ $index }}.ingredients" rows="3"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="entree-price-{{ $index + 1 }}">Prix<b style="color: red; font-size: 100%;">*</b></label>
-                                                    <input id="entree-price-{{ $index + 1 }}" class="form-control required-field" type="number" wire:model="entrees.{{ $index }}.prix_min">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="form-img-entree-{{ $index + 1 }}">Image à la Une <b style="color: red; font-size: 100%;">*</b></label>
-                                                    <input id="form-img-entree-{{ $index + 1 }}" class="form-control form-control-file" data-id="{{ $index + 1 }}" type="file" wire:model="entrees.{{ $index }}.image" accept="image/*">
-
-                                                    @if (!empty($entrees[$index]['image']))
-                                                        <img class="listing-shot-img img-responsive" src="{{ $entrees[$index]['image']->temporaryUrl() }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
-                                                    @endif
-                                                </div>
-                                                <button class="btn btn-danger delete-entree-btn mb-2" data-entree-id="{{ $index + 1 }}" type="button" wire:click="removeEntree({{ $index }})">Supprimer</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-
-                                <div class="col-md-12 col-sm-12 text-center">
-                                    <span id="entree-error-message" class="text-danger"><br></span>
-                                </div>
-                                @if ($entrees_error)
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $entrees_error }}</span>
-                                    </div>
-                                @endif
-                                @error('entrees.*.nom')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                @error('entrees.*.ingredients')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                @error('entrees.*.prix_min')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                @error('entrees.*.image')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                <button id="add-entree-btn" class="btn btn-success btn-square" type="button"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-12 p-0">
-                        <div class="col">
-                            <h3>Plats ({{ count($plats) }})
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3>
-                            <h4>Carte des plats</h4>
-                            <div id="plats-container">
-                                <!-- Plat 1 par défaut -->
-                                @foreach ($plats as $index => $plat)
-                                    <div id="plat-item-{{ $index + 1 }}" class="form-group plat-item">
-                                        <div>
-                                            <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#plat-{{ $index + 1 }}" type="button" aria-controls="plat-{{ $index + 1 }}">
-                                                {{ Str::limit('Plat ' . ($index + 1) . ' : ' . $plat['nom'], 40) }}
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                        </div>
-                                        <div id="plat-{{ $index + 1 }}" class="offcanvas offcanvas-end" data-bs-scroll="true" aria-labelledby="plat-{{ $index + 1 }}" tabindex="-1">
-                                            <div class="offcanvas-header">
-                                                <h5 class="offcanvas-title">Plat {{ $index + 1 }}</h5>
-                                                <button id="plats-close-{{ $index + 1 }}" class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
-                                            </div>
-                                            <div class="offcanvas-body">
-                                                <div class="form-group">
-                                                    <label for="plat-name-{{ $index + 1 }}">Nom<b style="color: red; font-size: 100%;">*</b></label>
-                                                    <input id="plat-name-{{ $index + 1 }}" class="form-control required-field" type="text" wire:model="plats.{{ $index }}.nom">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="plat-description-{{ $index + 1 }}">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
-                                                    <textarea id="plat-description-{{ $index + 1 }}" class="form-control required-field" wire:model="plats.{{ $index }}.ingredients" rows="3"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="plat-price-{{ $index + 1 }}">Prix<b style="color: red; font-size: 100%;">*</b></label>
-                                                    <input id="plat-price-{{ $index + 1 }}" class="form-control required-field" type="number" wire:model="plats.{{ $index }}.prix_min">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="form-img-plat-{{ $index + 1 }}">Image à la Une <b style="color: red; font-size: 100%;">*</b></label>
-                                                    <input id="form-img-plat-{{ $index + 1 }}" class="form-control form-control-file" data-id="{{ $index + 1 }}" type="file" wire:model="plats.{{ $index }}.image" accept="image/*">
-
-                                                    @if (!empty($plats[$index]['image']))
-                                                        <img class="listing-shot-img img-responsive" src="{{ $plats[$index]['image']->temporaryUrl() }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
-                                                    @endif
-                                                </div>
-                                                <button class="btn btn-danger delete-plat-btn mb-2" data-plat-id="{{ $index + 1 }}" type="button" wire:click="removePlat({{ $index }})">Supprimer</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-
-                                <div class="col-md-12 col-sm-12 text-center">
-                                    <span id="plat-error-message" class="text-danger"><br></span>
-                                </div>
-                                @if ($plats_error)
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $plats_error }}</span>
-                                    </div>
-                                @endif
-                                @error('plats.*.nom')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                @error('plats.*.ingredients')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                @error('plats.*.prix_min')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                @error('plats.*.image')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                <button id="add-plat-btn" class="btn btn-success btn-square" type="button"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-12 p-0">
-                        <div class="col">
-                            <h3>Desserts ({{ count($desserts) }})
-                                <b style="color: red; font-size: 100%;">*</b>
-                            </h3>
-                            <h4>Carte des desserts</h4>
-                            <div id="desserts-container">
-                                <!-- Dessert 1 par défaut -->
-                                @foreach ($desserts as $index => $dessert)
-                                    <div id="dessert-item-{{ $index + 1 }}" class="form-group dessert-item">
-                                        <div>
-                                            <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#dessert-{{ $index + 1 }}" type="button" aria-controls="dessert-{{ $index + 1 }}">
-                                                {{ Str::limit('Dessert ' . ($index + 1) . ' : ' . $dessert['nom'], 40) }} <i class="fa fa-pencil"></i> </button>
-                                        </div>
-                                        <div id="dessert-{{ $index + 1 }}" class="offcanvas offcanvas-end" data-bs-scroll="true" aria-labelledby="dessert-{{ $index + 1 }}" tabindex="-1">
-                                            <div class="offcanvas-header">
-                                                <h5 class="offcanvas-title">Dessert {{ $index + 1 }}</h5>
-                                                <button id="desserts-close-{{ $index + 1 }}" class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
-                                            </div>
-                                            <div class="offcanvas-body">
-                                                <div class="form-group">
-                                                    <label for="dessert-name-{{ $index + 1 }}">Nom<b style="color: red; font-size: 100%;">*</b></label>
-                                                    <input id="dessert-name-{{ $index + 1 }}" class="form-control required-field" type="text" wire:model="desserts.{{ $index }}.nom">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="dessert-description-{{ $index + 1 }}">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
-                                                    <textarea id="dessert-description-{{ $index + 1 }}" class="form-control required-field" wire:model="desserts.{{ $index }}.ingredients" rows="3"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="dessert-price-{{ $index + 1 }}">Prix<b style="color: red; font-size: 100%;">*</b></label>
-                                                    <input id="dessert-price-{{ $index + 1 }}" class="form-control required-field" type="number" wire:model="desserts.{{ $index }}.prix_min">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="form-img-dessert-{{ $index + 1 }}">Image à la Une <b style="color: red; font-size: 100%;">*</b></label>
-                                                    <input id="form-img-dessert-{{ $index + 1 }}" class="form-control form-control-file" data-id="{{ $index + 1 }}" type="file" wire:model="desserts.{{ $index }}.image" accept="image/*">
-
-                                                    @if (!empty($desserts[$index]['image']))
-                                                        <img class="listing-shot-img img-responsive" src="{{ $desserts[$index]['image']->temporaryUrl() }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
-                                                    @endif
-                                                </div>
-                                                <button class="btn btn-danger delete-dessert-btn mb-2" data-dessert-id="{{ $index + 1 }}" type="button" wire:click="removeDessert({{ $index }})">Supprimer</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-
-                                <div class="col-md-12 col-sm-12 text-center">
-                                    <span id="dessert-error-message" class="text-danger"><br></span>
-                                </div>
-                                @if ($desserts_error)
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $desserts_error }}</span>
-                                    </div>
-                                @endif
-                                @error('desserts.*.nom')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                @error('desserts.*.ingredients')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                @error('desserts.*.prix_min')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                @error('desserts.*.image')
-                                    <div class="col-md-12 col-sm-12 text-center">
-                                        <span class="text-danger">{{ $message }}</span>
-                                    </div>
-                                @enderror
-                                <button id="add-dessert-btn" class="btn btn-success btn-square" type="button"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @include('admin.annonce.location-template', [
-                    'pays' => $pays,
-                    'villes' => $villes,
-                    'quartiers' => $quartiers,
-                ])
-
-                <div class="row align-items-start">
-                    @include('admin.annonce.create-galery-component', [
-                        'galery' => $galerie,
-                    ])
-                </div>
-
-                <div class="row padd-bot-15">
-                    <div class="form-group">
-                        <div class="col text-right">
-                            <button id="restaurant-form-submit" class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:loading.attr="disabled">
-                                <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
-                                Enregistrer
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <form wire:submit.prevent="store">
+        @csrf
+        
+            <div class="card-header bg-vamiyi-orange text-white text-center py-4">
+                <h2 class="card-title font-weight-bold">Remplissez les informations </h2>
             </div>
-        </form>
-    </div>
+            <div class="card-body pt-4">
+                @php
+                    $steps = ['Entreprise', 'Informations', 'Menus', 'Images'];
+                    $icons = ['fa-building', 'fa-info-circle', 'fa-utensils', 'fa-images'];
+                @endphp
+                
+                <x-admin.form-stepper :steps="$steps" :currentStep="$currentStep" :icons="$icons" />
+
+                <!-- Step 1: Entreprise -->
+                <div class="step-content {{ $currentStep == 0 ? '' : 'd-none' }}">
+                    <div class="d-flex flex-wrap align-items-start gap-3 justify-content-center">
+                        <div class="row align-items-start">
+                            @include('admin.annonce.location-template', [
+                                'pays' => $pays,
+                                'villes' => $villes,
+                                'quartiers' => $quartiers,
+                                'entreprises' => $entreprises,
+                            ])
+                        </div>
+                    </div>
+                    
+                     <x-admin.step-navigation :currentStep="$currentStep" :lastStep="3" />
+                </div>
+
+                <!-- Step 4: Images -->
+                <div class="step-content {{ $currentStep == 3 ? '' : 'd-none' }}"> 
+                    <div class="row">
+                        @include('admin.annonce.create-galery-component', [
+                            'galery' => $galerie,
+                        ])
+                    </div>
+                    <div class="d-flex justify-content-between my-4 {{ $currentStep == 3 ? '' : 'd-none' }}">
+                        <button type="button" class="btn btn-outline-secondary" wire:click="previousStep">
+                            Retour
+                        </button>
+                        <button id="restaurant-form-submit" class="btn theme-btn" type="submit" style="margin-right: 30px;" wire:loading.attr="disabled">
+                                    <i class="fa fa-save fa-lg" style="margin-right: 10px;"></i>
+                                    Enregistrer
+                                </button>
+                    </div>
+                    
+                </div>
+                <!-- Step 2: Informations -->
+                <div class="step-content {{ $currentStep == 1 ? '' : 'd-none' }}">
+                    <div class="row">
+                        @include('admin.annonce.reference-select-component', [
+                            'title' => 'Equipements',
+                            'name' => 'equipements_restauration',
+                            'options' => $list_equipements_restauration,
+                            'required' => true,
+                        ])
+
+                        @include('admin.annonce.reference-select-component', [
+                            'title' => 'Boissons disponibles',
+                            'name' => 'carte_consommation',
+                            'options' => $list_carte_consommation,
+                             'required' => true,
+                        ])
+
+                        @include('admin.annonce.reference-select-component', [
+                            'title' => 'Services proposés',
+                            'name' => 'services',
+                            'options' => $list_services,
+                             'required' => true,
+                        ])
+
+                    </div>
+                     <x-admin.step-navigation :currentStep="$currentStep" :lastStep="3" />
+                </div>
+
+                <!-- Step 3: Menus -->
+                <div class="step-content {{ $currentStep == 2 ? '' : 'd-none' }}">
+                    <div class="row align-items-start">
+                        <!-- Entrées, Plats, Desserts sections -->
+                         <div class="row align-items-start">
+                            <div class="col-md-4 col-sm-12 p-0">
+                                <div class="col">
+                                    <h3>Entrées ({{ count($entrees) }})
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </h3>
+                                    <h4>Carte des entrées</h4>
+                                    <div id="entrees-container">
+                                        <!-- Plat 1 par défaut -->
+                                        @foreach ($entrees as $index => $entree)
+                                            <div id="entree-item-{{ $index + 1 }}" class="form-group entree-item">
+                                                <div>
+                                                    <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#entree-{{ $index + 1 }}" type="button" aria-controls="entree-{{ $index + 1 }}">
+                                                        {{ Str::limit('Entrée ' . ($index + 1) . ' : ' . $entree['nom'], 40) }} <i class="fa fa-pencil"></i> </button>
+                                                </div>
+                                                <div id="entree-{{ $index + 1 }}" class="offcanvas offcanvas-end" data-bs-scroll="true" aria-labelledby="entree-{{ $index + 1 }}" tabindex="-1">
+                                                    <div class="offcanvas-header">
+                                                        <h5 class="offcanvas-title">Entrée {{ $index + 1 }}</h5>
+                                                        <button id="entrees-close-{{ $index + 1 }}" class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="offcanvas-body">
+                                                        <div class="form-group">
+                                                            <label for="entree-name-{{ $index + 1 }}">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                                                            <input id="entree-name-{{ $index + 1 }}" class="form-control required-field" type="text" wire:model="entrees.{{ $index }}.nom">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="entree-description-{{ $index + 1 }}">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
+                                                            <textarea id="entree-description-{{ $index + 1 }}" class="form-control required-field" wire:model="entrees.{{ $index }}.ingredients" rows="3"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="entree-price-{{ $index + 1 }}">Prix<b style="color: red; font-size: 100%;">*</b></label>
+                                                            <input id="entree-price-{{ $index + 1 }}" class="form-control required-field" type="number" wire:model="entrees.{{ $index }}.prix_min">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="form-img-entree-{{ $index + 1 }}">Image à la Une <b style="color: red; font-size: 100%;">*</b></label>
+                                                            <input id="form-img-entree-{{ $index + 1 }}" class="form-control form-control-file" data-id="{{ $index + 1 }}" type="file" wire:model="entrees.{{ $index }}.image" accept="image/*">
+
+                                                            @if (!empty($entrees[$index]['image']))
+                                                                <img class="listing-shot-img img-responsive" src="{{ $entrees[$index]['image']->temporaryUrl() }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
+                                                            @endif
+                                                        </div>
+                                                        <button class="btn btn-danger delete-entree-btn mb-2" data-entree-id="{{ $index + 1 }}" type="button" wire:click="removeEntree({{ $index }})">Supprimer</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+
+                                        <div class="col-md-12 col-sm-12 text-center">
+                                            <span id="entree-error-message" class="text-danger"><br></span>
+                                        </div>
+                                        @if ($entrees_error)
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $entrees_error }}</span>
+                                            </div>
+                                        @endif
+                                        @error('entrees.*.nom')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        @error('entrees.*.ingredients')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        @error('entrees.*.prix_min')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        @error('entrees.*.image')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        <button id="add-entree-btn" class="btn btn-success btn-square" type="button"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12 p-0">
+                                <div class="col">
+                                    <h3>Plats ({{ count($plats) }})
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </h3>
+                                    <h4>Carte des plats</h4>
+                                    <div id="plats-container">
+                                        <!-- Plat 1 par défaut -->
+                                        @foreach ($plats as $index => $plat)
+                                            <div id="plat-item-{{ $index + 1 }}" class="form-group plat-item">
+                                                <div>
+                                                    <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#plat-{{ $index + 1 }}" type="button" aria-controls="plat-{{ $index + 1 }}">
+                                                        {{ Str::limit('Plat ' . ($index + 1) . ' : ' . $plat['nom'], 40) }}
+                                                        <i class="fa fa-pencil"></i>
+                                                    </button>
+                                                </div>
+                                                <div id="plat-{{ $index + 1 }}" class="offcanvas offcanvas-end" data-bs-scroll="true" aria-labelledby="plat-{{ $index + 1 }}" tabindex="-1">
+                                                    <div class="offcanvas-header">
+                                                        <h5 class="offcanvas-title">Plat {{ $index + 1 }}</h5>
+                                                        <button id="plats-close-{{ $index + 1 }}" class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="offcanvas-body">
+                                                        <div class="form-group">
+                                                            <label for="plat-name-{{ $index + 1 }}">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                                                            <input id="plat-name-{{ $index + 1 }}" class="form-control required-field" type="text" wire:model="plats.{{ $index }}.nom">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="plat-description-{{ $index + 1 }}">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
+                                                            <textarea id="plat-description-{{ $index + 1 }}" class="form-control required-field" wire:model="plats.{{ $index }}.ingredients" rows="3"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="plat-price-{{ $index + 1 }}">Prix<b style="color: red; font-size: 100%;">*</b></label>
+                                                            <input id="plat-price-{{ $index + 1 }}" class="form-control required-field" type="number" wire:model="plats.{{ $index }}.prix_min">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="form-img-plat-{{ $index + 1 }}">Image à la Une <b style="color: red; font-size: 100%;">*</b></label>
+                                                            <input id="form-img-plat-{{ $index + 1 }}" class="form-control form-control-file" data-id="{{ $index + 1 }}" type="file" wire:model="plats.{{ $index }}.image" accept="image/*">
+
+                                                            @if (!empty($plats[$index]['image']))
+                                                                <img class="listing-shot-img img-responsive" src="{{ $plats[$index]['image']->temporaryUrl() }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
+                                                            @endif
+                                                        </div>
+                                                        <button class="btn btn-danger delete-plat-btn mb-2" data-plat-id="{{ $index + 1 }}" type="button" wire:click="removePlat({{ $index }})">Supprimer</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+
+                                        <div class="col-md-12 col-sm-12 text-center">
+                                            <span id="plat-error-message" class="text-danger"><br></span>
+                                        </div>
+                                        @if ($plats_error)
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $plats_error }}</span>
+                                            </div>
+                                        @endif
+                                        @error('plats.*.nom')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        @error('plats.*.ingredients')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        @error('plats.*.prix_min')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        @error('plats.*.image')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        <button id="add-plat-btn" class="btn btn-success btn-square" type="button"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12 p-0">
+                                <div class="col">
+                                    <h3>Desserts ({{ count($desserts) }})
+                                        <b style="color: red; font-size: 100%;">*</b>
+                                    </h3>
+                                    <h4>Carte des desserts</h4>
+                                    <div id="desserts-container">
+                                        <!-- Dessert 1 par défaut -->
+                                        @foreach ($desserts as $index => $dessert)
+                                            <div id="dessert-item-{{ $index + 1 }}" class="form-group dessert-item">
+                                                <div>
+                                                    <button class="btn btn-form" data-bs-toggle="offcanvas" data-bs-target="#dessert-{{ $index + 1 }}" type="button" aria-controls="dessert-{{ $index + 1 }}">
+                                                        {{ Str::limit('Dessert ' . ($index + 1) . ' : ' . $dessert['nom'], 40) }} <i class="fa fa-pencil"></i> </button>
+                                                </div>
+                                                <div id="dessert-{{ $index + 1 }}" class="offcanvas offcanvas-end" data-bs-scroll="true" aria-labelledby="dessert-{{ $index + 1 }}" tabindex="-1">
+                                                    <div class="offcanvas-header">
+                                                        <h5 class="offcanvas-title">Dessert {{ $index + 1 }}</h5>
+                                                        <button id="desserts-close-{{ $index + 1 }}" class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="offcanvas-body">
+                                                        <div class="form-group">
+                                                            <label for="dessert-name-{{ $index + 1 }}">Nom<b style="color: red; font-size: 100%;">*</b></label>
+                                                            <input id="dessert-name-{{ $index + 1 }}" class="form-control required-field" type="text" wire:model="desserts.{{ $index }}.nom">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="dessert-description-{{ $index + 1 }}">Ingrédients<b style="color: red; font-size: 100%;">*</b></label>
+                                                            <textarea id="dessert-description-{{ $index + 1 }}" class="form-control required-field" wire:model="desserts.{{ $index }}.ingredients" rows="3"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="dessert-price-{{ $index + 1 }}">Prix<b style="color: red; font-size: 100%;">*</b></label>
+                                                            <input id="dessert-price-{{ $index + 1 }}" class="form-control required-field" type="number" wire:model="desserts.{{ $index }}.prix_min">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="form-img-dessert-{{ $index + 1 }}">Image à la Une <b style="color: red; font-size: 100%;">*</b></label>
+                                                            <input id="form-img-dessert-{{ $index + 1 }}" class="form-control form-control-file" data-id="{{ $index + 1 }}" type="file" wire:model="desserts.{{ $index }}.image" accept="image/*">
+
+                                                            @if (!empty($desserts[$index]['image']))
+                                                                <img class="listing-shot-img img-responsive" src="{{ $desserts[$index]['image']->temporaryUrl() }}" alt="" style="width: 100%; height: 100px; object-fit: cover;">
+                                                            @endif
+                                                        </div>
+                                                        <button class="btn btn-danger delete-dessert-btn mb-2" data-dessert-id="{{ $index + 1 }}" type="button" wire:click="removeDessert({{ $index }})">Supprimer</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+
+                                        <div class="col-md-12 col-sm-12 text-center">
+                                            <span id="dessert-error-message" class="text-danger"><br></span>
+                                        </div>
+                                        @if ($desserts_error)
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $desserts_error }}</span>
+                                            </div>
+                                        @endif
+                                        @error('desserts.*.nom')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        @error('desserts.*.ingredients')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        @error('desserts.*.prix_min')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        @error('desserts.*.image')
+                                            <div class="col-md-12 col-sm-12 text-center">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </div>
+                                        @enderror
+                                        <button id="add-dessert-btn" class="btn btn-success btn-square" type="button"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                    </div>
+                    </div>
+                    
+                     <x-admin.step-navigation :currentStep="$currentStep" :lastStep="3" />
+                </div>
+
+                
+            </div>
+        
+    </form>
+    <style>
+        @media (min-width: 992px) {
+            .container {
+                width: 100% !important;
+            }
+        }
+    </style>
 </div>
 
 @push('scripts')

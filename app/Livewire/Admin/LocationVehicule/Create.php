@@ -25,6 +25,9 @@ class Create extends Component
 {
     use AnnonceBaseCreate, CustomValidation, WithFileUploads;
 
+    // Add this property for the stepper
+    public $currentStep = 0;
+
     public $nom;
 
     public $type;
@@ -90,6 +93,58 @@ class Create extends Component
     public $latitude;
 
     public $longitude;
+
+    // Step navigation methods
+    public function nextStep()
+    {
+        $this->dispatch('console-log', ['message' => "Current step: {$this->currentStep}"]);
+        // Validate current step before proceeding
+        if ($this->currentStep == 0) {
+            $this->validate([
+                'entreprise_id' => 'required|exists:entreprises,id',
+                'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
+            ]);
+        } elseif ($this->currentStep == 1) {
+            $this->validate([
+                'marque_id' => 'required',
+                'modele_id' => 'required|exists:modeles,id',
+                'nombre_places' => 'nullable|integer|min:0|max:100',
+                'nombre_portes' => 'nullable|integer|min:0|max:20',
+            ]);
+        } elseif ($this->currentStep == 2) {
+            $this->validate([
+                'carburant' => 'nullable|string|exists:reference_valeurs,valeur',
+                'boite_vitesses' => 'nullable|string|exists:reference_valeurs,valeur',
+                'description' => 'required|string|min:3',
+            ]);
+        } elseif ($this->currentStep == 3) {
+            $this->validate([
+                'pays_id' => 'required|exists:pays,id',
+                'ville_id' => 'required|exists:villes,id',
+                'quartier_id' => 'required|string|max:255',
+                'longitude' => 'required|string',
+                'latitude' => 'required|string',
+            ]);
+        } elseif ($this->currentStep == 4) {
+            $this->validate([
+                'image' => 'required|image|max:5120|mimes:jpeg,png,jpg',
+                'galerie' => 'array|max:10',
+                'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg',
+            ]);
+        }
+
+        // If validation passes, move to next step
+        if ($this->currentStep < 4) {
+            $this->currentStep++;
+        }
+    }
+
+    public function previousStep()
+    {
+        if ($this->currentStep > 0) {
+            $this->currentStep--;
+        }
+    }
 
     public function mount()
     {

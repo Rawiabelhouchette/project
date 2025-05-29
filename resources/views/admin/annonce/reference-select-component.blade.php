@@ -132,6 +132,7 @@
                 multiple 
                 name="{{ $name }}[]" 
                 x-model="selected"
+                data-nom="{{ $name }}"
             >
                 @foreach ($options as $option)
                     <option value="{{ $option->id }}">{{ $option->valeur }}</option>
@@ -223,6 +224,7 @@
     border-radius: 0.25rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     margin-top: 2px;
+    height: 100px;
 }
 
 .select-option {

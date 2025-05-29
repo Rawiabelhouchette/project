@@ -91,6 +91,8 @@ class Create extends Component
 
     public $longitude;
 
+    public $galerie = [];
+
     public function mount()
     {
         $this->initialization();
@@ -232,6 +234,43 @@ class Create extends Component
         $this->quartiers = Quartier::where('ville_id', $ville_id)->orderBy('nom')->get();
     }
 
+    public function removeImage($index)
+    {
+        array_splice($this->galerie, $index, 1);
+    }
+
+    protected function validateCurrentStep()
+    {
+        if ($this->currentStep == 0) {
+            $this->validate([
+                'entreprise_id' => 'required|exists:entreprises,id',
+                'nom' => 'required|string|min:3|unique:annonces,titre,id,entreprise_id',
+            ]);
+        } elseif ($this->currentStep == 1) {
+            $this->validate([
+                'nombre_chambre' => 'required|numeric',
+                'nombre_personne' => 'nullable|numeric',
+                'nombre_salles_bain' => 'nullable|numeric',
+                'superficie' => 'nullable|numeric',
+                'prix_min' => 'nullable|numeric|lt:prix_max',
+                'prix_max' => 'nullable|numeric',
+                'pays_id' => 'required|exists:pays,id',
+                'ville_id' => 'required|exists:villes,id',
+                'quartier_id' => 'required|exists:quartiers,id',
+                'longitude' => 'required',
+                'latitude' => 'required',
+            ]);
+        } elseif ($this->currentStep == 2) {
+            $this->validate([
+                'types_lit' => 'required',
+                'equipements_cuisine' => 'required',
+            ]);
+        }
+        
+        // Dispatch an event to refresh the map when changing steps
+        $this->dispatch('stepChanged');
+    }
+
     public function store()
     {
         if (!$this->validateWithCustom()) {
@@ -306,3 +345,4 @@ class Create extends Component
         return view('livewire.admin.location-meublee.create');
     }
 }
+
