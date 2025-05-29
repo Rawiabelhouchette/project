@@ -118,7 +118,7 @@
                                         <tr>
                                             <td>{{ $abonnement->id }}</td>
                                             <td>{{ $abonnement->date_debut->format('d-m-Y H:i:s') }}</td>
-                                            <td>{{ $abonnement->date_fin->format('d-m-Y H:i:s') }}</td>
+                                            <td>-</td>
                                             <td>{{ number_format($abonnement->montant, 0, ',', ' ') }}</td>
                                             <td>
                                                 @if ($abonnement->is_active)
@@ -163,7 +163,7 @@
                                 </div>
                                 <div>
                                     <div class="mobile-card-label">Date Fin</div>
-                                    <div class="mobile-card-value">{{ $abonnement->date_fin->format('d-m-Y') }}
+                                    <div class="mobile-card-value">-
                                     </div>
                                 </div>
 
