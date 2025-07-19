@@ -170,7 +170,7 @@ class Edit extends Component
 
             'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
         ];
     }
 
@@ -202,6 +202,7 @@ class Edit extends Component
             'produits.min' => 'Le champ produits doit contenir au moins un élément.',
 
             'image.image' => 'Le fichier doit être une image',
+            'image.uploaded' => 'Le fichier ne s\'est pas chargé',
             'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
             'image.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
 
@@ -235,7 +236,7 @@ class Edit extends Component
     public function addProduit()
     {
         $result = $this->checkUniqueProduit();
-        if (! $result) {
+        if (!$result) {
             return;
         }
 
@@ -294,11 +295,11 @@ class Edit extends Component
 
     public function update()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 
-        if (! $this->checkUniqueProduit(true)) {
+        if (!$this->checkUniqueProduit(true)) {
             return;
         }
 
@@ -310,15 +311,15 @@ class Edit extends Component
 
             // Put all produits in the same variable
             foreach ($this->produits as $index => $produit) {
-                $this->nom_produit .= $produit['nom'].$separator;
-                $this->prix_produit .= $produit['prix'].$separator;
-                $this->accompagnements_produit .= $produit['accompagnements'].$separator;
+                $this->nom_produit .= $produit['nom'] . $separator;
+                $this->prix_produit .= $produit['prix'] . $separator;
+                $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
 
                 // check if $produit image is a string or an object
                 if (is_string($produit['image'])) {
                     $oldProduitsCollection = collect($this->old_produits);
                     $tmp_produit = $oldProduitsCollection->where('id', $produit['id'])->first();
-                    $this->image_produit .= $tmp_produit['image_id'].$separator2;
+                    $this->image_produit .= $tmp_produit['image_id'] . $separator2;
 
                     continue;
                 }
