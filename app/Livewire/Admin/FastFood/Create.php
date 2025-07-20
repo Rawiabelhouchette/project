@@ -134,9 +134,9 @@ class Create extends Component
             'longitude' => 'required|string',
             'latitude' => 'required|string',
 
-            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic',
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
         ];
     }
 
@@ -168,6 +168,7 @@ class Create extends Component
 
             'image.required' => 'L\'image est obligatoire',
             'image.image' => 'Le fichier doit être une image',
+            'image.uploaded' => 'Le fichier ne s\'est pas chargé',
             'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
             'image.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
 
@@ -202,7 +203,7 @@ class Create extends Component
     public function addProduit()
     {
         $result = $this->checkUniqueProduit();
-        if (! $result) {
+        if (!$result) {
             return;
         }
 
@@ -251,7 +252,7 @@ class Create extends Component
 
     public function store()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 
@@ -261,9 +262,9 @@ class Create extends Component
 
         // Put all produits in the same variable
         foreach ($this->produits as $produit) {
-            $this->nom_produit .= $produit['nom'].$separator;
-            $this->prix_produit .= $produit['prix'].$separator;
-            $this->accompagnements_produit .= $produit['accompagnements'].$separator;
+            $this->nom_produit .= $produit['nom'] . $separator;
+            $this->prix_produit .= $produit['prix'] . $separator;
+            $this->accompagnements_produit .= $produit['accompagnements'] . $separator;
 
             // upload image
             $uploadResult = AnnoncesUtils::storeImage($produit['image'], 'fast-foods');

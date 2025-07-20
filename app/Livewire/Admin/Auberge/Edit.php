@@ -213,7 +213,7 @@ class Edit extends Component
 
             'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
         ];
     }
 
@@ -265,6 +265,7 @@ class Edit extends Component
 
             'image.required' => 'L\'image est obligatoire',
             'image.image' => 'Le fichier doit être une image',
+            'image.uploaded' => 'Le fichier ne s\'est pas chargé',
             'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
             'image.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
 
@@ -298,7 +299,7 @@ class Edit extends Component
 
     public function update()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 

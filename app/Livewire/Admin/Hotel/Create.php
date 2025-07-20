@@ -188,9 +188,9 @@ class Create extends Component
             'longitude' => 'required|string',
             'latitude' => 'required|string',
 
-            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic',
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
         ];
     }
 
@@ -227,7 +227,7 @@ class Create extends Component
             'longitude.required' => 'La localisation est obligatoire.',
 
             'image.required' => 'L\'image est obligatoire',
-            'image.image' => 'Le fichier doit être une image',
+            'image.uploaded' => 'Le fichier ne s\'est pas chargé',
             'image.max' => 'Le fichier ne doit pas dépasser :max Mo',
             'image.mimes' => 'Le fichier doit être de type jpeg, png, jpg ou heic',
 
@@ -260,7 +260,7 @@ class Create extends Component
 
     public function store()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 

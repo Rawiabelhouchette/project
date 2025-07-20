@@ -244,9 +244,9 @@
 
             <div class="proerty_text">
                 <span>
-                    <i class="ti-money" style="color: #00796b;"></i>
+                    <i class="fas fa-tags fa-md" style="color: #00796b;"></i>
                 </span>
-                <h4 class="captlize" style="font-weight:400; font-size:14px">
+                <h4 class="captlize" style="font-weight:400; font-size:14px; margin-left:5px">
                     {{ number_format($annonce->prix ?? 0, 0, '', ' ') }}
                 </h4>
             </div>
@@ -322,7 +322,7 @@
                             <span class="line-property-title">{{ $annonce->titre }}</span>
                             {{-- Price tag for line view --}}
                             <div class="line-money-container">
-                                <i class="ti-money line-icon-money"></i>
+                                <i class="fas fa-tags fa-md line-icon-money"></i>
                                 <span class="line-money-text">
                                     {{ number_format($annonce->prix ?? 0, 0, '', ' ') }}
                                 </span>
@@ -346,7 +346,7 @@
                         </div>
 
                         <div class="line-phone-container">
-                            <i class="ti-money line-icon-money"></i>
+                            <i class="fas fa-tags fa-md line-icon-money"></i>
                             <span class="line-money-text">
                                 {{ number_format($annonce->prix ?? 0, 0, '', ' ') }}
                             </span>

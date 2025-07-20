@@ -160,9 +160,9 @@ class Create extends Component
             'prix_min' => 'required|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
 
-            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic',
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
 
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
@@ -233,7 +233,7 @@ class Create extends Component
 
     public function store()
     {
-        if (! $this->validateWithCustom()) {
+        if (!$this->validateWithCustom()) {
             return;
         }
 
