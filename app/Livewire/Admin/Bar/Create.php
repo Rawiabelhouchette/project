@@ -118,7 +118,7 @@ class Create extends Component
 
             'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
 
             'prix_min' => 'required|numeric|lt:prix_max',
             'prix_max' => 'nullable|numeric',
