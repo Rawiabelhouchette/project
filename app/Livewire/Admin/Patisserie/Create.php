@@ -134,9 +134,9 @@ class Create extends Component
             'longitude' => 'required|string',
             'latitude' => 'required|string',
 
-            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:6',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
         ];
     }
 

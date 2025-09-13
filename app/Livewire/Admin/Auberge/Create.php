@@ -190,9 +190,9 @@ class Create extends Component
             'longitude' => 'required|string',
             'latitude' => 'required|string',
 
-            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
+            'image' => 'required|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:10',
-            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic|uploaded',
+            'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
 
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
