@@ -58,7 +58,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $abonnement->date_debut->format('d-m-Y H:i:s') }}</td>
-                                            <td>-</td>
+                                            <td>{{ $abonnement->date_fin ? $abonnement->date_fin->format('d-m-Y') : '-' }}</td>
                                             <td>{{ number_format($abonnement->montant, 0, ',', ' ') }}</td>
                                             <td>
                                                 @if ($abonnement->is_active)
