@@ -204,7 +204,7 @@
             
             <div class="row">
                 @foreach ($typeAnnonces as $index => $type)
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-4 col-sm-6 mb-3">
                         <a href="{{ route($type->route) }}" class="category-card animate-fade-in-up" style="animation-delay: {{ $index * 0.05 }}s;">
                             <div class="category-icon bg-color-{{ ($index % 8) + 1 }}">
                                 <i class="{{ $type->icon }}"></i>

@@ -49,7 +49,7 @@ class Register extends Component
             'password' => 'required',
             'password_confirmation' => 'required|same:password',
             'remember' => 'boolean',
-            'recaptcha' => 'required|recaptcha',
+            // 'recaptcha' => 'nullable|recaptcha',
         ];
     }
 
