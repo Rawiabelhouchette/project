@@ -199,7 +199,7 @@
                         <div class="widget-boxed padd-bot-10">
 
                             <div class="widget-boxed-header">
-                                <h4><i class="ti-location-pin padd-r-10"></i>Localisation</h4>
+                                <h4 class="mt-2"><i class="ti-location-pin padd-r-10"></i>Localisation</h4>
                             </div>
                             <div class="widget-boxed-body padd-top-5">
                                 <div class="side-list">
@@ -220,7 +220,7 @@
                         <!-- Start: Opening hour -->
                         <div class="widget-boxed padd-bot-10">
                             <div class="widget-boxed-header">
-                                <h4><i class="ti-time padd-r-10"></i>Heures d'ouverture</h4>
+                                <h4 class="mt-2"><i class="ti-time padd-r-10"></i>Heures d'ouverture</h4>
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="side-list">

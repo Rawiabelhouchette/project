@@ -109,7 +109,7 @@
 
                 <div class="row d-flex gap-3">
                     <form wire:submit.prevent="addComment">
-                        <div class="col-sm-6 pe-3">
+                        <div class="col-sm-6 d-none d-sm-block pe-3">
                             <input type="text" class="form-control" placeholder="Nom*" readonly @if (auth()->check()) value="{{ auth()->user()->nom }}" @else disabled @endif>
                         </div>
                         <div class="col-sm-6">
