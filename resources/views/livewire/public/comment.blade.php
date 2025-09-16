@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div id="write-review" class="detail-wrapper">
+        <div id="write-review" class="detail-wrapper mb-0">
             <div class="detail-wrapper-header">
                 <div class="row">
                     <div class="col-md-6 col-xs-12">
@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </div>
-            <div class="detail-wrapper-body">
+            <div class="detail-wrapper-body pb-0">
 
                 <div class="row mrg-bot-10">
                     @if (!auth()->check())
@@ -107,9 +107,9 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row d-flex gap-3">
                     <form wire:submit.prevent="addComment">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 pe-3">
                             <input type="text" class="form-control" placeholder="Nom*" readonly @if (auth()->check()) value="{{ auth()->user()->nom }}" @else disabled @endif>
                         </div>
                         <div class="col-sm-6">

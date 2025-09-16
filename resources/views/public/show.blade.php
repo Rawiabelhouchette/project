@@ -141,9 +141,7 @@
                         <div class="widget-boxed padd-bot-10">
                             <div class="widget-boxed-header">
                                 <div class="listing-title-bar">
-
-                                    <h4 style="padding: 14px 0;border-bottom: 1px solid #eaeff5;">
-                                        <i class="ti ti-gallery"></i>
+                                    <h4 class="px-2 pb-3 pt-0 mt-0">
                                         Galérie
                                     </h4>
                                 </div>
