@@ -682,15 +682,18 @@
                 }
             </style>
 
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="heading">
-                        {{-- <h2>Top & Popular <span>Listings</span></h2> --}}
-                        <h2>Top <span>Annonces</span></h2>
-                        <p>Les plus populaires</p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="heading">
+                            {{-- <h2>Top & Popular <span>Listings</span></h2> --}}
+                            <h2>Top <span>Annonces</span></h2>
+                            <p>Les plus populaires</p>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <style>
                 .property-grid {
                     display: flex;

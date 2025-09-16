@@ -2,7 +2,7 @@
     <form wire:submit.prevent='update'>
         @csrf
         <div class="col-md-12">
-            <div class="text-center py-5">
+            <div class="py-5 text-center">
                 <style>
                     @media (max-width: 768px) {
                         .profile-edit-button {
@@ -18,10 +18,10 @@
                 @endif
             </div> <br>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12 mb-5">
             <div class="add-job_container">
                 <div class="widget-boxed padd-bot-10">
-                    <div class="widget-boxed-header">
+                    <div class="widget-boxed-header px-5">
                         <h4><i class="fa fa-user" aria-hidden="true"></i>Informations Personnelles</h4>
                     </div>
                     <div class="widget-boxed-body p-5">
@@ -70,11 +70,11 @@
 
                 @if ($editPass)
                     <div class="widget-boxed padd-bot-10" wire:transition.fade>
-                        <div class="widget-boxed-header">
+                        <div class="widget-boxed-header px-5">
                             <h4><i class="fa fa-lock" aria-hidden="true"></i>Mot de passe</h4>
                         </div>
 
-                        <div class="widget-boxed-body padd-top-0">
+                        <div class="widget-boxed-body p-5">
                             <div class="row no-ext-mrg sm-plix">
                                 <div class="col-sm-6">
                                     <label>Ancien mot de passe</label>
