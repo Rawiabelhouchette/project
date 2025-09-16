@@ -48,9 +48,9 @@
 
                 <div class="row">
                     <div class="col-md-8 col-sm-12">
-                        <div class="widget-boxed padd-bot-10">
+                        <div class="widget-boxed padd-bot-10 pb-4">
                             <div class="widget-boxed-header">
-                                <div class="listing-title-bar">
+                                <div class="listing-title-bar px-2">
 
                                     <h3> {{ $annonce->titre }}
 
@@ -59,7 +59,7 @@
 
                                 </div>
                             </div>
-                            <div class="widget-boxed-body padd-top-0">
+                            <div class="widget-boxed-body padd-top-0 px-md-4">
                                 <div class="annonces row gy-4">
 
                                     <div class="contact-item">
