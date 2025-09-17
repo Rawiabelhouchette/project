@@ -124,8 +124,24 @@ class Create extends Component
             'galerie' => 'array|max:10',
             'galerie.*' => 'image|max:5120|mimes:jpeg,png,jpg,heic',
 
-            'prix_min' => 'required|numeric|lt:prix_max',
-            'prix_max' => 'nullable|numeric',
+            'prix_min' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!is_null($this->prix_max) && $value >= $this->prix_max) {
+                        $fail('Le prix minimum doit être inférieur au prix maximum');
+                    }
+                },
+            ],
+            'prix_max' => [
+                'nullable',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!is_null($value) && !is_null($this->prix_min) && $value <= $this->prix_min) {
+                        $fail('Le prix maximum doit être supérieur au prix minimum');
+                    }
+                },
+            ],
             // // 'image' => 'required',
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',
@@ -185,8 +201,7 @@ class Create extends Component
             'prix_min.lt' => 'Le prix minimum doit être inférieur au prix maximum',
             'prix_max.numeric' => 'Le prix maximum doit être un nombre',
 
-            // validation.uploaded
-            'image.uploaded' => 'L\'image doit être une image',
+
 
             'pays_id.required' => 'Le pays est obligatoire',
             'pays_id.exists' => 'Le pays n\'existe pas',

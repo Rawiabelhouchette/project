@@ -32,7 +32,7 @@ class Edit extends Component
     public $entreprise_id;
 
     public $type_bar;
-    
+
     public $type_musique;
 
     public $capacite_accueil;
@@ -144,8 +144,24 @@ class Edit extends Component
             'types_musique.*' => 'nullable|integer|exists:reference_valeurs,id',
 
             'is_active' => 'required|boolean',
-            'prix_min' => 'required|numeric|lt:prix_max',
-            'prix_max' => 'nullable|numeric',
+            'prix_min' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!is_null($this->prix_max) && $value >= $this->prix_max) {
+                        $fail('Le prix minimum doit être inférieur au prix maximum');
+                    }
+                },
+            ],
+            'prix_max' => [
+                'nullable',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!is_null($value) && !is_null($this->prix_min) && $value <= $this->prix_min) {
+                        $fail('Le prix maximum doit être supérieur au prix minimum');
+                    }
+                },
+            ],
 
             'longitude' => 'required',
             'latitude' => 'required',

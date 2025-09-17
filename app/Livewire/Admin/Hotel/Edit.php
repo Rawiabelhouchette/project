@@ -203,8 +203,24 @@ class Edit extends Component
             'equipements_cuisine' => 'required|array',
             'equipements_cuisine.*' => 'required|exists:reference_valeurs,id',
 
-            'prix_min' => 'required|numeric|lt:prix_max',
-            'prix_max' => 'nullable|numeric',
+            'prix_min' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!is_null($this->prix_max) && $value >= $this->prix_max) {
+                        $fail('Le prix minimum doit être inférieur au prix maximum');
+                    }
+                },
+            ],
+            'prix_max' => [
+                'nullable',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!is_null($value) && !is_null($this->prix_min) && $value <= $this->prix_min) {
+                        $fail('Le prix maximum doit être supérieur au prix minimum');
+                    }
+                },
+            ],
 
             'image' => 'nullable|image|max:5120|mimes:jpeg,png,jpg,heic',
             'galerie' => 'array|max:10',

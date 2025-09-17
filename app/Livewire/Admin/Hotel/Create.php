@@ -12,6 +12,7 @@ use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
@@ -99,8 +100,9 @@ class Create extends Component
 
     private function initialization()
     {
-        $this->entreprises = \Auth::user()->entreprises;
-        $this->entreprise_id = $this->entreprises->first()->id;
+        $entreprises = Auth::user()->entreprises;
+        $this->entreprises = $entreprises;
+        $this->entreprise_id = $entreprises->first()->id;
 
         $tmp_commodite = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'commodites-hebergement')->first();
         $tmp_commodite
@@ -178,8 +180,24 @@ class Create extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
 
-            'prix_min' => 'required|numeric|lt:prix_max',
-            'prix_max' => 'nullable|numeric',
+            'prix_min' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!is_null($this->prix_max) && $value >= $this->prix_max) {
+                        $fail('Le prix minimum doit être inférieur au prix maximum');
+                    }
+                },
+            ],
+            'prix_max' => [
+                'nullable',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!is_null($value) && !is_null($this->prix_min) && $value <= $this->prix_min) {
+                        $fail('Le prix maximum doit être supérieur au prix minimum');
+                    }
+                },
+            ],
 
             'pays_id' => 'required|exists:pays,id',
             'ville_id' => 'required|exists:villes,id',

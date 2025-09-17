@@ -199,8 +199,24 @@ class Edit extends Component
             'equipements_herbegement' => 'nullable',
             'equipements_salle_bain' => 'nullable',
             'equipements_cuisine' => 'nullable',
-            'prix_min' => 'required|numeric|lt:prix_max',
-            'prix_max' => 'nullable|numeric',
+            'prix_min' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!is_null($this->prix_max) && $value >= $this->prix_max) {
+                        $fail('Le prix minimum doit être inférieur au prix maximum');
+                    }
+                },
+            ],
+            'prix_max' => [
+                'nullable',
+                'numeric',
+                function ($attribute, $value, $fail) {
+                    if (!is_null($value) && !is_null($this->prix_min) && $value <= $this->prix_min) {
+                        $fail('Le prix maximum doit être supérieur au prix minimum');
+                    }
+                },
+            ],
 
             'longitude' => 'required',
             'latitude' => 'required',
