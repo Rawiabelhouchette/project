@@ -12,6 +12,7 @@ use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
@@ -34,6 +35,8 @@ class Create extends Component
 
     public $type_bar;
 
+    public $type_musique;
+
     public $capacite_accueil;
 
     public $prix_min;
@@ -44,9 +47,9 @@ class Create extends Component
 
     public $list_equipements_vie_nocturne = [];
 
-    public $commodites_vie_nocturne = [];
+    // public $commodites_vie_nocturne = [];
 
-    public $list_commodites_vie_nocturne = [];
+    // public $list_commodites_vie_nocturne = [];
 
     public $types_musique = [];
 
@@ -77,8 +80,9 @@ class Create extends Component
 
     private function initialization()
     {
-        $this->entreprises = \Auth::user()->entreprises;
-        $this->entreprise_id = $this->entreprises->first()->id;
+        $entreprises = Auth::user()->entreprises;
+        $this->entreprises = $entreprises;
+        $this->entreprise_id = $entreprises->first()->id;
 
         $tmp_types_musique = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'types-de-musique')->first();
         $tmp_types_musique ?
@@ -90,10 +94,10 @@ class Create extends Component
             $this->list_equipements_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_equipement_vie_nocturne->id)->select('valeur', 'id')->get() :
             $this->list_equipements_vie_nocturne = [];
 
-        $tmp_commodite_vie_nocturne = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'commodites-vie-nocturne')->first();
-        $tmp_commodite_vie_nocturne ?
-            $this->list_commodites_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_commodite_vie_nocturne->id)->select('valeur', 'id')->get() :
-            $this->list_commodites_vie_nocturne = [];
+        // $tmp_commodite_vie_nocturne = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'commodites-vie-nocturne')->first();
+        // $tmp_commodite_vie_nocturne ?
+        //     $this->list_commodites_vie_nocturne = ReferenceValeur::where('reference_id', $tmp_commodite_vie_nocturne->id)->select('valeur', 'id')->get() :
+        //     $this->list_commodites_vie_nocturne = [];
 
         $this->pays = Pays::orderBy('nom')->get();
 
@@ -111,8 +115,8 @@ class Create extends Component
             'capacite_accueil' => 'nullable|integer',
             'equipements_vie_nocturne' => 'nullable|array',
             'equipements_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
-            'commodites_vie_nocturne' => 'nullable|array',
-            'commodites_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
+            // 'commodites_vie_nocturne' => 'nullable|array',
+            // 'commodites_vie_nocturne.*' => 'nullable|integer|exists:reference_valeurs,id',
             'types_musique' => 'nullable|array',
             'types_musique.*' => 'nullable|integer|exists:reference_valeurs,id',
 
@@ -159,11 +163,11 @@ class Create extends Component
             'equipements_vie_nocturne.*.integer' => 'Un équipement de vie nocturne doit être un entier',
             'equipements_vie_nocturne.*.exists' => 'Un équipement de vie nocturne n\'existe pas',
 
-            'commodites_vie_nocturne.required' => 'Les commodités de vie nocturne sont obligatoires',
-            'commodites_vie_nocturne.array' => 'Les commodités de vie nocturne doivent être un tableau',
-            'commodites_vie_nocturne.*.required' => 'Une commodité de vie nocturne est obligatoire',
-            'commodites_vie_nocturne.*.integer' => 'Une commodité de vie nocturne doit être un entier',
-            'commodites_vie_nocturne.*.exists' => 'Une commodité de vie nocturne n\'existe pas',
+            // 'commodites_vie_nocturne.required' => 'Les commodités de vie nocturne sont obligatoires',
+            // 'commodites_vie_nocturne.array' => 'Les commodités de vie nocturne doivent être un tableau',
+            // 'commodites_vie_nocturne.*.required' => 'Une commodité de vie nocturne est obligatoire',
+            // 'commodites_vie_nocturne.*.integer' => 'Une commodité de vie nocturne doit être un entier',
+            // 'commodites_vie_nocturne.*.exists' => 'Une commodité de vie nocturne n\'existe pas',
 
             'image.required' => 'L\'image est obligatoire',
             'image.image' => 'Le fichier doit être une image',
@@ -249,7 +253,7 @@ class Create extends Component
 
             $references = [
                 ['Equipements vie nocturne', $this->equipements_vie_nocturne],
-                ['Commodités de vie nocturne', $this->commodites_vie_nocturne],
+                // ['Commodités de vie nocturne', $this->commodites_vie_nocturne],
                 ['Types de musique', [$this->types_musique]],
             ];
 

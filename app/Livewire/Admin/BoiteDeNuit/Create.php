@@ -38,9 +38,9 @@ class Create extends Component
 
     public $list_commodites = [];
 
-    public $services = [];
+    // public $services = [];
 
-    public $list_services = [];
+    // public $list_services = [];
 
     public $types_musique = [];
 
@@ -81,10 +81,10 @@ class Create extends Component
             $this->list_commodites = ReferenceValeur::where('reference_id', $tmp_commodite->id)->select('valeur', 'id')->get() :
             $this->list_commodites = [];
 
-        $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services-proposes')->first();
-        $tmp_services ?
-            $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
-            $this->list_services = [];
+        // $tmp_services = Reference::where('slug_type', 'hebergement')->where('slug_nom', 'services-proposes')->first();
+        // $tmp_services ?
+        //     $this->list_services = ReferenceValeur::where('reference_id', $tmp_services->id)->select('valeur', 'id')->get() :
+        //     $this->list_services = [];
 
         $tmp_types_musique = Reference::where('slug_type', 'vie-nocturne')->where('slug_nom', 'types-de-musique')->first();
         $tmp_types_musique ?
@@ -109,7 +109,7 @@ class Create extends Component
             'type' => 'nullable',
             'description' => 'nullable|min:3',
             'commodites' => 'nullable',
-            'services' => 'nullable',
+            // 'services' => 'nullable',
 
             'types_musique' => 'nullable',
             'equipements_vie_nocturne' => 'nullable',
@@ -144,7 +144,7 @@ class Create extends Component
             'description.min' => 'La description doit contenir au moins :min caractères',
             'description.max' => 'La description doit contenir au plus :max caractères',
             'commodites.array' => 'Les commodités doivent être un tableau',
-            'services.array' => 'Les services doivent être un tableau',
+            // 'services.array' => 'Les services doivent être un tableau',
             // 'galerie.*.max' => 'Les images doivent être de taille inférieure à 5Mo',
             'types_musique.array' => 'Les types de musique doivent être un tableau',
             'equipements_vie_nocturne.array' => 'Les équipements de vie nocturne doivent être un tableau',
@@ -222,7 +222,7 @@ class Create extends Component
                 ['Types de musique', $this->types_musique],
                 ['Equipements vie nocturne', $this->equipements_vie_nocturne],
                 ['Commodités hébergement', $this->commodites],
-                ['Services proposés', $this->services],
+                // ['Services proposés', $this->services],
             ];
 
             AnnoncesUtils::createManyReference($annonce, $references);

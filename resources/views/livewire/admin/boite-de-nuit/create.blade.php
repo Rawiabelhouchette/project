@@ -48,11 +48,11 @@
                 </div>
                 <div class="row align-items-start">
 
-                    @include('admin.annonce.reference-select-component', [
+                    {{-- @include('admin.annonce.reference-select-component', [
                         'title' => 'Services proposés',
                         'name' => 'services',
                         'options' => $list_services,
-                    ])
+                    ]) --}}
                     @include('admin.annonce.description-component')
                 </div>
                 <x-admin.step-navigation :currentStep="$currentStep" :lastStep="2" />

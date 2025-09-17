@@ -87,14 +87,14 @@
                 ])
             </div>
 
-            <div class="row align-items-start">
+            {{-- <div class="row align-items-start">
 
                 @include('admin.annonce.reference-select-component', [
                     'title' => 'Services proposés',
                     'name' => 'services',
                     'options' => $list_services,
                 ])
-            </div>
+            </div> --}}
 
             @include('admin.annonce.location-template', [
                 'pays' => $pays,

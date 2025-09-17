@@ -14,6 +14,8 @@ use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
+use App\Utils\Utils;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
@@ -32,6 +34,10 @@ class Create extends Component
     public $type;
 
     public $description;
+
+    public $prix_min;
+
+    public $prix_max;
 
     public $marque_id;
 
@@ -114,7 +120,7 @@ class Create extends Component
             $this->validate([
                 'carburant' => 'nullable|string|exists:reference_valeurs,valeur',
                 'boite_vitesses' => 'nullable|string|exists:reference_valeurs,valeur',
-                'description' => 'required|string|min:3',
+                'description' => 'nullable|string|min:3',
             ]);
         } elseif ($this->currentStep == 3) {
             $this->validate([
@@ -152,8 +158,9 @@ class Create extends Component
 
     private function initialization()
     {
-        $this->entreprises = \Auth::user()->entreprises;
-        $this->entreprise_id = $this->entreprises->first()->id;
+        $entreprises = Auth::user()->entreprises;
+        $this->entreprises = $entreprises;
+        $this->entreprise_id = $entreprises->first()->id;
 
         $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-voiture')->first();
         $tmp_type_vehicule ?
@@ -198,11 +205,14 @@ class Create extends Component
             'carburant' => 'nullable|string|exists:reference_valeurs,valeur',
             'kilometrage' => 'nullable|integer|min:0|max:999999',
             'boite_vitesses' => 'nullable|string|exists:reference_valeurs,valeur',
-            'nombre_portes' => 'nullable|integer|min:0|max:20',
+            'nombre_portes' => ['nullable', 'integer', 'in:2,3,4,5'],
             'nombre_places' => 'nullable|integer|min:0|max:100',
 
             'types_vehicule' => 'required|array',
             'types_vehicule.*' => 'required|integer|exists:reference_valeurs,id',
+
+            'prix_min' => 'required|numeric|lt:prix_max',
+            'prix_max' => 'nullable|numeric',
 
             'equipements_vehicule' => 'nullable|array',
             'equipements_vehicule.*' => 'nullable|integer|exists:reference_valeurs,id',
@@ -255,9 +265,16 @@ class Create extends Component
             'boite_vitesses.integer' => __('Boite de vitesse invalide'),
             'boite_vitesses.exists' => __('Boite de vitesse invalide'),
 
+            'prix_min.required' => __('Le prix minimum est obligatoire'),
+            'prix_min.numeric' => __('Le prix minimum doit être un nombre'),
+            'prix_max.numeric' => __('Le prix maximum doit être un nombre'),
+            'prix_min.lt' => __('Le prix minimum doit être inférieur au prix maximum'),
+            'prix_max.lt' => __('Le prix maximum doit être supérieur au prix minimum'),
+
             'nombre_portes.integer' => __('Nombre de portes invalide'),
             'nombre_portes.min' => __('Le nombre de portes doit être supérieur ou égal à :min'),
             'nombre_portes.max' => __('Le nombre de portes doit être inférieur ou égal à :max'),
+            'nombre_portes.in' => __('Le nombre de portes doit être 2, 3, 4 ou 5'),
 
             'nombre_places.integer' => __('Nombre de places invalide'),
             'nombre_places.min' => __('Le nombre de places doit être supérieur ou égal à :min'),
@@ -332,6 +349,8 @@ class Create extends Component
 
     public function store()
     {
+        $this->kilometrage = Utils::cleanValue($this->kilometrage);
+
         if (!$this->validateWithCustom()) {
             return;
         }
@@ -346,6 +365,8 @@ class Create extends Component
                 'boite_vitesse' => $this->boite_vitesses,
                 'nombre_portes' => $this->nombre_portes,
                 'nombre_places' => $this->nombre_places,
+                'prix_min' => $this->prix_min,
+                'prix_max' => $this->prix_max,
                 'entreprise_id' => $this->entreprise_id,
                 'modele_id' => $this->modele_id,
             ]);
@@ -361,6 +382,8 @@ class Create extends Component
 
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
+
+                'prix' => $this->prix_min,
             ]);
 
             $locationVehicule->annonce()->save($annonce);

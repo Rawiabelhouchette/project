@@ -23,6 +23,8 @@ class LocationVehicule extends Model implements AnnonceInterface
         'nombre_portes',
         'nombre_places',
         'modele_id',
+        'prix_min',
+        'prix_max',
     ];
 
     protected $casts = [
@@ -104,6 +106,8 @@ class LocationVehicule extends Model implements AnnonceInterface
             'Boite de vitesse' => $this->boite_vitesse,
             'Nombre de portes' => $this->nombre_portes,
             'Nombre de places' => $this->nombre_places,
+            'Prix minimum' => $this->prix_min,
+            'Prix maximum' => $this->prix_max,
         ];
 
         $attributes = array_filter($attributes, function ($value) {

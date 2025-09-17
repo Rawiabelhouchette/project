@@ -1,4 +1,8 @@
-@props(['min' => false, 'required' => false])
+@props([
+    'min' => false,
+    'required' => false,
+    'withTitle' => true,
+])
 
 <div class="col-md-4 col-xs-12 {{ $min ? 'min-price' : 'max-price' }} p-0">
     <div class="col">
@@ -7,18 +11,10 @@
                 <b style="color: red; font-size: 100%;">*</b>
             @endif
         </h3>
-        <h4>{{ $min ? 'Indiquez le prix minimum' : 'Indiquez le prix maximum' }}</h4>
-        <input id="{{ $min ? 'min-price-field' : 'max-price-field' }}"
-               class="form-control price-input"
-               name="{{ $min ? 'prix_min' : 'prix_max' }}"
-               type="text"
-               placeholder=""
-               wire:model='{{ $min ? 'prix_min' : 'prix_max' }}'
-               {{-- pattern="[0-9]*" --}}
-               onkeypress="return /[0-9]/i.test(event.key)"
-               onfocus="handleFocus(this)"
-               onblur="handleBlur(this)"
-               {{ $required ? 'required' : '' }}>
+        @if ($withTitle)
+            <h4>{{ $min ? 'Indiquez le prix minimum' : 'Indiquez le prix maximum' }}</h4>
+        @endif
+        <input id="{{ $min ? 'min-price-field' : 'max-price-field' }}" class="form-control price-input" name="{{ $min ? 'prix_min' : 'prix_max' }}" type="text" placeholder="" wire:model='{{ $min ? 'prix_min' : 'prix_max' }}' {{-- pattern="[0-9]*" --}} onkeypress="return /[0-9]/i.test(event.key)" onfocus="handleFocus(this)" onblur="handleBlur(this)" {{ $required ? 'required' : '' }}>
         @error($min ? 'prix_min' : 'prix_max')
             <span class="text-danger">{{ $message }}</span>
         @enderror

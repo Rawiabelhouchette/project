@@ -346,6 +346,21 @@
 
             @yield('js')
 
+            <script>
+                function formatMontantField(element) {
+                    let value = $(element).val().replace(/\D/g, '');
+                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                    $(element).val(value);
+                }
+
+                $(document).ready(function() {
+                    // Appliquer le format à chaque saisie
+                    $('.montant-format').on('input', function() {
+                        formatMontantField(this);
+                    });
+                });
+            </script>
+
         </div>
     </body>
 

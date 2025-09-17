@@ -12,6 +12,8 @@ use App\Models\ReferenceValeur;
 use App\Models\Ville;
 use App\Traits\CustomValidation;
 use App\Utils\AnnoncesUtils;
+use App\Utils\Utils;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
@@ -23,73 +25,43 @@ class Edit extends Component
     use AnnonceBaseEdit, CustomValidation, WithFileUploads;
 
     public $nom;
-
     public $type;
-
     public $description;
-
+    public $modele;
+    public $marque;
     public $marque_id;
-
     public $modele_id;
-
     public $annee;
-
     public $carburant;
-
     public $kilometrage;
-
     public $boite_vitesse;
-
     public $nombre_portes;
-
     public $nombre_places;
-
+    public $prix_min;
+    public $prix_max;
     public $is_active;
-
     public $locationVehicule;
-
     public $entreprise_id;
-
     public $entreprises = [];
-
     public $types_vehicule = [];
-
     public $list_types_vehicule = [];
-
     public $equipements_vehicule = [];
-
     public $list_equipements_vehicule = [];
-
     public $list_boites_vitesse = [];
-
     public $boite_vitesses;
-
     public $list_marques = [];
-
     public $list_modeles = [];
-
     public $list_types_carburant = [];
-
     public $conditions_location = [];
-
     public $list_conditions_location = [];
-
     public $date_validite;
-
     public $pays = [];
-
     public $pays_id;
-
     public $villes = [];
-
     public $ville_id;
-
     public $quartiers = [];
-
     public $quartier_id;
-
     public $latitude;
-
     public $longitude;
 
     public function mount($locationVehicule)
@@ -106,6 +78,8 @@ class Edit extends Component
         $this->modele = $locationVehicule->modele;
         $this->carburant = $locationVehicule->carburant;
         $this->kilometrage = $locationVehicule->kilometrage;
+        $this->prix_min = $locationVehicule->prix_min;
+        $this->prix_max = $locationVehicule->prix_max;
         $this->boite_vitesses = $locationVehicule->boite_vitesse;
         $this->nombre_portes = $locationVehicule->nombre_portes;
         $this->nombre_places = $locationVehicule->nombre_places;
@@ -134,8 +108,9 @@ class Edit extends Component
 
     private function initialization()
     {
-        $this->entreprises = \Auth::user()->entreprises;
-        $this->entreprise_id = $this->entreprises->first()->id;
+        $entreprises = Auth::user()->entreprises;
+        $this->entreprises = $entreprises;
+        $this->entreprise_id = $entreprises->first()->id;
 
         $tmp_type_vehicule = Reference::where('slug_type', 'location-de-vehicule')->where('slug_nom', 'types-de-voiture')->first();
         $tmp_type_vehicule ?
@@ -178,8 +153,10 @@ class Edit extends Component
             'annee' => 'nullable|integer|min:1800|max:9999',
             'carburant' => 'nullable|string|exists:reference_valeurs,valeur',
             'kilometrage' => 'nullable|integer|min:0|max:999999',
+            'prix_min' => 'nullable|integer|min:0|max:999999999',
+            'prix_max' => 'nullable|integer|min:0|max:999999999',
             'boite_vitesse' => 'nullable|string|exists:reference_valeurs,valeur',
-            'nombre_portes' => 'required|integer|min:1|max:20',
+            'nombre_portes' => 'required|integer|in:2,3,4,5',
             'nombre_places' => 'nullable|integer|min:0|max:100',
             'types_vehicule' => 'required|array',
             'types_vehicule.*' => 'required|integer|exists:reference_valeurs,id',
@@ -241,6 +218,7 @@ class Edit extends Component
             'nombre_portes.integer' => __('Nombre de portes invalide'),
             'nombre_portes.min' => __('Le nombre de portes doit être supérieur ou égal à :min'),
             'nombre_portes.max' => __('Le nombre de portes doit être inférieur ou égal à :max'),
+            'nombre_portes.in' => __('Le nombre de portes doit être 2, 3, 4 ou 5'),
 
             'longitude.required' => __('Veuillez renseigner la longitude'),
             'longitude.string' => __('Longitude invalide'),
@@ -288,6 +266,10 @@ class Edit extends Component
 
     public function update()
     {
+        $this->kilometrage = Utils::cleanValue($this->kilometrage);
+        $this->prix_min = Utils::cleanValue($this->prix_min);
+        $this->prix_max = Utils::cleanValue($this->prix_max);
+
         if (!$this->validateWithCustom()) {
             return;
         }
@@ -305,12 +287,16 @@ class Edit extends Component
                 'quartier' => $this->quartier_id,
                 'longitude' => $this->longitude,
                 'latitude' => $this->latitude,
+
+                'prix' => $this->prix_min,
             ]);
 
             $this->locationVehicule->update([
                 'annee' => $this->annee,
                 'carburant' => $this->carburant,
                 'kilometrage' => $this->kilometrage,
+                'prix_min' => $this->prix_min,
+                'prix_max' => $this->prix_max,
                 'boite_vitesse' => $this->boite_vitesses,
                 'nombre_portes' => $this->nombre_portes,
                 'nombre_places' => $this->nombre_places,

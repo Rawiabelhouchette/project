@@ -21,8 +21,8 @@ class Utils
     {
         try {
             $dateTime = new \DateTime($date);
-            $start = $dateTime->format('Y-m-d').' 00:00:00';
-            $end = $dateTime->format('Y-m-d').' 23:59:59';
+            $start = $dateTime->format('Y-m-d') . ' 00:00:00';
+            $end = $dateTime->format('Y-m-d') . ' 23:59:59';
 
             return [$start, $end];
         } catch (Exception $e) {
@@ -31,4 +31,17 @@ class Utils
             return [null, null];
         }
     }
+
+    /**
+     * Nettoie la valeur donnée en supprimant tous les caractères non numériques.
+     *
+     * @param mixed $value La valeur à nettoyer.
+     * @return string La valeur nettoyée contenant uniquement des chiffres.
+     */
+    public static function cleanValue($value)
+    {
+        // Nettoyer la valeur pour ne garder que les chiffres
+        return preg_replace('/\D/', '', $value);
+    }
+
 }

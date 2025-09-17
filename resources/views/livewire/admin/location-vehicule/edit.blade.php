@@ -52,7 +52,6 @@
                 <div class="col-md-4 col-xs-12 p-0">
                     <div class="col">
                         <h3 class="required">Statut</h3>
-                        <h4>Indiquez si l'annonce est active ou inactive</h4>
                         <select class="form-control" name="is_active" wire:model.defer='is_active' required>
                             <option value="1">Actif</option>
                             <option value="0">Inactif</option>
@@ -114,7 +113,7 @@
                     <div class="col">
                         <h3>Kilométrage</h3>
 
-                        <input class="form-control" type="number" placeholder="" wire:model.defer='kilometrage'>
+                        <input class="form-control montant-format" type="text" placeholder="" wire:model.defer='kilometrage'>
                         @error('kilometrage')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -143,15 +142,26 @@
                         <select class="form-control" data-nom="nombre_portes" wire:model.lazy='nombre_portes' required>
                             <option value="">-- Sélectionner --</option>
                             <option value="2">2</option>
+                            <option value="3">3</option>
                             <option value="4">4</option>
-                            <option value="6">6</option>
-                            <option value="8">8</option>
+                            <option value="5">5</option>
                         </select>
                         @error('nombre_portes')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
+
+                @include('admin.annonce.price-component', [
+                    'min' => true,
+                    'required' => true,
+                    'withTitle' => false,
+                ])
+
+                @include('admin.annonce.price-component', [
+                    'min' => false,
+                    'withTitle' => false,
+                ])
 
                 <div class="col-md-4 col-xs-12 p-0">
                     <div class="col">
