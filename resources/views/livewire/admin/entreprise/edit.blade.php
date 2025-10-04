@@ -102,10 +102,12 @@
                 </div>
             </div>
 
+
             @include('admin.annonce.location-template', [
                 'pays' => $pays,
                 'villes' => $villes,
                 'quartiers' => $quartiers,
+                'entreprises' => [],
             ])
 
             <div class="row align-items-start">
