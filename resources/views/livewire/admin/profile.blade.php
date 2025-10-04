@@ -78,24 +78,28 @@
                             <div class="row no-ext-mrg sm-plix">
                                 <div class="col-sm-6">
                                     <label>Ancien mot de passe</label>
-                                    <input type="password" wire:model='password_old' class="form-control" required>
+
+                                    <div class="input-group"> <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span> <input id="password"  wire:model='password_old' class="form-control" type="password" placeholder="Ancien Mot de passe" required > <span class="input-group-addon" onclick="togglePasswordVisibility('password')"> <i id="toggle-password-icon-password" class="fa fa-eye"></i> </span> </div>
                                     @error('password_old')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="col-sm-6">
                                     <label>Nouveau mot de passe</label>
-                                    <input type="password" wire:model='password' class="form-control" required>
+                                     <div class="input-group"> <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span> <input id="new-password" wire:model='password' class="form-control" type="password" placeholder="Nouveau mot de passe" required > <span class="input-group-addon" onclick="togglePasswordVisibility('new-password')"> <i id="toggle-password-icon-password" class="fa fa-eye"></i> </span> </div>
+
+
                                     @error('password')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="row no-ext-mrg sm-plix">
+                            <div class="row no-ext-mrg sm-plix mt-4">
                                 <div class="col-sm-6">
                                     <label>Retaper le nouveau mot de passe</label>
-                                    <input type="password" wire:model='password_confirmation' class="form-control" required>
+                                  <div class="input-group"> <span class="input-group-addon"><i class="fa fa-lock theme-cl"></i></span> <input id="password_confirmation" wire:model='password_confirmation' class="form-control" type="password" placeholder="Retaper le nouveau mot de passe" required > <span class="input-group-addon" onclick="togglePasswordVisibility('password_confirmation')"> <i id="toggle-password-icon-password" class="fa fa-eye"></i> </span> </div>
+
                                     @error('password_confirmation')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -112,3 +116,18 @@
         </div>
     </form>
 </div>
+<script>
+  function togglePasswordVisibility(fieldId) {
+            const input = document.getElementById(fieldId);
+            const icon = document.getElementById(`toggle-password-icon-${fieldId}`);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
