@@ -125,10 +125,10 @@
 @foreach ($annonces as $annonce)
     {{-- Row Mode Layout --}}
     <div wire:key="row-{{ $annonce->id }}" class="property_item mode-row {{ $mode !== 'row' ? 'hidden-mode' : '' }}">
-        <a class="listing-thumb image" href="{{ route('show', $annonce->slug) }}" style="background-image: url('{{ $annonce->image ? asset('storage/' . $annonce->imagePrincipale->chemin) : 'https://placehold.co/600' }}'); 
-                background-size: cover; 
-                background-position: center; 
-                display: block; 
+        <a class="listing-thumb image" href="{{ route('show', $annonce->slug) }}" style="background-image: url('{{ $annonce->image ? asset('storage/' . $annonce->imagePrincipale->chemin) : 'https://placehold.co/600' }}');
+                background-size: cover;
+                background-position: center;
+                display: block;
                 height: 200px;">
 
             @if ($annonce->entreprise->est_ouverte)
@@ -178,7 +178,15 @@
                 </div>
                 <div class="d-flex align-items-center" style="gap:2px;">
                     @if ($showShare)
-                        <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
+                        <a href="javascript:void(0)" class="share-btn" data-toggle="modal" data-target="#share"
+onclick="shareAnnonce(
+    '{{ route('show', $annonce->slug) }}',
+    @js($annonce->titre),
+    '{{ $annonce->imagePrincipale ? asset('storage/' . $annonce->imagePrincipale->chemin) : 'https://placehold.co/600' }}',
+    '{{ $annonce->type }}'
+)"
+
+                        >
                             <i class="fa fa-share-alt theme-cl"></i>
                         </a>
                     @endif
@@ -382,7 +390,15 @@
                         </div>
                         <div class="line-actions">
                             {{-- Enhanced counter section for line view --}}
-                            <a href="javascript:void(0)" class="btn btn-sm btn-light" style="padding: 8px 10px; color: #de6600; border: 1px solid #de6600;" data-toggle="modal" data-target="#share" onclick="shareAnnonce('{{ route('show', $annonce->slug) }}', '{{ $annonce->titre }}', '{{ asset('storage/' . ($annonce->image ? $annonce->image : 'placeholder.jpg')) }}', '{{ $annonce->type }}')">
+                            <a href="javascript:void(0)" class="btn btn-sm btn-light" style="padding: 8px 10px; color: #de6600; border: 1px solid #de6600;" data-toggle="modal" data-target="#share"
+                       onclick="shareAnnonce(
+    '{{ route('show', $annonce->slug) }}',
+    @js($annonce->titre),
+    '{{ $annonce->imagePrincipale ? asset('storage/' . $annonce->imagePrincipale->chemin) : 'https://placehold.co/600' }}',
+    '{{ $annonce->type }}'
+)"
+
+                            >
                                 <i class="fa fa-share-alt theme-cl"></i>
                             </a>
 
