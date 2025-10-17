@@ -536,31 +536,56 @@
         </div>
     </div>
 
-    <!-- Newsletter Section -->
-    <div class="vamiyi-newsletter">
-        <div class="vamiyi-container">
-            <div class="vamiyi-newsletter-content">
-                <div class="vamiyi-newsletter-text">
-                    <h3 class="vamiyi-newsletter-title">Restez informé</h3>
-                    <p class="vamiyi-newsletter-desc">
-                        Inscrivez-vous à notre newsletter pour recevoir nos dernières offres et actualités
-                    </p>
-                </div>
-                <div class="vamiyi-newsletter-form">
-                    <form class="vamiyi-form-group">
-                        <input type="email" class="vamiyi-input" placeholder="Votre adresse email" required>
-                        <button type="submit" class="vamiyi-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 2L11 13"></path>
-                                <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
-                            </svg>
-                            S'inscrire
-                        </button>
-                    </form>
-                </div>
+ <!-- Newsletter Section -->
+<div class="vamiyi-newsletter">
+    <div class="vamiyi-container">
+        <div class="vamiyi-newsletter-content">
+            <div class="vamiyi-newsletter-text">
+                <h3 class="vamiyi-newsletter-title">Restez informé</h3>
+                <p class="vamiyi-newsletter-desc">
+                    Inscrivez-vous à notre newsletter pour recevoir nos dernières offres et actualités
+                </p>
+            </div>
+
+            <div class="vamiyi-newsletter-form">
+                <!-- ✅ Messages de feedback -->
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-bottom:15px;">
+                        <strong>✅ {{ session('success') }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                @error('email')
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-bottom:15px;">
+                        <strong>⚠️ {{ $message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @enderror
+
+                <!-- ⚡ Formulaire -->
+                <form class="vamiyi-form-group" action="{{ route('newsletter.subscribe') }}" method="POST">
+                    @csrf
+                    <input
+                        type="email"
+                        name="email"
+                        class="vamiyi-input"
+                        placeholder="Votre adresse email"
+                        required
+                    >
+                    <button type="submit" class="vamiyi-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 2L11 13"></path>
+                            <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+                        </svg>
+                        S'inscrire
+                    </button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Bottom Bar -->
     <div class="vamiyi-copyright">
@@ -573,7 +598,7 @@
                 <!--<div class="vamiyi-footer-links">
                     <a href="#" class="vamiyi-footer-link">Conditions</a>
                     <a href="#" class="vamiyi-footer-link">Confidentialité</a>
-                    
+
                 </div>-->
             </div>
         </div>

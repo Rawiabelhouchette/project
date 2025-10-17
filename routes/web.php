@@ -42,6 +42,25 @@ use App\Http\Controllers\VilleController;
 use App\Services\Paiement\PaiementService;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\NewsletterController;
+
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/admin/newsletters', [NewsletterController::class, 'index'])
+    ->name('admin.newsletters.index')
+    ->middleware('auth'); // ou middleware staff si vous l’avez
+
+Route::post('/admin/newsletters/delete-selected', [NewsletterController::class, 'deleteSelected'])
+    ->name('admin.newsletters.deleteSelected')
+    ->middleware('auth');
+
+Route::get('/admin/newsletters/annonces-by-type', [App\Http\Controllers\NewsletterController::class, 'getAnnoncesByType'])
+    ->name('admin.newsletters.annonces.byType');
+
+Route::get('/admin/newsletters/annonces/by-type', [NewsletterController::class, 'getAnnoncesByType'])
+    ->name('admin.newsletters.annonces.byType');
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
