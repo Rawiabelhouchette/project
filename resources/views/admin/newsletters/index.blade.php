@@ -155,8 +155,8 @@ $(document).ready(function () {
 
         // 🔄 Charger dynamiquement les annonces de ce type
         $('#annonceCardsContainer').html('<p class="text-center text-muted">Chargement...</p>');
-        $.get("{{ route('admin.newsletters.annonces.byType') }}", { type: annonceType }, function (data) {
-            $('#annonceCardsContainer').html(data);
+        $.get("{{ route('admin.newsletters.annonces.byType') }}", { type: annonceType }, function (response) {
+        $('#annonceCardsContainer').html(response.html);
 
             // Après le chargement, réinitialiser le bouton "Envoyer"
             $('#btnSendFinal').prop('disabled', true);

@@ -81,7 +81,7 @@ class NewsletterController extends Controller
             ->get();
 
         // 🔹 Retourne la vue partielle HTML
-        $html = view('admin.newsletters.partials.annonces-by-type', compact('annonces'))->render();
+        $html = view('admin.newsletters.partials.annonce_cards', compact('annonces'))->render();
 
         return response()->json(['html' => $html]);
     }
